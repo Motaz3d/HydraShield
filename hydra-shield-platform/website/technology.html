@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology | HydraShield Earth Systems</title>
+    <meta name="description" content="HydraShield leverages Copernicus satellite data, ECMWF weather forecasts, and advanced AI to predict and prevent catastrophic wildfires.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
+                    <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
+                    <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
+                </svg>
+                <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="problem.html">The Problem</a></li>
+                <li><a href="solution.html">Our Solution</a></li>
+                <li><a href="applications.html">Applications</a></li>
+                <li><a href="technology.html" class="active">Technology</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="contact.html" class="btn-nav">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <header class="page-hero">
+        <div class="container page-hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Technology
+            </div>
+            <h1>Built on <span class="gradient-text">European Assets</span></h1>
+            <p>Leveraging the power of Copernicus, ECMWF, and advanced AI to create a comprehensive wildfire prevention platform.</p>
+        </div>
+    </header>
+
+    <!-- Technology Stack -->
+    <section class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Technology Stack</span>
+                <h2 class="section-title">Our <span class="gradient-text">Data Sources</span></h2>
+                <p class="section-subtitle">HydraShield integrates multiple European Earth Observation and climate data sources.</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>🛰️ Copernicus Sentinel-1</h3>
+                    <p>Synthetic Aperture Radar (SAR) providing cloud-free monitoring capabilities, critical for continuous observation during fire events.</p>
+                    <ul>
+                        <li>All-weather, day/night imaging</li>
+                        <li>Soil moisture estimation</li>
+                        <li>Cloud cover mitigation</li>
+                        <li>6-day revisit cycle</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🛰️ Copernicus Sentinel-2</h3>
+                    <p>High-resolution multispectral imaging for vegetation health, fuel load assessment, and land cover classification.</p>
+                    <ul>
+                        <li>10m spatial resolution</li>
+                        <li>13 spectral bands</li>
+                        <li>Vegetation indices (NDVI, NDWI)</li>
+                        <li>5-day revisit cycle</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🛰️ Copernicus Sentinel-3</h3>
+                    <p>Medium-resolution optical and thermal imaging for large-scale fire detection and land surface temperature monitoring.</p>
+                    <ul>
+                        <li>Thermal infrared fire detection</li>
+                        <li>Land surface temperature</li>
+                        <li>Global coverage</li>
+                        <li>Daily revisit</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🌤️ ECMWF Weather Data</h3>
+                    <p>European Centre for Medium-Range Weather Forecasts providing critical meteorological inputs for fire spread prediction.</p>
+                    <ul>
+                        <li>Wind speed and direction</li>
+                        <li>Temperature and humidity</li>
+                        <li>Precipitation forecasts</li>
+                        <li>ERA5-Land soil moisture reanalysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI & Modelling -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">AI & Modelling</span>
+                <h2 class="section-title">Advanced <span class="gradient-text">Prediction</span></h2>
+                <p class="section-subtitle">Combining machine learning with physics-based models for accurate fire prediction.</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>🧠 Machine Learning</h3>
+                    <p>ML models trained on historical wildfire data to identify risk patterns and predict fire behavior.</p>
+                    <ul>
+                        <li>Risk assessment models</li>
+                        <li>Fuel moisture prediction</li>
+                        <li>Fire spread probability</li>
+                        <li>Pattern recognition</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🔬 Physics-Based Models</h3>
+                    <p>Established landscape-scale wildfire spread models integrated with soil physics for accurate simulation.</p>
+                    <ul>
+                        <li>Fire propagation modelling</li>
+                        <li>Soil-to-fuel moisture transfer</li>
+                        <li>Capillary rise simulation</li>
+                        <li>Vadose-zone dynamics</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>💧 Soil Physics</h3>
+                    <p>Modelling capillary moisture transfer in the vadose zone to predict fuel moisture content dynamics.</p>
+                    <ul>
+                        <li>Soil moisture retention curves</li>
+                        <li>Hydraulic conductivity</li>
+                        <li>Evapotranspiration modelling</li>
+                        <li>Subsurface water movement</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🛡️ Digital Twin</h3>
+                    <p>A simulated environment that allows for scenario testing and dynamic protection-zone optimization.</p>
+                    <ul>
+                        <li>Real-time simulation</li>
+                        <li>Scenario testing</li>
+                        <li>Protection zone optimization</li>
+                        <li>Water resource management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HPC Requirements -->
+    <section class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Computing Power</span>
+                <h2 class="section-title">High-Performance <span class="gradient-text">Computing</span></h2>
+                <p class="section-subtitle">HydraShield requires significant computing power for complex Earth Observation and environmental modelling.</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>🖥️ HPC Infrastructure</h3>
+                    <p>Access to European supercomputing resources for complex simulations and data processing.</p>
+                    <ul>
+                        <li>MeluXina (Luxembourg)</li>
+                        <li>BRAIN++ (Sofia Tech Park)</li>
+                        <li>Teide-HPC (Canary Islands)</li>
+                        <li>CRS4 (Sardinia)</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>☁️ Cloud Computing</h3>
+                    <p>Scalable cloud infrastructure for data processing, model training, and real-time deployment.</p>
+                    <ul>
+                        <li>Distributed computing</li>
+                        <li>GPU acceleration for ML</li>
+                        <li>Real-time data processing</li>
+                        <li>Scalable deployment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Want to Learn More?</h2>
+            <p>Explore our roadmap or get in touch to discuss partnership opportunities.</p>
+            <div class="cta-actions">
+                <a href="roadmap.html" class="btn btn-light">View Roadmap</a>
+                <a href="contact.html" class="btn btn-outline-light">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
+                            <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
+                            <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
+                        </svg>
+                        <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
+                    </div>
+                    <p>AI-driven Digital Twin for preemptive wildfire risk reduction. From satellite to soil.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="problem.html">The Problem</a></li>
+                        <li><a href="solution.html">Our Solution</a></li>
+                        <li><a href="roadmap.html">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="applications.html">Applications</a></li>
+                        <li><a href="technology.html">Technology</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p>Luxembourg, Europe</p>
+                    <p><a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 HydraShield Earth Systems. All rights reserved.</p>
+                <p>Built on Copernicus Data · Aligned with EU Climate Goals</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

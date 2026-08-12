@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | HydraShield Earth Systems</title>
+    <meta name="description" content="Get in touch with HydraShield Earth Systems. We're seeking municipal partners, scientific collaborators, and funding opportunities.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
+                    <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
+                    <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
+                </svg>
+                <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="problem.html">The Problem</a></li>
+                <li><a href="solution.html">Our Solution</a></li>
+                <li><a href="applications.html">Applications</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="contact.html" class="btn-nav active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <header class="page-hero">
+        <div class="container page-hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Contact
+            </div>
+            <h1>Let's Build a <span class="gradient-text">Safer Future</span></h1>
+            <p>We're seeking municipal partners, scientific collaborators, and funding opportunities to protect communities from catastrophic wildfires.</p>
+        </div>
+    </header>
+
+    <!-- Contact Section -->
+    <section class="content-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Whether you're a municipality seeking protection, a research institution interested in collaboration, or an investor looking to support climate innovation, we'd love to hear from you.</p>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">📍</div>
+                        <div>
+                            <strong>Location</strong><br>
+                            Luxembourg, Europe
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">📧</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            <a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">🌐</div>
+                        <div>
+                            <strong>Website</strong><br>
+                            <a href="https://hydrashield.earth">hydrashield.earth</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">🎯</div>
+                        <div>
+                            <strong>Focus Areas</strong><br>
+                            Municipalities · Civil Protection · Research · Investment
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" name="organization" placeholder="Company, municipality, or institution">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interest">I'm Interested In</label>
+                        <select id="interest" name="interest">
+                            <option value="partnership">Partnership / Pilot</option>
+                            <option value="research">Research Collaboration</option>
+                            <option value="investment">Investment / Funding</option>
+                            <option value="media">Media / Press</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your interest in HydraShield..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Explore More About HydraShield</h2>
+            <p>Learn about our technology, applications, and strategic roadmap.</p>
+            <div class="cta-actions">
+                <a href="technology.html" class="btn btn-light">Explore Technology</a>
+                <a href="roadmap.html" class="btn btn-outline-light">View Roadmap</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
+                            <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
+                            <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
+                        </svg>
+                        <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
+                    </div>
+                    <p>AI-driven Digital Twin for preemptive wildfire risk reduction. From satellite to soil.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="problem.html">The Problem</a></li>
+                        <li><a href="solution.html">Our Solution</a></li>
+                        <li><a href="roadmap.html">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="applications.html">Applications</a></li>
+                        <li><a href="technology.html">Technology</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p>Luxembourg, Europe</p>
+                    <p><a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 HydraShield Earth Systems. All rights reserved.</p>
+                <p>Built on Copernicus Data · Aligned with EU Climate Goals</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

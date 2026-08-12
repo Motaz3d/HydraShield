@@ -1,0 +1,8 @@
+# Development / testing dependencies for HydraShield.
+# Install with: pip install -r requirements-dev.txt
+# (or: pip install -e ".[dev]")
+
+-r requirements.txt
+
+# Testing
+pytest==9.1.1

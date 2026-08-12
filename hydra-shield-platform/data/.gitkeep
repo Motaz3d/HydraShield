@@ -1,0 +1,3 @@
+# Data directory
+# Place raw and processed fire data and Copernicus maps here.
+# This directory is git-ignored except for this .gitkeep file.

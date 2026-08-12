@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hydrashield-platform"
+version = "0.1.0"
+description = "AI-driven Digital Twin for preemptive wildfire protection via subsurface hydration barriers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [
+    { name = "HydraShield Earth Systems" },
+]
+keywords = ["wildfire", "earth-observation", "copernicus", "digital-twin", "climate-adaptation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+
+# Runtime dependencies pinned to the versions verified against the test suite.
+dependencies = [
+    "numpy==2.5.2",
+    "scikit-learn==1.9.0",
+    "pandas==3.0.5",
+]
+
+[project.optional-dependencies]
+# Development / testing tooling.
+dev = [
+    "pytest==9.1.1",
+]
+
+# Optional GIS / Earth Observation dependencies (not required for the core
+# prediction / hydration modules). Installed with: pip install -e ".[gis]"
+gis = [
+    "geopandas>=0.14",
+    "shapely>=2.0",
+    "eolearn>=1.5",
+]
+
+# Jupyter notebook support.
+notebook = [
+    "notebook>=7.0",
+    "jupyterlab>=4.0",
+    "matplotlib>=3.8",
+]
+
+# The top-level importable package is `src` (see src/__init__.py). We declare
+# it explicitly (along with its subpackages) so that `import src` and
+# `from src.prediction...` work from the installed package.
+[tool.setuptools]
+packages = [
+    "src",
+    "src.prediction",
+    "src.gis_mapping",
+    "src.hydration_control",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
