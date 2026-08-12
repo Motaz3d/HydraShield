@@ -7,7 +7,6 @@ on:
       - 'hydra-shield-platform/website/**'
   workflow_dispatch:
 
-
 permissions:
   contents: read
   pages: write
@@ -34,7 +33,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'hydra-shield-platform/website'
-
 
       - name: Deploy to GitHub Pages
         id: deployment
