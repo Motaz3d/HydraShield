@@ -18,7 +18,7 @@ HydraShield will operate as a **B2G / B2B Software-as-a-Service (SaaS)** platfor
 
 ### 4. Strategy & Milestones (Next 12-24 Months)
 We are currently at **TRL 3 (Digital Feasibility)**. Our strategy focuses on rigorous scientific validation and securing non-dilutive funding:
-- **Phase 1 (Months 1-9):** Establish HQ in Luxembourg (LCI). Secure €50k-€100k via EU grants (Copernicus Incubation, CASSINI). Deliver a validated Digital Twin Proof of Concept (PoC) using historical wildfire hindcasting.
+- **Phase 1 (Months 1-9):** Establish HQ in a strategically selected jurisdiction based on regulatory, tax, and funding criteria. Secure €50k-€100k via EU grants (Copernicus Incubation, CASSINI) and local programs. Deliver a validated Digital Twin Proof of Concept (PoC) using historical wildfire hindcasting.
 - **Phase 2 (Months 10-18):** Establish a User Advisory Board to secure Letters of Intent (LoI). Execute a physical field prototype in a high-risk European WUI zone.
 - **Phase 3 (Months 19-24):** Finalize IP strategy, package the SaaS offering, and apply for the EIC Accelerator for commercial scale-up.
 

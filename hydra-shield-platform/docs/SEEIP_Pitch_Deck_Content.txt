@@ -40,7 +40,7 @@
 * **Phased Rollout:** Starting with digital validation, moving to municipal pilot testing, and scaling to European commercialization.
 
 ## Slide 7: Traction & Roadmap
-* **Stage 1 (Current):** Digital Feasibility & Company Formation (Luxembourg HQ).
+* **Stage 1 (Current):** Digital Feasibility & Company Formation (strategically selected jurisdiction).
 * **Stage 2 (Next):** Field Validation – testing algorithms against real-world fuel moisture dynamics.
 * **Stage 3:** European Demonstration – participating in Horizon Europe/Interreg collaborative projects.
 * **Stage 4:** Commercial Scale-up.
