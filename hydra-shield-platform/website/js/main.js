@@ -71,7 +71,7 @@ if (contactForm) {
         const subject = encodeURIComponent(`Contact from ${name} - ${organization}`);
         const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nOrganization: ${organization}\n\nMessage:\n${message}`);
         
-        window.location.href = `mailto:info@hydrashield.earth?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:motaz3d@gmail.com?subject=${subject}&body=${body}`;
         
         // Show success message
         const successMsg = document.createElement('div');
