@@ -6,10 +6,12 @@
 FROM python:3.12-slim
 
 # geopandas / shapely / pyproj / fiona ship prebuilt manylinux wheels that
-# bundle GDAL/GEOS/PROJ, so no system GIS packages are needed.
-# If a future version fails to build, uncomment the fallback below:
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     gdal-bin libgdal-dev libgeos-dev libproj-dev && rm -rf /var/lib/apt/lists/*
+# bundle GDAL/GEOS/PROJ, so no system GIS packages are needed — with one
+# exception: the rasterio wheel's bundled GDAL links the system libexpat,
+# which the slim base image does not include.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libexpat1 \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
