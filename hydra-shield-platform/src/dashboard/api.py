@@ -161,6 +161,21 @@ def create_app() -> Flask:
             return _error(f"Analysis failed: {exc}", 502)
         if "error" in result:
             return _error(result["error"], 404)
+        if location:
+            # Record the geocoding step in the provenance block (the cached
+            # point analysis itself only covers the data components).
+            result = dict(result)
+            result["provenance"] = dict(result.get("provenance") or {})
+            result["provenance"]["geocoding"] = {
+                "kind": "observed",
+                "source": "Nominatim (OpenStreetMap)",
+                "acquired": None,
+                "resolution": "point",
+                "temporal": None,
+                "retrieved_at": datetime.utcnow().isoformat() + "Z",
+                "quality": "ok",
+                "limitations": None,
+            }
         return jsonify(result)
 
     # ------------------------------------------------------------------
