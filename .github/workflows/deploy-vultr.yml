@@ -1,0 +1,39 @@
+name: Deploy to Vultr
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'hydra-shield-platform/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy files to Vultr via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VULTR_HOST }}
+          username: ${{ secrets.VULTR_USER }}
+          key: ${{ secrets.VULTR_SSH_KEY }}
+          source: "hydra-shield-platform/*, hydra-shield-platform/.dockerignore"
+          target: "/opt/hydrashield/"
+          strip_components: 1
+
+      - name: Rebuild and restart stack over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VULTR_HOST }}
+          username: ${{ secrets.VULTR_USER }}
+          key: ${{ secrets.VULTR_SSH_KEY }}
+          script: |
+            cd /opt/hydrashield
+            docker compose pull
+            docker compose build
+            docker compose up -d --remove-orphans
+            docker image prune -f
+            docker compose ps

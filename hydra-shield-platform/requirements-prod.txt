@@ -1,0 +1,28 @@
+# HydraShield production deployment dependencies.
+# Only the packages required to run the website + dash + API services.
+# Heavy/optional extras (eolearn, notebook, jupyterlab, geopandas stack) are
+# intentionally excluded: the serving path (api.py, dashboard.py) does not
+# import them.
+
+# Data Science & ML (core scientific models)
+numpy==2.5.2
+pandas==3.0.5
+scikit-learn==1.9.0
+xgboost>=1.7.0
+
+# Dashboard & visualisation
+plotly>=5.15.0
+dash>=2.14.1
+dash-bootstrap-components>=1.6.0
+
+# REST API server + production WSGI
+flask>=3.0
+gunicorn>=22.0
+
+# HTTP client
+requests>=2.31
+
+# Real Earth Observation access (Sentinel-2 STAC + COG reads, WorldCover)
+pystac-client>=0.8
+rasterio>=1.3
+pyproj>=3.5

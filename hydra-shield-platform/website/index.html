@@ -3,305 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydraShield Earth Systems | AI-Driven Wildfire Prevention</title>
-    <meta name="description" content="HydraShield is an AI-driven Digital Twin platform that uses Copernicus satellite data and soil physics to prevent catastrophic wildfires through preemptive fuel-moisture management.">
-    <link rel="canonical" href="https://hydrashield.earth/">
-
-    <meta name="keywords" content="wildfire prevention, Earth Observation, Copernicus, AI, Digital Twin, climate adaptation, soil moisture, fire risk">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>HydraShield - Advanced Wildfire Protection System</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main-analyze-section {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+        .analyze-form {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            color: #333;
+        }
+        .simple-card {
+            text-align: center;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .service-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .demo-indicator {
+            background-color: #ffc107;
+            color: #000;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .navbar-brand h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
-                    <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
-                    <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
-                </svg>
-                <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
-            </a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="problem.html">The Problem</a></li>
-                <li><a href="solution.html">Our Solution</a></li>
-                <li><a href="applications.html">Applications</a></li>
-                <li><a href="technology.html">Technology</a></li>
-                <li><a href="roadmap.html">Roadmap</a></li>
-                <li><a href="contact.html" class="btn-nav">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-bg">
-            <div class="hero-grid"></div>
-            <div class="hero-orbit orbit-1"></div>
-            <div class="hero-orbit orbit-2"></div>
-            <div class="hero-orbit orbit-3"></div>
-        </div>
-        <div class="container hero-content">
-            <div class="hero-badge">
-                <span class="pulse-dot"></span>
-                Earth Observation · AI · ClimateTech
-            </div>
-            <h1 class="hero-title">
-                From Satellite to Soil:<br>
-                <span class="gradient-text">Preemptive Wildfire Protection</span>
-            </h1>
-            <p class="hero-subtitle">
-                HydraShield is an AI-driven Digital Twin that transforms Copernicus satellite data into actionable, water-optimized protection blueprints for communities at risk of catastrophic wildfires.
-            </p>
-            <div class="hero-actions">
-                <a href="solution.html" class="btn btn-primary">Explore Our Solution</a>
-                <a href="applications.html" class="btn btn-outline">See Applications</a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">3</span>
-                    <span class="stat-label">Satellite Layers</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">80%</span>
-                    <span class="stat-label">Water Savings</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">24h</span>
-                    <span class="stat-label">Lead Time</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">EU</span>
-                    <span class="stat-label">Copernicus Built</span>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <h2 class="mb-0">HydraShield</h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="problem.html">Problem</a></li>
+                        <li class="nav-item"><a class="nav-link" href="solution.html">Solution</a></li>
+                        <li class="nav-item"><a class="nav-link" href="technology.html">Technology</a></li>
+                        <li class="nav-item"><a class="nav-link" href="applications.html">Applications</a></li>
+                        <li class="nav-item"><a class="nav-link" href="roadmap.html">Roadmap</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        <li class="nav-item"><a href="dashboard.html" class="nav-link btn btn-primary">Dashboard</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
 
-    <!-- Problem Section -->
-    <section class="section" id="problem">
+    <!-- Main Analysis Section -->
+    <section class="main-analyze-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">The Challenge</span>
-                <h2 class="section-title">Wildfires Are Becoming <span class="gradient-text">Unstoppable</span></h2>
-                <p class="section-subtitle">Climate change is intensifying wildfire frequency, severity, and unpredictability across the globe.</p>
-            </div>
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">🔥</div>
-                    <h3>Reactive Firefighting</h3>
-                    <p>Conventional firefighting is strictly reactive, attempting to suppress active fires with massive, inefficient water volumes.</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">💧</div>
-                    <h3>80% Water Loss</h3>
-                    <p>Aerial drops lose up to 80% of water to evaporation, drift, and runoff — costing €20,000 per hour.</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🗺️</div>
-                    <h3>Static Risk Maps</h3>
-                    <p>Existing prediction software stops at risk-mapping, leaving agencies without actionable execution plans.</p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🏘️</div>
-                    <h3>Vulnerable Communities</h3>
-                    <p>Wildland-Urban Interface (WUI) communities face catastrophic risk with limited evacuation options.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Solution Preview -->
-    <section class="section section-dark" id="solution-preview">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Our Solution</span>
-                <h2 class="section-title">The <span class="gradient-text">HydraShield</span> Paradigm</h2>
-                <p class="section-subtitle">Shifting from reactive firefighting to preemptive, Life-First Shielding.</p>
-            </div>
-            <div class="solution-preview">
-                <div class="solution-visual">
-                    <div class="satellite">
-                        <div class="satellite-body"></div>
-                        <div class="satellite-panel panel-1"></div>
-                        <div class="satellite-panel panel-2"></div>
-                        <div class="satellite-signal"></div>
-                    </div>
-                    <div class="data-flow">
-                        <div class="flow-node node-1">
-                            <span class="node-icon">🛰️</span>
-                            <span>Sentinel-1/2/3</span>
-                        </div>
-                        <div class="flow-line"></div>
-                        <div class="flow-node node-2">
-                            <span class="node-icon">🧠</span>
-                            <span>AI Engine</span>
-                        </div>
-                        <div class="flow-line"></div>
-                        <div class="flow-node node-3">
-                            <span class="node-icon">🛡️</span>
-                            <span>Protection Blueprint</span>
-                        </div>
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1>HydraShield Wildfire Protection Platform</h1>
+                    <p class="lead mb-4">Real-time wildfire risk analysis from real satellite, weather and terrain data</p>
+                    <div class="analyze-form">
+                        <h3>Analyze an Area</h3>
+                        <form action="dashboard.html" method="GET">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-lg" placeholder="Enter location (e.g., Clervaux, Luxembourg)" name="location" value="Clervaux, Luxembourg">
+                                <button class="btn btn-success btn-lg" type="submit">Analyze</button>
+                            </div>
+                            <div style="font-size:0.85rem;color:#475569;">
+                                Powered by Sentinel-2, Open-Meteo/ERA5, EU-DEM and the Canadian FWI
+                                fire-danger system. Sources and data freshness are shown with every result.
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="solution-text">
-                    <h3>AI-Driven Digital Twin for Wildfire Risk Mitigation</h3>
-                    <p>We integrate Copernicus satellite data (Sentinel-1/2/3) with climate models and soil physics to predict dynamic moisture transfer — moving beyond static risk maps to real-time, predictive fire-spread modelling.</p>
-                    <ul class="check-list">
-                        <li>✅ Dynamic Critical Protection Zone calculation</li>
-                        <li>✅ Water-optimized intervention planning</li>
-                        <li>✅ Subsurface hydration strategy</li>
-                        <li>✅ Evacuation corridor security</li>
-                    </ul>
-                    <a href="solution.html" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Services Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Analysis Services</h2>
+            <div class="row">
+                <!-- Risk Analysis Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="simple-card bg-light">
+                        <div class="service-icon text-primary">📊</div>
+                        <h4>Risk Analysis</h4>
+                        <p>Fire risk level</p>
+                    </div>
+                </div>
+                
+                <!-- Fire Spread Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="simple-card bg-light">
+                        <div class="service-icon text-primary">🔥</div>
+                        <h4>Fire Spread</h4>
+                        <p>Propagation modeling</p>
+                    </div>
+                </div>
+                
+                <!-- Protection Planning Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="simple-card bg-light">
+                        <div class="service-icon text-primary">🛡️</div>
+                        <h4>Protection</h4>
+                        <p>Planning</p>
+                    </div>
+                </div>
+                
+                <!-- Water Optimization Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="simple-card bg-light">
+                        <div class="service-icon text-primary">💧</div>
+                        <h4>Water</h4>
+                        <p>Optimization</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Applications Preview -->
-    <section class="section" id="applications-preview">
+    <!-- Data Foundation Section -->
+    <section class="py-5 bg-light">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Applications</span>
-                <h2 class="section-title">Protecting <span class="gradient-text">Diverse Landscapes</span></h2>
-                <p class="section-subtitle">HydraShield adapts to different topologies and risk scenarios across Europe.</p>
-            </div>
-            <div class="app-grid">
-                <div class="app-card">
-                    <div class="app-icon">🏘️</div>
-                    <h3>Mediterranean Village</h3>
-                    <p>High-consequence WUI zones with single-road access and limited water resources.</p>
-                    <a href="applications.html" class="text-link">View Case →</a>
+            <h2 class="text-center mb-5">Built on Real Data</h2>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <h3>Sentinel-2</h3>
+                    <p>Real 10 m satellite imagery (vegetation &amp; moisture indices)</p>
                 </div>
-                <div class="app-card">
-                    <div class="app-icon">⛰️</div>
-                    <h3>Mountainous WUI</h3>
-                    <p>High-slope terrain focusing on downslope and flanking fire progression.</p>
-                    <a href="applications.html" class="text-link">View Case →</a>
+                <div class="col-md-4 mb-4">
+                    <h3>FWI System</h3>
+                    <p>The Canadian Fire Weather Index used by EFFIS, from real weather data</p>
                 </div>
-                <div class="app-card">
-                    <div class="app-icon">🏜️</div>
-                    <h3>Sandy Soil Regions</h3>
-                    <p>Rapid drainage zones requiring hybrid surface wetting fallback strategies.</p>
-                    <a href="applications.html" class="text-link">View Case →</a>
+                <div class="col-md-4 mb-4">
+                    <h3>Full Provenance</h3>
+                    <p>Every result states its source, freshness and limitations</p>
                 </div>
-                <div class="app-card">
-                    <div class="app-icon">🏙️</div>
-                    <h3>Urban Fringe</h3>
-                    <p>City outskirts with highly flammable green spaces requiring protection.</p>
-                    <a href="applications.html" class="text-link">View Case →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technology Preview -->
-    <section class="section section-tech" id="tech-preview">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Technology</span>
-                <h2 class="section-title">Built on <span class="gradient-text">European Assets</span></h2>
-                <p class="section-subtitle">Leveraging the power of Copernicus, ECMWF, and advanced AI.</p>
-            </div>
-            <div class="tech-strip">
-                <div class="tech-item">
-                    <span class="tech-logo">🛰️</span>
-                    <span>Sentinel-1</span>
-                </div>
-                <div class="tech-item">
-                    <span class="tech-logo">🛰️</span>
-                    <span>Sentinel-2</span>
-                </div>
-                <div class="tech-item">
-                    <span class="tech-logo">🛰️</span>
-                    <span>Sentinel-3</span>
-                </div>
-                <div class="tech-item">
-                    <span class="tech-logo">🌤️</span>
-                    <span>ECMWF</span>
-                </div>
-                <div class="tech-item">
-                    <span class="tech-logo">🧠</span>
-                    <span>AI/ML</span>
-                </div>
-                <div class="tech-item">
-                    <span class="tech-logo">🌍</span>
-                    <span>EFFIS</span>
-                </div>
-                <div class="tech-item">
-                    <span class="tech-logo">💧</span>
-                    <span>Soil Physics</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Protect Your Community?</h2>
-            <p>Join us in building a safer, more resilient future against catastrophic wildfires.</p>
-            <div class="cta-actions">
-                <a href="contact.html" class="btn btn-light">Get in Touch</a>
-                <a href="roadmap.html" class="btn btn-outline-light">View Our Roadmap</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="bg-dark text-white py-5">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
-                            <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
-                            <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
-                        </svg>
-                        <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
-                    </div>
-                    <p>AI-driven Digital Twin for preemptive wildfire risk reduction. From satellite to soil.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="problem.html">The Problem</a></li>
-                        <li><a href="solution.html">Our Solution</a></li>
-                        <li><a href="roadmap.html">Roadmap</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="applications.html">Applications</a></li>
-                        <li><a href="technology.html">Technology</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact</h4>
-                    <p>Europe · Global</p>
-                    <p><a href="mailto:motaz3d@gmail.com">motaz3d@gmail.com</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 HydraShield Earth Systems. All rights reserved.</p>
-                <p>Built on Copernicus Data · Aligned with EU Climate Goals</p>
+            <div class="text-center">
+                <h5>HydraShield</h5>
+                <p>Advanced wildfire protection system using Earth Observation data and AI-driven analytics.</p>
+                <p>© 2026 HydraShield. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

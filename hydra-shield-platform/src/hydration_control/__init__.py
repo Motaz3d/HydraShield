@@ -11,7 +11,7 @@ Key components:
 
 from .water_optimiser import WaterOptimiser, WaterUseEfficiency
 from .intervention import InterventionPlanner, InterventionPlan
-from .verification import HindcastValidator
+from .verification import HindcastValidator, HindcastResult, ContinuousVerificationSystem
 
 __all__ = [
     "WaterOptimiser",
@@ -19,4 +19,6 @@ __all__ = [
     "InterventionPlanner",
     "InterventionPlan",
     "HindcastValidator",
+    "HindcastResult",
+    "ContinuousVerificationSystem",
 ]

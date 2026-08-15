@@ -11,7 +11,7 @@ Key components:
 
 from .indices import compute_ndvi, compute_ndmi, compute_ndwi
 from .data_fusion import DataFusionPipeline
-from .mapping import ProtectionZoneMapper
+from .mapping import ProtectionZoneMapper, ProtectionZone
 
 __all__ = [
     "compute_ndvi",
@@ -19,4 +19,5 @@ __all__ = [
     "compute_ndwi",
     "DataFusionPipeline",
     "ProtectionZoneMapper",
+    "ProtectionZone",
 ]

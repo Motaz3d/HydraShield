@@ -6,13 +6,25 @@
 scikit-learn==1.9.0
 pandas==3.0.5
 numpy==2.5.2
+xgboost>=1.7.0
 
-# GIS & Earth Observation (optional for core modules; see pyproject.toml [gis])
+# GIS & Earth Observation (real Sentinel-2 STAC + COG reads, WorldCover)
+pystac-client>=0.8
+rasterio>=1.3
+pyproj>=3.5
 geopandas>=0.14
 shapely>=2.0
-eolearn>=1.5
 
 # Jupyter (optional; see pyproject.toml [notebook])
 notebook>=7.0
 jupyterlab>=4.0
 matplotlib>=3.8
+
+# Dashboard and visualization
+plotly>=5.15.0
+dash>=2.14.1
+dash-bootstrap-components>=1.6.0
+
+# REST API
+flask>=3.0
+requests>=2.31

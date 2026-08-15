@@ -1,0 +1,15 @@
+# Keep the Docker build context small and fast.
+.git
+.github
+.venv
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.mypy_cache
+.ipynb_checkpoints
+notebooks
+data
+*.ipynb
+.gitkeep
+docs

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydraShield — Wildfire Risk Analysis</title>
+    <meta name="description" content="Real-data wildfire risk analysis: satellite, weather, terrain and fire danger for any location.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg: #0b1220; --card: #131c2e; --border: rgba(255,255,255,0.09);
+            --text: #e2e8f0; --muted: #94a3b8; --accent: #0ea5e9;
+            --low: #22c55e; --moderate: #eab308; --high: #f97316; --extreme: #ef4444;
+        }
+        body { background: var(--bg); color: var(--text); }
+        .dash { max-width: 1200px; margin: 0 auto; padding: 100px 1.25rem 3rem; }
+        .search-row { display: flex; gap: .6rem; margin-bottom: 1.2rem; }
+        .search-row input {
+            flex: 1; padding: .85rem 1rem; font-size: 1rem; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--card); color: var(--text);
+        }
+        .search-row button {
+            padding: .85rem 1.6rem; font-size: 1rem; font-weight: 600; border: none;
+            border-radius: 10px; cursor: pointer; color: #fff;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        }
+        .search-row button:disabled { opacity: .55; cursor: wait; }
+        .card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 1.2rem;
+        }
+        .card h3 { margin: 0 0 .9rem; font-size: 1.05rem; color: #cbd5e1; letter-spacing: .02em; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem; }
+        .metric { text-align: center; padding: .9rem .5rem; background: rgba(255,255,255,.03); border-radius: 10px; }
+        .metric .v { font-size: 1.55rem; font-weight: 700; }
+        .metric .l { font-size: .78rem; color: var(--muted); margin-top: .25rem; text-transform: uppercase; letter-spacing: .06em; }
+        .chip {
+            display: inline-block; padding: .12rem .5rem; border-radius: 999px;
+            font-size: .68rem; font-weight: 700; letter-spacing: .04em; vertical-align: middle;
+        }
+        .chip-observed { background: rgba(34,197,94,.18); color: #4ade80; }
+        .chip-derived { background: rgba(14,165,233,.18); color: #38bdf8; }
+        .chip-modeled { background: rgba(168,85,247,.18); color: #c084fc; }
+        .chip-forecast { background: rgba(234,179,8,.18); color: #facc15; }
+        .chip-unavailable { background: rgba(148,163,184,.18); color: #94a3b8; }
+        .risk-banner { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .risk-score { font-size: 2.6rem; font-weight: 800; }
+        .risk-class-label { font-size: 1.15rem; font-weight: 700; padding: .35rem .9rem; border-radius: 8px; color: #081018; }
+        .cls-Low { background: var(--low); } .cls-Moderate { background: var(--moderate); }
+        .cls-High { background: var(--high); } .cls-Extreme { background: var(--extreme); color: #fff; }
+        .compare-bar { height: 26px; border-radius: 6px; display: flex; align-items: center; padding-left: .6rem;
+            font-size: .8rem; font-weight: 700; color: #081018; min-width: 60px; transition: width .6s ease; }
+        .compare-row { margin: .55rem 0; }
+        .compare-row .lbl { font-size: .82rem; color: var(--muted); margin-bottom: .2rem; }
+        #map { height: 480px; border-radius: 12px; border: 1px solid var(--border); }
+        .kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .45rem 1.5rem; }
+        .kv div { font-size: .92rem; padding: .3rem 0; border-bottom: 1px dashed rgba(255,255,255,.06); }
+        .kv .k { color: var(--muted); }
+        table.prov { width: 100%; border-collapse: collapse; font-size: .84rem; }
+        table.prov th, table.prov td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        table.prov th { color: var(--muted); font-weight: 600; }
+        details summary { cursor: pointer; font-weight: 600; color: var(--accent); margin: .4rem 0; }
+        .notice { padding: .8rem 1rem; border-radius: 10px; margin-bottom: 1rem; font-size: .92rem; }
+        .notice-info { background: rgba(14,165,233,.12); border: 1px solid rgba(14,165,233,.35); }
+        .notice-error { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.4); }
+        .hidden { display: none; }
+        .unavail { opacity: .55; }
+        .fires-list { font-size: .88rem; max-height: 180px; overflow-y: auto; }
+        .watch-row { display: flex; gap: .6rem; flex-wrap: wrap; }
+        .watch-row input, .watch-row select {
+            padding: .6rem .8rem; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(255,255,255,.04); color: var(--text); font-size: .9rem;
+        }
+        .watch-row button { padding: .6rem 1.2rem; border-radius: 8px; border: none; cursor: pointer;
+            background: var(--accent); color: #fff; font-weight: 600; }
+        .footer-note { color: var(--muted); font-size: .8rem; margin-top: 1rem; }
+        @media (max-width: 640px) { #map { height: 340px; } }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
+                    <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
+                    <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
+                </svg>
+                <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="problem.html">The Problem</a></li>
+                <li><a href="solution.html">Our Solution</a></li>
+                <li><a href="applications.html">Applications</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="contact.html" class="btn-nav">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dash">
+        <h2 style="margin-bottom:.3rem;">Wildfire Risk Analysis</h2>
+        <p style="color:var(--muted);margin-top:0;">Real satellite, weather, terrain and fire-danger data. No simulated values — unavailable sources are stated explicitly.</p>
+
+        <div class="search-row">
+            <input id="locationInput" type="text" placeholder="Enter a place (e.g. Clervaux, Luxembourg) or lat,lon">
+            <button id="analyzeBtn">Analyze</button>
+        </div>
+
+        <div id="notice" class="notice notice-info hidden"></div>
+
+        <!-- Headline report -->
+        <div id="report" class="hidden">
+            <div class="card">
+                <h3>Wildfire Risk — <span id="locName"></span></h3>
+                <div class="risk-banner">
+                    <div class="risk-score" id="riskScore">—</div>
+                    <div class="risk-class-label" id="riskClass">—</div>
+                    <div style="color:var(--muted);font-size:.9rem;">
+                        Fire danger (FWI): <b id="fwiVal">—</b> <span id="fwiClass"></span><br>
+                        Trend: <b id="fwiTrend">—</b> · Data: <span id="generatedAt"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Current conditions</h3>
+                <div class="summary-grid" id="conditionsGrid"></div>
+            </div>
+
+            <div class="card">
+                <h3>Main risk drivers</h3>
+                <div id="riskDrivers" class="kv"></div>
+            </div>
+
+            <div class="card">
+                <h3>Baseline vs HydraShield intervention</h3>
+                <div class="compare-row"><div class="lbl">Baseline risk</div>
+                    <div class="compare-bar" id="barBaseline" style="background:var(--extreme);"></div></div>
+                <div class="compare-row"><div class="lbl">With HydraShield hydration</div>
+                    <div class="compare-bar" id="barIntervention" style="background:var(--low);"></div></div>
+                <div style="margin-top:.7rem;font-size:1rem;">
+                    Expected risk reduction: <b id="riskReduction">—</b>
+                    · Water used: <b id="waterUsed">—</b>
+                    · Water saved vs conventional: <b id="waterSaved">—</b>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Expected fire spread (screening estimate)</h3>
+                <div id="spreadSummary" class="kv"></div>
+            </div>
+
+            <div class="card">
+                <h3>Map</h3>
+                <div id="map"></div>
+                <div class="footer-note" id="mapNote"></div>
+            </div>
+
+            <div class="card">
+                <h3>Active fires nearby (NASA FIRMS)</h3>
+                <div id="firesBlock"></div>
+            </div>
+
+            <div class="card">
+                <h3>Recommended action</h3>
+                <div id="recommendation"></div>
+            </div>
+
+            <div class="card">
+                <h3>Alerts</h3>
+                <p style="color:var(--muted);font-size:.9rem;">Register a watch: we re-analyse this location periodically and alert you when the risk crosses your threshold.</p>
+                <div class="watch-row">
+                    <input id="watchEmail" type="email" placeholder="you@example.org" style="flex:2;min-width:200px;">
+                    <select id="watchThreshold" style="flex:1;min-width:160px;">
+                        <option value="45">Alert at Moderate (45+)</option>
+                        <option value="65" selected>Alert at High (65+)</option>
+                        <option value="80">Alert at Extreme (80+)</option>
+                    </select>
+                    <button id="watchBtn">Create watch</button>
+                </div>
+                <div id="watchStatus" style="margin-top:.6rem;font-size:.88rem;"></div>
+            </div>
+
+            <div class="card">
+                <details>
+                    <summary>Scientific details (expand)</summary>
+                    <div id="scienceAnnex" style="margin-top:.8rem;"></div>
+                </details>
+                <details>
+                    <summary>Data sources &amp; provenance (expand)</summary>
+                    <div style="margin-top:.8rem;overflow-x:auto;">
+                        <table class="prov" id="provTable"></table>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="text-center">
+                <h5>HydraShield</h5>
+                <p>Earth Observation wildfire decision support — real data, transparent provenance.</p>
+                <p>© 2026 HydraShield Earth Systems. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

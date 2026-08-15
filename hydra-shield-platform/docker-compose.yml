@@ -1,0 +1,110 @@
+# HydraShield production stack.
+# One server, one deploy command, three faces of the product:
+#   - hydrashield.earth        -> static marketing site (website/)
+#   - hydrashield.earth/api/*  -> REST API (Flask via gunicorn)
+#   - app.hydrashield.earth    -> live interactive Dash dashboard (gunicorn)
+#
+# Caddy terminates HTTPS automatically (Let's Encrypt) and routes traffic.
+#
+# Optional environment (set in .env next to this file — never commit it):
+#   FIRMS_MAP_KEY   NASA FIRMS API key for the active-fire layer (free)
+#   SMTP_HOST/PORT/USER/PASS/FROM   alert email delivery for watches
+#   HYDRASHIELD_CACHE_DB            cache/watch DB path (default in image)
+
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./website:/srv/website:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      dash:
+        condition: service_started
+      api:
+        condition: service_started
+    networks:
+      - hydrashield
+
+  dash:
+    build: .
+    restart: unless-stopped
+    command: >
+      gunicorn --workers 2 --threads 2 --timeout 180 --graceful-timeout 30
+      --bind 0.0.0.0:8050 wsgi:dash_server
+    environment:
+      - PORT=8050
+      - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+    volumes:
+      - hydrashield_data:/data
+    expose:
+      - "8050"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request;urllib.request.urlopen('http://localhost:8050/', timeout=5)\" || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - hydrashield
+
+  api:
+    build: .
+    restart: unless-stopped
+    command: >
+      gunicorn --workers 2 --threads 4 --timeout 180 --graceful-timeout 30
+      --bind 0.0.0.0:8051 wsgi:api_app
+    environment:
+      - PORT=8051
+      - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+      - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_FROM=${SMTP_FROM:-}
+    volumes:
+      - hydrashield_data:/data
+    expose:
+      - "8051"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request;urllib.request.urlopen('http://localhost:8051/api/health', timeout=5)\" || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - hydrashield
+
+  # Periodic watch checker (Phase 5 alerts): runs the watch evaluation loop
+  # every 30 minutes using the same image and the shared data volume.
+  watch_checker:
+    build: .
+    restart: unless-stopped
+    command: >
+      sh -c "while true; do python scripts/check_watches.py; sleep 1800; done"
+    environment:
+      - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+      - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_FROM=${SMTP_FROM:-}
+    volumes:
+      - hydrashield_data:/data
+    networks:
+      - hydrashield
+
+volumes:
+  caddy_data:
+  caddy_config:
+  hydrashield_data:
+
+networks:
+  hydrashield:

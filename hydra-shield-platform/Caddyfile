@@ -1,0 +1,24 @@
+# Caddy configuration for HydraShield.
+# Caddy provisions and renews TLS certificates automatically (Let's Encrypt).
+
+# Apex domain: static marketing site + REST API under /api/*
+hydrashield.earth {
+	encode zstd gzip
+
+	# REST API (Flask)
+	handle /api/* {
+		reverse_proxy api:8051
+	}
+
+	# Everything else: static website files
+	handle {
+		root * /srv/website
+		file_server
+	}
+}
+
+# Live interactive Dash dashboard
+app.hydrashield.earth {
+	encode zstd gzip
+	reverse_proxy dash:8050
+}

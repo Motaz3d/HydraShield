@@ -183,3 +183,195 @@ class ProtectionZoneMapper:
         if max_area_m2 is not None:
             total = min(total, max_area_m2)
         return float(total)
+
+    def compute_3d_protection_zones(
+        self,
+        assets: List[Dict[str, object]],
+        ros_m_per_min: float,
+        probability_of_spread: float,
+        lead_time_min: float,
+        elevation_data: Optional[np.ndarray] = None,
+        slope_data: Optional[np.ndarray] = None,
+    ) -> List[ProtectionZone]:
+        """
+        Compute protection zones with 3D terrain considerations.
+
+        Parameters
+        ----------
+        assets : List[Dict[str, object]]
+            Each asset dict must contain 'id', 'type', and 'centroid'.
+        ros_m_per_min : float
+            Rate of spread (m/min).
+        probability_of_spread : float
+            Probability of spread in [0, 1].
+        lead_time_min : float
+            Fire arrival lead time (minutes).
+        elevation_data : Optional[np.ndarray]
+            Elevation data for terrain analysis.
+        slope_data : Optional[np.ndarray]
+            Slope data for terrain analysis.
+
+        Returns
+        -------
+        List[ProtectionZone]
+            Computed 3D protection zones.
+        """
+        zones: List[ProtectionZone] = []
+        risk = self.classify_risk(probability_of_spread, lead_time_min)
+
+        for asset in assets:
+            asset_id = str(asset.get("id", "unknown"))
+            asset_type = str(asset.get("type", "asset"))
+            centroid = tuple(asset.get("centroid", (0.0, 0.0)))
+
+            radius = self.compute_zone_radius(lead_time_min, ros_m_per_min)
+
+            if elevation_data is not None and slope_data is not None:
+                radius = self._adjust_radius_for_terrain(
+                    radius, elevation_data, slope_data, centroid
+                )
+
+            zones.append(
+                ProtectionZone(
+                    asset_id=asset_id,
+                    asset_type=asset_type,
+                    centroid=centroid,
+                    radius_m=radius,
+                    area_m2=np.pi * radius * radius,
+                    risk_level=risk,
+                    fire_arrival_time_min=lead_time_min,
+                )
+            )
+        return zones
+
+    def _adjust_radius_for_terrain(
+        self,
+        base_radius: float,
+        elevation_data: np.ndarray,
+        slope_data: np.ndarray,
+        centroid: Tuple[float, float],
+    ) -> float:
+        """
+        Adjust protection zone radius based on 3D terrain characteristics.
+
+        This is a simplified placeholder: steep slopes increase the radius
+        (fire spreads faster uphill), and elevation affects the radius.
+
+        Parameters
+        ----------
+        base_radius : float
+            Base protection zone radius.
+        elevation_data : np.ndarray
+            Elevation data for terrain analysis.
+        slope_data : np.ndarray
+            Slope data for terrain analysis.
+        centroid : Tuple[float, float]
+            Asset centroid (lon, lat).
+
+        Returns
+        -------
+        float
+            Adjusted protection zone radius based on terrain.
+        """
+        slope_factor = 1.0
+        elevation_factor = 1.0
+
+        # Use simple statistics as a placeholder for georeferenced lookup.
+        if slope_data.size > 0:
+            mean_slope = float(np.mean(slope_data))
+            slope_factor = 1.0 + 0.01 * max(mean_slope, 0.0)
+
+        if elevation_data.size > 0:
+            mean_elevation = float(np.mean(elevation_data))
+            elevation_factor = 1.0 + 0.0001 * max(mean_elevation, 0.0)
+
+        return base_radius * slope_factor * elevation_factor
+
+    def compute_evacuation_routes(
+        self,
+        assets: List[Dict[str, object]],
+        start_points: List[Tuple[float, float]],
+        end_points: List[Tuple[float, float]],
+        terrain_data: Optional[np.ndarray] = None,
+        road_network: Optional[object] = None,
+    ) -> List[Tuple[Tuple[float, float], Tuple[float, float]]]:
+        """
+        Compute optimal evacuation routes using network analysis.
+
+        This simplified implementation returns straight-line routes. A full
+        implementation would use routing algorithms (e.g., Dijkstra or A*)
+        over a road network.
+
+        Parameters
+        ----------
+        assets : List[Dict[str, object]]
+            Assets that need evacuation routes.
+        start_points : List[Tuple[float, float]]
+            Starting points for evacuation (near assets).
+        end_points : List[Tuple[float, float]]
+            Safe destination points for evacuation.
+        terrain_data : Optional[np.ndarray]
+            Terrain data affecting evacuation routes.
+        road_network : Optional[object]
+            Existing road network to consider (e.g., a GeoDataFrame).
+
+        Returns
+        -------
+        List[Tuple[Tuple[float, float], Tuple[float, float]]]
+            Optimal evacuation routes as (start, end) pairs.
+        """
+        routes = []
+        for start, end in zip(start_points, end_points):
+            routes.append((start, end))
+        return routes
+
+    def analyze_wind_direction_impact(
+        self,
+        base_zones: List[ProtectionZone],
+        wind_direction_deg: float,
+        wind_speed_kmh: float,
+        terrain_orientation: Optional[np.ndarray] = None,
+    ) -> List[Dict[str, object]]:
+        """
+        Analyze the impact of wind direction on protection zone effectiveness.
+
+        Fire spreads faster downwind, so protection zones may need to be
+        extended in the downwind direction and compressed crosswind.
+
+        Parameters
+        ----------
+        base_zones : List[ProtectionZone]
+            Base protection zones.
+        wind_direction_deg : float
+            Wind direction in degrees (0=N, 90=E, etc.).
+        wind_speed_kmh : float
+            Wind speed in km/h.
+        terrain_orientation : Optional[np.ndarray]
+            Aspect data for terrain orientation analysis.
+
+        Returns
+        -------
+        List[Dict[str, object]]
+            Wind-adjusted zone descriptors including major/minor axes.
+        """
+        wind_speed_kmh = max(wind_speed_kmh, 0.0)
+
+        adjusted = []
+        for zone in base_zones:
+            major_axis = zone.radius_m * (1 + 0.3 * wind_speed_kmh / 100.0)
+            minor_axis = zone.radius_m * (1 - 0.1 * wind_speed_kmh / 100.0)
+            minor_axis = max(minor_axis, zone.radius_m * 0.5)
+
+            adjusted.append(
+                {
+                    "asset_id": zone.asset_id,
+                    "centroid": zone.centroid,
+                    "radius_m": zone.radius_m,
+                    "major_axis_m": float(major_axis),
+                    "minor_axis_m": float(minor_axis),
+                    "wind_direction_deg": wind_direction_deg,
+                    "wind_speed_kmh": wind_speed_kmh,
+                    "risk_level": zone.risk_level,
+                }
+            )
+        return adjusted

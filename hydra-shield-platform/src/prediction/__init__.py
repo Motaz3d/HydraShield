@@ -12,7 +12,7 @@ Key components:
 
 from .fuel_moisture import FuelMoistureModel
 from .fire_spread import FireSpreadModel, RateOfSpread
-from .risk_model import WildfireRiskModel
+from .risk_model import WildfireRiskModel, AdvancedWildfireRiskModel
 
 __all__ = [
     "FuelMoistureModel",

@@ -1,17 +1,22 @@
 """
-Hindcasting validation and feedback loop.
+Hindcasting validation and feedback loop with continuous improvement.
 
 Phase 1 verification is performed through historical hindcasting using
 historical burned-area observations from EFFIS. This module computes spatial
 overlap and classification metrics between predicted and observed fire extents.
+
+The system now includes continuous verification that learns from prediction accuracy
+and improves model performance over time.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional
-
+from datetime import datetime, timedelta
 import numpy as np
+import pandas as pd
+import warnings
 
 
 @dataclass
@@ -35,6 +40,155 @@ class HindcastResult:
             "critical_success_index": self.critical_success_index,
             "accuracy": self.accuracy,
         }
+
+
+class ContinuousVerificationSystem:
+    """
+    نظام تحقق مستمر يحسن النماذج بناءً على البيانات الحية.
+    """
+    def __init__(self, model_accuracy_threshold=0.8):
+        self.model_accuracy_threshold = model_accuracy_threshold
+        self.performance_history = {}
+        self.feedback_loops = []
+        self.model_improvement_suggestions = []
+    
+    def update_model_performance(self, model_name: str, predicted: float, actual: float, timestamp: datetime):
+        """
+        تحديث أداء النموذج بناءً على المقارنة بين التنبؤ والواقع.
+        """
+        error = abs(predicted - actual)
+        accuracy = 1 / (1 + error)  # تحويل الخطأ إلى دقة
+        
+        if model_name not in self.performance_history:
+            self.performance_history[model_name] = []
+        
+        self.performance_history[model_name].append({
+            'timestamp': timestamp,
+            'accuracy': accuracy,
+            'predicted': predicted,
+            'actual': actual,
+            'error': error
+        })
+        
+        # التحقق من الحاجة إلى إعادة التدريب
+        recent_performance = self.get_recent_performance(model_name, days=7)
+        if recent_performance:
+            avg_accuracy = np.mean([p['accuracy'] for p in recent_performance])
+        else:
+            avg_accuracy = 0.0
+        
+        if avg_accuracy < self.model_accuracy_threshold:
+            return {'retrain_required': True, 'current_avg_accuracy': avg_accuracy}
+        else:
+            return {'retrain_required': False, 'current_avg_accuracy': avg_accuracy}
+    
+    def get_recent_performance(self, model_name: str, days: int = 7):
+        """
+        استرجاع أداء النموذج في الأيام الأخيرة.
+        """
+        cutoff_time = datetime.now() - timedelta(days=days)
+        return [p for p in self.performance_history.get(model_name, []) 
+                if p['timestamp'] > cutoff_time]
+    
+    def add_feedback(self, model_name: str, old_prediction: float, new_prediction: float, actual: float, feedback: str):
+        """
+        إضافة ملاحظات إلى النظام للتحسين المستمر.
+        """
+        feedback_entry = {
+            'model': model_name,
+            'timestamp': datetime.now(),
+            'old_prediction': old_prediction,
+            'new_prediction': new_prediction,
+            'actual': actual,
+            'feedback': feedback,
+            'error_reduction': abs(old_prediction - actual) - abs(new_prediction - actual)
+        }
+        self.feedback_loops.append(feedback_entry)
+        
+        # إذا كان التحسين كبيرًا، أضفه إلى اقتراحات التحسين
+        if feedback_entry['error_reduction'] > 0.1:  # إذا كان التحسين ملحوظ
+            improvement_suggestion = {
+                'model': model_name,
+                'suggested_improvement': feedback,
+                'expected_benefit': feedback_entry['error_reduction'],
+                'timestamp': datetime.now()
+            }
+            self.model_improvement_suggestions.append(improvement_suggestion)
+    
+    def get_model_improvement_suggestions(self) -> List[Dict]:
+        """
+        استرجاع اقتراحات تحسين النموذج.
+        """
+        return self.model_improvement_suggestions
+    
+    def generate_adaptive_strategy(self, current_conditions: Dict) -> Dict:
+        """
+        إنشاء استراتيجية تكيفية بناءً على الظروف الحالية.
+        """
+        # تقييم الظروف الحالية وتقديم توصيات تكيفية
+        risk_level = current_conditions.get('risk', 0.5)
+        fuel_moisture = current_conditions.get('fuel_moisture', 15.0)
+        wind_speed = current_conditions.get('wind_speed', 10.0)
+        humidity = current_conditions.get('humidity', 30.0)
+        
+        # حساب احتمالية الانتشار بناءً على الظروف
+        spread_probability = self._calculate_spread_probability(
+            fuel_moisture, wind_speed, humidity
+        )
+        
+        # إنشاء استراتيجية تكيفية
+        if risk_level > 0.7:
+            strategy = {
+                'intervention': 'IMMEDIATE',
+                'confidence': 'HIGH',
+                'recommended_actions': [
+                    'Activate protection zones',
+                    'Deploy water resources',
+                    'Issue evacuation alert'
+                ],
+                'resource_allocation': 'MAXIMUM'
+            }
+        elif risk_level > 0.5:
+            strategy = {
+                'intervention': 'MONITOR',
+                'confidence': 'MEDIUM',
+                'recommended_actions': [
+                    'Continue monitoring',
+                    'Prepare resources',
+                    'Update risk assessment'
+                ],
+                'resource_allocation': 'MODERATE'
+            }
+        else:
+            strategy = {
+                'intervention': 'STANDARD',
+                'confidence': 'LOW',
+                'recommended_actions': [
+                    'Standard monitoring',
+                    'Maintain readiness'
+                ],
+                'resource_allocation': 'MINIMUM'
+            }
+        
+        return strategy
+    
+    def _calculate_spread_probability(self, fuel_moisture: float, wind_speed: float, humidity: float) -> float:
+        """
+        حساب احتمالية انتشار الحريق بناءً على الظروف البيئية.
+        """
+        # نموذج مبسط - في الواقع يستخدم نماذج معقدة
+        # تأثير الرياح: 0.5 * (wind_speed / 10) ^ 1.5
+        wind_factor = 0.5 * (wind_speed / 10) ** 1.5
+        
+        # تأثير الرطوبة: exp(-0.1 * (20 - fuel_moisture))
+        moisture_factor = np.exp(-0.1 * max(0, 20 - fuel_moisture))
+        
+        # تأثير الرطوبة الجوية: exp(-0.05 * (humidity))
+        humidity_factor = np.exp(-0.05 * max(0, humidity))
+        
+        # دمج العوامل
+        combined_risk = 0.5 + 0.3 * wind_factor + 0.2 * moisture_factor
+        return min(1.0, max(0.0, combined_risk))
 
 
 @dataclass
