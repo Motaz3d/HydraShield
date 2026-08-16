@@ -95,6 +95,22 @@ class HydraShieldRealAnalyser:
 
     RISK_CLASSES = [(25.0, "Low"), (45.0, "Moderate"), (65.0, "High"), (101.0, "Extreme")]
 
+    #: Public analysis stages (id, label, source) — the progressive pipeline.
+    STAGES = [
+        ("location", "Location identified", "Coordinates / Nominatim"),
+        ("weather", "Weather conditions", "Open-Meteo"),
+        ("fire_danger", "Fire weather (FWI)", "Canadian FWI System"),
+        ("terrain", "Terrain", "EU-DEM / SRTM (OpenTopoData)"),
+        ("satellite", "Satellite observation", "Copernicus Sentinel-2"),
+        ("fuel", "Fuel moisture", "Sentinel-2 NDMI + soil moisture"),
+        ("landcover", "Vegetation & fuel model", "ESA WorldCover"),
+        ("fires", "Active fire observations", "NASA FIRMS"),
+        ("risk", "Risk calculation", "HydraShield models"),
+        ("context", "Context & exposure", "OpenStreetMap + scene grid"),
+        ("solutions", "Solutions & recommendations", "HydraShield engines"),
+        ("assembly", "Final assembly", "HydraShield"),
+    ]
+
     def __init__(
         self,
         fuel_model: str = "TL3",
@@ -130,27 +146,46 @@ class HydraShieldRealAnalyser:
         )
         return result
 
-    def analyse_point(self, lat: float, lon: float, name: Optional[str] = None) -> Dict:
-        """Run the full pipeline for coordinates."""
+    def analyse_point(
+        self,
+        lat: float,
+        lon: float,
+        name: Optional[str] = None,
+        on_stage=None,
+    ) -> Dict:
+        """
+        Run the full pipeline for coordinates.
+
+        ``on_stage(stage_id, status, detail)`` is an optional callback fired
+        at every honest stage transition (running / complete / unavailable)
+        with small real detail values — this powers the progressive
+        analysis UX and the job API. The returned dict is identical whether
+        or not a callback is supplied.
+        """
+        def _mark(stage_id: str, status: str, detail: Optional[Dict] = None) -> None:
+            if on_stage is not None:
+                try:
+                    on_stage(stage_id, status, detail or {})
+                except Exception:
+                    pass  # progress reporting must never break the analysis
+
         lat, lon = float(lat), float(lon)
         if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
             return {"error": "Coordinates out of range"}
 
-        # ---- Fetch all real inputs -----------------------------------
-        terrain = real_data.fetch_terrain(lat, lon)
+        provenance: Dict[str, Dict] = {}
+
+        # ---- Stage: location -------------------------------------------
+        _mark("location", "running")
+        location = {"name": name or f"{lat:.4f}, {lon:.4f}",
+                    "latitude": lat, "longitude": lon}
+        _mark("location", "complete", {"name": location["name"],
+                                       "latitude": lat, "longitude": lon})
+
+        # ---- Stage: weather --------------------------------------------
+        _mark("weather", "running")
         weather = real_data.fetch_weather_current(lat, lon)
         daily = real_data.fetch_daily_fire_weather(lat, lon)
-        satellite = real_data.fetch_satellite_data(lat, lon)
-        fires = real_data.fetch_active_fires(lat, lon)
-        landcover = self._fetch_landcover(lat, lon)
-
-        provenance: Dict[str, Dict] = {}
-        provenance["terrain"] = (
-            _prov("observed", terrain.get("source", "DEM"), resolution=terrain.get("resolution"))
-            if "error" not in terrain
-            else _prov("unavailable", "DEM (OpenTopoData)", quality="missing",
-                       limitations=terrain.get("error"))
-        )
         provenance["weather"] = (
             _prov("modeled", weather.get("source", "Open-Meteo"), acquired=weather.get("timestamp"),
                   resolution="~11 km (model grid)", temporal="current",
@@ -158,28 +193,51 @@ class HydraShieldRealAnalyser:
             if "error" not in weather
             else _prov("unavailable", "Open-Meteo", quality="missing", limitations=weather.get("error"))
         )
+        if "error" not in weather:
+            _mark("weather", "complete", {
+                "temperature_c": weather.get("temperature_c"),
+                "wind_kmh": weather.get("wind_speed_kmh"),
+                "humidity_pct": weather.get("relative_humidity_pct"),
+                "source": weather.get("source"),
+            })
+        else:
+            _mark("weather", "unavailable", {"reason": weather.get("error")})
 
-        # ---- Fire danger (FWI) ---------------------------------------
+        # ---- Stage: fire danger (FWI) ----------------------------------
+        _mark("fire_danger", "running")
         fwi_block = self._compute_fire_danger(daily, provenance)
+        if fwi_block.get("available"):
+            _mark("fire_danger", "complete", {
+                "fwi": fwi_block.get("fwi"), "class": fwi_block.get("class"),
+                "date": fwi_block.get("date"),
+                "source": "Canadian FWI System (Open-Meteo daily data)",
+            })
+        else:
+            _mark("fire_danger", "unavailable", {
+                "reason": (provenance.get("fire_danger") or {}).get("limitations")
+                or "FWI series unavailable"})
 
-        # ---- Fuel moisture (real-derived) ----------------------------
-        fmc_baseline, fmc_source, fmc_prov = self._derive_fmc(weather, satellite)
-        provenance["fuel_moisture"] = fmc_prov
-
-        # ---- Land cover / fuel model ---------------------------------
-        fuel_model = self.fuel_model
-        if self.use_landcover_fuel and "error" not in landcover:
-            fuel_model = landcover.get("fuel_model") or self.fuel_model
-        spread_model = FireSpreadModel(fuel_model=fuel_model)
-
-        provenance["landcover"] = (
-            _prov("observed", landcover.get("source", "ESA WorldCover"),
-                  resolution=landcover.get("resolution"),
-                  limitations="Fuel-model assignment is a screening approximation.")
-            if "error" not in landcover
-            else _prov("unavailable", "ESA WorldCover", quality="missing",
-                       limitations=landcover.get("error"))
+        # ---- Stage: terrain --------------------------------------------
+        _mark("terrain", "running")
+        terrain = real_data.fetch_terrain(lat, lon)
+        provenance["terrain"] = (
+            _prov("observed", terrain.get("source", "DEM"), resolution=terrain.get("resolution"))
+            if "error" not in terrain
+            else _prov("unavailable", "DEM (OpenTopoData)", quality="missing",
+                       limitations=terrain.get("error"))
         )
+        if "error" not in terrain:
+            _mark("terrain", "complete", {
+                "elevation_m": terrain.get("elevation_m"),
+                "slope_degrees": terrain.get("slope_degrees"),
+                "source": terrain.get("source"),
+            })
+        else:
+            _mark("terrain", "unavailable", {"reason": terrain.get("error")})
+
+        # ---- Stage: satellite ------------------------------------------
+        _mark("satellite", "running")
+        satellite = real_data.fetch_satellite_data(lat, lon)
         provenance["satellite"] = (
             _prov("observed", satellite.get("source", "Sentinel-2"),
                   acquired=(satellite.get("observation_date") or "")[:10],
@@ -189,6 +247,50 @@ class HydraShieldRealAnalyser:
             else _prov("unavailable", satellite.get("source", "Sentinel-2"), quality="missing",
                        limitations=satellite.get("error"))
         )
+        if "error" not in satellite:
+            _mark("satellite", "complete", {
+                "observation_date": (satellite.get("observation_date") or "")[:10],
+                "ndvi": satellite.get("ndvi"), "ndmi": satellite.get("ndmi"),
+                "source": satellite.get("source"),
+            })
+        else:
+            _mark("satellite", "unavailable", {"reason": satellite.get("error")})
+
+        # ---- Stage: fuel moisture --------------------------------------
+        _mark("fuel", "running")
+        fmc_baseline, fmc_source, fmc_prov = self._derive_fmc(weather, satellite)
+        provenance["fuel_moisture"] = fmc_prov
+        if fmc_baseline is not None:
+            _mark("fuel", "complete", {"fmc_pct": fmc_baseline, "source": fmc_source})
+        else:
+            _mark("fuel", "unavailable", {"reason": fmc_source})
+
+        # ---- Stage: land cover / fuel model ----------------------------
+        _mark("landcover", "running")
+        landcover = self._fetch_landcover(lat, lon)
+        fuel_model = self.fuel_model
+        if self.use_landcover_fuel and "error" not in landcover:
+            fuel_model = landcover.get("fuel_model") or self.fuel_model
+        spread_model = FireSpreadModel(fuel_model=fuel_model)
+        provenance["landcover"] = (
+            _prov("observed", landcover.get("source", "ESA WorldCover"),
+                  resolution=landcover.get("resolution"),
+                  limitations="Fuel-model assignment is a screening approximation.")
+            if "error" not in landcover
+            else _prov("unavailable", "ESA WorldCover", quality="missing",
+                       limitations=landcover.get("error"))
+        )
+        if "error" not in landcover:
+            _mark("landcover", "complete", {
+                "dominant_label": landcover.get("dominant_label"),
+                "fuel_model": fuel_model, "source": landcover.get("source"),
+            })
+        else:
+            _mark("landcover", "unavailable", {"reason": landcover.get("error")})
+
+        # ---- Stage: active fires ---------------------------------------
+        _mark("fires", "running")
+        fires = real_data.fetch_active_fires(lat, lon)
         provenance["active_fires"] = (
             _prov("observed", fires.get("source", "NASA FIRMS"),
                   resolution=fires.get("resolution"), temporal=f"{fires.get('days', 5)} days")
@@ -196,8 +298,16 @@ class HydraShieldRealAnalyser:
             else _prov("unavailable", "NASA FIRMS", quality="missing",
                        limitations=fires.get("error"))
         )
+        if fires.get("available"):
+            _mark("fires", "complete", {
+                "count": fires.get("count", 0), "days": fires.get("days"),
+                "source": fires.get("source"),
+            })
+        else:
+            _mark("fires", "unavailable", {"reason": fires.get("error")})
 
-        # ---- Spread model inputs -------------------------------------
+        # ---- Stage: risk calculation -----------------------------------
+        _mark("risk", "running")
         wind_kmh = _num(weather.get("wind_speed_kmh"), default=0.0) or 0.0
         wind_dir = _num(weather.get("wind_direction_deg"), default=0.0) or 0.0
         slope = _num(terrain.get("slope_degrees"), default=0.0) or 0.0
@@ -213,7 +323,6 @@ class HydraShieldRealAnalyser:
             fmc=fmc_for_spread, wind_speed_kmh=wind_kmh, slope_degrees=slope
         )
 
-        # ---- Intervention scenario -----------------------------------
         intervention = None
         target_fmc = None
         if fmc_baseline is not None:
@@ -223,7 +332,6 @@ class HydraShieldRealAnalyser:
                 wind_u=wind_u, wind_v=wind_v, wind_direction=wind_dir, aspect=aspect,
             )
 
-        # ---- Unified risk score (FWI-anchored) ------------------------
         burnable = landcover.get("burnable", True) if "error" not in landcover else True
         risk_baseline = self._risk_score(
             fwi=fwi_block.get("fwi"), slope=slope, fmc=fmc_baseline,
@@ -249,7 +357,6 @@ class HydraShieldRealAnalyser:
                         "spotting, fuel breaks or fire-suppression effects.",
         )
 
-        # ---- WUER -----------------------------------------------------
         wuer = None
         if risk_baseline is not None and risk_intervention is not None:
             wuer = self.water_optimiser.compute_wuer(
@@ -258,7 +365,6 @@ class HydraShieldRealAnalyser:
                 water_volume_m3=self.intervention_water_m3,
             )
 
-        # ---- Evacuation safety margin (1 km reference front) ---------
         arrival_baseline = _num(baseline.ros_reduced, default=0.0) or 0.0
         esm_baseline = self._evacuation_margin(arrival_baseline)
         arrival_intervention = (
@@ -268,7 +374,6 @@ class HydraShieldRealAnalyser:
         )
         esm_intervention = self._evacuation_margin(arrival_intervention)
 
-        # ---- Spread ellipses (screening) ------------------------------
         spread_ellipse = self._spread_ellipses(
             ros_m_min=arrival_baseline, wind_speed_kmh=wind_kmh, wind_direction_deg=wind_dir
         )
@@ -276,10 +381,8 @@ class HydraShieldRealAnalyser:
             ros_m_min=arrival_intervention, wind_speed_kmh=wind_kmh, wind_direction_deg=wind_dir
         )
 
-        # ---- FWI trend ------------------------------------------------
         trend = self._fwi_trend(fwi_block.get("series") or [])
 
-        # ---- "Why this score?" explanation (from real inputs) ---------
         landcover_label = (
             landcover.get("dominant_label") if "error" not in landcover else None
         )
@@ -299,13 +402,14 @@ class HydraShieldRealAnalyser:
             limitations="Levels are qualitative summaries of the real inputs, "
                         "not additional measurements.",
         )
+        if risk_baseline is not None:
+            _mark("risk", "complete", {"risk": risk_baseline, "risk_class": risk_class})
+        else:
+            _mark("risk", "unavailable", {
+                "reason": "Insufficient real inputs for a risk score — none generated."})
 
         result = {
-            "location": {
-                "name": name or f"{lat:.4f}, {lon:.4f}",
-                "latitude": lat,
-                "longitude": lon,
-            },
+            "location": location,
             "generated_at": datetime.utcnow().isoformat() + "Z",
             "terrain": terrain,
             "weather": weather,
@@ -379,7 +483,8 @@ class HydraShieldRealAnalyser:
             },
         }
 
-        # ---- "What changed?" temporal comparison (real daily series) ---
+        # ---- Stage: context (change / climate / exposure / micro) ------
+        _mark("context", "running")
         result["change"] = build_change_block(daily, fwi_block, slope, satellite)
         provenance["change"] = _prov(
             "derived", "FWI + Open-Meteo daily series (real)",
@@ -387,7 +492,6 @@ class HydraShieldRealAnalyser:
             result["change"].get("reason"),
         )
 
-        # ---- Climate summary (real recent daily aggregates) ------------
         result["climate"] = self._climate_summary(daily)
         provenance["climate"] = (
             _prov("derived", "Open-Meteo daily aggregates (real)",
@@ -396,7 +500,33 @@ class HydraShieldRealAnalyser:
             else _prov("unavailable", "Open-Meteo daily series", quality="missing")
         )
 
-        # ---- Environmental solutions / ecological restoration ----------
+        result["exposure"] = build_exposure_block(result)
+        provenance["exposure"] = _prov(
+            (result["exposure"].get("provenance") or {}).get("kind", "unavailable"),
+            (result["exposure"].get("provenance") or {}).get(
+                "source", "OpenStreetMap (ohsome / Overpass)"),
+            quality=(result["exposure"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["exposure"].get("provenance") or {}).get("limitations"),
+        )
+
+        result["micro_area"] = build_micro_area_block(result)
+        provenance["micro_area"] = _prov(
+            "derived", "Measured Sentinel-2 scene grid + declared layer resolutions",
+            limitations=(result["micro_area"].get("provenance") or {}).get("limitations"),
+        )
+        context_unavailable = []
+        if not result["change"].get("available"):
+            context_unavailable.append("temporal comparison")
+        if result["exposure"].get("status") != "ok":
+            context_unavailable.append("OSM exposure")
+        if context_unavailable:
+            _mark("context", "unavailable" if len(context_unavailable) == 2 else "complete",
+                  {"partial": context_unavailable})
+        else:
+            _mark("context", "complete", {})
+
+        # ---- Stage: solutions ------------------------------------------
+        _mark("solutions", "running")
         result["ecology"] = build_ecology_block(result)
         provenance["ecology"] = _prov(
             "derived", (result["ecology"].get("provenance") or {}).get(
@@ -405,23 +535,6 @@ class HydraShieldRealAnalyser:
             limitations=(result["ecology"].get("provenance") or {}).get("limitations"),
         )
 
-        # ---- Exposure / vulnerability / access (real OSM context) ------
-        result["exposure"] = build_exposure_block(result)
-        provenance["exposure"] = _prov(
-            (result["exposure"].get("provenance") or {}).get("kind", "unavailable"),
-            "OpenStreetMap (Overpass API)",
-            quality=(result["exposure"].get("provenance") or {}).get("quality", "ok"),
-            limitations=(result["exposure"].get("provenance") or {}).get("limitations"),
-        )
-
-        # ---- Micro-area context (real scene grid + resolutions) --------
-        result["micro_area"] = build_micro_area_block(result)
-        provenance["micro_area"] = _prov(
-            "derived", "Measured Sentinel-2 scene grid + declared layer resolutions",
-            limitations=(result["micro_area"].get("provenance") or {}).get("limitations"),
-        )
-
-        # ---- Intervention scenarios (model-supported only) -------------
         result["scenarios"] = build_scenarios(result)
         provenance["scenarios"] = _prov(
             "modeled", "HydraShield FireSpreadModel + composite risk score",
@@ -429,7 +542,6 @@ class HydraShieldRealAnalyser:
                         "models are reported as not quantified.",
         )
 
-        # ---- Proactive recommendations + automation action plan --------
         result["recommendations"] = build_recommendations(result)
         result["action_plan"] = build_action_plan(result, result["recommendations"])
         provenance["recommendations"] = _prov(
@@ -437,7 +549,15 @@ class HydraShieldRealAnalyser:
             limitations="Recommendations are generated from the detected "
                         "conditions; they do not guarantee prevention.",
         )
+        _mark("solutions", "complete", {
+            "recommendations": len(result["recommendations"]),
+            "ecology_status": result["ecology"].get("status"),
+        })
+
+        # ---- Stage: assembly --------------------------------------------
+        _mark("assembly", "running")
         result["provenance"] = provenance
+        _mark("assembly", "complete", {})
         return result
 
     # ------------------------------------------------------------------

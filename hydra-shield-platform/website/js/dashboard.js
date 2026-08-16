@@ -43,38 +43,213 @@
     }
 
     // ------------------------------------------------------------------
-    // Analysis
+    // Progressive analysis (job-based, honest stage transitions)
     // ------------------------------------------------------------------
+    var pollTimer = null;
+    var pollDeadline = null;
+    var currentJobId = null;
+
     function analyze(query) {
         var btn = el('analyzeBtn');
         btn.disabled = true;
-        notice('Fetching real data (satellite, weather, terrain, fire danger)… this can take up to a minute on first request for a new area.');
         el('report').classList.add('hidden');
-
-        var url = API + '/analyze?';
+        el('foundPanel').classList.add('hidden');
+        hideNotice();
+        var payload;
         if (/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/.test(query)) {
             var parts = query.split(',');
-            url += 'lat=' + encodeURIComponent(parts[0].trim()) + '&lon=' + encodeURIComponent(parts[1].trim());
+            payload = { lat: parseFloat(parts[0]), lon: parseFloat(parts[1]) };
         } else {
-            url += 'location=' + encodeURIComponent(query);
+            payload = { location: query };
         }
-
-        fetch(url)
+        // Stage rows appear immediately as PENDING; they only advance when
+        // the backend reports real transitions.
+        fetch(API + '/analysis-jobs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
             .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
             .then(function (res) {
-                btn.disabled = false;
                 if (!res.ok || res.body.error) {
-                    notice(res.body.error || ('Request failed (' + res.ok + ')'), true);
+                    btn.disabled = false;
+                    el('progressPanel').classList.add('hidden');
+                    notice(res.body.error || 'Could not start the analysis.', true);
                     return;
                 }
-                hideNotice();
-                lastResult = res.body;
-                render(res.body);
+                currentJobId = res.body.id;
+                renderStages(res.body.stages || []);
+                el('progressPanel').classList.remove('hidden');
+                pollDeadline = Date.now() + 5 * 60 * 1000; // 5 min polling cap
+                pollJob();
             })
             .catch(function (err) {
                 btn.disabled = false;
+                el('progressPanel').classList.add('hidden');
                 notice('Analysis request failed: ' + err, true);
             });
+    }
+
+    function pollJob() {
+        if (!currentJobId) return;
+        if (Date.now() > pollDeadline) {
+            stopPolling();
+            el('progressNote').innerHTML =
+                'This is taking longer than usual — the analysis continues on the server. ' +
+                'Completed results are cached. <a href="" onclick="location.reload();return false;">Retry</a>';
+            el('cancelBtn').classList.add('hidden');
+            el('analyzeBtn').disabled = false;
+            return;
+        }
+        fetch(API + '/analysis-jobs/' + currentJobId)
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+            .then(function (res) {
+                if (!res.ok || res.body.error) {
+                    stopPolling();
+                    el('progressPanel').classList.add('hidden');
+                    el('analyzeBtn').disabled = false;
+                    notice(res.body.error || 'Job not found.', true);
+                    return;
+                }
+                renderStages(res.body.stages || []);
+                if (res.body.status === 'complete') {
+                    finishAnalysis(res.body);
+                } else if (res.body.status === 'failed') {
+                    stopPolling();
+                    el('progressPanel').classList.add('hidden');
+                    el('analyzeBtn').disabled = false;
+                    notice(res.body.error || 'Analysis could not be completed. No risk score was generated.', true);
+                } else {
+                    pollTimer = setTimeout(pollJob, 1500);
+                }
+            })
+            .catch(function () {
+                pollTimer = setTimeout(pollJob, 3000); // transient network issue: keep polling
+            });
+    }
+
+    function stopPolling() {
+        if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+    }
+
+    function stageDetailText(stage) {
+        var d = stage.detail || {};
+        switch (stage.id) {
+            case 'location': return d.name ? d.name + '  (' + d.latitude + ', ' + d.longitude + ')' : '';
+            case 'weather': return d.temperature_c !== undefined && d.temperature_c !== null
+                ? d.temperature_c + ' °C · wind ' + d.wind_kmh + ' km/h · humidity ' + d.humidity_pct + '%'
+                : '';
+            case 'fire_danger': return d.fwi !== undefined && d.fwi !== null
+                ? 'FWI ' + d.fwi + ' (' + d.class + ') · ' + d.date : '';
+            case 'terrain': return d.elevation_m !== undefined && d.elevation_m !== null
+                ? 'Elevation ' + Math.round(d.elevation_m) + ' m · slope ' + d.slope_degrees + '°' : '';
+            case 'satellite': return d.observation_date
+                ? 'Observation ' + d.observation_date + ' · NDVI ' + d.ndvi + ' · NDMI ' + d.ndmi : '';
+            case 'fuel': return d.fmc_pct !== undefined && d.fmc_pct !== null
+                ? 'Fuel moisture ' + d.fmc_pct + '%' : '';
+            case 'landcover': return d.dominant_label
+                ? d.dominant_label + ' → fuel model ' + d.fuel_model : '';
+            case 'fires': return d.count !== undefined
+                ? d.count + ' detection(s) in ' + d.days + ' days' : '';
+            case 'risk': return d.risk !== undefined && d.risk !== null ? 'Risk calculated' : '';
+            case 'solutions': return d.recommendations !== undefined
+                ? d.recommendations + ' evidence-based recommendation(s)' : '';
+            default: return '';
+        }
+    }
+
+    function renderStages(stages) {
+        var icons = { pending: '○', running: '●', complete: '✓', unavailable: '⚠' };
+        el('stageList').innerHTML = stages.map(function (s) {
+            var cls = 'st-' + s.status;
+            var detail = '';
+            if (s.status === 'complete') detail = stageDetailText(s);
+            if (s.status === 'unavailable') detail = 'unavailable' +
+                (s.detail && s.detail.reason ? ' — ' + s.detail.reason : '') +
+                ' (analysis continued with the available evidence)';
+            return '<li class="stage-row ' + cls + '">' +
+                '<span class="stage-icon">' + (icons[s.status] || '○') + '</span>' +
+                '<span class="stage-main"><span class="stage-label">' + s.label +
+                '<small>' + s.source + '</small></span>' +
+                (detail ? '<div class="stage-detail">' + detail + '</div>' : '') +
+                '</span></li>';
+        }).join('');
+    }
+
+    function finishAnalysis(job) {
+        stopPolling();
+        el('progressPanel').classList.add('hidden');
+        el('analyzeBtn').disabled = false;
+        var r = job.result;
+        lastResult = r;
+        render(r);
+        el('report').classList.remove('hidden');
+        renderFoundSummary(r);
+        renderReportCards(r);
+        el('cacheNote').textContent = job.from_cache
+            ? ' Using a recent analysis (generated ' + (job.generated_at || '') + ').'
+            : '';
+        el('foundPanel').classList.remove('hidden');
+        el('foundPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderFoundSummary(r) {
+        var a = r.analysis || {};
+        var risk = a.risk || {};
+        var fd = r.fire_danger || {};
+        var ex = r.risk_explanation || {};
+        var factors = ex.factors || [];
+        var byKey = {};
+        factors.forEach(function (f) { byKey[f.key] = f; });
+        var main = null;
+        factors.forEach(function (f) {
+            if (f.affects_score && typeof f.contribution === 'number' &&
+                (main === null || f.contribution > (main.contribution || 0))) main = f;
+        });
+        var exposure = r.exposure || {};
+        var sat = r.satellite || {};
+        var items = [
+            ['🔥 Fire danger', fd.available ? fd.class + ' (FWI ' + fd.fwi + ')' : 'unavailable'],
+            ['🌬 Main driver', main ? main.label + ' — ' + main.level : 'undetermined'],
+            ['🌿 Fuel condition', byKey.fuel_dryness ? byKey.fuel_dryness.level + ' (' +
+                fmt(byKey.fuel_dryness.value, '%', 1) + ')' : 'unavailable'],
+            ['⛰ Terrain', byKey.terrain ? byKey.terrain.level + ' (' +
+                fmt(byKey.terrain.value, '°', 1) + ')' : 'unavailable'],
+            ['🏘 Exposure', exposure.status === 'ok'
+                ? (exposure.exposure || {}).level + ' (mapped OSM data)' : 'unavailable'],
+            ['🛰 Satellite', sat.error ? 'unavailable' : 'Observation ' +
+                String(sat.observation_date || '').slice(0, 10)],
+        ];
+        el('foundGrid').innerHTML = items.map(function (it) {
+            return '<div class="metric"><div class="v" style="font-size:1.05rem;">' + it[1] +
+                '</div><div class="l">' + it[0] + '</div></div>';
+        }).join('');
+        var recs = (r.recommendations || []).slice(0, 3);
+        el('foundActions').innerHTML = recs.length
+            ? '<b>What should you do?</b><ol style="margin:.4rem 0 0;padding-left:1.2rem;">' +
+              recs.map(function (rec) { return '<li>' + rec.what + '</li>'; }).join('') + '</ol>'
+            : '<span style="color:var(--muted)">No condition-triggered actions right now.</span>';
+    }
+
+    function renderReportCards(r) {
+        var lat = r.location.latitude, lon = r.location.longitude;
+        var types = [
+            { id: 'simple', name: 'Simple Report', aud: 'For people and property owners',
+              contents: ['Risk & why', 'Main conditions', 'What to do', 'Sources & limitations'] },
+            { id: 'decision', name: 'Decision-Support Report', aud: 'For municipalities and organizations',
+              contents: ['Risk drivers & trend', 'Exposure & vulnerability', 'Modelled scenarios',
+                         'Environmental solutions', 'Priority actions', 'Provenance'] },
+            { id: 'scientific', name: 'Scientific Report', aud: 'For researchers and technical institutions',
+              contents: ['Full methodology', 'FWI / Sentinel-2 / terrain methods', 'Validation status',
+                         'Assumptions & limitations', 'References'] },
+        ];
+        el('reportCards').innerHTML = types.map(function (t) {
+            var url = API + '/report?lat=' + lat + '&lon=' + lon + '&history=1&type=' + t.id;
+            return '<div class="report-card"><h4>' + t.name + '</h4>' +
+                '<div class="aud">' + t.aud + '</div>' +
+                '<ul>' + t.contents.map(function (c) { return '<li>' + c + '</li>'; }).join('') + '</ul>' +
+                '<a href="' + url + '" target="_blank" rel="noopener">Open PDF</a></div>';
+        }).join('');
     }
 
     function render(r) {
@@ -85,10 +260,6 @@
         var prov = r.provenance || {};
 
         el('locName').textContent = r.location ? r.location.name : '';
-        if (r.location) {
-            el('pdfBtn').href = API + '/report?lat=' + r.location.latitude +
-                '&lon=' + r.location.longitude + '&history=1';
-        }
         el('riskScore').textContent = fmt(risk.baseline, '', 0);
         var cls = risk.class || '—';
         var rc = el('riskClass');
@@ -760,6 +931,16 @@
             if (e.key === 'Enter') { var q = e.target.value.trim(); if (q) analyze(q); }
         });
         el('historyBtn').addEventListener('click', loadHistory);
+        el('cancelBtn').addEventListener('click', function () {
+            // Client-side cancel: the server-side job finishes and its result
+            // is cached — nothing is lost or fabricated.
+            stopPolling();
+            currentJobId = null;
+            el('progressPanel').classList.add('hidden');
+            el('analyzeBtn').disabled = false;
+            notice('Analysis cancelled. The server completes and caches finished analyses — ' +
+                   'running the same search again will reuse them.', false);
+        });
         setupWatch();
         var params = new URLSearchParams(location.search);
         var q = params.get('location');

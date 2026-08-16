@@ -122,6 +122,50 @@
         .hist-btn { padding: .55rem 1.2rem; border-radius: 8px; border: none; cursor: pointer;
             background: var(--accent); color: #fff; font-weight: 600; }
         .hist-btn:disabled { opacity: .55; cursor: wait; }
+
+        /* ---- Progressive analysis ---- */
+        .progress-card { background: var(--card); border: 1px solid var(--border);
+            border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 1.2rem; }
+        .progress-title { font-size: 1.05rem; font-weight: 700; color: #cbd5e1;
+            display: flex; align-items: center; gap: .6rem; }
+        .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+            animation: pulse 1.2s infinite ease-in-out; }
+        @keyframes pulse { 0%,100% { opacity: .35; transform: scale(.85);} 50% { opacity: 1; transform: scale(1.1);} }
+        .evidence-flow { color: var(--muted); font-size: .8rem; margin: .3rem 0 .9rem; }
+        .stage-list { list-style: none; margin: 0; padding: 0; }
+        .stage-row { display: flex; align-items: baseline; gap: .7rem; padding: .42rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,.06); }
+        .stage-row:last-child { border-bottom: none; }
+        .stage-icon { width: 1.3rem; text-align: center; flex: none; font-size: .95rem; }
+        .stage-main { flex: 1 1 auto; min-width: 0; }
+        .stage-label { font-size: .94rem; }
+        .stage-label small { color: var(--muted); font-size: .76rem; margin-left: .5rem; }
+        .stage-detail { color: var(--muted); font-size: .82rem; margin-top: .1rem; }
+        .st-pending { opacity: .45; }
+        .st-running .stage-icon { animation: pulse 1s infinite; }
+        .st-unavailable .stage-label { color: var(--muted); }
+        .progress-foot { margin-top: .9rem; display: flex; gap: .8rem; align-items: center;
+            flex-wrap: wrap; color: var(--muted); font-size: .82rem; }
+        .cancel-btn { background: transparent; border: 1px solid var(--border); color: var(--muted);
+            border-radius: 8px; padding: .35rem .9rem; cursor: pointer; font-size: .82rem; }
+        .cancel-btn:hover { color: var(--text); border-color: var(--muted); }
+
+        /* ---- What we found / report selection ---- */
+        .found-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: .8rem; margin-bottom: .8rem; }
+        .report-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: .9rem; }
+        .report-card { background: rgba(255,255,255,.03); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .5rem; }
+        .report-card h4 { margin: 0; font-size: 1rem; }
+        .report-card .aud { color: var(--muted); font-size: .82rem; }
+        .report-card ul { margin: 0; padding-left: 1.1rem; color: var(--muted); font-size: .78rem; }
+        .report-card a { margin-top: auto; text-align: center; background: var(--accent);
+            color: #fff; text-decoration: none; border-radius: 8px; padding: .5rem; font-weight: 600;
+            font-size: .88rem; }
+        .ready-banner { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.4);
+            border-radius: 10px; padding: .7rem 1rem; margin-bottom: 1rem; font-size: .95rem; }
+        .cached-note { color: var(--muted); font-size: .8rem; }
     </style>
 </head>
 <body>
@@ -164,6 +208,32 @@
 
         <div id="notice" class="notice notice-info hidden"></div>
 
+        <!-- Progressive analysis panel -->
+        <div id="progressPanel" class="progress-card hidden">
+            <div class="progress-title"><span class="pulse-dot"></span> HydraShield is analyzing your area</div>
+            <div class="evidence-flow">Satellite + Weather + Terrain + Vegetation + Fire danger + Exposure → HydraShield intelligence</div>
+            <ul class="stage-list" id="stageList"></ul>
+            <div class="progress-foot">
+                <span id="progressNote">Building your risk assessment…</span>
+                <button class="cancel-btn" id="cancelBtn">Cancel analysis</button>
+            </div>
+        </div>
+
+        <!-- What we found + report selection -->
+        <div id="foundPanel" class="hidden">
+            <div class="ready-banner">✅ <b>Your HydraShield assessment is ready.</b>
+                <span id="cacheNote" class="cached-note"></span></div>
+            <div class="card">
+                <h3>What we found</h3>
+                <div class="found-grid" id="foundGrid"></div>
+                <div id="foundActions" style="margin-top:.4rem;"></div>
+            </div>
+            <div class="card">
+                <h3>What would you like to receive?</h3>
+                <div class="report-cards" id="reportCards"></div>
+            </div>
+        </div>
+
         <!-- Headline report -->
         <div id="report" class="hidden">
             <div class="card">
@@ -178,10 +248,6 @@
                 </div>
                 <div class="score-disclaimer" id="scoreDisclaimer">
                     This is a composite wildfire-risk indicator (0–100), not a probability of fire.
-                </div>
-                <div style="margin-top:.8rem;">
-                    <a id="pdfBtn" class="hist-btn" style="text-decoration:none;display:inline-block;" href="#" target="_blank" rel="noopener">📄 Generate PDF report</a>
-                    <span style="color:var(--muted);font-size:.8rem;margin-left:.6rem;">includes provenance, limitations and validation status</span>
                 </div>
             </div>
 

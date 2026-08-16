@@ -14,6 +14,8 @@ Public, honest, real-data endpoints:
                                 would have recommended (real ERA5 + FIRMS)
     GET  /api/report            Professional PDF report for a location,
                                 built from the same real cached analysis
+    POST /api/analysis-jobs     Start a progressive (staged) analysis job
+    GET  /api/analysis-jobs/id  Poll honest stage states + final result
     POST /api/watch             Register a threshold alert watch
     DELETE /api/watch/<id>      Remove a watch
     POST /api/spread            Fire-spread model evaluation (caller-supplied inputs)
@@ -40,6 +42,7 @@ from .cache import default_cache
 from .snapshot import cached_analysis as _cached_analysis
 from . import grid as grid_module
 from . import history as history_module
+from . import jobs as jobs_module
 from . import snapshot as snapshot_module
 from .monitoring import WatchStore
 
@@ -302,10 +305,16 @@ def create_app() -> Flask:
             except Exception:
                 history = None  # history is optional; never fabricated
 
-        try:
-            from . import report as report_module
+        report_type = (request.args.get("type") or "decision").strip().lower()[:20]
+        from . import report as report_module
 
-            pdf = report_module.build_report_pdf(result, history=history)
+        if report_type not in report_module.REPORT_TYPES:
+            return _error(
+                "type must be one of: " + ", ".join(report_module.REPORT_TYPES), 400)
+
+        try:
+            pdf = report_module.build_report_pdf(result, history=history,
+                                                 report_type=report_type)
         except RuntimeError as exc:
             return _error(f"Report generation unavailable: {exc}", 503)
         except Exception as exc:
@@ -318,10 +327,47 @@ def create_app() -> Flask:
             pdf,
             mimetype="application/pdf",
             headers={
-                "Content-Disposition": f'inline; filename="hydrashield_report_{safe}.pdf"',
+                "Content-Disposition": f'inline; filename="hydrashield_{report_type}_report_{safe}.pdf"',
                 "Cache-Control": "no-store",
             },
         )
+
+    # ------------------------------------------------------------------
+    @app.route("/api/analysis-jobs", methods=["POST"])
+    def create_analysis_job():
+        """
+        Start a progressive analysis job. Returns 202 with the job id and
+        the initial stage list; poll GET /api/analysis-jobs/<id> for honest
+        stage transitions and the final real result.
+        """
+        if not _rate_limiter.allow(f"jobs:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        data = request.get_json(silent=True) or request.args
+
+        location = (data.get("location") or "").strip()[:200]
+        if location:
+            from .real_data import geocode_location
+
+            geo = geocode_location(location)
+            if "error" in geo:
+                return _error(geo["error"], 404)
+            lat, lon, name = geo["lat"], geo["lon"], geo["name"]
+        else:
+            lat, lon, err = _parse_point(data)
+            if err:
+                return _error("Provide location or lat/lon", 400)
+            name = (data.get("name") or f"{lat:.4f}, {lon:.4f}")[:200]
+
+        job = jobs_module.start_analysis_job(round(lat, 4), round(lon, 4), name)
+        return jsonify(jobs_module.public_job_payload(job)), 202
+
+    # ------------------------------------------------------------------
+    @app.route("/api/analysis-jobs/<job_id>", methods=["GET"])
+    def analysis_job_status(job_id: str):
+        job = jobs_module.get_analysis_job(job_id)
+        if job is None:
+            return _error("Job not found", 404)
+        return jsonify(jobs_module.public_job_payload(job))
 
     # ------------------------------------------------------------------
     @app.route("/api/watch", methods=["POST"])

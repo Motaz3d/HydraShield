@@ -47,7 +47,8 @@ hydra-shield-platform/
 ### `src/dashboard/`
 - **`real_data.py`** — Real-data fetchers: Nominatim geocoding, Open-Meteo current/daily/archive weather, OpenTopoData DEM (EU-DEM 25 m / SRTM), NASA FIRMS active fires. All cached, all source-labelled.
 - **`real_analysis.py`** — The analysis engine: FWI fire danger + fuel moisture + fire spread + baseline-vs-intervention comparison, with a structured provenance record per component (observed / derived / modeled / forecast / unavailable).
-- **`api.py`** — Public REST API: `GET /api/analyze`, `GET /api/risk-grid`, `GET /api/risk-snapshot`, `GET /api/history`, `GET /api/report`, `GET /api/health`, `POST /api/watch`, `POST /api/spread`, `POST /api/allocation`.
+- **`api.py`** — Public REST API: `GET /api/analyze`, `GET /api/risk-grid`, `GET /api/risk-snapshot`, `GET /api/history`, `GET /api/report`, `GET /api/health`, `POST /api/analysis-jobs` + `GET /api/analysis-jobs/<id>`, `POST /api/watch`, `POST /api/spread`, `POST /api/allocation`.
+- **`jobs.py`** — Progressive analysis jobs: honest stage transitions (pending/running/complete/unavailable) driven by the real staged pipeline, SQLite job store, concurrent-request deduplication, and cache handoff (a finished job populates the shared analysis cache; a fresh cached analysis completes instantly with `from_cache`).
 - **`cache.py`** — SQLite TTL cache bounding upstream call rates and keeping the API responsive.
 - **`grid.py`** — Batched grid-level fire-danger computation for map display.
 - **`snapshot.py`** — Public risk-intelligence snapshot: top-risk ranking over the configured monitored areas (`config/monitored_areas.json`), built from the same cached real analyses as `/api/analyze`; honest "unavailable" when no real snapshot can be produced. Kept warm by `scripts/build_risk_snapshot.py`.
@@ -57,7 +58,7 @@ hydra-shield-platform/
 - **`exposure.py`** — Exposure/vulnerability/access intelligence from real OpenStreetMap data (Overpass): mapped buildings, critical facilities, roads, water features, WUI signal — reported separately from the score.
 - **`micro.py`** — Micro-area context: measured 10 m NDMI scene variability + an honest per-layer resolution table (micro/local/regional).
 - **`scenarios.py`** — Intervention scenario framework: model-supported scenarios (hydration, fuel management, combined) computed by the real models; everything else explicitly "not quantified".
-- **`report.py`** — Professional PDF reports (`GET /api/report`) rendered from the real analysis + optional history, with provenance, limitations and validation status.
+- **`report.py`** — Professional PDF reports (`GET /api/report?type=simple|decision|scientific`) rendered from the same real analysis object for three audiences, with provenance, limitations and validation status.
 - **`recommendations.py`** — Proactive protection: evidence-linked preventive recommendations (rules fire only on real detected conditions) plus the automation framework's action-plan generation (recommended vs automated actions; nothing external without `config/operations.json`) with a SQLite audit trail of every generated plan.
 - **`history.py`** — "Lessons from the Past": recent high-risk periods reconstructed from real ERA5 + FWI, observed fires (FIRMS when configured), and what HydraShield would have recommended — strictly labelled OBSERVED / MODELLED / RECOMMENDED / UNKNOWN.
 - **`monitoring.py`** — Alert watches (Phase 5): threshold checks via `scripts/check_watches.py`.

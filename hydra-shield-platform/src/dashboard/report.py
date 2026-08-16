@@ -38,6 +38,21 @@ VALIDATION_STATUS = (
     "docs/VALIDATION.md). Treat all values as screening-level indicators."
 )
 
+REPORT_TYPES = {
+    "simple": {
+        "title": "Simple Report",
+        "audience": "For citizens, property owners and general users",
+    },
+    "decision": {
+        "title": "Decision-Support Report",
+        "audience": "For municipalities, companies, landowners and emergency planners",
+    },
+    "scientific": {
+        "title": "Scientific / Technical Report",
+        "audience": "For researchers, technical institutions and government agencies",
+    },
+}
+
 _ACCENT = colors.HexColor("#0ea5e9")
 _DARK = colors.HexColor("#0f172a")
 _MUTED = colors.HexColor("#64748b")
@@ -109,10 +124,23 @@ def _fwi_chart(fwi_block: Dict):
     return drawing
 
 
-def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
-    """Render the professional PDF report from a real analysis payload."""
+def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
+                     report_type: str = "decision") -> bytes:
+    """
+    Render a professional PDF report from a real analysis payload.
+
+    ``report_type`` selects the audience-specific composition — all types
+    are rendered from the SAME analysis object (never a separate
+    calculation): "simple" (citizens), "decision" (operational users),
+    "scientific" (full methodology appendix).
+    """
     if not _HAS_REPORTLAB:
         raise RuntimeError("reportlab is not installed on this server")
+    if report_type not in REPORT_TYPES:
+        raise ValueError(f"Unknown report type: {report_type!r}")
+    type_info = REPORT_TYPES[report_type]
+    simple = report_type == "simple"
+    scientific = report_type == "scientific"
 
     loc = analysis.get("location") or {}
     a = analysis.get("analysis") or {}
@@ -138,10 +166,13 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
     # ---- Header ---------------------------------------------------------
     story.append(Paragraph("HydraShield Wildfire Risk Report", _TITLE))
     story.append(Paragraph(
+        f"{type_info['title']} — {type_info['audience']}", _SM))
+    story.append(Paragraph(
         f"{loc.get('name', '')} — {loc.get('latitude')}, {loc.get('longitude')}",
         _B))
     story.append(Paragraph(
         f"Generated: {analysis.get('generated_at')} · Model version {MODEL_VERSION} · "
+        f"Report type: {report_type} · "
         "Real-data report: every value is observed, derived or modelled with "
         "provenance; unavailable data is stated.", _SM))
     story.append(Spacer(1, 8))
@@ -204,7 +235,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
     ]))
 
     # ---- 4. Fire danger --------------------------------------------------
-    if fd.get("available"):
+    if not simple and fd.get("available"):
         story.append(Paragraph("4. Fire danger (Canadian FWI System)", _S))
         story.append(_kv_table([
             ["FWI / class", f"{_fmt(fd.get('fwi'), '', 1)} — {fd.get('class')} (EFFIS: {fd.get('effis_class')})"],
@@ -218,63 +249,67 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
             story.append(chart)
 
     # ---- 5. What changed -------------------------------------------------
-    story.append(Paragraph("5. What changed?", _S))
-    if change.get("available"):
-        r = change.get("risk") or {}
-        rows = [["Driver", "7 days ago", "Today", "Δ"]]
-        for d in change.get("drivers_7d") or []:
-            rows.append([d["label"], _fmt(d["then"]), _fmt(d["now"]),
-                         ("+" if (d["delta"] or 0) > 0 else "") + _fmt(d["delta"])])
-        story.append(_kv_table([
-            ["Risk (comparison basis)", f"{_fmt(r.get('d7d_ago'))} → {_fmt(r.get('today'))} "
-             f"(Δ {_fmt(r.get('delta_7d'))})"],
-        ]))
-        t2 = Table(rows, colWidths=[50 * mm, 35 * mm, 35 * mm, 30 * mm])
-        t2.setStyle(TableStyle([
-            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-            ("FONTSIZE", (0, 0), (-1, -1), 8),
-            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
-            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
-        ]))
-        story.append(t2)
-        story.append(Paragraph(f"<b>{change.get('explanation') or ''}</b>", _B))
-        story.append(Paragraph(change.get("basis_note") or "", _SM))
-    else:
-        story.append(Paragraph(change.get("reason") or "unavailable", _B))
+    if not simple:
+        story.append(Paragraph("5. What changed?", _S))
+        if change.get("available"):
+            r = change.get("risk") or {}
+            rows = [["Driver", "7 days ago", "Today", "Δ"]]
+            for d in change.get("drivers_7d") or []:
+                rows.append([d["label"], _fmt(d["then"]), _fmt(d["now"]),
+                             ("+" if (d["delta"] or 0) > 0 else "") + _fmt(d["delta"])])
+            story.append(_kv_table([
+                ["Risk (comparison basis)", f"{_fmt(r.get('d7d_ago'))} → {_fmt(r.get('today'))} "
+                 f"(Δ {_fmt(r.get('delta_7d'))})"],
+            ]))
+            t2 = Table(rows, colWidths=[50 * mm, 35 * mm, 35 * mm, 30 * mm])
+            t2.setStyle(TableStyle([
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, -1), 8),
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+                ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+            ]))
+            story.append(t2)
+            story.append(Paragraph(f"<b>{change.get('explanation') or ''}</b>", _B))
+            story.append(Paragraph(change.get("basis_note") or "", _SM))
+        else:
+            story.append(Paragraph(change.get("reason") or "unavailable", _B))
 
     # ---- 6. Exposure & micro-area ---------------------------------------
-    story.append(Paragraph("6. Exposure, vulnerability & micro-area", _S))
-    if exposure.get("status") == "ok":
-        va = exposure.get("vulnerable_assets") or {}
-        ac = exposure.get("access") or {}
-        story.append(_kv_table([
-            ["Buildings mapped", f"{(exposure.get('exposure') or {}).get('buildings_mapped')} "
-             f"within {exposure.get('radius_m')} m — exposure {(exposure.get('exposure') or {}).get('level')} (OBSERVED)"],
-            ["Critical facilities", f"total {va.get('total')} "
-             f"(hospitals {va.get('hospitals')}, schools {va.get('schools')}, "
-             f"fire stations {va.get('fire_stations')}, power {va.get('power_facilities')}) (OBSERVED)"],
-            ["Access", ("limited — " + "; ".join(ac.get("constraints") or []))
-             if ac.get("limited") else "no mapped constraint detected"],
-            ["Potential WUI", str((exposure.get("wui_indicator") or {}).get("potential_wui")) +
-             " — " + (exposure.get("wui_indicator") or {}).get("note", "")],
-        ]))
-    else:
-        story.append(Paragraph(f"OSM context unavailable — {exposure.get('reason')} (UNAVAILABLE)", _B))
-    mc = micro.get("micro_context") or {}
-    story.append(Paragraph(
-        f"Resolution honesty: weather/FWI ~11 km (regional) · DEM "
-        f"{(micro.get('local_context') or {}).get('resolution') or 'n/a'} (local) · "
-        f"Sentinel-2 & WorldCover 10 m (micro). NDMI scene variability: "
-        + (f"range {((mc.get('ndmi_variability') or {}).get('range'))} over "
-           f"{(mc.get('ndmi_variability') or {}).get('cells')} measured cells"
-           if mc.get("ndmi_variability") else "unavailable (no usable scene)")
-        + ".", _SM))
+    if not simple:
+        story.append(Paragraph("6. Exposure, vulnerability & micro-area", _S))
+        if exposure.get("status") == "ok":
+            va = exposure.get("vulnerable_assets") or {}
+            ac = exposure.get("access") or {}
+            story.append(_kv_table([
+                ["Buildings mapped", f"{(exposure.get('exposure') or {}).get('buildings_mapped')} "
+                 f"within {exposure.get('radius_m')} m — exposure {(exposure.get('exposure') or {}).get('level')} (OBSERVED)"],
+                ["Critical facilities", f"total {va.get('total')} "
+                 f"(hospitals {va.get('hospitals')}, schools {va.get('schools')}, "
+                 f"fire stations {va.get('fire_stations')}, power {va.get('power_facilities')}) (OBSERVED)"],
+                ["Access", ("limited — " + "; ".join(ac.get("constraints") or []))
+                 if ac.get("limited") else "no mapped constraint detected"],
+                ["Potential WUI", str((exposure.get("wui_indicator") or {}).get("potential_wui")) +
+                 " — " + (exposure.get("wui_indicator") or {}).get("note", "")],
+            ]))
+        else:
+            story.append(Paragraph(f"OSM context unavailable — {exposure.get('reason')} (UNAVAILABLE)", _B))
+        mc = micro.get("micro_context") or {}
+        story.append(Paragraph(
+            f"Resolution honesty: weather/FWI ~11 km (regional) · DEM "
+            f"{(micro.get('local_context') or {}).get('resolution') or 'n/a'} (local) · "
+            f"Sentinel-2 & WorldCover 10 m (micro). NDMI scene variability: "
+            + (f"range {((mc.get('ndmi_variability') or {}).get('range'))} over "
+               f"{(mc.get('ndmi_variability') or {}).get('cells')} measured cells"
+               if mc.get("ndmi_variability") else "unavailable (no usable scene)")
+            + ".", _SM))
 
     # ---- 7. Proactive recommendations ------------------------------------
-    story.append(Paragraph("7. Proactive recommendations (RECOMMENDED)", _S))
+    story.append(Paragraph(
+        "7. What should you do? (RECOMMENDED)" if simple else
+        "7. Proactive recommendations (RECOMMENDED)", _S))
     if recs:
         rows = [["Priority", "Action", "Why (real evidence)"]]
-        for r in recs:
+        for r in (recs[:3] if simple else recs):
             rows.append([r["priority"].upper(), Paragraph(r["what"], _B),
                          Paragraph(r["why"], _SM)])
         t3 = Table(rows, colWidths=[22 * mm, 66 * mm, 72 * mm])
@@ -293,8 +328,9 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
     story.append(Paragraph((plan.get("no_guarantee_note") or ""), _SM))
 
     # ---- 8. Environmental solutions --------------------------------------
-    story.append(Paragraph("8. Environmental solutions (ecological restoration)", _S))
-    if ecology.get("status") == "ok":
+    if not simple:
+        story.append(Paragraph("8. Environmental solutions (ecological restoration)", _S))
+    if not simple and ecology.get("status") == "ok":
         site = ecology.get("site_conditions") or {}
         story.append(Paragraph(
             f"Site: climate zone {site.get('climate_zone') or 'undetermined'}, "
@@ -327,45 +363,47 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
             story.append(t4)
         story.append(Paragraph((ecology.get("fire_note") or "") + " " +
                                (ecology.get("verification_note") or ""), _SM))
-    else:
+    elif not simple:
         story.append(Paragraph(ecology.get("message") or "unavailable", _B))
 
     # ---- 9. Scenarios -----------------------------------------------------
-    story.append(Paragraph("9. Intervention scenarios", _S))
-    rows = [["Scenario", "Baseline risk", "Scenario risk", "Δ", "Status"]]
-    for s in scenarios:
-        if s.get("status") == "modelled":
-            rows.append([s["name"], _fmt((s.get("baseline") or {}).get("risk")),
-                         _fmt((s.get("result") or {}).get("risk")),
-                         _fmt((s.get("result") or {}).get("risk_delta")),
-                         "MODELLED"])
-        else:
-            rows.append([s["name"], "—", "—", "—", "NOT QUANTIFIED"])
-    t5 = Table(rows, colWidths=[58 * mm, 26 * mm, 26 * mm, 20 * mm, 30 * mm])
-    t5.setStyle(TableStyle([
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-        ("FONTSIZE", (0, 0), (-1, -1), 8),
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
-        ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
-    ]))
-    story.append(t5)
-    story.append(Paragraph(
-        "MODELLED INTERVENTION SCENARIO — not an observed result. Effects "
-        "beyond the models are reported as NOT QUANTIFIED; no improvement "
-        "percentage is invented.", _SM))
+    if not simple:
+        story.append(Paragraph("9. Intervention scenarios", _S))
+        rows = [["Scenario", "Baseline risk", "Scenario risk", "Δ", "Status"]]
+        for s in scenarios:
+            if s.get("status") == "modelled":
+                rows.append([s["name"], _fmt((s.get("baseline") or {}).get("risk")),
+                             _fmt((s.get("result") or {}).get("risk")),
+                             _fmt((s.get("result") or {}).get("risk_delta")),
+                             "MODELLED"])
+            else:
+                rows.append([s["name"], "—", "—", "—", "NOT QUANTIFIED"])
+        t5 = Table(rows, colWidths=[58 * mm, 26 * mm, 26 * mm, 20 * mm, 30 * mm])
+        t5.setStyle(TableStyle([
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE", (0, 0), (-1, -1), 8),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+        ]))
+        story.append(t5)
+        story.append(Paragraph(
+            "MODELLED INTERVENTION SCENARIO — not an observed result. Effects "
+            "beyond the models are reported as NOT QUANTIFIED; no improvement "
+            "percentage is invented.", _SM))
 
     # ---- 10. Action plan --------------------------------------------------
-    story.append(Paragraph("10. Automation / action plan", _S))
-    story.append(_kv_table([
-        ["Response level", plan.get("level") or "—"],
-        ["Automation armed", str(bool(plan.get("automation_enabled")))],
-        ["Audit id", plan.get("audit_id") or "not recorded"],
-        ["Actions", "; ".join(f"{a['id']} ({a['type']}/{a['status']})"
-                              for a in (plan.get("actions") or [])) or "none"],
-    ]))
+    if not simple:
+        story.append(Paragraph("10. Automation / action plan", _S))
+        story.append(_kv_table([
+            ["Response level", plan.get("level") or "—"],
+            ["Automation armed", str(bool(plan.get("automation_enabled")))],
+            ["Audit id", plan.get("audit_id") or "not recorded"],
+            ["Actions", "; ".join(f"{a['id']} ({a['type']}/{a['status']})"
+                                  for a in (plan.get("actions") or [])) or "none"],
+        ]))
 
     # ---- 11. Historical lessons (optional) --------------------------------
-    if history and "error" not in history:
+    if not simple and history and "error" not in history:
         story.append(Paragraph("11. Lessons from the past", _S))
         w = history.get("window") or {}
         story.append(Paragraph(
@@ -384,25 +422,93 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None) -> bytes:
                 f"({(l.get('observed_fire') or {}).get('label')})", _SM))
 
     # ---- 12. Sources & provenance -----------------------------------------
-    story.append(Paragraph("12. Data sources & provenance", _S))
-    rows = [["Component", "Kind", "Source", "Acquired", "Limitations"]]
-    for k, p in provenance.items():
-        rows.append([k.replace("_", " "), _kind_label(p.get("kind")),
-                     Paragraph(str(p.get("source") or "—"), _SM),
-                     str(p.get("acquired") or "—"),
-                     Paragraph(str(p.get("limitations") or "—"), _SM)])
-    t6 = Table(rows, colWidths=[26 * mm, 24 * mm, 48 * mm, 24 * mm, 38 * mm], repeatRows=1)
-    t6.setStyle(TableStyle([
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-        ("FONTSIZE", (0, 0), (-1, -1), 7.5),
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
-        ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-    ]))
-    story.append(t6)
+    if simple:
+        story.append(Paragraph("8. Data freshness & main sources", _S))
+        main = []
+        for k in ("satellite", "weather", "fire_danger", "terrain", "landcover"):
+            p = provenance.get(k) or {}
+            main.append([k.replace("_", " "), _kind_label(p.get("kind")),
+                         Paragraph(str(p.get("source") or "—"), _SM),
+                         str(p.get("acquired") or "—")])
+        t6s = Table([["Component", "Kind", "Source", "Acquired"]] + main,
+                    colWidths=[30 * mm, 26 * mm, 76 * mm, 28 * mm])
+        t6s.setStyle(TableStyle([
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE", (0, 0), (-1, -1), 7.5),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ]))
+        story.append(t6s)
+    else:
+        story.append(Paragraph("12. Data sources & provenance", _S))
+        rows = [["Component", "Kind", "Source", "Acquired", "Limitations"]]
+        for k, p in provenance.items():
+            rows.append([k.replace("_", " "), _kind_label(p.get("kind")),
+                         Paragraph(str(p.get("source") or "—"), _SM),
+                         str(p.get("acquired") or "—"),
+                         Paragraph(str(p.get("limitations") or "—"), _SM)])
+        t6 = Table(rows, colWidths=[26 * mm, 24 * mm, 48 * mm, 24 * mm, 38 * mm], repeatRows=1)
+        t6.setStyle(TableStyle([
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE", (0, 0), (-1, -1), 7.5),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ]))
+        story.append(t6)
 
-    # ---- 13. Limitations ---------------------------------------------------
-    story.append(Paragraph("13. Scientific limitations", _S))
+    # ---- Scientific appendix (scientific report only) --------------------
+    if scientific:
+        story.append(Paragraph("13. Methodology appendix", _S))
+        meth = analysis.get("methodology") or {}
+        story.append(_kv_table([
+            ["Risk model", "FWI-anchored composite screening score, v" + MODEL_VERSION +
+             " — 100·FWI/(FWI+25) + slope term (max +8) + fuel-moisture adjustment "
+             "(+6/+3/−4), ×0.3 for non-burnable dominant cover (DERIVED)"],
+            ["FWI methodology", "Canadian FWI System (Van Wagner 1987): FFMC/DMC/DC/"
+             "ISI/BUI/FWI from daily T_max, RH_min, mean wind, precipitation sum "
+             "(screening approximation of noon-standard inputs), 21-day spin-up (DERIVED)"],
+            ["Sentinel-2 methodology", "L2A scene selection via Earth Search STAC "
+             "(lowest cloud cover within 30 days); windowed COG reads of B03/B04/"
+             "B08/B11 + SCL cloud mask; NDVI=(B08−B04)/(B08+B04), "
+             "NDMI=(B08−B11)/(B08+B11) at 10 m (OBSERVED)"],
+            ["Fuel moisture", "Sentinel-2 NDMI → FMC calibration blended 60/40 with "
+             "capillary transfer from modelled surface soil moisture; RH-equilibrium "
+             "fallback (DERIVED)"],
+            ["Terrain methodology", "3×3 DEM window (EU-DEM 25 m / SRTM 90 m via "
+             "OpenTopoData); slope/aspect from central differences (OBSERVED)"],
+            ["Land cover", "ESA WorldCover 10 m dominant class in a local window → "
+             "fuel-model mapping (screening approximation) (OBSERVED)"],
+            ["Exposure methodology", "Mapped OSM feature counts within a declared "
+             "radius via the ohsome aggregation API (Overpass fallback); "
+             "completeness varies by region (OBSERVED, declared limitation)"],
+            ["Intervention scenario", f"Hydration +{meth.get('intervention_fmc_increase_pct')}% FMC "
+             f"({meth.get('intervention_water_m3')} m³) through the FireSpreadModel "
+             "and the composite score (MODELLED)"],
+            ["Model version", MODEL_VERSION],
+            ["Validation status", VALIDATION_STATUS],
+        ]))
+        story.append(Paragraph("Assumptions & declared approximations", _B))
+        story.append(Paragraph(
+            "Daily aggregates approximate noon-standard FWI inputs; the FMC "
+            "calibration is a placeholder pending field fitting; the spread "
+            "ellipse is a screening estimate without spotting, fuel breaks or "
+            "suppression; the change comparison excludes the fuel-moisture "
+            "adjustment (no historical FMC).", _SM))
+        story.append(Paragraph("References", _B))
+        story.append(Paragraph(
+            "Van Wagner, C.E. (1987) Development and Structure of the Canadian "
+            "Forest Fire Weather Index System · EFFIS danger classes (JRC) · "
+            "Copernicus Sentinel-2 L2A · ESA WorldCover v200 · Open-Meteo / "
+            "ERA5 (C3S) · OpenTopoData (EU-DEM/SRTM) · OpenStreetMap "
+            "contributors (ohsome API, Heidelberg Institute) · NASA FIRMS "
+            "(when configured).", _SM))
+
+    # ---- 13/14. Limitations ------------------------------------------------
+    story.append(Paragraph(
+        ("14. " if scientific else ("9. " if simple else "13. ")) +
+        "Scientific limitations", _S))
     story.append(Paragraph((analysis.get("methodology") or {}).get("note") or "", _SM))
     story.append(Paragraph(VALIDATION_STATUS, _SM))
     story.append(Paragraph(
