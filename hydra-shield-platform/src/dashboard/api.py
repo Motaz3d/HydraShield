@@ -9,6 +9,9 @@ Public, honest, real-data endpoints:
     GET  /api/risk-grid         n x n fire-danger grid over a bbox (GeoJSON)
     GET  /api/risk-snapshot     Public top-risk ranking over the configured
                                 monitored areas (real data, cached)
+    GET  /api/history           "Lessons from the Past": recent fire-danger
+                                history + observed fires + what HydraShield
+                                would have recommended (real ERA5 + FIRMS)
     POST /api/watch             Register a threshold alert watch
     DELETE /api/watch/<id>      Remove a watch
     POST /api/spread            Fire-spread model evaluation (caller-supplied inputs)
@@ -34,6 +37,7 @@ from ..hydration_control.water_optimiser import WaterOptimiser
 from .cache import default_cache
 from .snapshot import cached_analysis as _cached_analysis
 from . import grid as grid_module
+from . import history as history_module
 from . import snapshot as snapshot_module
 from .monitoring import WatchStore
 
@@ -216,6 +220,44 @@ def create_app() -> Flask:
         if snapshot.get("status") != "ok":
             return jsonify(snapshot), 503
         return jsonify(snapshot)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/history", methods=["GET"])
+    def history():
+        """
+        "Lessons from the Past" for a location: recent fire-danger history
+        reconstructed from real ERA5 reanalysis + FWI, observed fire events
+        (FIRMS, when configured) and what HydraShield would have recommended.
+        """
+        if not _rate_limiter.allow(f"history:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+
+        location = (request.args.get("location") or "").strip()[:200]
+        if location:
+            from .real_data import geocode_location
+
+            geo = geocode_location(location)
+            if "error" in geo:
+                return _error(geo["error"], 404)
+            lat, lon, name = geo["lat"], geo["lon"], geo["name"]
+        else:
+            lat, lon, err = _parse_point(request.args)
+            if err:
+                return _error("Provide ?location=... or ?lat=...&lon=...", 400)
+            name = f"{lat:.4f}, {lon:.4f}"
+
+        try:
+            days = int(request.args.get("days", "90"))
+        except ValueError:
+            return _error("days must be an integer", 400)
+
+        try:
+            result = history_module.compute_history(round(lat, 4), round(lon, 4), name, days)
+        except Exception as exc:
+            return _error(f"History computation failed: {exc}", 502)
+        if "error" in result:
+            return _error(result["error"], 502)
+        return jsonify(result)
 
     # ------------------------------------------------------------------
     @app.route("/api/watch", methods=["POST"])

@@ -81,6 +81,47 @@
             background: var(--accent); color: #fff; font-weight: 600; }
         .footer-note { color: var(--muted); font-size: .8rem; margin-top: 1rem; }
         @media (max-width: 640px) { #map { height: 340px; } }
+
+        /* ---- Why this score / change / recommendations / actions ---- */
+        .factor-row { display: flex; align-items: center; gap: .8rem; padding: .5rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,.06); flex-wrap: wrap; }
+        .factor-row .fname { flex: 1 1 170px; font-size: .92rem; }
+        .factor-row .fval { font-weight: 700; min-width: 5.5rem; text-align: right; }
+        .factor-row .fnote { flex: 1 1 200px; color: var(--muted); font-size: .8rem; }
+        .lvl { display: inline-block; padding: .12rem .55rem; border-radius: 999px;
+            font-size: .72rem; font-weight: 700; }
+        .lvl-0 { background: rgba(34,197,94,.2); color: #4ade80; }
+        .lvl-1 { background: rgba(234,179,8,.2); color: #facc15; }
+        .lvl-2 { background: rgba(249,115,22,.22); color: #fb923c; }
+        .lvl-3 { background: rgba(239,68,68,.25); color: #f87171; }
+        .lvl-none { background: rgba(148,163,184,.18); color: #94a3b8; }
+        .score-disclaimer { margin-top: .7rem; font-size: .8rem; color: var(--muted);
+            border-left: 3px solid var(--accent); padding-left: .6rem; }
+        .rec-item, .action-item, .lesson-item { padding: .65rem .8rem; margin-bottom: .55rem;
+            background: rgba(255,255,255,.03); border-radius: 10px; border: 1px solid rgba(255,255,255,.05); }
+        .rec-item .what, .action-item .what { font-weight: 600; font-size: .94rem; }
+        .rec-item .why, .action-item .why, .lesson-item .why { color: var(--muted);
+            font-size: .85rem; margin-top: .25rem; }
+        .rec-item .meta, .action-item .meta, .lesson-item .meta { color: var(--muted);
+            font-size: .76rem; margin-top: .35rem; }
+        .prio { display: inline-block; padding: .1rem .5rem; border-radius: 999px;
+            font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+        .prio-critical { background: rgba(239,68,68,.25); color: #f87171; }
+        .prio-high { background: rgba(249,115,22,.22); color: #fb923c; }
+        .prio-moderate { background: rgba(234,179,8,.2); color: #facc15; }
+        .prio-low { background: rgba(34,197,94,.18); color: #4ade80; }
+        .tag-automated { background: rgba(14,165,233,.18); color: #38bdf8; }
+        .tag-recommended { background: rgba(168,85,247,.18); color: #c084fc; }
+        .tag-status { background: rgba(148,163,184,.16); color: #94a3b8; }
+        .change-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: .8rem; margin-bottom: .8rem; }
+        .delta-up { color: #f87171; } .delta-down { color: #4ade80; } .delta-stable { color: var(--muted); }
+        .modelled-label { display: inline-block; background: rgba(168,85,247,.18); color: #c084fc;
+            padding: .15rem .6rem; border-radius: 6px; font-size: .72rem; font-weight: 700;
+            letter-spacing: .05em; margin-bottom: .6rem; }
+        .hist-btn { padding: .55rem 1.2rem; border-radius: 8px; border: none; cursor: pointer;
+            background: var(--accent); color: #fff; font-weight: 600; }
+        .hist-btn:disabled { opacity: .55; cursor: wait; }
     </style>
 </head>
 <body>
@@ -134,11 +175,35 @@
                         Trend: <b id="fwiTrend">—</b> · Data: <span id="generatedAt"></span>
                     </div>
                 </div>
+                <div class="score-disclaimer" id="scoreDisclaimer">
+                    This is a composite wildfire-risk indicator (0–100), not a probability of fire.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Why this risk score?</h3>
+                <div id="whyScore"></div>
+            </div>
+
+            <div class="card">
+                <h3>What changed?</h3>
+                <div id="whatChanged"></div>
             </div>
 
             <div class="card">
                 <h3>Current conditions</h3>
                 <div class="summary-grid" id="conditionsGrid"></div>
+            </div>
+
+            <div class="card">
+                <h3>Proactive protection</h3>
+                <div id="proactiveList"></div>
+                <div class="footer-note">Preventive measures reduce exposure; no intervention guarantees prevention.</div>
+            </div>
+
+            <div class="card">
+                <h3>Automated protection</h3>
+                <div id="actionPlan"></div>
             </div>
 
             <div class="card">
@@ -148,6 +213,7 @@
 
             <div class="card">
                 <h3>Baseline vs HydraShield intervention</h3>
+                <div class="modelled-label">MODELLED INTERVENTION SCENARIO — not an observed result</div>
                 <div class="compare-row"><div class="lbl">Baseline risk</div>
                     <div class="compare-bar" id="barBaseline" style="background:var(--extreme);"></div></div>
                 <div class="compare-row"><div class="lbl">With HydraShield hydration</div>
@@ -178,6 +244,17 @@
             <div class="card">
                 <h3>Recommended action</h3>
                 <div id="recommendation"></div>
+            </div>
+
+            <div class="card">
+                <h3>Lessons from the past</h3>
+                <p style="color:var(--muted);font-size:.88rem;margin-top:0;">
+                    Recent high-risk periods reconstructed from ERA5 reanalysis and the
+                    Canadian FWI System, with observed fire events (NASA FIRMS, when
+                    configured) and what HydraShield would have recommended.
+                </p>
+                <button class="hist-btn" id="historyBtn">Load history for this location</button>
+                <div id="historyBlock" style="margin-top:.8rem;"></div>
             </div>
 
             <div class="card">

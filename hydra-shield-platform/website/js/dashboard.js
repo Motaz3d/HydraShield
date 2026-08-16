@@ -95,8 +95,14 @@
         var trend = r.fire_danger_trend || {};
         el('fwiTrend').textContent = trend.trend || 'unknown';
         el('generatedAt').textContent = (r.generated_at || '').replace('T', ' ').replace('Z', ' UTC');
+        el('scoreDisclaimer').textContent = ((r.risk_explanation || {}).disclaimer) ||
+            'This is a composite wildfire-risk indicator (0–100), not a probability of fire.';
 
         renderConditions(r);
+        renderWhy(r.risk_explanation || {});
+        renderChange(r.change || {});
+        renderProactive(r.recommendations || []);
+        renderActionPlan(r.action_plan || {});
         renderDrivers(r);
         renderComparison(a);
         renderSpread(a);
@@ -133,6 +139,183 @@
         if (deg === null || deg === undefined) return '';
         var arrows = ['↓ N', '↙ NE', '← E', '↖ SE', '↑ S', '↗ SW', '→ W', '↘ NW'];
         return arrows[Math.round(((deg % 360) / 45)) % 8];
+    }
+
+    // ------------------------------------------------------------------
+    // Why this score / What changed / Proactive / Automation
+    // ------------------------------------------------------------------
+    function lvlBadge(rank, label) {
+        if (label === null || label === undefined) return '<span class="lvl lvl-none">unavailable</span>';
+        var cls = (rank === null || rank === undefined) ? 'lvl-none' : 'lvl-' + rank;
+        return '<span class="lvl ' + cls + '">' + label + '</span>';
+    }
+
+    function renderWhy(ex) {
+        var box = el('whyScore');
+        var factors = ex.factors || [];
+        if (!factors.length) {
+            box.innerHTML = '<span class="unavail">Score decomposition unavailable.</span>';
+            return;
+        }
+        box.innerHTML = factors.map(function (f) {
+            var val = (f.value === null || f.value === undefined) ? '—'
+                : f.value + (f.unit ? ' ' + f.unit : '');
+            var note = f.contribution_note ? f.contribution_note : '';
+            return '<div class="factor-row">' +
+                '<span class="fname">' + f.label + '</span>' +
+                '<span class="fval">' + val + '</span>' +
+                lvlBadge(f.level_rank, f.level) +
+                '<span class="fnote">' + note + (f.affects_score ? '' : ' (context)') + '</span>' +
+                '</div>';
+        }).join('') +
+        '<div class="score-disclaimer">' + (ex.disclaimer || '') + '</div>' +
+        (ex.formula ? '<div class="footer-note">' + ex.formula + '</div>' : '');
+    }
+
+    function renderChange(ch) {
+        var box = el('whatChanged');
+        if (!ch.available) {
+            box.innerHTML = '<span class="unavail">' +
+                (ch.reason || 'Temporal comparison unavailable.') + '</span>';
+            return;
+        }
+        var r = ch.risk || {};
+        function delta(v, invert) {
+            if (v === null || v === undefined) return '<span class="delta-stable">—</span>';
+            var cls = v > 0 ? 'delta-up' : (v < 0 ? 'delta-down' : 'delta-stable');
+            var arrow = v > 0 ? ' ↑' : (v < 0 ? ' ↓' : '');
+            return '<span class="' + cls + '">' + (v > 0 ? '+' : '') + v + arrow + '</span>';
+        }
+        var html = '<div class="change-grid">' +
+            '<div class="metric"><div class="v">' + fmt(r.today, '', 0) + '</div><div class="l">Risk today</div></div>' +
+            '<div class="metric"><div class="v">' + delta(r.delta_24h) + '</div><div class="l">vs 24 h ago</div></div>' +
+            '<div class="metric"><div class="v">' + delta(r.delta_7d) + '</div><div class="l">vs 7 days ago</div></div>' +
+            '</div>';
+        html += '<div class="kv">' + (ch.drivers_7d || []).map(function (d) {
+            var thenNow = fmt(d.then, '', 1) + ' → ' + fmt(d.now, '', 1) + ' ' + (d.unit || '');
+            return '<div><span class="k">' + d.label + ':</span> ' + thenNow + ' ' +
+                (d.significant ? '<b class="delta-' + (d.direction === 'up' ? 'up' : 'down') + '">' +
+                    (d.direction === 'up' ? '↑' : '↓') + '</b>' : '') + '</div>';
+        }).join('') + '</div>';
+        html += '<p style="margin:.8rem 0 0;font-size:.95rem;"><b>' + (ch.explanation || '') + '</b></p>';
+        if (ch.ndmi_change && ch.ndmi_change.note) {
+            html += '<div class="footer-note">' + ch.ndmi_change.note + '</div>';
+        }
+        html += '<div class="footer-note">' + (ch.basis_note || '') + '</div>';
+        box.innerHTML = html;
+    }
+
+    function renderProactive(recs) {
+        var box = el('proactiveList');
+        if (!recs.length) {
+            box.innerHTML = '<span class="unavail">No condition-triggered recommendations right now — ' +
+                'no significant risk driver is currently detected.</span>';
+            return;
+        }
+        box.innerHTML = recs.map(function (r) {
+            return '<div class="rec-item">' +
+                '<div class="what"><span class="prio prio-' + r.priority + '">' + r.priority + '</span> ' + r.what + '</div>' +
+                '<div class="why"><b>Why:</b> ' + r.why + '</div>' +
+                '<div class="meta"><b>Expected effect:</b> ' + r.expected_effect +
+                '<br><b>Evidence:</b> ' + JSON.stringify(r.evidence) +
+                '<br><b>Data sources:</b> ' + (r.data_sources || []).join(' · ') + '</div>' +
+                '</div>';
+        }).join('');
+    }
+
+    function renderActionPlan(plan) {
+        var box = el('actionPlan');
+        var actions = plan.actions || [];
+        if (!actions.length) {
+            box.innerHTML = '<span class="unavail">No action plan — risk level "' +
+                (plan.level || 'routine') + '" requires no automated steps.</span>';
+            return;
+        }
+        var html = '<p style="margin-top:0;font-size:.9rem;">Response level: <b>' +
+            (plan.level || '—') + '</b>' +
+            (plan.automation_enabled ? '' : ' · <span style="color:var(--muted)">automation not armed (framework only)</span>') +
+            '</p>';
+        html += actions.map(function (a) {
+            var tag = a.type === 'automated'
+                ? '<span class="prio tag-automated">automated</span>'
+                : '<span class="prio tag-recommended">recommended</span>';
+            var status = '<span class="prio tag-status">' + (a.status || '').replace(/_/g, ' ') + '</span>';
+            return '<div class="action-item">' +
+                '<div class="what">' + tag + ' ' + status + ' ' + a.action + '</div>' +
+                '<div class="meta"><b>Trigger:</b> ' + JSON.stringify(a.trigger) +
+                (a.note ? '<br>' + a.note : '') +
+                '<br><b>Outcome:</b> ' + (a.outcome || 'unknown (not yet executed)') + '</div>' +
+                '</div>';
+        }).join('');
+        html += '<div class="footer-note">' + (plan.honesty_note || '') + '</div>';
+        box.innerHTML = html;
+    }
+
+    // ------------------------------------------------------------------
+    // Lessons from the past (/api/history)
+    // ------------------------------------------------------------------
+    function loadHistory() {
+        if (!lastResult || !lastResult.location) return;
+        var btn = el('historyBtn');
+        btn.disabled = true;
+        btn.textContent = 'Loading real history (ERA5 archive)…';
+        var loc = lastResult.location;
+        fetch(API + '/history?lat=' + loc.latitude + '&lon=' + loc.longitude + '&days=90')
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+            .then(function (res) {
+                btn.disabled = false;
+                btn.textContent = 'Reload history';
+                if (!res.ok || res.body.error) {
+                    el('historyBlock').innerHTML = '<span class="unavail">History unavailable: ' +
+                        (res.body.error || res.ok) + '</span>';
+                    return;
+                }
+                renderHistory(res.body);
+            })
+            .catch(function (err) {
+                btn.disabled = false;
+                btn.textContent = 'Load history for this location';
+                el('historyBlock').innerHTML = '<span class="unavail">History request failed: ' + err + '</span>';
+            });
+    }
+
+    function renderHistory(h) {
+        var box = el('historyBlock');
+        var lessons = h.lessons || [];
+        var w = h.window || {};
+        var html = '<div class="footer-note" style="margin-top:0;">Window: ' + w.start + ' → ' + w.end +
+            ' (' + w.days + ' days) · ' + (h.high_risk_periods || []).length +
+            ' high-risk period(s) detected. ' + (h.labels_note || '') + '</div>';
+        if (!lessons.length) {
+            html += '<p style="margin:.6rem 0 0;">No high-risk period (score ≥ 65) occurred in this window ' +
+                'based on the real reanalysis.</p>';
+        }
+        html += lessons.map(function (l) {
+            var p = l.period || {};
+            var c = l.conditions || {};
+            var s = l.hydrashield_score || {};
+            var o = l.observed_fire || {};
+            var recs = (l.would_recommend || []).map(function (r) {
+                return '<div class="why">→ <span class="prio prio-' + r.priority + '">' + r.priority +
+                    '</span> ' + r.what + ' <i>(' + r.label + ')</i></div>';
+            }).join('');
+            return '<div class="lesson-item">' +
+                '<div class="what">' + p.start + ' → ' + p.end + ' (' + p.days + ' days)</div>' +
+                '<div class="why">HydraShield risk (modelled): <b>' + s.value + '/100</b> on ' + s.peak_date +
+                ' · FWI max ' + c.max_fwi + ' · mean wind ' + c.mean_wind_kmh + ' km/h · rain ' +
+                c.total_rain_mm + ' mm <i>(' + c.label + ')</i></div>' +
+                '<div class="why">Observed fire: ' + o.status + ' <i>(' + o.label + ')</i></div>' +
+                recs +
+                '<div class="meta">Interventions actually taken: ' +
+                ((l.interventions_recorded || {}).note || 'unknown') + '</div>' +
+                '</div>';
+        }).join('');
+        var fo = h.fire_observations || {};
+        if (!fo.available) {
+            html += '<div class="footer-note">Fire-observation layer unavailable — ' +
+                (fo.reason || '') + '. Historical fire events are not shown; nothing is invented.</div>';
+        }
+        box.innerHTML = html;
     }
 
     function renderDrivers(r) {
@@ -462,6 +645,7 @@
         el('locationInput').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') { var q = e.target.value.trim(); if (q) analyze(q); }
         });
+        el('historyBtn').addEventListener('click', loadHistory);
         setupWatch();
         var params = new URLSearchParams(location.search);
         var q = params.get('location');

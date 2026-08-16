@@ -55,48 +55,95 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">Technology Stack</span>
-                <h2 class="section-title">Our <span class="gradient-text">Data Sources</span></h2>
-                <p class="section-subtitle">HydraShield integrates multiple European Earth Observation and climate data sources.</p>
+                <h2 class="section-title">Earth Observation &amp; <span class="gradient-text">Data Sources</span></h2>
+                <p class="section-subtitle">Only sources that are actually integrated are listed as in use. Every result carries its source, freshness and limitations.</p>
             </div>
-            <div class="content-grid">
+            <div style="overflow-x:auto;">
+                <table class="prov" style="width:100%;border-collapse:collapse;font-size:.92rem;">
+                    <tr>
+                        <th style="text-align:left;padding:.5rem;border-bottom:2px solid rgba(255,255,255,.15);">Source</th>
+                        <th style="text-align:left;padding:.5rem;border-bottom:2px solid rgba(255,255,255,.15);">What it provides</th>
+                        <th style="text-align:left;padding:.5rem;border-bottom:2px solid rgba(255,255,255,.15);">How HydraShield uses it</th>
+                        <th style="text-align:left;padding:.5rem;border-bottom:2px solid rgba(255,255,255,.15);">Freshness</th>
+                        <th style="text-align:left;padding:.5rem;border-bottom:2px solid rgba(255,255,255,.15);">Resolution</th>
+                        <th style="text-align:left;padding:.5rem;border-bottom:2px solid rgba(255,255,255,.15);">Kind</th>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>Copernicus Sentinel-2</b><br><small>via Earth Search STAC</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Real optical imagery: NDVI / NDMI / NDWI vegetation &amp; moisture indices</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Fuel-moisture estimation, vegetation condition</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Latest cloud-free scene (days; shown per result)</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">10 m, 5-day revisit</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>Copernicus C3S ERA5</b><br><small>via Open-Meteo archive</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Historical daily weather reanalysis</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Fire-danger history, "What changed?", validation features</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Daily, lag of several days</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">~11–25 km, daily</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled (reanalysis)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>Open-Meteo forecast</b></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Current &amp; forecast weather, soil moisture, daily fire-weather series</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Canadian FWI computation, spread model inputs</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Hourly model output</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">~11 km grid</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled / Forecast</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>EU-DEM / SRTM</b><br><small>Copernicus/EEA &amp; NASA, via OpenTopoData</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Elevation, slope, aspect</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Terrain contribution to risk and spread</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Static</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">25 m (Europe) / 90 m</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>ESA WorldCover</b></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Global land-cover classes</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Burnability assessment, fuel-model selection</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Yearly product</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">10 m</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>NASA FIRMS</b><br><small>requires free API key</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Active-fire detections (VIIRS/MODIS)</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed fire events for validation &amp; history — marked unavailable without a key</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Near-real-time</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">375 m</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>Canadian FWI System</b><br><small>Van Wagner 1987</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Fire-weather danger indices (FFMC/DMC/DC/ISI/BUI/FWI)</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Anchor of the composite risk score</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Computed daily from the sources above</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">daily</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Derived</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="content-grid" style="margin-top:2rem;">
                 <div class="content-card">
-                    <h3>🛰️ Copernicus Sentinel-1</h3>
-                    <p>Synthetic Aperture Radar (SAR) providing cloud-free monitoring capabilities, critical for continuous observation during fire events.</p>
+                    <h3>🧭 Candidate sources (not yet integrated)</h3>
+                    <p>These official European datasets are evaluated for integration but are <b>not</b> currently used — HydraShield does not claim their capabilities:</p>
                     <ul>
-                        <li>All-weather, day/night imaging</li>
-                        <li>Soil moisture estimation</li>
-                        <li>Cloud cover mitigation</li>
-                        <li>6-day revisit cycle</li>
+                        <li><b>EFFIS / GWIS</b> (Copernicus EMS, JRC) — European fire-danger maps &amp; burned-area perimeters; currently accessible as a view-only WMS, under evaluation for reference comparison</li>
+                        <li><b>Copernicus Sentinel-1</b> — SAR moisture under cloud cover</li>
+                        <li><b>Copernicus Sentinel-3</b> — land surface temperature</li>
+                        <li><b>Copernicus Data Space Ecosystem</b> — direct L2A access (currently via the public Earth Search STAC)</li>
                     </ul>
                 </div>
                 <div class="content-card">
-                    <h3>🛰️ Copernicus Sentinel-2</h3>
-                    <p>High-resolution multispectral imaging for vegetation health, fuel load assessment, and land cover classification.</p>
+                    <h3>🔍 Provenance by design</h3>
+                    <p>Every analysis component is labelled <b>observed / derived / modelled / forecast / unavailable</b> with acquisition time, resolution and limitations.</p>
                     <ul>
-                        <li>10m spatial resolution</li>
-                        <li>13 spectral bands</li>
-                        <li>Vegetation indices (NDVI, NDWI)</li>
-                        <li>5-day revisit cycle</li>
-                    </ul>
-                </div>
-                <div class="content-card">
-                    <h3>🛰️ Copernicus Sentinel-3</h3>
-                    <p>Medium-resolution optical and thermal imaging for large-scale fire detection and land surface temperature monitoring.</p>
-                    <ul>
-                        <li>Thermal infrared fire detection</li>
-                        <li>Land surface temperature</li>
-                        <li>Global coverage</li>
-                        <li>Daily revisit</li>
-                    </ul>
-                </div>
-                <div class="content-card">
-                    <h3>🌤️ ECMWF Weather Data</h3>
-                    <p>European Centre for Medium-Range Weather Forecasts providing critical meteorological inputs for fire spread prediction.</p>
-                    <ul>
-                        <li>Wind speed and direction</li>
-                        <li>Temperature and humidity</li>
-                        <li>Precipitation forecasts</li>
-                        <li>ERA5-Land soil moisture reanalysis</li>
+                        <li>No simulated or randomised values</li>
+                        <li>Unavailable sources are stated, never filled in</li>
+                        <li>Per-result data-freshness display</li>
                     </ul>
                 </div>
             </div>

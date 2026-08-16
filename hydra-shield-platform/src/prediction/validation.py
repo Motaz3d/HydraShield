@@ -245,6 +245,8 @@ class ValidationReport:
     confusion_matrix: Optional[Dict] = None
     metrics: Optional[Dict] = None
     calibration: Optional[List[Dict]] = None
+    error_analysis: Optional[Dict] = None
+    learning: Optional[Dict] = None
     assumptions: List[str] = field(default_factory=list)
     limitations: List[str] = field(default_factory=list)
 
@@ -262,6 +264,8 @@ class ValidationReport:
             "confusion_matrix": self.confusion_matrix,
             "metrics": self.metrics,
             "calibration": self.calibration,
+            "error_analysis": self.error_analysis,
+            "learning": self.learning,
             "assumptions": self.assumptions,
             "limitations": self.limitations,
         }
@@ -329,3 +333,277 @@ def evaluate_scores(
         "brier_score": brier_score(s_test, y_test),
     }
     return cm, details
+
+
+# --------------------------------------------------------------------------
+# Error analysis — understand WHERE and WHY the model was wrong
+# --------------------------------------------------------------------------
+
+DANGER_VS_OCCURRENCE_NOTE = (
+    "HydraShield predicts fire DANGER, not fire OCCURRENCE: high danger "
+    "means conditions favour spread IF an ignition happens. A false "
+    "positive is therefore not automatically a model failure — it can be a "
+    "correct danger assessment on a day without ignition."
+)
+
+
+def explain_error(error_type: str, features: Dict, score: float,
+                  threshold: float) -> str:
+    """
+    Generate a per-sample explanation of a classification outcome from the
+    sample's real features. Every cited value is the actual measured /
+    reanalysis value of that sample.
+    """
+    fwi = features.get("fwi")
+    wind = features.get("wind_max_kmh")
+    rain = features.get("precip_mm")
+    rh = features.get("rh_mean_pct")
+    fwi_s = f"{fwi:.1f}" if isinstance(fwi, (int, float)) else "n/a"
+
+    if error_type == "fp":
+        reasons = [f"Fire-weather danger was high (FWI {fwi_s})"]
+        if isinstance(rh, (int, float)) and rh < 35:
+            reasons.append(f"humidity was very low ({rh:.0f}%)")
+        if isinstance(wind, (int, float)) and wind >= 25:
+            reasons.append(f"winds were strong ({wind:.0f} km/h)")
+        reasons.append("but no ignition was detected — high fire danger does "
+                       "not guarantee ignition (danger ≠ occurrence)")
+        return "; ".join(reasons) + "."
+    if error_type == "fn":
+        reasons = [f"A fire occurred although the score was below the "
+                   f"threshold ({score:.1f} < {threshold:.0f}; FWI {fwi_s})"]
+        if isinstance(rain, (int, float)) and rain > 2:
+            reasons.append(f"it happened despite {rain:.1f} mm rain that day "
+                           "— possible drought-legacy fuels or a detection "
+                           "from before the rain")
+        if isinstance(wind, (int, float)) and wind >= 25:
+            reasons.append(f"spread was favoured by strong wind ({wind:.0f} "
+                           "km/h), which the FWI-anchored score underweights")
+        if len(reasons) == 1:
+            reasons.append("no obvious mitigating factor in the daily "
+                           "aggregates — candidate for feature review")
+        return "; ".join(reasons) + "."
+    if error_type == "tp":
+        return (f"Correctly flagged: fire detected on a high-danger day "
+                f"(FWI {fwi_s}, score {score:.1f}).")
+    return (f"Correctly dismissed: no fire detected and danger was low "
+            f"(FWI {fwi_s}, score {score:.1f}).")
+
+
+def analyze_errors(
+    scores: Sequence[float],
+    y_true: Sequence[int],
+    dates: Sequence[str],
+    features_list: Sequence[Dict],
+    threshold: float = 65.0,
+    lats: Optional[Sequence[float]] = None,
+    lons: Optional[Sequence[float]] = None,
+) -> Dict:
+    """
+    Per-sample error records plus pattern aggregation.
+
+    Patterns are computed over:
+      - season (calendar month),
+      - fire-weather conditions (FWI bins),
+      - geography (quadrants split at the median lat/lon of the samples).
+
+    Returns per-sample records (type + generated explanation citing the real
+    feature values) and per-pattern counts. Only patterns with >= 3 samples
+    are reported (smaller groups carry no evidence).
+    """
+    if not (len(scores) == len(y_true) == len(dates) == len(features_list)):
+        raise ValueError("scores, y_true, dates and features_list must have equal length")
+
+    records = []
+    for i in range(len(scores)):
+        pred = 1 if scores[i] >= threshold else 0
+        t = int(bool(y_true[i]))
+        if pred and t:
+            etype = "tp"
+        elif pred and not t:
+            etype = "fp"
+        elif not pred and not t:
+            etype = "tn"
+        else:
+            etype = "fn"
+        rec = {
+            "index": i,
+            "date": dates[i],
+            "score": scores[i],
+            "label": t,
+            "type": etype,
+            "explanation": explain_error(etype, features_list[i], scores[i], threshold),
+        }
+        if lats is not None and lons is not None:
+            rec["lat"], rec["lon"] = lats[i], lons[i]
+        records.append(rec)
+
+    def _pattern(key_fn):
+        groups: Dict[str, Dict[str, int]] = {}
+        for i, rec in enumerate(records):
+            g = key_fn(i)
+            if g is None:
+                continue
+            bucket = groups.setdefault(g, {"tp": 0, "fp": 0, "tn": 0, "fn": 0, "total": 0})
+            bucket[rec["type"]] += 1
+            bucket["total"] += 1
+        return {g: c for g, c in sorted(groups.items()) if c["total"] >= 3}
+
+    by_month = _pattern(lambda i: dates[i][:7])
+    by_fwi_bin = _pattern(
+        lambda i: (
+            "FWI<11" if (features_list[i].get("fwi") or 0) < 11.2 else
+            "FWI 11-21" if (features_list[i].get("fwi") or 0) < 21.3 else
+            "FWI 21-38" if (features_list[i].get("fwi") or 0) < 38.0 else
+            "FWI 38+"
+        )
+    )
+    by_geography = None
+    if lats is not None and lons is not None:
+        med_lat = sorted(lats)[len(lats) // 2]
+        med_lon = sorted(lons)[len(lons) // 2]
+        by_geography = _pattern(
+            lambda i: (
+                ("N" if lats[i] >= med_lat else "S") + ("E" if lons[i] >= med_lon else "W")
+            )
+        )
+
+    errors = [r for r in records if r["type"] in ("fp", "fn")]
+    return {
+        "records": records,
+        "n_errors": len(errors),
+        "false_positives": [r for r in errors if r["type"] == "fp"],
+        "false_negatives": [r for r in errors if r["type"] == "fn"],
+        "patterns": {
+            "by_month": by_month,
+            "by_fwi_bin": by_fwi_bin,
+            "by_geography": by_geography,
+        },
+        "danger_vs_occurrence_note": DANGER_VS_OCCURRENCE_NOTE,
+    }
+
+
+# --------------------------------------------------------------------------
+# Calibration learning — learn the score->frequency mapping from errors
+# --------------------------------------------------------------------------
+
+def fit_score_calibration(
+    scores: Sequence[float],
+    y_true: Sequence[int],
+    n_bins: int = 10,
+    score_max: float = 100.0,
+    smoothing: float = 1.0,
+) -> Dict:
+    """
+    Learn an empirical score-bin -> observed-fire-frequency mapping.
+
+    Fit ONLY on a train partition (never on evaluation data). Uses Laplace
+    smoothing so empty bins fall back gracefully. The mapping converts the
+    0-100 screening score into an empirical fire-occurrence frequency — a
+    learned calibration, recorded with its training provenance.
+    """
+    if len(scores) != len(y_true):
+        raise ValueError("scores and y_true must have equal length")
+    if not scores:
+        raise ValueError("No samples to fit calibration")
+    bins = compute_calibration(scores, y_true, n_bins=n_bins, score_max=score_max)
+    width = score_max / n_bins
+    mapping = []
+    for b in range(n_bins):
+        entry = next((x for x in bins if int(x["lower"] / width) == b), None)
+        if entry:
+            n = entry["count"]
+            freq = (entry["observed_frequency"] * n + smoothing * 0.5) / (n + smoothing)
+            mapping.append({"lower": entry["lower"], "upper": entry["upper"],
+                            "count": n, "frequency": round(freq, 4)})
+        else:
+            mapping.append({"lower": round(b * width, 4), "upper": round((b + 1) * width, 4),
+                            "count": 0, "frequency": None})
+    global_freq = sum(int(bool(t)) for t in y_true) / len(y_true)
+    return {
+        "type": "empirical_bin_calibration",
+        "n_bins": n_bins,
+        "score_max": score_max,
+        "bins": mapping,
+        "global_frequency": round(global_freq, 4),
+        "n_train": len(scores),
+        "smoothing": smoothing,
+    }
+
+
+def apply_calibration(scores: Sequence[float], mapping: Dict) -> List[float]:
+    """Map 0-100 scores to calibrated frequencies; empty bins use the global rate."""
+    width = mapping["score_max"] / mapping["n_bins"]
+    out = []
+    for s in scores:
+        b = max(0, min(mapping["n_bins"] - 1, int(float(s) / width)))
+        entry = mapping["bins"][b]
+        out.append(entry["frequency"] if entry["frequency"] is not None
+                   else mapping["global_frequency"])
+    return out
+
+
+def calibration_improvement(
+    train_scores: Sequence[float], train_labels: Sequence[int],
+    eval_scores: Sequence[float], eval_labels: Sequence[int],
+) -> Dict:
+    """
+    Learn calibration on the train partition, measure Brier-score change on
+    the (held-out) evaluation partition. Honest learning evidence: both the
+    before and after numbers are reported on data the fit never saw.
+    """
+    mapping = fit_score_calibration(train_scores, train_labels)
+    calibrated = apply_calibration(eval_scores, mapping)
+    before = brier_score(eval_scores, eval_labels)
+    after = brier_score([c * 100.0 for c in calibrated], eval_labels)
+    return {
+        "mapping": mapping,
+        "brier_before": before,
+        "brier_after": after,
+        "improved": (after is not None and before is not None and after < before),
+        "note": "Calibration learned on the train partition only; Brier "
+                "scores computed on the held-out evaluation partition.",
+    }
+
+
+# --------------------------------------------------------------------------
+# Model registry — versioned, never auto-promoted
+# --------------------------------------------------------------------------
+
+class ModelRegistry:
+    """
+    JSON-file registry of model versions and their validation evidence.
+
+    Promoting a version to production is a deliberate, manual decision —
+    this registry only records evidence; nothing here changes serving code.
+    """
+
+    def __init__(self, path: str) -> None:
+        self.path = path
+
+    def _load(self) -> Dict:
+        try:
+            with open(self.path, "r", encoding="utf-8") as fh:
+                return json.load(fh)
+        except (OSError, json.JSONDecodeError):
+            return {"versions": []}
+
+    def _save(self, data: Dict) -> None:
+        import os
+
+        os.makedirs(os.path.dirname(os.path.abspath(self.path)), exist_ok=True)
+        with open(self.path, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, indent=2)
+
+    def record(self, entry: Dict) -> Dict:
+        """Record a model/validation entry (status is 'candidate' unless set)."""
+        data = self._load()
+        entry = dict(entry)
+        entry.setdefault("status", "candidate")
+        entry.setdefault("registered_at", datetime.utcnow().isoformat() + "Z")
+        data["versions"].append(entry)
+        self._save(data)
+        return entry
+
+    def list(self) -> List[Dict]:
+        return self._load().get("versions", [])

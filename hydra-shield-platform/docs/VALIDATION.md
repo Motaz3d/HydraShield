@@ -37,10 +37,41 @@ assumptions, limitations, metrics
   `brier_score`, `temporal_train_test_split` (strict date-based split —
   tuning never sees evaluation dates), `select_threshold`,
   `ValidationReport` (self-describing JSON), `evaluate_scores` (driver).
+  Learning layer: `analyze_errors` (per-sample error explanations citing the
+  real feature values + patterns by month / FWI bin / geography),
+  `fit_score_calibration` / `apply_calibration` / `calibration_improvement`
+  (empirical score→frequency calibration learned on the train partition
+  only, measured on the held-out evaluation partition), and `ModelRegistry`
+  (versioned evidence store — candidate status by default, never
+  auto-promoted to production).
 - `src/prediction/training.py::firms_fire_points_in_range` — real FIRMS
   detections for a bbox over an explicit date range (10-day API windows,
   cached 7 days per window).
 - `scripts/run_validation.py` — orchestration on real data (see below).
+  Each run also writes an entry into `data/models/registry.json`.
+
+## Error analysis (learning from errors)
+
+Every validation run identifies, on the evaluation partition only:
+
+- per-sample outcomes (TP/FP/TN/FN) with a generated explanation citing the
+  sample's real conditions (FWI, wind, rain, humidity),
+- patterns by month (seasonality), by FWI bin (weather conditions) and by
+  geographic quadrant (median split),
+- the explicit distinction between **fire-danger prediction** and **fire-
+  occurrence prediction**: a false positive on a genuinely high-danger day
+  is not automatically a model failure — high danger does not guarantee
+  ignition, and the report says so.
+
+## Calibration learning
+
+`calibration_improvement` learns an empirical score-bin → observed-fire-
+frequency mapping **on the train partition** and reports the Brier score
+before/after **on the held-out evaluation partition**. A learned calibration
+is recorded as a *candidate* in the model registry; promoting any calibrated
+mapping or retrained model into production is a deliberate, reviewed,
+manual step — never automatic.
+
 
 ## Running a validation
 

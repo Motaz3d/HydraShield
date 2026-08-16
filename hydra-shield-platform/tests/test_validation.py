@@ -172,3 +172,96 @@ def test_unavailable_report_carries_reason_and_no_metrics(tmp_path):
     assert "FIRMS_MAP_KEY" in data["message"]
     assert data["metrics"] is None
     assert data["confusion_matrix"] is None
+
+
+# --------------------------------------------------------------------------
+# Error analysis
+# --------------------------------------------------------------------------
+
+def test_explain_error_false_positive_cites_real_values():
+    text = validation.explain_error(
+        "fp", {"fwi": 45.0, "rh_mean_pct": 28.0, "wind_max_kmh": 30.0}, 72.0, 65.0)
+    assert "45.0" in text
+    assert "28" in text
+    assert "no ignition" in text
+    assert "danger" in text and "occurrence" in text  # distinguishes the two
+
+
+def test_explain_error_false_negative_cites_conditions():
+    text = validation.explain_error(
+        "fn", {"fwi": 15.0, "precip_mm": 4.5, "wind_max_kmh": 30.0}, 40.0, 65.0)
+    assert "40.0 < 65" in text
+    assert "4.5 mm" in text
+    assert "wind" in text
+
+
+def test_analyze_errors_patterns_and_records():
+    scores = [20, 80, 75, 30, 85, 25, 70, 35, 22, 78, 33, 88]
+    labels = [0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1]
+    dates = ["2026-07-01"] * 6 + ["2026-08-01"] * 6
+    feats = [{"fwi": f, "wind_max_kmh": 10.0} for f in
+             [5, 42, 40, 8, 44, 6, 38, 9, 5, 41, 10, 46]]
+    lats = [36.0, 36.0, 36.0, 38.0, 38.0, 38.0, 36.0, 36.0, 36.0, 38.0, 38.0, 38.0]
+    lons = [-7.0, -7.0, -7.0, -7.0, -7.0, -7.0, -4.0, -4.0, -4.0, -4.0, -4.0, -4.0]
+    out = validation.analyze_errors(scores, labels, dates, feats, threshold=65.0,
+                                    lats=lats, lons=lons)
+    types = [r["type"] for r in out["records"]]
+    assert types == ["tn", "tp", "fp", "tn", "tp", "tn",
+                     "tp", "fn", "tn", "fp", "fn", "tp"]
+    assert out["n_errors"] == 4
+    assert out["false_positives"][0]["explanation"]
+    assert out["false_negatives"][0]["explanation"]
+    assert "2026-07" in out["patterns"]["by_month"]
+    geo = out["patterns"]["by_geography"]
+    assert set(geo.keys()) == {"SW", "NW", "SE", "NE"}
+    assert all(v["total"] == 3 for v in geo.values())
+    assert "danger" in out["danger_vs_occurrence_note"]
+
+
+def test_analyze_errors_length_mismatch():
+    with pytest.raises(ValueError):
+        validation.analyze_errors([1.0], [1], ["d"], [])
+
+
+# --------------------------------------------------------------------------
+# Calibration learning
+# --------------------------------------------------------------------------
+
+def test_fit_and_apply_calibration():
+    scores = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95] * 4
+    labels = ([0] * 5 + [1] * 5) * 4  # fires only above 50
+    mapping = validation.fit_score_calibration(scores, labels, n_bins=10)
+    calibrated = validation.apply_calibration([10.0, 90.0], mapping)
+    assert calibrated[0] < 0.2
+    assert calibrated[1] > 0.8
+    assert mapping["n_train"] == 40
+
+
+def test_calibration_improvement_uses_heldout_data():
+    train_scores = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95] * 4
+    train_labels = ([0] * 5 + [1] * 5) * 4
+    eval_scores = [10, 20, 30, 60, 70, 80, 90, 90]
+    eval_labels = [0, 0, 0, 1, 1, 1, 1, 1]
+    out = validation.calibration_improvement(
+        train_scores, train_labels, eval_scores, eval_labels)
+    assert out["brier_before"] is not None
+    assert out["brier_after"] is not None
+    assert "train partition" in out["note"]
+    # On this separable toy data, calibration should not make things worse.
+    assert out["brier_after"] <= out["brier_before"]
+
+
+# --------------------------------------------------------------------------
+# Model registry
+# --------------------------------------------------------------------------
+
+def test_model_registry_records_candidates(tmp_path):
+    reg = validation.ModelRegistry(str(tmp_path / "registry.json"))
+    entry = reg.record({"model": "screening score", "model_version": "1.0.0",
+                        "metrics": {"f1": 0.7}})
+    assert entry["status"] == "candidate"  # never auto-promoted
+    assert entry["registered_at"]
+    versions = reg.list()
+    assert len(versions) == 1
+    reg.record({"model": "screening score", "model_version": "1.0.1"})
+    assert len(reg.list()) == 2

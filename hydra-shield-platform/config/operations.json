@@ -1,0 +1,5 @@
+{
+  "enabled": false,
+  "contacts": {},
+  "notes": "Operational automation configuration. Nothing external happens unless 'enabled' is true AND the relevant contact is configured here. Supported contact keys: municipality, field_team, vegetation_contractor, regional_coordination. Example: {\"enabled\": true, \"contacts\": {\"municipality\": {\"name\": \"Municipality Civil Protection\", \"channel\": \"email\", \"address\": \"...\"}}}. Notification delivery itself is a deliberate, reviewed operational step — generating an action plan never contacts anyone."
+}

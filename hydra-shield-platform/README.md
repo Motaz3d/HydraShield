@@ -47,10 +47,14 @@ hydra-shield-platform/
 ### `src/dashboard/`
 - **`real_data.py`** — Real-data fetchers: Nominatim geocoding, Open-Meteo current/daily/archive weather, OpenTopoData DEM (EU-DEM 25 m / SRTM), NASA FIRMS active fires. All cached, all source-labelled.
 - **`real_analysis.py`** — The analysis engine: FWI fire danger + fuel moisture + fire spread + baseline-vs-intervention comparison, with a structured provenance record per component (observed / derived / modeled / forecast / unavailable).
-- **`api.py`** — Public REST API: `GET /api/analyze`, `GET /api/risk-grid`, `GET /api/risk-snapshot`, `GET /api/health`, `POST /api/watch`, `POST /api/spread`, `POST /api/allocation`.
+- **`api.py`** — Public REST API: `GET /api/analyze`, `GET /api/risk-grid`, `GET /api/risk-snapshot`, `GET /api/history`, `GET /api/health`, `POST /api/watch`, `POST /api/spread`, `POST /api/allocation`.
 - **`cache.py`** — SQLite TTL cache bounding upstream call rates and keeping the API responsive.
 - **`grid.py`** — Batched grid-level fire-danger computation for map display.
 - **`snapshot.py`** — Public risk-intelligence snapshot: top-risk ranking over the configured monitored areas (`config/monitored_areas.json`), built from the same cached real analyses as `/api/analyze`; honest "unavailable" when no real snapshot can be produced. Kept warm by `scripts/build_risk_snapshot.py`.
+- **`explain.py`** — "Why this score?": decomposes the composite risk score into its real contributing factors (FWI, fuel dryness, terrain, land cover, wind) with declared thresholds and the composite-indicator disclaimer.
+- **`change.py`** — "What changed?": 24 h / 7 d temporal comparison of risk drivers from the real daily series, with a generated explanation of the drivers that actually changed.
+- **`recommendations.py`** — Proactive protection: evidence-linked preventive recommendations (rules fire only on real detected conditions) plus the automation framework's action-plan generation (recommended vs automated actions; nothing external without `config/operations.json`).
+- **`history.py`** — "Lessons from the Past": recent high-risk periods reconstructed from real ERA5 + FWI, observed fires (FIRMS when configured), and what HydraShield would have recommended — strictly labelled OBSERVED / MODELLED / RECOMMENDED / UNKNOWN.
 - **`monitoring.py`** — Alert watches (Phase 5): threshold checks via `scripts/check_watches.py`.
 
 ## Installation (macOS / Linux)
@@ -146,6 +150,9 @@ curl "http://localhost:8051/api/risk-grid?south=49.9&west=5.9&north=50.1&east=6.
 
 # Public risk snapshot: highest-risk monitored areas (real data, cached 30 min)
 curl "http://localhost:8051/api/risk-snapshot"
+
+# Lessons from the past: real ERA5 fire-danger history + observed fires
+curl "http://localhost:8051/api/history?lat=37.6&lon=-6.5&days=90"
 
 # Health
 curl "http://localhost:8051/api/health"

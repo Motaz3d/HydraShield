@@ -30,6 +30,7 @@ from datetime import datetime
 from typing import Callable, Dict, List, Optional
 
 from .cache import cached, default_cache, TTL_ANALYSIS, TTL_SNAPSHOT
+from .explain import compact_factors
 from .real_analysis import HydraShieldRealAnalyser
 
 _DEFAULT_CONFIG = os.path.join(
@@ -175,6 +176,18 @@ def _entry_from_analysis(area: Dict, result: Dict) -> Optional[Dict]:
             if "error" not in satellite
             else None
         ),
+        # "Why this score?" — compact factor levels from the real inputs.
+        "factors": compact_factors(result.get("risk_explanation") or {}),
+        "score_disclaimer": (result.get("risk_explanation") or {}).get("disclaimer"),
+        # Top evidence-linked preventive recommendation, if any rule fired.
+        "top_recommendation": (
+            {
+                "what": (result.get("recommendations") or [{}])[0].get("what"),
+                "priority": (result.get("recommendations") or [{}])[0].get("priority"),
+            }
+            if result.get("recommendations")
+            else None
+        ),
         # Full component provenance of the underlying real analysis.
         "provenance": result.get("provenance") or {},
     }
@@ -264,6 +277,8 @@ def compute_snapshot(
             "risk_score": "HydraShield composite screening score (FWI-anchored, 0-100)",
             "note": "Screening-level score from real Earth Observation and weather "
                     "data; not a validated local fire-danger rating.",
+            "disclaimer": "Composite wildfire-risk indicator (0-100) — not a "
+                          "probability of fire.",
         },
         "data_policy": "Real data only; areas without a computable real risk score "
                        "are omitted, never estimated.",

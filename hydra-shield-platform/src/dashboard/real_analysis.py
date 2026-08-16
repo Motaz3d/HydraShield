@@ -31,6 +31,9 @@ from typing import Dict, List, Optional
 import numpy as np
 
 from . import real_data
+from .explain import build_risk_explanation
+from .change import build_change_block
+from .recommendations import build_recommendations, build_action_plan
 from ..prediction.fire_spread import FireSpreadModel
 from ..prediction.fuel_moisture import FuelMoistureModel
 from ..prediction.fwi import compute_fwi_series, danger_class as fwi_danger_class
@@ -272,7 +275,28 @@ class HydraShieldRealAnalyser:
         # ---- FWI trend ------------------------------------------------
         trend = self._fwi_trend(fwi_block.get("series") or [])
 
-        return {
+        # ---- "Why this score?" explanation (from real inputs) ---------
+        landcover_label = (
+            landcover.get("dominant_label") if "error" not in landcover else None
+        )
+        explanation = build_risk_explanation(
+            fwi=fwi_block.get("fwi") if fwi_block.get("available") else None,
+            fmc=fmc_baseline,
+            slope=slope,
+            wind_kmh=wind_kmh,
+            landcover_label=landcover_label,
+            burnable=burnable,
+            score=risk_baseline,
+            risk_class=risk_class,
+            fmc_source=fmc_source,
+        )
+        provenance["risk_explanation"] = _prov(
+            "derived", "HydraShield risk-score decomposition (declared thresholds)",
+            limitations="Levels are qualitative summaries of the real inputs, "
+                        "not additional measurements.",
+        )
+
+        result = {
             "location": {
                 "name": name or f"{lat:.4f}, {lon:.4f}",
                 "latitude": lat,
@@ -286,6 +310,7 @@ class HydraShieldRealAnalyser:
             "active_fires": fires,
             "fire_danger": fwi_block,
             "fire_danger_trend": trend,
+            "risk_explanation": explanation,
             "analysis": {
                 "fuel_moisture_baseline_pct": fmc_baseline,
                 "fuel_moisture_source": fmc_source,
@@ -349,6 +374,25 @@ class HydraShieldRealAnalyser:
                         "Phase-6 fitting against measured data.",
             },
         }
+
+        # ---- "What changed?" temporal comparison (real daily series) ---
+        result["change"] = build_change_block(daily, fwi_block, slope, satellite)
+        provenance["change"] = _prov(
+            "derived", "FWI + Open-Meteo daily series (real)",
+            limitations=result["change"].get("basis_note") or
+            result["change"].get("reason"),
+        )
+
+        # ---- Proactive recommendations + automation action plan --------
+        result["recommendations"] = build_recommendations(result)
+        result["action_plan"] = build_action_plan(result, result["recommendations"])
+        provenance["recommendations"] = _prov(
+            "derived", "HydraShield evidence-linked rule engine",
+            limitations="Recommendations are generated from the detected "
+                        "conditions; they do not guarantee prevention.",
+        )
+        result["provenance"] = provenance
+        return result
 
     # ------------------------------------------------------------------
     # Fire danger (FWI)

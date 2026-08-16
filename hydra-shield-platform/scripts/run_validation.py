@@ -161,6 +161,7 @@ def main() -> int:
 
     # ---- Samples (positives + declared negatives) ----------------------
     scores, labels, dates = [], [], []
+    sample_feats, sample_lats, sample_lons = [], [], []
     dropped = 0
 
     def _add_sample(lat, lon, day, label):
@@ -176,6 +177,13 @@ def main() -> int:
         scores.append(score)
         labels.append(label)
         dates.append(day)
+        sample_feats.append({
+            "temp_max_c": feats[0], "rh_mean_pct": feats[1],
+            "wind_max_kmh": feats[2], "precip_mm": feats[3],
+            "fwi": feats[4], "month": feats[5],
+        })
+        sample_lats.append(round(lat, 4))
+        sample_lons.append(round(lon, 4))
 
     for p in positives:
         _add_sample(p["lat"], p["lon"], p["date"], 1)
@@ -213,6 +221,21 @@ def main() -> int:
         auto_threshold=args.auto_threshold,
     )
 
+    # ---- Error analysis + calibration learning (evaluation partition) ---
+    train_idx, test_idx = validation.temporal_train_test_split(dates, args.train_fraction)
+    used_threshold = details["threshold"]["value"]
+    error_analysis = validation.analyze_errors(
+        [scores[i] for i in test_idx], [labels[i] for i in test_idx],
+        [dates[i] for i in test_idx], [sample_feats[i] for i in test_idx],
+        threshold=used_threshold,
+        lats=[sample_lats[i] for i in test_idx],
+        lons=[sample_lons[i] for i in test_idx],
+    )
+    learning = validation.calibration_improvement(
+        [scores[i] for i in train_idx], [labels[i] for i in train_idx],
+        [scores[i] for i in test_idx], [labels[i] for i in test_idx],
+    )
+
     report.status = "ok"
     report.message = None
     report.model["threshold"] = details["threshold"]
@@ -243,13 +266,50 @@ def main() -> int:
         "brier_score": details["brier_score"],
     }
     report.calibration = details["calibration"]
+    report.error_analysis = {
+        "n_errors": error_analysis["n_errors"],
+        "patterns": error_analysis["patterns"],
+        "false_positives": error_analysis["false_positives"][:20],
+        "false_negatives": error_analysis["false_negatives"][:20],
+        "danger_vs_occurrence_note": error_analysis["danger_vs_occurrence_note"],
+    }
+    report.learning = {
+        "brier_before": learning["brier_before"],
+        "brier_after": learning["brier_after"],
+        "improved": learning["improved"],
+        "note": learning["note"],
+        "status": "candidate calibration only — not promoted to production",
+    }
     report.save(out_path)
+
+    # Record the run in the model registry (evidence only, no promotion).
+    registry = validation.ModelRegistry(
+        os.path.join("data", "models", "registry.json")
+    )
+    registry.record({
+        "model": MODEL_NAME,
+        "model_version": MODEL_VERSION,
+        "kind": "screening_score_validation",
+        "training_period": details["train_period"],
+        "validation_period": details["evaluation_period"],
+        "geographic_coverage": {"bbox": list(bbox)},
+        "datasets": report.data_sources,
+        "features": training.FEATURE_NAMES,
+        "threshold": details["threshold"],
+        "metrics": report.metrics,
+        "report": out_path,
+        "limitations": LIMITATIONS,
+    })
 
     print("\nValidation complete (evaluation partition only):")
     print(f"  threshold: {details['threshold']['value']} ({details['threshold']['selection']})")
     print(f"  TP {cm.tp} / FP {cm.fp} / TN {cm.tn} / FN {cm.fn}")
     print(f"  precision {cm.precision}  recall {cm.recall}  F1 {cm.f1}  "
           f"CSI {cm.critical_success_index}")
+    print(f"  errors analysed: {error_analysis['n_errors']} "
+          f"(patterns by month/FWI/geography in the report)")
+    print(f"  calibration learning: Brier {learning['brier_before']} -> "
+          f"{learning['brier_after']} (candidate, not promoted)")
     print(f"  Report written to {out_path}")
     return 0
 

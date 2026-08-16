@@ -55,7 +55,7 @@
 
         el('riskIntelFreshness').textContent = fmtAgo(snap.generated_at);
 
-        var rows = (snap.entries || []).map(function (e) {
+        var rows = (snap.entries || []).map(function (e, idx) {
             var detail = [];
             if (e.fwi !== null && e.fwi !== undefined) {
                 detail.push('FWI ' + Number(e.fwi).toFixed(1) +
@@ -70,29 +70,63 @@
             }
             if (e.satellite_date) detail.push('Satellite: ' + esc(e.satellite_date));
 
-            return '<div class="risk-intel-row">' +
+            // "Why?" expander: factor levels from the real model inputs.
+            var whyId = 'riskWhy' + idx;
+            var whyBtn = '';
+            var whyBlock = '';
+            if (e.factors && e.factors.length) {
+                whyBtn = '<button type="button" class="risk-why-btn" data-target="' + whyId + '">Why?</button>';
+                whyBlock = '<div class="risk-why" id="' + whyId + '" hidden>' +
+                    e.factors.map(function (f) {
+                        var val = (f.value === null || f.value === undefined) ? ''
+                            : ' <b>' + esc(f.value) + (f.unit ? ' ' + esc(f.unit) : '') + '</b>';
+                        var lvl = f.level ? ' <span class="risk-lvl risk-lvl-' + f.level_rank + '">' +
+                            esc(f.level) + '</span>' : '';
+                        return '<span class="risk-factor">' + esc(f.label) + ':' + val + lvl + '</span>';
+                    }).join('') +
+                    (e.top_recommendation && e.top_recommendation.what
+                        ? '<div class="risk-why-rec">→ ' + esc(e.top_recommendation.what) +
+                          ' <span class="risk-lvl risk-lvl-prio">' + esc(e.top_recommendation.priority) + '</span></div>'
+                        : '') +
+                    '</div>';
+            }
+
+            return '<div class="risk-intel-item">' +
+                '<div class="risk-intel-row">' +
                 '<span class="risk-intel-rank">' + esc(e.rank) + '.</span>' +
                 '<span class="risk-intel-name">' + esc(e.name) + '</span>' +
                 '<span class="risk-badge risk-badge-' + esc(e.risk_class) + '">' +
                     esc((e.risk_class || '').toUpperCase()) + '</span>' +
                 '<span class="risk-intel-score">' + esc(Number(e.risk).toFixed(0)) + '</span>' +
                 '<span class="risk-intel-detail">' + detail.join(' · ') + '</span>' +
-                '</div>';
+                whyBtn +
+                '</div>' + whyBlock + '</div>';
         });
 
         el('riskIntelList').innerHTML = rows.length
             ? rows.join('')
             : '<div class="risk-intel-unavailable">No monitored area has a computable real risk score right now.</div>';
 
+        var disclaimer = (snap.model && snap.model.disclaimer) ||
+            (snap.entries && snap.entries[0] && snap.entries[0].score_disclaimer);
+        var sourcesHtml = '';
         if (snap.sources && snap.sources.length) {
-            el('riskIntelSources').innerHTML = 'Data sources: ' + snap.sources.map(function (s) {
+            sourcesHtml = 'Data sources: ' + snap.sources.map(function (s) {
                 return s.url
                     ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.name) + '</a>'
                     : esc(s.name);
             }).join(' · ');
-        } else {
-            el('riskIntelSources').textContent = '';
         }
+        el('riskIntelSources').innerHTML = sourcesHtml +
+            (disclaimer ? '<div class="risk-intel-disclaimer">' + esc(disclaimer) + '</div>' : '');
+
+        // Wire the "Why?" expanders.
+        Array.prototype.forEach.call(document.querySelectorAll('.risk-why-btn'), function (btn) {
+            btn.addEventListener('click', function () {
+                var block = document.getElementById(btn.getAttribute('data-target'));
+                if (block) block.hidden = !block.hidden;
+            });
+        });
     }
 
     function load() {
