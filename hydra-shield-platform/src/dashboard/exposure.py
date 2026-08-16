@@ -33,6 +33,7 @@ TTL_EXPOSURE = 7 * 24 * 3600.0  # mapped features change slowly
 _OVERPASS_URLS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
 ]
 
 # Category -> Overpass selector (order defines parsing order).
@@ -49,8 +50,8 @@ _CATEGORIES = [
 ]
 
 
-def _post_overpass(query: str, timeout: float = 35.0) -> Dict:
-    """POST to the Overpass API (main instance, then a mirror on failure)."""
+def _post_overpass(query: str, timeout: float = 20.0) -> Dict:
+    """POST to the Overpass API (several public instances, in order)."""
     body = urllib.parse.urlencode({"data": query}).encode("utf-8")
     last_exc: Optional[Exception] = None
     for url in _OVERPASS_URLS:
