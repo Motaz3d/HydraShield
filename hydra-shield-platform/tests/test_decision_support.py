@@ -108,9 +108,22 @@ def _overpass_payload(counts):
     return {"elements": [{"type": "count", "tags": {"total": str(c)}} for c in counts]}
 
 
+def _ohsome_result(counts):
+    """Mock both OSM fetchers (ohsome primary + Overpass fallback)."""
+    return {"counts": dict(zip(
+        ["hospitals", "schools", "fire_stations", "power_facilities",
+         "buildings", "roads_all", "roads_major", "water_features", "waterways"],
+        counts)), "count_date": "2026-07-01",
+        "source": "OpenStreetMap via ohsome API (Heidelberg Institute)"}
+
+
+def _mock_osm(monkeypatch, counts):
+    monkeypatch.setattr(exp_module, "_fetch_counts_ohsome",
+                        lambda lat, lon, r: _ohsome_result(counts))
+
+
 def test_fetch_osm_context_parses_counts(monkeypatch):
-    monkeypatch.setattr(exp_module, "_post_overpass",
-                        lambda q: _overpass_payload([1, 3, 0, 2, 45, 60, 4, 1, 2]))
+    _mock_osm(monkeypatch, [1, 3, 0, 2, 45, 60, 4, 1, 2])
     out = exp_module.fetch_osm_context.__wrapped__(37.6, -6.5, 2000)
     assert out["counts"]["hospitals"] == 1
     assert out["counts"]["schools"] == 3
@@ -119,10 +132,23 @@ def test_fetch_osm_context_parses_counts(monkeypatch):
     assert "OpenStreetMap" in out["source"]
 
 
+def test_fetch_osm_context_falls_back_to_overpass(monkeypatch):
+    def boom(lat, lon, r):
+        raise OSError("ohsome down")
+    monkeypatch.setattr(exp_module, "_fetch_counts_ohsome", boom)
+    monkeypatch.setattr(exp_module, "_fetch_counts_overpass",
+                        lambda lat, lon, r: {"counts": {"hospitals": 2}, "count_date": None,
+                                             "source": "OpenStreetMap (Overpass API)"})
+    out = exp_module.fetch_osm_context.__wrapped__(41.0, -7.5, 2000)
+    assert out["counts"]["hospitals"] == 2
+    assert "Overpass" in out["source"]
+
+
 def test_fetch_osm_context_unavailable_is_honest(monkeypatch):
-    def boom(q):
+    def boom(lat, lon, r):
         raise OSError("timeout")
-    monkeypatch.setattr(exp_module, "_post_overpass", boom)
+    monkeypatch.setattr(exp_module, "_fetch_counts_ohsome", boom)
+    monkeypatch.setattr(exp_module, "_fetch_counts_overpass", boom)
     out = exp_module.fetch_osm_context.__wrapped__(37.6, -6.5)
     assert "error" in out
 
@@ -139,8 +165,7 @@ def _analysis_for_exposure(counts, slope=5.0, burnable=True):
 
 
 def test_exposure_block_assessment(monkeypatch):
-    monkeypatch.setattr(exp_module, "_post_overpass",
-                        lambda q: _overpass_payload([1, 2, 0, 1, 120, 80, 2, 0, 1]))
+    _mock_osm(monkeypatch, [1, 2, 0, 1, 120, 80, 2, 0, 1])
     analysis = {
         "location": {"latitude": 37.6, "longitude": -6.5},
         "landcover": {"burnable": True, "dominant_label": "Shrubland"},
@@ -157,8 +182,7 @@ def test_exposure_block_assessment(monkeypatch):
 
 
 def test_exposure_limited_access_and_steep(monkeypatch):
-    monkeypatch.setattr(exp_module, "_post_overpass",
-                        lambda q: _overpass_payload([0, 0, 0, 0, 3, 2, 0, 0, 0]))
+    _mock_osm(monkeypatch, [0, 0, 0, 0, 3, 2, 0, 0, 0])
     analysis = {
         # distinct coords -> fresh cache entry (exposure cache TTL is 7 days)
         "location": {"latitude": 10.123, "longitude": 20.456},

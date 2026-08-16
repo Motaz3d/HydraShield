@@ -30,23 +30,26 @@ from .cache import cached
 from .real_data import _UA
 
 TTL_EXPOSURE = 7 * 24 * 3600.0  # mapped features change slowly
+_OHSOME_URL = "https://api.ohsome.org/v1/elements/count"
 _OVERPASS_URLS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
     "https://overpass.private.coffee/api/interpreter",
 ]
 
-# Category -> Overpass selector (order defines parsing order).
+# Category -> (ohsome filter, Overpass selector) — same order for parsing.
 _CATEGORIES = [
-    ("hospitals", 'node["amenity"="hospital"]'),
-    ("schools", 'node["amenity"="school"]'),
-    ("fire_stations", 'node["amenity"="fire_station"]'),
-    ("power_facilities", 'node["power"~"substation|plant"]'),
-    ("buildings", 'way["building"]'),
-    ("roads_all", 'way["highway"]'),
-    ("roads_major", 'way["highway"~"^(motorway|trunk|primary|secondary)$"]'),
-    ("water_features", 'way["natural"="water"]'),
-    ("waterways", 'way["waterway"]'),
+    ("hospitals", "amenity=hospital", 'node["amenity"="hospital"]'),
+    ("schools", "amenity=school", 'node["amenity"="school"]'),
+    ("fire_stations", "amenity=fire_station", 'node["amenity"="fire_station"]'),
+    ("power_facilities", "power in (substation,plant)",
+     'node["power"~"substation|plant"]'),
+    ("buildings", "building=*", 'way["building"]'),
+    ("roads_all", "highway=*", 'way["highway"]'),
+    ("roads_major", "highway in (motorway,trunk,primary,secondary)",
+     'way["highway"~"^(motorway|trunk|primary|secondary)$"]'),
+    ("water_features", "natural=water", 'way["natural"="water"]'),
+    ("waterways", "waterway=*", 'way["waterway"]'),
 ]
 
 
@@ -64,32 +67,46 @@ def _post_overpass(query: str, timeout: float = 20.0) -> Dict:
     raise RuntimeError(f"Overpass unavailable on all instances: {last_exc}")
 
 
-@cached("osm_exposure", TTL_EXPOSURE)
-def fetch_osm_context(lat: float, lon: float, radius_m: int = 2000) -> Dict:
+def _fetch_counts_ohsome(lat: float, lon: float, radius_m: int,
+                         timeout: float = 15.0) -> Dict:
     """
-    Count mapped OSM features around a point (one Overpass round-trip).
-
-    Returns per-category counts of *mapped* features (declared: OSM
-    completeness varies) or an honest error. Cached 7 days.
+    Count OSM features via the ohsome API (designed for aggregations; the
+    OSM extract lags a few weeks — the count date is reported honestly).
+    Raises on failure so the caller can fall back.
     """
-    lat, lon = float(lat), float(lon)
-    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
-        return {"error": "Coordinates out of range"}
-    radius_m = max(250, min(int(radius_m), 5000))
+    from datetime import date, timedelta
 
+    # The ohsome extract lags real time; use a date comfortably inside the
+    # window (the API reports the exact valid range when out of bounds).
+    count_date = (date.today() - timedelta(days=30)).isoformat()
+    counts: Dict[str, int] = {}
+    for name, ohsome_filter, _sel in _CATEGORIES:
+        body = urllib.parse.urlencode({
+            "bcircles": f"{lon},{lat},{radius_m}",
+            "filter": ohsome_filter,
+            "time": count_date,
+        }).encode("utf-8")
+        req = urllib.request.Request(
+            _OHSOME_URL, data=body, headers={"User-Agent": _UA}
+        )
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        result = (data.get("result") or [{}])[0]
+        counts[name] = int(result.get("value") or 0)
+    return {"counts": counts, "count_date": count_date,
+            "source": "OpenStreetMap via ohsome API (Heidelberg Institute)"}
+
+
+def _fetch_counts_overpass(lat: float, lon: float, radius_m: int) -> Dict:
+    """Count OSM features via one Overpass union query (fallback path)."""
     parts = []
-    for _name, selector in _CATEGORIES:
+    for _name, _filter, selector in _CATEGORIES:
         parts.append(f"{selector}(around:{radius_m},{lat},{lon});out count;")
     query = f"[out:json][timeout:30];{''.join(parts)}"
-
-    try:
-        data = _post_overpass(query)
-    except Exception as exc:
-        return {"error": f"OpenStreetMap context unavailable: {exc}"}
-
+    data = _post_overpass(query)
     elements = data.get("elements") or []
     counts: Dict[str, int] = {}
-    for i, (name, _sel) in enumerate(_CATEGORIES):
+    for i, (name, _f, _sel) in enumerate(_CATEGORIES):
         total = 0
         if i < len(elements):
             try:
@@ -97,13 +114,38 @@ def fetch_osm_context(lat: float, lon: float, radius_m: int = 2000) -> Dict:
             except (TypeError, ValueError):
                 total = 0
         counts[name] = total
+    return {"counts": counts, "count_date": None,
+            "source": "OpenStreetMap (Overpass API)"}
 
-    return {
-        "counts": counts,
-        "radius_m": radius_m,
-        "source": "OpenStreetMap (Overpass API)",
-        "note": "Counts are mapped OSM features; OSM completeness varies by region.",
-    }
+
+@cached("osm_exposure", TTL_EXPOSURE)
+def fetch_osm_context(lat: float, lon: float, radius_m: int = 2000) -> Dict:
+    """
+    Count mapped OSM features around a point.
+
+    Primary source: ohsome API (fast, aggregation-designed). Fallback:
+    Overpass union query across several public instances. Returns
+    per-category counts of *mapped* features (declared: OSM completeness
+    varies) or an honest error. Cached 7 days.
+    """
+    lat, lon = float(lat), float(lon)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        return {"error": "Coordinates out of range"}
+    radius_m = max(250, min(int(radius_m), 5000))
+
+    errors = []
+    for fetcher in (_fetch_counts_ohsome, _fetch_counts_overpass):
+        try:
+            out = fetcher(lat, lon, radius_m)
+            out.update({
+                "radius_m": radius_m,
+                "note": "Counts are mapped OSM features; OSM completeness "
+                        "varies by region.",
+            })
+            return out
+        except Exception as exc:
+            errors.append(str(exc))
+    return {"error": "OpenStreetMap context unavailable: " + " | ".join(errors)}
 
 
 # --------------------------------------------------------------------------
@@ -132,7 +174,7 @@ def build_exposure_block(analysis: Dict, radius_m: int = 2000) -> Dict:
             "reason": ctx["error"],
             "provenance": {
                 "kind": "unavailable",
-                "source": "OpenStreetMap (Overpass API)",
+                "source": "OpenStreetMap (ohsome / Overpass)",
                 "quality": "missing",
                 "limitations": ctx["error"],
             },
