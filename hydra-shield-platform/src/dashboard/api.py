@@ -7,6 +7,8 @@ Public, honest, real-data endpoints:
     GET  /api/analyze           Full real-data analysis for a location
                                 (?location=...  or  ?lat=...&lon=...)
     GET  /api/risk-grid         n x n fire-danger grid over a bbox (GeoJSON)
+    GET  /api/risk-snapshot     Public top-risk ranking over the configured
+                                monitored areas (real data, cached)
     POST /api/watch             Register a threshold alert watch
     DELETE /api/watch/<id>      Remove a watch
     POST /api/spread            Fire-spread model evaluation (caller-supplied inputs)
@@ -29,9 +31,10 @@ from flask import Flask, jsonify, request
 
 from ..prediction.fire_spread import FireSpreadModel
 from ..hydration_control.water_optimiser import WaterOptimiser
-from .cache import default_cache, cached, TTL_ANALYSIS
-from .real_analysis import HydraShieldRealAnalyser
+from .cache import default_cache
+from .snapshot import cached_analysis as _cached_analysis
 from . import grid as grid_module
+from . import snapshot as snapshot_module
 from .monitoring import WatchStore
 
 
@@ -77,13 +80,6 @@ def _parse_point(args) -> Tuple[Optional[float], Optional[float], Optional[str]]
     if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
         return None, None, "lat/lon out of range"
     return lat, lon, None
-
-
-@cached("analysis", TTL_ANALYSIS)
-def _cached_analysis(lat: float, lon: float, name: str) -> Dict:
-    """Cached full analysis for a point (15 min TTL)."""
-    analyser = HydraShieldRealAnalyser()
-    return analyser.analyse_point(lat, lon, name=name or None)
 
 
 def _error(message: str, status: int):
@@ -200,6 +196,26 @@ def create_app() -> Flask:
         if "error" in result:
             return _error(result["error"], 400)
         return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/risk-snapshot", methods=["GET"])
+    def risk_snapshot():
+        """
+        Public risk-intelligence snapshot: the highest-risk areas among the
+        configured monitored areas, computed from real cached analyses.
+
+        Returns 503 with ``status: unavailable`` when no valid real snapshot
+        can be produced — values are never fabricated.
+        """
+        if not _rate_limiter.allow(f"snapshot:{_client_key()}", 60, 60.0):
+            return _error("Rate limit exceeded (60 requests/minute)", 429)
+        try:
+            snapshot = snapshot_module.get_snapshot()
+        except Exception as exc:
+            return _error(f"Risk snapshot unavailable: {exc}", 503)
+        if snapshot.get("status") != "ok":
+            return jsonify(snapshot), 503
+        return jsonify(snapshot)
 
     # ------------------------------------------------------------------
     @app.route("/api/watch", methods=["POST"])

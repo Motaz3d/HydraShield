@@ -1,0 +1,16 @@
+{
+  "scope": "Configured monitored areas in Europe — the ranking covers only these areas and is not a global comparison",
+  "top_k": 5,
+  "areas": [
+    { "name": "Clervaux, Luxembourg", "lat": 50.0543, "lon": 6.0299 },
+    { "name": "Algarve, Portugal", "lat": 37.2000, "lon": -8.1000 },
+    { "name": "Andalusia (Huelva), Spain", "lat": 37.6000, "lon": -6.5000 },
+    { "name": "Castilla y León (Zamora), Spain", "lat": 41.8000, "lon": -6.3000 },
+    { "name": "Provence (Var), France", "lat": 43.4000, "lon": 6.3000 },
+    { "name": "Sardinia (Nuoro), Italy", "lat": 40.3000, "lon": 9.3000 },
+    { "name": "Sicily (Enna), Italy", "lat": 37.5700, "lon": 14.2800 },
+    { "name": "Dalmatia (Split), Croatia", "lat": 43.6000, "lon": 16.6000 },
+    { "name": "Attica, Greece", "lat": 38.0500, "lon": 23.8600 },
+    { "name": "Crete (Heraklion), Greece", "lat": 35.3000, "lon": 25.1000 }
+  ]
+}

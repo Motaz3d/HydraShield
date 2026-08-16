@@ -30,6 +30,7 @@ hydra-shield-platform/
 - **`fwi.py`** — Canadian Fire Weather Index System (FFMC/DMC/DC/ISI/BUI/FWI/DSR, Van Wagner 1987 equations, verified against the cffdrs reference implementation) with EFFIS danger classes.
 - **`risk_model.py`** — ML-based wildfire risk assessment with ensemble methods (Random Forest, XGBoost, Neural Networks) with validation metrics (AUC, precision/recall, CSI) and uncertainty quantification.
 - **`training.py`** — Trains the risk model on REAL fire history (NASA FIRMS detections + ERA5 weather via Open-Meteo). See `scripts/train_risk_model.py`.
+- **`validation.py`** — Validation foundation: confusion matrix, precision/recall/F1/CSI, calibration bins, Brier score, leakage-free temporal splits and the self-describing `ValidationReport`. See `docs/VALIDATION.md` and `scripts/run_validation.py`. The model is not validated until this pipeline has run on real historical data.
 
 ### `src/gis_mapping/`
 - **`indices.py`** — Spectral index computation (NDVI, NDMI, NDWI) from Sentinel-2 bands.
@@ -46,9 +47,10 @@ hydra-shield-platform/
 ### `src/dashboard/`
 - **`real_data.py`** — Real-data fetchers: Nominatim geocoding, Open-Meteo current/daily/archive weather, OpenTopoData DEM (EU-DEM 25 m / SRTM), NASA FIRMS active fires. All cached, all source-labelled.
 - **`real_analysis.py`** — The analysis engine: FWI fire danger + fuel moisture + fire spread + baseline-vs-intervention comparison, with a structured provenance record per component (observed / derived / modeled / forecast / unavailable).
-- **`api.py`** — Public REST API: `GET /api/analyze`, `GET /api/risk-grid`, `GET /api/health`, `POST /api/watch`, `POST /api/spread`, `POST /api/allocation`.
+- **`api.py`** — Public REST API: `GET /api/analyze`, `GET /api/risk-grid`, `GET /api/risk-snapshot`, `GET /api/health`, `POST /api/watch`, `POST /api/spread`, `POST /api/allocation`.
 - **`cache.py`** — SQLite TTL cache bounding upstream call rates and keeping the API responsive.
 - **`grid.py`** — Batched grid-level fire-danger computation for map display.
+- **`snapshot.py`** — Public risk-intelligence snapshot: top-risk ranking over the configured monitored areas (`config/monitored_areas.json`), built from the same cached real analyses as `/api/analyze`; honest "unavailable" when no real snapshot can be produced. Kept warm by `scripts/build_risk_snapshot.py`.
 - **`monitoring.py`** — Alert watches (Phase 5): threshold checks via `scripts/check_watches.py`.
 
 ## Installation (macOS / Linux)
@@ -142,8 +144,20 @@ curl "http://localhost:8051/api/analyze?lat=49.9&lon=6.03"
 # Fire-danger grid for map display (GeoJSON)
 curl "http://localhost:8051/api/risk-grid?south=49.9&west=5.9&north=50.1&east=6.1&n=5"
 
+# Public risk snapshot: highest-risk monitored areas (real data, cached 30 min)
+curl "http://localhost:8051/api/risk-snapshot"
+
 # Health
 curl "http://localhost:8051/api/health"
+```
+
+### Model validation (scientific layer)
+
+```bash
+# Requires FIRMS_MAP_KEY (free): https://firms.modaps.eosdis.nasa.gov/api/area/
+FIRMS_MAP_KEY=... python scripts/run_validation.py \
+    --bbox -10,36,3,44 --start 2026-07-01 --end 2026-08-10 --threshold 65
+# Writes data/validation/validation_report_<start>_<end>.json — see docs/VALIDATION.md
 ```
 
 ### Environment variables

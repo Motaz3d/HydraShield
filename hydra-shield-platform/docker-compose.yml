@@ -82,12 +82,14 @@ services:
       - hydrashield
 
   # Periodic watch checker (Phase 5 alerts): runs the watch evaluation loop
-  # every 30 minutes using the same image and the shared data volume.
+  # every 30 minutes using the same image and the shared data volume. Also
+  # refreshes the public risk-snapshot cache so the homepage bar is always
+  # served from cache.
   watch_checker:
     build: .
     restart: unless-stopped
     command: >
-      sh -c "while true; do python scripts/check_watches.py; sleep 1800; done"
+      sh -c "while true; do python scripts/check_watches.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
     environment:
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
       - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}

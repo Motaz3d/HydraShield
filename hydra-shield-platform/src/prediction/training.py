@@ -39,23 +39,11 @@ from .risk_model import WildfireRiskModel, RiskMetrics
 FEATURE_NAMES = ["temp_max_c", "rh_mean_pct", "wind_max_kmh", "precip_mm", "fwi", "month"]
 
 
-def _firms_fire_points(bbox: Tuple[float, float, float, float], days: int) -> List[Dict]:
-    """Fetch real fire detections for a bbox from FIRMS (CSV area API)."""
-    key = os.environ.get("FIRMS_MAP_KEY")
-    if not key:
-        raise RuntimeError(
-            "FIRMS_MAP_KEY is not set. Register free at "
-            "https://firms.modaps.eosdis.nasa.gov/api/area/"
-        )
-    west, south, east, north = bbox
-    url = (
-        "https://firms.modaps.eosdis.nasa.gov/api/area/csv/"
-        f"{key}/VIIRS_SNPP_NRT/{west},{south},{east},{north}/{min(days, 10)}"
-    )
+def _parse_firms_csv(text: str) -> List[Dict]:
+    """Parse a FIRMS area-CSV response into fire-point dicts."""
     import csv
     import io
 
-    text = real_data._get_text(url, timeout=60.0, retries=1)
     points = []
     for row in csv.DictReader(io.StringIO(text)):
         try:
@@ -69,6 +57,76 @@ def _firms_fire_points(bbox: Tuple[float, float, float, float], days: int) -> Li
             )
         except (KeyError, ValueError):
             continue
+    return points
+
+
+def _firms_fire_points(bbox: Tuple[float, float, float, float], days: int) -> List[Dict]:
+    """Fetch real fire detections for a bbox from FIRMS (CSV area API)."""
+    key = os.environ.get("FIRMS_MAP_KEY")
+    if not key:
+        raise RuntimeError(
+            "FIRMS_MAP_KEY is not set. Register free at "
+            "https://firms.modaps.eosdis.nasa.gov/api/area/"
+        )
+    west, south, east, north = bbox
+    url = (
+        "https://firms.modaps.eosdis.nasa.gov/api/area/csv/"
+        f"{key}/VIIRS_SNPP_NRT/{west},{south},{east},{north}/{min(days, 10)}"
+    )
+    text = real_data._get_text(url, timeout=60.0, retries=1)
+    return _parse_firms_csv(text)
+
+
+def firms_fire_points_in_range(
+    bbox: Tuple[float, float, float, float],
+    start_date: str,
+    end_date: str,
+    source: str = "VIIRS_SNPP_NRT",
+) -> List[Dict]:
+    """
+    Fetch real FIRMS detections for a bbox over an explicit date range.
+
+    The FIRMS area API accepts at most 10 days per call, so the range is
+    queried in consecutive windows (``.../{day_range}/{start_date}``).
+    Requires FIRMS_MAP_KEY. Archive depth depends on the FIRMS collection;
+    windows that return no data simply contribute no detections — nothing
+    is synthesised. Results are cached per window (7 days).
+    """
+    key = os.environ.get("FIRMS_MAP_KEY")
+    if not key:
+        raise RuntimeError(
+            "FIRMS_MAP_KEY is not set. Register free at "
+            "https://firms.modaps.eosdis.nasa.gov/api/area/"
+        )
+    start = datetime.strptime(start_date, "%Y-%m-%d").date()
+    end = datetime.strptime(end_date, "%Y-%m-%d").date()
+    if end < start:
+        raise ValueError("end_date must be >= start_date")
+
+    west, south, east, north = bbox
+    cache = default_cache()
+    points: List[Dict] = []
+    window_start = start
+    while window_start <= end:
+        span = min(10, (end - window_start).days + 1)
+        cache_key = cache.make_key(
+            "firms_range", source, west, south, east, north, span, window_start.isoformat()
+        )
+        hit = cache.get(cache_key)
+        if hit is None:
+            url = (
+                "https://firms.modaps.eosdis.nasa.gov/api/area/csv/"
+                f"{key}/{source}/{west},{south},{east},{north}/{span}/{window_start.isoformat()}"
+            )
+            try:
+                text = real_data._get_text(url, timeout=60.0, retries=1)
+                hit = {"points": _parse_firms_csv(text)}
+            except RuntimeError:
+                # Honest gap: record the window as unavailable for a short time.
+                hit = {"points": [], "unavailable": True}
+            cache.set(cache_key, hit, 3600 if hit.get("unavailable") else 7 * 24 * 3600)
+        points.extend(hit.get("points") or [])
+        window_start += timedelta(days=span)
     return points
 
 

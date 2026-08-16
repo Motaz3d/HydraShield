@@ -38,6 +38,7 @@ TTL_SATELLITE = 12 * 3600           # Sentinel-2 scene selection + indices
 TTL_FIRES = 3 * 3600                # FIRMS active fires
 TTL_ANALYSIS = 15 * 60              # full analysis result
 TTL_LANDCOVER = 30 * 24 * 3600      # land cover is near-static
+TTL_SNAPSHOT = 30 * 60              # public risk snapshot aggregate
 
 
 class TTLCache:
