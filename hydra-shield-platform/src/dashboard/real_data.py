@@ -355,23 +355,47 @@ def firms_key_configured() -> bool:
     return bool(os.environ.get("FIRMS_MAP_KEY"))
 
 
+# Supported FIRMS area-CSV products: (product id, sensor label, resolution,
+# brightness column).
+FIRMS_PRODUCTS = {
+    "VIIRS_SNPP_NRT": {
+        "sensor": "VIIRS S-NPP",
+        "resolution": "375 m",
+        "brightness_col": "bright_ti4",
+        "label": "NASA FIRMS (VIIRS S-NPP NRT)",
+    },
+    "MODIS_NRT": {
+        "sensor": "MODIS (Terra/Aqua)",
+        "resolution": "1 km",
+        "brightness_col": "brightness",
+        "label": "NASA FIRMS (MODIS NRT)",
+    },
+}
+
+
 @cached("firms_fires", TTL_FIRES)
-def fetch_active_fires(lat: float, lon: float, radius_km: float = 50.0, days: int = 5) -> Dict:
+def fetch_active_fires(lat: float, lon: float, radius_km: float = 50.0,
+                       days: int = 5, sensor: str = "VIIRS_SNPP_NRT") -> Dict:
     """
     Fetch recent active-fire detections near a point from NASA FIRMS.
 
-    Uses the FIRMS area CSV API (VIIRS S-NPP near-real-time, 375 m).
-    Requires the free ``FIRMS_MAP_KEY`` environment variable (register at
+    Uses the FIRMS area CSV API (near-real-time). Requires the free
+    ``FIRMS_MAP_KEY`` environment variable (register at
     https://firms.modaps.eosdis.nasa.gov/api/area/). When no key is configured
     the layer is reported as unavailable — never fabricated.
+
+    These are ACTIVE-FIRE DETECTIONS (hotspots with acquisition time,
+    confidence and FRP): a detection is not an exact fire perimeter.
     """
+    product = FIRMS_PRODUCTS.get(sensor, FIRMS_PRODUCTS["VIIRS_SNPP_NRT"])
     key = os.environ.get("FIRMS_MAP_KEY")
     if not key:
         return {
             "error": "NASA FIRMS API key not configured (set FIRMS_MAP_KEY)",
             "fires": [],
             "available": False,
-            "source": "NASA FIRMS (VIIRS S-NPP NRT)",
+            "sensor": sensor,
+            "source": product["label"],
             "signup": "https://firms.modaps.eosdis.nasa.gov/api/area/",
         }
     if not _valid_point(lat, lon):
@@ -383,7 +407,7 @@ def fetch_active_fires(lat: float, lon: float, radius_km: float = 50.0, days: in
     bbox = f"{lon - d_lon:.3f},{lat - d_lat:.3f},{lon + d_lon:.3f},{lat + d_lat:.3f}"
     url = (
         "https://firms.modaps.eosdis.nasa.gov/api/area/csv/"
-        f"{key}/VIIRS_SNPP_NRT/{bbox}/{min(max(days, 1), 10)}"
+        f"{key}/{sensor}/{bbox}/{min(max(days, 1), 10)}"
     )
     try:
         text = _get_text(url, timeout=30.0, retries=1)
@@ -392,24 +416,30 @@ def fetch_active_fires(lat: float, lon: float, radius_km: float = 50.0, days: in
             "error": f"FIRMS service unavailable: {exc}",
             "fires": [],
             "available": False,
-            "source": "NASA FIRMS (VIIRS S-NPP NRT)",
+            "sensor": sensor,
+            "source": product["label"],
         }
 
     fires: List[Dict] = []
     try:
         reader = csv.DictReader(io.StringIO(text))
+        bright_col = product["brightness_col"]
         for row in reader:
             try:
                 fires.append(
                     {
                         "lat": float(row["latitude"]),
                         "lon": float(row["longitude"]),
-                        "brightness_k": float(row.get("bright_ti4") or 0),
+                        "brightness_k": float(row.get(bright_col) or 0),
                         "frp_mw": float(row.get("frp") or 0),
                         "acq_date": row.get("acq_date"),
                         "acq_time_utc": row.get("acq_time"),
                         "confidence": row.get("confidence"),
                         "daynight": row.get("daynight"),
+                        "sensor": product["sensor"],
+                        "satellite": row.get("satellite"),
+                        "product": sensor,
+                        "version": row.get("version"),
                     }
                 )
             except (KeyError, ValueError):
@@ -419,7 +449,8 @@ def fetch_active_fires(lat: float, lon: float, radius_km: float = 50.0, days: in
             "error": "Unexpected FIRMS response format",
             "fires": [],
             "available": False,
-            "source": "NASA FIRMS (VIIRS S-NPP NRT)",
+            "sensor": sensor,
+            "source": product["label"],
         }
 
     return {
@@ -428,8 +459,9 @@ def fetch_active_fires(lat: float, lon: float, radius_km: float = 50.0, days: in
         "radius_km": radius_km,
         "days": days,
         "available": True,
-        "resolution": "375 m (VIIRS)",
-        "source": "NASA FIRMS (VIIRS S-NPP NRT)",
+        "sensor": sensor,
+        "resolution": product["resolution"],
+        "source": product["label"],
     }
 
 

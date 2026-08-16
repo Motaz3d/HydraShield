@@ -149,6 +149,78 @@ def fetch_osm_context(lat: float, lon: float, radius_m: int = 2000) -> Dict:
 
 
 # --------------------------------------------------------------------------
+# Feature geometries for the map (Overpass; centroids, small result sets)
+# --------------------------------------------------------------------------
+
+_FEATURE_CATEGORIES = [
+    ("hospitals", 'amenity=hospital'),
+    ("schools", 'amenity=school'),
+    ("fire_stations", 'amenity=fire_station'),
+    ("water_features", 'natural=water'),
+]
+
+
+@cached("osm_features", TTL_EXPOSURE)
+def fetch_osm_features(lat: float, lon: float, radius_m: int = 2000) -> Dict:
+    """
+    Fetch mapped feature points (centroids) around a location for the map.
+
+    Uses Overpass ``out center`` across the public instances (ohsome's
+    geometry endpoints are restricted to aggregation). Small result sets
+    only (25 per category). Honest error on failure — the map then simply
+    omits the layer and says so.
+    """
+    lat, lon = float(lat), float(lon)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        return {"error": "Coordinates out of range"}
+    radius_m = max(250, min(int(radius_m), 5000))
+
+    parts = []
+    for _name, filt in _FEATURE_CATEGORIES:
+        key, val = filt.split("=", 1)
+        parts.append(
+            f'node["{key}"="{val}"](around:{radius_m},{lat},{lon});'
+            f'way["{key}"="{val}"](around:{radius_m},{lat},{lon});'
+        )
+    query = f"[out:json][timeout:25];({''.join(parts)});out center tags 100;"
+
+    try:
+        data = _post_overpass(query)
+    except Exception as exc:
+        return {"error": f"OpenStreetMap features unavailable: {exc}"}
+
+    features: List[Dict] = []
+    for el in data.get("elements") or []:
+        tags = el.get("tags") or {}
+        center = el.get("center") or {}
+        elat = el.get("lat", center.get("lat"))
+        elon = el.get("lon", center.get("lon"))
+        if elat is None or elon is None:
+            continue
+        category = None
+        for name, filt in _FEATURE_CATEGORIES:
+            key, val = filt.split("=", 1)
+            if tags.get(key) == val:
+                category = name
+                break
+        if category is None:
+            continue
+        features.append({
+            "category": category,
+            "lat": float(elat),
+            "lon": float(elon),
+            "name": tags.get("name"),
+        })
+
+    return {
+        "features": features,
+        "radius_m": radius_m,
+        "source": "OpenStreetMap (Overpass API)",
+        "note": "Mapped OSM features; completeness varies by region.",
+    }
+
+
+# --------------------------------------------------------------------------
 # Derived assessment (transparent, declared thresholds, not in the score)
 # --------------------------------------------------------------------------
 

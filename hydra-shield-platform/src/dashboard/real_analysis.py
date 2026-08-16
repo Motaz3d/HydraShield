@@ -35,6 +35,7 @@ from .explain import build_risk_explanation
 from .change import build_change_block
 from .ecology import build_ecology_block
 from .exposure import build_exposure_block
+from .fire_evidence import build_fire_evidence
 from .micro import build_micro_area_block
 from .scenarios import build_scenarios
 from .recommendations import build_recommendations, build_action_plan
@@ -498,6 +499,16 @@ class HydraShieldRealAnalyser:
                   limitations=result["climate"].get("note"))
             if result["climate"].get("available")
             else _prov("unavailable", "Open-Meteo daily series", quality="missing")
+        )
+
+        # ---- Multi-source fire evidence (transparent, never merged) ----
+        result["fire_evidence"] = build_fire_evidence(lat, lon)
+        provenance["fire_evidence"] = _prov(
+            (result["fire_evidence"].get("provenance") or {}).get("kind", "unavailable"),
+            (result["fire_evidence"].get("provenance") or {}).get(
+                "source", "NASA FIRMS"),
+            quality=(result["fire_evidence"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["fire_evidence"].get("provenance") or {}).get("limitations"),
         )
 
         result["exposure"] = build_exposure_block(result)

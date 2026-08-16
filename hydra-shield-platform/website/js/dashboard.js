@@ -758,8 +758,103 @@
     }
 
     // ------------------------------------------------------------------
-    // Map
+    // Map (grouped, lazy layers; every popup carries provenance)
     // ------------------------------------------------------------------
+    var osmFeaturesCache = null;
+    var fireLayerDays = 5;
+
+    function _resolutionControl() {
+        var ctrl = L.control({ position: 'bottomright' });
+        ctrl.onAdd = function () {
+            var div = L.DomUtil.create('div');
+            div.style.cssText = 'background:rgba(15,23,42,.82);color:#cbd5e1;font-size:.68rem;' +
+                'padding:6px 9px;border-radius:8px;line-height:1.5;max-width:230px;';
+            div.innerHTML = '<b>Layer resolutions</b><br>' +
+                'Sentinel-2 NDMI · 10 m (micro)<br>' +
+                'WorldCover · 10 m (micro)<br>' +
+                'DEM terrain · 25–90 m (local)<br>' +
+                'Weather / FWI · ~11 km (regional)<br>' +
+                'OSM features · feature-level<br>' +
+                'Risk score · composite (not 10 m)';
+            return div;
+        };
+        return ctrl;
+    }
+
+    function _firePopup(f) {
+        return '<b>ACTIVE FIRE DETECTION</b><br>' +
+            (f.source || f.sensor || 'NASA FIRMS') + (f.satellite ? ' · ' + f.satellite : '') + '<br>' +
+            'Observed: ' + (f.acq_date || '—') + ' ' + (f.acq_time_utc || '') + ' UTC<br>' +
+            'Confidence: ' + (f.confidence || '—') + ' · FRP: ' + fmt(f.frp_mw, ' MW', 1) +
+            '<br><span style="color:#94a3b8">Observed satellite detection — not a confirmed fire perimeter.</span>';
+    }
+
+    function _buildFireLayer(evidence) {
+        var group = L.layerGroup();
+        (evidence.entries || []).forEach(function (entry) {
+            (entry.detections || []).forEach(function (f) {
+                f.source = entry.source_label || entry.source;
+                group.addLayer(L.circleMarker([f.lat, f.lon], {
+                    radius: 6, color: '#ff2d00', weight: 2,
+                    fillColor: '#ff7a00', fillOpacity: 0.8
+                }).bindPopup(_firePopup(f)));
+            });
+        });
+        return group;
+    }
+
+    function _loadFireLayer(r, proxy) {
+        fetch(API + '/fires?lat=' + r.location.latitude + '&lon=' + r.location.longitude +
+              '&days=' + fireLayerDays)
+            .then(function (res) { return res.json(); })
+            .then(function (ev) {
+                if (ev.status !== 'ok') {
+                    el('mapNote').textContent = 'Fire observations unavailable — ' +
+                        (((ev.entries || [])[0] || {}).reason || 'not configured');
+                    el('fireDaysWrap').classList.add('hidden');
+                    return;
+                }
+                var built = _buildFireLayer(ev);
+                built.eachLayer(function (l) { proxy.addLayer(l); });
+                el('mapNote').textContent = ev.disagreement ||
+                    ('Fire detections from ' + ev.entries.filter(function (e) {
+                        return e.status === 'ok'; }).map(function (e) { return e.source_label; }).join(' + '));
+                el('fireDaysWrap').classList.remove('hidden');
+            })
+            .catch(function () { /* layer simply stays off */ });
+    }
+
+    var overlayGroups = {};
+    var controlRef = null;
+
+    function rebuildControl() {
+        if (controlRef) { controlRef.remove(); controlRef = null; }
+        controlRef = L.control.layers({}, overlayGroups, { collapsed: true }).addTo(map);
+    }
+
+    function _addOsmLayer(category, label, color) {
+        // Lazy: fetch real OSM features only when the layer is first enabled.
+        overlayGroups[label] = L.layerGroup();
+        overlayGroups[label].on('add', function () {
+            if (overlayGroups[label]._loaded || !lastResult) return;
+            overlayGroups[label]._loaded = true;
+            fetch(API + '/exposure-features?lat=' + lastResult.location.latitude +
+                  '&lon=' + lastResult.location.longitude)
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    if (data.error) return;
+                    (data.features || []).forEach(function (f) {
+                        if (f.category !== category) return;
+                        overlayGroups[label].addLayer(L.circleMarker([f.lat, f.lon], {
+                            radius: 6, color: color, weight: 2, fillOpacity: 0.7
+                        }).bindPopup('<b>' + (f.name || label) + '</b><br>' + label +
+                            '<br><span style="color:#94a3b8">OpenStreetMap (mapped feature; completeness varies)</span>'));
+                    });
+                })
+                .catch(function () { /* layer stays empty, honestly */ });
+        });
+    }
+
     function renderMap(r) {
         var lat = r.location.latitude, lon = r.location.longitude;
         if (!map) {
@@ -768,26 +863,27 @@
                 maxZoom: 18,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
+            _resolutionControl().addTo(map);
         } else {
             map.setView([lat, lon], 11);
-            ['grid', 'ndmi', 'fires', 'ellipse', 'marker'].forEach(function (k) {
+            Object.keys(layers).forEach(function (k) {
                 if (layers[k]) { map.removeLayer(layers[k]); layers[k] = null; }
             });
         }
+        if (controlRef) { controlRef.remove(); controlRef = null; }
+        overlayGroups = {};
 
         layers.marker = L.marker([lat, lon]).addTo(map)
             .bindPopup('<b>' + r.location.name + '</b>').openPopup();
 
-        var overlays = {};
-
-        // Risk grid (GeoJSON cells)
+        // ---- FIRE RISK: fire-danger grid (default on; real FWI per cell)
         var pad = 0.12;
         var gridUrl = API + '/risk-grid?south=' + (lat - pad) + '&west=' + (lon - pad) +
             '&north=' + (lat + pad) + '&east=' + (lon + pad) + '&n=6';
         el('mapNote').textContent = 'Loading fire-danger grid…';
         fetch(gridUrl).then(function (res) { return res.json(); }).then(function (g) {
             if (g.error) { el('mapNote').textContent = 'Fire-danger grid unavailable: ' + g.error; return; }
-            layers.grid = L.geoJSON(g, {
+            var gridLayer = L.geoJSON(g, {
                 style: function (f) {
                     var v = f.properties.risk;
                     return {
@@ -798,18 +894,22 @@
                 },
                 onEachFeature: function (f, l) {
                     var p = f.properties;
-                    l.bindPopup('Risk: ' + (p.risk === null ? 'n/a' : p.risk + '/100 (' + p.risk_class + ')') +
-                        '<br>FWI: ' + (p.fwi === null ? 'n/a' : p.fwi) + '<br>Slope: ' + p.slope_deg + '°');
+                    l.bindPopup('<b>RISK CELL</b><br>HydraShield: ' +
+                        (p.risk === null ? 'n/a' : p.risk + '/100 (' + p.risk_class + ')') +
+                        '<br>FWI: ' + (p.fwi === null ? 'n/a' : p.fwi) +
+                        ' · slope ' + p.slope_deg + '°' +
+                        '<br><span style="color:#94a3b8">Composite indicator — not a probability of fire.<br>' +
+                        'Cell ~' + g.grid.cell_size_km + ' km; FWI from real Open-Meteo data.</span>');
                 }
             });
-            overlays['Fire danger grid (FWI, ' + g.grid.cell_size_km + ' km cells)'] = layers.grid;
-            layers.grid.addTo(map);
-            refreshControl(overlays);
-            el('mapNote').textContent = 'Grid: FWI from Open-Meteo daily data (cell size ~' +
+            layers.grid = gridLayer.addTo(map);
+            overlayGroups['🔥 FIRE RISK — Fire-danger grid (~' + g.grid.cell_size_km + ' km cells)'] = gridLayer;
+            rebuildControl();
+            el('mapNote').textContent = 'Grid: FWI from Open-Meteo daily data (cell ~' +
                 g.grid.cell_size_km + ' km), slope from DEM. Cached 1 h.';
         }).catch(function () { el('mapNote').textContent = 'Fire-danger grid request failed.'; });
 
-        // NDMI overlay from the real Sentinel-2 scene window
+        // ---- ENVIRONMENT: real Sentinel-2 NDMI scene window (default off)
         var sat = r.satellite || {};
         if (sat.ndmi_grid && sat.grid_bounds) {
             var b = sat.grid_bounds;
@@ -825,45 +925,41 @@
                     var lon1 = b.lon_min + ((j + 1) / n) * (b.lon_max - b.lon_min);
                     group.addLayer(L.rectangle([[lat0, lon0], [lat1, lon1]], {
                         stroke: false, fillColor: ndmiColor(v), fillOpacity: 0.55
-                    }).bindPopup('NDMI ' + v.toFixed(2) + ' (fuel moisture proxy)'));
+                    }).bindPopup('<b>SENTINEL-2</b><br>Observation: ' +
+                        String(sat.observation_date || '').slice(0, 10) +
+                        '<br>NDMI: ' + v.toFixed(2) + ' (fuel-moisture proxy)' +
+                        '<br><span style="color:#94a3b8">10 m resolution · real scene pixels (OBSERVED)</span>'));
                 }
             }
             layers.ndmi = group;
-            overlays['Vegetation moisture — Sentinel-2 NDMI (' + (sat.observation_date || '').slice(0, 10) + ')'] = group;
+            overlayGroups['🌿 ENVIRONMENT — NDMI 10 m (' + String(sat.observation_date || '').slice(0, 10) + ')'] = group;
         }
 
-        // FIRMS fires
-        var fires = r.active_fires || {};
-        if (fires.available && fires.count) {
-            var fg = L.layerGroup();
-            fires.fires.forEach(function (f) {
-                fg.addLayer(L.circleMarker([f.lat, f.lon], {
-                    radius: 6, color: '#ff2d00', weight: 2, fillColor: '#ff7a00', fillOpacity: 0.8
-                }).bindPopup('Active fire<br>' + (f.acq_date || '') + '<br>FRP ' + fmt(f.frp_mw, ' MW', 1)));
-            });
-            layers.fires = fg.addTo(map);
-            overlays['Active fires (NASA FIRMS)'] = fg;
-        }
-
-        // Spread ellipse (3 h, baseline)
+        // ---- FIRE RISK: spread ellipse (screening)
         var fs = (r.analysis || {}).fire_spread || {};
         var se = fs.spread_ellipse;
         if (se && se.available && se.horizons && se.horizons['3h']) {
             layers.ellipse = L.polygon(
                 ellipsePolygon(lat, lon, se.heading_deg, se.horizons['3h'].downwind_distance_m, se.horizons['3h'].max_width_m / 2),
                 { color: '#ef4444', weight: 2, dashArray: '6 4', fillOpacity: 0.08 }
-            ).addTo(map).bindPopup('3 h spread estimate (screening)<br>Area: ' + se.horizons['3h'].area_km2 + ' km²');
-            overlays['3 h spread estimate'] = layers.ellipse;
+            ).addTo(map).bindPopup('<b>SPREAD SCENARIO (MODELLED)</b><br>3 h spread estimate<br>Area: ' +
+                se.horizons['3h'].area_km2 + ' km²' +
+                '<br><span style="color:#94a3b8">Screening estimate — no spotting, fuel breaks or suppression.</span>');
+            overlayGroups['🔥 FIRE RISK — 3 h spread scenario (modelled)'] = layers.ellipse;
         }
 
-        refreshControl(overlays);
-    }
+        // ---- FIRE OBSERVATIONS: multi-source fire evidence (lazy, with day window)
+        var fireProxy = L.layerGroup();
+        fireProxy.on('add', function () { _loadFireLayer(r, fireProxy); });
+        overlayGroups['🛰 FIRE OBSERVATIONS — NASA FIRMS (when configured)'] = fireProxy;
 
-    var layerControl = null;
-    function refreshControl(overlays) {
-        if (layerControl) { map.removeControl(layerControl); layerControl = null; }
-        var any = Object.keys(overlays).length > 0;
-        if (any) layerControl = L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+        // ---- EXPOSURE / INFRASTRUCTURE: real OSM features (lazy fetch)
+        _addOsmLayer('hospitals', '🏥 EXPOSURE — Hospitals (OSM)', '#e11d48');
+        _addOsmLayer('schools', '🏫 EXPOSURE — Schools (OSM)', '#7c3aed');
+        _addOsmLayer('fire_stations', '🚒 INFRASTRUCTURE — Fire stations (OSM)', '#ea580c');
+        _addOsmLayer('water_features', '💧 INFRASTRUCTURE — Water features (OSM)', '#0284c7');
+
+        rebuildControl();
     }
 
     function ndmiColor(v) {
@@ -931,6 +1027,17 @@
             if (e.key === 'Enter') { var q = e.target.value.trim(); if (q) analyze(q); }
         });
         el('historyBtn').addEventListener('click', loadHistory);
+        el('fireDays').addEventListener('change', function (e) {
+            fireLayerDays = parseInt(e.target.value, 10) || 5;
+            // Refetch the real fire layer into its proxy (if it is enabled).
+            Object.keys(overlayGroups).forEach(function (k) {
+                if (k.indexOf('FIRE OBSERVATIONS') !== -1 && lastResult) {
+                    var proxy = overlayGroups[k];
+                    proxy.clearLayers();
+                    _loadFireLayer(lastResult, proxy);
+                }
+            });
+        });
         el('cancelBtn').addEventListener('click', function () {
             // Client-side cancel: the server-side job finishes and its result
             // is cached — nothing is lost or fabricated.

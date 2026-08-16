@@ -322,8 +322,18 @@
             </div>
 
             <div class="card">
-                <h3>Map</h3>
+                <h3>Fire Intelligence Map</h3>
                 <div id="map"></div>
+                <div id="fireDaysWrap" class="hidden" style="margin-top:.5rem;font-size:.85rem;">
+                    Fire observation window:
+                    <select id="fireDays" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:.2rem .4rem;">
+                        <option value="1">last 24 h</option>
+                        <option value="3">3 days</option>
+                        <option value="5" selected>5 days</option>
+                        <option value="10">10 days</option>
+                    </select>
+                    <span style="color:var(--muted);font-size:.76rem;">(NASA FIRMS, when configured)</span>
+                </div>
                 <div class="footer-note" id="mapNote"></div>
             </div>
 

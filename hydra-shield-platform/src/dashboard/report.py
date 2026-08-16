@@ -57,13 +57,36 @@ _ACCENT = colors.HexColor("#0ea5e9")
 _DARK = colors.HexColor("#0f172a")
 _MUTED = colors.HexColor("#64748b")
 
-_S = ParagraphStyle("section", fontName="Helvetica-Bold", fontSize=13,
-                    textColor=_DARK, spaceBefore=14, spaceAfter=6)
-_B = ParagraphStyle("body", fontName="Helvetica", fontSize=9.5, leading=13)
-_SM = ParagraphStyle("small", fontName="Helvetica", fontSize=8, leading=11,
-                     textColor=_MUTED)
+# Paragraph styles with correct leading (the previous overlap defect came
+# from reportlab's 12 pt default leading applied to larger font sizes).
 _TITLE = ParagraphStyle("title", fontName="Helvetica-Bold", fontSize=20,
-                        textColor=_DARK)
+                        leading=24, textColor=_DARK, spaceAfter=2)
+_SUBTITLE = ParagraphStyle("subtitle", fontName="Helvetica", fontSize=10,
+                           leading=13, textColor=_ACCENT, spaceAfter=2)
+_S = ParagraphStyle("section", fontName="Helvetica-Bold", fontSize=13,
+                    leading=16, textColor=_DARK, spaceBefore=12, spaceAfter=5,
+                    keepWithNext=1)
+_B = ParagraphStyle("body", fontName="Helvetica", fontSize=9.5, leading=13,
+                    spaceAfter=3)
+_SM = ParagraphStyle("small", fontName="Helvetica", fontSize=8, leading=11,
+                     textColor=_MUTED, spaceAfter=2)
+
+
+def _footer(canvas, doc):
+    """Professional footer with page numbers + report metadata."""
+    canvas.saveState()
+    canvas.setStrokeColor(colors.HexColor("#cbd5e1"))
+    canvas.setLineWidth(0.5)
+    canvas.line(18 * mm, 12 * mm, 192 * mm, 12 * mm)
+    canvas.setFont("Helvetica", 7)
+    canvas.setFillColor(_MUTED)
+    canvas.drawString(
+        18 * mm, 8 * mm,
+        f"HydraShield — real-data wildfire decision support · model v{MODEL_VERSION} · "
+        f"{doc._report_meta.get('generated', '')}",
+    )
+    canvas.drawRightString(192 * mm, 8 * mm, f"Page {doc.page}")
+    canvas.restoreState()
 
 
 def _kind_label(kind: Optional[str]) -> str:
@@ -124,8 +147,99 @@ def _fwi_chart(fwi_block: Dict):
     return drawing
 
 
+_CLASS_COLORS = {
+    "Low": colors.HexColor("#22c55e"),
+    "Moderate": colors.HexColor("#eab308"),
+    "High": colors.HexColor("#f97316"),
+    "Extreme": colors.HexColor("#ef4444"),
+}
+
+
+def _map_drawing(analysis: Dict, grid: Optional[Dict]):
+    """
+    Real-data map graphic: the actual fire-danger grid cells around the
+    location (FWI-derived risk per cell), the analysed point, and real
+    active-fire detections when available. No fake map data: when the grid
+    is unavailable the caller states it instead of drawing anything.
+    """
+    if not _HAS_REPORTLAB or not grid or grid.get("error"):
+        return None
+    features = grid.get("features") or []
+    if not features:
+        return None
+    from reportlab.graphics.shapes import Drawing, Rect, Circle, String, Line
+
+    W, H = 460.0, 300.0
+    bbox = (grid.get("grid") or {}).get("bbox") or []
+    if len(bbox) != 4:
+        return None
+    south, west, north, east = [float(v) for v in bbox]
+    span_x = max(east - west, 1e-9)
+    span_y = max(north - south, 1e-9)
+    scale = min((W - 60) / span_x, (H - 50) / span_y)
+    ox, oy = 30.0, 30.0
+
+    def px(lon, lat):
+        return ox + (lon - west) * scale, oy + (lat - south) * scale
+
+    d = Drawing(W, H)
+    # Real grid cells coloured by their real risk class.
+    for f in features:
+        coords = ((f.get("geometry") or {}).get("coordinates") or [[]])[0]
+        if not coords:
+            continue
+        lons = [c[0] for c in coords]
+        lats = [c[1] for c in coords]
+        x0, y0 = px(min(lons), min(lats))
+        w = (max(lons) - min(lons)) * scale
+        h = (max(lats) - min(lats)) * scale
+        props = f.get("properties") or {}
+        color = _CLASS_COLORS.get(props.get("risk_class"),
+                                  colors.HexColor("#94a3b8"))
+        d.add(Rect(x0, y0, w, h, fillColor=color, fillOpacity=0.55,
+                   strokeColor=colors.HexColor("#334155"), strokeWidth=0.3))
+
+    # Real active-fire detections (FIRMS), when available.
+    fires = analysis.get("active_fires") or {}
+    n_fire = 0
+    if fires.get("available"):
+        for f in (fires.get("fires") or [])[:60]:
+            fx, fy = px(float(f["lon"]), float(f["lat"]))
+            if ox <= fx <= ox + (east - west) * scale and oy <= fy <= oy + (north - south) * scale:
+                d.add(Circle(fx, fy, 2.4, fillColor=colors.HexColor("#7f1d1d"),
+                             strokeColor=colors.white, strokeWidth=0.4))
+                n_fire += 1
+
+    # The analysed location.
+    loc = analysis.get("location") or {}
+    lx, ly = px(float(loc.get("longitude")), float(loc.get("latitude")))
+    d.add(Circle(lx, ly, 5, fillColor=colors.HexColor("#0ea5e9"),
+                 strokeColor=colors.white, strokeWidth=1.2))
+    d.add(String(lx + 8, ly - 3, "analysed point", fontName="Helvetica-Bold",
+                 fontSize=7.5, fillColor=_DARK))
+
+    # Legend + scale/source note.
+    ly0 = H - 12
+    for i, (cls, col) in enumerate(_CLASS_COLORS.items()):
+        d.add(Rect(ox + i * 70, ly0 - 7, 8, 8, fillColor=col, fillOpacity=0.55,
+                   strokeColor=colors.HexColor("#334155"), strokeWidth=0.3))
+        d.add(String(ox + 11 + i * 70, ly0 - 6, cls, fontName="Helvetica",
+                     fontSize=7, fillColor=_DARK))
+    cell_km = (grid.get("grid") or {}).get("cell_size_km")
+    d.add(String(ox, 10,
+                 f"Fire-danger grid (FWI-derived risk, real Open-Meteo data; "
+                 f"~{cell_km} km cells)" + (f" · {n_fire} FIRMS detection(s)"
+                                           if n_fire else ""),
+                 fontName="Helvetica", fontSize=7, fillColor=_MUTED))
+    d.add(Line(ox, 22, ox + 60, 22, strokeColor=_MUTED, strokeWidth=0.7))
+    d.add(String(ox + 62, 20, "N ↑", fontName="Helvetica", fontSize=7,
+                 fillColor=_MUTED))
+    return d
+
+
 def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
-                     report_type: str = "decision") -> bytes:
+                     report_type: str = "decision",
+                     grid: Optional[Dict] = None) -> bytes:
     """
     Render a professional PDF report from a real analysis payload.
 
@@ -141,6 +255,13 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     type_info = REPORT_TYPES[report_type]
     simple = report_type == "simple"
     scientific = report_type == "scientific"
+
+    # Sequential section numbering (handles optional sections cleanly).
+    _sec_no = [0]
+
+    def S(title: str) -> str:
+        _sec_no[0] += 1
+        return f"{_sec_no[0]}. {title}"
 
     loc = analysis.get("location") or {}
     a = analysis.get("analysis") or {}
@@ -166,7 +287,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     # ---- Header ---------------------------------------------------------
     story.append(Paragraph("HydraShield Wildfire Risk Report", _TITLE))
     story.append(Paragraph(
-        f"{type_info['title']} — {type_info['audience']}", _SM))
+        f"{type_info['title']} — {type_info['audience']}", _SUBTITLE))
     story.append(Paragraph(
         f"{loc.get('name', '')} — {loc.get('latitude')}, {loc.get('longitude')}",
         _B))
@@ -178,7 +299,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     story.append(Spacer(1, 8))
 
     # ---- 1. Executive summary -------------------------------------------
-    story.append(Paragraph("1. Executive summary", _S))
+    story.append(Paragraph(S("Executive summary"), _S))
     story.append(_kv_table([
         ["Composite risk score", f"{_fmt(risk.get('baseline'), '', 0)} / 100 — "
          f"{risk.get('class') or 'unavailable'} (DERIVED)"],
@@ -189,7 +310,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     ]))
 
     # ---- 2. Why this score ----------------------------------------------
-    story.append(Paragraph("2. Why this score?", _S))
+    story.append(Paragraph(S("Why this score?"), _S))
     rows = [["Factor", "Value", "Level", "Contribution", "Kind"]]
     for f in ex.get("factors") or []:
         rows.append([
@@ -212,7 +333,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     story.append(Paragraph((ex.get("formula") or ""), _SM))
 
     # ---- 3. Conditions ---------------------------------------------------
-    story.append(Paragraph("3. Current conditions", _S))
+    story.append(Paragraph(S("Current conditions"), _S))
     story.append(_kv_table([
         ["Temperature", _fmt(weather.get("temperature_c"), " °C") + " (MODELLED)"],
         ["Wind", _fmt(weather.get("wind_speed_kmh"), " km/h") + " (MODELLED)"],
@@ -236,7 +357,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 4. Fire danger --------------------------------------------------
     if not simple and fd.get("available"):
-        story.append(Paragraph("4. Fire danger (Canadian FWI System)", _S))
+        story.append(Paragraph(S("Fire danger (Canadian FWI System)"), _S))
         story.append(_kv_table([
             ["FWI / class", f"{_fmt(fd.get('fwi'), '', 1)} — {fd.get('class')} (EFFIS: {fd.get('effis_class')})"],
             ["FFMC / DMC / DC", f"{_fmt(fd.get('ffmc'), '', 1)} / {_fmt(fd.get('dmc'), '', 1)} / {_fmt(fd.get('dc'), '', 1)}"],
@@ -250,7 +371,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 5. What changed -------------------------------------------------
     if not simple:
-        story.append(Paragraph("5. What changed?", _S))
+        story.append(Paragraph(S("What changed?"), _S))
         if change.get("available"):
             r = change.get("risk") or {}
             rows = [["Driver", "7 days ago", "Today", "Δ"]]
@@ -276,7 +397,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 6. Exposure & micro-area ---------------------------------------
     if not simple:
-        story.append(Paragraph("6. Exposure, vulnerability & micro-area", _S))
+        story.append(Paragraph(S("Exposure, vulnerability & micro-area"), _S))
         if exposure.get("status") == "ok":
             va = exposure.get("vulnerable_assets") or {}
             ac = exposure.get("access") or {}
@@ -305,8 +426,8 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 7. Proactive recommendations ------------------------------------
     story.append(Paragraph(
-        "7. What should you do? (RECOMMENDED)" if simple else
-        "7. Proactive recommendations (RECOMMENDED)", _S))
+        S("What should you do? (RECOMMENDED)") if simple else
+        S("Proactive recommendations (RECOMMENDED)"), _S))
     if recs:
         rows = [["Priority", "Action", "Why (real evidence)"]]
         for r in (recs[:3] if simple else recs):
@@ -329,7 +450,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 8. Environmental solutions --------------------------------------
     if not simple:
-        story.append(Paragraph("8. Environmental solutions (ecological restoration)", _S))
+        story.append(Paragraph(S("Environmental solutions (ecological restoration)"), _S))
     if not simple and ecology.get("status") == "ok":
         site = ecology.get("site_conditions") or {}
         story.append(Paragraph(
@@ -368,7 +489,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 9. Scenarios -----------------------------------------------------
     if not simple:
-        story.append(Paragraph("9. Intervention scenarios", _S))
+        story.append(Paragraph(S("Intervention scenarios"), _S))
         rows = [["Scenario", "Baseline risk", "Scenario risk", "Δ", "Status"]]
         for s in scenarios:
             if s.get("status") == "modelled":
@@ -393,7 +514,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 10. Action plan --------------------------------------------------
     if not simple:
-        story.append(Paragraph("10. Automation / action plan", _S))
+        story.append(Paragraph(S("Automation / action plan"), _S))
         story.append(_kv_table([
             ["Response level", plan.get("level") or "—"],
             ["Automation armed", str(bool(plan.get("automation_enabled")))],
@@ -404,7 +525,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- 11. Historical lessons (optional) --------------------------------
     if not simple and history and "error" not in history:
-        story.append(Paragraph("11. Lessons from the past", _S))
+        story.append(Paragraph(S("Lessons from the past"), _S))
         w = history.get("window") or {}
         story.append(Paragraph(
             f"Window {w.get('start')} → {w.get('end')} ({w.get('days')} days): "
@@ -421,9 +542,25 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                 f"{(l.get('observed_fire') or {}).get('status')} "
                 f"({(l.get('observed_fire') or {}).get('label')})", _SM))
 
+    # ---- Map (real grid data; decision/scientific) -------------------------
+    if not simple:
+        story.append(Paragraph(S("Map (real fire-danger grid)"), _S))
+        map_drawing = _map_drawing(analysis, grid)
+        if map_drawing is not None:
+            story.append(map_drawing)
+            story.append(Paragraph(
+                "Grid computed from real Open-Meteo daily data over the "
+                "displayed bounding box; cells are coarse (~km) and do not "
+                "resolve streets. Detections (when shown) are NASA FIRMS "
+                "hotspots, not fire perimeters.", _SM))
+        else:
+            story.append(Paragraph(
+                "Map unavailable — the real fire-danger grid could not be "
+                "computed for this area at report time.", _B))
+
     # ---- 12. Sources & provenance -----------------------------------------
     if simple:
-        story.append(Paragraph("8. Data freshness & main sources", _S))
+        story.append(Paragraph(S("Data freshness & main sources"), _S))
         main = []
         for k in ("satellite", "weather", "fire_danger", "terrain", "landcover"):
             p = provenance.get(k) or {}
@@ -441,7 +578,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         ]))
         story.append(t6s)
     else:
-        story.append(Paragraph("12. Data sources & provenance", _S))
+        story.append(Paragraph(S("Data sources & provenance"), _S))
         rows = [["Component", "Kind", "Source", "Acquired", "Limitations"]]
         for k, p in provenance.items():
             rows.append([k.replace("_", " "), _kind_label(p.get("kind")),
@@ -460,7 +597,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
 
     # ---- Scientific appendix (scientific report only) --------------------
     if scientific:
-        story.append(Paragraph("13. Methodology appendix", _S))
+        story.append(Paragraph(S("Methodology appendix"), _S))
         meth = analysis.get("methodology") or {}
         story.append(_kv_table([
             ["Risk model", "FWI-anchored composite screening score, v" + MODEL_VERSION +
@@ -506,9 +643,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             "(when configured).", _SM))
 
     # ---- 13/14. Limitations ------------------------------------------------
-    story.append(Paragraph(
-        ("14. " if scientific else ("9. " if simple else "13. ")) +
-        "Scientific limitations", _S))
+    story.append(Paragraph(S("Scientific limitations"), _S))
     story.append(Paragraph((analysis.get("methodology") or {}).get("note") or "", _SM))
     story.append(Paragraph(VALIDATION_STATUS, _SM))
     story.append(Paragraph(
@@ -520,9 +655,11 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     doc = SimpleDocTemplate(
         buf, pagesize=A4,
         leftMargin=18 * mm, rightMargin=18 * mm,
-        topMargin=16 * mm, bottomMargin=16 * mm,
-        title=f"HydraShield Wildfire Risk Report — {loc.get('name', '')}",
+        topMargin=16 * mm, bottomMargin=18 * mm,
+        title=f"HydraShield {type_info['title']} — {loc.get('name', '')}",
         author="HydraShield (real-data decision support)",
+        subject=f"Wildfire risk report ({report_type}) — real Earth Observation data",
     )
-    doc.build(story)
+    doc._report_meta = {"generated": analysis.get("generated_at", "")}
+    doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return buf.getvalue()

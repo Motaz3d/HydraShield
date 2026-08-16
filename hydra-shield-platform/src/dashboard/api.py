@@ -312,9 +312,23 @@ def create_app() -> Flask:
             return _error(
                 "type must be one of: " + ", ".join(report_module.REPORT_TYPES), 400)
 
+        # Real fire-danger grid for the map graphic (decision/scientific).
+        grid = None
+        if report_type != "simple":
+            try:
+                pad = 0.12
+                g = grid_module.compute_risk_grid(
+                    round(lat, 4) - pad, round(lon, 4) - pad,
+                    round(lat, 4) + pad, round(lon, 4) + pad, 6)
+                if "error" not in g:
+                    grid = g
+            except Exception:
+                grid = None  # the report states the map as unavailable
+
         try:
             pdf = report_module.build_report_pdf(result, history=history,
-                                                 report_type=report_type)
+                                                 report_type=report_type,
+                                                 grid=grid)
         except RuntimeError as exc:
             return _error(f"Report generation unavailable: {exc}", 503)
         except Exception as exc:
@@ -331,6 +345,72 @@ def create_app() -> Flask:
                 "Cache-Control": "no-store",
             },
         )
+
+    # ------------------------------------------------------------------
+    @app.route("/api/exposure-features", methods=["GET"])
+    def exposure_features():
+        """Mapped OSM feature points (hospitals, schools, fire stations,
+        water) for the map layers. Small cached result sets; honest
+        unavailability when OSM is unreachable."""
+        if not _rate_limiter.allow(f"expf:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        from .exposure import fetch_osm_features
+
+        try:
+            radius = int(request.args.get("radius_m", "2000"))
+        except ValueError:
+            return _error("radius_m must be an integer", 400)
+        result = fetch_osm_features(round(lat, 4), round(lon, 4), radius)
+        if "error" in result:
+            return _error(result["error"], 502)
+        return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/fires", methods=["GET"])
+    def fires():
+        """Multi-source fire evidence for the map (NASA FIRMS VIIRS+MODIS)
+        with an explicit day window. Honest unavailable without a key."""
+        if not _rate_limiter.allow(f"fires:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        try:
+            days = int(request.args.get("days", "5"))
+            radius = float(request.args.get("radius_km", "50"))
+        except ValueError:
+            return _error("days and radius_km must be numbers", 400)
+        from .fire_evidence import build_fire_evidence
+
+        result = build_fire_evidence(round(lat, 4), round(lon, 4),
+                                     radius_km=min(max(radius, 1.0), 200.0),
+                                     days=min(max(days, 1), 10))
+        return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/sources", methods=["GET"])
+    def sources():
+        """
+        The data-source audit registry: every evaluated source with purpose,
+        coverage, resolution, freshness, license, kind, limitations and its
+        actual HydraShield integration status (integrated / candidate /
+        rejected). Nothing here is claimed as used unless it is integrated.
+        """
+        import json as _json
+        import os as _os
+
+        registry_path = _os.path.join(
+            _os.path.dirname(__file__), "..", "..", "config", "source_registry.json"
+        )
+        try:
+            with open(registry_path, "r", encoding="utf-8") as fh:
+                registry = _json.load(fh)
+        except (OSError, _json.JSONDecodeError) as exc:
+            return _error(f"Source registry unavailable: {exc}", 503)
+        return jsonify(registry)
 
     # ------------------------------------------------------------------
     @app.route("/api/analysis-jobs", methods=["POST"])
