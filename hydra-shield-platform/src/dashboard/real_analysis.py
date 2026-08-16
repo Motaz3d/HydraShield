@@ -33,6 +33,10 @@ import numpy as np
 from . import real_data
 from .explain import build_risk_explanation
 from .change import build_change_block
+from .ecology import build_ecology_block
+from .exposure import build_exposure_block
+from .micro import build_micro_area_block
+from .scenarios import build_scenarios
 from .recommendations import build_recommendations, build_action_plan
 from ..prediction.fire_spread import FireSpreadModel
 from ..prediction.fuel_moisture import FuelMoistureModel
@@ -383,6 +387,48 @@ class HydraShieldRealAnalyser:
             result["change"].get("reason"),
         )
 
+        # ---- Climate summary (real recent daily aggregates) ------------
+        result["climate"] = self._climate_summary(daily)
+        provenance["climate"] = (
+            _prov("derived", "Open-Meteo daily aggregates (real)",
+                  limitations=result["climate"].get("note"))
+            if result["climate"].get("available")
+            else _prov("unavailable", "Open-Meteo daily series", quality="missing")
+        )
+
+        # ---- Environmental solutions / ecological restoration ----------
+        result["ecology"] = build_ecology_block(result)
+        provenance["ecology"] = _prov(
+            "derived", (result["ecology"].get("provenance") or {}).get(
+                "source", "HydraShield ecology engine"),
+            quality=(result["ecology"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["ecology"].get("provenance") or {}).get("limitations"),
+        )
+
+        # ---- Exposure / vulnerability / access (real OSM context) ------
+        result["exposure"] = build_exposure_block(result)
+        provenance["exposure"] = _prov(
+            (result["exposure"].get("provenance") or {}).get("kind", "unavailable"),
+            "OpenStreetMap (Overpass API)",
+            quality=(result["exposure"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["exposure"].get("provenance") or {}).get("limitations"),
+        )
+
+        # ---- Micro-area context (real scene grid + resolutions) --------
+        result["micro_area"] = build_micro_area_block(result)
+        provenance["micro_area"] = _prov(
+            "derived", "Measured Sentinel-2 scene grid + declared layer resolutions",
+            limitations=(result["micro_area"].get("provenance") or {}).get("limitations"),
+        )
+
+        # ---- Intervention scenarios (model-supported only) -------------
+        result["scenarios"] = build_scenarios(result)
+        provenance["scenarios"] = _prov(
+            "modeled", "HydraShield FireSpreadModel + composite risk score",
+            limitations="Screening-level scenario estimates; effects beyond the "
+                        "models are reported as not quantified.",
+        )
+
         # ---- Proactive recommendations + automation action plan --------
         result["recommendations"] = build_recommendations(result)
         result["action_plan"] = build_action_plan(result, result["recommendations"])
@@ -597,6 +643,35 @@ class HydraShieldRealAnalyser:
     # ------------------------------------------------------------------
     # Misc helpers
     # ------------------------------------------------------------------
+    @staticmethod
+    def _climate_summary(daily: Dict) -> Dict:
+        """
+        Recent-climate summary from the real daily aggregates (past days only).
+
+        Used by the ecology layer as a screening climate signal. Declared
+        approximation: the window is the available past series (~3 weeks),
+        not a climatological normal.
+        """
+        days = [d for d in (daily.get("days") or []) if d.get("date")]
+        from datetime import date as _date
+
+        today = _date.today().isoformat()
+        past = [d for d in days if d["date"] <= today]
+        if not past:
+            return {"available": False}
+        tmax = [d.get("temp_max_c") for d in past if d.get("temp_max_c") is not None]
+        rain = [d.get("precipitation_mm") or 0.0 for d in past]
+        rh_min = [d.get("rh_min_pct") for d in past if d.get("rh_min_pct") is not None]
+        return {
+            "available": True,
+            "window_days": len(past),
+            "mean_temp_max_c": round(sum(tmax) / len(tmax), 1) if tmax else None,
+            "total_precip_mm": round(sum(rain), 1),
+            "mean_rh_min_pct": round(sum(rh_min) / len(rh_min), 1) if rh_min else None,
+            "note": "Screening climate signal from the recent real daily series; "
+                    "not a climatological normal.",
+        }
+
     @staticmethod
     def _fwi_trend(series: List[Dict]) -> Dict:
         """Classify the recent FWI trend as rising / steady / falling."""

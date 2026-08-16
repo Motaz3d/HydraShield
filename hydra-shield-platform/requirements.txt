@@ -28,3 +28,6 @@ dash-bootstrap-components>=1.6.0
 # REST API
 flask>=3.0
 requests>=2.31
+
+# PDF reporting (/api/report)
+reportlab>=4.0

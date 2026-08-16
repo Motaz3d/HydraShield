@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydraShield — How Wildfire Risk Works (Interactive Story)</title>
+    <meta name="description" content="An interactive visual explanation of wildfire risk: conditions, drivers, spread, protection and recovery — with optional live real data.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --ink: #0f172a; --muted: #64748b; --accent: #f97316; }
+        body { background: #0f172a; color: #e2e8f0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+        .story-nav a { color: #93c5fd; text-decoration: none; }
+        .story-wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+        .story-head { text-align: center; margin-bottom: 10px; }
+        .story-head h1 { font-size: 1.6rem; font-weight: 800; }
+        .story-head p { color: #94a3b8; font-size: .95rem; }
+        .stage { position: relative; border-radius: 16px; overflow: hidden; background: #1e293b;
+                 border: 1px solid #334155; }
+        .stage svg { display: block; width: 100%; height: auto; }
+        .caption { padding: 18px 22px 20px; }
+        .caption h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+        .caption p { color: #cbd5e1; font-size: .95rem; margin-bottom: 8px; }
+        .caption .live { background: rgba(14,165,233,.12); border: 1px solid rgba(14,165,233,.4);
+                         border-radius: 8px; padding: 8px 12px; font-size: .85rem; color: #bae6fd; }
+        .controls { display: flex; align-items: center; justify-content: space-between;
+                    padding: 14px 4px 0; gap: 10px; flex-wrap: wrap; }
+        .btn-step { background: var(--accent); border: none; color: #fff; font-weight: 700;
+                    padding: 10px 22px; border-radius: 10px; cursor: pointer; }
+        .btn-step.secondary { background: #334155; }
+        .btn-step:disabled { opacity: .4; cursor: default; }
+        .dots { display: flex; gap: 7px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #475569; cursor: pointer; border: none; padding: 0; }
+        .dot.active { background: var(--accent); }
+        .live-row { display: flex; gap: 8px; justify-content: center; margin: 14px 0 4px; flex-wrap: wrap; }
+        .live-row input { background: #1e293b; border: 1px solid #475569; color: #e2e8f0;
+                          border-radius: 8px; padding: 8px 12px; min-width: 260px; }
+        .live-row button { background: #0ea5e9; border: none; color: #fff; border-radius: 8px;
+                           padding: 8px 16px; font-weight: 600; cursor: pointer; }
+        .src-note { text-align: center; color: #64748b; font-size: .75rem; margin-top: 10px; }
+        /* SVG animation states */
+        .flame { opacity: 0; transition: opacity .8s; transform-origin: center; }
+        .wind-arrow { opacity: 0; transition: opacity .8s; }
+        .dry-overlay { opacity: 0; transition: opacity .8s; }
+        .fire-line { opacity: 0; transition: opacity 1.2s; }
+        .fuelbreak { opacity: 0; transition: opacity .8s; }
+        .sprout { opacity: 0; transform: scale(.2); transform-origin: bottom center;
+                  transition: opacity .8s, transform 1.2s; }
+        .house-alert { opacity: 0; transition: opacity .8s; }
+        .shield { opacity: 0; transition: opacity .8s; }
+        .stage[data-step="2"] .dry-overlay, .stage[data-step="2"] .wind-arrow,
+        .stage[data-step="3"] .dry-overlay, .stage[data-step="3"] .wind-arrow,
+        .stage[data-step="4"] .flame, .stage[data-step="4"] .fire-line, .stage[data-step="4"] .wind-arrow,
+        .stage[data-step="5"] .house-alert, .stage[data-step="5"] .fire-line,
+        .stage[data-step="6"] .shield, .stage[data-step="6"] .fuelbreak,
+        .stage[data-step="7"] .fuelbreak, .stage[data-step="7"] .flame,
+        .stage[data-step="8"] .sprout { opacity: 1; transform: scale(1); }
+        .stage[data-step="3"] .dry-overlay, .stage[data-step="4"] .dry-overlay,
+        .stage[data-step="5"] .dry-overlay, .stage[data-step="7"] .dry-overlay { opacity: .55; }
+        @keyframes flicker { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.12); } }
+        .stage[data-step="4"] .flame, .stage[data-step="7"] .flame { animation: flicker .7s infinite; }
+        @keyframes drift { from { transform: translateX(0); } to { transform: translateX(18px); } }
+        .wind-arrow.visible-anim { animation: drift 1.6s infinite ease-in-out alternate; }
+        .stage[data-step="2"] .wind-arrow, .stage[data-step="3"] .wind-arrow,
+        .stage[data-step="4"] .wind-arrow { animation: drift 1.6s infinite ease-in-out alternate; }
+    </style>
+</head>
+<body>
+<div class="story-wrap">
+    <div class="story-nav" style="margin-bottom:8px;"><a href="index.html">← HydraShield home</a></div>
+    <div class="story-head">
+        <h1>🔥 How Wildfire Risk Works</h1>
+        <p>An interactive story — from conditions to recovery. Optionally load a real location to see live values.</p>
+    </div>
+
+    <div class="live-row">
+        <input id="locInput" type="text" placeholder="Optional: enter a real place (e.g. Faro, Portugal)">
+        <button id="locBtn">Load real data</button>
+    </div>
+    <div class="src-note" id="liveNote">Educational mode — no values shown. Loading a place fetches real data from the HydraShield API.</div>
+
+    <div class="stage" id="stage" data-step="1">
+        <svg viewBox="0 0 960 420" role="img" aria-label="Animated landscape">
+            <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#e0f2fe"/>
+                </linearGradient>
+                <linearGradient id="dry" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#fbbf24" stop-opacity=".35"/>
+                    <stop offset="100%" stop-color="#b45309" stop-opacity=".55"/>
+                </linearGradient>
+            </defs>
+            <rect width="960" height="420" fill="url(#sky)"/>
+            <circle cx="810" cy="70" r="38" fill="#fde047"/>
+            <path d="M0 300 Q 180 190 360 270 T 720 260 T 960 290 V420 H0 Z" fill="#4d7c0f"/>
+            <path d="M0 330 Q 240 250 480 320 T 960 330 V420 H0 Z" fill="#3f6212"/>
+            <rect class="dry-overlay" width="960" height="420" fill="url(#dry)"/>
+            <g id="trees"></g>
+            <g id="houses">
+                <g transform="translate(690,318)"><rect width="46" height="34" fill="#e2e8f0"/><polygon points="-4,0 23,-20 50,0" fill="#b91c1c"/></g>
+                <g transform="translate(760,330)"><rect width="40" height="28" fill="#e2e8f0"/><polygon points="-4,0 20,-17 44,0" fill="#b91c1c"/></g>
+                <g transform="translate(830,322)"><rect width="44" height="32" fill="#e2e8f0"/><polygon points="-4,0 22,-18 48,0" fill="#b91c1c"/></g>
+            </g>
+            <g class="house-alert" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 5">
+                <circle cx="713" cy="330" r="38"/><circle cx="780" cy="340" r="34"/><circle cx="852" cy="332" r="36"/>
+            </g>
+            <g class="wind-arrow" stroke="#0ea5e9" stroke-width="4" fill="none">
+                <path d="M120 90 h70 m-16 -10 l16 10 l-16 10"/>
+                <path d="M90 130 h90 m-16 -10 l16 10 l-16 10"/>
+                <path d="M140 170 h70 m-16 -10 l16 10 l-16 10"/>
+            </g>
+            <g class="flame">
+                <path d="M300 330 q-14 -26 4 -44 q-2 16 10 20 q14 -6 10 -24 q22 16 12 48 q-10 22 -26 20 q-16 -2 -10 -20 Z" fill="#f97316"/>
+                <path d="M312 332 q-7 -14 3 -24 q0 10 8 12 q8 -4 6 -14 q12 10 6 26 q-6 12 -15 11 q-9 -1 -8 -11 Z" fill="#fde047"/>
+            </g>
+            <path class="fire-line" d="M300 332 Q 420 300 540 322 T 700 330" stroke="#ef4444" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="14 10"/>
+            <g class="fuelbreak">
+                <rect x="520" y="270" width="26" height="130" fill="#94a3b8"/>
+                <text x="533" y="262" font-size="13" fill="#e2e8f0" text-anchor="middle">fuel break</text>
+            </g>
+            <g class="shield" transform="translate(713,282)">
+                <path d="M0 -26 L22 -16 V2 C22 16 10 26 0 30 C-10 26 -22 16 -22 2 V-16 Z" fill="#0ea5e9" fill-opacity=".85"/>
+            </g>
+            <g id="sprouts"></g>
+        </svg>
+        <div class="caption">
+            <h2 id="capTitle"></h2>
+            <p id="capText"></p>
+            <div class="live" id="capLive" hidden></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-step secondary" id="prevBtn">← Back</button>
+        <div class="dots" id="dots"></div>
+        <button class="btn-step" id="nextBtn">Next →</button>
+    </div>
+    <div class="src-note">
+        Story mode is educational. When a real place is loaded, values shown are the current real
+        HydraShield analysis (Sentinel-2 · Open-Meteo/ERA5 · DEM · WorldCover · FWI) with provenance —
+        a composite indicator, not a probability of fire.
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function () {
+    'use strict';
+    var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? 'http://localhost:8051/api' : '/api';
+
+    // --- decorative trees & sprouts -------------------------------------
+    function buildTrees() {
+        var g = document.getElementById('trees');
+        var pts = [[80,318],[150,300],[220,312],[290,300],[370,306],[440,318],[510,308],[580,316],[640,306]];
+        g.innerHTML = pts.map(function (p) {
+            return '<g transform="translate(' + p[0] + ',' + p[1] + ')">' +
+                '<rect x="-3" y="-4" width="6" height="14" fill="#78350f"/>' +
+                '<circle cx="0" cy="-14" r="16" fill="#166534"/></g>';
+        }).join('');
+        var s = document.getElementById('sprouts');
+        s.innerHTML = pts.map(function (p, i) {
+            return '<g class="sprout" style="transition-delay:' + (i * 0.12) + 's" transform="translate(' +
+                (p[0] + 24) + ',' + (p[1] + 8) + ')">' +
+                '<rect x="-2" y="-6" width="4" height="12" fill="#78350f"/>' +
+                '<circle cx="0" cy="-12" r="10" fill="#22c55e"/></g>';
+        }).join('');
+    }
+    buildTrees();
+
+    // --- steps ------------------------------------------------------------
+    var steps = [
+        { t: '1 · This place', x: 'A landscape like many in Europe: vegetation, slopes, and homes near the wildland. Whether it is at risk depends on real, measurable conditions — not guesswork.',
+          live: null },
+        { t: '2 · The conditions', x: 'Heat, low humidity, little rain and wind dry out grasses, shrubs and trees. HydraShield measures this with real weather data, soil-moisture models and satellite observations.',
+          live: function (d) { return 'Now in ' + d.name + ': ' + d.temp + ' °C, humidity ' + d.rh + '%, soil moisture ' + d.sm + ' m³/m³ (weather model, ~11 km).'; } },
+        { t: '3 · Why the risk rises', x: 'Fire danger combines how dry the fuel is, how hot and windy it is, how steep the land is and whether the vegetation can burn. That is what the HydraShield score summarises — it is an indicator, not a probability.',
+          live: function (d) { return 'Real analysis for ' + d.name + ': risk ' + d.risk + '/100 (' + d.cls + '), FWI ' + d.fwi + ', fuel moisture ' + d.fmc + '%.'; } },
+        { t: '4 · What could happen', x: 'If an ignition happens under high danger, fire spreads — faster uphill and downwind. HydraShield models the likely rate and direction of spread from the real conditions.',
+          live: function (d) { return d.ros ? 'Modelled rate of spread here now: ' + d.ros + ' m/min (screening model).' : null; } },
+        { t: '5 · What is at stake', x: 'Homes, schools, hospitals, roads and power lines near burnable vegetation form the wildland-urban interface. HydraShield maps them from real OpenStreetMap data.',
+          live: function (d) { return d.assets !== null ? 'Mapped critical facilities within 2 km: ' + d.assets + ' (OpenStreetMap).' : 'OpenStreetMap context unavailable for this place.'; } },
+        { t: '6 · What we can do', x: 'Risk can be reduced before fire starts: manage hazardous dry fuel, create fuel breaks, prepare water, increase monitoring, and protect critical sites first.',
+          live: function (d) { return d.topRec ? 'Top evidence-based recommendation now: ' + d.topRec : null; } },
+        { t: '7 · If we intervene', x: 'With managed fuel breaks and hydrated protection zones, the modelled fire spread slows and the risk score drops. HydraShield shows this as a modelled scenario — never as an observed result.',
+          live: function (d) { return d.scenario ? 'Modelled hydration scenario: risk ' + d.scenario[0] + ' → ' + d.scenario[1] + ' (modelled, not observed).' : null; } },
+        { t: '8 · Recovery', x: 'After fire, ecosystems can recover: many native species resprout, and restoration with site-appropriate, less-flammable native vegetation reduces future risk. HydraShield recommends species from the real site conditions.',
+          live: function (d) { return d.species ? 'Site-fitted example: ' + d.species + ' (verify locally).' : null; } }
+    ];
+
+    var step = 1, liveData = null;
+    var stage = document.getElementById('stage');
+    var dots = document.getElementById('dots');
+
+    steps.forEach(function (_, i) {
+        var d = document.createElement('button');
+        d.className = 'dot';
+        d.setAttribute('aria-label', 'Go to step ' + (i + 1));
+        d.addEventListener('click', function () { go(i + 1); });
+        dots.appendChild(d);
+    });
+
+    function go(n) {
+        step = Math.max(1, Math.min(steps.length, n));
+        stage.setAttribute('data-step', String(step));
+        var s = steps[step - 1];
+        document.getElementById('capTitle').textContent = s.t;
+        document.getElementById('capText').textContent = s.x;
+        var liveBox = document.getElementById('capLive');
+        var liveText = liveData && s.live ? s.live(liveData) : null;
+        if (liveText) { liveBox.textContent = liveText; liveBox.hidden = false; }
+        else { liveBox.hidden = true; }
+        Array.prototype.forEach.call(dots.children, function (d, i) {
+            d.classList.toggle('active', i === step - 1);
+        });
+        document.getElementById('prevBtn').disabled = step === 1;
+        document.getElementById('nextBtn').disabled = step === steps.length;
+    }
+    document.getElementById('prevBtn').addEventListener('click', function () { go(step - 1); });
+    document.getElementById('nextBtn').addEventListener('click', function () { go(step + 1); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') go(step + 1);
+        if (e.key === 'ArrowLeft') go(step - 1);
+    });
+
+    // --- optional real data ------------------------------------------------
+    document.getElementById('locBtn').addEventListener('click', function () {
+        var q = document.getElementById('locInput').value.trim();
+        if (!q) return;
+        var note = document.getElementById('liveNote');
+        note.textContent = 'Loading real analysis for "' + q + '"… (first request for a new area can take up to a minute)';
+        fetch(API + '/analyze?location=' + encodeURIComponent(q))
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (d.error) { note.textContent = 'Could not analyse "' + q + '": ' + d.error; return; }
+                var a = d.analysis || {}, fd = d.fire_danger || {}, w = d.weather || {};
+                var exp = d.exposure || {};
+                var hyd = (d.scenarios || []).find(function (s) { return s.id === 'hydration' && s.status === 'modelled'; });
+                var ecoRec = (d.ecology && d.ecology.recommended || [])[0];
+                liveData = {
+                    name: (d.location || {}).name || q,
+                    temp: w.temperature_c, rh: w.relative_humidity_pct, sm: w.soil_moisture_m3m3,
+                    risk: ((a.risk || {}).baseline), cls: (a.risk || {}).class,
+                    fwi: fd.fwi, fmc: a.fuel_moisture_baseline_pct,
+                    ros: (a.fire_spread || {}).ros_current_m_min,
+                    assets: exp.status === 'ok' ? (exp.vulnerable_assets || {}).total : null,
+                    topRec: (d.recommendations || [])[0] ? d.recommendations[0].what : null,
+                    scenario: hyd ? [hyd.baseline.risk, hyd.result.risk] : null,
+                    species: ecoRec ? ecoRec.common_name + ' (' + ecoRec.scientific_name + ')' : null
+                };
+                note.textContent = 'Live real data loaded for ' + liveData.name +
+                    ' — values shown in the steps come from the current HydraShield analysis.';
+                go(step);
+            })
+            .catch(function (err) { note.textContent = 'Request failed: ' + err; });
+    });
+
+    go(1);
+})();
+</script>
+</body>
+</html>

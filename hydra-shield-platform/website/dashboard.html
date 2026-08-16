@@ -146,6 +146,7 @@
                 <li><a href="applications.html">Applications</a></li>
                 <li><a href="technology.html">Technology</a></li>
                 <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="story.html">Story</a></li>
                 <li><a href="dashboard.html" class="active">Dashboard</a></li>
                 <li><a href="contact.html" class="btn-nav">Contact</a></li>
             </ul>
@@ -178,6 +179,10 @@
                 <div class="score-disclaimer" id="scoreDisclaimer">
                     This is a composite wildfire-risk indicator (0–100), not a probability of fire.
                 </div>
+                <div style="margin-top:.8rem;">
+                    <a id="pdfBtn" class="hist-btn" style="text-decoration:none;display:inline-block;" href="#" target="_blank" rel="noopener">📄 Generate PDF report</a>
+                    <span style="color:var(--muted);font-size:.8rem;margin-left:.6rem;">includes provenance, limitations and validation status</span>
+                </div>
             </div>
 
             <div class="card">
@@ -191,6 +196,16 @@
             </div>
 
             <div class="card">
+                <h3>Exposure, vulnerability &amp; access <span style="font-size:.7rem;color:var(--muted);">(not part of the score)</span></h3>
+                <div id="exposureBlock"></div>
+            </div>
+
+            <div class="card">
+                <h3>Micro-area context</h3>
+                <div id="microBlock"></div>
+            </div>
+
+            <div class="card">
                 <h3>Current conditions</h3>
                 <div class="summary-grid" id="conditionsGrid"></div>
             </div>
@@ -199,6 +214,11 @@
                 <h3>Proactive protection</h3>
                 <div id="proactiveList"></div>
                 <div class="footer-note">Preventive measures reduce exposure; no intervention guarantees prevention.</div>
+            </div>
+
+            <div class="card">
+                <h3>Environmental solutions</h3>
+                <div id="ecologyBlock"></div>
             </div>
 
             <div class="card">
@@ -223,6 +243,11 @@
                     · Water used: <b id="waterUsed">—</b>
                     · Water saved vs conventional: <b id="waterSaved">—</b>
                 </div>
+            </div>
+
+            <div class="card">
+                <h3>Intervention scenarios</h3>
+                <div id="scenarioList"></div>
             </div>
 
             <div class="card">

@@ -85,6 +85,10 @@
         var prov = r.provenance || {};
 
         el('locName').textContent = r.location ? r.location.name : '';
+        if (r.location) {
+            el('pdfBtn').href = API + '/report?lat=' + r.location.latitude +
+                '&lon=' + r.location.longitude + '&history=1';
+        }
         el('riskScore').textContent = fmt(risk.baseline, '', 0);
         var cls = risk.class || '—';
         var rc = el('riskClass');
@@ -101,8 +105,12 @@
         renderConditions(r);
         renderWhy(r.risk_explanation || {});
         renderChange(r.change || {});
+        renderExposure(r.exposure || {});
+        renderMicro(r.micro_area || {});
         renderProactive(r.recommendations || []);
+        renderEcology(r.ecology || {});
         renderActionPlan(r.action_plan || {});
+        renderScenarios(r.scenarios || []);
         renderDrivers(r);
         renderComparison(a);
         renderSpread(a);
@@ -249,6 +257,112 @@
         }).join('');
         html += '<div class="footer-note">' + (plan.honesty_note || '') + '</div>';
         box.innerHTML = html;
+    }
+
+    // ------------------------------------------------------------------
+    // Exposure / Micro-area / Ecology / Scenarios
+    // ------------------------------------------------------------------
+    function renderExposure(x) {
+        var box = el('exposureBlock');
+        if (x.status !== 'ok') {
+            box.innerHTML = '<span class="unavail">OpenStreetMap context unavailable — ' +
+                (x.reason || '') + '.</span> ' + chip('unavailable');
+            return;
+        }
+        var va = x.vulnerable_assets || {};
+        var ac = x.access || {};
+        var wui = x.wui_indicator || {};
+        var wr = x.water_resources || {};
+        box.innerHTML = '<div class="kv">' +
+            '<div><span class="k">Buildings mapped (' + x.radius_m + ' m):</span> ' +
+                (x.exposure || {}).buildings_mapped + ' — ' + (x.exposure || {}).level + ' ' + chip('observed') + '</div>' +
+            '<div><span class="k">Critical facilities:</span> ' + (va.total || 0) +
+                ' (hospitals ' + (va.hospitals || 0) + ', schools ' + (va.schools || 0) +
+                ', fire stations ' + (va.fire_stations || 0) + ', power ' + (va.power_facilities || 0) + ') ' + chip('observed') + '</div>' +
+            '<div><span class="k">Access:</span> ' +
+                (ac.limited ? '<b style="color:var(--high)">constraints — ' + (ac.constraints || []).join('; ') + '</b>'
+                            : 'no mapped constraint detected') + '</div>' +
+            '<div><span class="k">Potential WUI:</span> ' + (wui.potential_wui ? '<b style="color:var(--high)">yes</b>' : 'no') +
+                ' — ' + (wui.note || '') + '</div>' +
+            '<div><span class="k">Water features mapped:</span> ' + (wr.features_mapped || 0) +
+                ' <span style="color:var(--muted)">(availability for suppression not implied)</span></div>' +
+            '</div>' +
+            '<div class="footer-note">Counts are mapped OpenStreetMap features; completeness varies by region. ' +
+            (x.separate_from_score_note || '') + '</div>';
+    }
+
+    function renderMicro(m) {
+        var box = el('microBlock');
+        var mc = m.micro_context || {};
+        var rows = (m.resolution_table || []).map(function (r) {
+            return '<div><span class="k">' + r.layer + ':</span> ' + r.resolution +
+                ' <span style="color:var(--muted)">(' + r.scope + ' — ' + r.source + ')</span></div>';
+        }).join('');
+        var varNote = mc.variability_note
+            ? '<p style="margin:.6rem 0 0;font-size:.9rem;"><b>Measured 10 m variability:</b> ' + mc.variability_note + '</p>'
+            : '<p style="margin:.6rem 0 0;color:var(--muted);">' + (mc.unavailable_note || '') + '</p>';
+        box.innerHTML = '<div class="kv">' + rows + '</div>' + varNote +
+            '<div class="footer-note">' + ((m.regional_context || {}).note || '') + '</div>';
+    }
+
+    function renderEcology(eco) {
+        var box = el('ecologyBlock');
+        if (eco.status !== 'ok') {
+            box.innerHTML = '<span class="unavail">' + (eco.message || 'unavailable') + '</span>';
+            return;
+        }
+        var site = eco.site_conditions || {};
+        var html = '<p style="margin-top:0;font-size:.9rem;">Site: <b>' +
+            (site.climate_zone || 'climate undetermined') + '</b> · moisture regime <b>' +
+            (site.moisture_regime || 'undetermined') + '</b> · elevation ' +
+            fmt(site.elevation_m, ' m', 0) + ' · land cover ' + (site.land_cover || 'n/a') + '</p>';
+        function speciesRows(list, tag) {
+            return (list || []).map(function (e) {
+                return '<div class="rec-item">' +
+                    '<div class="what">' + e.common_name + ' <i style="color:var(--muted)">(' + e.scientific_name + ')</i> ' +
+                    '<span class="prio tag-' + (tag === 'not' ? 'status' : (tag === 'caution' ? 'recommended' : 'automated')) + '">' +
+                    (tag === 'not' ? 'not recommended' : (tag === 'caution' ? 'with caution' : (e.native ? 'native fit' : 'suitable'))) + '</span></div>' +
+                    '<div class="why"><b>Fire:</b> ' + (e.fire_considerations || '—') + '</div>' +
+                    '<div class="meta"><b>Role:</b> ' + (e.environmental_role || '—') +
+                    '<br><b>Drought tolerance:</b> ' + (e.drought_tolerance || '—') +
+                    ' · <b>Water need:</b> ' + (e.water_requirement || '—') +
+                    (e.site_fit && (e.site_fit.reasons_for || []).length ?
+                        '<br><b>Site fit:</b> ' + e.site_fit.reasons_for.join('; ') : '') +
+                    '<br><b>Evidence:</b> ' + (e.evidence || []).join('; ') +
+                    ' · <b>Confidence:</b> ' + (e.confidence || '—') + '</div>' +
+                    '</div>';
+            }).join('');
+        }
+        html += speciesRows(eco.recommended, 'ok');
+        html += speciesRows(eco.recommended_with_caution, 'caution');
+        html += speciesRows(eco.not_recommended, 'not');
+        html += '<div class="footer-note">' + (eco.fire_note || '') + ' ' + (eco.verification_note || '') + '</div>';
+        box.innerHTML = html;
+    }
+
+    function renderScenarios(scenarios) {
+        var box = el('scenarioList');
+        if (!scenarios.length) {
+            box.innerHTML = '<span class="unavail">No scenarios available.</span>';
+            return;
+        }
+        box.innerHTML = scenarios.map(function (s) {
+            if (s.status === 'modelled') {
+                var res = s.result || {}, base = s.baseline || {};
+                return '<div class="rec-item">' +
+                    '<div class="what">' + s.name + ' <span class="prio tag-recommended">modelled</span></div>' +
+                    '<div class="why">' + (s.intervention || '') + '</div>' +
+                    '<div class="meta"><b>Risk:</b> ' + fmt(base.risk, '', 0) + ' → ' + fmt(res.risk, '', 0) +
+                    ' (Δ ' + fmt(res.risk_delta, '', 1) + ') · <b>Spread:</b> ' +
+                    fmt(base.ros_m_min, ' m/min', 2) + ' → ' + fmt(res.ros_m_min, ' m/min', 2) +
+                    '<br><b>Assumptions:</b> ' + (s.assumptions || []).join(' ') +
+                    '<br><b>Uncertainty:</b> ' + (s.uncertainty || '') + '</div></div>';
+            }
+            return '<div class="rec-item">' +
+                '<div class="what">' + s.name + ' <span class="prio tag-status">not quantified</span></div>' +
+                '<div class="why">' + (s.mechanism || s.reason || '') + '</div>' +
+                '<div class="meta">' + (s.note || 'No effect size is invented.') + '</div></div>';
+        }).join('') + '<div class="footer-note">MODELLED INTERVENTION SCENARIOS — never observed results.</div>';
     }
 
     // ------------------------------------------------------------------

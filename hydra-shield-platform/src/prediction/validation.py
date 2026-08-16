@@ -390,6 +390,25 @@ def explain_error(error_type: str, features: Dict, score: float,
             f"(FWI {fwi_s}, score {score:.1f}).")
 
 
+def _classification_confidence(score: float, threshold: float) -> str:
+    """How decisive the classification was (declared margin heuristic)."""
+    margin = abs(score - threshold)
+    return "high" if margin >= 20.0 else "moderate" if margin >= 10.0 else "low"
+
+
+def _lesson_for(error_type: str) -> str:
+    """The recorded lesson per outcome type (feeds 'where does HydraShield fail?')."""
+    return {
+        "fp": "High-danger day without ignition: the danger assessment may be "
+              "correct while the occurrence label is negative — pair danger with "
+              "an ignition-likelihood layer before any occurrence claim.",
+        "fn": "Fire under sub-threshold danger: investigate local fuel continuity, "
+              "ignition sources and wind underweighting in the screening score.",
+        "tp": "Danger and occurrence aligned — supports the FWI anchoring.",
+        "tn": "Low danger and no occurrence aligned.",
+    }[error_type]
+
+
 def analyze_errors(
     scores: Sequence[float],
     y_true: Sequence[int],
@@ -398,6 +417,7 @@ def analyze_errors(
     threshold: float = 65.0,
     lats: Optional[Sequence[float]] = None,
     lons: Optional[Sequence[float]] = None,
+    model_version: str = "1.0.0",
 ) -> Dict:
     """
     Per-sample error records plus pattern aggregation.
@@ -433,6 +453,10 @@ def analyze_errors(
             "label": t,
             "type": etype,
             "explanation": explain_error(etype, features_list[i], scores[i], threshold),
+            "confidence": _classification_confidence(scores[i], threshold),
+            "lesson": _lesson_for(etype),
+            "model_version": model_version,
+            "features": {k: v for k, v in features_list[i].items()},
         }
         if lats is not None and lons is not None:
             rec["lat"], rec["lon"] = lats[i], lons[i]

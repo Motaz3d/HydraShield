@@ -230,6 +230,7 @@ def main() -> int:
         threshold=used_threshold,
         lats=[sample_lats[i] for i in test_idx],
         lons=[sample_lons[i] for i in test_idx],
+        model_version=MODEL_VERSION,
     )
     learning = validation.calibration_improvement(
         [scores[i] for i in train_idx], [labels[i] for i in train_idx],

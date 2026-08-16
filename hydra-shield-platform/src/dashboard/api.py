@@ -12,6 +12,8 @@ Public, honest, real-data endpoints:
     GET  /api/history           "Lessons from the Past": recent fire-danger
                                 history + observed fires + what HydraShield
                                 would have recommended (real ERA5 + FIRMS)
+    GET  /api/report            Professional PDF report for a location,
+                                built from the same real cached analysis
     POST /api/watch             Register a threshold alert watch
     DELETE /api/watch/<id>      Remove a watch
     POST /api/spread            Fire-spread model evaluation (caller-supplied inputs)
@@ -258,6 +260,68 @@ def create_app() -> Flask:
         if "error" in result:
             return _error(result["error"], 502)
         return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/report", methods=["GET"])
+    def report():
+        """
+        Professional PDF report for a location, rendered from the same real
+        cached analysis (and optional real history) that backs /api/analyze
+        and /api/history. ?history=1 includes the "Lessons from the Past".
+        """
+        if not _rate_limiter.allow(f"report:{_client_key()}", 10, 60.0):
+            return _error("Rate limit exceeded (10 requests/minute)", 429)
+
+        location = (request.args.get("location") or "").strip()[:200]
+        if location:
+            from .real_data import geocode_location
+
+            geo = geocode_location(location)
+            if "error" in geo:
+                return _error(geo["error"], 404)
+            lat, lon, name = geo["lat"], geo["lon"], geo["name"]
+        else:
+            lat, lon, err = _parse_point(request.args)
+            if err:
+                return _error("Provide ?location=... or ?lat=...&lon=...", 400)
+            name = f"{lat:.4f}, {lon:.4f}"
+
+        try:
+            result = _cached_analysis(round(lat, 4), round(lon, 4), name)
+        except Exception as exc:
+            return _error(f"Analysis failed: {exc}", 502)
+        if "error" in result:
+            return _error(result["error"], 404)
+
+        history = None
+        if (request.args.get("history") or "") == "1":
+            try:
+                h = history_module.compute_history(round(lat, 4), round(lon, 4), name, 90)
+                if "error" not in h:
+                    history = h
+            except Exception:
+                history = None  # history is optional; never fabricated
+
+        try:
+            from . import report as report_module
+
+            pdf = report_module.build_report_pdf(result, history=history)
+        except RuntimeError as exc:
+            return _error(f"Report generation unavailable: {exc}", 503)
+        except Exception as exc:
+            return _error(f"Report generation failed: {exc}", 502)
+
+        from flask import Response
+
+        safe = "".join(c if c.isalnum() else "_" for c in str(name))[:40]
+        return Response(
+            pdf,
+            mimetype="application/pdf",
+            headers={
+                "Content-Disposition": f'inline; filename="hydrashield_report_{safe}.pdf"',
+                "Cache-Control": "no-store",
+            },
+        )
 
     # ------------------------------------------------------------------
     @app.route("/api/watch", methods=["POST"])
