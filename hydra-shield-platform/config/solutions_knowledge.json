@@ -1,0 +1,607 @@
+{
+  "description": "Curated solutions knowledge base for the HydraShield Solutions Intelligence engine (docs/SOLUTIONS_INTELLIGENCE.md). This is REFERENCE KNOWLEDGE about generic solution CLASSES — not products, not vendors, not observations. Every entry carries applicability conditions the engine checks against real site values, stated limitations, and real citable sources (organisation + URL). No entry quantifies benefits or costs unless a documented public figure exists; cost_basis is 'not quantified' by default. Species-level vegetation detail lives in config/species_knowledge.json and is referenced, not duplicated.",
+  "solution_classes": {
+    "nature_based": "Ecosystem restoration / green infrastructure approaches",
+    "engineering": "Built structures and resilient-infrastructure approaches",
+    "technology": "Sensing, monitoring, data and automation approaches",
+    "land_management": "Land-use and vegetation management practices",
+    "early_warning": "Detection, forecasting and alerting approaches",
+    "water_management": "Water storage, conservation and drainage approaches",
+    "urban_cooling": "Urban heat mitigation approaches",
+    "coastal": "Coastal defence and adaptation approaches"
+  },
+  "applicability_fields": {
+    "climate_zones": "list of site climate zones the solution fits (null = unconstrained)",
+    "min_elevation_m": "minimum site elevation in metres (null = unconstrained)",
+    "max_elevation_m": "maximum site elevation in metres (null = unconstrained)",
+    "moisture_regimes": "list of site moisture regimes the solution fits (null = unconstrained)",
+    "landcover_any": "at least one of these ESA WorldCover class labels must be present on site (null = unconstrained)",
+    "requires_water": "true = mapped surface-water features must be present on site",
+    "requires_urban": "true = a mapped urban/building presence is required (>= 20 mapped buildings, matching the exposure layer's 'moderate' threshold)"
+  },
+  "solutions": [
+    {
+      "solution_id": "fuel_management",
+      "name": "Fuel management (thinning, clearing, fuel breaks)",
+      "classes": ["land_management"],
+      "hazards_addressed": ["wildfire"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Tree cover", "Shrubland", "Grassland"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Reduces fuel load and horizontal/vertical fuel continuity so fire intensity and rate of spread drop; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "site-specific fire-behaviour assessment required"},
+      "limitations": ["requires repeated maintenance — fuel regrows", "can conflict with habitat protection goals", "ineffective as sole measure under extreme fire weather"],
+      "implementation_complexity": "medium",
+      "maintenance": "high; periodic fuel reduction required",
+      "environmental_considerations": ["soil disturbance on slopes", "habitat effects to assess per site"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "NFPA Firewise USA", "url": "https://www.nfpa.org/firewise", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "UNEP — Spreading like Wildfire: The Rising Threat of Extraordinary Landscape Fires", "url": "https://www.unep.org/resources/report/spreading-wildfire-rising-threat-extraordinary-landscape-fires", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "fire_resistant_landscaping",
+      "name": "Fire-resistant landscape design around assets",
+      "classes": ["nature_based", "land_management"],
+      "hazards_addressed": ["wildfire"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Tree cover", "Shrubland", "Grassland"],
+        "requires_water": false,
+        "requires_urban": true
+      },
+      "mechanism": "Low-flammability, well-spaced vegetation and managed zones near structures reduce ember ignition and flame contact; species selection is guided by the curated species knowledge base (config/species_knowledge.json). Benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "structure-level vulnerability assessment required"},
+      "limitations": ["no vegetation is fireproof", "requires ongoing upkeep of defensible space", "does not address crown-fire behaviour in surrounding wildland"],
+      "implementation_complexity": "low",
+      "maintenance": "medium; seasonal clearing and pruning",
+      "environmental_considerations": ["prefer native low-flammability species", "water use of landscaping to assess in dry regions"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "NFPA Firewise USA", "url": "https://www.nfpa.org/firewise", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "EUFORGEN — European Forest Genetic Resources Programme", "url": "https://www.euforgen.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "wildfire_detection_monitoring",
+      "name": "Wildfire detection and monitoring (satellite + ground)",
+      "classes": ["technology", "early_warning"],
+      "hazards_addressed": ["wildfire"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Tree cover", "Shrubland", "Grassland"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Earlier detection shortens response time; combines satellite active-fire detections and fire-danger forecasting with ground observation. Benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "depends on response capacity; not quantifiable site-generically"},
+      "limitations": ["detection does not equal suppression capacity", "satellite revisit and cloud cover limit timeliness", "false alarms possible"],
+      "implementation_complexity": "medium",
+      "maintenance": "low-medium; service subscriptions and sensor upkeep",
+      "environmental_considerations": ["minimal direct environmental footprint"],
+      "technology_maturity": "established operational service",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "EFFIS — European Forest Fire Information System", "url": "https://effis.jrc.ec.europa.eu/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "NASA FIRMS — Fire Information for Resource Management System", "url": "https://firms.modaps.eosdis.nasa.gov/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "water_point_resilience",
+      "name": "Water-point resilience for suppression and drought buffering",
+      "classes": ["engineering", "water_management"],
+      "hazards_addressed": ["wildfire", "drought"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Tree cover", "Shrubland", "Grassland", "Cropland"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Secured, accessible water storage points support fire suppression and buffer dry spells; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "depends on network design and local hydrology study"},
+      "limitations": ["requires hydrological assessment", "evaporation losses in hot dry climates", "access must be designed and maintained"],
+      "implementation_complexity": "medium",
+      "maintenance": "medium; inspection and refill/dredging cycles",
+      "environmental_considerations": ["water abstraction impacts to assess", "can provide habitat if designed accordingly"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "FAO — Food and Agriculture Organization (water and land programmes)", "url": "https://www.fao.org/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "UNEP — Spreading like Wildfire: The Rising Threat of Extraordinary Landscape Fires", "url": "https://www.unep.org/resources/report/spreading-wildfire-rising-threat-extraordinary-landscape-fires", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "wetland_restoration",
+      "name": "Wetland restoration & flood retention",
+      "classes": ["nature_based", "water_management"],
+      "hazards_addressed": ["flood", "drought"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": true,
+        "requires_urban": false
+      },
+      "mechanism": "Temporarily stores peak flows and releases water slowly, buffering both floods and dry periods; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "site-specific hydraulic study required"},
+      "limitations": ["requires land availability", "multi-year establishment", "retention capacity is finite and site-specific"],
+      "implementation_complexity": "medium",
+      "maintenance": "low-medium; periodic vegetation management",
+      "environmental_considerations": ["habitat gain", "water-table effects to assess"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "Ramsar Convention on Wetlands", "url": "https://www.ramsar.org/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "UNEP — United Nations Environment Programme", "url": "https://www.unep.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "flood_retention_basins",
+      "name": "Engineered flood retention and detention basins",
+      "classes": ["engineering", "water_management"],
+      "hazards_addressed": ["flood"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Engineered storage intercepts and delays runoff peaks; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "requires hydraulic design study"},
+      "limitations": ["land take", "failure risk must be engineered and inspected", "sedimentation reduces capacity over time"],
+      "implementation_complexity": "high",
+      "maintenance": "medium; sediment and outlet-structure management",
+      "environmental_considerations": ["downstream flow-regime changes", "construction-phase impacts"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "European Commission — Floods Directive (EU water policy)", "url": "https://environment.ec.europa.eu/topics/water/floods_en", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "UNDRR — United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "suds_green_infrastructure",
+      "name": "Sustainable urban drainage (SUDS) and urban green infrastructure",
+      "classes": ["engineering", "nature_based", "water_management"],
+      "hazards_addressed": ["flood", "heat"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": true
+      },
+      "mechanism": "Permeable surfaces, swales and urban greening retain stormwater locally and cool the urban microclimate; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "catchment-scale drainage study required"},
+      "limitations": ["limited capacity in extreme events", "retrofitting dense urban areas is constrained", "requires space allocation"],
+      "implementation_complexity": "medium",
+      "maintenance": "medium; vegetation and permeable-surface upkeep",
+      "environmental_considerations": ["urban biodiversity gain", "soil-sealing reduction"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "European Environment Agency — urban adaptation", "url": "https://www.eea.europa.eu/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "European Commission — Environment (water and green infrastructure)", "url": "https://environment.ec.europa.eu/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "flood_early_warning",
+      "name": "Flood early warning (discharge-based forecasting and alerting)",
+      "classes": ["early_warning", "technology"],
+      "hazards_addressed": ["flood"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": true,
+        "requires_urban": false
+      },
+      "mechanism": "Hydrological forecasting and alerting buys preparation time ahead of high-discharge events; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "value depends on local preparedness and response plans"},
+      "limitations": ["forecast skill limited for flash floods", "alerts only help where response plans exist", "model resolution may miss small catchments"],
+      "implementation_complexity": "medium",
+      "maintenance": "low; service-based monitoring",
+      "environmental_considerations": ["no direct environmental footprint"],
+      "technology_maturity": "established operational service",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "GloFAS — Global Flood Awareness System (Copernicus EMS)", "url": "https://www.globalfloods.eu/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "United Nations — Early Warnings for All", "url": "https://www.un.org/en/climatechange/early-warnings-for-all", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "water_conservation",
+      "name": "Water conservation and demand management",
+      "classes": ["water_management", "land_management"],
+      "hazards_addressed": ["drought"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Reduces demand and losses so available supplies last longer through dry periods; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "requires local water-balance assessment"},
+      "limitations": ["behavioural and governance dependent", "savings saturate", "does not create new supply"],
+      "implementation_complexity": "low",
+      "maintenance": "low; ongoing programmes",
+      "environmental_considerations": ["reduces abstraction pressure on ecosystems"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "European Environment Agency — water resources and scarcity", "url": "https://www.eea.europa.eu/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "FAO — Food and Agriculture Organization", "url": "https://www.fao.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "smart_irrigation",
+      "name": "Smart / deficit irrigation scheduling",
+      "classes": ["technology", "water_management"],
+      "hazards_addressed": ["drought"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Cropland"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Soil-moisture and weather-informed scheduling applies water only when and where crops need it; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "farm-scale water audit required"},
+      "limitations": ["requires sensors, connectivity and skills", "savings vary by crop and soil", "upfront equipment cost (not quantified here)"],
+      "implementation_complexity": "medium",
+      "maintenance": "medium; sensor calibration and replacement",
+      "environmental_considerations": ["reduced groundwater abstraction", "salinity management still required"],
+      "technology_maturity": "demonstrated at farm scale",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "FAO — Food and Agriculture Organization (irrigation and water management)", "url": "https://www.fao.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "drought_tolerant_species",
+      "name": "Drought-tolerant species and variety selection",
+      "classes": ["land_management", "nature_based"],
+      "hazards_addressed": ["drought", "wildfire"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": ["dry", "normal"],
+        "landcover_any": ["Cropland", "Grassland", "Shrubland", "Tree cover"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Species and varieties with documented drought tolerance maintain cover and yield with less water; species-level guidance lives in the curated species knowledge base (config/species_knowledge.json). Benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "local trials and agronomic advice required"},
+      "limitations": ["tolerance is not immunity — severe drought still damages", "establishment phase still needs water", "species choice must be verified locally"],
+      "implementation_complexity": "low",
+      "maintenance": "low; standard agronomic/forestry practice",
+      "environmental_considerations": ["prefer locally native or non-invasive species", "biodiversity effects of monocultures to avoid"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "EUFORGEN — European Forest Genetic Resources Programme", "url": "https://www.euforgen.org/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "FAO — Food and Agriculture Organization", "url": "https://www.fao.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "soil_moisture_monitoring",
+      "name": "Soil-moisture monitoring for drought early detection",
+      "classes": ["technology"],
+      "hazards_addressed": ["drought"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Cropland", "Grassland"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Combines reanalysis/satellite soil-moisture products with in-situ sensors to detect developing soil drought early; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "value depends on the decisions the monitoring informs"},
+      "limitations": ["satellite products are top-layer and coarse-resolution", "in-situ sensors need maintenance", "monitoring alone saves no water"],
+      "implementation_complexity": "low",
+      "maintenance": "low-medium; sensor upkeep",
+      "environmental_considerations": ["no direct environmental footprint"],
+      "technology_maturity": "established operational data services",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "Copernicus Climate Data Store (ERA5-Land soil moisture)", "url": "https://cds.climate.copernicus.eu/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "urban_green_cooling",
+      "name": "Urban green and blue cooling (trees, parks, water features)",
+      "classes": ["urban_cooling", "nature_based"],
+      "hazards_addressed": ["heat"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": true
+      },
+      "mechanism": "Shade and evapotranspiration lower surface and air temperatures locally; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "microclimate modelling or measurement required per site"},
+      "limitations": ["trees take years to reach effective canopy", "irrigation demand in dry climates", "cooling effect is local, not city-wide by default"],
+      "implementation_complexity": "medium",
+      "maintenance": "medium; irrigation and tree care",
+      "environmental_considerations": ["biodiversity and air-quality co-benefits", "species choice must suit future climate"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "European Environment Agency — urban adaptation to climate change", "url": "https://www.eea.europa.eu/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "US EPA — Heat Island Reduction Program", "url": "https://www.epa.gov/heatislands", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "urban_shading_cool_materials",
+      "name": "Shading structures and cool / reflective materials",
+      "classes": ["urban_cooling", "engineering"],
+      "hazards_addressed": ["heat"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": true
+      },
+      "mechanism": "Shade and high-albedo surfaces reduce absorbed solar radiation on streets and buildings; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "site-specific thermal assessment required"},
+      "limitations": ["does not address night-time heat storage alone", "material durability and glare to assess", "winter-time penalties possible in cold climates"],
+      "implementation_complexity": "low",
+      "maintenance": "low-medium; cleaning and renewal cycles",
+      "environmental_considerations": ["material life-cycle impacts to assess"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "US EPA — Heat Island Reduction Program", "url": "https://www.epa.gov/heatislands", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "heat_health_alerting",
+      "name": "Heat-health warning and action plans",
+      "classes": ["early_warning"],
+      "hazards_addressed": ["heat"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Forecast-triggered alerts and pre-agreed actions protect vulnerable people during heat events; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "public-health evaluation required; not site-generic"},
+      "limitations": ["requires health-system and civil-protection coordination", "alert fatigue", "does not reduce the hazard itself"],
+      "implementation_complexity": "low",
+      "maintenance": "low; seasonal activation",
+      "environmental_considerations": ["no direct environmental footprint"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "WHO — heatwaves and health", "url": "https://www.who.int/health-topics/heatwaves", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "WMO — World Meteorological Organization", "url": "https://wmo.int/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "shelterbelts_windbreaks",
+      "name": "Shelterbelts and windbreaks",
+      "classes": ["land_management", "nature_based"],
+      "hazards_addressed": ["wind", "drought"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": ["Cropland", "Grassland"],
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Tree/shrub rows reduce near-ground wind speed, limiting crop damage, evapotranspiration losses and soil erosion; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "depends on design and orientation vs prevailing wind"},
+      "limitations": ["takes land out of production", "multi-year establishment", "wrong design can increase turbulence"],
+      "implementation_complexity": "medium",
+      "maintenance": "low-medium; periodic thinning/replacement",
+      "environmental_considerations": ["habitat corridors", "species must suit local water availability"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "FAO — Food and Agriculture Organization (agroforestry)", "url": "https://www.fao.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "wind_resilient_construction",
+      "name": "Wind-resistant design and retrofit of buildings",
+      "classes": ["engineering"],
+      "hazards_addressed": ["wind"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": true
+      },
+      "mechanism": "Code-based wind-load design, roof-to-wall connections and opening protection reduce structural damage; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "structural assessment per asset required"},
+      "limitations": ["retrofit costs per building (not quantified here)", "does not protect against debris from surroundings", "enforcement quality matters"],
+      "implementation_complexity": "high",
+      "maintenance": "low; inspection after events",
+      "environmental_considerations": ["construction material impacts"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "UNDRR — United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "resilient_infrastructure_siting",
+      "name": "Hazard-aware siting of new infrastructure",
+      "classes": ["engineering"],
+      "hazards_addressed": ["wind", "flood", "coastal"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Locating new assets outside documented hazard footprints avoids exposure rather than defending against it; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "avoided-loss accounting requires a documented valuation method — not integrated"},
+      "limitations": ["only applies to new development", "land-use planning authority required", "hazard footprints have uncertainty"],
+      "implementation_complexity": "medium",
+      "maintenance": "low; planning-process integration",
+      "environmental_considerations": ["can steer development away from sensitive ecosystems"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "UNDRR — United Nations Office for Disaster Risk Reduction", "url": "https://www.undrr.org/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "IPCC — Intergovernmental Panel on Climate Change", "url": "https://www.ipcc.ch/", "class": "SCIENTIFIC"}
+      ]
+    },
+    {
+      "solution_id": "dune_restoration",
+      "name": "Dune restoration and management",
+      "classes": ["coastal", "nature_based"],
+      "hazards_addressed": ["coastal", "wind"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": 150,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Vegetated dune systems dissipate wave and wind energy and store sand that buffers storm erosion; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "coastal-process study required"},
+      "limitations": ["only applicable on sandy coasts", "vulnerable to trampling and development pressure", "does not stop long-term shoreline retreat under sea-level rise"],
+      "implementation_complexity": "medium",
+      "maintenance": "low-medium; fencing, planting and access management",
+      "environmental_considerations": ["habitat restoration", "sediment-budget interactions to assess"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "UNEP — United Nations Environment Programme", "url": "https://www.unep.org/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "IPCC — Intergovernmental Panel on Climate Change", "url": "https://www.ipcc.ch/", "class": "SCIENTIFIC"}
+      ]
+    },
+    {
+      "solution_id": "coastal_wetland_restoration",
+      "name": "Coastal wetland and saltmarsh restoration",
+      "classes": ["coastal", "nature_based", "water_management"],
+      "hazards_addressed": ["coastal", "flood"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": 50,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": true,
+        "requires_urban": false
+      },
+      "mechanism": "Intertidal vegetation attenuates waves and storm surge before they reach assets; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "site-specific coastal modelling required"},
+      "limitations": ["requires suitable intertidal space", "multi-year establishment", "limited effect in extreme surge events"],
+      "implementation_complexity": "high",
+      "maintenance": "low-medium; monitoring and invasive-species control",
+      "environmental_considerations": ["major habitat and carbon co-benefits", "hydrodynamic changes to assess"],
+      "technology_maturity": "established practice",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "Ramsar Convention on Wetlands", "url": "https://www.ramsar.org/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "UNEP — United Nations Environment Programme", "url": "https://www.unep.org/", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    },
+    {
+      "solution_id": "coastal_monitoring_early_warning",
+      "name": "Coastal monitoring and storm-surge early warning",
+      "classes": ["coastal", "early_warning", "technology"],
+      "hazards_addressed": ["coastal"],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": true,
+        "requires_urban": false
+      },
+      "mechanism": "Ocean forecasting and sea-level monitoring give lead time before surge and erosion events; benefit declared qualitative.",
+      "expected_benefit": {"quantified": false, "quantification_note": "value depends on preparedness and response plans"},
+      "limitations": ["forecast uncertainty near complex coastlines", "alerting requires response plans", "does not reduce the hazard itself"],
+      "implementation_complexity": "medium",
+      "maintenance": "low; service-based monitoring",
+      "environmental_considerations": ["no direct environmental footprint"],
+      "technology_maturity": "established operational service",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "sources": [
+        {"name": "Copernicus Marine Service", "url": "https://marine.copernicus.eu/", "class": "OPEN_DATA_OFFICIAL"},
+        {"name": "United Nations — Early Warnings for All", "url": "https://www.un.org/en/climatechange/early-warnings-for-all", "class": "OPEN_DATA_OFFICIAL"}
+      ]
+    }
+  ]
+}
