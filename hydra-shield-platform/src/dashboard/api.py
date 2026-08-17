@@ -606,6 +606,11 @@ def create_app() -> Flask:
     def internal_error(_e):
         return _error("Internal error", 500)
 
+    # Multi-hazard platform API (/api/v2/…) — v1 contracts above are untouched.
+    from ..climate.api_v2 import v2 as v2_blueprint
+
+    app.register_blueprint(v2_blueprint)
+
     return app
 
 
