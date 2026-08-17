@@ -112,6 +112,10 @@ hydra-shield-platform/
 - **`change.py`** — "What changed?": 24 h / 7 d temporal comparison of risk drivers from the real daily series, with a generated explanation of the drivers that actually changed.
 - **`ecology.py`** — Environmental Solutions: site-fitted vegetation/restoration recommendations from real site conditions (climate signal, moisture regime, elevation, land cover) matched to a curated, sourced species knowledge base (`config/species_knowledge.json`). Honest "insufficient data" path; no "fireproof" claims.
 - **`exposure.py`** — Exposure/vulnerability/access intelligence from real OpenStreetMap data (Overpass): mapped buildings, critical facilities, roads, water features, WUI signal — reported separately from the score.
+- **`population.py`** — Population exposure intelligence from real WorldPop gridded estimates (100 m, reference-year labelled, one-time country raster download into `data/population/`): estimated population/density, population-by-hazard-class overlay (real spatial join with the risk grid), corridor polygon population for smoke — always "estimated …, reference year XXXX", never exact counts.
+- **`ignition.py`** — Relative Ignition-Likelihood Indicator: declared-threshold screening indicator from real FFMC (FWI System), WorldPop density, OSM roads and fuel dryness. Explicitly NOT a probability and NOT validated (see `docs/VALIDATION.md`); hazard ≠ ignition ≠ observed fire are kept strictly separate.
+- **`smoke.py`** — Smoke Intelligence: atmospheric transport guidance from real Open-Meteo hourly wind profiles (850 hPa transport level). OBSERVED mode (NASA FIRMS detections, requires key) and SCENARIO mode (hypothetical fire, clearly labelled) are never mixed; output is a widening corridor envelope with declared uncertainty — never a deterministic smoke path. Population/facility overlays via the real WorldPop grid and OSM polygon queries.
+- **`learning.py`** — Prediction-vs-observation record store (SQLite): model version, prediction/observation times, outcomes, lessons — evidence only, never auto-promotion.
 - **`micro.py`** — Micro-area context: measured 10 m NDMI scene variability + an honest per-layer resolution table (micro/local/regional).
 - **`scenarios.py`** — Intervention scenario framework: model-supported scenarios (hydration, fuel management, combined) computed by the real models; everything else explicitly "not quantified".
 - **`report.py`** — Professional PDF reports (`GET /api/report?type=simple|decision|scientific`) rendered from the same real analysis object for three audiences, with provenance, limitations and validation status.
@@ -216,6 +220,21 @@ curl "http://localhost:8051/api/risk-snapshot"
 # Lessons from the past: real ERA5 fire-danger history + observed fires
 curl "http://localhost:8051/api/history?lat=37.6&lon=-6.5&days=90"
 
+# Population exposure: WorldPop estimate + population-by-hazard-class overlay
+curl "http://localhost:8051/api/population-exposure?lat=37.6&lon=-6.5&radius_km=3"
+
+# Relative Ignition-Likelihood Indicator (screening — NOT a probability)
+curl "http://localhost:8051/api/ignition-risk?lat=37.6&lon=-6.5"
+
+# Smoke transport: observed fires (needs FIRMS_MAP_KEY) / scenario for a
+# hypothetical fire under current conditions (clearly labelled SCENARIO)
+curl "http://localhost:8051/api/smoke?lat=37.6&lon=-6.5&radius_km=50&days=3"
+curl "http://localhost:8051/api/smoke-scenario?lat=37.6&lon=-6.5&hours=24"
+
+# Combined human-exposure summary (hazard/population/ignition/OSM/smoke,
+# kept strictly separate)
+curl "http://localhost:8051/api/exposure-summary?lat=37.6&lon=-6.5"
+
 # Health
 curl "http://localhost:8051/api/health"
 ```
@@ -251,6 +270,12 @@ curl -X POST "http://localhost:8051/api/v2/auth/register" \
 FIRMS_MAP_KEY=... python scripts/run_validation.py \
     --bbox -10,36,3,44 --start 2026-07-01 --end 2026-08-10 --threshold 65
 # Writes data/validation/validation_report_<start>_<end>.json — see docs/VALIDATION.md
+
+# Separate evaluation of the ignition-likelihood indicator (same discipline,
+# plus ROC-AUC / PR-AUC with prevalence baseline):
+FIRMS_MAP_KEY=... python scripts/evaluate_ignition.py \
+    --bbox -10,36,3,44 --start 2026-07-01 --end 2026-08-10
+# Writes data/validation/ignition_evaluation_<start>_<end>.json
 ```
 
 ### Environment variables
@@ -258,8 +283,8 @@ FIRMS_MAP_KEY=... python scripts/run_validation.py \
 See `.env.example`. All optional; missing configuration is reported as an
 unavailable layer, never replaced with invented data.
 
-- `FIRMS_MAP_KEY` — free NASA FIRMS key, enables the real active-fire layer
-  and the historical fire-events endpoint.
+- `FIRMS_MAP_KEY` — free NASA FIRMS key, enables the real active-fire layer,
+  the historical fire-events endpoint and observed-fire smoke transport.
 - `SMTP_HOST/PORT/USER/PASSWORD/FROM` — enable email delivery (accounts,
   alerts, reports). `SMTP_FROM=info@hydrashield.earth`. Without SMTP config,
   emails go to the safe dev outbox (`data/outbox/`) and are never sent.
@@ -267,6 +292,7 @@ unavailable layer, never replaced with invented data.
 - `HYDRASHIELD_SECRET_KEY` — HMAC key for session/verification tokens
   (set in production; a documented machine-stable fallback is used in dev).
 - `HYDRASHIELD_CACHE_DB` — SQLite cache/watch/accounts database path.
+- `HYDRASHIELD_POPULATION_DIR` — where the one-time WorldPop country rasters are cached (default `data/population/`).
 
 ### Dynamic data fusion example
 

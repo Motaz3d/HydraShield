@@ -277,6 +277,9 @@
         renderWhy(r.risk_explanation || {});
         renderChange(r.change || {});
         renderExposure(r.exposure || {});
+        renderPeople(r.population || {});
+        renderIgnition(r.ignition || {});
+        renderSmoke(r.smoke_scenario || {});
         renderMicro(r.micro_area || {});
         renderProactive(r.recommendations || []);
         renderEcology(r.ecology || {});
@@ -460,6 +463,126 @@
             '</div>' +
             '<div class="footer-note">Counts are mapped OpenStreetMap features; completeness varies by region. ' +
             (x.separate_from_score_note || '') + '</div>';
+    }
+
+    function renderPeople(p) {
+        var box = el('peopleBlock');
+        if (p.status !== 'ok') {
+            box.innerHTML = '<span class="unavail">Population exposure unavailable — ' +
+                (p.reason || '') + '.</span> ' + chip('unavailable');
+            return;
+        }
+        var html = '<div class="kv">' +
+            '<div><span class="k">Estimated population (' + p.radius_km + ' km radius):</span> ' +
+                fmt(p.estimated_population, '', 0) + ' ' + chip('modeled') + '</div>' +
+            '<div><span class="k">Mean density:</span> ' + fmt(p.mean_density_per_km2, ' people/km²', 1) +
+                (p.density_level ? ' — ' + p.density_level : '') + '</div>' +
+            '<div><span class="k">Hazard class:</span> ' + (p.hazard_class || 'unknown') + '</div>';
+        if (p.estimated_population_in_hazard_area !== null &&
+            p.estimated_population_in_hazard_area !== undefined) {
+            html += '<div><span class="k">Est. population in hazard area:</span> ' +
+                fmt(p.estimated_population_in_hazard_area, '', 0) + '</div>';
+        }
+        if (p.mapped_buildings !== null && p.mapped_buildings !== undefined) {
+            html += '<div><span class="k">Mapped buildings (OSM):</span> ' + p.mapped_buildings + '</div>';
+        }
+        html += '</div>';
+        html += '<p style="margin:.7rem 0 0;font-size:.95rem;">Human-exposure priority: ' +
+            '<span class="prio prio-' + p.human_exposure_priority + '">' + p.human_exposure_priority +
+            '</span> <span style="color:var(--muted)">' + (p.human_exposure_note || '') + '</span></p>';
+        var cf = p.critical_facilities;
+        if (cf) {
+            html += '<div class="kv"><div><span class="k">Critical facilities:</span> hospitals ' +
+                (cf.hospitals || 0) + ', schools ' + (cf.schools || 0) + ', fire stations ' +
+                (cf.fire_stations || 0) + ', power ' + (cf.power_facilities || 0) + ' ' + chip('observed') +
+                '</div></div>' +
+                '<div class="footer-note">' + (cf.note || '') + '</div>';
+        }
+        html += '<div class="footer-note">' + (p.estimate_note || '') + '</div>' +
+            '<div class="footer-note">' + (p.exposure_note || '') + '</div>' +
+            '<div class="footer-note">' + (p.separate_from_score_note || '') + '</div>';
+        box.innerHTML = html;
+    }
+
+    function renderIgnition(ig) {
+        var box = el('ignitionBlock');
+        var classPrio = { low: 'prio-low', moderate: 'prio-moderate', elevated: 'prio-high', high: 'prio-critical' };
+        var html = '';
+        if (ig.status !== 'ok') {
+            html += '<span class="unavail">Ignition-likelihood indicator unavailable — ' +
+                (ig.reason || '') + '.</span> ' + chip('unavailable');
+        } else {
+            html += '<p style="margin-top:0;font-size:.95rem;">' +
+                (ig.name || 'Relative Ignition-Likelihood Indicator') + ': <b>' +
+                fmt(ig.indicator, '/100', 0) + '</b> ' +
+                '<span class="prio ' + (classPrio[ig.class] || 'prio-routine') + '">' +
+                (ig.class || '—') + '</span></p>';
+            var comps = ig.components || {};
+            var compLabels = { fire_weather: 'Fire weather', human_presence: 'Human presence', fuel_dryness: 'Fuel dryness' };
+            html += Object.keys(comps).map(function (k) {
+                var c = comps[k] || {};
+                return '<div class="factor-row">' +
+                    '<span class="fname">' + (compLabels[k] || k.replace(/_/g, ' ')) + '</span>' +
+                    '<span class="fval">' + fmt(c.score, '', 0) + '/100</span>' +
+                    '<span class="fnote">' + (c.basis || '') + ' · weight ' + fmt(c.weight, '', 2) + '</span>' +
+                    '</div>';
+            }).join('');
+            if (ig.coverage_note) html += '<div class="footer-note">' + ig.coverage_note + '</div>';
+            if (ig.landcover_note) html += '<div class="footer-note">' + ig.landcover_note + '</div>';
+        }
+        // Honesty text is mandatory — never dropped, never paraphrased.
+        if (ig.not_a_probability) {
+            html += '<div class="footer-note"><i>' + ig.not_a_probability + '</i></div>';
+        }
+        (ig.distinctions || []).forEach(function (d) {
+            html += '<div class="footer-note">' + d + '</div>';
+        });
+        if (ig.lightning_note) html += '<div class="footer-note">' + ig.lightning_note + '</div>';
+        var vs = ig.validation_status || {};
+        if (vs.status) html += '<div class="footer-note"><b>' + vs.status + '</b></div>';
+        box.innerHTML = html;
+    }
+
+    function renderSmoke(s) {
+        var box = el('smokeBlock');
+        if (!s || s.error || s.status !== 'ok') {
+            box.innerHTML = '<span class="unavail">Smoke scenario unavailable — ' +
+                ((s && s.error) || 'transport could not be computed') + '.</span> ' + chip('unavailable');
+            return;
+        }
+        var t = s.transport || {};
+        var w = s.window || {};
+        var ov = s.overlays || {};
+        var html = '<div class="modelled-label">' + (s.mode_label || 'SCENARIO / MODELLED') + '</div>' +
+            '<p style="margin:0 0 .6rem;font-size:.9rem;">' + (s.scenario || '') + '</p>' +
+            '<div class="kv">' +
+            '<div><span class="k">Dominant transport:</span> ' + (t.dominant_transport_direction || '—') +
+                ' (' + fmt(t.dominant_transport_heading_deg, '°', 0) + ')</div>' +
+            '<div><span class="k">Mean transport speed:</span> ' + fmt(t.mean_transport_speed_kmh, ' km/h', 1) + '</div>' +
+            '<div><span class="k">Window:</span> next ' + fmt(w.hours, ' h', 0) + ' (' + (w.timezone || 'UTC') + ')</div>' +
+            '<div><span class="k">Confidence:</span> ' + (t.confidence || '—') +
+                ' <span style="color:var(--muted)">— ' + (t.confidence_note || '') + '</span></div>' +
+            '</div>';
+        var pop = ov.population || {};
+        if (pop.available) {
+            html += '<div class="kv" style="margin-top:.5rem;"><div><span class="k">Population in corridor:</span> ' +
+                fmt(pop.estimated_population_in_corridor, '', 0) +
+                ' <span style="color:var(--muted)">(' + (pop.source || '') + ')</span></div></div>' +
+                '<div class="footer-note">' + (pop.estimate_note || '') + '</div>';
+        }
+        var fac = ov.facilities || {};
+        if (fac.available && fac.counts) {
+            html += '<div class="kv" style="margin-top:.5rem;"><div><span class="k">Facilities in corridor:</span> hospitals ' +
+                (fac.counts.hospitals || 0) + ', schools ' + (fac.counts.schools || 0) +
+                ', fire stations ' + (fac.counts.fire_stations || 0) +
+                ' <span style="color:var(--muted)">(' + (fac.source || '') + ')</span></div></div>';
+        }
+        html += '<div class="footer-note">' + (s.disclaimer || '') + '</div>';
+        var safety = s.safety || {};
+        if (safety.distinction_note) html += '<div class="footer-note">' + safety.distinction_note + '</div>';
+        html += '<div class="footer-note">Observed-fire smoke transport is available via /api/smoke ' +
+            'when a NASA FIRMS key is configured.</div>';
+        box.innerHTML = html;
     }
 
     function renderMicro(m) {
@@ -775,6 +898,8 @@
                 'DEM terrain · 25–90 m (local)<br>' +
                 'Weather / FWI · ~11 km (regional)<br>' +
                 'OSM features · feature-level<br>' +
+                'Population · 100 m grid (WorldPop, modelled)<br>' +
+                'Smoke corridor · ~11 km NWP winds (screening envelope)<br>' +
                 'Risk score · composite (not 10 m)';
             return div;
         };
@@ -959,7 +1084,73 @@
         _addOsmLayer('fire_stations', '🚒 INFRASTRUCTURE — Fire stations (OSM)', '#ea580c');
         _addOsmLayer('water_features', '💧 INFRASTRUCTURE — Water features (OSM)', '#0284c7');
 
+        // ---- EXPOSURE: WorldPop population density grid (lazy fetch on first enable)
+        var popLabel = '👥 EXPOSURE — Population density (WorldPop 100 m)';
+        var popProxy = L.layerGroup();
+        overlayGroups[popLabel] = popProxy;
+        popProxy.on('add', function () {
+            if (popProxy._loaded) return;
+            popProxy._loaded = true;
+            fetch(API + '/population-exposure?lat=' + lat + '&lon=' + lon)
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    var cells = (data.population_grid || {}).cells || [];
+                    if (data.error || !cells.length) {
+                        // Honest unavailability: nothing fake is drawn.
+                        el('mapNote').textContent = 'Population density grid unavailable — ' +
+                            (data.error || 'no gridded population cells for this location') + '.';
+                        return;
+                    }
+                    cells.forEach(function (c) {
+                        popProxy.addLayer(L.rectangle([[c.south, c.west], [c.north, c.east]], {
+                            stroke: false, fillColor: popColor(c.population), fillOpacity: 0.45
+                        }).bindPopup('<b>Estimated population: ' + c.population + '</b>' +
+                            '<br><span style="color:#94a3b8">WorldPop, reference year ' +
+                            data.reference_year +
+                            ' — modelled gridded estimate, not an exact count.</span>'));
+                    });
+                    // Re-register under the real reference year.
+                    var fullLabel = '👥 EXPOSURE — Population density (WorldPop 100 m, ref ' +
+                        data.reference_year + ')';
+                    delete overlayGroups[popLabel];
+                    overlayGroups[fullLabel] = popProxy;
+                    rebuildControl();
+                })
+                .catch(function () {
+                    el('mapNote').textContent = 'Population density grid request failed — layer left empty.';
+                });
+        });
+
+        // ---- SMOKE: scenario transport corridor (modelled; default off)
+        var smk = r.smoke_scenario || {};
+        if (!smk.error && smk.status === 'ok' &&
+            smk.transport && smk.transport.corridor_polygon) {
+            var smokeGroup = L.layerGroup();
+            smokeGroup.addLayer(L.polygon(smk.transport.corridor_polygon, {
+                color: '#a855f7', weight: 1, dashArray: '4 4', fillOpacity: 0.12
+            }));
+            var traj = (smk.transport.trajectory || []).map(function (p) { return [p.lat, p.lon]; });
+            if (traj.length > 1) {
+                smokeGroup.addLayer(L.polyline(traj, {
+                    color: '#a855f7', weight: 2, dashArray: '6 4'
+                }).bindPopup('<b>' + (smk.mode_label || 'SMOKE SCENARIO (MODELLED)') + '</b><br>' +
+                    'Dominant transport: ' + (smk.transport.dominant_transport_direction || '—') +
+                    ' (' + fmt(smk.transport.dominant_transport_heading_deg, '°', 0) + ')' +
+                    '<br>Confidence: ' + (smk.transport.confidence || '—') +
+                    '<br><span style="color:#94a3b8">' + (smk.disclaimer || '') + '</span>'));
+            }
+            overlayGroups['💨 SMOKE — Scenario transport corridor (modelled)'] = smokeGroup;
+        }
+
         rebuildControl();
+    }
+
+    function popColor(n) {
+        // Estimated people per 100 m grid cell (WorldPop): pale -> dark red
+        if (n < 50) return '#fef3c7';
+        if (n < 500) return '#fcd34d';
+        if (n < 2000) return '#f97316';
+        return '#b91c1c';
     }
 
     function ndmiColor(v) {

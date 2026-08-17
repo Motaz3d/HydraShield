@@ -34,8 +34,11 @@ assumptions, limitations, metrics
 - `src/prediction/validation.py` — metric machinery: `ConfusionMatrix`
   (TP/FP/TN/FN, precision, recall, F1, accuracy, critical success index,
   false-alarm ratio), `compute_calibration` (reliability bins),
-  `brier_score`, `temporal_train_test_split` (strict date-based split —
-  tuning never sees evaluation dates), `select_threshold`,
+  `brier_score`, `roc_auc` (rank-based Mann-Whitney, tie-corrected, None
+  when a class is absent), `pr_auc` (precision-recall area — the
+  imbalance-appropriate ranking metric; the no-skill baseline equals the
+  positive prevalence), `temporal_train_test_split` (strict date-based
+  split — tuning never sees evaluation dates), `select_threshold`,
   `ValidationReport` (self-describing JSON), `evaluate_scores` (driver).
   Learning layer: `analyze_errors` (per-sample error explanations citing the
   real feature values + patterns by month / FWI bin / geography),
@@ -49,6 +52,33 @@ assumptions, limitations, metrics
   cached 7 days per window).
 - `scripts/run_validation.py` — orchestration on real data (see below).
   Each run also writes an entry into `data/models/registry.json`.
+- `src/dashboard/learning.py` — prediction-vs-observation record store
+  (SQLite, same database as the cache): model version, prediction time,
+  observation time, predicted condition, observed outcome, error, lesson,
+  confidence, data sources. Records are evidence only — a model is never
+  promoted from them automatically, and never from a single event.
+
+## Ignition-likelihood indicator evaluation
+
+The **Relative Ignition-Likelihood Indicator** (`src/dashboard/ignition.py`)
+is evaluated separately from the risk score — ignition likelihood and fire
+danger are different concepts and are validated against different questions:
+
+```bash
+FIRMS_MAP_KEY=<your key> python scripts/evaluate_ignition.py \
+    --bbox -10,36,3,44 --start 2026-07-01 --end 2026-08-10
+```
+
+Same anti-leakage discipline (temporal split by day, metrics on the
+evaluation partition only), plus ROC-AUC and PR-AUC with the prevalence
+baseline because fire positives are rare. The indicator's weather component
+(FFMC) is reconstructed per sample date from the ERA5 archive with a 21-day
+FWI spin-up; the human-presence component uses present-day WorldPop/OSM
+data as a declared vintage approximation. Output:
+`data/validation/ignition_evaluation_<start>_<end>.json`, plus one summary
+record in the learning store. **Until such a run has been executed and
+reviewed, the indicator reports `validation_status.validated = false`
+everywhere and must never be quoted as a probability of ignition.**
 
 ## Error analysis (learning from errors)
 

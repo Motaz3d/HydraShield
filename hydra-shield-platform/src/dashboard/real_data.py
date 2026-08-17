@@ -346,6 +346,95 @@ def fetch_weather_archive(lat: float, lon: float, start_date: str, end_date: str
     }
 
 
+@cached("wind_profile", TTL_WEATHER_CURRENT)
+def fetch_wind_profile(lat: float, lon: float, hours: int = 24) -> Dict:
+    """
+    Hourly wind profile for smoke-transport screening from Open-Meteo.
+
+    Returns the 10 m wind plus the 850 hPa pressure-level wind (~1.5 km,
+    a standard smoke-transport level) for the next ``hours`` hours. All
+    values are numerical-weather-model output (labelled accordingly).
+
+    ``transport_*`` is the wind level HydraShield uses for transport
+    screening: 850 hPa when available, else the 10 m wind with an explicit
+    note that surface wind poorly represents a buoyant plume.
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    hours = min(max(int(hours), 1), 48)
+    params = urllib.parse.urlencode(
+        {
+            "latitude": lat,
+            "longitude": lon,
+            "hourly": (
+                "wind_speed_10m,wind_direction_10m,"
+                "wind_speed_850hPa,wind_direction_850hPa"
+            ),
+            # The series starts at 00:00 UTC today; callers slice "from now",
+            # so request enough days to cover the remaining day + horizon and
+            # keep a generous slice of the series (not just the first hours).
+            "forecast_days": min((hours // 24) + 2, 16),
+            "timezone": "UTC",
+        }
+    )
+    try:
+        data = _get_json(f"https://api.open-meteo.com/v1/forecast?{params}")
+    except RuntimeError as exc:
+        return {"error": f"Wind profile service unavailable: {exc}"}
+    hourly = data.get("hourly") or {}
+    times = hourly.get("time") or []
+
+    def _series(name: str):
+        return hourly.get(name) or []
+
+    s10, d10 = _series("wind_speed_10m"), _series("wind_direction_10m")
+    s850, d850 = _series("wind_speed_850hPa"), _series("wind_direction_850hPa")
+
+    def _at(series, i):
+        return series[i] if i < len(series) else None
+
+    steps: List[Dict] = []
+    for i, t in enumerate(times[: 24 + hours + 1]):
+        sp850, dr850 = _at(s850, i), _at(d850, i)
+        sp10, dr10 = _at(s10, i), _at(d10, i)
+        if sp850 is not None and dr850 is not None:
+            t_speed, t_dir, level = float(sp850), float(dr850), "850 hPa"
+        elif sp10 is not None and dr10 is not None:
+            t_speed, t_dir, level = float(sp10), float(dr10), "10 m"
+        else:
+            continue
+        steps.append(
+            {
+                "time": t,
+                "wind_10m_kmh": sp10,
+                "wind_10m_dir_deg": dr10,
+                "wind_850hPa_kmh": sp850,
+                "wind_850hPa_dir_deg": dr850,
+                "transport_speed_kmh": t_speed,
+                "transport_dir_deg": t_dir,
+                "transport_level": level,
+            }
+        )
+
+    if not steps:
+        return {"error": "No usable wind profile data returned"}
+
+    level = steps[0]["transport_level"]
+    return {
+        "steps": steps,
+        "hours": len(steps),
+        "transport_level": level,
+        "level_note": (
+            "Transport uses the 850 hPa wind (~1.5 km), a standard smoke-transport level."
+            if level == "850 hPa"
+            else "Transport uses the 10 m surface wind (850 hPa unavailable) — surface "
+                 "wind poorly represents a buoyant plume; treat direction as weaker guidance."
+        ),
+        "units": data.get("hourly_units", {}),
+        "source": "Weather model hourly profile (Open-Meteo)",
+    }
+
+
 # --------------------------------------------------------------------------
 # Active fires — NASA FIRMS (requires free MAP_KEY in env FIRMS_MAP_KEY)
 # --------------------------------------------------------------------------

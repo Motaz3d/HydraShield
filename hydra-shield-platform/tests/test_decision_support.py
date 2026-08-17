@@ -1,6 +1,7 @@
 """Tests for the decision-support layers: ecology, exposure, micro-area,
 scenarios, environmental recommendations, audit trail, PDF report."""
 
+import io
 import os
 
 import pytest
@@ -403,6 +404,146 @@ def _report_payload():
                         "no_guarantee_note": "No guarantee."},
         "provenance": {"fire_danger": {"kind": "derived", "source": "FWI",
                                        "acquired": "2026-08-15", "limitations": "agg"}},
+        "population": {
+            "status": "ok", "radius_km": 3.0,
+            "estimated_population": 4820, "mean_density_per_km2": 170.8,
+            "density_level": "high",
+            "estimate_note": ("Estimated population exposure based on WorldPop, "
+                              "reference year 2025 (modelled gridded estimates at "
+                              "~100 m) — not an exact count."),
+            "reference_year": 2025,
+            "product": "WorldPop Global 2 (R2025A) constrained 100 m",
+            "resolution": "100 m (grid cells)",
+            "license": "CC-BY 4.0 (WorldPop, University of Southampton)",
+            "hazard_class": "Very high",
+            "estimated_population_in_hazard_area": 4820,
+            "exposure_note": ("Estimated population within 3.0 km of the analysed "
+                              "point while the area carries hazard class 'Very high'."),
+            "critical_facilities": {"hospitals": 1, "schools": 2, "fire_stations": 0,
+                                    "power_facilities": 0,
+                                    "note": "Mapped OpenStreetMap features."},
+            "mapped_buildings": 120,
+            "human_exposure_priority": "high",
+            "human_exposure_note": ("Very high wildfire hazard coincides with high "
+                                    "population density — elevated human-exposure priority."),
+            "separate_from_score_note": ("Population exposure is reported separately from "
+                                         "the composite wildfire-risk score; it is never "
+                                         "multiplied into a probability."),
+            "provenance": {"kind": "modeled",
+                           "source": "WorldPop Global 2 (R2025A) constrained 100 m, reference year 2025",
+                           "resolution": "100 m", "temporal": "reference year 2025",
+                           "quality": "ok",
+                           "limitations": "Gridded modelled estimates, not a census count."},
+        },
+        "ignition": {
+            "status": "ok",
+            "name": "Relative Ignition-Likelihood Indicator",
+            "model_version": "rili-1.0.0",
+            "indicator": 79.3, "class": "high",
+            "components": {
+                "fire_weather": {"score": 95.0, "weight": 0.5,
+                                 "inputs": {"ffmc": 90.0},
+                                 "basis": "FFMC from the Canadian FWI System (real Open-Meteo daily data)"},
+                "human_presence": {"score": 56.0, "weight": 0.3,
+                                   "inputs": {"population_density_per_km2": 120.0,
+                                              "roads_mapped_within_2km": 25},
+                                   "basis": "WorldPop estimated density + mapped OSM roads"},
+                "fuel_dryness": {"score": 75.0, "weight": 0.2,
+                                 "inputs": {"fmc_pct": 10.0},
+                                 "basis": "Fuel moisture content (Sentinel-2 NDMI-derived)"},
+            },
+            "weights": {"fire_weather": 0.5, "human_presence": 0.3, "fuel_dryness": 0.2},
+            "input_coverage": ["fire_weather", "human_presence", "fuel_dryness"],
+            "coverage_note": None, "landcover_note": None,
+            "not_a_probability": ("This is a relative screening indicator built from "
+                                  "declared thresholds and a-priori weights. It is NOT a "
+                                  "calibrated probability of ignition and must not be "
+                                  "quoted as one."),
+            "distinctions": [
+                "HIGH FIRE DANGER ≠ FIRE WILL OCCUR — dangerous conditions do not cause ignitions by themselves.",
+                "HIGH IGNITION SUSCEPTIBILITY ≠ OBSERVED FIRE — the indicator ranks relative likelihood, not occurrence.",
+                "Wildfire hazard, ignition likelihood and observed fires are reported separately and never merged.",
+            ],
+            "lightning_note": ("Natural ignition sources (lightning) are not included: "
+                               "no openly and legally usable lightning dataset passed "
+                               "the source audit."),
+            "separate_from_score_note": ("Ignition likelihood is reported separately from "
+                                         "the composite wildfire-risk score and is never "
+                                         "folded into it."),
+            "validation_status": {
+                "validated": False,
+                "status": "NOT VALIDATED — no historical evaluation has been executed yet",
+                "method_when_run": ("Temporal train/test split against NASA FIRMS historical "
+                                    "detections with positive/negative sampling, "
+                                    "class-imbalance handling, precision/recall/F1, ROC-AUC, "
+                                    "PR-AUC, Brier score, calibration and reliability analysis "
+                                    "(scripts/evaluate_ignition.py; framework: "
+                                    "src/prediction/validation.py)."),
+                "promotion_rule": ("The indicator is never promoted from a single event; "
+                                   "evaluation requires a multi-day historical sample."),
+            },
+            "provenance": {"kind": "derived",
+                           "source": "HydraShield ignition layer (declared thresholds)",
+                           "resolution": "analysis-area screening (population 100 m; weather ~11 km)",
+                           "temporal": "current conditions", "quality": "ok",
+                           "limitations": "Unvalidated relative indicator; not a probability."},
+        },
+        "smoke_scenario": {
+            "status": "ok", "mode": "scenario",
+            "mode_label": "SCENARIO / MODELLED — no fire is observed at this location",
+            "scenario": ("If a fire were to occur near this location under current "
+                         "atmospheric conditions, this is where the smoke could move."),
+            "location": {"latitude": 37.6, "longitude": -6.5},
+            "generated_at": "2026-08-16T00:00:00Z",
+            "window": {"from": "2026-08-16T00:00", "to": "2026-08-17T00:00",
+                       "hours": 24, "timezone": "UTC"},
+            "transport": {
+                "dominant_transport_direction": "E",
+                "dominant_transport_heading_deg": 90.0,
+                "mean_transport_speed_kmh": 18.5,
+                "displacement_km": 210.0,
+                "confidence": "moderate",
+                "confidence_note": ("Steady transport direction. 'Moderate' is the highest "
+                                    "confidence a screening trajectory from ~11 km model "
+                                    "winds ever receives here."),
+                "corridor_model": {"type": "widening envelope (screening), not a deterministic path",
+                                   "initial_half_width_km": 1.5,
+                                   "growth_km_per_hour": 0.75},
+            },
+            "overlays": {
+                "population": {"available": True,
+                               "estimated_population_in_corridor": 3210,
+                               "estimate_note": ("Estimated population within the modelled "
+                                                 "area based on WorldPop, reference year "
+                                                 "2025 (gridded estimates, not an exact count)."),
+                               "source": "WorldPop Global 2 (R2025A) constrained 100 m, reference year 2025"},
+                "facilities": {"available": True,
+                               "counts": {"hospitals": 1, "schools": 2, "fire_stations": 0},
+                               "facilities": [],
+                               "source": "OpenStreetMap (Overpass API, corridor polygon filter)",
+                               "note": "Mapped OSM features inside the modelled corridor."},
+            },
+            "disclaimer": ("Atmospheric transport guidance, not certainty. Screening "
+                           "trajectory from numerical-weather-model wind fields (~11 km "
+                           "grid): plume rise, chemistry, deposition, vertical wind shear "
+                           "and terrain channelling are not modelled."),
+            "safety": {"kind": ("general public-health guidance (WHO / national "
+                                "fire-service public advice)"),
+                       "not_medical_advice": True,
+                       "points": ["Follow instructions from official civil-protection and "
+                                  "fire services first."],
+                       "distinction_note": ("This section is environmental exposure "
+                                            "information from modelled atmospheric "
+                                            "transport. It is neither an observation of "
+                                            "smoke at ground level nor an official "
+                                            "emergency instruction.")},
+            "provenance": {"kind": "modeled",
+                           "source": "Weather model hourly profile (Open-Meteo) (transport level 850 hPa)",
+                           "resolution": "~11 km NWP grid; corridor is a screening envelope",
+                           "temporal": "next 24 h from 2026-08-16T00:00:00Z",
+                           "quality": "ok",
+                           "limitations": "Screening envelope, not a dispersion model."},
+        },
         "methodology": {"note": "methodology"},
     }
 
@@ -426,6 +567,66 @@ def test_pdf_report_with_history():
     }
     pdf = report_module.build_report_pdf(_report_payload(), history=history)
     assert pdf[:5] == b"%PDF-"
+
+
+def _pdf_text(pdf):
+    pypdf = pytest.importorskip("pypdf")
+    return "\n".join(page.extract_text() or ""
+                     for page in pypdf.PdfReader(io.BytesIO(pdf)).pages)
+
+
+# --------------------------------------------------------------------------
+# PDF report: population / ignition / smoke sections
+# --------------------------------------------------------------------------
+
+def test_pdf_decision_report_population_ignition_smoke_sections():
+    pytest.importorskip("reportlab")
+    text = _pdf_text(report_module.build_report_pdf(_report_payload(),
+                                                    report_type="decision"))
+    assert "Population & exposure" in text
+    assert "Ignition susceptibility" in text
+    assert "Smoke intelligence" in text
+    # Scenario labelling and population source must be visible.
+    assert "SCENARIO / MODELLED" in text
+    assert "WorldPop" in text
+    assert "reference year 2025" in text
+    # Honesty wording from the blocks is rendered verbatim.
+    assert "NOT a calibrated probability" in text
+    assert "NOT VALIDATED" in text
+
+
+def test_pdf_scientific_report_validation_method_text():
+    pytest.importorskip("reportlab")
+    text = _pdf_text(report_module.build_report_pdf(_report_payload(),
+                                                    report_type="scientific"))
+    assert "Validation method (when run)" in text
+    assert "Temporal train/test split" in text
+    # Scientific methodology appendix rows for the new layers.
+    assert "Population dataset" in text
+    assert "Smoke corridor model" in text
+    assert "Ignition validation" in text
+
+
+def test_pdf_simple_report_omits_new_sections():
+    pytest.importorskip("reportlab")
+    text = _pdf_text(report_module.build_report_pdf(_report_payload(),
+                                                    report_type="simple"))
+    assert "Smoke intelligence" not in text
+    assert "Population & exposure" not in text
+    assert "Ignition susceptibility" not in text
+
+
+def test_pdf_unavailable_blocks_render_unavailable():
+    pytest.importorskip("reportlab")
+    payload = _report_payload()
+    payload["population"] = {"status": "unavailable", "reason": "no WorldPop raster"}
+    payload["ignition"] = {"status": "unavailable", "reason": "no component inputs"}
+    payload["smoke_scenario"] = {"error": "wind profile unavailable"}
+    text = _pdf_text(report_module.build_report_pdf(payload, report_type="decision"))
+    assert "Population estimate unavailable" in text
+    assert "Ignition indicator unavailable" in text
+    assert "Smoke transport estimate unavailable" in text
+    assert text.count("(UNAVAILABLE)") >= 3
 
 
 # --------------------------------------------------------------------------

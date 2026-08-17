@@ -10,6 +10,8 @@
 #   FIRMS_MAP_KEY   NASA FIRMS API key for the active-fire layer (free)
 #   SMTP_HOST/PORT/USER/PASS/FROM   alert email delivery for watches
 #   HYDRASHIELD_CACHE_DB            cache/watch DB path (default in image)
+#   HYDRASHIELD_POPULATION_DIR      WorldPop raster cache (default /data/population,
+#                                   persisted on the hydrashield_data volume)
 
 services:
   caddy:
@@ -62,6 +64,7 @@ services:
     environment:
       - PORT=8051
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+      - HYDRASHIELD_POPULATION_DIR=${HYDRASHIELD_POPULATION_DIR:-/data/population}
       - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}
       - SMTP_HOST=${SMTP_HOST:-}
       - SMTP_PORT=${SMTP_PORT:-}
@@ -92,6 +95,7 @@ services:
       sh -c "while true; do python scripts/check_watches.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
     environment:
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+      - HYDRASHIELD_POPULATION_DIR=${HYDRASHIELD_POPULATION_DIR:-/data/population}
       - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}
       - SMTP_HOST=${SMTP_HOST:-}
       - SMTP_PORT=${SMTP_PORT:-}

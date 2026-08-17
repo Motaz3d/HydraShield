@@ -8,6 +8,7 @@ charts: the only chart is drawn from the real FWI series.
 
 Sections follow the public-trust requirements: executive summary, why this
 score, conditions, fire danger, what changed, exposure, micro-area,
+population & exposure, ignition susceptibility, smoke intelligence,
 proactive recommendations, environmental solutions, modelled scenarios,
 action plan, historical lessons (optional), validation status, sources &
 provenance, scientific limitations. OBSERVED / DERIVED / MODELLED /
@@ -342,6 +343,9 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     change = analysis.get("change") or {}
     exposure = analysis.get("exposure") or {}
     micro = analysis.get("micro_area") or {}
+    population = analysis.get("population") or {}
+    ignition = analysis.get("ignition") or {}
+    smoke_s = analysis.get("smoke_scenario") or {}
     ecology = analysis.get("ecology") or {}
     scenarios = analysis.get("scenarios") or []
     recs = analysis.get("recommendations") or []
@@ -495,7 +499,136 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                if mc.get("ndmi_variability") else "unavailable (no usable scene)")
             + ".", _SM))
 
-    # ---- 7. Proactive recommendations ------------------------------------
+    # ---- 7. Population & exposure -----------------------------------------
+    if not simple:
+        story.append(Paragraph(S("Population & exposure"), _S))
+        if population.get("status") == "ok":
+            rows = [
+                ["Estimated population (radius)",
+                 f"{_fmt(population.get('estimated_population'), '', 0)} within "
+                 f"{_fmt(population.get('radius_km'), ' km')} of the analysed point (MODELLED)"],
+                ["Mean density",
+                 _fmt(population.get("mean_density_per_km2"), " people/km²") + " (MODELLED)"],
+                ["Density level", population.get("density_level") or "unavailable"],
+                ["Reference", f"{population.get('product') or 'unavailable'}, reference year "
+                 f"{population.get('reference_year') or 'unavailable'}"],
+                ["Hazard class", f"{population.get('hazard_class') or 'unavailable'} (DERIVED)"],
+                ["Est. population in hazard area",
+                 _fmt(population.get("estimated_population_in_hazard_area"), '', 0)],
+                ["Human exposure priority",
+                 f"{population.get('human_exposure_priority') or 'unavailable'} — "
+                 f"{population.get('human_exposure_note') or ''}"],
+                ["Mapped buildings", _fmt(population.get("mapped_buildings"), '', 0) + " (OBSERVED)"],
+            ]
+            cf = population.get("critical_facilities")
+            if cf is not None:
+                rows.append(["Critical facilities",
+                             f"hospitals {_fmt(cf.get('hospitals'), '', 0)}, schools "
+                             f"{_fmt(cf.get('schools'), '', 0)}, fire stations "
+                             f"{_fmt(cf.get('fire_stations'), '', 0)}, power "
+                             f"{_fmt(cf.get('power_facilities'), '', 0)} (OBSERVED)"])
+            story.append(_kv_table(rows))
+            # Mandatory honesty notes — population is a gridded estimate,
+            # never an exact count, and is kept separate from the score.
+            story.append(Paragraph(population.get("estimate_note") or "", _SM))
+            story.append(Paragraph(population.get("separate_from_score_note") or "", _SM))
+        else:
+            story.append(Paragraph(
+                f"Population estimate unavailable — "
+                f"{population.get('reason') or 'not computed for this analysis'} "
+                "(UNAVAILABLE)", _B))
+
+    # ---- 8. Ignition susceptibility ---------------------------------------
+    if not simple:
+        story.append(Paragraph(S("Ignition susceptibility"), _S))
+        if ignition.get("status") == "ok":
+            rows = [
+                ["Indicator", ignition.get("name") or "Relative Ignition-Likelihood Indicator"],
+                ["Indicator value (0-100)",
+                 f"{_fmt(ignition.get('indicator'), '', 1)} / 100 — "
+                 f"{ignition.get('class') or 'unavailable'} (DERIVED, relative)"],
+                ["Input coverage",
+                 ", ".join(str(c).replace("_", " ")
+                           for c in (ignition.get("input_coverage") or [])) or "unavailable"],
+            ]
+            if ignition.get("coverage_note"):
+                rows.append(["Coverage note", ignition["coverage_note"]])
+            story.append(_kv_table(rows))
+            comp = ignition.get("components") or {}
+            if comp:
+                story.append(Paragraph(
+                    "Components (declared threshold functions, a-priori weights): "
+                    + "; ".join(
+                        f"{name.replace('_', ' ')} score {_fmt(c.get('score'))}, "
+                        f"weight {_fmt(c.get('weight'), '', 2)} — {c.get('basis')}"
+                        for name, c in comp.items()), _SM))
+            # Mandatory honesty notes (wording fixed by the ignition layer).
+            story.append(Paragraph(ignition.get("not_a_probability") or "", _SM))
+            for d in (ignition.get("distinctions") or [])[:2]:
+                story.append(Paragraph(d, _SM))
+            story.append(Paragraph(ignition.get("lightning_note") or "", _SM))
+            vs = ignition.get("validation_status") or {}
+            story.append(Paragraph(
+                f"Validation status: {vs.get('status') or 'unavailable'}", _SM))
+            if scientific and vs.get("method_when_run"):
+                story.append(Paragraph(
+                    f"Validation method (when run): {vs['method_when_run']}", _SM))
+        else:
+            story.append(Paragraph(
+                f"Ignition indicator unavailable — "
+                f"{ignition.get('reason') or 'not computed for this analysis'} "
+                "(UNAVAILABLE)", _B))
+
+    # ---- 9. Smoke intelligence --------------------------------------------
+    if not simple:
+        story.append(Paragraph(S("Smoke intelligence"), _S))
+        if smoke_s.get("status") == "ok":
+            # The SCENARIO / MODELLED label must stand out: no fire is observed.
+            story.append(Paragraph(f"<b>{smoke_s.get('mode_label') or ''}</b>", _B))
+            win = smoke_s.get("window") or {}
+            tr = smoke_s.get("transport") or {}
+            story.append(_kv_table([
+                ["Forecast window",
+                 f"{win.get('from')} → {win.get('to')} "
+                 f"({_fmt(win.get('hours'), ' h', 0)}, {win.get('timezone') or 'UTC'})"],
+                ["Dominant transport direction",
+                 f"{tr.get('dominant_transport_direction') or 'unavailable'} "
+                 f"(heading {_fmt(tr.get('dominant_transport_heading_deg'), '°')})"],
+                ["Mean transport speed", _fmt(tr.get("mean_transport_speed_kmh"), " km/h")],
+                ["Corridor displacement", _fmt(tr.get("displacement_km"), " km")],
+                ["Confidence", f"{tr.get('confidence') or 'unavailable'} — "
+                 f"{tr.get('confidence_note') or ''}"],
+            ]))
+            ov = smoke_s.get("overlays") or {}
+            ov_pop = ov.get("population") or {}
+            ov_fac = ov.get("facilities") or {}
+            ov_rows = []
+            if ov_pop.get("available"):
+                ov_rows.append(["Est. population in corridor",
+                                f"{_fmt(ov_pop.get('estimated_population_in_corridor'), '', 0)} — "
+                                f"{ov_pop.get('estimate_note') or ''} (MODELLED)"])
+            if ov_fac.get("available"):
+                counts = ov_fac.get("counts") or {}
+                ov_rows.append(["Facilities in corridor",
+                                f"hospitals {counts.get('hospitals', 0)}, schools "
+                                f"{counts.get('schools', 0)}, fire stations "
+                                f"{counts.get('fire_stations', 0)} (mapped OSM, OBSERVED)"])
+            if ov_rows:
+                story.append(_kv_table(ov_rows))
+            story.append(Paragraph(smoke_s.get("disclaimer") or "", _SM))
+            story.append(Paragraph(
+                (smoke_s.get("safety") or {}).get("distinction_note") or "", _SM))
+        else:
+            story.append(Paragraph(
+                f"Smoke transport estimate unavailable — "
+                f"{smoke_s.get('error') or smoke_s.get('reason') or 'not computed for this analysis'} "
+                "(UNAVAILABLE)", _B))
+        story.append(Paragraph(
+            "Observed-fire smoke transport (anchored at real NASA FIRMS "
+            "detections) is available via GET /api/smoke when a FIRMS key is "
+            "configured.", _SM))
+
+    # ---- 10. Proactive recommendations ------------------------------------
     story.append(Paragraph(
         S("What should you do? (RECOMMENDED)") if simple else
         S("Proactive recommendations (RECOMMENDED)"), _S))
@@ -519,7 +652,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             "driver currently detected.", _B))
     story.append(Paragraph((plan.get("no_guarantee_note") or ""), _SM))
 
-    # ---- 8. Environmental solutions --------------------------------------
+    # ---- 11. Environmental solutions --------------------------------------
     if not simple:
         story.append(Paragraph(S("Environmental solutions (ecological restoration)"), _S))
     if not simple and ecology.get("status") == "ok":
@@ -558,7 +691,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     elif not simple:
         story.append(Paragraph(ecology.get("message") or "unavailable", _B))
 
-    # ---- 9. Scenarios -----------------------------------------------------
+    # ---- 12. Scenarios -----------------------------------------------------
     if not simple:
         story.append(Paragraph(S("Intervention scenarios"), _S))
         rows = [["Scenario", "Baseline risk", "Scenario risk", "Δ", "Status"]]
@@ -583,7 +716,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             "beyond the models are reported as NOT QUANTIFIED; no improvement "
             "percentage is invented.", _SM))
 
-    # ---- 10. Action plan --------------------------------------------------
+    # ---- 13. Action plan --------------------------------------------------
     if not simple:
         story.append(Paragraph(S("Automation / action plan"), _S))
         story.append(_kv_table([
@@ -594,7 +727,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                                   for a in (plan.get("actions") or [])) or "none"],
         ]))
 
-    # ---- 11. Historical lessons (optional) --------------------------------
+    # ---- 14. Historical lessons (optional) --------------------------------
     if not simple and history and "error" not in history:
         story.append(Paragraph(S("Lessons from the past"), _S))
         w = history.get("window") or {}
@@ -629,7 +762,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                 "Map unavailable — the real fire-danger grid could not be "
                 "computed for this area at report time.", _B))
 
-    # ---- 12. Sources & provenance -----------------------------------------
+    # ---- 15. Sources & provenance -----------------------------------------
     if simple:
         story.append(Paragraph(S("Data freshness & main sources"), _S))
         main = []
@@ -697,6 +830,41 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             ["Model version", MODEL_VERSION],
             ["Validation status", VALIDATION_STATUS],
         ]))
+        meth_rows = []
+        if ignition.get("status") == "ok":
+            meth_rows.append(["Ignition model",
+                              f"{ignition.get('name') or 'Relative Ignition-Likelihood Indicator'}, "
+                              f"model version {ignition.get('model_version') or 'unavailable'} — "
+                              "declared piecewise threshold functions over real component "
+                              "inputs, a-priori weights renormalised over available "
+                              "components (DERIVED, relative)"])
+            weights = ignition.get("weights") or {}
+            if weights:
+                meth_rows.append(["Ignition weights (a priori)",
+                                  ", ".join(f"{k.replace('_', ' ')} {v}"
+                                            for k, v in weights.items())])
+            meth_rows.append(["Ignition validation",
+                              (ignition.get("validation_status") or {}).get("status")
+                              or "unavailable"])
+        if population.get("status") == "ok":
+            meth_rows.append(["Population dataset",
+                              f"{population.get('product') or 'unavailable'}, reference year "
+                              f"{population.get('reference_year') or 'unavailable'}, resolution "
+                              f"{population.get('resolution') or 'unavailable'}, license "
+                              f"{population.get('license') or 'not declared in analysis block'} "
+                              "(MODELLED)"])
+        if smoke_s.get("status") == "ok":
+            cm = (smoke_s.get("transport") or {}).get("corridor_model") or {}
+            meth_rows.append(["Smoke corridor model",
+                              f"{cm.get('type') or 'unavailable'} — initial half-width "
+                              f"{_fmt(cm.get('initial_half_width_km'), ' km', 2)}, growth "
+                              f"{_fmt(cm.get('growth_km_per_hour'), ' km/h per transport hour', 2)}"])
+            meth_rows.append(["Smoke safety guidance",
+                              (smoke_s.get("safety") or {}).get("kind") or "unavailable"])
+        if meth_rows:
+            story.append(Paragraph(
+                "Population, ignition & smoke model provenance", _B))
+            story.append(_kv_table(meth_rows))
         story.append(Paragraph("Assumptions & declared approximations", _B))
         story.append(Paragraph(
             "Daily aggregates approximate noon-standard FWI inputs; the FMC "
@@ -713,7 +881,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             "contributors (ohsome API, Heidelberg Institute) · NASA FIRMS "
             "(when configured).", _SM))
 
-    # ---- 13/14. Limitations ------------------------------------------------
+    # ---- 16/17. Limitations ------------------------------------------------
     story.append(Paragraph(S("Scientific limitations"), _S))
     story.append(Paragraph((analysis.get("methodology") or {}).get("note") or "", _SM))
     story.append(Paragraph(VALIDATION_STATUS, _SM))

@@ -36,8 +36,11 @@ from .change import build_change_block
 from .ecology import build_ecology_block
 from .exposure import build_exposure_block
 from .fire_evidence import build_fire_evidence
+from .ignition import build_ignition_block
 from .micro import build_micro_area_block
+from .population import build_population_block
 from .scenarios import build_scenarios
+from .smoke import smoke_scenario
 from .recommendations import build_recommendations, build_action_plan
 from ..prediction.fire_spread import FireSpreadModel
 from ..prediction.fuel_moisture import FuelMoistureModel
@@ -524,6 +527,41 @@ class HydraShieldRealAnalyser:
         provenance["micro_area"] = _prov(
             "derived", "Measured Sentinel-2 scene grid + declared layer resolutions",
             limitations=(result["micro_area"].get("provenance") or {}).get("limitations"),
+        )
+
+        # ---- Population exposure + ignition + smoke (kept separate) ----
+        result["population"] = build_population_block(result)
+        provenance["population"] = _prov(
+            (result["population"].get("provenance") or {}).get("kind", "unavailable"),
+            (result["population"].get("provenance") or {}).get(
+                "source", "WorldPop gridded population"),
+            quality=(result["population"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["population"].get("provenance") or {}).get("limitations"),
+        )
+
+        result["ignition"] = build_ignition_block(result)
+        provenance["ignition"] = _prov(
+            (result["ignition"].get("provenance") or {}).get("kind", "unavailable"),
+            (result["ignition"].get("provenance") or {}).get(
+                "source", "HydraShield ignition layer"),
+            quality=(result["ignition"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["ignition"].get("provenance") or {}).get("limitations"),
+        )
+
+        # Smoke Intelligence: only the SCENARIO mode belongs in the analysis
+        # (no fire is claimed to exist). Observed-fire smoke is served by
+        # /api/smoke with its own FIRMS-backed provenance.
+        try:
+            result["smoke_scenario"] = smoke_scenario(float(lat), float(lon))
+        except Exception as exc:
+            result["smoke_scenario"] = {"error": str(exc), "mode": "scenario"}
+        provenance["smoke_scenario"] = _prov(
+            (result["smoke_scenario"].get("provenance") or {}).get("kind", "unavailable"),
+            (result["smoke_scenario"].get("provenance") or {}).get(
+                "source", "Open-Meteo wind profile (scenario transport)"),
+            quality=(result["smoke_scenario"].get("provenance") or {}).get("quality", "ok"),
+            limitations=(result["smoke_scenario"].get("provenance") or {}).get("limitations")
+            or result["smoke_scenario"].get("error"),
         )
         context_unavailable = []
         if not result["change"].get("available"):

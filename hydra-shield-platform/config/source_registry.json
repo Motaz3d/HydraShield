@@ -1,6 +1,6 @@
 {
-  "audit_date": "2026-08-16",
-  "audit_method": "Each candidate was evaluated for scientific quality, spatial/temporal resolution, coverage, latency, historical depth, license, API/access method, reliability, documentation, uncertainty and relevance to wildfire prevention/validation. Statuses: integrated | candidate | rejected (with reason). Nothing is claimed as used unless it is integrated in the live pipeline.",
+  "audit_date": "2026-08-17",
+  "audit_method": "Each candidate was evaluated for scientific quality, spatial/temporal resolution, coverage, latency, historical depth, license, API/access method, reliability, documentation, uncertainty and relevance to wildfire prevention/validation. Statuses: integrated | candidate | rejected (with reason). Nothing is claimed as used unless it is integrated in the live pipeline. 2026-08-17 update: population-exposure and smoke-intelligence source audit (WorldPop/GHSL/GPW/Eurostat; CAMS/HYSPLIT/Sentinel-5P/lightning).",
   "sources": [
     {
       "name": "Copernicus Sentinel-2 L2A (via Element84 Earth Search STAC)",
@@ -20,7 +20,7 @@
     {
       "name": "Open-Meteo forecast API",
       "provider": "Open-Meteo (ECMWF/ICON/DWD model output)",
-      "purpose": "Current + forecast weather, daily fire-weather series, soil moisture",
+      "purpose": "Current + forecast weather, daily fire-weather series, soil moisture, hourly wind profiles (10 m + 850 hPa pressure level) for smoke-transport screening",
       "coverage": "Global",
       "resolution": "~11 km model grid",
       "update_frequency": "hourly",
@@ -28,9 +28,9 @@
       "access": "Free tier, no key",
       "license": "CC-BY 4.0",
       "kind": "modeled / forecast",
-      "limitations": "Numerical model output, not station observations",
+      "limitations": "Numerical model output, not station observations; 850 hPa winds approximate the smoke-transport layer but ignore plume rise, vertical shear and chemistry",
       "hydrashield_use": "integrated",
-      "integrated_in": "analysis (weather, FWI inputs), risk grid, snapshot"
+      "integrated_in": "analysis (weather, FWI inputs), risk grid, snapshot, smoke transport (wind profile)"
     },
     {
       "name": "ERA5 / ERA5-Land reanalysis (via Open-Meteo archive)",
@@ -80,7 +80,7 @@
     {
       "name": "NASA FIRMS (VIIRS S-NPP NRT, MODIS NRT)",
       "provider": "NASA LANCE / FIRMS",
-      "purpose": "Active-fire detections (375 m / 1 km), historical fire labels for validation",
+      "purpose": "Active-fire detections (375 m / 1 km), observed-fire locations for smoke-transport estimates, historical fire labels for ignition/risk validation",
       "coverage": "Global",
       "resolution": "375 m (VIIRS) / 1 km (MODIS)",
       "update_frequency": "several overpasses/day",
@@ -90,7 +90,111 @@
       "kind": "observed",
       "limitations": "Hotspots, not perimeters; cloud/overpass gaps; NRT archive window is short",
       "hydrashield_use": "integrated (activates with key; currently UNAVAILABLE — no key configured)",
-      "integrated_in": "analysis (active_fires, fire_evidence), history, validation"
+      "integrated_in": "analysis (active_fires, fire_evidence), history, validation, smoke (observed-fire mode)"
+    },
+    {
+      "name": "WorldPop gridded population (Global 2 R2025A constrained 100 m; Global 1 2020 UN-adjusted fallback)",
+      "provider": "WorldPop, University of Southampton",
+      "purpose": "Estimated population counts/density for human-exposure analysis and smoke-corridor population overlay",
+      "coverage": "Global (per-country rasters)",
+      "resolution": "~100 m grid cells",
+      "update_frequency": "annual series",
+      "reference_date": "2025 (R2025A) / 2020 (fallback)",
+      "latency": "n/a (static annual product)",
+      "access": "Public HTTPS per-country GeoTIFFs (data.worldpop.org), no credentials; one-time country download into local cache (HYDRASHIELD_POPULATION_DIR, default data/population/)",
+      "license": "CC-BY 4.0",
+      "kind": "modeled (dasymetric gridded estimates)",
+      "limitations": "Modelled estimates, not a census count; constrained variant allocates population to settled cells; country lookup by reverse geocoding rounded to ~0.1 deg; report wording must keep the reference year",
+      "hydrashield_use": "integrated",
+      "integrated_in": "analysis (population block), /api/population-exposure, smoke corridor population overlay, exposure summary"
+    },
+    {
+      "name": "GHSL — Global Human Settlement Layer (GHS-POP, GHS-BUILT-S)",
+      "provider": "European Commission JRC",
+      "purpose": "Gridded population + built-up surface — independent cross-check of WorldPop and settlement/built-up exposure",
+      "coverage": "Global",
+      "resolution": "100 m / 1 km (GHS-POP R2023A epochs 1975-2030)",
+      "update_frequency": "~5-year epochs",
+      "reference_date": "2020/2025 epochs",
+      "access": "Public download (JRC Data Catalogue / GHSL), no credentials",
+      "license": "CC-BY 4.0",
+      "kind": "modeled (gridded estimates)",
+      "limitations": "Coarser temporal reference than WorldPop annual series; download sizes are large; would add cross-validation value, not a second truth",
+      "hydrashield_use": "candidate (cross-check layer for population/built-up exposure)",
+      "integrated_in": "—"
+    },
+    {
+      "name": "GPWv4 — Gridded Population of the World",
+      "provider": "NASA SEDAC (CIESIN, Columbia University)",
+      "purpose": "Census-based gridded population (unmodeled allocation)",
+      "coverage": "Global",
+      "resolution": "~1 km (30 arc-second)",
+      "update_frequency": "~5-year releases (v4.11, reference ~2015-2020)",
+      "reference_date": "2020 (v4.11)",
+      "access": "SEDAC download; requires free NASA Earthdata login",
+      "license": "CC-BY 4.0",
+      "kind": "derived (census disaggregation)",
+      "limitations": "Coarser than WorldPop; older reference years; login barrier; no added value over WorldPop+GHSL for the current pipeline",
+      "hydrashield_use": "candidate (fallback/cross-check only)",
+      "integrated_in": "—"
+    },
+    {
+      "name": "Eurostat GEOSTAT population grid",
+      "provider": "Eurostat / EFGS",
+      "purpose": "Official 1 km population grid for EU/EFTA — authoritative reference for European pilot areas",
+      "coverage": "EU/EFTA",
+      "resolution": "1 km",
+      "update_frequency": "per census round (2021 grid)",
+      "reference_date": "2021",
+      "access": "Public download, no credentials",
+      "license": "Eurostat free re-use",
+      "kind": "observed/derived (census grid)",
+      "limitations": "Europe-only; 1 km cells coarse vs WorldPop 100 m; census-round vintage",
+      "hydrashield_use": "candidate (European reference cross-check)",
+      "integrated_in": "—"
+    },
+    {
+      "name": "CAMS — Copernicus Atmosphere Monitoring Service (global aerosol/PM forecasts)",
+      "provider": "ECMWF / Copernicus C3S-CAMS",
+      "purpose": "Smoke-relevant atmospheric composition: aerosol optical depth, PM2.5/PM10 forecasts — context and future validation of smoke-transport estimates",
+      "coverage": "Global (~40 km) + Europe regional (~10 km)",
+      "resolution": "~40 km global",
+      "update_frequency": "twice daily forecasts",
+      "latency": "hours",
+      "access": "Atmosphere Data Store (ADS) via cdsapi; requires free CDS credentials (CAMS_ADS_URL/CAMS_ADS_KEY)",
+      "license": "Copernicus free and open (attribution)",
+      "kind": "modeled (data-assimilation forecast)",
+      "limitations": "Credential setup required; 40 km grid is regional context, not street-level smoke; no plume-rise per fire",
+      "hydrashield_use": "candidate (smoke context + validation target once credentials are configured)",
+      "integrated_in": "—"
+    },
+    {
+      "name": "NOAA HYSPLIT (trajectory/dispersion model)",
+      "provider": "NOAA Air Resources Laboratory",
+      "purpose": "Reference-grade Lagrangian smoke transport/dispersion modelling",
+      "coverage": "Global (with meteorological input)",
+      "resolution": "depends on met input (GFS ~25 km)",
+      "update_frequency": "model runs on demand",
+      "access": "READY web interface is interactive; local installation + meteorological data downloads needed for programmatic use",
+      "license": "US Government work (public domain); met data terms vary",
+      "kind": "modeled",
+      "limitations": "No open low-latency programmatic API suitable for per-request embedding; heavy operational footprint (met data pipeline); would replace — not complement — the screening transport model",
+      "hydrashield_use": "candidate (optional offline/reference comparison; not wired into the request path)",
+      "integrated_in": "—"
+    },
+    {
+      "name": "Lightning detection networks (e.g. Blitzortung community data)",
+      "provider": "Blitzortung.org community / national LN providers",
+      "purpose": "Natural-ignition predictor (lightning-caused fires)",
+      "coverage": "Variable network density",
+      "resolution": "stroke-level (km accuracy)",
+      "update_frequency": "real-time",
+      "access": "Blitzortung raw data requires a participant/contributor agreement; no open operational API",
+      "license": "Restricted (contributor terms)",
+      "kind": "observed",
+      "limitations": "Access/licence barrier; coverage inhomogeneity; lightning ignitions are a minority of ignitions in current European pilot areas",
+      "hydrashield_use": "rejected for now (access/licence barrier; declared as a known gap in the ignition indicator)",
+      "integrated_in": "—"
     },
     {
       "name": "OpenStreetMap (via ohsome API; Overpass fallback)",
@@ -183,17 +287,17 @@
       "integrated_in": "—"
     },
     {
-      "name": "Sentinel-5P",
+      "name": "Sentinel-5P (TROPOMI)",
       "provider": "ESA / Copernicus",
-      "purpose": "Atmospheric composition (aerosols, NO2)",
+      "purpose": "Atmospheric composition (aerosol index, NO2, CO) — potential observed cross-check for smoke-transport estimates",
       "coverage": "Global",
       "resolution": "~5 km",
       "update_frequency": "daily",
-      "access": "via CDSE credentials",
+      "access": "via CDSE credentials (or Copernicus Data Space STAC)",
       "license": "Copernicus free and open",
       "kind": "observed",
-      "limitations": "No defined purpose in the current fire-danger model",
-      "hydrashield_use": "rejected for now (no defined scientific purpose in the risk model)",
+      "limitations": "Daily overpass (single afternoon snapshot); UV aerosol index is qualitative for smoke; requires CDSE credential setup",
+      "hydrashield_use": "candidate (smoke-transport cross-check; the 2026-08-16 rejection was because no atmospheric purpose existed then — Smoke Intelligence now defines one)",
       "integrated_in": "—"
     },
     {
