@@ -904,6 +904,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(v2_blueprint)
 
+    # Analytical engines: compound / cascading / economic-impact (/api/v2/…).
+    from ..climate.api_analytics import analytics_bp
+
+    app.register_blueprint(analytics_bp)
+
     # Accounts / auth API (/api/v2/auth…, /api/v2/account…, /api/v2/contact).
     from .auth_api import auth_bp
 

@@ -1,0 +1,164 @@
+"""
+Uncertainty Engine — the standard envelope for analytical values.
+
+Every NEW analytical endpoint wraps its payload in :class:`AnalyticalResult`
+so that a consumer can always see *what kind of value this is*
+(``observed | derived | modelled | projected | unavailable``), where it came
+from, how confident the platform is, and what the known limitations are.
+
+Norms (docs/EVIDENCE_ARCHITECTURE.md, src/climate/ontology.py):
+
+- ``unavailable`` is a first-class, respected answer — never a failure; it
+  always carries a reason.
+- Projections are structurally separated from observations via ``status`` —
+  never blended into one field.
+- ``confidence`` is a declared screening label (high/medium/low), not a
+  validated probability.
+
+Dependency-free; no I/O.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, asdict
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+
+VALID_STATUSES = frozenset({
+    "observed", "derived", "modelled", "projected", "unavailable",
+})
+VALID_CONFIDENCE = frozenset({"high", "medium", "low"})
+
+
+def _utcnow_iso() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+@dataclass
+class AnalyticalResult:
+    """The standard envelope around one analytical value.
+
+    ``value`` is None exactly when ``status == "unavailable"`` — an honest
+    gap always says why (``limitations`` carries the reason, echoed as
+    ``unavailable_reason`` in :meth:`to_dict`).
+    """
+
+    value: Any
+    status: str                          # observed|derived|modelled|projected|unavailable
+    source: Optional[str] = None         # human-readable origin, e.g. "ERA5-Land via Open-Meteo"
+    timestamp_utc: Optional[str] = None  # when the value was produced/acquired (UTC ISO)
+    method: Optional[str] = None         # how it was produced; mandatory for modelled/projected
+    confidence: str = "medium"           # high|medium|low — declared screening label
+    uncertainty: Optional[str] = None    # free text: known magnitude/sources of uncertainty
+    coverage: Optional[str] = None       # spatial/temporal coverage note
+    limitations: Optional[str] = None    # the honesty channel
+
+    def __post_init__(self) -> None:
+        if self.status not in VALID_STATUSES:
+            raise ValueError(f"invalid analytical status '{self.status}'")
+        if self.confidence not in VALID_CONFIDENCE:
+            raise ValueError(f"invalid confidence '{self.confidence}'")
+        if self.timestamp_utc is None:
+            self.timestamp_utc = _utcnow_iso()
+        if self.status == "unavailable" and not self.limitations:
+            raise ValueError("unavailable results must carry a reason in limitations")
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = asdict(self)
+        if self.status == "unavailable":
+            d["unavailable_reason"] = self.limitations
+        return d
+
+    # -- constructors ------------------------------------------------------
+
+    @classmethod
+    def observed(cls, value: Any, *, source: str,
+                 method: Optional[str] = None, confidence: str = "high",
+                 uncertainty: Optional[str] = None, coverage: Optional[str] = None,
+                 limitations: Optional[str] = None) -> "AnalyticalResult":
+        """A measured value from an instrument or authority."""
+        return cls(value, "observed", source, method=method,
+                   confidence=confidence, uncertainty=uncertainty,
+                   coverage=coverage, limitations=limitations)
+
+    @classmethod
+    def derived(cls, value: Any, *, source: str, method: str,
+                confidence: str = "medium", uncertainty: Optional[str] = None,
+                coverage: Optional[str] = None,
+                limitations: Optional[str] = None) -> "AnalyticalResult":
+        """Computed from observed inputs; the derivation method is stated."""
+        return cls(value, "derived", source, method=method,
+                   confidence=confidence, uncertainty=uncertainty,
+                   coverage=coverage, limitations=limitations)
+
+    @classmethod
+    def modelled(cls, value: Any, *, source: str, method: str,
+                 confidence: str = "medium", uncertainty: Optional[str] = None,
+                 coverage: Optional[str] = None,
+                 limitations: Optional[str] = None) -> "AnalyticalResult":
+        """Output of a declared model with declared inputs."""
+        return cls(value, "modelled", source, method=method,
+                   confidence=confidence, uncertainty=uncertainty,
+                   coverage=coverage, limitations=limitations)
+
+    @classmethod
+    def projected(cls, value: Any, *, source: str, method: str,
+                  confidence: str = "low", uncertainty: Optional[str] = None,
+                  coverage: Optional[str] = None,
+                  limitations: Optional[str] = None) -> "AnalyticalResult":
+        """Long-horizon scenario-conditional projection — never an observation."""
+        return cls(value, "projected", source, method=method,
+                   confidence=confidence, uncertainty=uncertainty,
+                   coverage=coverage, limitations=limitations)
+
+    @classmethod
+    def unavailable(cls, reason: str, source: Optional[str] = None, *,
+                    method: Optional[str] = None,
+                    coverage: Optional[str] = None) -> "AnalyticalResult":
+        """An honest 'we do not have this value': status unavailable, reason
+        in ``limitations`` (echoed as ``unavailable_reason`` by to_dict)."""
+        return cls(None, "unavailable", source, method=method,
+                   confidence="low", coverage=coverage, limitations=reason)
+
+
+def wrap_series(points: List[Dict[str, Any]], **meta: Any) -> Dict[str, Any]:
+    """Wrap a daily-series payload in the envelope.
+
+    ``points`` is a list of dicts with at least ``date`` (ISO) and ``value``
+    keys — point values may legitimately be None (a gap in the source is
+    reported, not filled). ``meta`` must declare ``status`` and ``source``
+    (never silently defaulted); ``method``, ``confidence``, ``uncertainty``,
+    ``coverage`` and ``limitations`` are optional and passed through.
+    """
+
+    status = meta.pop("status", None)
+    source = meta.pop("source", None)
+    if status not in VALID_STATUSES - {"unavailable"}:
+        raise ValueError(
+            "wrap_series requires meta['status'] in "
+            "{observed, derived, modelled, projected}")
+    if not source:
+        raise ValueError("wrap_series requires meta['source']")
+    if status in ("modelled", "projected") and not meta.get("method"):
+        raise ValueError(f"status '{status}' requires meta['method']")
+
+    points = list(points)
+    for i, p in enumerate(points):
+        if not isinstance(p, dict) or "date" not in p or "value" not in p:
+            raise ValueError(
+                f"point {i} must be a dict with 'date' and 'value' keys")
+
+    null_count = sum(1 for p in points if p["value"] is None)
+    return {
+        "status": status,
+        "source": source,
+        "timestamp_utc": meta.pop("timestamp_utc", None) or _utcnow_iso(),
+        "method": meta.pop("method", None),
+        "confidence": meta.pop("confidence", "medium"),
+        "uncertainty": meta.pop("uncertainty", None),
+        "coverage": meta.pop("coverage", None),
+        "limitations": meta.pop("limitations", None),
+        "points": points,
+        "point_count": len(points),
+        "null_count": null_count,
+    }

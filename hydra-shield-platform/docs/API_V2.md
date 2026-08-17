@@ -238,6 +238,72 @@ kind, limitations and integration status (`integrated | candidate |
 rejected`). 503 if the registry cannot be read. Identical content to
 `GET /api/sources`.
 
+### `GET /api/v2/registry` · `GET /api/v2/registry/<dataset_id>`
+
+The **Data Observatory** (`config/data_registry.json`): fuller dataset
+records — provider, provider_class, url, license, geographic/temporal
+coverage, spatial/temporal resolution, update frequency, variables,
+hazard relevance, provenance, quality, access method, api/download URL,
+commercial-use constraints, status (`integrated | candidate | rejected`)
++ status note. Filters: `?status=`, `?hazard=`, `?provider_class=`
+(400 on bad vocabulary). A catalog record never implies the data is wired
+into analysis unless `status=integrated` (see `observatory_note` in the
+response). 60/min.
+
+### `GET /api/v2/models` · `GET /api/v2/models/<model_id>`
+
+The **Model Registry** (`config/model_registry.json`): immutable records
+of HydraShield proprietary indicators — version, methodology, scientific
+basis (`research_ids`), inputs, outputs, validation datasets + status
+(`not_validated | validation_in_progress | validated_screening |
+validated_operational | deprecated`), geographic applicability,
+uncertainty, limitations. 404 for unknown ids. 60/min.
+
+### `GET /api/v2/research` · `GET /api/v2/research/<ref_id>`
+
+The **Research Registry** (`config/research_registry.json`): scientific
+foundations with authors/year/venue/DOI-or-official-URL, method, region,
+limitations and pipeline stage (`paper | method | prototype | benchmark |
+validation | production`). Filters: `?topic=`, `?pipeline_stage=`.
+A paper never becomes production logic directly. 60/min.
+
+### `GET /api/v2/ingestion/chains`
+
+Multi-provider ingestion architecture: per-variable provider chains
+(primary + fallbacks, never-merge notes) and declared single-provider
+gaps (currently: river discharge, soil moisture). 60/min.
+
+### `GET /api/v2/compound?lat&lon`
+
+**Compound Risk Engine v1** — qualitative interacting-hazard detection at
+a point (10/min). Real per-hazard signals (drought/heat/wind/flood + a
+declared screening fire-danger signal from ERA5+FWI) classified per the
+Zscheischler (2020) typology: `multivariate` (≥2 hazards simultaneously
+elevated), `temporally_compounding` (spell following spell within 90
+days), `preconditioned` (antecedent deficit amplifying a current hazard,
+INFERRED), `spatially_compounding` (always `not_computable` at point
+scale). Response: `compound_signals` (real values + evidence per signal),
+honest `no_compound_signal` empty state, `hazards_unavailable`, and an
+`uncertainty_envelope`. **No numeric compound score exists.**
+
+### `GET /api/v2/cascading?lat&lon`
+
+**Cascading Risk Graph v1** — structural relevance of cascade paths
+(10/min): curated hazard→system→system graph (`config/cascading_graph.json`)
+filtered to paths whose hazard is currently elevated AND whose system
+nodes have real mapped anchors (OSM/exposure counts). Carries the exact
+statement: "Propagation likelihoods and losses are NOT quantified — this
+is a structural relevance graph, not a loss model." Honest
+`no_active_hazards` / `insufficient_exposure` / `no_anchored_paths` states.
+
+### `GET /api/v2/economic-impact?lat&lon`
+
+**Economic Impact Engine v1** — three strictly separated blocks (10/min):
+`observed_losses` (always `unavailable` — no documented loss figures in
+integrated sources), `modelled_estimates` (exposure-bounded qualitative
+profile; monetary values `not_quantified`), `projections` (always
+`not_available`). `confidence: low` throughout.
+
 ---
 
 ## 3. Public v1 endpoints (`/api`, unchanged)
@@ -385,3 +451,7 @@ users' data.
 - **2026-08-17** — First published v2 contract: hazard registry, per-hazard
   analyze/events, economy, solutions, sources; frozen v1 public GETs;
   auth/account/alerts; webhooks (live, §6); API keys (live, §7).
+- **2026-08-17 (2)** — Data Observatory (`/registry`), Model Registry
+  (`/models`), Research Registry (`/research`), ingestion chains,
+  Compound Risk (`/compound`), Cascading Risk (`/cascading`), Economic
+  Impact (`/economic-impact`).

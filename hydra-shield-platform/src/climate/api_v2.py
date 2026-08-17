@@ -381,3 +381,190 @@ def solutions():
             site["unknown_hazards_requested"] = sorted(unknown)
 
     return jsonify(solutions_module.recommend_solutions(site))
+
+
+# ---------------------------------------------------------------------------
+# Data Observatory (config/data_registry.json — catalog records)
+# ---------------------------------------------------------------------------
+
+_OBSERVATORY_NOTE = (
+    "Entries are catalog records — status integrated/candidate/rejected; "
+    "nothing here implies the data is wired into analysis unless "
+    "status=integrated.")
+
+
+@v2.get("/registry")
+def data_observatory():
+    """The Data Observatory: /api/v2/registry?status=…&hazard=…&provider_class=…
+
+    Catalog records of datasets. Filters are exact-match on status and
+    provider_class, and membership-match on hazard_relevance for hazard.
+    """
+    if not _rate("v2registry", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import data_registry
+
+    try:
+        entries = data_registry.all()
+    except data_registry.RegistryError as exc:
+        return _err(f"Data registry unavailable: {exc}", 503)
+
+    status = (request.args.get("status") or "").strip().lower()
+    hazard = (request.args.get("hazard") or "").strip().lower()
+    provider_class = (request.args.get("provider_class") or "").strip().lower()
+    if status:
+        if status not in data_registry.VALID_STATUSES:
+            return _err(f"Unknown status '{status}'.", 400)
+        entries = [e for e in entries if e["status"] == status]
+    if hazard:
+        entries = [e for e in entries if hazard in e["hazard_relevance"]]
+    if provider_class:
+        if provider_class not in data_registry.VALID_PROVIDER_CLASSES:
+            return _err(f"Unknown provider_class '{provider_class}'.", 400)
+        entries = [e for e in entries if e["provider_class"] == provider_class]
+
+    return jsonify({
+        "datasets": entries,
+        "count": len(entries),
+        "filters": {
+            "status": status or None,
+            "hazard": hazard or None,
+            "provider_class": provider_class or None,
+        },
+        "observatory_note": _OBSERVATORY_NOTE,
+    })
+
+
+@v2.get("/registry/<dataset_id>")
+def data_observatory_entry(dataset_id: str):
+    """One catalog record by id; honest 404 when unknown."""
+    if not _rate("v2registry", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import data_registry
+
+    try:
+        entry = data_registry.get(dataset_id)
+    except data_registry.RegistryError as exc:
+        return _err(f"Data registry unavailable: {exc}", 503)
+    if entry is None:
+        return _err(f"Unknown dataset '{dataset_id}'. See /api/v2/registry.", 404)
+    return jsonify({"dataset": entry, "observatory_note": _OBSERVATORY_NOTE})
+
+
+# ---------------------------------------------------------------------------
+# Model registry (config/model_registry.json)
+# ---------------------------------------------------------------------------
+
+
+@v2.get("/models")
+def models():
+    """The model registry: immutable records of platform indicators/methods."""
+    if not _rate("v2models", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import data_registry
+
+    try:
+        entries = data_registry.models_all()
+    except data_registry.RegistryError as exc:
+        return _err(f"Model registry unavailable: {exc}", 503)
+    return jsonify({
+        "models": entries,
+        "count": len(entries),
+        "note": ("Model versions are never edited in place — a new version "
+                 "id is added. Validation status is stated per model; "
+                 "screening indicators are not validated predictors unless "
+                 "their record says so."),
+    })
+
+
+@v2.get("/models/<model_id>")
+def model_detail(model_id: str):
+    """One model record by id; honest 404 when unknown."""
+    if not _rate("v2models", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import data_registry
+
+    try:
+        entry = data_registry.models_get(model_id)
+    except data_registry.RegistryError as exc:
+        return _err(f"Model registry unavailable: {exc}", 503)
+    if entry is None:
+        return _err(f"Unknown model '{model_id}'. See /api/v2/models.", 404)
+    return jsonify(entry)
+
+
+# ---------------------------------------------------------------------------
+# Research registry (config/research_registry.json)
+# ---------------------------------------------------------------------------
+
+
+@v2.get("/research")
+def research():
+    """The research registry: /api/v2/research?topic=…&pipeline_stage=…"""
+    if not _rate("v2research", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import data_registry
+
+    try:
+        entries = data_registry.research_all()
+    except data_registry.RegistryError as exc:
+        return _err(f"Research registry unavailable: {exc}", 503)
+
+    topic = (request.args.get("topic") or "").strip().lower()
+    stage = (request.args.get("pipeline_stage") or "").strip().lower()
+    if topic:
+        entries = [r for r in entries
+                   if topic in [str(t).lower() for t in r.get("topics", [])]]
+    if stage:
+        entries = [r for r in entries if r.get("pipeline_stage") == stage]
+
+    return jsonify({
+        "references": entries,
+        "count": len(entries),
+        "filters": {"topic": topic or None, "pipeline_stage": stage or None},
+        "note": ("A paper never becomes production logic directly: it moves "
+                 "through paper → method → prototype → benchmark → "
+                 "validation → production (pipeline_stage per entry)."),
+    })
+
+
+@v2.get("/research/<ref_id>")
+def research_detail(ref_id: str):
+    """One research reference by id; honest 404 when unknown."""
+    if not _rate("v2research", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import data_registry
+
+    try:
+        entry = data_registry.research_get(ref_id)
+    except data_registry.RegistryError as exc:
+        return _err(f"Research registry unavailable: {exc}", 503)
+    if entry is None:
+        return _err(f"Unknown reference '{ref_id}'. See /api/v2/research.", 404)
+    return jsonify(entry)
+
+
+# ---------------------------------------------------------------------------
+# Ingestion provider chains (declared scope, single-provider gaps)
+# ---------------------------------------------------------------------------
+
+
+@v2.get("/ingestion/chains")
+def ingestion_chains():
+    """Declared provider chains per platform variable.
+
+    Chains reference config/data_registry.json ids. Single-provider chains
+    are declared gaps, not hidden ones.
+    """
+    if not _rate("v2ingestion", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import ingestion
+
+    return jsonify(ingestion.chains_payload())
