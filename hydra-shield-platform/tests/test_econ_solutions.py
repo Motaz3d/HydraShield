@@ -371,3 +371,29 @@ def test_v2_solutions_endpoint_honest_without_hazards(client, monkeypatch):
     assert data["status"] == "insufficient_data"
     inputs = {m["input"] for m in data["insufficient_data"]["missing_inputs"]}
     assert "hazards" in inputs
+
+
+def test_v2_solutions_endpoint_accepts_caller_selected_hazards(client, monkeypatch):
+    import src.climate.api_v2 as v2_module
+
+    captured = {}
+
+    def fake_assemble(lat, lon):
+        return {"lat": lat, "lon": lon, "hazards": [], "climate_zone": "mediterranean"}
+
+    def fake_recommend(site, knowledge_path=None):
+        captured.update(site)
+        return {"status": "ok", "site": site, "recommendations_by_hazard": {}}
+
+    monkeypatch.setattr(v2_module, "_assemble_site", fake_assemble)
+    import src.climate.solutions as solutions_module
+
+    monkeypatch.setattr(solutions_module, "recommend_solutions", fake_recommend)
+
+    resp = client.get("/api/v2/solutions?lat=37.6&lon=-6.5&hazards=wildfire,drought,tornado")
+    assert resp.status_code == 200
+    hazard_ids = {h["id"] for h in captured.get("hazards", [])}
+    assert hazard_ids == {"wildfire", "drought"}  # valid registry ids only
+    assert all(h["level"] is None and "caller-selected" in h["basis"]
+               for h in captured["hazards"])
+    assert captured.get("unknown_hazards_requested") == ["tornado"]

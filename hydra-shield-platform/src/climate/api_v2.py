@@ -346,7 +346,11 @@ def solutions():
 
     Assembles the site dict from light cached fetchers and matches the
     curated solutions knowledge base. Hazard levels are not computed on
-    this endpoint — see ``hazards_note`` and ``insufficient_data``.
+    this endpoint — callers may declare hazards of interest explicitly via
+    ``&hazards=wildfire,drought`` (validated against the registry; basis
+    is declared as caller-selected), or use /api/v2/analyze per hazard for
+    levelled context. Without hazards the response is the honest
+    insufficient-data path.
     """
     if not _rate("v2solutions", 20, 60.0):
         return _err("Rate limit exceeded", 429)
@@ -355,7 +359,25 @@ def solutions():
     if err:
         return _err(err, 400)
 
-    from . import solutions as solutions_module
+    from . import registry, solutions as solutions_module
 
     site = _assemble_site(lat, lon)
+
+    hazards_param = (request.args.get("hazards") or "").strip()
+    if hazards_param:
+        selected, unknown = [], []
+        for hid in {h.strip().lower() for h in hazards_param.split(",") if h.strip()}:
+            if registry.get(hid) is not None:
+                selected.append({
+                    "id": hid,
+                    "level": None,
+                    "basis": "caller-selected hazard of interest "
+                             "(no level computed on this endpoint)",
+                })
+            else:
+                unknown.append(hid)
+        site["hazards"] = selected
+        if unknown:
+            site["unknown_hazards_requested"] = sorted(unknown)
+
     return jsonify(solutions_module.recommend_solutions(site))
