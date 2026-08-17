@@ -41,6 +41,7 @@ block.
 
 from __future__ import annotations
 
+import os
 import threading
 import time
 from datetime import datetime
@@ -88,6 +89,54 @@ def _client_key() -> str:
 
 
 # --------------------------------------------------------------------------
+# CORS (docs/API_FIRST_STRATEGY.md §3)
+# --------------------------------------------------------------------------
+# Read-only public GET endpoints may be exposed to configured origins via
+# HYDRASHIELD_CORS_ORIGINS (comma-separated EXACT origins, e.g.
+# "https://app.example.com,https://gis.example.org"). Default: unset → no
+# CORS headers at all (same-origin only). Access-Control-Allow-Origin is
+# emitted only when the request Origin matches an entry exactly AND the
+# path is a public GET endpoint; Access-Control-Allow-Credentials is never
+# emitted.
+
+CORS_PUBLIC_GET_PATHS = (
+    "/api/v2/hazards",
+    "/api/v2/analyze",
+    "/api/v2/events",
+    "/api/v2/sources",
+    "/api/v2/economy",
+    "/api/v2/solutions",
+    "/api/risk-grid",
+    "/api/risk-snapshot",
+    "/api/health",
+    "/api/sources",
+)
+
+
+def _cors_allowed_origins() -> list:
+    raw = os.environ.get("HYDRASHIELD_CORS_ORIGINS", "")
+    return [o.strip() for o in raw.split(",") if o.strip()]
+
+
+def _is_public_get_path(path: str) -> bool:
+    return any(
+        path == p or path.startswith(p + "/") for p in CORS_PUBLIC_GET_PATHS
+    )
+
+
+def _cors_origin_for_request() -> Optional[str]:
+    """The Origin to echo in Access-Control-Allow-Origin, else None."""
+    if request.method not in ("GET", "OPTIONS"):
+        return None
+    origin = (request.headers.get("Origin") or "").strip()
+    if not origin or origin not in _cors_allowed_origins():
+        return None
+    if not _is_public_get_path(request.path):
+        return None
+    return origin
+
+
+# --------------------------------------------------------------------------
 # Validation helpers
 # --------------------------------------------------------------------------
 
@@ -114,10 +163,22 @@ def _error(message: str, status: int):
 def create_app() -> Flask:
     app = Flask(__name__)
 
+    @app.before_request
+    def cors_preflight():
+        """204 preflight for CORS-enabled public GET endpoints only."""
+        if request.method == "OPTIONS" and _cors_origin_for_request():
+            return "", 204
+        return None
+
     @app.after_request
     def add_headers(resp):
         resp.headers["X-Content-Type-Options"] = "nosniff"
         resp.headers["Cache-Control"] = "no-store" if request.path.startswith("/api/watch") else resp.headers.get("Cache-Control", "")
+        origin = _cors_origin_for_request()
+        if origin:
+            resp.headers["Access-Control-Allow-Origin"] = origin
+            resp.headers["Vary"] = "Origin"
+            resp.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
         return resp
 
     # ------------------------------------------------------------------

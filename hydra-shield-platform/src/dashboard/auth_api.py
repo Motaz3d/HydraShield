@@ -11,12 +11,19 @@ docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md §6:
     GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
     GET  /api/v2/account/history
     GET/POST /api/v2/account/alerts · DELETE /api/v2/account/alerts/<id>
+    POST /api/v2/account/api-keys (subscriber) · GET /api/v2/account/api-keys
+    DELETE /api/v2/account/api-keys/<id>
+    GET/POST /api/v2/account/webhooks · DELETE /api/v2/account/webhooks/<id>
     GET  /api/v2/account/usage
     POST /api/v2/contact   (public; acknowledgement email; 5/hour/IP)
 
 Authentication: ``Authorization: Bearer <session token>`` (API clients) or
 the ``hydrashield_session`` HttpOnly cookie (website); Bearer takes
-precedence. CSRF: cookie-based browser POSTs rely on the SameSite=Lax
+precedence. When no session is present, the ``X-API-Key`` header
+authenticates external consumers (subscriber-issued keys, stored
+HMAC-hashed, revocable) — API keys are READ-ONLY: they never authenticate
+POST/DELETE/PATCH account mutations (403 "API keys are read-only").
+CSRF: cookie-based browser POSTs rely on the SameSite=Lax
 cookie attribute; API clients must use Bearer only. Tokens are random
 256-bit values, stored HMAC-hashed (see ``accounts.py``).
 
@@ -83,11 +90,43 @@ def current_token() -> str:
     return _bearer_token() or request.cookies.get(SESSION_COOKIE, "")
 
 
+_SAFE_METHODS = ("GET", "HEAD", "OPTIONS")
+
+
 def current_user():
-    """The authenticated user dict, or None (cached on the request)."""
+    """
+    The authenticated user dict, or None (cached on the request).
+
+    Resolution order: Bearer/cookie session first; when no session is
+    present, the ``X-API-Key`` header is tried (external consumers,
+    docs/API_FIRST_STRATEGY.md §3). API keys are READ-ONLY credentials:
+    on a non-safe method a valid key does not authenticate the request —
+    ``g.api_key_mutation_blocked`` is set instead, so the auth decorators
+    answer 403 "API keys are read-only" rather than a bare 401.
+    """
     if "current_user" not in g:
-        g.current_user = UserStore().get_session_user(current_token())
+        store = UserStore()
+        user = store.get_session_user(current_token())
+        g.auth_via_api_key = False
+        if user is None:
+            api_key = (request.headers.get("X-API-Key") or "").strip()
+            if api_key:
+                candidate = store.get_user_by_api_key(api_key)
+                if candidate is not None:
+                    if request.method in _SAFE_METHODS:
+                        user = candidate
+                        g.auth_via_api_key = True
+                    else:
+                        g.api_key_mutation_blocked = True
+        g.current_user = user
     return g.current_user
+
+
+def _unauthorized():
+    """401 — or 403 when a valid read-only API key attempted a mutation."""
+    if getattr(g, "api_key_mutation_blocked", False):
+        return _err("API keys are read-only", 403)
+    return _err("Authentication required", 401)
 
 
 def require_role(role: str):
@@ -101,7 +140,7 @@ def require_role(role: str):
         def wrapper(*args, **kwargs):
             user = current_user()
             if user is None:
-                return _err("Authentication required", 401)
+                return _unauthorized()
             if ROLE_RANK.get(user["role"], 0) < ROLE_RANK.get(role, 0):
                 return _err(
                     f"This feature requires the '{role}' tier",
@@ -356,7 +395,7 @@ def logout():
 def account_profile():
     user = current_user()
     if user is None:
-        return _err("Authentication required", 401)
+        return _unauthorized()
     store = UserStore()
     return jsonify({
         "user": user,
@@ -369,7 +408,7 @@ def account_profile():
 def account_update():
     user = current_user()
     if user is None:
-        return _err("Authentication required", 401)
+        return _unauthorized()
     data = request.get_json(silent=True) or {}
     if "display_name" not in data:
         return _err("Nothing to update (supported: display_name)", 400)
@@ -465,6 +504,101 @@ def delete_alert(alert_id: int):
     if UserStore().delete_alert(g.current_user["id"], alert_id):
         return jsonify({"deleted": True})
     return _err("Alert not found", 404)
+
+
+# ---------------------------------------------------------------------------
+# API keys (external consumers; docs/API_FIRST_STRATEGY.md §3)
+# ---------------------------------------------------------------------------
+
+@auth_bp.post("/account/api-keys")
+@require_role("subscriber")
+def create_api_key():
+    """Create an API key. The plaintext key is returned ONLY in this
+    response (stored HMAC-hashed); keys are read-only credentials."""
+    user = g.current_user
+    if not _tier_rate(user, "v2_api_keys"):
+        return _err("Rate limit exceeded for your tier", 429)
+    data = request.get_json(silent=True) or {}
+    result = UserStore().create_api_key(user["id"], label=data.get("label"))
+    return jsonify({
+        "api_key": result,
+        "note": "Store the key now — it is shown only once. Send it as the "
+                "X-API-Key header on GET requests; API keys are read-only.",
+    }), 201
+
+
+@auth_bp.get("/account/api-keys")
+@require_role("registered")
+def list_api_keys():
+    return jsonify({"api_keys": UserStore().list_api_keys(g.current_user["id"])})
+
+
+@auth_bp.delete("/account/api-keys/<int:key_id>")
+@require_role("registered")
+def revoke_api_key(key_id: int):
+    if UserStore().revoke_api_key(g.current_user["id"], key_id):
+        return jsonify({"revoked": True})
+    return _err("API key not found", 404)
+
+
+# ---------------------------------------------------------------------------
+# Webhook subscriptions (outbound, HMAC-signed; docs/API_FIRST_STRATEGY.md §5)
+# ---------------------------------------------------------------------------
+
+@auth_bp.get("/account/webhooks")
+@require_role("registered")
+def list_webhooks():
+    from .notify_store import NotifyStore
+
+    return jsonify({"webhooks": NotifyStore().list_webhooks(g.current_user["id"])})
+
+
+@auth_bp.post("/account/webhooks")
+@require_role("registered")
+def add_webhook():
+    """Create a webhook subscription. The target URL must pass the SSRF
+    guard (HTTPS, publicly resolvable IP — checked at creation AND at every
+    delivery). The signing secret is returned ONLY in this response."""
+    user = g.current_user
+    if not _tier_rate(user, "v2_webhooks"):
+        return _err("Rate limit exceeded for your tier", 429)
+    data = request.get_json(silent=True) or {}
+    url = (data.get("url") or "").strip()
+    events = data.get("events")
+    if events is None:
+        events = ["alert_fired"]
+    elif isinstance(events, str):
+        events = [events]
+    if not isinstance(events, list):
+        return _err('events must be a list, e.g. ["alert_fired", "significant_change"]', 400)
+    from .webhooks import target_allowed
+
+    if not target_allowed(url):
+        return _err(
+            "Webhook URL not allowed (HTTPS URL with a publicly resolvable "
+            "host required; private/loopback targets are rejected)", 400)
+    from .notify_store import NotifyStore
+
+    result = NotifyStore().add_webhook(user["id"], url, events)
+    if "error" in result:
+        return _err(result["error"], 400)
+    return jsonify({
+        "webhook": result["webhook"],
+        "secret": result["secret"],
+        "note": "Store the secret now — it is shown only once. Deliveries "
+                "are POSTs signed with X-HydraShield-Signature: "
+                "sha256=<hmac-sha256 of the raw body with this secret>.",
+    }), 201
+
+
+@auth_bp.delete("/account/webhooks/<int:webhook_id>")
+@require_role("registered")
+def delete_webhook(webhook_id: int):
+    from .notify_store import NotifyStore
+
+    if NotifyStore().delete_webhook(g.current_user["id"], webhook_id):
+        return jsonify({"deleted": True})
+    return _err("Webhook subscription not found", 404)
 
 
 @auth_bp.get("/account/usage")

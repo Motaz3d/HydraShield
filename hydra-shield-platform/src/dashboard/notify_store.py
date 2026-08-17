@@ -22,6 +22,11 @@ Tables:
 - ``alert_deliveries`` — per-channel delivery outcome for each alert
   record (sent | outbox | held_quiet_hours | suppressed_duplicate |
   failed | disabled).
+- ``webhook_subscriptions`` — per-user outbound webhook targets (HTTPS
+  URL, HMAC signing secret stored as ``secret_hash``, comma-separated
+  event list); capped at ``MAX_WEBHOOKS_PER_USER`` per user. The signing
+  secret is returned to the subscriber once at creation (see
+  ``webhooks.generate_secret``) and is never logged or audited.
 
 Security norms (same as ``accounts.py``): parameterised SQL everywhere,
 per-user isolation in every query, constant-time code comparison, audit
@@ -50,6 +55,9 @@ DEFAULT_MAX_PER_DAY = 10
 DEFAULT_LANGUAGE = "en"
 
 SEVERITY_THRESHOLDS = ("HIGH", "EXTREME")
+
+MAX_WEBHOOKS_PER_USER = 5
+WEBHOOK_EVENTS = ("alert_fired", "significant_change")
 
 _QUIET_HHMM_RE = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
 
@@ -135,6 +143,15 @@ class NotifyStore:
                     target TEXT,
                     status TEXT NOT NULL,
                     provider_message_id TEXT,
+                    created_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS webhook_subscriptions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    url TEXT NOT NULL,
+                    secret_hash TEXT NOT NULL,
+                    events TEXT NOT NULL DEFAULT 'alert_fired',
+                    active INTEGER NOT NULL DEFAULT 1,
                     created_at TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS audit_log (
@@ -464,6 +481,113 @@ class NotifyStore:
                 "UPDATE alert_rules SET last_severity = ?, last_checked = ? WHERE id = ?",
                 (last_severity, last_checked or _utcnow(), rule_id),
             )
+
+    # ------------------------------------------------------------------
+    # Webhook subscriptions (per-user isolation; cap 5/user; the signing
+    # secret is generated here and returned ONCE — see webhooks.py)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _webhook_row(row, include_secret: bool = False) -> Dict:
+        webhook = {
+            "id": row[0], "user_id": row[1], "url": row[2],
+            "events": [e for e in (row[4] or "").split(",") if e],
+            "active": bool(row[5]), "created_at": row[6],
+        }
+        if include_secret:
+            webhook["secret_hash"] = row[3]
+        return webhook
+
+    _WEBHOOK_COLS = "id, user_id, url, secret_hash, events, active, created_at"
+
+    def add_webhook(self, user_id: int, url: str, events: List[str]) -> Dict:
+        """
+        Create a webhook subscription. Returns
+        ``{"webhook": …, "secret": <signing secret>}`` — the secret is
+        returned ONLY here (it is the HMAC key for
+        ``X-HydraShield-Signature``; see ``webhooks.generate_secret``) and
+        must never be logged or included in later API responses. URL
+        validation (HTTPS + SSRF guard) happens in the API layer
+        (``webhooks.target_allowed``) before this is called.
+        """
+        url = (url or "").strip()[:500]
+        if not url:
+            return {"error": "A webhook url is required"}
+        clean_events = []
+        for event in events or []:
+            event = (event or "").strip()
+            if event not in WEBHOOK_EVENTS:
+                return {"error": f"Unknown event (valid: {', '.join(WEBHOOK_EVENTS)})"}
+            if event not in clean_events:
+                clean_events.append(event)
+        if not clean_events:
+            return {"error": "At least one event is required "
+                             f"(valid: {', '.join(WEBHOOK_EVENTS)})"}
+        from . import webhooks as webhooks_module
+
+        secret = webhooks_module.generate_secret()
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT COUNT(*) FROM webhook_subscriptions WHERE user_id = ?",
+                (user_id,),
+            ).fetchone()
+            if int(row[0]) >= MAX_WEBHOOKS_PER_USER:
+                return {"error": f"Webhook limit reached ({MAX_WEBHOOKS_PER_USER})"}
+            cur = conn.execute(
+                "INSERT INTO webhook_subscriptions"
+                " (user_id, url, secret_hash, events, active, created_at)"
+                " VALUES (?, ?, ?, ?, 1, ?)",
+                (user_id, url, secret, ",".join(clean_events), _utcnow()),
+            )
+            webhook_id = cur.lastrowid
+        # Audit: operational facts only — never the signing secret.
+        self.audit(user_id, "webhook_created", target="self",
+                   meta={"webhook_id": webhook_id, "events": clean_events})
+        return {"webhook": self.get_webhook(user_id, webhook_id), "secret": secret}
+
+    def get_webhook(self, user_id: int, webhook_id: int) -> Optional[Dict]:
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                f"SELECT {self._WEBHOOK_COLS} FROM webhook_subscriptions"
+                " WHERE id = ? AND user_id = ?",
+                (webhook_id, user_id),
+            ).fetchone()
+        return self._webhook_row(row) if row else None
+
+    def list_webhooks(self, user_id: int) -> List[Dict]:
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                f"SELECT {self._WEBHOOK_COLS} FROM webhook_subscriptions"
+                " WHERE user_id = ? ORDER BY id",
+                (user_id,),
+            ).fetchall()
+        return [self._webhook_row(r) for r in rows]
+
+    def list_active_webhooks_for_event(self, user_id: int, event_type: str) -> List[Dict]:
+        """Active subscriptions of a user that include ``event_type``
+        (internal dispatch use only — rows include the signing secret)."""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                f"SELECT {self._WEBHOOK_COLS} FROM webhook_subscriptions"
+                " WHERE user_id = ? AND active = 1 ORDER BY id",
+                (user_id,),
+            ).fetchall()
+        return [
+            self._webhook_row(r, include_secret=True)
+            for r in rows
+            if event_type in (r[4] or "").split(",")
+        ]
+
+    def delete_webhook(self, user_id: int, webhook_id: int) -> bool:
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "DELETE FROM webhook_subscriptions WHERE id = ? AND user_id = ?",
+                (webhook_id, user_id),
+            )
+        if cur.rowcount > 0:
+            self.audit(user_id, "webhook_deleted", target="self",
+                       meta={"webhook_id": webhook_id})
+        return cur.rowcount > 0
 
     # ------------------------------------------------------------------
     # Alert records + deliveries

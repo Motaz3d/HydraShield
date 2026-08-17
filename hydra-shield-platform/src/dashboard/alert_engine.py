@@ -2,7 +2,7 @@
 HydraShield unified alert engine.
 
 Turns REAL analysis results into high-value intelligence notifications
-(SMS + email) for alert rules. Core semantics:
+(SMS + email + webhooks) for alert rules. Core semantics:
 
 - Severity is classified from the real composite risk score onto
   ``SEVERITY_ORDER`` using the same thresholds as
@@ -12,19 +12,27 @@ Turns REAL analysis results into high-value intelligence notifications
   (:func:`evaluate_transition`): an upward crossing of the rule's
   threshold, and a downward recovery back below it. Same-severity
   re-checks stay silent.
+- An ADDITIONAL independent notify path is the significant-change trigger
+  (:func:`evaluate_significant_change`): a declared 24 h / 7 d delta
+  heuristic on the real daily FWI-anchored risk-score series — NOT a
+  validated anomaly model. It fires through the same dispatch and the
+  same dedupe/anti-flood machinery with trigger ``"significant_change"``.
 - Message content is always generated from the real analysis (FWI class /
   fire danger, real recommendations) — values are never invented.
 - Delivery respects user preferences: channel routing (SMS needs a
   verified phone), quiet hours (SMS held, email still sent), a per-user
   daily cap across channels, and a 6 h dedupe cooldown for identical
   rule+hazard+severity+trigger alerts.
+- After email/SMS, active webhook subscriptions of the user are notified
+  (``webhooks.dispatch_webhooks``, channel ``"webhook"``); webhook
+  failures never break the other channels.
 """
 
 from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 log = logging.getLogger("hydrashield.alert_engine")
 
@@ -88,6 +96,85 @@ def evaluate_transition(
     if new_rank < threshold_rank and old_rank >= threshold_rank:
         return True, "recovery"
     return False, None
+
+
+def evaluate_significant_change(
+    series,
+    *,
+    window: int = 1,
+    threshold: float = 20.0,
+) -> Tuple[bool, Dict]:
+    """
+    Significant-change trigger — DECLARED HEURISTIC, not a validated
+    anomaly model.
+
+    Declared method: on the real daily risk-score series (0-100 scale,
+    FWI-anchored — see :func:`daily_risk_scores_from_analysis`), fire when
+
+        |latest − value ``window`` days earlier| >= ``threshold``
+
+    points. ``window`` is 1 (24 h delta) or 7 (7 d delta). Returns
+    ``(fired, detail)`` where detail carries the exact inputs used so the
+    notification path stays auditable. A series shorter than
+    ``window + 1`` days never fires (insufficient real data — nothing is
+    interpolated or invented).
+    """
+    if window not in (1, 7):
+        raise ValueError("window must be 1 (24 h) or 7 (7 d)")
+    values: List[float] = []
+    for value in series or []:
+        if value is None:
+            continue
+        try:
+            values.append(float(value))
+        except (TypeError, ValueError):
+            continue
+    detail: Dict = {"window_days": window, "threshold": float(threshold),
+                    "series_days": len(values)}
+    if len(values) < window + 1:
+        detail["reason"] = "insufficient_series"
+        return False, detail
+    latest = values[-1]
+    previous = values[-1 - window]
+    delta = latest - previous
+    detail.update({
+        "latest": round(latest, 2), "previous": round(previous, 2),
+        "delta": round(delta, 2),
+        "direction": "rise" if delta > 0 else ("fall" if delta < 0 else "flat"),
+    })
+    return abs(delta) >= float(threshold), detail
+
+
+def daily_risk_scores_from_analysis(analysis: Dict) -> Optional[list]:
+    """
+    Derive the daily risk-score series (0-100) from the REAL daily FWI
+    series of a wildfire analysis (``fire_danger.series``), using the same
+    FWI anchor as the composite risk score: ``100 * FWI / (FWI + 25)``.
+
+    DECLARED simplification: the daily composite would also need per-day
+    slope/fuel/wind terms, which are not recomputed per day; the FWI anchor
+    alone is the declared risk-scale projection used by the
+    significant-change trigger. Returns None when the analysis carries no
+    usable daily series (significant-change is then skipped honestly).
+    """
+    fire_danger = analysis.get("fire_danger") if isinstance(analysis, dict) else None
+    if not isinstance(fire_danger, dict):
+        blocks = analysis.get("blocks") if isinstance(analysis, dict) else None
+        fire_danger = (blocks or {}).get("fire_danger") if isinstance(blocks, dict) else None
+    series = (fire_danger or {}).get("series") or []
+    scores: List[float] = []
+    for day in series:
+        fwi = day.get("fwi") if isinstance(day, dict) else None
+        if fwi is None:
+            continue
+        try:
+            fwi = float(fwi)
+        except (TypeError, ValueError):
+            continue
+        if fwi < 0:
+            continue
+        scores.append(round(100.0 * fwi / (fwi + 25.0), 2))
+    return scores or None
 
 
 def _clip(text: str, limit: int) -> str:
@@ -224,7 +311,8 @@ def dispatch_alert(
     - Quiet hours: SMS is recorded ``held_quiet_hours`` (not sent);
       email is still sent.
     - Channel routing: SMS only when sms_enabled AND a verified phone
-      exists; email when email_enabled AND the user has an address.
+      exists; email when email_enabled AND the user has an address;
+      webhooks for every active subscription listing the event.
 
     Returns a result dict describing what happened (never any secrets).
     """
@@ -319,6 +407,36 @@ def dispatch_alert(
         result["deliveries"].append({"channel": "email", "status": status})
         result["sent"] = result["sent"] or status in ("sent", "outbox")
 
+    # -- Webhook channel --------------------------------------------------
+    # Active subscriptions of the user that list this event. The event name
+    # follows the trigger: significant-change alerts fire the
+    # "significant_change" event, everything else "alert_fired". Failures
+    # are recorded (channel "webhook") but never break email/SMS.
+    event_type = "significant_change" if trigger == "significant_change" else "alert_fired"
+    webhook_payload = {
+        "alert_id": alert_id,
+        "hazard": rule["hazard"],
+        "location": {"name": rule.get("name"), "lat": rule["lat"], "lon": rule["lon"]},
+        "severity": severity,
+        "trigger": trigger,
+        "analysis_id": analysis_id,
+        "created_at": datetime.utcnow().isoformat() + "Z",
+    }
+    try:
+        from .webhooks import dispatch_webhooks
+
+        webhook_results = dispatch_webhooks(
+            store, user["id"], event_type, webhook_payload, alert_id=alert_id)
+    except Exception as exc:  # defensive: dispatch_webhooks never raises
+        log.warning("Webhook dispatch failed for user %s: %s", user["id"], exc)
+        webhook_results = []
+    for delivery in webhook_results:
+        result["deliveries"].append({
+            "channel": "webhook", "status": delivery["status"],
+            "webhook_id": delivery["webhook_id"],
+        })
+        result["sent"] = result["sent"] or delivery["status"] == "sent"
+
     # Audit: operational facts only — never codes, credentials or targets.
     store.audit(user["id"], "alert_fired", target=location,
                 meta={"rule_id": rule["id"], "hazard": rule["hazard"],
@@ -340,12 +458,24 @@ def process_rule(
     mailer,
     sms,
     user: Optional[Dict] = None,
+    daily_scores: Optional[List[float]] = None,
 ) -> Dict:
     """
     Evaluate one rule against a fresh real analysis: classify severity,
     compare with the rule's last severity via :func:`evaluate_transition`,
     dispatch on meaningful transitions, and always update the rule's
     last-severity / last-checked state. Returns a descriptor dict.
+
+    ``daily_scores`` is the optional real daily FWI-anchored risk-score
+    series (see :func:`daily_risk_scores_from_analysis`). When given, the
+    significant-change heuristic (:func:`evaluate_significant_change`,
+    declared 24 h / 7 d delta — NOT a validated anomaly model) is
+    evaluated as an ADDITIONAL notify path with trigger
+    ``"significant_change"``: it fires independently of the threshold
+    transition but through the same dispatch and the same
+    dedupe/anti-flood machinery. When ``daily_scores`` is absent,
+    significant-change is skipped honestly. The rule's
+    ``severity_threshold`` still applies to threshold triggers only.
     """
     severity = analysis_severity(analysis)
     if severity is None:
@@ -355,11 +485,27 @@ def process_rule(
 
     notify, trigger = evaluate_transition(
         rule.get("last_severity"), severity, rule["severity_threshold"])
+
+    # Additional independent notify path: significant change on the real
+    # daily risk-score series (24 h delta first, then 7 d). At most one
+    # significant-change dispatch per run.
+    significant: Optional[Dict] = None
+    notify_sc = False
+    if daily_scores:
+        for window in (1, 7):
+            notify_sc, detail = evaluate_significant_change(daily_scores, window=window)
+            if notify_sc:
+                break
+        significant = detail
+        significant["fired"] = notify_sc
+
     outcome: Dict = {"rule_id": rule["id"], "severity": severity,
                      "previous": rule.get("last_severity"),
                      "notified": False, "trigger": None}
+    if significant is not None:
+        outcome["significant_change"] = significant
 
-    if notify:
+    if notify or notify_sc:
         if user is None:
             from .accounts import UserStore
 
@@ -368,13 +514,27 @@ def process_rule(
             store.update_rule_state(rule["id"], severity)
             outcome["status"] = "user_missing"
             return outcome
-        dispatch = dispatch_alert(
-            store, user, rule, analysis,
-            mailer=mailer, sms=sms, severity=severity, trigger=trigger)
-        outcome.update({"notified": dispatch.get("sent", False),
-                        "trigger": trigger,
-                        "dispatch": dispatch.get("status"),
-                        "alert_id": dispatch.get("alert_id")})
+        if notify:
+            dispatch = dispatch_alert(
+                store, user, rule, analysis,
+                mailer=mailer, sms=sms, severity=severity, trigger=trigger)
+            outcome.update({"notified": dispatch.get("sent", False),
+                            "trigger": trigger,
+                            "dispatch": dispatch.get("status"),
+                            "alert_id": dispatch.get("alert_id")})
+        if notify_sc:
+            dispatch_sc = dispatch_alert(
+                store, user, rule, analysis,
+                mailer=mailer, sms=sms, severity=severity,
+                trigger="significant_change")
+            outcome["notified"] = outcome["notified"] or dispatch_sc.get("sent", False)
+            outcome["significant_change"].update({
+                "dispatch": dispatch_sc.get("status"),
+                "alert_id": dispatch_sc.get("alert_id"),
+            })
+            if not notify:
+                outcome["trigger"] = "significant_change"
+                outcome["alert_id"] = dispatch_sc.get("alert_id")
 
     store.update_rule_state(rule["id"], severity)
     outcome.setdefault("status", "ok")

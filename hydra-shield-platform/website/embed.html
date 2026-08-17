@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HydraShield — embed integration demo</title>
+<!--
+  Minimal public example of embedding HydraShield risk intelligence in an
+  external page (SaaS, GIS, property, insurance…). This page is the
+  integration demo for the &lt;hydrashield-risk&gt; web component.
+
+  The component calls GET /api/v2/analyze on the API origin; cross-origin
+  embedding requires your origin in the server's HYDRASHIELD_CORS_ORIGINS
+  (exact origins, GET-only — see docs/API_V2.md §1). Served from
+  hydrashield.earth itself it works same-origin with no configuration.
+-->
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem; color: #0f172a; }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; }
+  .row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+  code { background: #f1f5f9; padding: 0 4px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>HydraShield risk card — embed demo</h1>
+  <p>
+    Each card below is a single
+    <code>&lt;hydrashield-risk lat="…" lon="…" hazard="…"&gt;</code>
+    element. No framework, no build step; the card fetches the public API,
+    shows the level with its basis, and links back to hydrashield.earth.
+    Integration recipes: <code>sdk/js/README.md</code>.
+  </p>
+
+  <div class="row">
+    <!-- Wildfire example (southern Spain) -->
+    <hydrashield-risk lat="37.60" lon="-6.50" hazard="wildfire"></hydrashield-risk>
+
+    <!-- Flood example (Luxembourg) -->
+    <hydrashield-risk lat="49.75" lon="6.64" hazard="flood"></hydrashield-risk>
+  </div>
+</main>
+
+<!-- Local SDK copy (in this repo). In production use the hosted file:
+     <script src="https://hydrashield.earth/sdk/hydrashield.js"></script> -->
+<script src="./sdk/hydrashield.js"></script>
+</body>
+</html>

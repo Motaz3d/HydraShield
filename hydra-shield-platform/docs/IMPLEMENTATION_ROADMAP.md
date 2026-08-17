@@ -151,8 +151,25 @@ on an external key/account.
 - [DONE] CI test gating: the offline suite runs in GitHub Actions before
   any deploy; post-deploy health check fails the workflow on an unhealthy
   stack.
-- [LATER] API keys + usage metering for subscriber API access;
-  `/api/v2` OpenAPI description; versioned dataset stamps on responses.
+- [DONE] API-first foundation (see `docs/API_FIRST_STRATEGY.md`,
+  `docs/API_V2.md`): stable versioned contract (additive-only);
+  `X-API-Key` read-only subscriber keys (create/list/revoke, HMAC-hashed);
+  CORS for public GET endpoints via `HYDRASHIELD_CORS_ORIGINS`;
+  HMAC-signed webhooks (SSRF-guarded, at-least-once, recorded statuses);
+  significant-change trigger (declared 24 h/7 d delta heuristic, never a
+  validated anomaly model) wired into the alert engine.
+- [DONE] Developer interfaces: Python SDK (`sdk/python`, stdlib-only),
+  JavaScript SDK + `<hydrashield-risk>` Web Component (`sdk/js`, deployed
+  mirror `website/sdk/hydrashield.js`), `website/embed.html` demo,
+  offline tests for both SDKs.
+- [DONE] Products & partnerships strategy
+  (`docs/PRODUCTS_AND_PARTNERSHIPS.md`): property risk, climate due
+  diligence, insurance, finance, infrastructure, agriculture, supply
+  chain, ESG/CSRD, government — all on the same engine; build-vs-partner
+  discipline; continuous dataset→API→product pipeline.
+- [LATER] Webhook retry/backoff worker; usage metering dashboards;
+  `/api/v2` OpenAPI spec generation from the contract doc; multi-hazard
+  significant-change series; standard formats (CAP) productionisation.
 - [LATER] PostgreSQL evaluation when multi-tenant volume justifies it.
 - [LATER] Climate Intelligence API / Evidence API productisation
   (strategic direction — see PRODUCT_VISION §7).

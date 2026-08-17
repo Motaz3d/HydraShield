@@ -263,6 +263,26 @@ curl -X POST "http://localhost:8051/api/v2/auth/register" \
      -d '{"email":"you@example.org","password":"a-long-password"}'
 ```
 
+### Developer interfaces
+
+HydraShield is API-first: the same real-data engine serves every interface
+(see `docs/API_FIRST_STRATEGY.md`). The stable public contract is documented
+in **`docs/API_V2.md`** (additive-only `/api/v2`; breaking changes ship as v3).
+
+- **REST API** — public GETs (hazards, analyze, events, economy, solutions,
+  sources, risk grid/snapshot, PDF reports) plus authenticated
+  account/alert endpoints. Errors are stable JSON: `{"error", "status"}`.
+- **Python SDK** — `sdk/python/hydrashield/` (stdlib-only, no dependencies):
+  `HydraShieldClient(base_url, api_key, timeout)` covering all public GETs.
+- **JavaScript SDK** — `sdk/js/hydrashield.js` (fetch-based, zero deps,
+  UMD-lite) with the same method set and error semantics.
+- **`<hydrashield-risk>` web component** — embeddable shadow-DOM risk card
+  (attribution + provenance chips, honest loading/error/unavailable
+  states); demo page: `website/embed.html`.
+- **Webhooks** — outbound-only, HMAC-SHA256 signed
+  (`X-HydraShield-Signature`), at-least-once with recorded delivery status
+  (contract in `docs/API_V2.md` §6; delivery engine in progress).
+
 ### Model validation (scientific layer)
 
 ```bash

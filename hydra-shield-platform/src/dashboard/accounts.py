@@ -510,6 +510,89 @@ class UserStore:
             return cur.rowcount > 0
 
     # ------------------------------------------------------------------
+    # API keys (external consumers) — ``hs_`` + 192-bit random, stored
+    # HMAC-hashed like sessions; plaintext returned ONCE at creation.
+    # Keys are read-only credentials: they identify the consumer for usage
+    # metering and never grant write access (enforced in auth_api).
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _api_key_row(row) -> Dict:
+        return {
+            "id": row[0], "label": row[1], "created_at": row[2],
+            "revoked": row[3] is not None, "revoked_at": row[3],
+        }
+
+    def create_api_key(self, user_id: int, label: Optional[str] = None) -> Dict:
+        """
+        Create an API key for a user. Returns
+        ``{"id", "key", "label", "created_at"}`` — the plaintext ``key``
+        (``hs_`` + ``secrets.token_urlsafe(24)``) is returned ONLY here;
+        just its HMAC hash is stored.
+        """
+        key = "hs_" + secrets.token_urlsafe(24)
+        label = (label or "").strip()[:200] or None
+        created = _utcnow()
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "INSERT INTO api_keys (user_id, key_hash, label, created_at)"
+                " VALUES (?, ?, ?, ?)",
+                (user_id, hash_token(key), label, created),
+            )
+            key_id = cur.lastrowid
+        self.audit(user_id, "api_key_created", target="self",
+                   meta={"key_id": key_id, "label": label})
+        return {"id": key_id, "key": key, "label": label, "created_at": created}
+
+    def list_api_keys(self, user_id: int) -> List[Dict]:
+        """Own API keys (id/label/created_at/revoked — never the hash)."""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT id, label, created_at, revoked_at FROM api_keys"
+                " WHERE user_id = ? ORDER BY id",
+                (user_id,),
+            ).fetchall()
+        return [self._api_key_row(r) for r in rows]
+
+    def revoke_api_key(self, user_id: int, key_id: int) -> bool:
+        """Revoke one of the user's keys (per-user isolation). Idempotent
+        only for active keys; returns False when the key does not exist or
+        is already revoked."""
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "UPDATE api_keys SET revoked_at = ?"
+                " WHERE id = ? AND user_id = ? AND revoked_at IS NULL",
+                (_utcnow(), key_id, user_id),
+            )
+        if cur.rowcount > 0:
+            self.audit(user_id, "api_key_revoked", target="self",
+                       meta={"key_id": key_id})
+        return cur.rowcount > 0
+
+    def get_user_by_api_key(self, key: str) -> Optional[Dict]:
+        """
+        Resolve a plaintext API key to its active user: the key is hashed
+        and looked up among non-revoked keys (single digest equality, so
+        there is no per-byte early-exit timing signal on the plaintext).
+        Returns None for unknown or revoked keys.
+        """
+        if not key:
+            return None
+        digest = hash_token(key)
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT user_id FROM api_keys"
+                " WHERE key_hash = ? AND revoked_at IS NULL",
+                (digest,),
+            ).fetchone()
+        if row is None:
+            return None
+        user = self.get_user(row[0])
+        if user is None or user["status"] != "active":
+            return None
+        return user
+
+    # ------------------------------------------------------------------
     # Saved locations (per-user isolation enforced in every query)
     # ------------------------------------------------------------------
 
