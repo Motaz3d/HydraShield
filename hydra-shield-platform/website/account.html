@@ -138,6 +138,110 @@
                     </div>
                 </div>
 
+                <div class="panel" id="sms">
+                    <h2>Climate Alert Subscription — SMS Alerts</h2>
+                    <p class="muted small">
+                        You are never subscribed silently: SMS alerts start only after you
+                        verify your phone number and create an alert rule yourself. Messages
+                        are short intelligence notes generated from real analysis — never
+                        marketing.
+                    </p>
+
+                    <!-- Collapsed state: shown when there is no phone and no rules -->
+                    <div id="smsCollapsed">
+                        <div class="notice notice-empty" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+                            <span>No phone number or alert rules yet — SMS alerts are off.</span>
+                            <button class="btn-action" id="smsExpandBtn" type="button">Set up SMS alerts</button>
+                        </div>
+                    </div>
+
+                    <div id="smsBody" class="hidden">
+                        <div id="smsStatus"></div>
+
+                        <h3>1 · Phone number</h3>
+                        <div id="smsPhoneBlock"></div>
+                        <form id="smsPhoneForm" class="toolbar" style="margin-top:8px;">
+                            <div class="form-group">
+                                <label for="smsPhone">Phone (E.164)</label>
+                                <input type="tel" id="smsPhone" placeholder="+352691234567" autocomplete="tel">
+                            </div>
+                            <button class="btn-action" type="submit">Send verification code</button>
+                        </form>
+                        <form id="smsVerifyForm" class="toolbar hidden" style="margin-top:8px;">
+                            <div class="form-group narrow">
+                                <label for="smsCode">6-digit code</label>
+                                <input type="text" id="smsCode" inputmode="numeric" pattern="[0-9]{6}"
+                                       maxlength="6" autocomplete="one-time-code">
+                            </div>
+                            <button class="btn-action" type="submit">Verify phone</button>
+                        </form>
+                        <p class="muted small">
+                            Development note: if the operator has not configured an SMS provider,
+                            the verification code is written to the server outbox instead of
+                            being sent by SMS.
+                        </p>
+
+                        <h3>2 · Notification preferences</h3>
+                        <div class="toolbar" style="align-items:flex-end;">
+                            <div class="form-group narrow" style="display:flex;gap:8px;align-items:center;">
+                                <input type="checkbox" id="prefSms">
+                                <label for="prefSms" style="font-weight:normal;">SMS enabled</label>
+                            </div>
+                            <div class="form-group narrow" style="display:flex;gap:8px;align-items:center;">
+                                <input type="checkbox" id="prefEmail">
+                                <label for="prefEmail" style="font-weight:normal;">Email enabled</label>
+                            </div>
+                            <div class="form-group narrow"><label for="prefQuietStart">Quiet from (UTC)</label>
+                                <input type="time" id="prefQuietStart"></div>
+                            <div class="form-group narrow"><label for="prefQuietEnd">Quiet until (UTC)</label>
+                                <input type="time" id="prefQuietEnd"></div>
+                            <div class="form-group narrow"><label for="prefLang">Language</label>
+                                <select id="prefLang">
+                                    <option value="en">English</option>
+                                    <option value="fr">Français</option>
+                                    <option value="de">Deutsch</option>
+                                    <option value="es">Español</option>
+                                </select></div>
+                            <div class="form-group narrow"><label for="prefMaxPerDay">Max alerts/day</label>
+                                <input type="number" id="prefMaxPerDay" min="1" max="50"></div>
+                            <button class="btn-action" id="prefSaveBtn" type="button">Save preferences</button>
+                        </div>
+
+                        <h3>3 · Alert rules</h3>
+                        <p class="muted small">
+                            A rule watches one place for one hazard. When the analysis severity
+                            crosses your threshold, an alert is generated and delivered over your
+                            enabled channels.
+                        </p>
+                        <div id="rulesList"></div>
+                        <div class="toolbar">
+                            <div class="form-group"><label for="ruleLocation">Place name or lat,lon</label>
+                                <input type="text" id="ruleLocation" placeholder="e.g. Clervaux, Luxembourg or 49.85,6.03"></div>
+                            <div class="form-group narrow"><label for="ruleHazard">Hazard</label>
+                                <select id="ruleHazard"></select></div>
+                            <div class="form-group narrow"><label for="ruleThreshold">Severity threshold</label>
+                                <select id="ruleThreshold">
+                                    <option value="HIGH" selected>High</option>
+                                    <option value="EXTREME">Extreme</option>
+                                </select></div>
+                            <button class="btn-action" id="ruleAddBtn" type="button">Add rule</button>
+                        </div>
+
+                        <h3>4 · Alert history</h3>
+                        <div id="alertHistoryBlock"></div>
+
+                        <h3>5 · Stop alerts</h3>
+                        <p class="muted small">
+                            Stopping SMS alerts disables the SMS channel only — nothing else about
+                            your account changes, and you can re-enable SMS at any time.
+                        </p>
+                        <div class="card-actions">
+                            <button class="btn-action btn-quiet" id="smsUnsubBtn" type="button">Stop all SMS alerts</button>
+                            <button class="btn-action btn-quiet" id="smsUnsubRulesBtn" type="button">Stop and delete my rules</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel">
                     <h2>History</h2>
                     <div id="historyBlock"></div>

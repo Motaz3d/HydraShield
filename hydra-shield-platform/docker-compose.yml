@@ -8,7 +8,10 @@
 #
 # Optional environment (set in .env next to this file — never commit it):
 #   FIRMS_MAP_KEY   NASA FIRMS API key for the active-fire layer (free)
-#   SMTP_HOST/PORT/USER/PASS/FROM   alert email delivery for watches
+#   SMTP_HOST/PORT/USER/PASSWORD/FROM   transactional email (info@hydrashield.earth)
+#   CONTACT_INBOX                     platform inbox (contact/operator messages)
+#   HYDRASHIELD_SECRET_KEY            HMAC key for session/verification tokens
+#   SMS_PROVIDER/HTTP_URL/FROM/API_KEY/API_SECRET/AUTH_HEADER  SMS alert provider
 #   HYDRASHIELD_CACHE_DB            cache/watch DB path (default in image)
 #   HYDRASHIELD_POPULATION_DIR      WorldPop raster cache (default /data/population,
 #                                   persisted on the hydrashield_data volume)
@@ -70,7 +73,16 @@ services:
       - SMTP_PORT=${SMTP_PORT:-}
       - SMTP_USER=${SMTP_USER:-}
       - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - SMTP_FROM=${SMTP_FROM:-}
+      - CONTACT_INBOX=${CONTACT_INBOX:-}
+      - HYDRASHIELD_SECRET_KEY=${HYDRASHIELD_SECRET_KEY:-}
+      - SMS_PROVIDER=${SMS_PROVIDER:-}
+      - SMS_HTTP_URL=${SMS_HTTP_URL:-}
+      - SMS_FROM=${SMS_FROM:-}
+      - SMS_API_KEY=${SMS_API_KEY:-}
+      - SMS_API_SECRET=${SMS_API_SECRET:-}
+      - SMS_HTTP_AUTH_HEADER=${SMS_HTTP_AUTH_HEADER:-}
     volumes:
       - hydrashield_data:/data
     expose:
@@ -92,7 +104,7 @@ services:
     build: .
     restart: unless-stopped
     command: >
-      sh -c "while true; do python scripts/check_watches.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
+      sh -c "while true; do python scripts/check_watches.py; python scripts/check_alert_rules.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
     environment:
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
       - HYDRASHIELD_POPULATION_DIR=${HYDRASHIELD_POPULATION_DIR:-/data/population}
@@ -101,7 +113,16 @@ services:
       - SMTP_PORT=${SMTP_PORT:-}
       - SMTP_USER=${SMTP_USER:-}
       - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - SMTP_FROM=${SMTP_FROM:-}
+      - CONTACT_INBOX=${CONTACT_INBOX:-}
+      - HYDRASHIELD_SECRET_KEY=${HYDRASHIELD_SECRET_KEY:-}
+      - SMS_PROVIDER=${SMS_PROVIDER:-}
+      - SMS_HTTP_URL=${SMS_HTTP_URL:-}
+      - SMS_FROM=${SMS_FROM:-}
+      - SMS_API_KEY=${SMS_API_KEY:-}
+      - SMS_API_SECRET=${SMS_API_SECRET:-}
+      - SMS_HTTP_AUTH_HEADER=${SMS_HTTP_AUTH_HEADER:-}
     volumes:
       - hydrashield_data:/data
     networks:

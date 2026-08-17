@@ -848,6 +848,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(auth_bp)
 
+    # SMS alerting API (/api/v2/alerts…).
+    from .sms_api import sms_bp
+
+    app.register_blueprint(sms_bp)
+
     return app
 
 

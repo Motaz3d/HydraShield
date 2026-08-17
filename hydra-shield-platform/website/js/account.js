@@ -6,6 +6,11 @@
  *   GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
  *   GET  /api/v2/account/history
  *   GET/POST /api/v2/account/alerts · DELETE /api/v2/account/alerts/<id>
+ *   POST /api/v2/alerts/phone · POST /api/v2/alerts/phone/verify
+ *   DELETE /api/v2/alerts/phone
+ *   GET/PATCH /api/v2/alerts/preferences
+ *   GET/POST /api/v2/alerts/rules · DELETE /api/v2/alerts/rules/<id>
+ *   GET  /api/v2/alerts/history · POST /api/v2/alerts/unsubscribe
  *
  * Any 401 shows the login/register view; 403 tier responses show their
  * upgrade message. Nothing is rendered from assumed state — every list is
@@ -59,6 +64,9 @@
             loadAlerts();
             loadHistory();
             loadHazards();
+            loadSmsPrefs();
+            loadRules();
+            loadAlertHistory();
         }).catch(function () {
             showView(false);
             status('error', 'The account service could not be reached.');
@@ -265,11 +273,17 @@
     function loadHazards() {
         fetchJSON(API + '/v2/hazards').then(function (res) {
             if (!res.ok || !res.body.hazards) return;
-            el('alertHazard').innerHTML = res.body.hazards.map(function (h) {
+            var options = res.body.hazards.map(function (h) {
                 return '<option value="' + esc(h.id) + '">' + esc(h.name) + '</option>';
             }).join('');
+            el('alertHazard').innerHTML = options;
+            // The SMS alert-rule form reuses the same already-loaded registry.
+            var ruleHazard = el('ruleHazard');
+            if (ruleHazard) ruleHazard.innerHTML = options;
         }).catch(function () {
             el('alertHazard').innerHTML = '<option value="wildfire">Wildfire</option>';
+            var ruleHazard = el('ruleHazard');
+            if (ruleHazard) ruleHazard.innerHTML = '<option value="wildfire">Wildfire</option>';
         });
     }
 
@@ -345,6 +359,371 @@
     }
 
     // ------------------------------------------------------------------
+    // SMS alerts (Climate Alert Subscription — /api/v2/alerts/…)
+    // ------------------------------------------------------------------
+    //
+    // Phone verification → preferences → rules → history → unsubscribe.
+    // Consent model: nothing is subscribed silently — SMS starts only after
+    // the user verifies their phone and creates a rule themselves. The panel
+    // stays collapsed (one-line intro + expand) while there is no phone and
+    // no rules. Verification codes are delivered by SMS only (dev: server
+    // outbox) and never appear in API responses.
+
+    var smsState = { phone: null, prefs: null, rules: [], expanded: false };
+
+    function smsStatus(kind, msg) {
+        el('smsStatus').innerHTML = msg
+            ? '<div class="notice notice-' + kind + '">' + esc(msg) + '</div>'
+            : '';
+    }
+
+    function severityChip(sev) {
+        var s = String(sev || '').toUpperCase();
+        if (s === 'EXTREME') return chip('error', 'EXTREME');
+        if (s === 'HIGH') return chip('reported', 'HIGH');
+        return chip('unknown', s || '—');
+    }
+
+    function deliveryChip(statusText) {
+        var s = String(statusText || 'unknown').toLowerCase();
+        var token = { sent: 'observed', failed: 'error', error: 'error',
+                      outbox: 'modelled', held_quiet_hours: 'forecast' }[s] || 'unknown';
+        return chip(token, statusText);
+    }
+
+    function renderSmsVisibility() {
+        var expand = smsState.expanded || !!smsState.phone ||
+            smsState.rules.length > 0 || location.hash === '#sms';
+        el('smsCollapsed').classList.toggle('hidden', expand);
+        el('smsBody').classList.toggle('hidden', !expand);
+    }
+
+    // ---- Phone ---------------------------------------------------------
+
+    function loadSmsPrefs() {
+        fetchJSON(API + '/v2/alerts/preferences').then(function (res) {
+            if (res.status === 401) { showView(false); return; }
+            if (!res.ok) {
+                el('smsPhoneBlock').innerHTML =
+                    '<div class="notice notice-error">SMS alert settings unavailable: ' +
+                    esc(res.body.error || '') + '</div>';
+                return;
+            }
+            smsState.phone = res.body.phone || null;
+            smsState.prefs = res.body.prefs || null;
+            renderPhone();
+            renderPrefs();
+            renderSmsVisibility();
+        }).catch(function () {
+            el('smsPhoneBlock').innerHTML =
+                '<div class="notice notice-error">SMS alert settings could not be loaded.</div>';
+        });
+    }
+
+    function renderPhone() {
+        var p = smsState.phone;
+        var block = el('smsPhoneBlock');
+        if (!p) {
+            block.innerHTML =
+                '<div class="notice notice-empty">No phone number registered.</div>';
+            el('smsPhoneForm').classList.remove('hidden');
+            el('smsVerifyForm').classList.add('hidden');
+            return;
+        }
+        block.innerHTML =
+            '<div class="table-scroll"><table class="kv-table">' +
+            '<tr><th>Phone</th><td>' + esc(p.e164) + '</td></tr>' +
+            '<tr><th>Status</th><td>' + (p.verified
+                ? chip('OBSERVED', 'PHONE VERIFIED')
+                : chip('REPORTED', 'AWAITING VERIFICATION')) + '</td></tr>' +
+            '</table></div>' +
+            '<div class="card-actions" style="margin-top:8px;">' +
+            '<button class="btn-action btn-quiet" id="smsPhoneDeleteBtn" type="button">Delete phone</button>' +
+            '</div>';
+        // Unverified: keep both forms visible so the code can be re-sent or corrected.
+        el('smsPhoneForm').classList.toggle('hidden', !!p.verified);
+        el('smsVerifyForm').classList.toggle('hidden', !!p.verified);
+        el('smsPhoneDeleteBtn').addEventListener('click', function () {
+            fetchJSON(API + '/v2/alerts/phone', { method: 'DELETE' }).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    smsStatus('error', (res.body && res.body.error) ||
+                        'Could not delete the phone number.');
+                    return;
+                }
+                smsStatus('info', 'Phone number deleted.');
+                smsState.phone = null;
+                renderPhone();
+                renderSmsVisibility();
+            }).catch(function () { smsStatus('error', 'Delete request failed.'); });
+        });
+    }
+
+    function renderPrefs() {
+        var p = smsState.prefs;
+        if (!p) return;
+        el('prefSms').checked = !!p.sms_enabled;
+        el('prefEmail').checked = !!p.email_enabled;
+        el('prefQuietStart').value = (p.quiet_hours && p.quiet_hours.start) || '';
+        el('prefQuietEnd').value = (p.quiet_hours && p.quiet_hours.end) || '';
+        el('prefLang').value = p.language || 'en';
+        el('prefMaxPerDay').value = p.max_per_day != null ? p.max_per_day : 10;
+    }
+
+    // ---- Rules -----------------------------------------------------------
+
+    function loadRules() {
+        fetchJSON(API + '/v2/alerts/rules').then(function (res) {
+            if (res.status === 401) { showView(false); return; }
+            if (!res.ok) {
+                el('rulesList').innerHTML =
+                    '<div class="notice notice-error">Alert rules unavailable: ' +
+                    esc(res.body.error || '') + '</div>';
+                return;
+            }
+            smsState.rules = res.body.rules || [];
+            renderRules();
+            renderSmsVisibility();
+        }).catch(function () {
+            el('rulesList').innerHTML =
+                '<div class="notice notice-error">Alert rules could not be loaded.</div>';
+        });
+    }
+
+    function renderRules() {
+        var list = smsState.rules;
+        if (!list.length) {
+            el('rulesList').innerHTML =
+                '<div class="notice notice-empty">No alert rules yet. Add one below — ' +
+                'alerts are generated only for rules you create yourself.</div>';
+            return;
+        }
+        el('rulesList').innerHTML =
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Name</th><th>Location</th><th>Hazard</th><th>Threshold</th><th>State</th><th></th>' +
+            '</tr></thead><tbody>' +
+            list.map(function (r) {
+                return '<tr><td>' + esc(r.name || '—') + '</td>' +
+                    '<td>' + esc(Number(r.lat).toFixed(4)) + ', ' + esc(Number(r.lon).toFixed(4)) + '</td>' +
+                    '<td>' + esc(r.hazard) + '</td>' +
+                    '<td>' + severityChip(r.severity_threshold) + '</td>' +
+                    '<td>' + (r.active ? chip('OBSERVED', 'ACTIVE') : chip('UNAVAILABLE', 'INACTIVE')) + '</td>' +
+                    '<td><button class="btn-action btn-quiet" data-del-rule="' + r.id + '">Delete</button></td></tr>';
+            }).join('') + '</tbody></table></div>';
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-del-rule]'), function (btn) {
+                btn.addEventListener('click', function () {
+                    fetchJSON(API + '/v2/alerts/rules/' + btn.getAttribute('data-del-rule'),
+                        { method: 'DELETE' }).then(function (res) {
+                            if (res.status === 401) { showView(false); return; }
+                            loadRules();
+                        });
+                });
+            });
+    }
+
+    // ---- Alert history ---------------------------------------------------
+
+    function loadAlertHistory() {
+        fetchJSON(API + '/v2/alerts/history').then(function (res) {
+            if (res.status === 401) { showView(false); return; }
+            if (!res.ok) {
+                el('alertHistoryBlock').innerHTML =
+                    '<div class="notice notice-error">Alert history unavailable: ' +
+                    esc(res.body.error || '') + '</div>';
+                return;
+            }
+            renderAlertHistory(res.body.alerts || []);
+        }).catch(function () {
+            el('alertHistoryBlock').innerHTML =
+                '<div class="notice notice-error">Alert history could not be loaded.</div>';
+        });
+    }
+
+    function renderAlertHistory(list) {
+        if (!list.length) {
+            el('alertHistoryBlock').innerHTML =
+                '<div class="notice notice-empty">No alerts sent yet. When a rule\'s ' +
+                'threshold is crossed, the generated message and its delivery status appear here.</div>';
+            return;
+        }
+        el('alertHistoryBlock').innerHTML =
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>When</th><th>Hazard</th><th>Severity</th><th>Trigger</th><th>Deliveries</th>' +
+            '</tr></thead><tbody>' +
+            list.map(function (a) {
+                var deliveries = (a.deliveries || []).map(function (d) {
+                    return esc(d.channel) + ': ' + deliveryChip(d.status);
+                }).join('<br>') || '<span class="muted">—</span>';
+                return '<tr><td>' + esc((a.created_at || '').slice(0, 16).replace('T', ' ')) + '</td>' +
+                    '<td>' + esc(a.hazard) + '</td>' +
+                    '<td>' + severityChip(a.severity) +
+                        (a.suppressed ? ' <span class="muted small">(suppressed)</span>' : '') + '</td>' +
+                    '<td>' + esc(a.trigger || '—') + '</td>' +
+                    '<td>' + deliveries + '</td></tr>';
+            }).join('') + '</tbody></table></div>';
+    }
+
+    // ---- Wiring ------------------------------------------------------------
+
+    function wireSms() {
+        el('smsExpandBtn').addEventListener('click', function () {
+            smsState.expanded = true;
+            renderSmsVisibility();
+        });
+
+        el('smsPhoneForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var phone = el('smsPhone').value.trim();
+            if (!phone) {
+                smsStatus('error', 'Enter a phone number in E.164 format (e.g. +352691234567).');
+                return;
+            }
+            smsStatus('info', 'Sending verification code…');
+            postJSON(API + '/v2/alerts/phone', { phone: phone }).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    smsStatus('error', (res.body && res.body.error) ||
+                        'Could not register the phone number.');
+                    return;
+                }
+                smsState.phone = res.body.phone || smsState.phone;
+                renderPhone();
+                renderSmsVisibility();
+                var target = (res.body.phone && res.body.phone.e164) || phone;
+                smsStatus('info', 'Verification code sent to ' + target + '.' +
+                    (res.body.delivery_backend === 'outbox'
+                        ? ' No SMS provider is configured — the code was written to the server outbox.'
+                        : ''));
+                el('smsCode').focus();
+            }).catch(function () { smsStatus('error', 'Phone registration request failed.'); });
+        });
+
+        el('smsVerifyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var code = el('smsCode').value.trim();
+            if (!/^\d{6}$/.test(code)) {
+                smsStatus('error', 'Enter the 6-digit code from the SMS.');
+                return;
+            }
+            smsStatus('info', 'Verifying…');
+            postJSON(API + '/v2/alerts/phone/verify', { code: code }).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    smsStatus('error', (res.body && res.body.error) || 'Verification failed.');
+                    return;
+                }
+                smsState.phone = res.body.phone || smsState.phone;
+                if (res.body.prefs) smsState.prefs = res.body.prefs;
+                renderPhone();
+                renderPrefs();
+                el('smsCode').value = '';
+                smsStatus('info', 'Phone verified. SMS is enabled — add an alert rule ' +
+                    'below to start watching a place.');
+            }).catch(function () { smsStatus('error', 'Verification request failed.'); });
+        });
+
+        el('prefSaveBtn').addEventListener('click', function () {
+            var qs = el('prefQuietStart').value;
+            var qe = el('prefQuietEnd').value;
+            if ((qs && !qe) || (!qs && qe)) {
+                smsStatus('error', 'Quiet hours need both a start and an end, or neither.');
+                return;
+            }
+            var maxPerDay = parseInt(el('prefMaxPerDay').value, 10);
+            if (isNaN(maxPerDay) || maxPerDay < 1 || maxPerDay > 50) {
+                smsStatus('error', 'Max alerts per day must be between 1 and 50.');
+                return;
+            }
+            smsStatus('info', 'Saving preferences…');
+            fetchJSON(API + '/v2/alerts/preferences', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sms_enabled: el('prefSms').checked,
+                    email_enabled: el('prefEmail').checked,
+                    quiet_hours: qs ? { start: qs, end: qe } : null,
+                    language: el('prefLang').value,
+                    max_per_day: maxPerDay
+                })
+            }).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    smsStatus('error', (res.body && res.body.error) ||
+                        'Could not save the preferences.');
+                    return;
+                }
+                smsState.prefs = (res.body && res.body.prefs) || smsState.prefs;
+                renderPrefs();
+                smsStatus('info', 'Preferences saved.');
+            }).catch(function () { smsStatus('error', 'Save request failed.'); });
+        });
+
+        el('ruleAddBtn').addEventListener('click', function () {
+            var q = el('ruleLocation').value.trim();
+            if (!q) {
+                smsStatus('error', 'Enter a location — a place name or lat,lon coordinates.');
+                return;
+            }
+            smsStatus('info', 'Resolving location…');
+            HS.resolveLocation(q).then(function (loc) {
+                if (!loc.ok) {
+                    smsStatus('error', loc.error || 'Location could not be resolved.');
+                    return;
+                }
+                postJSON(API + '/v2/alerts/rules', {
+                    hazard: el('ruleHazard').value,
+                    lat: loc.lat,
+                    lon: loc.lon,
+                    name: loc.name,
+                    severity_threshold: el('ruleThreshold').value
+                }).then(function (res) {
+                    if (res.status === 401) { showView(false); return; }
+                    if (res.status === 403 && res.body && res.body.upgrade) {
+                        smsStatus('warn', (res.body.error || 'Alert-rule limit reached.') +
+                            ' ' + res.body.upgrade.unlocks);
+                        return;
+                    }
+                    if (!res.ok) {
+                        smsStatus('error', (res.body && res.body.error) ||
+                            'Could not create the rule.');
+                        return;
+                    }
+                    smsStatus('', '');
+                    el('ruleLocation').value = '';
+                    loadRules();
+                });
+            }).catch(function () {
+                smsStatus('error', 'The location could not be resolved.');
+            });
+        });
+
+        el('smsUnsubBtn').addEventListener('click', function () { unsubscribeSms(false); });
+        el('smsUnsubRulesBtn').addEventListener('click', function () { unsubscribeSms(true); });
+    }
+
+    function unsubscribeSms(withRules) {
+        var question = withRules
+            ? 'Stop all SMS alerts AND permanently delete your alert rules?'
+            : 'Stop all SMS alerts? Your rules stay in place and you can re-enable SMS at any time.';
+        if (!window.confirm(question)) return;
+        postJSON(API + '/v2/alerts/unsubscribe' + (withRules ? '?rules=1' : ''), {})
+            .then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    smsStatus('error', (res.body && res.body.error) || 'Unsubscribe failed.');
+                    return;
+                }
+                smsStatus('info', 'SMS alerts stopped.' +
+                    (res.body.rules_deleted
+                        ? ' ' + res.body.rules_deleted + ' rule(s) deleted.'
+                        : ''));
+                loadSmsPrefs();
+                if (withRules) loadRules();
+            }).catch(function () { smsStatus('error', 'Unsubscribe request failed.'); });
+    }
+
+    // ------------------------------------------------------------------
     // History
     // ------------------------------------------------------------------
 
@@ -407,6 +786,7 @@
         wireAuth();
         wireLocations();
         wireAlerts();
+        wireSms();
         boot();
     }
 
