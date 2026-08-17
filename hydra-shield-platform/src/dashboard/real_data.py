@@ -525,3 +525,319 @@ def fetch_satellite_data(lat: float, lon: float, days_back: int = 30) -> Dict:
             "error": f"Satellite data fetch failed: {exc}",
             "source": "Sentinel-2 L2A (Earth Search STAC)",
         }
+
+
+# --------------------------------------------------------------------------
+# Multi-hazard climate fetchers (Stage 4)
+#
+#    - River discharge ... Open-Meteo Flood API (GloFAS, Copernicus EMS/JRC)
+#    - Daily climate ...... Open-Meteo archive (ERA5 / ERA5-Land), generalised
+#    - Ocean waves ........ Open-Meteo Marine API (ECMWF WAM)
+#
+# Recency-dependent caching is implemented by delegating to two cached
+# helpers: ranges ending inside the recent window are cached briefly (6 h,
+# the data is still being extended), settled historical ranges are cached
+# long (24 h–30 d). Same error-dict convention as every fetcher above:
+# callers never see an exception.
+# --------------------------------------------------------------------------
+
+TTL_ARCHIVE_SETTLED = 30 * 24 * 3600.0   # reanalysis ranges fully in the settled past
+TTL_FLOOD_HISTORICAL = 24 * 3600.0       # GloFAS discharge history (daily updates)
+_RECENT_SLACK_DAYS = 7                   # a range ending within this window is "recent"
+
+
+def _date_or_none(value: str):
+    """Parse an ISO date (YYYY-MM-DD), None when unparseable."""
+    from datetime import date as _date
+
+    try:
+        return _date.fromisoformat(str(value)[:10])
+    except (ValueError, TypeError):
+        return None
+
+
+def _valid_range(start: str, end: str) -> bool:
+    s, e = _date_or_none(start), _date_or_none(end)
+    return s is not None and e is not None and s <= e
+
+
+def _is_recent_end(end: str) -> bool:
+    from datetime import date, timedelta
+
+    e = _date_or_none(end)
+    if e is None:
+        return False
+    return e >= date.today() - timedelta(days=_RECENT_SLACK_DAYS)
+
+
+def _align_series(times: List, series: List) -> List:
+    """Pad/trim a daily series to the time axis; values become float|None."""
+    out: List = []
+    for i in range(len(times)):
+        v = series[i] if i < len(series) else None
+        out.append(float(v) if v is not None else None)
+    return out
+
+
+# --------------------------------------------------------------------------
+# River discharge — Open-Meteo Flood API (GloFAS, Copernicus EMS / EC JRC)
+# --------------------------------------------------------------------------
+
+FLOOD_API_URL = "https://flood-api.open-meteo.com/v1/flood"
+FLOOD_DISCHARGE_SOURCE = (
+    "GloFAS river discharge (Copernicus EMS / EC JRC via Open-Meteo Flood API)"
+)
+
+
+def _flood_discharge(lat: float, lon: float, start: str, end: str) -> Dict:
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    if not _valid_range(start, end):
+        return {"error": "Invalid date range (expected ISO start_date <= end_date)"}
+    params = urllib.parse.urlencode(
+        {
+            "latitude": lat,
+            "longitude": lon,
+            "daily": "river_discharge",
+            "start_date": start,
+            "end_date": end,
+        }
+    )
+    url = f"{FLOOD_API_URL}?{params}"
+    try:
+        data = _get_json(url, timeout=30.0)
+    except RuntimeError as exc:
+        return {"error": f"Flood discharge service unavailable: {exc}"}
+    if data.get("error"):
+        return {
+            "error": f"Flood discharge API error: {data.get('reason', 'unknown')}",
+            "source": FLOOD_DISCHARGE_SOURCE,
+        }
+    daily = data.get("daily") or {}
+    times = daily.get("time") or []
+    discharge = _align_series(times, daily.get("river_discharge") or [])
+    if not times or all(v is None for v in discharge):
+        return {
+            "error": (
+                "No modelled river discharge for this coordinate "
+                "(no GloFAS river cell nearby or outside coverage)"
+            ),
+            "source": FLOOD_DISCHARGE_SOURCE,
+        }
+    return {
+        "time": times,
+        "river_discharge": discharge,
+        "units": (data.get("daily_units") or {}).get("river_discharge", "m³/s"),
+        "source": FLOOD_DISCHARGE_SOURCE,
+        "request_url": url,
+        "note": "Hydrological model output (GloFAS), not gauge observations.",
+    }
+
+
+@cached("flood_discharge_hist", TTL_FLOOD_HISTORICAL)
+def _fetch_flood_discharge_hist(lat: float, lon: float, start: str, end: str) -> Dict:
+    return _flood_discharge(lat, lon, start, end)
+
+
+@cached("flood_discharge_recent", TTL_WEATHER_DAILY)
+def _fetch_flood_discharge_recent(lat: float, lon: float, start: str, end: str) -> Dict:
+    return _flood_discharge(lat, lon, start, end)
+
+
+def fetch_flood_discharge(lat: float, lon: float, start: str, end: str) -> Dict:
+    """
+    Daily river discharge (m³/s) from the Open-Meteo Flood API.
+
+    GloFAS-based (Copernicus EMS / EC JRC); historical record from 1984 per
+    the API documentation. Ranges ending in the recent window are cached 6 h,
+    settled historical ranges 24 h. Returns an honest error dict when the
+    coordinate has no modelled river (e.g. no GloFAS cell nearby) — the
+    caller must treat that as "no river discharge data here", not as zero.
+    """
+    if _is_recent_end(end):
+        return _fetch_flood_discharge_recent(lat, lon, start, end)
+    return _fetch_flood_discharge_hist(lat, lon, start, end)
+
+
+# --------------------------------------------------------------------------
+# Generalised daily archive — Open-Meteo archive API (ERA5 / ERA5-Land)
+# --------------------------------------------------------------------------
+
+ARCHIVE_API_URL = "https://archive-api.open-meteo.com/v1/archive"
+DAILY_CLIMATE_SOURCE = "Reanalysis (ERA5 / ERA5-Land via Open-Meteo archive)"
+
+#: Daily variables the multi-hazard modules rely on (validated server-side;
+#: requesting anything else returns an honest error rather than a surprise).
+DAILY_CLIMATE_VARIABLES = (
+    "precipitation_sum",
+    "temperature_2m_max",
+    "wind_gusts_10m_max",
+    "soil_moisture_0_to_7cm_mean",
+    "et0_fao_evapotranspiration",
+)
+
+
+def _daily_climate(lat: float, lon: float, start: str, end: str, variables) -> Dict:
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    if not _valid_range(start, end):
+        return {"error": "Invalid date range (expected ISO start_date <= end_date)"}
+    variables = list(variables)
+    if not variables:
+        return {"error": "No daily variables requested"}
+    unsupported = [v for v in variables if v not in DAILY_CLIMATE_VARIABLES]
+    if unsupported:
+        return {
+            "error": (
+                f"Unsupported daily variables: {', '.join(unsupported)}. "
+                f"Supported: {', '.join(DAILY_CLIMATE_VARIABLES)}"
+            )
+        }
+    params = urllib.parse.urlencode(
+        {
+            "latitude": lat,
+            "longitude": lon,
+            "start_date": start,
+            "end_date": end,
+            "daily": ",".join(variables),
+            "timezone": "auto",
+        }
+    )
+    url = f"{ARCHIVE_API_URL}?{params}"
+    try:
+        data = _get_json(url, timeout=60.0)
+    except RuntimeError as exc:
+        return {"error": f"Reanalysis service unavailable: {exc}"}
+    if data.get("error"):
+        return {
+            "error": f"Archive API error: {data.get('reason', 'unknown')}",
+            "source": DAILY_CLIMATE_SOURCE,
+        }
+    daily = data.get("daily") or {}
+    times = daily.get("time") or []
+    if not times:
+        return {
+            "error": "Archive returned no daily data for this range",
+            "source": DAILY_CLIMATE_SOURCE,
+        }
+    out: Dict = {
+        "time": times,
+        "units": data.get("daily_units") or {},
+        "source": DAILY_CLIMATE_SOURCE,
+        "variables": variables,
+        "request_url": url,
+    }
+    for var in variables:
+        out[var] = _align_series(times, daily.get(var) or [])
+    empty = [v for v in variables if all(x is None for x in out[v])]
+    if empty:
+        # Honest per-variable availability (e.g. soil moisture over the ocean).
+        out["unavailable_variables"] = empty
+    return out
+
+
+@cached("daily_climate_hist", TTL_ARCHIVE_SETTLED)
+def _fetch_daily_climate_hist(lat: float, lon: float, start: str, end: str, variables) -> Dict:
+    return _daily_climate(lat, lon, start, end, variables)
+
+
+@cached("daily_climate_recent", TTL_WEATHER_DAILY)
+def _fetch_daily_climate_recent(lat: float, lon: float, start: str, end: str, variables) -> Dict:
+    return _daily_climate(lat, lon, start, end, variables)
+
+
+def fetch_daily_climate(lat: float, lon: float, start: str, end: str, variables) -> Dict:
+    """
+    Generalised daily archive fetcher (ERA5 / ERA5-Land via Open-Meteo).
+
+    ``variables`` is a sequence of daily variable names (see
+    ``DAILY_CLIMATE_VARIABLES``). Returns one aligned series per variable
+    keyed by variable name. Settled ranges are cached 30 days, ranges ending
+    in the recent window 6 h. Variables the archive does not expose for the
+    point come back as null series listed under ``unavailable_variables`` —
+    never silently filled.
+    """
+    variables = tuple(variables or ())
+    if _is_recent_end(end):
+        return _fetch_daily_climate_recent(lat, lon, start, end, variables)
+    return _fetch_daily_climate_hist(lat, lon, start, end, variables)
+
+
+# --------------------------------------------------------------------------
+# Ocean waves — Open-Meteo Marine API (ECMWF WAM)
+# --------------------------------------------------------------------------
+
+MARINE_API_URL = "https://marine-api.open-meteo.com/v1/marine"
+MARINE_SOURCE = "Ocean wave analysis/forecast (ECMWF WAM via Open-Meteo Marine API)"
+
+
+def _marine(lat: float, lon: float, start: str, end: str) -> Dict:
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    if not _valid_range(start, end):
+        return {"error": "Invalid date range (expected ISO start_date <= end_date)"}
+    params = urllib.parse.urlencode(
+        {
+            "latitude": lat,
+            "longitude": lon,
+            "daily": "wave_height_max,wave_period_max",
+            "start_date": start,
+            "end_date": end,
+            "timezone": "auto",
+        }
+    )
+    url = f"{MARINE_API_URL}?{params}"
+    try:
+        data = _get_json(url, timeout=30.0)
+    except RuntimeError as exc:
+        return {"error": f"Marine service unavailable: {exc}"}
+    if data.get("error"):
+        return {
+            "error": f"Marine API error: {data.get('reason', 'unknown')}",
+            "source": MARINE_SOURCE,
+        }
+    daily = data.get("daily") or {}
+    times = daily.get("time") or []
+    wave_height = _align_series(times, daily.get("wave_height_max") or [])
+    wave_period = _align_series(times, daily.get("wave_period_max") or [])
+    if not times or all(v is None for v in wave_height):
+        return {
+            "error": (
+                "No marine data for this coordinate "
+                "(likely over land or outside wave-model coverage)"
+            ),
+            "source": MARINE_SOURCE,
+        }
+    return {
+        "time": times,
+        "wave_height_max": wave_height,
+        "wave_period_max": wave_period,
+        "units": data.get("daily_units") or {},
+        "source": MARINE_SOURCE,
+        "request_url": url,
+        "note": (
+            "Wave-model output; dates up to the analysis time are a nowcast, "
+            "later dates are a forecast."
+        ),
+    }
+
+
+@cached("marine_hist", TTL_ARCHIVE_SETTLED)
+def _fetch_marine_hist(lat: float, lon: float, start: str, end: str) -> Dict:
+    return _marine(lat, lon, start, end)
+
+
+@cached("marine_recent", TTL_WEATHER_DAILY)
+def _fetch_marine_recent(lat: float, lon: float, start: str, end: str) -> Dict:
+    return _marine(lat, lon, start, end)
+
+
+def fetch_marine(lat: float, lon: float, start: str, end: str) -> Dict:
+    """
+    Daily wave height max (m) and wave period max (s) from the Open-Meteo
+    Marine API (ECMWF WAM). Ranges ending in the recent window cached 6 h,
+    settled ranges 30 days. Honest error dict for land points.
+    """
+    if _is_recent_end(end):
+        return _fetch_marine_recent(lat, lon, start, end)
+    return _fetch_marine_hist(lat, lon, start, end)

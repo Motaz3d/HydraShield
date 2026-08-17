@@ -281,6 +281,51 @@
       "limitations": "Would replace only the SRTM fallback path; EU-DEM already covers Europe at 25 m",
       "hydrashield_use": "candidate (global DEM upgrade)",
       "integrated_in": "—"
+    },
+    {
+      "name": "Open-Meteo Flood API (GloFAS river discharge)",
+      "provider": "Open-Meteo (data: Copernicus EMS / EC JRC GloFAS)",
+      "purpose": "Daily river discharge (current nowcast + historical series) for flood analysis",
+      "coverage": "Global (modelled river network)",
+      "resolution": "GloFAS ~0.1° grid (~10 km)",
+      "update_frequency": "daily",
+      "latency": "near-real-time (GloFAS nowcast)",
+      "access": "Free, no key",
+      "license": "CC-BY 4.0 (GloFAS: Copernicus EMS terms)",
+      "kind": "modeled",
+      "limitations": "Hydrological model output, not gauge observations; no discharge for points far from modelled rivers",
+      "hydrashield_use": "integrated",
+      "integrated_in": "flood hazard module (river discharge intelligence)"
+    },
+    {
+      "name": "Open-Meteo Marine API (ECMWF WAM ocean waves)",
+      "provider": "Open-Meteo (data: ECMWF WAM wave model)",
+      "purpose": "Daily wave-height/period maxima (nowcast + short forecast) for coastal exposure",
+      "coverage": "Global ocean",
+      "resolution": "wave-model grid (tens of km)",
+      "update_frequency": "daily",
+      "latency": "near-real-time",
+      "access": "Free, no key",
+      "license": "CC-BY 4.0",
+      "kind": "modeled / forecast",
+      "limitations": "Wave-model output; coastal bathymetry and surf zone not resolved; no data over land",
+      "hydrashield_use": "integrated",
+      "integrated_in": "coastal hazard module (wave conditions)"
+    },
+    {
+      "name": "ERA5-Land soil moisture 0–7 cm (via Open-Meteo archive)",
+      "provider": "Copernicus C3S (via Open-Meteo)",
+      "purpose": "Daily soil-moisture series for drought anomaly analysis",
+      "coverage": "Global land",
+      "resolution": "~11 km (ERA5-Land)",
+      "update_frequency": "daily, lag of several days",
+      "latency": "~5 days",
+      "access": "Free, no key",
+      "license": "Copernicus C3S terms",
+      "kind": "modeled (reanalysis)",
+      "limitations": "Modelled soil moisture, not in-situ sensors; not exposed over water bodies",
+      "hydrashield_use": "integrated",
+      "integrated_in": "drought hazard module (soil-moisture anomaly)"
     }
   ]
 }
