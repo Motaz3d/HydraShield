@@ -1,0 +1,9 @@
+Subject: HydraShield contact form — message from {{email}}
+A message was submitted via the HydraShield contact form.
+
+From: {{name}} <{{email}}>
+
+Message:
+{{message}}
+
+— HydraShield contact form (automated)

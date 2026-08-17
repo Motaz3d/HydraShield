@@ -36,6 +36,15 @@ TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "email_templates")
 
 DEFAULT_FROM = "info@hydrashield.earth"
 
+
+def contact_inbox() -> str:
+    """Address that receives contact-form submissions (platform inbox).
+
+    ``CONTACT_INBOX`` env; defaults to ``SMTP_FROM`` (itself defaulting to
+    info@hydrashield.earth).
+    """
+    return os.environ.get("CONTACT_INBOX") or os.environ.get("SMTP_FROM") or DEFAULT_FROM
+
 _TEMPLATE_NAMES = {
     "welcome",
     "email_verification",
@@ -43,6 +52,7 @@ _TEMPLATE_NAMES = {
     "report_delivery",
     "alert",
     "contact_acknowledgement",
+    "contact_message",
     "subscription_confirmation",
 }
 

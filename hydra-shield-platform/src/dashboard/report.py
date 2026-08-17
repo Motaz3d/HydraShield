@@ -135,11 +135,14 @@ def report_content_id(analysis: Dict, report_type: str) -> str:
 
 def _evidence_status_summary(analysis: Dict) -> str:
     """Counts per claim status across the analysis' data claims (provenance
-    kinds and risk-factor kinds), using the report's label vocabulary."""
+    kinds and risk-factor kinds), using the report's label vocabulary.
+    Legacy US spelling is normalised (modeled → MODELLED)."""
     counts: Dict[str, int] = {}
+    _alias = {"modeled": "modelled", "derived": "inferred"}
 
     def _bump(kind: Optional[str]) -> None:
-        label = (kind or "unavailable").upper()
+        raw = (kind or "unavailable").lower()
+        label = _alias.get(raw, raw).upper()
         counts[label] = counts.get(label, 0) + 1
 
     for p in (analysis.get("provenance") or {}).values():

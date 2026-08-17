@@ -4,8 +4,5 @@ Hello{{name}},
 thank you for contacting HydraShield. We have received your message and
 will reply to this address as soon as we can.
 
-Your message:
-{{message}}
-
 — The HydraShield team
 info@hydrashield.earth

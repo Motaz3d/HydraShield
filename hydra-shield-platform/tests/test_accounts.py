@@ -342,6 +342,23 @@ def test_audit_log_records_security_events_without_secrets(client, env, store):
     assert hash_token(session_token) not in blob
 
 
+def test_consent_defaults_to_not_given(client, env):
+    """GDPR: registering without an explicit consent field must record
+    consent=False — consent is never assumed."""
+    import sqlite3
+
+    resp = client.post("/api/v2/auth/register",
+                       json={"email": "noconsent@example.org",
+                             "password": "twelve chars!!"})
+    assert resp.status_code == 201
+    with sqlite3.connect(env["db"]) as conn:
+        row = conn.execute(
+            "SELECT meta_json FROM audit_log WHERE action = 'register'"
+            " AND target = 'noconsent@example.org'").fetchone()
+    assert row is not None
+    assert json.loads(row[0])["consent"] is False
+
+
 # ---------------------------------------------------------------------------
 # Account PATCH
 # ---------------------------------------------------------------------------
@@ -377,7 +394,21 @@ def test_contact_sends_acknowledgement_via_outbox(client, env):
     eml = _eml_text(env["outbox"], "contact_acknowledgement")
     assert "To: visitor@example.org" in eml
     assert "We received your message" in eml
-    assert "I would like to know more about alerts." in eml
+    # Anti-abuse: the acknowledgement must NOT echo the submitter's message
+    # (otherwise the form becomes a spam relay to arbitrary addresses).
+    assert "I would like to know more about alerts." not in eml
+
+
+def test_contact_message_reaches_platform_inbox(client, env):
+    resp = client.post("/api/v2/contact",
+                       json={"email": "visitor2@example.org", "name": "Vis",
+                             "message": "Platform inbox delivery check."})
+    assert resp.status_code == 201
+    eml = _eml_text(env["outbox"], "contact_message")
+    # The submission itself must reach the platform (default: SMTP_FROM).
+    assert "To: info@hydrashield.earth" in eml
+    assert "Platform inbox delivery check." in eml
+    assert "visitor2@example.org" in eml
 
 
 def test_contact_rate_limit_5_per_hour(client, env):

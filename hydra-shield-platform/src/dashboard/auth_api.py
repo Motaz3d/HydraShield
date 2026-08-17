@@ -169,7 +169,8 @@ def register():
         email,
         password,
         display_name=data.get("display_name"),
-        consent=bool(data.get("consent", True)),
+        # GDPR: record only consent actually given — never assume it.
+        consent=bool(data.get("consent", False)),
     )
     if "error" in user:
         status = 409 if "already registered" in user["error"] else 400
@@ -416,10 +417,20 @@ def contact():
         return _err("message is too long (max 5000 characters)", 400)
     from . import mailer
 
+    # The message itself goes to the platform inbox — contact submissions
+    # must actually reach HydraShield (previously they did not).
+    mailer.send_mail(
+        mailer.contact_inbox(),
+        "contact_message",
+        {"name": name or "(no name given)", "email": email, "message": message},
+    )
+    # The acknowledgement to the submitter intentionally does NOT echo the
+    # message: quoting attacker-controlled content to arbitrary addresses
+    # would turn the form into a spam/abuse relay.
     mailer.send_mail(
         email,
         "contact_acknowledgement",
-        {"name": f" {name}" if name else "", "message": message},
+        {"name": f" {name}" if name else ""},
     )
     return jsonify({"status": "received",
                     "message": "Thank you — we will reply to your address."}), 201
