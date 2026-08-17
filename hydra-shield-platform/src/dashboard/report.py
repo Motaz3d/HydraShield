@@ -16,7 +16,9 @@ FORECAST / RECOMMENDED / UNKNOWN / UNAVAILABLE labels are kept visible.
 
 from __future__ import annotations
 
+import hashlib
 import io
+import json
 from typing import Dict, List, Optional
 
 try:
@@ -32,6 +34,9 @@ except ImportError:  # honest failure handled by the endpoint
     _HAS_REPORTLAB = False
 
 MODEL_VERSION = "1.0.0"
+# Report-generation engine (layout/metadata composition) version, independent
+# of the risk-model version above.
+REPORT_ENGINE_VERSION = "2.0.0"
 VALIDATION_STATUS = (
     "NOT VALIDATED — the HydraShield screening score has not yet completed "
     "validation against real historical fire observations (see "
@@ -83,7 +88,8 @@ def _footer(canvas, doc):
     canvas.drawString(
         18 * mm, 8 * mm,
         f"HydraShield — real-data wildfire decision support · model v{MODEL_VERSION} · "
-        f"{doc._report_meta.get('generated', '')}",
+        f"{doc._report_meta.get('generated', '')} · "
+        f"report {doc._report_meta.get('report_id', '')}",
     )
     canvas.drawRightString(192 * mm, 8 * mm, f"Page {doc.page}")
     canvas.restoreState()
@@ -113,6 +119,63 @@ def _fmt(v, unit="", digits=1):
     if isinstance(v, float):
         v = round(v, digits)
     return f"{v}{unit}"
+
+
+def report_content_id(analysis: Dict, report_type: str) -> str:
+    """
+    Stable report ID: a content hash of the analysis payload (excluding the
+    volatile generation timestamp) plus the report type. Identical content
+    always yields the same ID; any content change yields a new one.
+    """
+    basis = {k: v for k, v in (analysis or {}).items() if k != "generated_at"}
+    canonical = json.dumps({"analysis": basis, "report_type": report_type},
+                           sort_keys=True, default=str)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
+
+
+def _evidence_status_summary(analysis: Dict) -> str:
+    """Counts per claim status across the analysis' data claims (provenance
+    kinds and risk-factor kinds), using the report's label vocabulary."""
+    counts: Dict[str, int] = {}
+
+    def _bump(kind: Optional[str]) -> None:
+        label = (kind or "unavailable").upper()
+        counts[label] = counts.get(label, 0) + 1
+
+    for p in (analysis.get("provenance") or {}).values():
+        _bump((p or {}).get("kind"))
+    for f in (analysis.get("risk_explanation") or {}).get("factors") or []:
+        _bump(f.get("provenance_kind"))
+    if not counts:
+        return "no provenance recorded"
+    return " · ".join(f"{label}: {counts[label]}" for label in sorted(counts))
+
+
+def _data_sources(analysis: Dict) -> str:
+    """De-duplicated data-source list from the analysis provenance."""
+    sources: List[str] = []
+    for p in (analysis.get("provenance") or {}).values():
+        source = str((p or {}).get("source") or "").strip()
+        if source and source not in sources:
+            sources.append(source)
+    return "; ".join(sources) if sources else "no provenance recorded"
+
+
+def _metadata_table(analysis: Dict, report_type: str, loc: Dict) -> Table:
+    """Report metadata block (Stage 7): identity, engine, sources, evidence
+    and validation status — placed right after the title on every report."""
+    rows = [
+        ["Report ID", report_content_id(analysis, report_type)],
+        ["Generated", str(analysis.get("generated_at") or "—")],
+        ["Location", f"{loc.get('name', '')} "
+         f"({loc.get('latitude')}, {loc.get('longitude')})"],
+        ["Report engine", f"v{REPORT_ENGINE_VERSION} (risk model v{MODEL_VERSION}, "
+                          f"report type: {report_type})"],
+        ["Data sources", Paragraph(_data_sources(analysis), _SM)],
+        ["Evidence status", Paragraph(_evidence_status_summary(analysis), _SM)],
+        ["Validation status", Paragraph(VALIDATION_STATUS, _SM)],
+    ]
+    return _kv_table(rows)
 
 
 def _fwi_chart(fwi_block: Dict):
@@ -297,6 +360,11 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         "Real-data report: every value is observed, derived or modelled with "
         "provenance; unavailable data is stated.", _SM))
     story.append(Spacer(1, 8))
+
+    # ---- Report metadata (identity/engine/sources/evidence/validation) ----
+    story.append(Paragraph("Report metadata", _S))
+    story.append(_metadata_table(analysis, report_type, loc))
+    story.append(Spacer(1, 4))
 
     # ---- 1. Executive summary -------------------------------------------
     story.append(Paragraph(S("Executive summary"), _S))
@@ -660,6 +728,9 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         author="HydraShield (real-data decision support)",
         subject=f"Wildfire risk report ({report_type}) — real Earth Observation data",
     )
-    doc._report_meta = {"generated": analysis.get("generated_at", "")}
+    doc._report_meta = {
+        "generated": analysis.get("generated_at", ""),
+        "report_id": report_content_id(analysis, report_type),
+    }
     doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return buf.getvalue()

@@ -1,0 +1,8 @@
+Subject: HydraShield alert
+{{message}}
+
+—
+This alert was generated from real monitored data by HydraShield.
+Screening-level information only — always follow official
+civil-protection guidance.
+info@hydrashield.earth

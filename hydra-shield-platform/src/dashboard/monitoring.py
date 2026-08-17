@@ -17,7 +17,6 @@ Design constraints:
 from __future__ import annotations
 
 import json
-import os
 import re
 import sqlite3
 import threading
@@ -26,6 +25,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 from .cache import default_cache
+from . import mailer
 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -154,28 +154,23 @@ class WatchStore:
 
 def send_email_alert(to_addr: str, subject: str, body: str) -> bool:
     """
-    Send an alert email via SMTP when configured.
+    Send an alert email through the central mailer (``src/dashboard/mailer.py``).
 
-    Requires env: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM.
-    Returns False (and the caller records the alert in the DB) when SMTP is
-    not configured — no credentials are ever assumed.
+    Alert content semantics are unchanged: ``subject``/``body`` are delivered
+    verbatim (wrapped in the HydraShield ``alert`` template shell). When SMTP
+    is configured the message is sent via STARTTLS SMTP and True is returned.
+    When SMTP is not configured the mailer's dev backend records the message
+    as an outbox ``.eml`` file (never sent) and False is returned, so the
+    caller keeps recording the alert in the DB (``db_only`` channel) exactly
+    as before — no credentials are ever assumed.
+
+    Requires env: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD (or legacy
+    SMTP_PASS), SMTP_FROM.
     """
-    host = os.environ.get("SMTP_HOST")
-    if not host:
-        return False
-    import smtplib
-    from email.message import EmailMessage
-
-    msg = EmailMessage()
-    msg["From"] = os.environ.get("SMTP_FROM", os.environ.get("SMTP_USER", "alerts@hydrashield.earth"))
-    msg["To"] = to_addr
-    msg["Subject"] = subject
-    msg.set_content(body)
-    port = int(os.environ.get("SMTP_PORT", "587"))
-    with smtplib.SMTP(host, port, timeout=20) as smtp:
-        smtp.starttls()
-        user = os.environ.get("SMTP_USER")
-        if user:
-            smtp.login(user, os.environ.get("SMTP_PASS", ""))
-        smtp.send_message(msg)
-    return True
+    result = mailer.send_mail(
+        to_addr,
+        "alert",
+        {"subject": subject, "message": body},
+        subject_override=subject,
+    )
+    return result["backend"] == "smtp"

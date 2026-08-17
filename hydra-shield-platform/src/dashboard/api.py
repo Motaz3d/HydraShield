@@ -611,6 +611,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(v2_blueprint)
 
+    # Accounts / auth API (/api/v2/auth…, /api/v2/account…, /api/v2/contact).
+    from .auth_api import auth_bp
+
+    app.register_blueprint(auth_bp)
+
     return app
 
 
