@@ -13,6 +13,8 @@ from src.prediction.validation import (
     compute_calibration,
     compute_confusion_matrix,
     evaluate_scores,
+    pr_auc,
+    roc_auc,
     select_threshold,
     temporal_train_test_split,
 )
@@ -265,3 +267,45 @@ def test_model_registry_records_candidates(tmp_path):
     assert len(versions) == 1
     reg.record({"model": "screening score", "model_version": "1.0.1"})
     assert len(reg.list()) == 2
+
+
+# --------------------------------------------------------------------------
+# ROC-AUC / PR-AUC (ranking quality; None when undefined — never fabricated)
+# --------------------------------------------------------------------------
+
+def test_roc_auc_perfect_and_reversed():
+    assert roc_auc([10, 20, 80, 90], [0, 0, 1, 1]) == 1.0
+    assert roc_auc([10, 20, 80, 90], [1, 1, 0, 0]) == 0.0
+
+
+def test_roc_auc_all_ties_is_chance():
+    assert roc_auc([50, 50, 50, 50], [0, 1, 0, 1]) == 0.5
+
+
+def test_roc_auc_single_class_is_none():
+    assert roc_auc([1, 2, 3], [1, 1, 1]) is None
+    assert roc_auc([1, 2, 3], [0, 0, 0]) is None
+
+
+def test_roc_auc_length_mismatch_raises():
+    with pytest.raises(ValueError):
+        roc_auc([1.0], [1, 0])
+
+
+def test_pr_auc_perfect_ranking_is_one():
+    assert pr_auc([10, 20, 80, 90], [0, 0, 1, 1]) == 1.0
+
+
+def test_pr_auc_no_positives_is_none():
+    assert pr_auc([1, 2, 3], [0, 0, 0]) is None
+
+
+def test_pr_auc_known_intermediate_value():
+    # Highest score is a false alarm, lowest is the positive:
+    # area = (recall 0->1) * (precision 1.0->0.5 trapezoid) = 0.25.
+    assert pr_auc([90, 10], [0, 1]) == 0.25
+
+
+def test_pr_auc_length_mismatch_raises():
+    with pytest.raises(ValueError):
+        pr_auc([1.0], [1, 0])

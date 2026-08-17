@@ -1,6 +1,6 @@
 # HydraShield Earth Observation Source Audit
 
-**Date:** 2026-08-16 · **Registry:** `config/source_registry.json` (served at `GET /api/sources`)
+**Date:** 2026-08-17 · **Registry:** `config/source_registry.json` (served at `GET /api/sources`)
 
 ## Method
 
@@ -15,15 +15,26 @@ never for branding.
 
 ### Integrated (in production, real)
 - **Copernicus Sentinel-2 L2A** (Earth Search STAC) — NDVI/NDMI, fuel moisture, 10 m.
-- **Open-Meteo forecast** — current/forecast weather, soil moisture, FWI inputs (~11 km).
+- **Open-Meteo forecast** — current/forecast weather, soil moisture, FWI inputs (~11 km); hourly 10 m + 850 hPa wind profiles for smoke-transport screening.
 - **ERA5/ERA5-Land via Open-Meteo archive** (Copernicus C3S) — history, change detection, validation.
 - **EU-DEM 25 m / SRTM 90 m** (OpenTopoData) — terrain, slope, aspect.
 - **ESA WorldCover v200** — land cover, burnability, fuel model (10 m).
-- **NASA FIRMS VIIRS/MODIS** — active-fire detections and validation labels; **activates with `FIRMS_MAP_KEY`** (currently unavailable — no key configured; see docs/VALIDATION.md).
+- **NASA FIRMS VIIRS/MODIS** — active-fire detections, observed-fire locations for smoke transport, and validation labels; **activates with `FIRMS_MAP_KEY`** (currently unavailable — no key configured; see docs/VALIDATION.md).
 - **OpenStreetMap** (ohsome API; Overpass fallback) — exposure/vulnerability/access features.
-- **Nominatim** — geocoding.
+- **Nominatim** — geocoding + reverse country lookup for the population raster.
+- **WorldPop** (Global 2 R2025A constrained 100 m; Global 1 2020 UN-adjusted fallback) — gridded population estimates for human-exposure analysis and smoke-corridor population overlay. Per-country GeoTIFF downloaded **once** into `data/population/` (400 MB guard); all reads are local afterwards. Always reported with its reference year; never as an exact count.
 
-### Candidates (evaluated, honestly not yet integrated)
+### Population candidates (evaluated 2026-08-17, honestly not yet integrated)
+- **GHSL / GHS-POP (JRC)** — global 100 m/1 km population + built-up grid; candidate cross-check for WorldPop and settlement/built-up exposure.
+- **GPWv4 (NASA SEDAC)** — ~1 km census grid; Earthdata login; coarser and older than WorldPop — fallback candidate only.
+- **Eurostat GEOSTAT 1 km grid** — authoritative EU census grid (2021); Europe-only — candidate European reference cross-check.
+
+### Smoke / atmospheric candidates (evaluated 2026-08-17)
+- **CAMS (ECMWF Copernicus Atmosphere Monitoring Service)** — global/regional aerosol + PM forecasts via the Atmosphere Data Store; requires free CDS credentials (`CAMS_ADS_URL`/`CAMS_ADS_KEY`). Candidate for smoke context and future validation of transport estimates. Not wired: credentials not configured.
+- **NOAA HYSPLIT** — reference-grade Lagrangian transport model; READY web is interactive-only and programmatic use needs a local install plus a meteorological data pipeline. Candidate as an optional offline/reference comparison, not in the request path.
+- **Sentinel-5P TROPOMI** — daily aerosol index / NO2 (~5 km). Moved from rejected to candidate: Smoke Intelligence now defines a purpose (observed cross-check of smoke transport); requires CDSE credentials.
+
+### Other candidates (evaluated, honestly not yet integrated)
 - **EFFIS/GWIS** — probed 2026-08-16: the public WMS is view-only
   (GetFeatureInfo disabled on danger layers). Candidate for reference
   comparison and burned-area perimeters once a genuine access path exists.
@@ -39,12 +50,13 @@ never for branding.
   Backup candidate only.
 
 ### Rejected (with reasons)
-- **Sentinel-5P** — atmospheric composition; no defined purpose in the
-  current fire-danger model.
 - **FY-3/FY-4 (CMA)** — registration/approval barrier, programmatic API
   unclear, license verification needed; no unique gap filled for the
   current European monitored areas.
 - **National Tibetan Plateau Data Center** — regional coverage mismatch.
+- **Blitzortung / lightning networks** — raw data requires a contributor
+  agreement; no open operational API. Lightning is a declared gap in the
+  ignition-likelihood indicator (natural ignitions are not predicted).
 
 ## Fire-evidence architecture
 

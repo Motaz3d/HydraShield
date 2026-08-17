@@ -14,6 +14,18 @@ Public, honest, real-data endpoints:
                                 would have recommended (real ERA5 + FIRMS)
     GET  /api/report            Professional PDF report for a location,
                                 built from the same real cached analysis
+    GET  /api/population-exposure  Estimated population exposure (WorldPop)
+                                + population-by-hazard-class overlay
+    GET  /api/ignition-risk     Relative Ignition-Likelihood Indicator
+                                (screening; NOT a probability; unvalidated)
+    GET  /api/smoke             OBSERVED-fire smoke transport (NASA FIRMS
+                                detections + forecast winds; 503 without key)
+    GET  /api/smoke-scenario    SCENARIO smoke transport for a hypothetical
+                                fire under current conditions (MODELLED)
+    GET  /api/exposure-summary  Combined human-exposure summary (hazard /
+                                population / ignition / OSM / smoke kept
+                                strictly separate)
+    GET  /api/sources           Data-source audit registry
     POST /api/analysis-jobs     Start a progressive (staged) analysis job
     GET  /api/analysis-jobs/id  Poll honest stage states + final result
     POST /api/watch             Register a threshold alert watch
@@ -389,6 +401,208 @@ def create_app() -> Flask:
                                      radius_km=min(max(radius, 1.0), 200.0),
                                      days=min(max(days, 1), 10))
         return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/population-exposure", methods=["GET"])
+    def population_exposure():
+        """
+        Estimated population exposure for a location: WorldPop estimate plus
+        the real spatial overlay of population onto the FWI-derived hazard
+        grid (population by hazard class). Gridded estimates with reference
+        year — never exact counts.
+        """
+        if not _rate_limiter.allow(f"popexp:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        try:
+            radius = float(request.args.get("radius_km", "3"))
+        except ValueError:
+            return _error("radius_km must be a number", 400)
+        from . import population as population_module
+
+        result = population_module.population_exposure_overlay(
+            round(lat, 4), round(lon, 4), radius_km=radius)
+        if "error" in result:
+            base = population_module.fetch_population(
+                round(lat, 4), round(lon, 4), radius_km=radius)
+            if "error" in base:
+                return _error(result["error"], 502)
+            base["overlay_note"] = (
+                "Hazard-class overlay unavailable: " + result["error"])
+            return jsonify(base)
+        return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/ignition-risk", methods=["GET"])
+    def ignition_risk():
+        """
+        Relative Ignition-Likelihood Indicator for a location (from the real
+        analysis). Screening-level and explicitly NOT a probability; the
+        block carries its validation status (not validated).
+        """
+        if not _rate_limiter.allow(f"ign:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        try:
+            result = _cached_analysis(round(lat, 4), round(lon, 4),
+                                      f"{lat:.4f}, {lon:.4f}")
+        except Exception as exc:
+            return _error(f"Analysis failed: {exc}", 502)
+        if "error" in result:
+            return _error(result["error"], 404)
+        ignition = result.get("ignition") or {}
+        return jsonify({
+            "location": result.get("location"),
+            "generated_at": result.get("generated_at"),
+            "ignition": ignition,
+            "hazard_context": {
+                "fire_danger_class": (result.get("fire_danger") or {}).get("class"),
+                "fwi": (result.get("fire_danger") or {}).get("fwi"),
+                "note": "Wildfire hazard and ignition likelihood are separate "
+                        "concepts; HIGH FIRE DANGER ≠ FIRE WILL OCCUR.",
+            },
+            "provenance": (result.get("provenance") or {}).get("ignition"),
+        })
+
+    # ------------------------------------------------------------------
+    @app.route("/api/smoke", methods=["GET"])
+    def smoke():
+        """
+        OBSERVED-fire smoke transport: real NASA FIRMS detections near the
+        location + modelled atmospheric transport from now. 503 with an
+        explanatory payload when no observed-fire source is configured —
+        fires are never invented.
+        """
+        if not _rate_limiter.allow(f"smoke:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        try:
+            radius = float(request.args.get("radius_km", "50"))
+            days = int(request.args.get("days", "3"))
+            hours = int(request.args.get("hours", "24"))
+        except ValueError:
+            return _error("radius_km, days and hours must be numbers", 400)
+        from . import smoke as smoke_module
+
+        result = smoke_module.smoke_observed(
+            round(lat, 4), round(lon, 4), radius_km=radius, days=days, hours=hours)
+        if "error" in result:
+            return _error(result["error"], 502)
+        if result.get("status") == "unavailable":
+            return jsonify(result), 503
+        return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/smoke-scenario", methods=["GET"])
+    def smoke_scenario_endpoint():
+        """
+        SCENARIO smoke transport: 'if a fire were to occur here under current
+        atmospheric conditions...' — always labelled SCENARIO / MODELLED.
+        """
+        if not _rate_limiter.allow(f"smokesc:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        try:
+            hours = int(request.args.get("hours", "24"))
+        except ValueError:
+            return _error("hours must be an integer", 400)
+        from . import smoke as smoke_module
+
+        result = smoke_module.smoke_scenario(round(lat, 4), round(lon, 4), hours=hours)
+        if "error" in result:
+            return _error(result["error"], 502)
+        return jsonify(result)
+
+    # ------------------------------------------------------------------
+    @app.route("/api/exposure-summary", methods=["GET"])
+    def exposure_summary():
+        """
+        Combined human-exposure summary for a location: wildfire hazard,
+        population exposure, ignition likelihood, OSM exposure and the
+        scenario smoke signal — each kept separate, never merged into one
+        number, never a probability.
+        """
+        if not _rate_limiter.allow(f"expsum:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        try:
+            result = _cached_analysis(round(lat, 4), round(lon, 4),
+                                      f"{lat:.4f}, {lon:.4f}")
+        except Exception as exc:
+            return _error(f"Analysis failed: {exc}", 502)
+        if "error" in result:
+            return _error(result["error"], 404)
+
+        pop = result.get("population") or {}
+        ign = result.get("ignition") or {}
+        exp = result.get("exposure") or {}
+        danger = result.get("fire_danger") or {}
+        smoke_s = result.get("smoke_scenario") or {}
+        smoke_transport = (smoke_s.get("transport") or {}) if smoke_s.get("status") == "ok" else {}
+
+        return jsonify({
+            "location": result.get("location"),
+            "generated_at": result.get("generated_at"),
+            "wildfire_hazard": {
+                "fwi": danger.get("fwi"),
+                "class": danger.get("class"),
+                "effis_class": danger.get("effis_class"),
+                "risk_score": ((result.get("analysis") or {}).get("risk") or {}).get("baseline"),
+            },
+            "population_exposure": {
+                "status": pop.get("status"),
+                "estimated_population": pop.get("estimated_population"),
+                "mean_density_per_km2": pop.get("mean_density_per_km2"),
+                "density_level": pop.get("density_level"),
+                "estimated_population_in_hazard_area": pop.get("estimated_population_in_hazard_area"),
+                "estimate_note": pop.get("estimate_note"),
+                "reference_year": pop.get("reference_year"),
+            },
+            "ignition_likelihood": {
+                "status": ign.get("status"),
+                "name": ign.get("name"),
+                "indicator": ign.get("indicator"),
+                "class": ign.get("class"),
+                "not_a_probability": ign.get("not_a_probability"),
+                "validation_status": ign.get("validation_status"),
+            },
+            "osm_exposure": {
+                "status": exp.get("status"),
+                "buildings_mapped": ((exp.get("exposure") or {}).get("buildings_mapped")),
+                "vulnerable_assets": exp.get("vulnerable_assets"),
+                "potential_wui": (exp.get("wui_indicator") or {}).get("potential_wui"),
+            },
+            "smoke_scenario": {
+                "status": smoke_s.get("status"),
+                "mode_label": smoke_s.get("mode_label"),
+                "dominant_transport_direction": smoke_transport.get("dominant_transport_direction"),
+                "mean_transport_speed_kmh": smoke_transport.get("mean_transport_speed_kmh"),
+                "confidence": smoke_transport.get("confidence"),
+            } if smoke_s else None,
+            "human_exposure_priority": pop.get("human_exposure_priority"),
+            "human_exposure_note": pop.get("human_exposure_note"),
+            "separation_note": (
+                "Wildfire hazard, ignition likelihood, population exposure and "
+                "smoke transport are reported separately. Nothing here is a "
+                "probability of fire; the ignition indicator is unvalidated."
+            ),
+            "provenance": {
+                "population": (result.get("provenance") or {}).get("population"),
+                "ignition": (result.get("provenance") or {}).get("ignition"),
+                "exposure": (result.get("provenance") or {}).get("exposure"),
+                "fire_danger": (result.get("provenance") or {}).get("fire_danger"),
+            },
+        })
 
     # ------------------------------------------------------------------
     @app.route("/api/sources", methods=["GET"])

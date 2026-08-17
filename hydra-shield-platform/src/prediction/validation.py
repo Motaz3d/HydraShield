@@ -170,6 +170,71 @@ def brier_score(scores: Sequence[float], y_true: Sequence[int],
     return round(total / len(scores), 4)
 
 
+def roc_auc(scores: Sequence[float], y_true: Sequence[int]) -> Optional[float]:
+    """
+    ROC-AUC via the rank-based Mann-Whitney U statistic (tie-corrected).
+
+    Statistically appropriate only with both classes present; returns None
+    otherwise (undefined), never a fabricated number. Threshold-free ranking
+    quality of the score, not evidence of calibration.
+    """
+    if len(scores) != len(y_true):
+        raise ValueError("scores and y_true must have equal length")
+    pairs = sorted(zip(scores, (1 if bool(t) else 0 for t in y_true)), key=lambda p: p[0])
+    n_pos = sum(t for _, t in pairs)
+    n_neg = len(pairs) - n_pos
+    if n_pos == 0 or n_neg == 0:
+        return None
+    # Average ranks with tie correction.
+    ranks = [0.0] * len(pairs)
+    i = 0
+    while i < len(pairs):
+        j = i
+        while j + 1 < len(pairs) and pairs[j + 1][0] == pairs[i][0]:
+            j += 1
+        avg_rank = (i + j) / 2.0 + 1.0
+        for k in range(i, j + 1):
+            ranks[k] = avg_rank
+        i = j + 1
+    rank_sum_pos = sum(r for r, (_, t) in zip(ranks, pairs) if t == 1)
+    auc = (rank_sum_pos - n_pos * (n_pos + 1) / 2.0) / (n_pos * n_neg)
+    return round(auc, 4)
+
+
+def pr_auc(scores: Sequence[float], y_true: Sequence[int]) -> Optional[float]:
+    """
+    PR-AUC: area under the precision-recall curve (trapezoidal over recall).
+
+    More informative than ROC-AUC under class imbalance (rare positives such
+    as fire detections). Returns None when no positive observation exists.
+    The no-skill baseline equals the positive class prevalence — always
+    report it alongside.
+    """
+    if len(scores) != len(y_true):
+        raise ValueError("scores and y_true must have equal length")
+    pairs = sorted(zip(scores, (1 if bool(t) else 0 for t in y_true)),
+                   key=lambda p: p[0], reverse=True)
+    n_pos = sum(t for _, t in pairs)
+    if n_pos == 0:
+        return None
+    tp = 0
+    fp = 0
+    prev_recall = 0.0
+    prev_precision = 1.0
+    area = 0.0
+    for _s, t in pairs:
+        if t:
+            tp += 1
+        else:
+            fp += 1
+        recall = tp / n_pos
+        precision = tp / (tp + fp)
+        area += (recall - prev_recall) * (precision + prev_precision) / 2.0
+        prev_recall = recall
+        prev_precision = precision
+    return round(area, 4)
+
+
 # --------------------------------------------------------------------------
 # Temporal separation (anti-leakage)
 # --------------------------------------------------------------------------
