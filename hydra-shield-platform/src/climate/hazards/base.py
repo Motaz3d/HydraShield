@@ -83,6 +83,7 @@ class LayerSpec:
     endpoint: Optional[str] = None   # API path template, e.g. "/api/v2/events?hazard=wildfire&…"
     legend: Optional[Dict[str, str]] = None   # label → colour
     source: Optional[str] = None
+    url: Optional[str] = None        # official source URL (opened from the layer panel)
     date: Optional[str] = None
     resolution: Optional[str] = None
     status: str = "available"        # "available" | "key_required" | "unavailable"

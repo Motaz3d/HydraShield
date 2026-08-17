@@ -359,6 +359,23 @@ def test_consent_defaults_to_not_given(client, env):
     assert json.loads(row[0])["consent"] is False
 
 
+def test_registration_notifies_platform_inbox(client, env):
+    """A registration must be visible to the operator via the platform
+    inbox (dev: safe outbox) — without leaking any secret."""
+    resp = client.post("/api/v2/auth/register",
+                       json={"email": "newbie@example.org",
+                             "password": "super secret pw 1",
+                             "display_name": "Newbie"})
+    assert resp.status_code == 201
+    eml = _eml_text(env["outbox"], "admin_notification")
+    assert "To: info@hydrashield.earth" in eml
+    assert "newbie@example.org" in eml
+    assert "new account registration" in eml.lower()
+    # Never the password, never a token.
+    assert "super secret pw 1" not in eml
+    assert "token=" not in eml
+
+
 # ---------------------------------------------------------------------------
 # Account PATCH
 # ---------------------------------------------------------------------------

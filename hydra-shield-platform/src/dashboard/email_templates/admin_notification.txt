@@ -1,0 +1,9 @@
+Subject: HydraShield — new account registration
+A new account was registered on HydraShield.
+
+Email: {{email}}
+Display name: {{display_name}}
+Registered at (UTC): {{registered_at}}
+Status: pending email verification
+
+This is an automated platform notification. No action is required.

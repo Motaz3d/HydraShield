@@ -54,6 +54,7 @@ _TEMPLATE_NAMES = {
     "alert",
     "contact_acknowledgement",
     "contact_message",
+    "admin_notification",
     "subscription_confirmation",
 }
 

@@ -202,10 +202,22 @@
                 'Fire stations': '#ea580c', 'Water': '#0284c7'
             },
             source: 'OpenStreetMap (Overpass API)',
+            url: 'https://www.openstreetmap.org/',
             resolution: 'Mapped features within 2 km of the map centre',
             status: 'available',
             temporal: 'OBSERVED',
             provenance: { note: 'Mapped OSM features; completeness varies by region — counts are a lower bound, not a census.' }
+        }, {
+            layer_id: 'platform.population_exposure',
+            label: 'Population exposure (WorldPop 100 m estimates)',
+            group: 'EXPOSURE',
+            kind: 'grid',
+            source: 'WorldPop gridded population (reference-year estimates)',
+            url: 'https://hub.worldpop.org/',
+            resolution: '100 m grid aggregated to cells within 3 km of the map centre',
+            status: 'available',
+            temporal: 'MODELLED',
+            provenance: { note: 'Gridded reference-year estimates — never exact counts; overlaid on the FWI hazard grid for population-by-hazard-class.' }
         }];
         if (hazardId === 'wildfire') {
             out.push({
@@ -214,10 +226,35 @@
                 group: 'EVIDENCE',
                 kind: 'points',
                 source: 'NASA FIRMS VIIRS S-NPP + MODIS (per-sensor, never merged)',
+                url: 'https://firms.modaps.eosdis.nasa.gov/',
                 resolution: '375 m (VIIRS) / 1 km (MODIS)',
                 status: 'available',
                 temporal: 'OBSERVED',
                 provenance: { note: 'Hotspot detections, not fire perimeters. Requires the server-side FIRMS key; a key_required state is shown honestly when absent.' }
+            });
+            out.push({
+                layer_id: 'platform.smoke_scenario',
+                label: 'Smoke corridor — scenario (hypothetical fire)',
+                group: 'HAZARD',
+                kind: 'geojson',
+                source: 'Open-Meteo wind profile (screening transport model)',
+                url: 'https://open-meteo.com/',
+                resolution: '~11 km NWP grid; corridor is a screening envelope',
+                status: 'available',
+                temporal: 'SCENARIO',
+                provenance: { note: 'MODELLED what-if: no fire is observed at this location. Sharp-turn self-intersections possible; never a deterministic path.' }
+            });
+            out.push({
+                layer_id: 'platform.smoke_observed',
+                label: 'Smoke corridor — observed fires (FIRMS)',
+                group: 'EVIDENCE',
+                kind: 'geojson',
+                source: 'NASA FIRMS detections + Open-Meteo wind profile',
+                url: 'https://firms.modaps.eosdis.nasa.gov/',
+                resolution: '375 m detections; ~11 km wind grid',
+                status: 'key_required',
+                temporal: 'OBSERVED',
+                provenance: { note: 'Requires the server-side FIRMS key; an honest unavailable state is shown without it. Observed and scenario smoke are never mixed.' }
             });
         }
         return out;
@@ -339,7 +376,11 @@
                     return '<span class="swatch"><i style="background:' + esc(spec.legend[k]) + '"></i>' + esc(k) + '</span>';
                 }).join('') + '</div>';
         }
-        if (spec.source) html += '<div>Source: ' + esc(spec.source) + '</div>';
+        if (spec.source) {
+            html += '<div>Source: ' + (spec.url
+                ? '<a class="text-link" href="' + esc(spec.url) + '" target="_blank" rel="noopener">' + esc(spec.source) + '</a>'
+                : esc(spec.source)) + '</div>';
+        }
         if (spec.resolution) html += '<div>Resolution: ' + esc(spec.resolution) + '</div>';
         if (spec.date) html += '<div>Date: ' + esc(spec.date) + '</div>';
         html += '<div style="margin-top:4px;">' +
@@ -397,6 +438,9 @@
         if (id === 'wildfire.ndmi') return loadNdmiLayer(rec, isRefresh);
         if (id === 'platform.exposure_features') return loadExposureFeatures(rec);
         if (id === 'platform.active_fires') return loadActiveFires(rec);
+        if (id === 'platform.population_exposure') return loadPopulationExposure(rec);
+        if (id === 'platform.smoke_scenario') return loadSmokeCorridor(rec, false);
+        if (id === 'platform.smoke_observed') return loadSmokeCorridor(rec, true);
         if (rec.spec.endpoint && rec.spec.endpoint.indexOf('/api/v2/analyze') === 0) {
             return loadPointAnalysisLayer(rec);
         }
@@ -686,6 +730,112 @@
                 setState(rec, note);
             }).catch(function () {
                 if (rec.active) setState(rec, 'Active-fire request failed.');
+            });
+    }
+
+    /* ---- Population exposure: /api/population-exposure (WorldPop) ------ */
+    function loadPopulationExposure(rec) {
+        var c = currentCenter();
+        fetchJSON(API + '/population-exposure?lat=' + c.lat.toFixed(4) +
+            '&lon=' + c.lon.toFixed(4) + '&radius_km=3').then(function (res) {
+                if (!rec.active) return;
+                var body = res.body || {};
+                if (!res.ok || body.error) {
+                    rec.loaded = false;
+                    setState(rec, 'Population exposure unavailable: ' +
+                        esc(body.error || 'request failed') +
+                        ' (WorldPop country raster may be downloading — retry shortly.)');
+                    return;
+                }
+                rec.leafletLayer.clearLayers();
+                var cells = ((body.population_grid || {}).cells) || [];
+                var maxPop = 1;
+                cells.forEach(function (cell) { maxPop = Math.max(maxPop, cell.population || 0); });
+                cells.slice(0, 600).forEach(function (cell) {
+                    var frac = (cell.population || 0) / maxPop;
+                    rec.leafletLayer.addLayer(L.rectangle(
+                        [[cell.south, cell.west], [cell.north, cell.east]],
+                        {
+                            color: 'rgba(0,0,0,0.1)', weight: 0.5,
+                            fillColor: '#8b5cf6',
+                            fillOpacity: 0.08 + 0.5 * Math.sqrt(frac)
+                        }
+                    ).bindPopup('<b>POPULATION CELL (ESTIMATE)</b><br>' +
+                        'Estimated population: ' + esc(cell.population) +
+                        '<br><span style="color:#94a3b8">WorldPop 100 m gridded estimate, reference year ' +
+                        esc(body.reference_year || 'n/a') + ' — never an exact count.</span>'));
+                });
+                rec.loaded = true;
+                var byClass = body.population_by_hazard_class || {};
+                var parts = Object.keys(byClass).map(function (k) {
+                    return esc(k) + ': ' + esc(byClass[k]);
+                });
+                setState(rec,
+                    'Estimated population within 3 km: ' + esc(body.estimated_population) +
+                    ' (WorldPop reference year ' + esc(body.reference_year || 'n/a') + ').' +
+                    (parts.length ? '<br>By hazard class — ' + parts.join(' · ') : '') +
+                    (body.overlay_note ? '<br>' + esc(body.overlay_note) : ''));
+            }).catch(function () {
+                if (rec.active) setState(rec, 'Population-exposure request failed.');
+            });
+    }
+
+    /* ---- Smoke corridors: /api/smoke-scenario + /api/smoke ------------- */
+    function loadSmokeCorridor(rec, observed) {
+        var c = currentCenter();
+        var path = observed ? '/smoke' : '/smoke-scenario';
+        fetchJSON(API + path + '?lat=' + c.lat.toFixed(4) +
+            '&lon=' + c.lon.toFixed(4) + '&hours=24').then(function (res) {
+                if (!rec.active) return;
+                var body = res.body || {};
+                if (res.status === 503 || body.status === 'unavailable' || !res.ok || body.error) {
+                    rec.loaded = false;
+                    setState(rec, esc(body.reason || body.error ||
+                        'Observed-fire smoke unavailable (NASA FIRMS key not configured).'));
+                    return;
+                }
+                rec.leafletLayer.clearLayers();
+                var corridors = [];
+                if (body.transport && body.transport.corridor_polygon) {
+                    corridors.push({
+                        polygon: body.transport.corridor_polygon,
+                        label: observed ? 'OBSERVED fire smoke corridor' : 'SCENARIO smoke corridor (hypothetical fire)'
+                    });
+                }
+                (body.fires || []).forEach(function (f) {
+                    var t = f.transport || {};
+                    if (t.corridor_polygon) {
+                        corridors.push({
+                            polygon: t.corridor_polygon,
+                            label: 'Smoke corridor — observed detection ' + esc(f.acq_date || '')
+                        });
+                    }
+                    if (f.lat !== undefined && f.lon !== undefined) {
+                        rec.leafletLayer.addLayer(L.circleMarker([f.lat, f.lon], {
+                            radius: 6, color: '#dc2626', weight: 2,
+                            fillColor: '#f59e0b', fillOpacity: 0.8
+                        }).bindPopup('<b>OBSERVED FIRE (SMOKE SOURCE)</b><br>' +
+                            esc(f.acq_date || '') + ' · FRP ' + esc(f.frp_mw || 'n/a') + ' MW'));
+                    }
+                });
+                corridors.forEach(function (cor) {
+                    rec.leafletLayer.addLayer(L.polygon(cor.polygon, {
+                        color: observed ? '#b45309' : '#7c3aed', weight: 2,
+                        dashArray: '6 4', fillColor: observed ? '#f59e0b' : '#a78bfa',
+                        fillOpacity: 0.15
+                    }).bindPopup('<b>' + cor.label.toUpperCase() + '</b><br>' +
+                        esc((body.window ? body.window.from + ' → ' + body.window.to + ' UTC' : '')) +
+                        '<br><span style="color:#94a3b8">Screening envelope from the real wind profile — ' +
+                        'not a deterministic path. ' + esc(body.mode_label || '') + '</span>'));
+                });
+                rec.loaded = true;
+                setState(rec, corridors.length
+                    ? corridors.length + ' corridor(s); window ' +
+                        esc(body.window ? body.window.from + ' → ' + body.window.to : 'n/a') +
+                        ' UTC. ' + esc(body.mode_label || '')
+                    : 'No corridor computable for this location/window (insufficient wind steps).');
+            }).catch(function () {
+                if (rec.active) setState(rec, 'Smoke-corridor request failed.');
             });
     }
 

@@ -176,6 +176,21 @@ def register():
         status = 409 if "already registered" in user["error"] else 400
         return _err(user["error"], status)
     _send_verification_email(user)
+    # Platform/admin notification: the registration is visible to the
+    # operator via the platform inbox (dev: safe outbox). Contains only the
+    # account email + timestamp — never the password (which is stored only
+    # as a hash) or any other secret.
+    from . import mailer
+
+    mailer.send_mail(
+        mailer.contact_inbox(),
+        "admin_notification",
+        {
+            "email": user["email"],
+            "display_name": user.get("display_name") or "(none)",
+            "registered_at": user.get("created_at") or "",
+        },
+    )
     return jsonify({
         "status": "pending_verification",
         "email": user["email"],
