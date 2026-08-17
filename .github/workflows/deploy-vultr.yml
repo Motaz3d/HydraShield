@@ -8,7 +8,32 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    # Quality gate: the fully offline test suite must pass before any
+    # production deploy. No green tests, no deploy.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          cd hydra-shield-platform
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run offline test suite
+        run: |
+          cd hydra-shield-platform
+          python -m pytest tests/ -q
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,3 +62,13 @@ jobs:
             docker compose up -d --remove-orphans
             docker image prune -f
             docker compose ps
+            echo "Waiting for stack to settle..."
+            sleep 20
+            for i in 1 2 3 4 5; do
+              if curl -fsS https://hydrashield.earth/api/health > /tmp/hs_health.json; then
+                echo "Production health check OK:" && cat /tmp/hs_health.json && exit 0
+              fi
+              echo "Health check attempt $i failed; retrying in 15s..."
+              sleep 15
+            done
+            echo "ERROR: production health check failed after deploy" && exit 1
