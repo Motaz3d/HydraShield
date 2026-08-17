@@ -115,6 +115,7 @@ Implementation: `src/dashboard/mailer.py`
 ```
 POST /api/v2/auth/register · POST /api/v2/auth/login · POST /api/v2/auth/logout
 GET  /api/v2/auth/verify · POST /api/v2/auth/resend-verification
+POST /api/v2/auth/forgot-password · POST /api/v2/auth/reset-password
 GET  /api/v2/account · PATCH /api/v2/account
 GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
 GET  /api/v2/account/history (analyses + reports)

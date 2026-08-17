@@ -231,6 +231,67 @@ def resend_verification():
     })
 
 
+@auth_bp.post("/auth/forgot-password")
+def forgot_password():
+    """Request a password-reset email. Indistinguishable response."""
+    if not _rate("v2auth_forgot", 10, 3600.0):
+        return _err("Rate limit exceeded (10 requests/hour)", 429)
+    data = request.get_json(silent=True) or {}
+    email = (data.get("email") or "").strip()
+    store = UserStore()
+    user = store.get_user_by_email(email) if email else None
+    if user is not None and user["status"] == "active":
+        token = store.create_email_token(user["id"], "reset_password")
+        from . import mailer
+
+        mailer.send_mail(
+            user["email"],
+            "password_reset",
+            {
+                "display_name": _hello_name(user.get("display_name")),
+                "reset_url": f"{_BASE_URL()}/account.html?reset_token={token}",
+                "expires_hours": int(EMAIL_TOKEN_TTL_SECONDS // 3600),
+            },
+        )
+        store.audit(user["id"], "password_reset_requested", target=user["email"])
+    # Indistinguishable response: do not reveal whether the account exists.
+    return jsonify({
+        "status": "ok",
+        "message": "If the address is registered, a password-reset link "
+                   "is on its way.",
+    })
+
+
+@auth_bp.post("/auth/reset-password")
+def reset_password():
+    """Consume a reset token and set a new password; all sessions die.
+
+    The new password is validated BEFORE the single-use token is consumed,
+    so a weak-password attempt does not burn the token.
+    """
+    if not _rate("v2auth_reset", 10, 3600.0):
+        return _err("Rate limit exceeded (10 requests/hour)", 429)
+    data = request.get_json(silent=True) or {}
+    token = (data.get("token") or "").strip()
+    new_password = data.get("password") or ""
+    store = UserStore()
+    err = UserStore.validate_password(new_password)
+    if err:
+        return _err(err, 400)
+    user_id = store.consume_email_token(token, "reset_password")
+    if user_id is None:
+        return _err("Invalid or expired reset token", 400)
+    err = store.set_password(user_id, new_password)
+    if err:  # pragma: no cover — validated above; defensive only
+        return _err(err, 400)
+    store.delete_user_sessions(user_id)
+    store.audit(user_id, "password_reset", target="self")
+    return jsonify({
+        "status": "password_updated",
+        "message": "Your password has been updated. Please log in again.",
+    })
+
+
 @auth_bp.post("/auth/login")
 def login():
     if not _rate("v2auth_login", 30, 900.0):

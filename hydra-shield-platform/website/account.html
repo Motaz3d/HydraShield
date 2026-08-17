@@ -40,6 +40,24 @@
                                 <input type="password" id="loginPassword" required autocomplete="current-password">
                             </div>
                             <button class="btn-action" type="submit">Sign in</button>
+                            <p class="muted small" style="margin-top:10px;">
+                                <a href="#" id="forgotLink">Forgot your password?</a>
+                            </p>
+                        </form>
+                        <form id="forgotForm" class="hidden" style="margin-top:14px;">
+                            <div class="form-group">
+                                <label for="forgotEmail">Email for reset link</label>
+                                <input type="email" id="forgotEmail" autocomplete="email">
+                            </div>
+                            <button class="btn-action" type="submit">Send reset link</button>
+                        </form>
+                        <form id="resetForm" class="hidden" style="margin-top:14px;">
+                            <h3>Choose a new password</h3>
+                            <div class="form-group">
+                                <label for="resetPassword">New password (min 10 characters)</label>
+                                <input type="password" id="resetPassword" required autocomplete="new-password">
+                            </div>
+                            <button class="btn-action" type="submit">Set new password</button>
                         </form>
                     </div>
                     <div class="panel" style="margin-bottom:0;">
@@ -56,6 +74,10 @@
                             <div class="form-group">
                                 <label for="regPassword">Password</label>
                                 <input type="password" id="regPassword" required autocomplete="new-password">
+                            </div>
+                            <div class="form-group" style="display:flex;gap:8px;align-items:flex-start;">
+                                <input type="checkbox" id="regConsent" style="margin-top:4px;">
+                                <label for="regConsent" style="font-weight:normal;">I consent to HydraShield storing my email address and account data to provide the service (required). No marketing email is sent without separate permission.</label>
                             </div>
                             <button class="btn-action" type="submit">Register</button>
                             <p class="muted small" style="margin-top:10px;">

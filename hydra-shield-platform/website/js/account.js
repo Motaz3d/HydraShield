@@ -89,12 +89,16 @@
 
         el('registerForm').addEventListener('submit', function (e) {
             e.preventDefault();
+            if (!el('regConsent').checked) {
+                status('error', 'Please tick the consent box — it is required to create an account.');
+                return;
+            }
             status('info', 'Registering…');
             postJSON(API + '/v2/auth/register', {
                 email: el('regEmail').value,
                 password: el('regPassword').value,
                 display_name: el('regName').value || undefined,
-                consent: true
+                consent: el('regConsent').checked
             }).then(function (res) {
                 if (!res.ok) {
                     status('error', res.body.error || 'Registration failed.');
@@ -103,6 +107,47 @@
                 status('info', res.body.message ||
                     'Check your inbox for the verification link.');
             }).catch(function () { status('error', 'Registration request failed.'); });
+        });
+
+        // ---- Password reset (forgot → email link → reset form) ----------
+        el('forgotLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            el('forgotForm').classList.toggle('hidden');
+        });
+
+        el('forgotForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            status('info', 'Sending reset link…');
+            postJSON(API + '/v2/auth/forgot-password', {
+                email: el('forgotEmail').value
+            }).then(function (res) {
+                // The API answer is intentionally indistinguishable.
+                status('info', (res.body && res.body.message) ||
+                    'If the address is registered, a reset link is on its way.');
+            }).catch(function () { status('error', 'Reset request failed.'); });
+        });
+
+        var resetToken = new URLSearchParams(location.search).get('reset_token');
+        if (resetToken) {
+            showView(false);
+            el('resetForm').classList.remove('hidden');
+            status('info', 'Enter a new password to complete the reset.');
+        }
+        el('resetForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            status('info', 'Updating password…');
+            postJSON(API + '/v2/auth/reset-password', {
+                token: resetToken,
+                password: el('resetPassword').value
+            }).then(function (res) {
+                if (!res.ok) {
+                    status('error', res.body.error || 'Reset failed.');
+                    return;
+                }
+                status('info', res.body.message || 'Password updated. Please sign in.');
+                el('resetForm').classList.add('hidden');
+                history.replaceState(null, '', location.pathname);
+            }).catch(function () { status('error', 'Reset request failed.'); });
         });
 
         el('logoutBtn').addEventListener('click', function () {

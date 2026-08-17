@@ -48,6 +48,7 @@ def contact_inbox() -> str:
 _TEMPLATE_NAMES = {
     "welcome",
     "email_verification",
+    "password_reset",
     "report_ready",
     "report_delivery",
     "alert",

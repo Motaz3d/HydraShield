@@ -393,6 +393,26 @@ class UserStore:
                 (_utcnow(), user_id),
             )
 
+    def set_password(self, user_id: int, new_password: str) -> Optional[str]:
+        """Set a new password (reset flow). Returns an error message or None."""
+        err = self.validate_password(new_password)
+        if err:
+            return err
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE users SET password_hash = ? WHERE id = ?",
+                (self.hash_password(new_password), user_id),
+            )
+        return None
+
+    def delete_user_sessions(self, user_id: int) -> int:
+        """Invalidate every session of a user (password reset / compromise)."""
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "DELETE FROM sessions WHERE user_id = ?", (user_id,)
+            )
+            return cur.rowcount
+
     # ------------------------------------------------------------------
     # Email tokens (verification etc.) — stored hashed, TTL'd
     # ------------------------------------------------------------------

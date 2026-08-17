@@ -497,3 +497,69 @@ def test_report_pdfs_contain_metadata_block():
     text = _pdf_text(report_module.build_report_pdf(payload, report_type="decision"))
     assert rid in text
     assert f"report {rid}" in text
+
+
+# ---------------------------------------------------------------------------
+# Password reset flow
+# ---------------------------------------------------------------------------
+
+
+def _reset_token(outbox_dir):
+    _, plain = _eml_parts(outbox_dir, "password_reset")
+    match = re.search(r"reset_token=([A-Za-z0-9_\-]+)", plain)
+    assert match, "no reset token in password_reset email"
+    return match.group(1)
+
+
+def test_forgot_password_indistinguishable_for_unknown_email(client, env):
+    resp = client.post("/api/v2/auth/forgot-password",
+                       json={"email": "nobody@example.org"})
+    assert resp.status_code == 200
+    assert "If the address is registered" in resp.get_json()["message"]
+    # No reset email was written for the unknown address.
+    assert not list(env["outbox"].glob("*_password_reset_*.eml"))
+
+
+def test_password_reset_full_flow(client, env):
+    user, session = _register_and_verify(client, env, email="reset@example.org",
+                                         password="old password 1")
+    # Session works before the reset.
+    assert client.get("/api/v2/account", headers=_auth(session)).status_code == 200
+
+    resp = client.post("/api/v2/auth/forgot-password",
+                       json={"email": "reset@example.org"})
+    assert resp.status_code == 200
+    token = _reset_token(env["outbox"])
+
+    # Weak replacement is refused and the token is NOT consumed.
+    resp = client.post("/api/v2/auth/reset-password",
+                       json={"token": token, "password": "short"})
+    assert resp.status_code == 400
+
+    resp = client.post("/api/v2/auth/reset-password",
+                       json={"token": token, "password": "new password 123"})
+    assert resp.status_code == 200
+    assert resp.get_json()["status"] == "password_updated"
+
+    # The token is single-use.
+    assert client.post("/api/v2/auth/reset-password",
+                       json={"token": token, "password": "another password 9"}
+                       ).status_code == 400
+
+    # All previous sessions were invalidated.
+    assert client.get("/api/v2/account", headers=_auth(session)).status_code == 401
+
+    # Old password fails, new password logs in.
+    assert client.post("/api/v2/auth/login",
+                       json={"email": "reset@example.org",
+                             "password": "old password 1"}).status_code == 401
+    resp = client.post("/api/v2/auth/login",
+                       json={"email": "reset@example.org",
+                             "password": "new password 123"})
+    assert resp.status_code == 200
+
+
+def test_reset_password_rejects_invalid_token(client):
+    resp = client.post("/api/v2/auth/reset-password",
+                       json={"token": "not-a-real-token", "password": "whatever 1234"})
+    assert resp.status_code == 400
