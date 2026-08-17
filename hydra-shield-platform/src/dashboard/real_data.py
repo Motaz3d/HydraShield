@@ -370,7 +370,10 @@ def fetch_wind_profile(lat: float, lon: float, hours: int = 24) -> Dict:
                 "wind_speed_10m,wind_direction_10m,"
                 "wind_speed_850hPa,wind_direction_850hPa"
             ),
-            "forecast_days": min((hours // 24) + 1, 16),
+            # The series starts at 00:00 UTC today; callers slice "from now",
+            # so request enough days to cover the remaining day + horizon and
+            # keep a generous slice of the series (not just the first hours).
+            "forecast_days": min((hours // 24) + 2, 16),
             "timezone": "UTC",
         }
     )
@@ -391,7 +394,7 @@ def fetch_wind_profile(lat: float, lon: float, hours: int = 24) -> Dict:
         return series[i] if i < len(series) else None
 
     steps: List[Dict] = []
-    for i, t in enumerate(times[:hours]):
+    for i, t in enumerate(times[: 24 + hours + 1]):
         sp850, dr850 = _at(s850, i), _at(d850, i)
         sp10, dr10 = _at(s10, i), _at(d10, i)
         if sp850 is not None and dr850 is not None:
