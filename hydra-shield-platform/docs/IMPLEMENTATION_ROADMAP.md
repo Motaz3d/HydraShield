@@ -48,10 +48,10 @@ on an external key/account.
   UNKNOWN (no authoritative source); containment UNKNOWN; years never
   hardcoded (VIIRS 2012→present, honestly bounded); `key_required` /
   `unavailable` states. Persisted to the event store.
-- [NEXT] Map evolution: dedicated map page, year selector (built from
-  dataset coverage), hazard selector, layer panel with per-layer
-  legend/source/date/resolution/status/provenance, observed/modelled
-  filter, lazy layers. (Stage 8)
+- [DONE] Map evolution (delivered in Stage 8): dedicated map page, year
+  selector built from dataset coverage, hazard selector, layer panel with
+  per-layer legend/source/date/resolution/status/provenance,
+  observed/modelled filter, lazy layers.
 
 ## Stage 4 — Flood / drought / heat / wind / coastal foundations
 
@@ -97,8 +97,10 @@ on an external key/account.
   PBKDF2-HMAC-SHA256 (120 k iters), HMAC-hashed tokens, HttpOnly
   SameSite cookies, per-tier rate limits, anti-enumeration, audit log
   without secrets, GDPR consent recorded. 21 offline tests.
-- [NEXT] Website account UI + gating touchpoints. (Stage 8)
-- [LATER] CSRF double-submit for browser cookie POSTs (SameSite=Lax
+- [DONE] Website account UI (Stage 8: account.html — register/login/
+  locations/alerts/history).
+- [LATER] Gating touchpoints depth (tier descriptors surfaced in UI
+  prompts), CSRF double-submit for browser cookie POSTs (SameSite=Lax
   interim), GDPR data-subject export/erasure endpoints, watch→account
   migration, organization seats/admin UI, payments [CREDENTIAL].
 
@@ -116,12 +118,20 @@ on an external key/account.
 
 ## Stage 8 — Website information architecture
 
-- [NEXT] Shared chrome (header/footer include) killing 7-way nav
+- [DONE] Shared chrome (header/footer include) killing 7-way nav
   duplication; primary nav: Intelligence · Map · Events · Solutions ·
   Economy · Reports (+ Account); homepage rebuilt as the 8-question
-  story; map.html as the core product (year/hazard/layer/time filters,
-  per-layer provenance, honest states); events.html; intelligence.html;
-  solutions.html; economy.html; reports.html; account.html.
+  story (live snapshot preserved); legacy pages under About.
+- [DONE] map.html as the core product: hazard selector from the registry,
+  year selector derived from per-dataset temporal coverage (never
+  hardcoded), grouped layer panel with per-layer legend/source/
+  resolution/status/temporal/provenance, lazy layers, observed/modelled
+  evidence filter, honest key_required/unavailable states.
+- [DONE] events.html (multi-evidence event cards), intelligence.html
+  (six-hazard tabs, generic HazardAnalysis rendering), solutions.html,
+  economy.html (prominent not-quantified statement + disclaimers),
+  reports.html (report types + metadata explanation), account.html
+  (register/login/locations/alerts/history).
 - [LATER] Decommission Dash "Command Center" after static app parity
   (remove compose entry + Caddy route; delete `dashboard.py`/
   `components.py` whose scenario simulator uses demo constants —
