@@ -909,6 +909,16 @@ def create_app() -> Flask:
 
     app.register_blueprint(analytics_bp)
 
+    # Observatory: source health + reproducible analysis runs (/api/v2/…).
+    from ..climate.api_observatory import observatory_bp
+
+    app.register_blueprint(observatory_bp)
+
+    # Loss Data Registry (/api/v2/…).
+    from ..climate.api_losses import losses_bp
+
+    app.register_blueprint(losses_bp)
+
     # Accounts / auth API (/api/v2/auth…, /api/v2/account…, /api/v2/contact).
     from .auth_api import auth_bp
 

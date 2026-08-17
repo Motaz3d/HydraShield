@@ -1,5 +1,5 @@
 {
-  "description": "HydraShield Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates.",
+  "description": "HydraShield Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them).",
   "audit_date": "2026-08-17",
   "observatory_note": "Entries are catalog records — status integrated/candidate/rejected; nothing here implies the data is wired into analysis unless status=integrated.",
   "datasets": [
@@ -15,15 +15,34 @@
       "spatial_resolution": "10 m (B03/B04/B08), 20 m (B11/SCL)",
       "temporal_resolution": "~5-day revisit (both satellites)",
       "update_frequency": "~5-day revisit; L2A publication lag of days",
-      "variables": ["surface reflectance", "NDVI", "NDMI", "NDWI", "scene classification"],
-      "hazard_relevance": ["wildfire", "drought"],
+      "variables": [
+        "surface reflectance",
+        "NDVI",
+        "NDMI",
+        "NDWI",
+        "scene classification"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); STAC catalog live-checked 2026-08-17.",
       "quality": "Optical sensor — unusable under persistent cloud cover; L2A atmospheric correction applied by the producer.",
       "access_method": "stac",
       "api_or_download_url": "https://earth-search.aws.element84.com/v1",
       "commercial_use": "allowed",
       "status": "integrated",
-      "status_note": "Integrated: analysis (satellite), micro-area NDMI variability."
+      "status_note": "Integrated: analysis (satellite), micro-area NDMI variability.",
+      "data_quality_profile": {
+        "freshness": "~5-day revisit (both satellites); L2A publication lag of days",
+        "completeness": "Optical sensor — unusable under persistent cloud cover; L2A atmospheric correction applied by the producer.",
+        "spatial_resolution_note": "10 m (B03/B04/B08), 20 m (B11/SCL)",
+        "temporal_resolution_note": "~5-day revisit (both satellites)",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); STAC catalog live-checked 2026-08-17.",
+        "validation": "STAC catalog live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "Global land; 2015 (Sentinel-2A operational) to present.",
+        "licensing_note": "Copernicus free and open data policy; commercial use allowed."
+      }
     },
     {
       "id": "open-meteo-forecast",
@@ -37,15 +56,38 @@
       "spatial_resolution": "~11 km model grid",
       "temporal_resolution": "hourly",
       "update_frequency": "hourly",
-      "variables": ["temperature_2m", "relative_humidity_2m", "precipitation", "wind_speed_10m", "wind profile (10 m + 850 hPa)", "soil_moisture"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind"],
+      "variables": [
+        "temperature_2m",
+        "relative_humidity_2m",
+        "precipitation",
+        "wind_speed_10m",
+        "wind profile (10 m + 850 hPa)",
+        "soil_moisture"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); forecast endpoint live-called 2026-08-17.",
       "quality": "Numerical model output, not station observations; 850 hPa winds approximate the smoke-transport layer but ignore plume rise, vertical shear and chemistry.",
       "access_method": "api",
       "api_or_download_url": "https://api.open-meteo.com/v1/forecast",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: analysis (weather, FWI inputs), risk grid, snapshot, smoke transport (wind profile)."
+      "status_note": "Integrated: analysis (weather, FWI inputs), risk grid, snapshot, smoke transport (wind profile).",
+      "data_quality_profile": {
+        "freshness": "hourly update",
+        "completeness": "Numerical model output, not station observations; 850 hPa winds approximate the smoke-transport layer but ignore plume rise, vertical shear and chemistry.",
+        "spatial_resolution_note": "~11 km model grid",
+        "temporal_resolution_note": "hourly",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); forecast endpoint live-called 2026-08-17.",
+        "validation": "Forecast endpoint live-called 2026-08-17 (see provenance); consumed by the FWI adapter whose equations are unit-verified against the cffdrs reference implementation (model_registry fwi_system_v1).",
+        "coverage_note": "Global; current conditions and forecast (up to ~16 days); recent past days on request.",
+        "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
+      }
     },
     {
       "id": "era5-archive",
@@ -59,15 +101,36 @@
       "spatial_resolution": "~25 km (ERA5) / ~11 km (ERA5-Land)",
       "temporal_resolution": "daily aggregates (hourly archive available upstream)",
       "update_frequency": "daily, lag of several days",
-      "variables": ["temperature_2m_max", "relative_humidity_2m_mean", "wind_speed_10m_max", "precipitation_sum"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind"],
+      "variables": [
+        "temperature_2m_max",
+        "relative_humidity_2m_mean",
+        "wind_speed_10m_max",
+        "precipitation_sum"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); archive endpoint live-called 2026-08-17.",
       "quality": "Archive lag; daily aggregates approximate noon-standard FWI inputs; reanalysis, not station observations.",
       "access_method": "api",
       "api_or_download_url": "https://archive-api.open-meteo.com/v1/archive",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: /api/history, change detection, validation pipeline."
+      "status_note": "Integrated: /api/history, change detection, validation pipeline.",
+      "data_quality_profile": {
+        "freshness": "daily, lag of several days",
+        "completeness": "Archive lag; daily aggregates approximate noon-standard FWI inputs; reanalysis, not station observations.",
+        "spatial_resolution_note": "~25 km (ERA5) / ~11 km (ERA5-Land)",
+        "temporal_resolution_note": "daily aggregates (hourly archive available upstream)",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); archive endpoint live-called 2026-08-17.",
+        "validation": "Archive endpoint live-called 2026-08-17 (see provenance); feeds the platform validation pipeline (status_note; scripts/run_validation.py).",
+        "coverage_note": "Global; 1940 to ~5 days before present.",
+        "licensing_note": "Copernicus C3S terms; commercial use allowed with attribution."
+      }
     },
     {
       "id": "opentopodata-eudem",
@@ -81,15 +144,32 @@
       "spatial_resolution": "25 m",
       "temporal_resolution": "static",
       "update_frequency": "static",
-      "variables": ["elevation", "slope (derived)", "aspect (derived)"],
-      "hazard_relevance": ["wildfire", "flood"],
+      "variables": [
+        "elevation",
+        "slope (derived)",
+        "aspect (derived)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; dual-dataset entry split from srtm); endpoint live-called 2026-08-17.",
       "quality": "Static snapshot; slope is a derived approximation at grid scale.",
       "access_method": "api",
       "api_or_download_url": "https://api.opentopodata.org/v1/eudem25m",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: analysis (terrain), risk score slope term — primary terrain source for Europe."
+      "status_note": "Integrated: analysis (terrain), risk score slope term — primary terrain source for Europe.",
+      "data_quality_profile": {
+        "freshness": "static (EU-DEM v1.1; source acquisitions early 2000s)",
+        "completeness": "Static snapshot; slope is a derived approximation at grid scale.",
+        "spatial_resolution_note": "25 m",
+        "temporal_resolution_note": "static",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17; dual-dataset entry split from srtm); endpoint live-called 2026-08-17.",
+        "validation": "Endpoint live-called 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "Europe (EEA member and cooperating countries).",
+        "licensing_note": "EU-DEM: EEA/Copernicus terms; commercial use allowed with attribution."
+      }
     },
     {
       "id": "srtm",
@@ -103,15 +183,32 @@
       "spatial_resolution": "90 m",
       "temporal_resolution": "static",
       "update_frequency": "static",
-      "variables": ["elevation", "slope (derived)", "aspect (derived)"],
-      "hazard_relevance": ["wildfire", "flood"],
+      "variables": [
+        "elevation",
+        "slope (derived)",
+        "aspect (derived)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; dual-dataset entry split from opentopodata-eudem); endpoint live-called 2026-08-17.",
       "quality": "Static snapshot; coarser than EU-DEM; slope is a derived approximation at grid scale.",
       "access_method": "api",
       "api_or_download_url": "https://api.opentopodata.org/v1/srtm90m",
       "commercial_use": "allowed",
       "status": "integrated",
-      "status_note": "Integrated: fallback terrain source outside EU-DEM coverage (analysis terrain, risk score slope term)."
+      "status_note": "Integrated: fallback terrain source outside EU-DEM coverage (analysis terrain, risk score slope term).",
+      "data_quality_profile": {
+        "freshness": "static (2000 Shuttle Radar Topography Mission acquisition)",
+        "completeness": "Static snapshot; coarser than EU-DEM; slope is a derived approximation at grid scale.",
+        "spatial_resolution_note": "90 m",
+        "temporal_resolution_note": "static",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17; dual-dataset entry split from opentopodata-eudem); endpoint live-called 2026-08-17.",
+        "validation": "Endpoint live-called 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "60°N–56°S.",
+        "licensing_note": "SRTM: NASA open; commercial use allowed."
+      }
     },
     {
       "id": "esa-worldcover",
@@ -125,15 +222,29 @@
       "spatial_resolution": "10 m",
       "temporal_resolution": "yearly product",
       "update_frequency": "yearly product",
-      "variables": ["land-cover class"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "land-cover class"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); data-access page live-checked 2026-08-17.",
       "quality": "Classified product; fuel-model assignment from land cover is a screening approximation.",
       "access_method": "download",
       "api_or_download_url": "https://esa-worldcover.org/en/data-access",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: analysis (landcover), burnability, ecology layer."
+      "status_note": "Integrated: analysis (landcover), burnability, ecology layer.",
+      "data_quality_profile": {
+        "freshness": "yearly product; 2021 reference year (v200)",
+        "completeness": "Classified product; fuel-model assignment from land cover is a screening approximation.",
+        "spatial_resolution_note": "10 m",
+        "temporal_resolution_note": "yearly product",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); data-access page live-checked 2026-08-17.",
+        "validation": "Data-access page live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "Global.",
+        "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
+      }
     },
     {
       "id": "firms-viirs",
@@ -147,15 +258,32 @@
       "spatial_resolution": "375 m",
       "temporal_resolution": "several overpasses/day",
       "update_frequency": "near-real-time (~hours)",
-      "variables": ["active-fire detections", "fire radiative power", "brightness temperature", "confidence"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "active-fire detections",
+        "fire radiative power",
+        "brightness temperature",
+        "confidence"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; FIRMS entry split per sensor); API path live-checked 2026-08-17.",
       "quality": "Hotspots, not perimeters; cloud/overpass gaps; NRT archive window is short.",
       "access_method": "registration_required",
       "api_or_download_url": "https://firms.modaps.eosdis.nasa.gov/api/area/",
       "commercial_use": "allowed",
       "status": "integrated",
-      "status_note": "Integrated (activates with key; currently UNAVAILABLE — no FIRMS_MAP_KEY configured): analysis (active_fires, fire_evidence), history, validation, smoke (observed-fire mode). Never merged with firms-modis."
+      "status_note": "Integrated (activates with key; currently UNAVAILABLE — no FIRMS_MAP_KEY configured): analysis (active_fires, fire_evidence), history, validation, smoke (observed-fire mode). Never merged with firms-modis.",
+      "data_quality_profile": {
+        "freshness": "near-real-time (~hours)",
+        "completeness": "Hotspots, not perimeters; cloud/overpass gaps; NRT archive window is short.",
+        "spatial_resolution_note": "375 m",
+        "temporal_resolution_note": "several overpasses/day",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17; FIRMS entry split per sensor); API path live-checked 2026-08-17.",
+        "validation": "API path live-checked 2026-08-17 (see provenance); key-gated — currently unavailable in deployment (no FIRMS_MAP_KEY configured, see status_note); consumed by the validation pipeline when configured (scripts/run_validation.py).",
+        "coverage_note": "Global; NRT archive (rolling, short window); full VIIRS archive from 2012.",
+        "licensing_note": "NASA open data; commercial use allowed; API key registration required."
+      }
     },
     {
       "id": "firms-modis",
@@ -169,15 +297,32 @@
       "spatial_resolution": "1 km",
       "temporal_resolution": "several overpasses/day",
       "update_frequency": "near-real-time (~hours)",
-      "variables": ["active-fire detections", "fire radiative power", "brightness temperature", "confidence"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "active-fire detections",
+        "fire radiative power",
+        "brightness temperature",
+        "confidence"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; FIRMS entry split per sensor); API path live-checked 2026-08-17.",
       "quality": "Hotspots, not perimeters; cloud/overpass gaps; coarser than VIIRS; NRT archive window is short.",
       "access_method": "registration_required",
       "api_or_download_url": "https://firms.modaps.eosdis.nasa.gov/api/area/",
       "commercial_use": "allowed",
       "status": "integrated",
-      "status_note": "Integrated (activates with key; currently UNAVAILABLE — no FIRMS_MAP_KEY configured). Reported alongside — never silently merged with — firms-viirs."
+      "status_note": "Integrated (activates with key; currently UNAVAILABLE — no FIRMS_MAP_KEY configured). Reported alongside — never silently merged with — firms-viirs.",
+      "data_quality_profile": {
+        "freshness": "near-real-time (~hours)",
+        "completeness": "Hotspots, not perimeters; cloud/overpass gaps; coarser than VIIRS; NRT archive window is short.",
+        "spatial_resolution_note": "1 km",
+        "temporal_resolution_note": "several overpasses/day",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17; FIRMS entry split per sensor); API path live-checked 2026-08-17.",
+        "validation": "API path live-checked 2026-08-17 (see provenance); key-gated — currently unavailable in deployment (no FIRMS_MAP_KEY configured, see status_note); reported alongside — never silently merged with — firms-viirs.",
+        "coverage_note": "Global; NRT archive (rolling, short window); full MODIS archive from 2000 (Terra) / 2002 (Aqua).",
+        "licensing_note": "NASA open data; commercial use allowed; API key registration required."
+      }
     },
     {
       "id": "worldpop",
@@ -191,15 +336,32 @@
       "spatial_resolution": "~100 m grid cells",
       "temporal_resolution": "annual",
       "update_frequency": "annual series",
-      "variables": ["estimated population count per cell", "population density"],
-      "hazard_relevance": ["wildfire", "flood", "heat"],
+      "variables": [
+        "estimated population count per cell",
+        "population density"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); download host data.worldpop.org live-checked 2026-08-17.",
       "quality": "Modelled dasymetric estimates, not a census count; constrained variant allocates population to settled cells; report wording must keep the reference year.",
       "access_method": "download",
       "api_or_download_url": "https://data.worldpop.org/",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: analysis (population block), /api/population-exposure, smoke corridor population overlay, exposure summary."
+      "status_note": "Integrated: analysis (population block), /api/population-exposure, smoke corridor population overlay, exposure summary.",
+      "data_quality_profile": {
+        "freshness": "annual series; 2025 reference (R2025A) / 2020 fallback",
+        "completeness": "Modelled dasymetric estimates, not a census count; constrained variant allocates population to settled cells; report wording must keep the reference year.",
+        "spatial_resolution_note": "~100 m grid cells",
+        "temporal_resolution_note": "annual",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); download host data.worldpop.org live-checked 2026-08-17.",
+        "validation": "Download host data.worldpop.org live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "Global (per-country rasters).",
+        "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
+      }
     },
     {
       "id": "ohsome",
@@ -213,15 +375,38 @@
       "spatial_resolution": "feature-level",
       "temporal_resolution": "aggregation on request",
       "update_frequency": "ohsome extract lags ~3 weeks behind OSM",
-      "variables": ["buildings", "critical facilities", "roads", "water features", "WUI signal"],
-      "hazard_relevance": ["wildfire", "flood", "heat", "wind", "coastal", "drought"],
+      "variables": [
+        "buildings",
+        "critical facilities",
+        "roads",
+        "water features",
+        "WUI signal"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat",
+        "wind",
+        "coastal",
+        "drought"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; OSM entry split per access path); ohsome metadata endpoint live-checked 2026-08-17.",
       "quality": "Crowd-mapped completeness varies by region; counts are mapped features, not ground truth.",
       "access_method": "api",
       "api_or_download_url": "https://api.ohsome.org/v1/elements/count",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: primary exposure-count source (analysis exposure, recommendations)."
+      "status_note": "Integrated: primary exposure-count source (analysis exposure, recommendations).",
+      "data_quality_profile": {
+        "freshness": "ohsome extract lags ~3 weeks behind OSM",
+        "completeness": "Crowd-mapped completeness varies by region; counts are mapped features, not ground truth.",
+        "spatial_resolution_note": "feature-level",
+        "temporal_resolution_note": "aggregation on request",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17; OSM entry split per access path); ohsome metadata endpoint live-checked 2026-08-17.",
+        "validation": "ohsome metadata endpoint live-checked 2026-08-17 (see provenance); cross-checked against Overpass (same underlying OSM data — reported per path, never silently merged).",
+        "coverage_note": "Global (completeness varies); OSM history since 2007; ohsome extract lags ~3 weeks.",
+        "licensing_note": "ODbL; commercial use allowed with attribution."
+      }
     },
     {
       "id": "overpass",
@@ -235,15 +420,38 @@
       "spatial_resolution": "feature-level",
       "temporal_resolution": "on request",
       "update_frequency": "continuous (minutely diffs)",
-      "variables": ["buildings", "critical facilities", "roads", "water features", "WUI signal"],
-      "hazard_relevance": ["wildfire", "flood", "heat", "wind", "coastal", "drought"],
+      "variables": [
+        "buildings",
+        "critical facilities",
+        "roads",
+        "water features",
+        "WUI signal"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat",
+        "wind",
+        "coastal",
+        "drought"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; OSM entry split per access path); overpass-api.de status endpoint live-checked 2026-08-17.",
       "quality": "Same underlying OSM data as ohsome — counts may disagree due to extract lag; mirrors (overpass-api.de, overpass.kumi.systems, overpass.private.coffee) are tried in order; results reported with the path used, never silently merged.",
       "access_method": "api",
       "api_or_download_url": "https://overpass-api.de/api/interpreter",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: fallback exposure-count source when ohsome fails (analysis exposure, recommendations)."
+      "status_note": "Integrated: fallback exposure-count source when ohsome fails (analysis exposure, recommendations).",
+      "data_quality_profile": {
+        "freshness": "continuous (minutely diffs)",
+        "completeness": "Same underlying OSM data as ohsome — counts may disagree due to extract lag; mirrors (overpass-api.de, overpass.kumi.systems, overpass.private.coffee) are tried in order; results reported with the path used, never silently merged.",
+        "spatial_resolution_note": "feature-level",
+        "temporal_resolution_note": "on request",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17; OSM entry split per access path); overpass-api.de status endpoint live-checked 2026-08-17.",
+        "validation": "overpass-api.de status endpoint live-checked 2026-08-17 (see provenance); cross-checked against ohsome (same underlying OSM data — reported per path, never silently merged).",
+        "coverage_note": "Global (completeness varies); current OSM database state (minutely diffs).",
+        "licensing_note": "ODbL; commercial use allowed with attribution."
+      }
     },
     {
       "id": "nominatim",
@@ -257,15 +465,35 @@
       "spatial_resolution": "place-level",
       "temporal_resolution": "on request",
       "update_frequency": "continuous",
-      "variables": ["geocoded coordinates", "place names"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind", "coastal"],
+      "variables": [
+        "geocoded coordinates",
+        "place names"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); service root live-checked 2026-08-17.",
       "quality": "Place-name ambiguity; 1 req/s usage policy (respected via cache).",
       "access_method": "api",
       "api_or_download_url": "https://nominatim.openstreetmap.org/search",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: analysis, history, report, jobs (free-text location → coordinates)."
+      "status_note": "Integrated: analysis, history, report, jobs (free-text location → coordinates).",
+      "data_quality_profile": {
+        "freshness": "continuous",
+        "completeness": "Place-name ambiguity; 1 req/s usage policy (respected via cache).",
+        "spatial_resolution_note": "place-level",
+        "temporal_resolution_note": "on request",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); service root live-checked 2026-08-17.",
+        "validation": "Service root live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "Global; current OSM database state.",
+        "licensing_note": "ODbL; commercial use allowed with attribution."
+      }
     },
     {
       "id": "glofas-openmeteo",
@@ -279,15 +507,29 @@
       "spatial_resolution": "GloFAS ~0.1° grid (~10 km)",
       "temporal_resolution": "daily",
       "update_frequency": "daily",
-      "variables": ["river_discharge"],
-      "hazard_relevance": ["flood"],
+      "variables": [
+        "river_discharge"
+      ],
+      "hazard_relevance": [
+        "flood"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); flood endpoint live-called 2026-08-17.",
       "quality": "Hydrological model output, not gauge observations; no discharge for points far from modelled rivers.",
       "access_method": "api",
       "api_or_download_url": "https://flood-api.open-meteo.com/v1/flood",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: flood hazard module (river discharge intelligence). SINGLE-PROVIDER chain — declared gap: no independent discharge source wired."
+      "status_note": "Integrated: flood hazard module (river discharge intelligence). SINGLE-PROVIDER chain — declared gap: no independent discharge source wired.",
+      "data_quality_profile": {
+        "freshness": "daily",
+        "completeness": "Hydrological model output, not gauge observations; no discharge for points far from modelled rivers.",
+        "spatial_resolution_note": "GloFAS ~0.1° grid (~10 km)",
+        "temporal_resolution_note": "daily",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); flood endpoint live-called 2026-08-17.",
+        "validation": "Flood endpoint live-called 2026-08-17 (see provenance); SINGLE-PROVIDER chain — declared gap: no independent discharge source wired (status_note).",
+        "coverage_note": "Global (modelled river network); 1984 to near-real-time nowcast + short forecast.",
+        "licensing_note": "CC-BY 4.0 (GloFAS: Copernicus EMS terms); commercial use allowed with attribution."
+      }
     },
     {
       "id": "open-meteo-marine",
@@ -301,15 +543,30 @@
       "spatial_resolution": "wave-model grid (tens of km)",
       "temporal_resolution": "daily aggregates (hourly available)",
       "update_frequency": "daily",
-      "variables": ["wave_height_max", "wave_period_max"],
-      "hazard_relevance": ["coastal"],
+      "variables": [
+        "wave_height_max",
+        "wave_period_max"
+      ],
+      "hazard_relevance": [
+        "coastal"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); marine endpoint live-called 2026-08-17.",
       "quality": "Wave-model output; coastal bathymetry and surf zone not resolved; no data over land.",
       "access_method": "api",
       "api_or_download_url": "https://marine-api.open-meteo.com/v1/marine",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: coastal hazard module (wave conditions)."
+      "status_note": "Integrated: coastal hazard module (wave conditions).",
+      "data_quality_profile": {
+        "freshness": "daily",
+        "completeness": "Wave-model output; coastal bathymetry and surf zone not resolved; no data over land.",
+        "spatial_resolution_note": "wave-model grid (tens of km)",
+        "temporal_resolution_note": "daily aggregates (hourly available)",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); marine endpoint live-called 2026-08-17.",
+        "validation": "Marine endpoint live-called 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
+        "coverage_note": "Global ocean; near-real-time nowcast + short forecast.",
+        "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
+      }
     },
     {
       "id": "era5-land",
@@ -323,15 +580,30 @@
       "spatial_resolution": "~11 km (ERA5-Land)",
       "temporal_resolution": "daily aggregates",
       "update_frequency": "daily, lag of several days",
-      "variables": ["soil_moisture_0_to_7cm"],
-      "hazard_relevance": ["drought", "wildfire"],
+      "variables": [
+        "soil_moisture_0_to_7cm"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17); archive endpoint live-called 2026-08-17.",
       "quality": "Modelled soil moisture, not in-situ sensors; not exposed over water bodies.",
       "access_method": "api",
       "api_or_download_url": "https://archive-api.open-meteo.com/v1/archive",
       "commercial_use": "allowed_with_attribution",
       "status": "integrated",
-      "status_note": "Integrated: drought hazard module (soil-moisture anomaly). SINGLE-PROVIDER chain — declared gap: no independent soil-moisture source wired."
+      "status_note": "Integrated: drought hazard module (soil-moisture anomaly). SINGLE-PROVIDER chain — declared gap: no independent soil-moisture source wired.",
+      "data_quality_profile": {
+        "freshness": "daily, lag of several days",
+        "completeness": "Modelled soil moisture, not in-situ sensors; not exposed over water bodies.",
+        "spatial_resolution_note": "~11 km (ERA5-Land)",
+        "temporal_resolution_note": "daily aggregates",
+        "provenance_note": "Transformed from config/source_registry.json (audit 2026-08-17); archive endpoint live-called 2026-08-17.",
+        "validation": "Archive endpoint live-called 2026-08-17 (see provenance); SINGLE-PROVIDER chain — declared gap: no independent soil-moisture source wired (status_note).",
+        "coverage_note": "Global land; 1950 to ~5 days before present.",
+        "licensing_note": "Copernicus C3S terms; commercial use allowed with attribution."
+      }
     },
     {
       "id": "ghsl",
@@ -345,8 +617,15 @@
       "spatial_resolution": "100 m / 1 km (GHS-POP)",
       "temporal_resolution": "~5-year epochs",
       "update_frequency": "~5-year epochs",
-      "variables": ["gridded population", "built-up surface"],
-      "hazard_relevance": ["wildfire", "flood", "heat"],
+      "variables": [
+        "gridded population",
+        "built-up surface"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Coarser temporal reference than WorldPop annual series; download sizes are large.",
       "access_method": "download",
@@ -367,8 +646,14 @@
       "spatial_resolution": "~1 km (30 arc-second)",
       "temporal_resolution": "~5-year releases",
       "update_frequency": "~5-year releases",
-      "variables": ["census-based gridded population (unmodeled allocation)"],
-      "hazard_relevance": ["wildfire", "flood", "heat"],
+      "variables": [
+        "census-based gridded population (unmodeled allocation)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17; direct SEDAC site unreachable in link check — persistent DOI used).",
       "quality": "Coarser than WorldPop; older reference years; login barrier.",
       "access_method": "registration_required",
@@ -389,8 +674,14 @@
       "spatial_resolution": "1 km",
       "temporal_resolution": "per census round",
       "update_frequency": "per census round",
-      "variables": ["population per 1 km grid cell"],
-      "hazard_relevance": ["wildfire", "flood", "heat"],
+      "variables": [
+        "population per 1 km grid cell"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Official census grid; 1 km cells coarse vs WorldPop 100 m; census-round vintage.",
       "access_method": "download",
@@ -411,8 +702,14 @@
       "spatial_resolution": "~40 km global / ~10 km Europe",
       "temporal_resolution": "hourly forecast steps",
       "update_frequency": "twice daily forecasts",
-      "variables": ["aerosol optical depth", "PM2.5", "PM10"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "aerosol optical depth",
+        "PM2.5",
+        "PM10"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Credential setup required; 40 km grid is regional context, not street-level smoke; no plume-rise per fire.",
       "access_method": "registration_required",
@@ -433,8 +730,13 @@
       "spatial_resolution": "depends on met input (GFS ~25 km)",
       "temporal_resolution": "on demand",
       "update_frequency": "model runs on demand",
-      "variables": ["air-parcel trajectories", "dispersion concentrations"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "air-parcel trajectories",
+        "dispersion concentrations"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Reference-grade Lagrangian model; no open low-latency programmatic API suitable for per-request embedding; heavy operational footprint (met data pipeline).",
       "access_method": "download",
@@ -455,8 +757,12 @@
       "spatial_resolution": "stroke-level (km accuracy)",
       "temporal_resolution": "real-time",
       "update_frequency": "real-time",
-      "variables": ["lightning strokes"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "lightning strokes"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Coverage inhomogeneity; raw data requires participant/contributor agreement — no open operational API.",
       "access_method": "registration_required",
@@ -477,8 +783,14 @@
       "spatial_resolution": "~10 km danger grids",
       "temporal_resolution": "daily",
       "update_frequency": "daily",
-      "variables": ["fire danger index", "burned-area perimeters", "fire news"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "fire danger index",
+        "burned-area perimeters",
+        "fire news"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Public WMS is VIEW-ONLY (GetFeatureInfo disabled on danger layers — probed 2026-08-16); data download requires JRC data-portal registration; no open point-data API found.",
       "access_method": "wms",
@@ -499,8 +811,16 @@
       "spatial_resolution": "10–1000 m by mission",
       "temporal_resolution": "per mission revisit",
       "update_frequency": "per mission revisit",
-      "variables": ["Sentinel-1 SAR", "Sentinel-2 optical", "Sentinel-3 SLSTR LST"],
-      "hazard_relevance": ["wildfire", "drought", "flood"],
+      "variables": [
+        "Sentinel-1 SAR",
+        "Sentinel-2 optical",
+        "Sentinel-3 SLSTR LST"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "flood"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Credential setup + quota management required.",
       "access_method": "registration_required",
@@ -521,8 +841,15 @@
       "spatial_resolution": "10 m (IW)",
       "temporal_resolution": "6–12 day revisit",
       "update_frequency": "6–12 day revisit",
-      "variables": ["SAR backscatter", "potential soil-moisture retrieval"],
-      "hazard_relevance": ["wildfire", "drought", "flood"],
+      "variables": [
+        "SAR backscatter",
+        "potential soil-moisture retrieval"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "flood"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "SAR→moisture retrieval needs careful calibration; not yet scientifically justified in the score.",
       "access_method": "registration_required",
@@ -543,8 +870,14 @@
       "spatial_resolution": "500–1000 m",
       "temporal_resolution": "daily",
       "update_frequency": "daily",
-      "variables": ["land surface temperature", "active-fire radiative power context"],
-      "hazard_relevance": ["wildfire", "heat"],
+      "variables": [
+        "land surface temperature",
+        "active-fire radiative power context"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "heat"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Coarse vs Sentinel-2; value for the screening score unproven.",
       "access_method": "registration_required",
@@ -565,8 +898,14 @@
       "spatial_resolution": "~5 km",
       "temporal_resolution": "daily overpass",
       "update_frequency": "daily",
-      "variables": ["aerosol index", "NO2", "CO"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "aerosol index",
+        "NO2",
+        "CO"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Daily overpass (single afternoon snapshot); UV aerosol index is qualitative for smoke; requires CDSE credential setup.",
       "access_method": "registration_required",
@@ -587,8 +926,12 @@
       "spatial_resolution": "300 m",
       "temporal_resolution": "daily product",
       "update_frequency": "daily product",
-      "variables": ["burned area"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "burned area"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Credential requirement; 300 m minimum mapping unit.",
       "access_method": "registration_required",
@@ -609,8 +952,12 @@
       "spatial_resolution": "500 m",
       "temporal_resolution": "monthly",
       "update_frequency": "monthly",
-      "variables": ["burned area"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "burned area"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Monthly granularity; coarse for small fires; NASA Earthdata login required.",
       "access_method": "registration_required",
@@ -631,8 +978,12 @@
       "spatial_resolution": "375 m (VIIRS source)",
       "temporal_resolution": "weekly API",
       "update_frequency": "weekly API",
-      "variables": ["fire alerts"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "fire alerts"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Largely duplicates NASA FIRMS (same VIIRS source); requires API key + ToS acceptance.",
       "access_method": "registration_required",
@@ -653,8 +1004,12 @@
       "spatial_resolution": "varies (250 m – 4 km)",
       "temporal_resolution": "per mission",
       "update_frequency": "per mission",
-      "variables": ["meteorological/EO observations"],
-      "hazard_relevance": ["wildfire"],
+      "variables": [
+        "meteorological/EO observations"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Portal registration + approval; programmatic API availability unclear; documentation primarily in Chinese.",
       "access_method": "registration_required",
@@ -675,8 +1030,12 @@
       "spatial_resolution": "varies",
       "temporal_resolution": "per dataset",
       "update_frequency": "per dataset",
-      "variables": ["regional Earth-system datasets"],
-      "hazard_relevance": ["drought"],
+      "variables": [
+        "regional Earth-system datasets"
+      ],
+      "hazard_relevance": [
+        "drought"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Open with registration; citation requirements; regional coverage does not match current monitored areas.",
       "access_method": "registration_required",
@@ -697,8 +1056,13 @@
       "spatial_resolution": "30 m / 90 m",
       "temporal_resolution": "static",
       "update_frequency": "static",
-      "variables": ["elevation"],
-      "hazard_relevance": ["wildfire", "flood"],
+      "variables": [
+        "elevation"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood"
+      ],
       "provenance": "Transformed from config/source_registry.json (audit 2026-08-17).",
       "quality": "Would replace only the SRTM fallback path; EU-DEM already covers Europe at 25 m.",
       "access_method": "download",
@@ -719,8 +1083,19 @@
       "spatial_resolution": "station-level and gridded products (varies)",
       "temporal_resolution": "sub-daily to monthly (varies by dataset)",
       "update_frequency": "varies by dataset",
-      "variables": ["station weather observations", "GHCN", "climate normals", "severe-weather archives"],
-      "hazard_relevance": ["wildfire", "drought", "heat", "wind", "flood"],
+      "variables": [
+        "station weather observations",
+        "GHCN",
+        "climate normals",
+        "severe-weather archives"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "heat",
+        "wind",
+        "flood"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Official US archive; documented QA flags per dataset (e.g. GHCN-Daily quality flags).",
       "access_method": "download",
@@ -741,8 +1116,16 @@
       "spatial_resolution": "station-level",
       "temporal_resolution": "daily / monthly summaries",
       "update_frequency": "daily",
-      "variables": ["GHCN-Daily station observations", "climate summaries"],
-      "hazard_relevance": ["wildfire", "drought", "heat", "flood"],
+      "variables": [
+        "GHCN-Daily station observations",
+        "climate summaries"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "heat",
+        "flood"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; portal and webservices path live-checked 2026-08-17 (HTTP 200).",
       "quality": "Official station archive; CDO web services require a free API token.",
       "access_method": "registration_required",
@@ -763,8 +1146,15 @@
       "spatial_resolution": "gauge-level",
       "temporal_resolution": "sub-hourly instantaneous values; daily statistics",
       "update_frequency": "near-real-time (gauges telemetry)",
-      "variables": ["streamflow/discharge", "gage height", "water quality parameters"],
-      "hazard_relevance": ["flood", "drought"],
+      "variables": [
+        "streamflow/discharge",
+        "gage height",
+        "water quality parameters"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; IV service live-called 2026-08-17 (HTTP 200).",
       "quality": "USGS applies NWIS qualification codes per value (approved/provisional); gauge observations — would complement GloFAS modelled discharge.",
       "access_method": "api",
@@ -785,7 +1175,12 @@
       "spatial_resolution": "event-level",
       "temporal_resolution": "event-level; near-real-time",
       "update_frequency": "near-real-time",
-      "variables": ["earthquake epicentres", "magnitude", "depth", "shake maps"],
+      "variables": [
+        "earthquake epicentres",
+        "magnitude",
+        "depth",
+        "shake maps"
+      ],
       "hazard_relevance": [],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; event service live-called 2026-08-17 (HTTP 200).",
       "quality": "Reviewed ANSS catalog; magnitude of completeness varies by region and period.",
@@ -807,8 +1202,15 @@
       "spatial_resolution": "mission-dependent",
       "temporal_resolution": "mission-dependent",
       "update_frequency": "per mission",
-      "variables": ["Earth-observation mission archives (MODIS, VIIRS, Landsat, SMAP)"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat"],
+      "variables": [
+        "Earth-observation mission archives (MODIS, VIIRS, Landsat, SMAP)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative mission archives; NASA Earthdata login (free) required for most downloads.",
       "access_method": "registration_required",
@@ -829,8 +1231,17 @@
       "spatial_resolution": "~9 km (IFS HRES)",
       "temporal_resolution": "3–6-hourly steps to 15 days",
       "update_frequency": "twice daily",
-      "variables": ["medium-range weather forecasts", "ensemble meteograms", "open charts"],
-      "hazard_relevance": ["wildfire", "flood", "heat", "wind"],
+      "variables": [
+        "medium-range weather forecasts",
+        "ensemble meteograms",
+        "open charts"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative NWP centre; open charts are rendered products — bulk IFS open data access is via separate ECMWF open-data services with their own terms.",
       "access_method": "download",
@@ -851,8 +1262,15 @@
       "spatial_resolution": "station-level and gridded layers (varies)",
       "temporal_resolution": "hourly to annual (varies)",
       "update_frequency": "continuous (varies by service)",
-      "variables": ["air quality", "water status", "environmental thematic layers"],
-      "hazard_relevance": ["heat", "flood"],
+      "variables": [
+        "air quality",
+        "water status",
+        "environmental thematic layers"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "flood"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; discomap host and eea.europa.eu live-checked 2026-08-17 (HTTP 200).",
       "quality": "Official EU agency services; per-dataset metadata and QA via EEA DISCOMED catalogue.",
       "access_method": "wms",
@@ -873,8 +1291,18 @@
       "spatial_resolution": "~25 km (ERA5) and dataset-dependent",
       "temporal_resolution": "hourly/monthly (varies)",
       "update_frequency": "daily (reanalysis lag ~5 days); monthly seasonal runs",
-      "variables": ["ERA5 reanalysis", "seasonal forecasts", "CAMS atmospheric composition"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind"],
+      "variables": [
+        "ERA5 reanalysis",
+        "seasonal forecasts",
+        "CAMS atmospheric composition"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative archive; free CDS credentials (cdsapi) required; queue latencies apply.",
       "access_method": "registration_required",
@@ -895,8 +1323,14 @@
       "spatial_resolution": "EFAS model grid (~5 km) / river-network points",
       "temporal_resolution": "twice-daily forecasts",
       "update_frequency": "twice daily",
-      "variables": ["river discharge forecasts", "flood notifications", "return-period exceedance"],
-      "hazard_relevance": ["flood"],
+      "variables": [
+        "river discharge forecasts",
+        "flood notifications",
+        "return-period exceedance"
+      ],
+      "hazard_relevance": [
+        "flood"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; efas.eu and european-flood.emergency.copernicus.eu live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative European flood early-warning; map viewer public, bulk data access via CEMS with registration.",
       "access_method": "registration_required",
@@ -917,8 +1351,17 @@
       "spatial_resolution": "station-level and gridded products (varies)",
       "temporal_resolution": "sub-daily to monthly (varies)",
       "update_frequency": "varies by dataset",
-      "variables": ["station meteorological observations", "climate datasets"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind"],
+      "variables": [
+        "station meteorological observations",
+        "climate datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service; registration required; documentation primarily in Chinese.",
       "access_method": "registration_required",
@@ -939,8 +1382,17 @@
       "spatial_resolution": "station-level and gridded products (varies)",
       "temporal_resolution": "varies",
       "update_frequency": "varies by dataset",
-      "variables": ["meteorological information services", "climate system monitoring"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind"],
+      "variables": [
+        "meteorological information services",
+        "climate system monitoring"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; official URL kept although unreachable (timeout) from build environment 2026-08-17.",
       "quality": "Official CMA information centre; portal language Chinese; access paths to be verified.",
       "access_method": "registration_required",
@@ -961,8 +1413,16 @@
       "spatial_resolution": "station-level (AMeDAS ~1300 stations)",
       "temporal_resolution": "10-minute to daily (varies)",
       "update_frequency": "near-real-time",
-      "variables": ["AMeDAS station observations", "weather warnings", "typhoon tracks"],
-      "hazard_relevance": ["flood", "wind", "heat"],
+      "variables": [
+        "AMeDAS station observations",
+        "weather warnings",
+        "typhoon tracks"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "wind",
+        "heat"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; jma.go.jp and data.jma.go.jp (AMeDAS portal) live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service; historical statistics portal data.jma.go.jp; redistribution restricted under JMA terms.",
       "access_method": "download",
@@ -983,8 +1443,15 @@
       "spatial_resolution": "station-level and gridded products (varies)",
       "temporal_resolution": "sub-daily to monthly (varies)",
       "update_frequency": "varies by dataset",
-      "variables": ["station meteorological observations", "climate statistics"],
-      "hazard_relevance": ["flood", "heat", "wind"],
+      "variables": [
+        "station meteorological observations",
+        "climate statistics"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "heat",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service; open API requires an auth key; portal language Korean.",
       "access_method": "registration_required",
@@ -1005,8 +1472,18 @@
       "spatial_resolution": "station-level and gridded products (varies)",
       "temporal_resolution": "sub-daily to monthly (varies)",
       "update_frequency": "near-real-time observations; daily climate products",
-      "variables": ["station observations", "fire danger ratings", "climate data online"],
-      "hazard_relevance": ["wildfire", "flood", "heat", "drought", "wind"],
+      "variables": [
+        "station observations",
+        "fire danger ratings",
+        "climate data online"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat",
+        "drought",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; official URL returned HTTP 403 (bot protection) from build environment 2026-08-17 — domain is the authoritative BOM site, kept.",
       "quality": "Authoritative national service; bulk data access via registered FTP services; re-use licence required.",
       "access_method": "registration_required",
@@ -1027,8 +1504,17 @@
       "spatial_resolution": "station-level and 0.25°–1° gridded products",
       "temporal_resolution": "daily (gridded) / sub-daily (stations)",
       "update_frequency": "daily",
-      "variables": ["station observations", "gridded rainfall/temperature", "cyclone tracks"],
-      "hazard_relevance": ["flood", "heat", "drought", "wind"],
+      "variables": [
+        "station observations",
+        "gridded rainfall/temperature",
+        "cyclone tracks"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "heat",
+        "drought",
+        "wind"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service; data supply partly paid/registered under IMD terms.",
       "access_method": "download",
@@ -1049,8 +1535,16 @@
       "spatial_resolution": "country/basin aggregates; gridded ~25–100 km (varies)",
       "temporal_resolution": "monthly/annual climatologies",
       "update_frequency": "per CMIP release cycle",
-      "variables": ["temperature/precipitation climatologies", "CMIP6 projections", "climate indices"],
-      "hazard_relevance": ["drought", "heat", "flood"],
+      "variables": [
+        "temperature/precipitation climatologies",
+        "CMIP6 projections",
+        "climate indices"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "heat",
+        "flood"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; official URL returned HTTP 403 (bot protection) from build environment 2026-08-17 — domain is the authoritative World Bank portal, kept.",
       "quality": "Curated CMIP6-based portal; projections are scenario-conditional — never observations.",
       "access_method": "download",
@@ -1071,8 +1565,17 @@
       "spatial_resolution": "admin-level and geolocated datasets (varies)",
       "temporal_resolution": "varies",
       "update_frequency": "continuous",
-      "variables": ["humanitarian datasets", "disaster response data", "admin boundaries (COD-AB)"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat"],
+      "variables": [
+        "humanitarian datasets",
+        "disaster response data",
+        "admin boundaries (COD-AB)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Curated UN OCHA exchange; per-dataset metadata quality varies — QA flags shown per dataset.",
       "access_method": "api",
@@ -1093,8 +1596,18 @@
       "spatial_resolution": "instrument-level metadata",
       "temporal_resolution": "metadata catalogue",
       "update_frequency": "continuous",
-      "variables": ["satellite/instrument observing capabilities", "observing-system metadata"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind", "coastal"],
+      "variables": [
+        "satellite/instrument observing capabilities",
+        "observing-system metadata"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; space.oscar.wmo.int and wmo.int live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative WMO catalogue of observing capabilities — metadata about observing systems, not hazard data itself.",
       "access_method": "api",
@@ -1115,8 +1628,17 @@
       "spatial_resolution": "station-level and model grids (varies)",
       "temporal_resolution": "hourly to monthly (varies)",
       "update_frequency": "varies by dataset",
-      "variables": ["weather observations", "UKCP climate projections", "NWP model output"],
-      "hazard_relevance": ["heat", "wind", "flood", "wildfire"],
+      "variables": [
+        "weather observations",
+        "UKCP climate projections",
+        "NWP model output"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "wind",
+        "flood",
+        "wildfire"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; data-services page live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service; open tiers exist but commercial use requires paid licences.",
       "access_method": "registration_required",
@@ -1137,8 +1659,18 @@
       "spatial_resolution": "station-level and ICON model grids (2–13 km)",
       "temporal_resolution": "10-minute to monthly (varies)",
       "update_frequency": "near-real-time to daily (varies)",
-      "variables": ["station observations", "ICON model output", "radar", "climate archives"],
-      "hazard_relevance": ["heat", "wind", "flood", "wildfire"],
+      "variables": [
+        "station observations",
+        "ICON model output",
+        "radar",
+        "climate archives"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "wind",
+        "flood",
+        "wildfire"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service with a mature open-data programme; per-dataset documentation on the server.",
       "access_method": "download",
@@ -1159,8 +1691,18 @@
       "spatial_resolution": "station-level and gridded products (varies)",
       "temporal_resolution": "sub-daily to monthly (varies)",
       "update_frequency": "varies by dataset",
-      "variables": ["station observations", "climate datasets", "radar"],
-      "hazard_relevance": ["heat", "wind", "flood", "wildfire", "drought"],
+      "variables": [
+        "station observations",
+        "climate datasets",
+        "radar"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "wind",
+        "flood",
+        "wildfire",
+        "drought"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative national service; portal requires acceptance of licence terms; documentation in French.",
       "access_method": "registration_required",
@@ -1181,8 +1723,14 @@
       "spatial_resolution": "country-level assessments + sub-national analysis",
       "temporal_resolution": "seasonal/ad-hoc updates",
       "update_frequency": "continuous (per season and event)",
-      "variables": ["crop prospects", "food-security early warning", "drought/agricultural assessments"],
-      "hazard_relevance": ["drought"],
+      "variables": [
+        "crop prospects",
+        "food-security early warning",
+        "drought/agricultural assessments"
+      ],
+      "hazard_relevance": [
+        "drought"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
       "quality": "Authoritative UN early-warning assessments; analysis products, not raw observations.",
       "access_method": "download",
@@ -1203,8 +1751,19 @@
       "spatial_resolution": "country/event-level",
       "temporal_resolution": "event-level; continuous",
       "update_frequency": "continuous",
-      "variables": ["documented disaster events", "situation reports", "OCHA products"],
-      "hazard_relevance": ["wildfire", "flood", "drought", "heat", "wind", "coastal"],
+      "variables": [
+        "documented disaster events",
+        "situation reports",
+        "OCHA products"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
       "provenance": "Added 2026-08-17 as Data Observatory candidate; reliefweb.int and apidoc.rwlabs.org live-checked 2026-08-17 (HTTP 200); api.reliefweb.int host reachable but /v1/* returned HTTP 410 from build environment — verify endpoint path before any use.",
       "quality": "DOCUMENTED-events layer: official UN OCHA curation, media-adjacent — class OPEN_DATA_OFFICIAL; never scientific evidence; events are editorial records, not measurements.",
       "access_method": "api",
@@ -1212,6 +1771,387 @@
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
       "status_note": "Candidate (DOCUMENTED events only — never scientific evidence) — nothing wired to it."
+    },
+    {
+      "id": "eccc",
+      "name": "Environment and Climate Change Canada — weather.gc.ca + MSC Datamart",
+      "provider": "Environment and Climate Change Canada (Meteorological Service of Canada)",
+      "provider_class": "government",
+      "url": "https://weather.gc.ca/",
+      "license": "Environment and Climate Change Canada data licence (open government; attribution)",
+      "geographic_coverage": "Canada",
+      "temporal_coverage": "dataset-dependent; Canadian station archives and NWP output to present",
+      "spatial_resolution": "station-level and model grids (varies)",
+      "temporal_resolution": "hourly to daily (varies)",
+      "update_frequency": "near-real-time (MSC Datamart)",
+      "variables": [
+        "station observations",
+        "weather warnings",
+        "model output (GRIB)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "heat",
+        "wind",
+        "drought"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; weather.gc.ca and dd.weather.gc.ca (MSC Datamart) live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; home agency of the Canadian FWI System — the danger-index basis the platform's FWI adapter implements.",
+      "access_method": "download",
+      "api_or_download_url": "https://dd.weather.gc.ca/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "saws",
+      "name": "South African Weather Service (SAWS)",
+      "provider": "South African Weather Service",
+      "provider_class": "government",
+      "url": "https://www.weathersa.co.za/",
+      "license": "SAWS data terms (verify per dataset)",
+      "geographic_coverage": "South Africa",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level and gridded products (varies)",
+      "temporal_resolution": "sub-daily to monthly (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "weather warnings",
+        "climate data"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "flood",
+        "heat",
+        "wind"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; data supply terms not confirmed from public pages at audit date.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.weathersa.co.za/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — commercial-use terms unclear from public pages at audit date; nothing wired to it."
+    },
+    {
+      "id": "ncm-uae",
+      "name": "UAE National Center of Meteorology (NCM, formerly NCMS)",
+      "provider": "National Center of Meteorology, United Arab Emirates",
+      "provider_class": "government",
+      "url": "https://www.ncm.gov.ae/",
+      "license": "NCM data terms (verify per dataset)",
+      "geographic_coverage": "United Arab Emirates",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level (varies)",
+      "temporal_resolution": "sub-daily to daily (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "weather warnings",
+        "seismic/tsunami monitoring bulletins"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "wind",
+        "flood",
+        "drought"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; former domain ncms.ae unresolvable (DNS) 2026-08-17 — the service now operates as NCM; ncm.gov.ae live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; dust/sandstorm and extreme-heat monitoring relevant to heat and wind hazards.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.ncm.gov.ae/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "inmet",
+      "name": "INMET — Instituto Nacional de Meteorologia (Brazil)",
+      "provider": "Instituto Nacional de Meteorologia",
+      "provider_class": "government",
+      "url": "https://portal.inmet.gov.br/",
+      "license": "INMET data terms (verify per dataset)",
+      "geographic_coverage": "Brazil",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level (conventional + automatic stations)",
+      "temporal_resolution": "hourly (automatic stations) to daily",
+      "update_frequency": "near-real-time (automatic station network)",
+      "variables": [
+        "station meteorological observations",
+        "agrometeorological bulletins",
+        "weather warnings"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood",
+        "heat",
+        "wildfire",
+        "wind"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; portal.inmet.gov.br reachable but returned HTTP 500 / connection resets from build environment 2026-08-17 — official URL kept.",
+      "quality": "Authoritative national service; portal instability observed from build environment at audit date.",
+      "access_method": "download",
+      "api_or_download_url": "https://portal.inmet.gov.br/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — portal erroring from build environment at audit date (kept official URL); nothing wired to it."
+    },
+    {
+      "id": "smn-mexico",
+      "name": "SMN — Servicio Meteorológico Nacional (Mexico, CONAGUA)",
+      "provider": "Servicio Meteorológico Nacional / CONAGUA",
+      "provider_class": "government",
+      "url": "https://smn.conagua.gob.mx/",
+      "license": "SMN/CONAGUA data terms (verify per dataset)",
+      "geographic_coverage": "Mexico",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level and gridded products (varies)",
+      "temporal_resolution": "sub-daily to daily (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "tropical-cyclone advisories",
+        "weather warnings"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "heat",
+        "wind",
+        "drought",
+        "wildfire",
+        "coastal"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; smn.conagua.gob.mx connection timed out from build environment 2026-08-17 (kept official URL).",
+      "quality": "Authoritative national service; tropical-cyclone advisories relevant to coastal/wind hazards.",
+      "access_method": "download",
+      "api_or_download_url": "https://smn.conagua.gob.mx/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — URL unreachable (timeout) from build environment at audit date (kept official URL); nothing wired to it."
+    },
+    {
+      "id": "smn-argentina",
+      "name": "SMN — Servicio Meteorológico Nacional (Argentina)",
+      "provider": "Servicio Meteorológico Nacional, Argentina",
+      "provider_class": "government",
+      "url": "https://www.smn.gob.ar/",
+      "license": "SMN data terms (verify per dataset)",
+      "geographic_coverage": "Argentina",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level and gridded products (varies)",
+      "temporal_resolution": "sub-daily to daily (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "weather warnings",
+        "climate monitoring"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "heat",
+        "wind",
+        "drought",
+        "wildfire"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; official URL returned HTTP 403 (bot protection) from build environment 2026-08-17 — domain is the authoritative SMN site, kept.",
+      "quality": "Authoritative national service.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.smn.gob.ar/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it."
+    },
+    {
+      "id": "dmc-chile",
+      "name": "Dirección Meteorológica de Chile (DMC) — climatology portal",
+      "provider": "Dirección Meteorológica de Chile (Dirección General de Aeronáutica Civil)",
+      "provider_class": "government",
+      "url": "https://climatologia.meteochile.gob.cl/",
+      "license": "DMC data terms (verify per dataset)",
+      "geographic_coverage": "Chile",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level (varies)",
+      "temporal_resolution": "daily to monthly climatologies (varies)",
+      "update_frequency": "varies by dataset",
+      "variables": [
+        "station climatologies",
+        "meteorological observations"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; climatologia.meteochile.gob.cl live-checked 2026-08-17 (HTTP 200); www.meteorochile.gob.cl unresolvable (DNS), dmc.cl returned HTTP 404 and www.meteochile.cl certificate mismatch from build environment — climatology portal used as the stable entry point.",
+      "quality": "Authoritative national service; wildfire-relevant climatologies for a high fire-risk country.",
+      "access_method": "download",
+      "api_or_download_url": "https://climatologia.meteochile.gob.cl/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "senamhi",
+      "name": "SENAMHI — Servicio Nacional de Meteorología e Hidrología del Perú",
+      "provider": "SENAMHI Perú",
+      "provider_class": "government",
+      "url": "https://www.senamhi.gob.pe/",
+      "license": "SENAMHI data terms (verify per dataset)",
+      "geographic_coverage": "Peru",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level and gridded products (varies)",
+      "temporal_resolution": "sub-daily to monthly (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "meteorological observations",
+        "hydrological monitoring",
+        "climate bulletins"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought",
+        "heat",
+        "wind"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; combined meteorological + hydrological mandate relevant to flood/drought.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.senamhi.gob.pe/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "marocmeteo",
+      "name": "Direction Générale de la Météorologie (Morocco) — MarocMétéo",
+      "provider": "Direction Générale de la Météorologie, Morocco",
+      "provider_class": "government",
+      "url": "https://www.marocmeteo.ma/",
+      "license": "DGM data terms (verify per dataset)",
+      "geographic_coverage": "Morocco",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level (varies)",
+      "temporal_resolution": "sub-daily to daily (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "weather warnings",
+        "climate bulletins"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "heat",
+        "flood",
+        "wildfire",
+        "wind"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; drought and heat monitoring relevant to North-African hazard context.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.marocmeteo.ma/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "ncm-saudi",
+      "name": "National Center of Meteorology (Saudi Arabia)",
+      "provider": "National Center of Meteorology, Kingdom of Saudi Arabia",
+      "provider_class": "government",
+      "url": "https://www.ncm.gov.sa/",
+      "license": "NCM data terms (verify per dataset)",
+      "geographic_coverage": "Saudi Arabia",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level (varies)",
+      "temporal_resolution": "sub-daily to daily (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "weather warnings",
+        "dust-storm monitoring"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "drought",
+        "wind",
+        "flood"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; www.ncm.gov.sa live-checked 2026-08-17 (HTTP 200); apex ncm.gov.sa returned HTTP 500 from build environment — www host used.",
+      "quality": "Authoritative national service; extreme-heat and dust-storm monitoring relevant to heat/wind hazards.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.ncm.gov.sa/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "mss-singapore",
+      "name": "Meteorological Service Singapore (MSS)",
+      "provider": "Meteorological Service Singapore (NEA)",
+      "provider_class": "government",
+      "url": "https://www.weather.gov.sg/",
+      "license": "MSS/NEA data terms (verify per dataset)",
+      "geographic_coverage": "Singapore + Southeast Asia regional monitoring",
+      "temporal_coverage": "dataset-dependent; station records and regional haze monitoring",
+      "spatial_resolution": "station-level and regional products (varies)",
+      "temporal_resolution": "sub-daily to daily (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "heavy-rain warnings",
+        "haze monitoring"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "heat",
+        "wind"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; URL live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; regional haze (transboundary smoke) monitoring relevant to wildfire-smoke context.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.weather.gov.sg/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "bmkg",
+      "name": "BMKG — Badan Meteorologi, Klimatologi, dan Geofisika (Indonesia)",
+      "provider": "BMKG Indonesia",
+      "provider_class": "government",
+      "url": "https://www.bmkg.go.id/",
+      "license": "BMKG data terms (verify per dataset)",
+      "geographic_coverage": "Indonesia",
+      "temporal_coverage": "dataset-dependent; national station archives",
+      "spatial_resolution": "station-level and gridded products (varies)",
+      "temporal_resolution": "sub-daily to monthly (varies)",
+      "update_frequency": "near-real-time observations (varies by product)",
+      "variables": [
+        "station meteorological observations",
+        "weather warnings",
+        "climate data",
+        "earthquake/tsunami bulletins"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought",
+        "wildfire",
+        "wind",
+        "coastal",
+        "heat"
+      ],
+      "provenance": "Added 2026-08-17 as Data Observatory candidate; bmkg.go.id and data.bmkg.go.id (open-data portal) live-checked 2026-08-17 (HTTP 200).",
+      "quality": "Authoritative national service; open-data portal data.bmkg.go.id; peat-fire season monitoring relevant to wildfire.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.bmkg.go.id/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate — catalog record only; nothing wired to it."
     }
   ]
 }

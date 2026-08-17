@@ -28,6 +28,13 @@ Honesty contract (absolute):
   explicitly as ``not_computable`` — never faked.
 - A hazard that errors reduces the signal set (recorded in
   ``hazards_unavailable``); it never crashes the assessment.
+
+Additive: :func:`dependence_analysis` computes EMPIRICAL co-occurrence
+frequencies (and lift) of the declared elevated indicators over the
+location's own trailing daily series — descriptive only, NOT a fitted
+dependence model, no causal claim, no significance testing, and a declared
+small-count guard (``insufficient_data`` below 10 event days, never a
+number). It is wired into the assessment as the ``dependence`` block.
 """
 
 from __future__ import annotations
@@ -650,6 +657,357 @@ def _detect_preconditioned(signals: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 
 # ---------------------------------------------------------------------------
+# Empirical dependence analysis (additive — descriptive co-occurrence only)
+# ---------------------------------------------------------------------------
+
+_DEPENDENCE_WINDOW_YEARS = 10    # trailing record length for the analysis
+_DEPENDENCE_MIN_EVENT_DAYS = 10  # small-count guard: fewer -> insufficient_data
+_DEPENDENCE_DOY_POOL_DAYS = 7    # day-of-year climatology pool half-width (heat)
+_DEPENDENCE_DROUGHT_ROLL_DAYS = 30  # rolling precipitation window (drought z)
+
+#: Elevated-indicator pairs analysed (the three indicators computable from
+#: the location's own daily ERA5-derived series).
+_DEPENDENCE_PAIRS = (
+    ("heat", "drought"),
+    ("heat", "wildfire"),
+    ("drought", "wildfire"),
+)
+
+_DEPENDENCE_INDICATORS = {
+    "heat": (
+        "event day: daily Tmax >= the 90th percentile of the day-of-year "
+        "climatology (±7-day pool over the record's other years), consistent "
+        "with the declared heat elevated threshold"
+    ),
+    "drought": (
+        "event day: trailing 30-day precipitation-sum standardized anomaly "
+        "z <= -1.0 vs the same calendar window in the record's other years "
+        "(declared; NOT a fitted SPI/SPEI)"
+    ),
+    "wildfire": (
+        "event day: daily Canadian FWI >= 30 (declared fire-danger "
+        "screening threshold)"
+    ),
+}
+
+_DEPENDENCE_METHOD = (
+    "empirical conditional frequencies from the location's own {years}-year "
+    "daily series; NOT a fitted dependence model; no causal claim"
+)
+
+_DEPENDENCE_SMALL_COUNT_GUARD = (
+    "If either event count is < 10 days the pair is reported as "
+    "insufficient_data and no frequencies or lift are computed (declared "
+    "small-count guard)."
+)
+
+_DEPENDENCE_SIGNIFICANCE_NOTE = (
+    "No significance testing is performed: daily samples are serially "
+    "correlated and no declared exact method is implemented here, so "
+    "p-values would be pseudo-precise. The lift is a raw empirical ratio "
+    "only."
+)
+
+_DEPENDENCE_LIMITATIONS = [
+    "Co-occurrence frequencies are descriptive; correlation is not "
+    "causation and no driver attribution is made.",
+    _DEPENDENCE_SIGNIFICANCE_NOTE,
+    "Serial correlation between adjacent days is not modelled; the "
+    "effective sample size is smaller than n_days_total.",
+    "Events are declared exceedances of screening thresholds on reanalysis "
+    "series (ERA5, ~25 km grid), not observed impact events.",
+    "FWI screening approximation (daily aggregates, not noon-standard "
+    "inputs); FWI codes seeded with conventional startup values at the "
+    "window start.",
+    "Leap-year day numbering in the day-of-year pools is a declared "
+    "approximation (±1 day at the year boundary).",
+]
+
+
+def _valid_daily_pairs(dates: Any, values: Any) -> List[Tuple[date, float]]:
+    """Parsed, sorted (date, value) pairs; unparseable/None entries dropped."""
+
+    out: List[Tuple[date, float]] = []
+    for d, v in zip(dates or [], values or []):
+        dd = _series.parse_date(d)
+        if dd is None or v is None:
+            continue
+        try:
+            out.append((dd, float(v)))
+        except (TypeError, ValueError):
+            continue
+    out.sort(key=lambda dv: dv[0])
+    return out
+
+
+def _heat_event_days(days: List[Tuple[date, float]]) -> Dict[str, bool]:
+    """Event = Tmax >= p90 of the day-of-year pool (other years, ±7 days).
+
+    Same declared statistic as _series.doy_thresholds; pools are gathered
+    from pre-bucketed day-of-year lists so a 10-year record stays cheap.
+    """
+
+    by_doy: Dict[int, List[Tuple[int, float]]] = {}
+    for d, v in days:
+        by_doy.setdefault(d.timetuple().tm_yday, []).append((d.year, v))
+    flags: Dict[str, bool] = {}
+    for d, v in days:
+        doy = d.timetuple().tm_yday
+        pool: List[float] = []
+        for delta in range(-_DEPENDENCE_DOY_POOL_DAYS, _DEPENDENCE_DOY_POOL_DAYS + 1):
+            dd = ((doy - 1 + delta) % 365) + 1
+            pool.extend(val for yr, val in by_doy.get(dd, ()) if yr != d.year)
+        thr = _series.percentile_value(pool, _PCT_ELEVATED)
+        flags[d.isoformat()] = bool(thr is not None and v >= thr)
+    return flags
+
+
+def _drought_event_days(days: List[Tuple[date, float]]) -> Dict[str, bool]:
+    """Event = trailing 30-day precipitation-sum z <= -1 vs other years.
+
+    The baseline for each day is the same calendar window (month-day) in
+    the record's other years; z via _series.standardized_anomaly (None —
+    no event — where the baseline is too small or has zero variance).
+    """
+
+    dates = [d for d, _ in days]
+    sums = _series.rolling_sums([v for _, v in days], _DEPENDENCE_DROUGHT_ROLL_DAYS)
+    by_calday: Dict[Tuple[int, int], List[Tuple[int, float]]] = {}
+    for d, s in zip(dates, sums):
+        if s is not None:
+            by_calday.setdefault((d.month, d.day), []).append((d.year, s))
+    flags: Dict[str, bool] = {}
+    for d, s in zip(dates, sums):
+        if s is None:
+            flags[d.isoformat()] = False
+            continue
+        baseline = [v for yr, v in by_calday.get((d.month, d.day), ()) if yr != d.year]
+        z, _, _ = _series.standardized_anomaly(s, baseline)
+        flags[d.isoformat()] = bool(z is not None and z <= _DROUGHT_Z_ELEVATED)
+    return flags
+
+
+def _fwi_event_days(days: List[Tuple[date, float]]) -> Dict[str, bool]:
+    """Event = daily FWI >= the declared fire-danger threshold."""
+
+    return {d.isoformat(): bool(v >= _FWI_ELEVATED) for d, v in days}
+
+
+_EVENT_BUILDERS = {
+    "heat": _heat_event_days,
+    "drought": _drought_event_days,
+    "wildfire": _fwi_event_days,
+}
+
+
+def dependence_analysis(
+    series_by_hazard: Dict[str, Any],
+    *,
+    window_years: int = _DEPENDENCE_WINDOW_YEARS,
+) -> Dict[str, Any]:
+    """Empirical co-occurrence of the elevated indicators over the record.
+
+    ``series_by_hazard`` maps "heat" / "drought" / "wildfire" to
+    ``{"dates": [...], "values": [...]}`` daily series from the location's
+    own ERA5-derived record (heat: daily Tmax °C; drought: daily
+    precipitation mm; wildfire: daily FWI). For each declared pair the
+    trailing ``window_years`` record yields P(A), P(B), P(A∩B) and the
+    empirical lift P(A∩B)/(P(A)·P(B)) — real counts only. Below 10 event
+    days on either side the pair is ``insufficient_data`` and carries no
+    frequencies or lift. Pure function: no I/O, no fitted model, no
+    significance testing, no causal claim.
+    """
+
+    window_days = int(round(window_years * 365.25))
+    event_days: Dict[str, Dict[str, bool]] = {}
+    series_windows: Dict[str, Any] = {}
+    unavailable_hazards: List[str] = []
+
+    for hid in ("heat", "drought", "wildfire"):
+        raw = (series_by_hazard or {}).get(hid) or {}
+        parsed = _valid_daily_pairs(raw.get("dates"), raw.get("values"))
+        if len(parsed) < 2:
+            unavailable_hazards.append(hid)
+            continue
+        end = parsed[-1][0]
+        start = end - timedelta(days=window_days)
+        in_window = [(d, v) for d, v in parsed if d >= start]
+        series_windows[hid] = {
+            "start": start.isoformat(),
+            "end": end.isoformat(),
+            "n_days": len(in_window),
+        }
+        event_days[hid] = _EVENT_BUILDERS[hid](in_window)
+
+    pairs: Dict[str, Any] = {}
+    n_pairs_ok = 0
+    for a, b in _DEPENDENCE_PAIRS:
+        key = f"{a}_{b}"
+        entry: Dict[str, Any] = {
+            "hazards": [a, b],
+            "indicator_a": _DEPENDENCE_INDICATORS[a],
+            "indicator_b": _DEPENDENCE_INDICATORS[b],
+            "n_days_total": None,
+            "n_A": None,
+            "n_B": None,
+            "n_AB": None,
+            "P_A": None,
+            "P_B": None,
+            "P_AB": None,
+            "lift": None,
+        }
+        fa, fb = event_days.get(a), event_days.get(b)
+        if fa is None or fb is None:
+            missing = [h for h in (a, b) if event_days.get(h) is None]
+            entry["status"] = "unavailable"
+            entry["reason"] = ("daily series unavailable for: "
+                               + ", ".join(missing))
+            pairs[key] = entry
+            continue
+        common = sorted(set(fa) & set(fb))
+        n = len(common)
+        n_a = sum(1 for d in common if fa[d])
+        n_b = sum(1 for d in common if fb[d])
+        n_ab = sum(1 for d in common if fa[d] and fb[d])
+        entry.update(n_days_total=n, n_A=n_a, n_B=n_b, n_AB=n_ab)
+        if n < 1 or n_a < _DEPENDENCE_MIN_EVENT_DAYS or n_b < _DEPENDENCE_MIN_EVENT_DAYS:
+            entry["status"] = "insufficient_data"
+            entry["reason"] = (
+                f"small-count guard: event days n_A={n_a}, n_B={n_b} over "
+                f"{n} common days; at least {_DEPENDENCE_MIN_EVENT_DAYS} "
+                "event days on each side are required before empirical "
+                "frequencies are reported."
+            )
+        else:
+            p_a = n_a / n
+            p_b = n_b / n
+            p_ab = n_ab / n
+            entry.update(
+                status="ok",
+                P_A=round(p_a, 4),
+                P_B=round(p_b, 4),
+                P_AB=round(p_ab, 4),
+                lift=round(p_ab / (p_a * p_b), 3),
+            )
+            n_pairs_ok += 1
+        pairs[key] = entry
+
+    if n_pairs_ok == len(_DEPENDENCE_PAIRS):
+        status = "ok"
+    elif n_pairs_ok > 0:
+        status = "partial"
+    else:
+        status = "unavailable"
+
+    return {
+        "status": status,
+        "window_years": window_years,
+        "series_windows": series_windows,
+        "series_unavailable": unavailable_hazards,
+        "indicators": dict(_DEPENDENCE_INDICATORS),
+        "pairs": pairs,
+        "claim_status": ClaimStatus.MODELLED.value,
+        "method": _DEPENDENCE_METHOD.format(years=window_years),
+        "small_count_guard": _DEPENDENCE_SMALL_COUNT_GUARD,
+        "significance_note": _DEPENDENCE_SIGNIFICANCE_NOTE,
+        "limitations": list(_DEPENDENCE_LIMITATIONS),
+    }
+
+
+def _dependence_unavailable(reason: str) -> Dict[str, Any]:
+    """Honest dependence block when the series cannot be fetched/analysed."""
+
+    return {
+        "status": "unavailable",
+        "reason": reason,
+        "window_years": _DEPENDENCE_WINDOW_YEARS,
+        "series_windows": {},
+        "series_unavailable": [],
+        "indicators": dict(_DEPENDENCE_INDICATORS),
+        "pairs": {},
+        "claim_status": ClaimStatus.MODELLED.value,
+        "method": _DEPENDENCE_METHOD.format(years=_DEPENDENCE_WINDOW_YEARS),
+        "small_count_guard": _DEPENDENCE_SMALL_COUNT_GUARD,
+        "significance_note": _DEPENDENCE_SIGNIFICANCE_NOTE,
+        "limitations": list(_DEPENDENCE_LIMITATIONS),
+    }
+
+
+@cached("compound_dependence_series", TTL_COMPOUND)
+def _dependence_series(
+    lat: float,
+    lon: float,
+    window_years: int = _DEPENDENCE_WINDOW_YEARS,
+) -> Dict[str, Any]:
+    """Trailing ``window_years`` daily series for the dependence analysis.
+
+    The same ERA5 daily archive fetcher the light signals use
+    (``real_data.fetch_weather_archive``), over the trailing record; FWI is
+    computed with the same declared screening approximation as
+    ``_fire_danger_signal``. Cached 1 h.
+    """
+
+    from ..dashboard import real_data as rd
+    from ..prediction.fwi import compute_fwi_series
+
+    today = date.today()
+    end = today - timedelta(days=_ARCHIVE_LAG_DAYS)
+    start = end - timedelta(days=int(round(window_years * 365.25)))
+    try:
+        archive = rd.fetch_weather_archive(
+            lat, lon, start.isoformat(), end.isoformat())
+    except Exception as exc:
+        return {"error": f"ERA5 dependence-series fetch failed: {exc}"}
+    if "error" in archive:
+        return {"error": archive["error"]}
+
+    times = archive.get("time") or []
+    tmax = archive.get("temperature_2m_max") or []
+    rh = archive.get("relative_humidity_2m_mean") or []
+    wind = archive.get("wind_speed_10m_max") or []
+    rain = archive.get("precipitation_sum") or []
+    heat_dates: List[str] = []
+    heat_vals: List[float] = []
+    pr_dates: List[str] = []
+    pr_vals: List[float] = []
+    series_in: List[Dict[str, Any]] = []
+    for i, t in enumerate(times):
+        if i < len(tmax) and tmax[i] is not None:
+            heat_dates.append(t)
+            heat_vals.append(float(tmax[i]))
+        if i < len(rain) and rain[i] is not None:
+            pr_dates.append(t)
+            pr_vals.append(float(rain[i]))
+        if i >= len(tmax) or i >= len(rh) or i >= len(wind):
+            continue
+        if tmax[i] is None or rh[i] is None or wind[i] is None:
+            continue
+        series_in.append({
+            "date": t,
+            "temp_c": float(tmax[i]),
+            "rh_pct": float(rh[i]),
+            "wind_kmh": float(wind[i]),
+            "rain_mm": float(rain[i]) if i < len(rain) and rain[i] is not None else 0.0,
+        })
+    fwi_dates: List[str] = []
+    fwi_vals: List[float] = []
+    if len(series_in) >= 5:
+        for day in compute_fwi_series(series_in):
+            fwi_dates.append(str(day.date))
+            fwi_vals.append(round(day.fwi, 1))
+
+    return {
+        "window": {"start": start.isoformat(), "end": end.isoformat()},
+        "series_by_hazard": {
+            "heat": {"dates": heat_dates, "values": heat_vals},
+            "drought": {"dates": pr_dates, "values": pr_vals},
+            "wildfire": {"dates": fwi_dates, "values": fwi_vals},
+        },
+        "source": archive.get("source", "Reanalysis (ERA5 via Open-Meteo archive)"),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Assessment
 # ---------------------------------------------------------------------------
 
@@ -679,6 +1037,23 @@ def assess_compound(
     compound_signals.extend(_detect_temporal(signals, extracted.get("as_of")))
     compound_signals.extend(_detect_preconditioned(signals))
 
+    # Empirical dependence analysis (additive): co-occurrence of the declared
+    # elevated indicators over the location's own trailing daily series.
+    # Descriptive only; failures degrade to an honest unavailable block and
+    # never affect the qualitative signals above.
+    try:
+        dep_series = _dependence_series(lat, lon)
+    except Exception as exc:  # pragma: no cover - defensive
+        dep_series = {"error": f"dependence series fetch failed: {exc}"}
+    if "error" in dep_series:
+        dependence = _dependence_unavailable(str(dep_series["error"]))
+    else:
+        try:
+            dependence = dependence_analysis(dep_series.get("series_by_hazard") or {})
+            dependence["source"] = dep_series.get("source")
+        except Exception as exc:  # pragma: no cover - defensive
+            dependence = _dependence_unavailable(f"dependence analysis failed: {exc}")
+
     analysed = sorted(set(signals) | {u["hazard"] for u in unavailable})
     if not signals:
         status = "unavailable"
@@ -701,6 +1076,7 @@ def assess_compound(
         "hazard_signals": signals,
         "thresholds": extracted["thresholds"],
         "compound_signals": compound_signals,
+        "dependence": dependence,
         "no_compound_signal": None if compound_signals else {
             "status": "no_compound_signal",
             "statement": _NO_SIGNAL_STATEMENT,
@@ -728,6 +1104,10 @@ def assess_compound(
             "favour spread IF an ignition happens.",
             "Preconditioned signals are INFERRED: the amplification mechanism "
             "is declared, not measured.",
+            "The dependence block reports empirical co-occurrence frequencies "
+            "over the location's own trailing record — descriptive only, NOT "
+            "a fitted dependence model; no causal claim, no significance "
+            "testing.",
         ],
         "provenance": {
             "engine": "compound_risk_v1",

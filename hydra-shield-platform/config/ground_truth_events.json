@@ -1,0 +1,143 @@
+{
+  "description": "HydraShield Ground Truth Event Registry — REAL, authoritatively documented hazard events used as benchmark anchors. An event enters this registry only with official sources (meteorological/hydrological services, WMO, Copernicus). The event's occurrence is DOCUMENTED (ClaimStatus vocabulary, src/climate/ontology.py); the expected_signal is what our own datasets (ERA5 reanalysis, GloFAS modelled discharge) should show for that event — it is OBSERVED/MODELLED from the data itself, never restated from the documentation and never fabricated. Events with status key_required declare their missing prerequisite; placeholder events carry no fabricated dates or signals.",
+  "status_vocabulary": {
+    "DOCUMENTED": "Event occurrence established in an authoritative report/record (sources cited per event).",
+    "OBSERVED": "Event directly measured by an instrument/authority at the time/place (reserved for instrument-anchored entries).",
+    "key_required": "Event family defined but not executable: a prerequisite (API key) is missing. No fabricated events."
+  },
+  "signal_basis_note": "Each DOCUMENTED event distinguishes occurrence (DOCUMENTED, from the cited authorities) from signal (OBSERVED/MODELLED, computed from HydraShield datasets). A benchmark never proves the event happened — the sources do. It checks that our detectors reproduce the real signal our own datasets contain for that documented event.",
+  "events": [
+    {
+      "id": "eu-heatwave-2022-07",
+      "hazard": "heat",
+      "name": "July 2022 Western-European / UK heatwave (UK 40°C record)",
+      "location": {"name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278},
+      "start": "2022-07-15",
+      "end": "2022-07-25",
+      "status": "DOCUMENTED",
+      "signal_basis": "Occurrence DOCUMENTED by the UK Met Office (first verified 40°C in the UK, 19 July 2022) and WMO. Expected signal is MODELLED from the ERA5 reanalysis series at the location's own grid point (HydraShield dataset), not restated from the documentation.",
+      "evidence_class": "OPEN_DATA_OFFICIAL",
+      "sources": [
+        {
+          "name": "UK Met Office — Record high temperatures verified (40.3°C at Coningsby, 19 July 2022)",
+          "url": "https://www.metoffice.gov.uk/about-us/news-and-media/media-centre/weather-and-climate-news/2022/record-high-temperatures-verified"
+        },
+        {
+          "name": "WMO — State of the Climate in Europe 2022 (heatwave assessment)",
+          "url": "https://wmo.int/publication-series/state-of-climate-europe-2022"
+        }
+      ],
+      "expected_signal": {
+        "type": "heat_spell",
+        "window": "2022-07-15..2022-07-25",
+        "definition": "Heat spell (>=3 consecutive days with daily Tmax above the location's own day-of-year 90th percentile, ±7-day pool, 1991-2020 baseline) detected overlapping the window by >=1 day (heat_percentile_v1 method, src/climate/hazards/heat.py)."
+      },
+      "region": "Western Europe / United Kingdom",
+      "limitations": "ERA5 reanalysis grid point (~25 km) is not the London station record; reanalysis daily Tmax underestimates urban heat islands; the 40.3°C record was set at Coningsby, not London — the signal checked is the multi-day extreme spell, not the absolute record value."
+    },
+    {
+      "id": "ahr-flood-2021-07",
+      "hazard": "flood",
+      "name": "July 2021 Ahr valley flood (Western Germany)",
+      "location": {"name": "Ahr valley, Rhineland-Palatinate, Germany", "lat": 50.54, "lon": 6.99},
+      "start": "2021-07-12",
+      "end": "2021-07-20",
+      "status": "DOCUMENTED",
+      "signal_basis": "Occurrence DOCUMENTED by DWD (event report on the low-pressure system 'Bernd', 12-15 July 2021) and Copernicus EMS rapid mapping activation EMSR517 (13 July 2021). Expected signal is MODELLED from ERA5 precipitation and GloFAS modelled discharge (HydraShield datasets), not restated from the documentation.",
+      "evidence_class": "OPEN_DATA_OFFICIAL",
+      "sources": [
+        {
+          "name": "DWD — Bericht zu den Starkniederschlägen (Tief 'Bernd'), 21 July 2021",
+          "url": "https://www.dwd.de/DE/leistungen/besondereereignisse/niederschlag/20210721_bericht_starkniederschlaege_tief_bernd.pdf?__blob=publicationFile&v=6"
+        },
+        {
+          "name": "Copernicus EMS Rapid Mapping — EMSR517: Flood in Western Germany",
+          "url": "https://mapping.emergency.copernicus.eu/activations/EMSR517/"
+        }
+      ],
+      "expected_signal": {
+        "type": "extreme_precipitation_discharge",
+        "window": "2021-07-12..2021-07-20",
+        "definition": "Extreme multi-day precipitation in ERA5 (window multi-day totals at the upper end of the location's own ~10-year daily record, 7-day total percentile >=90) AND elevated GloFAS river-discharge percentile (>=90th percentile of the location's own daily series) on >=1 day within the window (flood_discharge_percentile_v1 methods, src/climate/hazards/flood.py)."
+      },
+      "region": "Germany (Ahr valley, Rhineland-Palatinate)",
+      "limitations": "GloFAS is modelled discharge (~0.1° grid), not a gauge observation of the Ahr; small-catchment flash response is smoothed by reanalysis and hydrological model resolution; the benchmark checks atmospheric + hydrological signal reproduction, not flood extent or impact."
+    },
+    {
+      "id": "storm-eunice-2022-02",
+      "hazard": "wind",
+      "name": "Storm Eunice (18 February 2022)",
+      "location": {"name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278},
+      "start": "2022-02-17",
+      "end": "2022-02-19",
+      "status": "DOCUMENTED",
+      "signal_basis": "Occurrence DOCUMENTED by the UK Met Office storm centre (named storm Eunice, red wind warnings 18 February 2022) under the EUMETNET European storm-naming cooperation. Expected signal is MODELLED from ERA5 daily wind-gust maxima at the location's own grid point, not restated from the documentation.",
+      "evidence_class": "OPEN_DATA_OFFICIAL",
+      "sources": [
+        {
+          "name": "UK Met Office — UK Storm Centre (named storms incl. Eunice, February 2022)",
+          "url": "https://www.metoffice.gov.uk/weather/warnings-and-advice/uk-storm-centre"
+        },
+        {
+          "name": "EUMETNET — European storm-naming groups (regional cooperation naming storms, incl. the western group: Met Office / Met Éireann / KNMI)",
+          "url": "https://www.eumetnet.eu/east-mediterranean-storm-naming-group-names-its-first-storm/"
+        }
+      ],
+      "expected_signal": {
+        "type": "wind_gust_extreme",
+        "window": "2022-02-17..2022-02-19",
+        "definition": "Wind-gust extreme: daily wind-gust maximum at or above the location's own day-of-year 95th percentile (±7-day pool, 1991-2020 baseline) on >=1 day within the window (wind_percentile_v1 percentile machinery, src/climate/hazards/wind.py)."
+      },
+      "region": "United Kingdom / North-Western Europe",
+      "limitations": "ERA5 reanalysis gusts (~25 km grid) underestimate convective and local extremes; anemometer gusts during Eunice (e.g. 196 km/h Needles, Isle of Wight) are not reproducible at reanalysis resolution — the signal checked is a day-of-year percentile extreme, not the peak gust value."
+    },
+    {
+      "id": "iberia-drought-2022",
+      "hazard": "drought",
+      "name": "Iberian drought, summer 2022",
+      "location": {"name": "SW Iberia (Huelva/Alentejo region)", "lat": 37.6, "lon": -6.5},
+      "start": "2022-06-01",
+      "end": "2022-08-31",
+      "status": "DOCUMENTED",
+      "signal_basis": "Occurrence DOCUMENTED by AEMET (climate monitoring, summer 2022 among the driest on record for Spain) and IPMA (drought monitor: most of mainland Portugal in severe/extreme drought through summer 2022). Expected signal is MODELLED from ERA5 precipitation at the location's own grid point (declared standardized-anomaly method), not restated from the documentation.",
+      "evidence_class": "OPEN_DATA_OFFICIAL",
+      "sources": [
+        {
+          "name": "AEMET — Vigilancia climática (climate monitoring, 2022 drought assessments)",
+          "url": "https://www.aemet.es/es/serviciosclimaticos/vigilancia_clima"
+        },
+        {
+          "name": "IPMA — Monitorização da seca (drought monitor, Portugal)",
+          "url": "https://www.ipma.pt/pt/oclima/seca/"
+        }
+      ],
+      "expected_signal": {
+        "type": "precipitation_deficit",
+        "window": "2022-06-01..2022-08-31",
+        "definition": "Negative 90-day precipitation standardized anomaly: z <= -0.8 for the 90-day window ending 2022-08-31 against same-calendar 90-day windows of the prior ~10 years (drought_anomaly_v1 method, src/climate/hazards/drought.py), AND presence of a dry spell (<1 mm days, >=10 consecutive days) within the window."
+      },
+      "region": "Iberian Peninsula (SW Spain / Portugal)",
+      "limitations": "Standardized anomaly on a ~10-year same-calendar baseline is a declared screening method, NOT full SPI (no distribution fitting); reanalysis vs station differences; baseline length limits z-score robustness; the drought definition used by AEMET/IPMA (SPI-based) differs from the HydraShield screening method."
+    },
+    {
+      "id": "wildfire-firms-benchmark-placeholder",
+      "hazard": "wildfire",
+      "name": "Wildfire event benchmark family (NASA FIRMS-anchored)",
+      "location": {"name": null, "lat": null, "lon": null},
+      "start": null,
+      "end": null,
+      "status": "key_required",
+      "signal_basis": "No occurrence and no signal is declared: wildfire benchmark events derive from real NASA FIRMS detections via src/climate/fire_events.py, which requires FIRMS_MAP_KEY. Until a key is configured and events are derived from real detections, this family carries no events.",
+      "evidence_class": "SATELLITE_EO",
+      "sources": [
+        {
+          "name": "NASA FIRMS — Fire Information for Resource Management System (API key required)",
+          "url": "https://firms.modaps.eosdis.nasa.gov/api/area/"
+        }
+      ],
+      "expected_signal": null,
+      "region": null,
+      "limitations": "Requires FIRMS_MAP_KEY; events derive from src/climate/fire_events.py — never fabricated."
+    }
+  ]
+}

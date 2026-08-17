@@ -6,7 +6,8 @@ Combines:
 
 - the curated structural knowledge graph ``config/cascading_graph.json``
   (hazard -> system disruption and system -> system propagation edges,
-  reference-class knowledge, every edge ``quantified: false``),
+  reference-class knowledge, every edge carrying an evidence block —
+  class / basis / confidence / limitations — and ``quantified: false``),
 - the location's REAL active hazards (the light signal extraction of
   ``src/climate/compound.py`` — imported, not duplicated), and
 - REAL exposure anchors from ``exposure_econ.build_economic_exposure``
@@ -15,7 +16,8 @@ Combines:
 Output: the cascade paths RELEVANT at this location — paths whose hazard is
 currently elevated AND whose directly-exposed (entry) system has real mapped
 anchors (value > 0 from the exposure block). Every path carries its edges,
-mechanisms, real anchor values and the explicit statement:
+mechanisms, per-edge evidence blocks, real anchor values and the explicit
+statement:
 
     "Propagation likelihoods and losses are NOT quantified — this is a
     structural relevance graph, not a loss model."
@@ -93,6 +95,8 @@ def validate_cascading_graph(graph: Dict[str, Any]) -> List[str]:
     if not systems:
         problems.append("no system nodes declared")
     valid_classes = {EvidenceClass.SCIENTIFIC.value, EvidenceClass.OPEN_DATA_OFFICIAL.value}
+    valid_confidences = {Confidence.HIGH.value, Confidence.MEDIUM.value,
+                         Confidence.LOW.value}
     for i, edge in enumerate(graph.get("edges") or []):
         frm, to = edge.get("from"), edge.get("to")
         if frm not in known:
@@ -107,6 +111,25 @@ def validate_cascading_graph(graph: Dict[str, Any]) -> List[str]:
             problems.append(f"edge {i}: evidence_class must be one of {sorted(valid_classes)}")
         if edge.get("quantified") is not False:
             problems.append(f"edge {i}: quantified must be false (no invented metrics)")
+        evidence = edge.get("evidence")
+        if not isinstance(evidence, dict):
+            problems.append(f"edge {i}: missing evidence block")
+        else:
+            if evidence.get("class") not in valid_classes:
+                problems.append(
+                    f"edge {i}: evidence.class must be one of {sorted(valid_classes)}")
+            elif evidence.get("class") != edge.get("evidence_class"):
+                problems.append(
+                    f"edge {i}: evidence.class must match the edge evidence_class")
+            if not evidence.get("basis"):
+                problems.append(f"edge {i}: evidence.basis missing (documented "
+                                "mechanism class, one line)")
+            if evidence.get("confidence") not in valid_confidences:
+                problems.append(
+                    f"edge {i}: evidence.confidence must be one of "
+                    f"{sorted(valid_confidences)}")
+            if not evidence.get("limitations"):
+                problems.append(f"edge {i}: evidence.limitations missing")
     # Anchor specs must point at exposure categories that exist.
     for sid, spec in systems.items():
         anchor = (spec or {}).get("anchor")
@@ -285,6 +308,7 @@ def assess_cascading(
                         "to": e["to"],
                         "mechanism": e["mechanism"],
                         "evidence_class": e["evidence_class"],
+                        "evidence": e.get("evidence"),
                         "quantified": False,
                     }
                     for e in trail

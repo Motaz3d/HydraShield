@@ -304,6 +304,57 @@ integrated sources), `modelled_estimates` (exposure-bounded qualitative
 profile; monetary values `not_quantified`), `projections` (always
 `not_available`). `confidence: low` throughout.
 
+### `GET /api/v2/ground-truth` · `GET /api/v2/ground-truth/<event_id>`
+
+**Ground Truth Event Registry** — authoritative documented historical
+hazard events (e.g. July 2022 UK heatwave, July 2021 Ahr flood, Storm
+Eunice, 2022 Iberian drought) with official sources and a declared
+expected-signal definition per event. `signal_basis` distinguishes the
+DOCUMENTED occurrence from the OBSERVED/MODELLED signal in our datasets.
+Wildfire event family: `key_required` (FIRMS). `?hazard=` filter. 20/min.
+
+### `GET /api/v2/benchmarks` · `POST /api/v2/benchmarks/run`
+
+The **HydraShield Benchmark Suite** — the suite definition (reproducible
+cases, one per ground-truth event) plus the latest execution summary when
+present. `passed` means the detector reproduced the expected REAL signal
+in the declared window — detection reproduction, **not** a skill score or
+a validation claim. `POST /run` executes the suite live (admin role;
+compute-intensive; network-bound). 20/min.
+
+### `GET /api/v2/evaluations` · `GET /api/v2/evaluations/<run_id>`
+
+Immutable evaluation-run records (content-hashed, append-only):
+`?model_id=` filter. Kinds: `equation_reference` (e.g. the FWI adapter's
+cffdrs verification), `benchmark_suite`, `validation_pipeline`. Runs are
+recorded only when actually executed — a run is never fabricated.
+Model lifecycle states: `experimental → screening → backtested →
+validated → operational → deprecated` (in `model_registry.json`). 20/min.
+
+### `GET /api/v2/source-health` (`?dataset_id=`)
+
+Source Intelligence: latest reachability/latency/status-change records
+per integrated dataset, from the periodic checker
+(`scripts/check_source_health.py`, 30-min loop). Honest empty state
+before the first run. 60/min.
+
+### `GET /api/v2/analysis-runs` · `GET /api/v2/analysis-runs/<analysis_id>`
+
+Reproducible analysis-run records: every `/api/v2/analyze` call is
+recorded with analysis ID (content hash, volatile timestamps excluded),
+dataset versions, model versions, parameters, methodology, execution
+timestamp, result hash, uncertainty and evidence. `?hazard=` filter.
+20/min.
+
+### `GET /api/v2/losses` · `GET /api/v2/losses/sources`
+
+**Loss Data Registry** — observed/estimated/modelled/projected losses
+strictly separated. `observed_losses` is exactly "No documented loss
+figures in integrated sources." until a documented loss dataset is
+integrated; `/sources` lists reviewed candidates (EM-DAT, UNDRR
+DesInventar, World Bank/GFDRR, NOAA Billion-Dollar Disasters, Munich Re,
+Swiss Re) with access/license notes. 20/min.
+
 ---
 
 ## 3. Public v1 endpoints (`/api`, unchanged)
@@ -455,3 +506,8 @@ users' data.
   (`/models`), Research Registry (`/research`), ingestion chains,
   Compound Risk (`/compound`), Cascading Risk (`/cascading`), Economic
   Impact (`/economic-impact`).
+- **2026-08-17 (3)** — Ground Truth Event Registry (`/ground-truth`),
+  Benchmark Suite (`/benchmarks` + admin `/benchmarks/run`), immutable
+  evaluation runs (`/evaluations`) + model lifecycle states, Source
+  Intelligence (`/source-health`), reproducible analysis runs
+  (`/analysis-runs`), Loss Data Registry (`/losses`).

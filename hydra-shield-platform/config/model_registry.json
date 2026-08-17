@@ -1,9 +1,20 @@
 {
   "description": "HydraShield Model Registry — immutable records of proprietary indicators/methodologies. Every entry: version, methodology, scientific basis (research_registry ids), inputs, outputs, validation datasets, geographic applicability, uncertainty, limitations, validation status. A model version is never edited in place — a new version id is added. Validation status vocabulary: not_validated | validation_in_progress | validated_screening | validated_operational | deprecated.",
+  "lifecycle_states": [
+    {"state": "experimental", "order": 0, "meaning": "Concept/framework stage; no executable verification expected."},
+    {"state": "screening", "order": 1, "meaning": "Declared method producing screening indicators on real data; NOT validated; may have declared benchmark cases (config/benchmark_suite.json)."},
+    {"state": "backtested", "order": 2, "meaning": "Equation- or hindcast-level verification executed and recorded (data/evaluation/runs/); not site-validated."},
+    {"state": "validated", "order": 3, "meaning": "A validation pipeline executed on real historical data with reported metrics (data/evaluation/runs/, kind validation_pipeline) and review."},
+    {"state": "operational", "order": 4, "meaning": "Validated AND benchmarked (benchmark suite run on record); fit for operational claims. No model reaches this without both."},
+    {"state": "deprecated", "order": 5, "meaning": "Retired; reachable from any state; kept for the audit trail."}
+  ],
+  "lifecycle_rule": "A model's lifecycle never advances on intention or documentation alone — only on an executed evaluation run recorded under data/evaluation/runs/ (see src/climate/evaluation.py, docs/BENCHMARKS.md). Promotion is always a deliberate, reviewed, manual step.",
   "models": [
     {
       "id": "fwi_system_v1",
       "version": "1.0.0",
+      "lifecycle": "backtested",
+      "lifecycle_note": "Equation-verified against the cffdrs reference implementation (tests/test_fwi.py; equation_reference run recorded under data/evaluation/runs/). NOT site-validated as a fire-occurrence predictor.",
       "name": "Canadian FWI adapter",
       "type": "index adapter",
       "methodology": "Van Wagner (1987) FWI System equations over daily Tmax/RH-noon-proxy/wind/rain series; EFFIS danger classes; verified against the cffdrs reference implementation",
@@ -19,6 +30,8 @@
     {
       "id": "composite_wildfire_risk_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Screening composite; validation pipeline exists (scripts/run_validation.py) but requires FIRMS_MAP_KEY and a real executed run; never auto-promoted.",
       "name": "HydraShield composite wildfire screening score (0–100)",
       "type": "proprietary composite indicator",
       "methodology": "FWI-anchored static composite: real FWI + slope (DEM) + fuel moisture (Sentinel-2 NDMI or soil-moisture model) + wind; declared thresholds and factor decomposition (explain.py); NOT a probability",
@@ -34,6 +47,8 @@
     {
       "id": "fire_spread_screening_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Screening-level rate-of-spread; hindcast validator at design stage; intervention efficacy not field-validated.",
       "name": "Rothermel-style spread screening (baseline vs hydration intervention)",
       "type": "proprietary screening model",
       "methodology": "Rothermel-style ROS with Scott & Burgan fuel models + declared FMC-response function; baseline vs +20pt-FMC intervention comparison; evacuation safety margin",
@@ -49,6 +64,8 @@
     {
       "id": "ignition_likelihood_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Relative screening indicator; evaluation path exists (scripts/evaluate_ignition.py, temporal split) — requires a real executed run; NOT a probability and NOT validated.",
       "name": "Relative Ignition-Likelihood Indicator",
       "type": "proprietary screening indicator",
       "methodology": "Declared a-priori thresholds over real FFMC + WorldPop density + OSM roads + fuel dryness; relative indicator only",
@@ -64,6 +81,8 @@
     {
       "id": "smoke_corridor_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Screening transport envelope; CAMS/HYSPLIT cross-check are registry candidates, not executed validations.",
       "name": "Smoke corridor screening transport",
       "type": "proprietary screening model",
       "methodology": "Widening-corridor envelope from real Open-Meteo wind profiles (transport level declared); observed mode (FIRMS-anchored) vs scenario mode (hypothetical fire) never mixed; confidence capped at moderate",
@@ -79,6 +98,8 @@
     {
       "id": "drought_anomaly_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Declared standardized-anomaly method (NOT full SPI); benchmark case bm-iberia-drought-2022 declared in config/benchmark_suite.json — see data/evaluation/ for executed run results.",
       "name": "Drought anomaly screening (precipitation deficit, soil moisture, ET0 balance)",
       "type": "proprietary index (declared subset of drought indices)",
       "methodology": "Standardized anomaly of accumulated precipitation over 30/90/180-day windows vs same-calendar windows of prior years (declared: NOT full SPI); ERA5-Land soil-moisture anomaly vs day-of-year climatology; ET0−P balance; dry-spell detection (<1 mm, ≥10 days)",
@@ -94,6 +115,8 @@
     {
       "id": "heat_percentile_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Declared percentile/spell method on real reanalysis; benchmark case bm-eu-heatwave-2022-07 declared in config/benchmark_suite.json — see data/evaluation/ for executed run results.",
       "name": "Extreme-heat percentile + spell detector",
       "type": "proprietary index",
       "methodology": "Daily Tmax percentile vs day-of-year climatology (±7-day pool, 1991–2020 baseline); heatwave spells = ≥3 consecutive days above location's own DOY p90 (WMO-style, declared)",
@@ -109,6 +132,8 @@
     {
       "id": "wind_percentile_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Declared percentile method on real reanalysis; benchmark case bm-storm-eunice-2022-02 declared in config/benchmark_suite.json — see data/evaluation/ for executed run results.",
       "name": "Extreme-wind percentile + spell detector",
       "type": "proprietary index",
       "methodology": "Daily wind-gust maxima percentile vs day-of-year climatology (1991–2020); storm spells = ≥3 days above DOY p90",
@@ -124,6 +149,8 @@
     {
       "id": "flood_discharge_percentile_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Declared percentile method on modelled GloFAS discharge + ERA5 precipitation; benchmark case bm-ahr-flood-2021-07 declared in config/benchmark_suite.json — see data/evaluation/ for executed run results.",
       "name": "River-discharge percentile + high-flow spells",
       "type": "proprietary index",
       "methodology": "Daily river discharge (GloFAS via Open-Meteo Flood API) percentile vs the location's own ~10-year series; high-discharge spells ≥2 days above declared p95; ERA5 extreme-precipitation context (3/7-day totals, antecedent index, decay 0.85)",
@@ -139,6 +166,8 @@
     {
       "id": "coastal_slr_scenarios_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Screening elevation bands + labelled IPCC AR6 scenarios; not storm-surge modelling; no executed validation run.",
       "name": "Coastal exposure screening + labelled SLR scenarios",
       "type": "proprietary screening + sourced constants",
       "methodology": "DEM low-elevation screening (declared bands, screening only) + Open-Meteo Marine waves (observed/forecast) + OSM coastal exposure; sea-level rise ONLY as PROJECTED/SCENARIO block quoting IPCC AR6 SPM Table SPM.1 approximate likely ranges",
@@ -154,6 +183,8 @@
     {
       "id": "population_exposure_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Gridded WorldPop exposure estimates, never exact counts; screening overlay, no executed validation run.",
       "name": "Population exposure overlay (WorldPop × hazard grid)",
       "type": "proprietary overlay method",
       "methodology": "WorldPop 100 m gridded estimates (reference-year labelled) overlaid on the FWI-derived risk grid → estimated population by hazard class; corridor-polygon estimates for smoke",
@@ -169,6 +200,8 @@
     {
       "id": "fire_events_v1",
       "version": "1.0.0",
+      "lifecycle": "screening",
+      "lifecycle_note": "Declared spatio-temporal clustering heuristic over real FIRMS detections (key-gated); distinct simultaneous fires may merge; no executed validation run.",
       "name": "Historical fire-event derivation (FIRMS clustering)",
       "type": "proprietary event-derivation method",
       "methodology": "Spatio-temporal clustering of real FIRMS detections (same-radius, ≤2-day gaps) into event records + ERA5 observed conditions + modelled FWI context; cause always UNKNOWN without authoritative documentation",
@@ -184,6 +217,8 @@
     {
       "id": "risk_framework_v1",
       "version": "1.0.0",
+      "lifecycle": "experimental",
+      "lifecycle_note": "Conceptual framework (IPCC AR6 framing, ISO 14091 organizational reference); individual indicators carry their own lifecycle states.",
       "name": "HydraShield analytical chain (Observation→Baseline→Anomaly→Extreme→Hazard→Exposure→Vulnerability→Impact→Risk→Compound→Cascading→Economic→Decision→Action)",
       "type": "conceptual framework (IPCC AR6 risk framing + ISO 14091 organizational reference — NOT ISO-certified)",
       "methodology": "Formal chain implemented across the platform: observed inputs are never rewritten; baselines come from the location's own series; anomalies/extremes are declared percentile/deficit methods; hazard×exposure×vulnerability compose risk; compound/cascading layers add interaction structure; economic meaning is exposure-bounded with not-quantified discipline",

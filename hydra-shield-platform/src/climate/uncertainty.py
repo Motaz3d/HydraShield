@@ -162,3 +162,156 @@ def wrap_series(points: List[Dict[str, Any]], **meta: Any) -> Dict[str, Any]:
         "point_count": len(points),
         "null_count": null_count,
     }
+
+
+# ---------------------------------------------------------------------------
+# Evidence Confidence Profile (additive — multi-dimensional, never a score)
+# ---------------------------------------------------------------------------
+
+#: Vocabulary for every confidence dimension. Unlike the AnalyticalResult
+#: screening label, ``unknown`` is first-class here: a dimension that was
+#: never assessed says so.
+VALID_CONFIDENCE_DIMENSION = frozenset({"high", "medium", "low", "unknown"})
+
+_CONFIDENCE_DIMENSIONS = (
+    "source_quality", "recency", "coverage", "method_transparency",
+    "validation_status", "independence",
+)
+
+_NO_SINGLE_SCORE_NOTE = (
+    "Dimensions are deliberately NOT collapsible to a single score: a "
+    "strong source can still be stale, narrow, undocumented or "
+    "unvalidated. Report and weigh each dimension on its own."
+)
+
+
+@dataclass
+class EvidenceConfidence:
+    """Multi-dimensional confidence profile for evidence behind a claim.
+
+    Six independent dimensions, each in {high, medium, low, unknown}:
+
+    - ``source_quality`` — standing of the source itself,
+    - ``recency`` — how fresh the underlying data is,
+    - ``coverage`` — how well it covers the claim's space/time,
+    - ``method_transparency`` — whether the method is documented,
+    - ``validation_status`` — whether the method/indicator is validated,
+    - ``independence`` — agreement across independent sources.
+
+    The profile is explicitly NOT collapsible to one number
+    (``summary_note`` in :meth:`to_dict` says so); there is intentionally
+    no aggregate score field.
+    """
+
+    source_quality: str = "unknown"
+    recency: str = "unknown"
+    coverage: str = "unknown"
+    method_transparency: str = "unknown"
+    validation_status: str = "unknown"
+    independence: str = "unknown"
+    notes: Optional[str] = None
+
+    def __post_init__(self) -> None:
+        for dim in _CONFIDENCE_DIMENSIONS:
+            value = getattr(self, dim)
+            if value not in VALID_CONFIDENCE_DIMENSION:
+                raise ValueError(
+                    f"invalid {dim} '{value}': must be one of "
+                    f"{sorted(VALID_CONFIDENCE_DIMENSION)}")
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = asdict(self)
+        d["summary_note"] = _NO_SINGLE_SCORE_NOTE
+        return d
+
+
+def confidence_profile(source_kind: Optional[str] = None,
+                       freshness_days: Optional[float] = None,
+                       coverage_note: Optional[str] = None,
+                       method_documented: Optional[bool] = None,
+                       validation_status: Optional[str] = None,
+                       independent_sources: Optional[int] = None,
+                       notes: Optional[str] = None) -> EvidenceConfidence:
+    """Deterministic mapping from declared facts to an EvidenceConfidence.
+
+    Declared rules (any input left None maps to ``unknown`` — never
+    guessed):
+
+    - ``source_kind``: official_observation / satellite_product /
+      reanalysis → high; official_model / commercial_api / community →
+      medium; media → low; anything else → unknown.
+    - ``freshness_days``: ≤ 2 → high; ≤ 30 → medium; older → low.
+    - ``coverage_note`` (free text, case-insensitive): contains "global"
+      → high; contains regional/europe/national/country/province/state/
+      partial/limited → medium; otherwise → low.
+    - ``method_documented``: True → high; False → low.
+    - ``validation_status``: validated_operational → high;
+      validated_screening / validation_in_progress → medium;
+      not_validated / deprecated → low; anything else → unknown.
+    - ``independent_sources``: ≥ 3 → high; 2 → medium; ≤ 1 → low.
+    """
+    sk = (source_kind or "").strip().lower()
+    if sk in ("official_observation", "satellite_product", "reanalysis"):
+        source_quality = "high"
+    elif sk in ("official_model", "commercial_api", "community"):
+        source_quality = "medium"
+    elif sk == "media":
+        source_quality = "low"
+    else:
+        source_quality = "unknown"
+
+    if freshness_days is None:
+        recency = "unknown"
+    elif freshness_days <= 2:
+        recency = "high"
+    elif freshness_days <= 30:
+        recency = "medium"
+    else:
+        recency = "low"
+
+    if coverage_note is None:
+        coverage = "unknown"
+    else:
+        cn = coverage_note.lower()
+        if "global" in cn:
+            coverage = "high"
+        elif any(k in cn for k in ("regional", "europe", "national",
+                                   "country", "province", "state",
+                                   "partial", "limited")):
+            coverage = "medium"
+        else:
+            coverage = "low"
+
+    if method_documented is None:
+        method_transparency = "unknown"
+    else:
+        method_transparency = "high" if method_documented else "low"
+
+    vs = (validation_status or "").strip().lower()
+    if vs == "validated_operational":
+        validation = "high"
+    elif vs in ("validated_screening", "validation_in_progress"):
+        validation = "medium"
+    elif vs in ("not_validated", "deprecated"):
+        validation = "low"
+    else:
+        validation = "unknown"
+
+    if independent_sources is None:
+        independence = "unknown"
+    elif independent_sources >= 3:
+        independence = "high"
+    elif independent_sources == 2:
+        independence = "medium"
+    else:
+        independence = "low"
+
+    return EvidenceConfidence(
+        source_quality=source_quality,
+        recency=recency,
+        coverage=coverage,
+        method_transparency=method_transparency,
+        validation_status=validation,
+        independence=independence,
+        notes=notes,
+    )

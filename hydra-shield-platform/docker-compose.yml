@@ -104,7 +104,7 @@ services:
     build: .
     restart: unless-stopped
     command: >
-      sh -c "while true; do python scripts/check_watches.py; python scripts/check_alert_rules.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
+      sh -c "while true; do python scripts/check_watches.py; python scripts/check_alert_rules.py; python scripts/check_source_health.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
     environment:
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
       - HYDRASHIELD_POPULATION_DIR=${HYDRASHIELD_POPULATION_DIR:-/data/population}

@@ -184,7 +184,12 @@ def _bui(dmc: float, dc: float) -> float:
         return 0.0
     if dmc <= 0.4 * dc:
         return 0.8 * dmc * dc / (dmc + 0.4 * dc)
-    return dmc - (1.0 - 0.8 * dc / (dmc + 0.4 * dc)) * (0.92 + (0.0114 * dmc) ** 1.7)
+    # Van Wagner (1987) formulation; at very small dmc/dc the expression can
+    # go slightly negative — the BUI is non-negative by definition, so clamp.
+    return max(
+        dmc - (1.0 - 0.8 * dc / (dmc + 0.4 * dc)) * (0.92 + (0.0114 * dmc) ** 1.7),
+        0.0,
+    )
 
 
 def _fwi(isi: float, bui: float) -> float:

@@ -105,7 +105,37 @@ def analyze():
 
     result = module.analyze(lat, lon, name=name)
     include_raw = request.args.get("raw") == "1"
-    return jsonify(result.to_dict(include_raw=include_raw))
+    payload = result.to_dict(include_raw=include_raw)
+
+    # --- ADDITIVE (observatory): record a reproducible analysis run. ---
+    # Wrapped so recording can NEVER break analysis; failures are swallowed
+    # deliberately (the run record is an audit trail, not the product).
+    try:
+        from ..dashboard import analysis_runs as _analysis_runs
+        from . import data_registry as _data_registry
+
+        _model_versions = {m["id"]: m.get("version")
+                           for m in _data_registry.models_all()}
+        _dataset_versions = {e["id"]: e.get("temporal_coverage")
+                             for e in _data_registry.by_status("integrated")}
+        _analysis_runs.record_run(
+            endpoint="/api/v2/analyze",
+            hazard=hazard_id,
+            lat=lat,
+            lon=lon,
+            params={"name": name, "raw": include_raw},
+            result=payload,
+            model_versions=_model_versions,
+            dataset_versions=_dataset_versions,
+            methodology=payload.get("methodology"),
+            uncertainty=payload.get("uncertainty"),
+            evidence=payload.get("evidence"),
+        )
+    except Exception:
+        pass
+    # --- END ADDITIVE ---
+
+    return jsonify(payload)
 
 
 # ---------------------------------------------------------------------------
@@ -568,3 +598,155 @@ def ingestion_chains():
     from . import ingestion
 
     return jsonify(ingestion.chains_payload())
+
+
+# ---------------------------------------------------------------------------
+# Ground truth registry, benchmark suite & model evaluation (docs/BENCHMARKS.md)
+# ---------------------------------------------------------------------------
+
+
+@v2.get("/ground-truth")
+def ground_truth():
+    """Ground Truth Event Registry: /api/v2/ground-truth?hazard=flood
+
+    REAL, authoritatively documented hazard events used as benchmark
+    anchors. Occurrence DOCUMENTED (sources per event); the expected signal
+    is OBSERVED/MODELLED from HydraShield datasets — never fabricated.
+    """
+    if not _rate("v2groundtruth", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import benchmark as benchmark_module
+
+    try:
+        events = benchmark_module.load_ground_truth()
+    except (OSError, ValueError) as exc:
+        return _err(f"Ground truth registry unavailable: {exc}", 503)
+
+    hazard = (request.args.get("hazard") or "").strip().lower()
+    if hazard:
+        events = [e for e in events if (e.get("hazard") or "").lower() == hazard]
+
+    return jsonify({
+        "events": events,
+        "count": len(events),
+        "filters": {"hazard": hazard or None},
+        "note": ("Occurrence status DOCUMENTED = established by the cited "
+                 "authorities; expected_signal is what our own datasets "
+                 "(ERA5/GloFAS) should show — see signal_basis per event. "
+                 "key_required entries declare their missing prerequisite "
+                 "and carry no fabricated events."),
+    })
+
+
+@v2.get("/ground-truth/<event_id>")
+def ground_truth_detail(event_id: str):
+    """One ground-truth event by id; honest 404 when unknown."""
+    if not _rate("v2groundtruth", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import benchmark as benchmark_module
+
+    event = benchmark_module.get_ground_truth_event(event_id)
+    if event is None:
+        return _err(f"Unknown ground-truth event '{event_id}'. "
+                    "See /api/v2/ground-truth.", 404)
+    return jsonify(event)
+
+
+@v2.get("/benchmarks")
+def benchmarks():
+    """The Benchmark Suite definition + latest run summary if one exists.
+
+    'passed' means the model's own detector reproduced the expected REAL
+    signal in the declared window — detection reproduction, not a skill
+    score. Running the suite is POST /api/v2/benchmarks/run (admin only,
+    compute-intensive).
+    """
+    if not _rate("v2benchmarks", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import benchmark as benchmark_module
+
+    try:
+        suite = benchmark_module.load_suite()
+    except (OSError, ValueError) as exc:
+        return _err(f"Benchmark suite unavailable: {exc}", 503)
+
+    return jsonify({
+        "suite": suite,
+        "latest_run": benchmark_module.latest_run_summary(),
+        "note": ("passed = detector reproduced the expected REAL signal in "
+                 "the declared window on real fetched data (detection "
+                 "reproduction, NOT a skill score, NOT a validation claim). "
+                 "key_required cases are never executed and never counted "
+                 "as failures. Run files under data/evaluation/ are "
+                 "immutable."),
+    })
+
+
+def _admin_gate(func):
+    """Admin role gate (lazy import: avoids dashboard import at module load)."""
+
+    from ..dashboard.auth_api import require_role
+
+    return require_role("admin")(func)
+
+
+@v2.post("/benchmarks/run")
+@_admin_gate
+def benchmarks_run():
+    """Run the benchmark suite live (admin only).
+
+    COMPUTE-INTENSIVE: executes every executable case against the real
+    archives (ERA5 / GloFAS via Open-Meteo, ~10-30-year series per case,
+    platform-cached). Writes an immutable run file under data/evaluation/
+    and returns it. Manual / CI-manual use only — not scheduled.
+    """
+    if not _rate("v2benchmarks_run", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import benchmark as benchmark_module
+
+    run = benchmark_module.run_suite()
+    return jsonify(run)
+
+
+@v2.get("/evaluations")
+def evaluations():
+    """Recorded model evaluation runs: /api/v2/evaluations?model_id=…
+
+    Immutable records (data/evaluation/runs/) of EXECUTED verifications:
+    equation_reference | benchmark_suite | validation_pipeline. A record
+    that did not run does not exist.
+    """
+    if not _rate("v2evaluations", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import evaluation as evaluation_module
+
+    model_id = (request.args.get("model_id") or "").strip()
+    runs = evaluation_module.list_runs(model_id=model_id or None)
+    return jsonify({
+        "runs": runs,
+        "count": len(runs),
+        "filters": {"model_id": model_id or None},
+        "lifecycle_states": list(evaluation_module.LIFECYCLE_STATES),
+        "note": ("Run records are content-hashed and immutable. A model's "
+                 "lifecycle advances only on an executed run — see "
+                 "config/model_registry.json lifecycle_states."),
+    })
+
+
+@v2.get("/evaluations/<run_id>")
+def evaluation_detail(run_id: str):
+    """One evaluation run record by its content-hash id; honest 404."""
+    if not _rate("v2evaluations", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import evaluation as evaluation_module
+
+    record = evaluation_module.get_run(run_id)
+    if record is None:
+        return _err(f"Unknown evaluation run '{run_id}'. See /api/v2/evaluations.", 404)
+    return jsonify(record)
