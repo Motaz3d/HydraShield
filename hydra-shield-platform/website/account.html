@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account — HydraShield</title>
+    <meta name="description" content="Your HydraShield account: saved locations, analysis history and hazard alerts.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="account">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Account</h1>
+            <p class="page-lead">
+                Save locations, keep your analysis history and set hazard alerts.
+                Authentication uses a secure session cookie; your password is never
+                stored in the browser.
+            </p>
+
+            <div id="statusArea"></div>
+
+            <!-- Auth forms (shown when logged out / on 401) -->
+            <div id="authView" class="hidden">
+                <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));">
+                    <div class="panel" style="margin-bottom:0;">
+                        <h2>Sign in</h2>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" required autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input type="password" id="loginPassword" required autocomplete="current-password">
+                            </div>
+                            <button class="btn-action" type="submit">Sign in</button>
+                        </form>
+                    </div>
+                    <div class="panel" style="margin-bottom:0;">
+                        <h2>Create an account</h2>
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="regName">Display name (optional)</label>
+                                <input type="text" id="regName" autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="regEmail">Email</label>
+                                <input type="email" id="regEmail" required autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="regPassword">Password</label>
+                                <input type="password" id="regPassword" required autocomplete="new-password">
+                            </div>
+                            <button class="btn-action" type="submit">Register</button>
+                            <p class="muted small" style="margin-top:10px;">
+                                A verification link is emailed to you; the account activates
+                                once the address is verified.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account view (shown when logged in) -->
+            <div id="accountView" class="hidden">
+                <div class="panel">
+                    <h2>Profile</h2>
+                    <div id="profileBlock"></div>
+                    <div class="card-actions" style="margin-top:14px;">
+                        <button class="btn-action btn-quiet" id="logoutBtn">Sign out</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Saved locations</h2>
+                    <div id="locationsList"></div>
+                    <h3>Add a location</h3>
+                    <div class="toolbar">
+                        <div class="form-group"><label for="locName">Name</label>
+                            <input type="text" id="locName" placeholder="e.g. Home"></div>
+                        <div class="form-group narrow"><label for="locLat">Latitude</label>
+                            <input type="number" id="locLat" step="any" min="-90" max="90"></div>
+                        <div class="form-group narrow"><label for="locLon">Longitude</label>
+                            <input type="number" id="locLon" step="any" min="-180" max="180"></div>
+                        <button class="btn-action" id="addLocBtn">Save</button>
+                        <button class="btn-action btn-quiet hidden" id="useMapLocBtn">Use last map location</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Alerts</h2>
+                    <p class="muted small">We re-analyse a watched location periodically and
+                       email you when the level crosses your threshold.</p>
+                    <div id="alertsList"></div>
+                    <h3>Create an alert</h3>
+                    <div class="toolbar">
+                        <div class="form-group narrow"><label for="alertHazard">Hazard</label>
+                            <select id="alertHazard"></select></div>
+                        <div class="form-group narrow"><label for="alertLat">Latitude</label>
+                            <input type="number" id="alertLat" step="any" min="-90" max="90"></div>
+                        <div class="form-group narrow"><label for="alertLon">Longitude</label>
+                            <input type="number" id="alertLon" step="any" min="-180" max="180"></div>
+                        <div class="form-group narrow"><label for="alertThreshold">Threshold</label>
+                            <select id="alertThreshold">
+                                <option value="45">Moderate (45+)</option>
+                                <option value="65" selected>High (65+)</option>
+                                <option value="80">Extreme (80+)</option>
+                            </select></div>
+                        <button class="btn-action" id="addAlertBtn">Create alert</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>History</h2>
+                    <div id="historyBlock"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/account.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports — HydraShield Evidence Reports</title>
+    <meta name="description" content="Professional PDF reports for any location, rendered from real cached analyses — every report carries its ID, engine version, evidence status and validation status.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="reports">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Reports</h1>
+            <p class="page-lead">
+                PDF reports rendered from the same real, cached analysis that backs the
+                map and the API. No report is generated from simulated data — when a
+                component is unavailable, the report says so.
+            </p>
+
+            <div class="panel">
+                <h2>Generate a report</h2>
+                <div class="toolbar">
+                    <div class="form-group">
+                        <label for="locInput">Location</label>
+                        <input type="text" id="locInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                    </div>
+                </div>
+                <div class="badge-row" id="reportActions">
+                    <span class="muted small">Enter a location, then choose a report type below.</span>
+                </div>
+                <div class="muted small" id="reportStatus" style="margin-top:8px;"></div>
+            </div>
+
+            <div class="card-grid">
+                <div class="item-card">
+                    <h3>Simple Report</h3>
+                    <span class="chip chip-observed">type=simple</span>
+                    <p class="muted">For citizens, property owners and general users.
+                       Plain-language risk level, current conditions, the main drivers
+                       and the recommended action.</p>
+                </div>
+                <div class="item-card">
+                    <h3>Decision-Support Report</h3>
+                    <span class="chip chip-modelled">type=decision</span>
+                    <p class="muted">For municipalities, companies, landowners and
+                       emergency planners. Adds the fire-danger map, exposure context,
+                       protection options and historical lessons.</p>
+                </div>
+                <div class="item-card">
+                    <h3>Scientific / Technical Report</h3>
+                    <span class="chip chip-inferred">type=scientific</span>
+                    <p class="muted">For researchers, technical institutions and
+                       government agencies. The full methods, daily series, provenance
+                       table and evidence annex.</p>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top:24px;">
+                <h2>Every report carries its metadata</h2>
+                <p class="muted">
+                    The first page of each report states its identity and evidence
+                    standing, so a report can always be checked against the data it
+                    claims to describe:
+                </p>
+                <div class="table-scroll">
+                    <table class="kv-table">
+                        <tr><th>Report ID</th><td>A stable content hash of the underlying analysis
+                            payload — the same bytes produce the same ID, so a report and its
+                            evidence can be verified to match.</td></tr>
+                        <tr><th>Generated</th><td>The analysis timestamp (real data-acquisition time).</td></tr>
+                        <tr><th>Report engine</th><td>Report-engine version and risk-model version,
+                            with the report type.</td></tr>
+                        <tr><th>Data sources</th><td>The sources that actually contributed,
+                            from the analysis provenance block.</td></tr>
+                        <tr><th>Evidence status</th><td>Which components are observed, derived,
+                            modelled or unavailable.</td></tr>
+                        <tr><th>Validation status</th><td>Whether the screening score is a validated
+                            predictor — currently stated honestly on every report (screening
+                            indicator until the validation pipeline passes on real historical data).</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>

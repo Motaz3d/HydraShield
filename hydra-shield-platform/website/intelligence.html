@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence — HydraShield Per-Hazard Analysis</title>
+    <meta name="description" content="Per-hazard climate-extreme analysis from real datasets: wildfire, flood, drought, heat, wind and coastal — screening levels with basis, blocks, evidence and honest unavailable states.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="intelligence">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Climate Intelligence</h1>
+            <p class="page-lead">
+                Per-hazard screening analysis from real datasets. Levels are screening
+                indicators with a declared basis — not validated predictors. Every block
+                carries its evidence status; unavailable components say so.
+            </p>
+
+            <div class="hazard-tabs" id="hazardTabs" role="tablist" aria-label="Hazards">
+                <span class="muted">Loading hazards…</span>
+            </div>
+
+            <div class="panel">
+                <div class="toolbar">
+                    <div class="form-group">
+                        <label for="locInput">Location</label>
+                        <input type="text" id="locInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                    </div>
+                    <button class="btn-action" id="analyzeBtn">Analyze</button>
+                </div>
+                <div class="muted small" id="hazardNote"></div>
+            </div>
+
+            <div id="statusArea"></div>
+            <div id="analysisArea"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/intelligence.js"></script>
+</body>
+</html>

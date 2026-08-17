@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions — HydraShield Solutions Intelligence</title>
+    <meta name="description" content="Place-fitted sustainable solutions matched to real site conditions — with limitations, maturity and maintenance stated, and no guarantee of prevention.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="solutions">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Solutions Intelligence</h1>
+            <p class="page-lead">
+                Nature-based, engineering and technology options matched to real site
+                conditions. Every recommendation states why it fits, its limitations and
+                its maturity — no solution guarantees prevention of an event.
+            </p>
+
+            <div class="panel">
+                <div class="toolbar">
+                    <div class="form-group">
+                        <label for="locInput">Location</label>
+                        <input type="text" id="locInput" placeholder="Place name or lat,lon">
+                    </div>
+                    <button class="btn-action" id="searchBtn">Find solutions</button>
+                </div>
+                <label class="form-group" style="margin-bottom:6px;"><strong>Hazards of interest</strong></label>
+                <div class="badge-row" id="hazardChecks">
+                    <span class="muted small">Loading hazards…</span>
+                </div>
+                <div class="muted small" style="margin-top:8px;">
+                    Hazard levels are not computed on this endpoint (light fetchers only).
+                    Selected hazards are matched as caller-selected hazards of interest —
+                    the basis is declared on every result.
+                </div>
+            </div>
+
+            <div id="statusArea"></div>
+            <div id="solutionsArea"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/solutions.js"></script>
+</body>
+</html>

@@ -3,271 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydraShield - Advanced Wildfire Protection System</title>
+    <title>HydraShield — Climate Extreme Intelligence</title>
+    <meta name="description" content="HydraShield brings together the best available evidence to understand environmental extremes, their consequences, their economic meaning, and the actions that can reduce exposure.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .main-analyze-section {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            color: white;
-            padding: 60px 0;
-            margin-bottom: 40px;
-        }
-        .analyze-form {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 30px;
-            color: #333;
-        }
-        .simple-card {
-            text-align: center;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .service-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-        .demo-indicator {
-            background-color: #ffc107;
-            color: #000;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .navbar-brand h2 {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-        /* ---- Wildfire Risk Intelligence bar ---- */
-        .risk-intel-section {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 34px 0 30px;
-            margin-top: -40px; /* sit flush under the hero */
-            margin-bottom: 40px;
-        }
-        .risk-intel-head h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .risk-intel-head p {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-        .risk-intel-freshness {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            white-space: nowrap;
-        }
-        .risk-intel-scope {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 2px;
-        }
-        .risk-intel-list {
-            margin: 18px 0 10px;
-        }
-        .risk-intel-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 10px 16px;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-        .risk-intel-rank {
-            font-weight: 700;
-            color: #64748b;
-            width: 1.4rem;
-            text-align: right;
-        }
-        .risk-intel-name {
-            font-weight: 700;
-            flex: 1 1 200px;
-            min-width: 160px;
-        }
-        .risk-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            color: #0f172a;
-        }
-        .risk-badge-Low { background: #22c55e; }
-        .risk-badge-Moderate { background: #eab308; }
-        .risk-badge-High { background: #f97316; }
-        .risk-badge-Extreme { background: #ef4444; color: #fff; }
-        .risk-intel-score {
-            font-size: 1.25rem;
-            font-weight: 700;
-            min-width: 3rem;
-            text-align: right;
-        }
-        .risk-intel-detail {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            flex: 1 1 180px;
-            text-align: right;
-        }
-        .risk-intel-sources {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 6px;
-        }
-        .risk-intel-sources a {
-            color: #93c5fd;
-            text-decoration: none;
-        }
-        .risk-intel-sources a:hover { text-decoration: underline; }
-        .risk-intel-unavailable {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 16px;
-            color: #94a3b8;
-            margin: 18px 0 10px;
-        }
-        .risk-intel-cta {
-            margin-top: 18px;
-            padding-top: 18px;
-            border-top: 1px solid #334155;
-        }
-        .risk-intel-cta h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-        }
-        .risk-intel-cta .form-control {
-            background: #1e293b;
-            border: 1px solid #475569;
-            color: #e2e8f0;
-        }
-        .risk-intel-cta .form-control::placeholder { color: #64748b; }
-        .risk-intel-cta .form-control:focus {
-            background: #1e293b;
-            color: #e2e8f0;
-            border-color: #f97316;
-            box-shadow: none;
-        }
-        .risk-why-btn {
-            background: transparent;
-            border: 1px solid #475569;
-            color: #93c5fd;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            padding: 2px 10px;
-            cursor: pointer;
-        }
-        .risk-why-btn:hover { border-color: #93c5fd; }
-        .risk-why {
-            padding: 8px 16px 10px 44px;
-            font-size: 0.82rem;
-            color: #94a3b8;
-            border-left: 2px solid #334155;
-            margin: -4px 0 8px 8px;
-        }
-        .risk-factor { display: inline-block; margin: 2px 12px 2px 0; }
-        .risk-lvl {
-            display: inline-block;
-            padding: 1px 8px;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-        .risk-lvl-0 { background: rgba(34,197,94,.2); color: #4ade80; }
-        .risk-lvl-1 { background: rgba(234,179,8,.2); color: #facc15; }
-        .risk-lvl-2 { background: rgba(249,115,22,.22); color: #fb923c; }
-        .risk-lvl-3 { background: rgba(239,68,68,.25); color: #f87171; }
-        .risk-lvl-prio { background: rgba(147,197,253,.18); color: #93c5fd; text-transform: uppercase; }
-        .risk-why-rec { margin-top: 4px; color: #cbd5e1; }
-        .risk-intel-disclaimer {
-            margin-top: 4px;
-            font-size: 0.78rem;
-            color: #64748b;
-            font-style: italic;
-        }
-    </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">
-                    <h2 class="mb-0">HydraShield</h2>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="problem.html">Problem</a></li>
-                        <li class="nav-item"><a class="nav-link" href="solution.html">Solution</a></li>
-                        <li class="nav-item"><a class="nav-link" href="technology.html">Technology</a></li>
-                        <li class="nav-item"><a class="nav-link" href="applications.html">Applications</a></li>
-                        <li class="nav-item"><a class="nav-link" href="roadmap.html">Roadmap</a></li>
-                        <li class="nav-item"><a class="nav-link" href="story.html">Story</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        <li class="nav-item"><a href="dashboard.html" class="nav-link btn btn-primary">Dashboard</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body data-page="home">
+    <div id="site-header"></div>
 
-    <!-- Main Analysis Section -->
-    <section class="main-analyze-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1>HydraShield Wildfire Protection Platform</h1>
-                    <p class="lead mb-4">Real-time wildfire risk analysis from real satellite, weather and terrain data</p>
-                    <div class="analyze-form">
-                        <h3>Analyze an Area</h3>
-                        <form action="dashboard.html" method="GET">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control form-control-lg" placeholder="Enter location (e.g., Clervaux, Luxembourg)" name="location" value="Clervaux, Luxembourg">
-                                <button class="btn btn-success btn-lg" type="submit">Analyze</button>
-                            </div>
-                            <div style="font-size:0.85rem;color:#475569;">
-                                Powered by Sentinel-2, Open-Meteo/ERA5, EU-DEM and the Canadian FWI
-                                fire-danger system. Sources and data freshness are shown with every result.
-                            </div>
-                        </form>
-                    </div>
-                </div>
+    <!-- 1 · Hero: the promise -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Real data · Evidence-labelled · No invented numbers
+            </div>
+            <h1 class="hero-title">HydraShield<br><span class="gradient-text">Climate Extreme Intelligence</span></h1>
+            <p class="hero-subtitle">
+                We bring together the best available evidence to understand environmental
+                extremes, their consequences, their economic meaning, and the actions
+                that can reduce exposure.
+            </p>
+            <div class="hero-actions">
+                <a href="map.html" class="btn btn-primary">Open the Map</a>
+                <a href="intelligence.html" class="btn btn-outline">Analyze a hazard</a>
             </div>
         </div>
     </section>
 
-    <!-- Wildfire Risk Intelligence Bar (public snapshot, real data) -->
-    <section class="risk-intel-section" id="risk-intel">
+    <!-- 2 · What is happening? (live risk snapshot — real data) -->
+    <section class="section section-dark" id="risk-intel" style="padding-top:70px;padding-bottom:70px;">
         <div class="container">
-            <div class="row align-items-end risk-intel-head">
-                <div class="col-md-8">
-                    <h2>🔥 Wildfire Risk Intelligence</h2>
-                    <p>See where current conditions indicate elevated wildfire risk — based on Earth Observation and environmental data.</p>
+            <div class="risk-intel-head">
+                <div>
+                    <span class="section-tag">What is happening?</span>
+                    <h2 class="section-title" style="font-size:1.8rem;margin-bottom:4px;">Live wildfire risk snapshot</h2>
+                    <p class="section-subtitle">Where current conditions indicate elevated wildfire risk — computed from Earth Observation and environmental data.</p>
                     <div class="risk-intel-scope" id="riskIntelScope">Highest-risk areas currently monitored by HydraShield</div>
                 </div>
-                <div class="col-md-4 text-md-end mt-2 mt-md-0">
-                    <span class="risk-intel-freshness" id="riskIntelFreshness"></span>
-                </div>
+                <span class="risk-intel-freshness" id="riskIntelFreshness"></span>
             </div>
 
             <div class="risk-intel-list" id="riskIntelList">
@@ -275,97 +52,182 @@
             </div>
 
             <div class="risk-intel-sources" id="riskIntelSources"></div>
-
-            <div class="risk-intel-cta">
-                <h3>How is your city doing?</h3>
-                <form action="dashboard.html" method="GET">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="location"
-                               placeholder="Enter your city or area" aria-label="Enter your city or area" required>
-                        <button class="btn btn-warning" type="submit">Analyze</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </section>
 
-    <!-- Core Services Section -->
-    <section class="py-5">
+    <!-- 3 · Where, and who/what is exposed? -->
+    <section class="section">
         <div class="container">
-            <h2 class="text-center mb-5">Analysis Services</h2>
-            <div class="row">
-                <!-- Risk Analysis Card -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="simple-card bg-light">
-                        <div class="service-icon text-primary">📊</div>
-                        <h4>Risk Analysis</h4>
-                        <p>Fire risk level</p>
-                    </div>
+            <div class="section-header">
+                <span class="section-tag">Where, and who/what is exposed?</span>
+                <h2 class="section-title">One map, real layers</h2>
+                <p class="section-subtitle">
+                    Hazard grids, historical events, satellite scenes and mapped exposure —
+                    every layer carries its legend, source, resolution and evidence status.
+                </p>
+            </div>
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>🗺️ The Map</h3>
+                    <p>Fire-danger grids, historical fire events by year, Sentinel-2 vegetation
+                       moisture, active-fire detections and mapped exposure features — lazy
+                       layers with per-layer provenance.</p>
+                    <a class="text-link" href="map.html">Open the map →</a>
                 </div>
-                
-                <!-- Fire Spread Card -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="simple-card bg-light">
-                        <div class="service-icon text-primary">🔥</div>
-                        <h4>Fire Spread</h4>
-                        <p>Propagation modeling</p>
-                    </div>
-                </div>
-                
-                <!-- Protection Planning Card -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="simple-card bg-light">
-                        <div class="service-icon text-primary">🛡️</div>
-                        <h4>Protection</h4>
-                        <p>Planning</p>
-                    </div>
-                </div>
-                
-                <!-- Water Optimization Card -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="simple-card bg-light">
-                        <div class="service-icon text-primary">💧</div>
-                        <h4>Water</h4>
-                        <p>Optimization</p>
-                    </div>
+                <div class="story-card">
+                    <h3>🏙️ Exposure</h3>
+                    <p>Who and what is in the way: buildings, critical facilities, transport,
+                       energy, water, tourism and industry — counted from real mapped data,
+                       with completeness caveats stated.</p>
+                    <a class="text-link" href="economy.html">Explore exposure →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Data Foundation Section -->
-    <section class="py-5 bg-light">
+    <!-- 4 · What could happen? -->
+    <section class="section" style="background:var(--light-2);">
         <div class="container">
-            <h2 class="text-center mb-5">Built on Real Data</h2>
-            <div class="row text-center">
-                <div class="col-md-4 mb-4">
-                    <h3>Sentinel-2</h3>
-                    <p>Real 10 m satellite imagery (vegetation &amp; moisture indices)</p>
+            <div class="section-header">
+                <span class="section-tag">What could happen?</span>
+                <h2 class="section-title">Six hazards, one evidence base</h2>
+                <p class="section-subtitle">
+                    Per-hazard screening levels computed from real datasets — labelled as
+                    screening indicators, never as validated predictions.
+                </p>
+            </div>
+            <div class="hazard-strip">
+                <a class="hazard-tile" href="intelligence.html#wildfire">
+                    <span class="hazard-emoji">🔥</span>
+                    <span class="hazard-name">Wildfire</span>
+                    <span class="hazard-tag">FWI · fuel · spread · history</span>
+                </a>
+                <a class="hazard-tile" href="intelligence.html#flood">
+                    <span class="hazard-emoji">🌊</span>
+                    <span class="hazard-name">Flood</span>
+                    <span class="hazard-tag">Discharge · extreme rain</span>
+                </a>
+                <a class="hazard-tile" href="intelligence.html#drought">
+                    <span class="hazard-emoji">🏜️</span>
+                    <span class="hazard-name">Drought</span>
+                    <span class="hazard-tag">Deficit · soil moisture</span>
+                </a>
+                <a class="hazard-tile" href="intelligence.html#heat">
+                    <span class="hazard-emoji">🌡️</span>
+                    <span class="hazard-name">Heat</span>
+                    <span class="hazard-tag">Tmax vs climatology</span>
+                </a>
+                <a class="hazard-tile" href="intelligence.html#wind">
+                    <span class="hazard-emoji">💨</span>
+                    <span class="hazard-name">Wind</span>
+                    <span class="hazard-tag">Gusts vs climatology</span>
+                </a>
+                <a class="hazard-tile" href="intelligence.html#coastal">
+                    <span class="hazard-emoji">⚓</span>
+                    <span class="hazard-name">Coastal</span>
+                    <span class="hazard-tag">Waves · elevation · SLR</span>
+                </a>
+            </div>
+            <p style="text-align:center;margin-top:26px;">
+                <a class="text-link" href="intelligence.html">Run a per-hazard analysis →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- 5 · What does it mean economically? -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What does it mean economically?</span>
+                <h2 class="section-title">Exposure before euros</h2>
+                <p class="section-subtitle">
+                    Structured exposure profiles from real mapped data — and an honest
+                    “cannot currently be quantified” where no documented valuation basis
+                    exists. Never a fabricated loss figure.
+                </p>
+            </div>
+            <p style="text-align:center;">
+                <a class="text-link" href="economy.html">Open Economic Intelligence →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- 6 · What can be done? -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What can be done?</span>
+                <h2 class="section-title">Solutions that fit this exact place</h2>
+                <p class="section-subtitle">
+                    Nature-based, engineering and technology options matched to real site
+                    conditions — with limitations, maturity and maintenance stated, and no
+                    guarantee of prevention. Ever.
+                </p>
+            </div>
+            <p style="text-align:center;">
+                <a class="text-link" href="solutions.html">Explore Solutions Intelligence →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- 7 · Evidence -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Evidence</span>
+                <h2 class="section-title">Show me the evidence</h2>
+                <p class="section-subtitle">
+                    Every statement is classified and traceable to a source record:
+                    source, dataset, date, method, resolution, confidence, license and
+                    limitations. “Unknown” is a first-class answer.
+                </p>
+            </div>
+            <div class="badge-row" style="justify-content:center;margin-bottom:30px;">
+                <span class="chip chip-observed">Observed</span>
+                <span class="chip chip-documented">Documented</span>
+                <span class="chip chip-reported">Reported</span>
+                <span class="chip chip-modelled">Modelled</span>
+                <span class="chip chip-inferred">Inferred</span>
+                <span class="chip chip-unknown">Unknown</span>
+            </div>
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>📚 Source registry</h3>
+                    <p>Every evaluated data source — integrated, candidate or rejected,
+                       with reasons — is public. Nothing is claimed as used unless it is
+                       integrated.</p>
+                    <a class="text-link" href="/api/sources" target="_blank" rel="noopener">/api/sources →</a>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <h3>FWI System</h3>
-                    <p>The Canadian Fire Weather Index used by EFFIS, from real weather data</p>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h3>Full Provenance</h3>
-                    <p>Every result states its source, freshness and limitations</p>
+                <div class="story-card">
+                    <h3>📄 Reports</h3>
+                    <p>Every report carries its ID, engine version, evidence status and
+                       validation status — verifiable against the same underlying bytes.</p>
+                    <a class="text-link" href="reports.html">Generate a report →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-5">
+    <!-- 8 · Call to action -->
+    <section class="cta-section">
         <div class="container">
-            <div class="text-center">
-                <h5>HydraShield</h5>
-                <p>Advanced wildfire protection system using Earth Observation data and AI-driven analytics.</p>
-                <p>© 2026 HydraShield. All rights reserved.</p>
-            </div>
+            <h2>Analyze your location</h2>
+            <p>Enter a place or coordinates — get real evidence, honestly labelled.</p>
+            <form class="analyze-bar" action="map.html" method="GET">
+                <input type="text" name="location" placeholder="Enter a place (e.g. Clervaux, Luxembourg) or lat,lon"
+                       aria-label="Enter a place or coordinates" required>
+                <button class="btn btn-light" type="submit">Open on the map</button>
+            </form>
+            <p style="margin-top:22px;font-size:0.9rem;">
+                <a href="account.html" style="color:#fff;text-decoration:underline;">Create a free account</a>
+                to save locations, set alerts and keep your analysis history.
+            </p>
         </div>
-    </footer>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div id="site-footer"></div>
+
+    <script src="js/chrome.js"></script>
     <script src="js/risk-snapshot.js" defer></script>
 </body>
 </html>

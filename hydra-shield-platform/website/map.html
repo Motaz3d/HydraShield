@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map — HydraShield Climate Extreme Intelligence</title>
+    <meta name="description" content="The HydraShield map: hazard grids, historical events, satellite evidence and exposure layers — every layer with legend, source, resolution and evidence status.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="map">
+    <div id="site-header"></div>
+
+    <div class="map-shell">
+        <aside class="map-sidebar" id="mapSidebar">
+            <h2>Location</h2>
+            <div style="display:flex;gap:6px;">
+                <input type="text" id="locInput" placeholder="Place name or lat,lon"
+                       aria-label="Place name or coordinates">
+                <button class="btn-action" id="locBtn" style="padding:9px 14px;">Go</button>
+            </div>
+            <div class="layer-state" id="locStatus" style="padding-left:0;"></div>
+
+            <h2>Hazard</h2>
+            <select id="hazardSelect" aria-label="Hazard"></select>
+            <div class="layer-state" id="hazardStatus" style="padding-left:0;"></div>
+
+            <h2>Year</h2>
+            <select id="yearSelect" aria-label="Year"></select>
+            <div class="layer-state" id="yearStatus" style="padding-left:0;"></div>
+
+            <h2>Evidence filter</h2>
+            <select id="evidenceFilter" aria-label="Evidence filter">
+                <option value="all" selected>All evidence</option>
+                <option value="observed">Observed only (observed / historical)</option>
+                <option value="modelled">Modelled only (forecast / projected / scenario)</option>
+            </select>
+
+            <h2>Layers</h2>
+            <div id="layerPanel">
+                <div class="layer-state" style="padding-left:0;">Loading layer definitions…</div>
+            </div>
+        </aside>
+
+        <div class="map-canvas">
+            <button class="map-sidebar-toggle" id="sidebarToggle" aria-label="Toggle layers panel">☰ Layers</button>
+            <div id="map" role="application" aria-label="HydraShield intelligence map"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>

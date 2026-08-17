@@ -11,32 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
-                    <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
-                    <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
-                </svg>
-                <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
-            </a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="problem.html">The Problem</a></li>
-                <li><a href="solution.html">Our Solution</a></li>
-                <li><a href="applications.html" class="active">Applications</a></li>
-                <li><a href="technology.html">Technology</a></li>
-                <li><a href="roadmap.html">Roadmap</a></li>
-                <li><a href="contact.html" class="btn-nav">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+<body data-page="about">
+    <div id="site-header"></div>
 
     <!-- Page Hero -->
     <header class="page-hero">
@@ -152,51 +128,9 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>
-                            <path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>
-                            <path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>
-                        </svg>
-                        <span class="logo-text">Hydra<span class="logo-accent">Shield</span></span>
-                    </div>
-                    <p>AI-driven Digital Twin for preemptive wildfire risk reduction. From satellite to soil.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="problem.html">The Problem</a></li>
-                        <li><a href="solution.html">Our Solution</a></li>
-                        <li><a href="roadmap.html">Roadmap</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="applications.html">Applications</a></li>
-                        <li><a href="technology.html">Technology</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact</h4>
-                    <p>Europe · Global</p>
-                    <p><a href="mailto:motaz3d@gmail.com">motaz3d@gmail.com</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 HydraShield Earth Systems. All rights reserved.</p>
-                <p>Built on Copernicus Data · Aligned with EU Climate Goals</p>
-            </div>
-        </div>
-    </footer>
+    <div id="site-footer"></div>
 
+    <script src="js/chrome.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

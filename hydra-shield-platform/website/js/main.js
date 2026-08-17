@@ -2,21 +2,26 @@
 // HydraShield Earth Systems - Main JavaScript
 // ============================================
 
-// Navigation scroll effect
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
+// Navigation scroll effect + mobile hamburger menu.
+// When the shared chrome (js/chrome.js, mount #site-header) manages the nav,
+// it owns these handlers — main.js skips them to avoid double binding.
+const chromeManaged = !!document.getElementById('site-header');
 
-// Mobile hamburger menu
+const navbar = document.getElementById('navbar');
+if (navbar && !chromeManaged) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+}
+
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 
-if (hamburger && navLinks) {
+if (hamburger && navLinks && !chromeManaged) {
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
         hamburger.classList.toggle('active');

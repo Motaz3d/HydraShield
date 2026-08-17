@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events — HydraShield Historical Event Intelligence</title>
+    <meta name="description" content="Historical climate-extreme events from real datasets: observed conditions, modelled context, lessons and full evidence — never reconstructed from invented data.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="events">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Historical Event Intelligence</h1>
+            <p class="page-lead">
+                Past events derived from real datasets — satellite detections, reanalysis
+                conditions and modelled context kept strictly separate and labelled.
+                “Unknown” is shown, never hidden.
+            </p>
+
+            <div class="panel">
+                <div class="toolbar">
+                    <div class="form-group">
+                        <label for="locInput">Location</label>
+                        <input type="text" id="locInput" placeholder="Place name or lat,lon (e.g. 50.06, 6.03)">
+                    </div>
+                    <div class="form-group narrow">
+                        <label for="hazardSelect">Hazard</label>
+                        <select id="hazardSelect"></select>
+                    </div>
+                    <div class="form-group narrow">
+                        <label for="yearSelect">Year</label>
+                        <select id="yearSelect"></select>
+                    </div>
+                    <div class="form-group narrow">
+                        <label for="radiusInput">Radius (km)</label>
+                        <input type="number" id="radiusInput" value="50" min="5" max="200" step="5">
+                    </div>
+                    <button class="btn-action" id="searchBtn">Search events</button>
+                </div>
+                <div class="muted small" id="controlsNote"></div>
+            </div>
+
+            <div id="statusArea"></div>
+            <div id="eventsArea"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/events.js"></script>
+</body>
+</html>
