@@ -1,26 +1,82 @@
 # HydraShield Platform
 
-An integrated 3-layer system combining DeepTech, AI/satellite data, and environmental protection to prevent wildfires via subsurface hydration barriers.
+**HydraShield — Climate Extreme Intelligence + Economic Decision Support.**
 
-HydraShield is an AI-driven Digital Twin that transforms Copernicus satellite data into actionable, water-optimized protection blueprints for communities at risk of catastrophic wildfires.
+HydraShield brings together science, earth observation, open data and
+historical evidence to understand climate extremes — wildfire, flood,
+drought, extreme heat, extreme wind and coastal exposure — who and what
+they affect, what they mean economically, and which sustainable solutions
+fit each exact place. The central promise:
+
+> "We bring together the best available evidence to understand environmental
+> extremes, their consequences, their economic meaning, and the actions that
+> can reduce exposure."
+
+The platform began as — and still fully includes — an integrated wildfire
+system combining DeepTech, AI/satellite data, and environmental protection
+via subsurface hydration barriers: an AI-driven Digital Twin that transforms
+Copernicus satellite data into actionable, water-optimized protection
+blueprints for communities at risk of catastrophic wildfires.
+
+**Product evolution docs** (read these first):
+`docs/PRODUCT_VISION.md` · `docs/PLATFORM_ARCHITECTURE.md` ·
+`docs/CLIMATE_HAZARDS.md` · `docs/EVIDENCE_ARCHITECTURE.md` ·
+`docs/ECONOMIC_INTELLIGENCE.md` · `docs/FINANCIAL_INTELLIGENCE.md` ·
+`docs/SOLUTIONS_INTELLIGENCE.md` · `docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md` ·
+`docs/IMPLEMENTATION_ROADMAP.md`
 
 ## Project Structure
 
 ```
 hydra-shield-platform/
-├── docs/          # Proposal and Pitch documents
+├── docs/          # Product/architecture docs + proposal and pitch documents
 ├── data/          # Raw and processed fire data and Copernicus maps
 ├── src/           # Main source code
+│   ├── climate/           # Multi-hazard intelligence core: ontology, evidence,
+│   │                      # event model, hazard plugins (wildfire/flood/drought/
+│   │                      # heat/wind/coastal), economic exposure, solutions
 │   ├── prediction/        # Fire risk & spread prediction (ML + physics)
 │   ├── gis_mapping/       # Earth Observation ingestion & GIS processing
-│   └── hydration_control/ # Protection optimisation & water planning
+│   ├── hydration_control/ # Protection optimisation & water planning
+│   ├── dashboard/         # API, analysis engine, reports, accounts, mailer
+│   └── security/          # Auth/token/GDPR/encryption primitives
 ├── notebooks/     # Jupyter notebooks for data analysis
 │   ├── 01_fire_risk_analysis.ipynb — FMC estimation, fire spread modelling, ML risk assessment with ensemble methods and uncertainty quantification, and dynamic data fusion with adaptive weights.
 │   ├── 02_protection_optimisation.ipynb — Protection zones, water allocation, and intervention planning.
 │   └── dashboard.html — Interactive dashboard with real-time monitoring and decision support system.
 ├── tests/         # Testing files
-└── website/       # Public marketing website
+└── website/       # Public website: intelligence, map, events, solutions, economy, reports
 ```
+
+## Climate-intelligence core (`src/climate/`)
+
+- **`ontology.py`** — the platform vocabulary: hazard types, claim status
+  (`OBSERVED | DOCUMENTED | REPORTED | MODELLED | INFERRED | UNKNOWN`),
+  temporal classes (`OBSERVED | HISTORICAL | FORECAST | PROJECTED | SCENARIO`),
+  evidence classes, cause discipline (cause is DOCUMENTED or UNKNOWN — never
+  inferred from media or models).
+- **`evidence.py`** — one typed `EvidenceRecord` behind every claim (source,
+  dataset, period, method, resolution, confidence, license, limitations,
+  content hash) + legacy provenance upgrade (`modeled`→`modelled` aliases).
+- **`events.py`** — the historical event model (`ClimateEvent`) + SQLite
+  `EventStore`: observed conditions structurally separated from modelled
+  context; evidence attached per event; years never hardcoded.
+- **`registry.py` + `hazards/`** — hazard plugin architecture. A hazard is
+  registered only when wired to real, documented data sources:
+  `wildfire.py` (wraps the proven engine), `flood.py` (GloFAS discharge +
+  extreme precipitation), `drought.py` (precipitation anomaly, soil
+  moisture, ET₀ balance), `heat.py`/`wind.py` (climatological percentiles +
+  spell detection), `coastal.py` (marine waves + elevation screening +
+  labelled sea-level projections).
+- **`fire_events.py`** — historical wildfire event intelligence: real NASA
+  FIRMS detections clustered into event records + ERA5 observed conditions +
+  modelled FWI context + lessons extracted strictly from the event's data.
+- **`exposure_econ.py`** — economic exposure from real mapped data
+  (OSM/WorldCover); monetary quantification honestly `not_quantified`.
+- **`solutions.py`** — Solutions Intelligence engine: site-fitted,
+  curated, sourced solutions across all hazards with limitations and a
+  no-guarantee disclaimer (`config/solutions_knowledge.json`).
+- **`api_v2.py`** — the multi-hazard REST API (`/api/v2/…`).
 
 ## Source Modules
 
@@ -164,6 +220,30 @@ curl "http://localhost:8051/api/history?lat=37.6&lon=-6.5&days=90"
 curl "http://localhost:8051/api/health"
 ```
 
+### Multi-hazard API (`/api/v2`, real data)
+
+```bash
+# Registered hazards (a hazard appears only when wired to real data sources)
+curl "http://localhost:8051/api/v2/hazards"
+
+# Per-hazard analysis (wildfire|flood|drought|heat|wind|coastal)
+curl "http://localhost:8051/api/v2/analyze?hazard=flood&lat=49.75&lon=6.64"
+
+# Historical wildfire events for any year the datasets cover (FIRMS key-gated)
+curl "http://localhost:8051/api/v2/events?hazard=wildfire&lat=37.6&lon=-6.5&year=2024"
+
+# Economic exposure (monetary values honestly not quantified)
+curl "http://localhost:8051/api/v2/economy?lat=49.6&lon=6.1"
+
+# Site-fitted sustainable solutions
+curl "http://localhost:8051/api/v2/solutions?lat=49.6&lon=6.1"
+
+# Accounts: register / verify / login, saved locations, history, alerts
+curl -X POST "http://localhost:8051/api/v2/auth/register" \
+     -H "Content-Type: application/json" \
+     -d '{"email":"you@example.org","password":"a-long-password"}'
+```
+
 ### Model validation (scientific layer)
 
 ```bash
@@ -178,9 +258,15 @@ FIRMS_MAP_KEY=... python scripts/run_validation.py \
 See `.env.example`. All optional; missing configuration is reported as an
 unavailable layer, never replaced with invented data.
 
-- `FIRMS_MAP_KEY` — free NASA FIRMS key, enables the real active-fire layer.
-- `SMTP_HOST/PORT/USER/PASS/FROM` — enable email delivery for watch alerts.
-- `HYDRASHIELD_CACHE_DB` — SQLite cache/watch database path.
+- `FIRMS_MAP_KEY` — free NASA FIRMS key, enables the real active-fire layer
+  and the historical fire-events endpoint.
+- `SMTP_HOST/PORT/USER/PASSWORD/FROM` — enable email delivery (accounts,
+  alerts, reports). `SMTP_FROM=info@hydrashield.earth`. Without SMTP config,
+  emails go to the safe dev outbox (`data/outbox/`) and are never sent.
+  Legacy `SMTP_PASS` is still honoured.
+- `HYDRASHIELD_SECRET_KEY` — HMAC key for session/verification tokens
+  (set in production; a documented machine-stable fallback is used in dev).
+- `HYDRASHIELD_CACHE_DB` — SQLite cache/watch/accounts database path.
 
 ### Dynamic data fusion example
 
