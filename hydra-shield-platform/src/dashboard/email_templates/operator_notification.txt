@@ -1,0 +1,4 @@
+Subject: HydraShield platform — {{subject}}
+{{message}}
+
+— HydraShield platform notification (automated)

@@ -83,6 +83,23 @@ def main() -> int:
                 channel="email" if sent else "db_only",
                 payload={"subject": subject, "body": body},
             )
+            # Operator notification: an alert condition fired at a monitored
+            # location (operational facts only — the subscriber's address is
+            # deliberately not included).
+            try:
+                from src.dashboard import mailer
+
+                mailer.operator_notify(
+                    "Alert condition fired",
+                    f"Location: {watch['location']} ({watch['lat']}, {watch['lon']})\n"
+                    f"Risk: {risk}/100 ({risk_class})\n"
+                    f"Threshold: {watch['threshold_risk']}/100\n"
+                    f"Delivery to subscriber: {'email' if sent else 'recorded (db_only)'}\n"
+                    f"Checked: {result.get('generated_at')}",
+                    kind="alert_fired",
+                )
+            except Exception as exc:
+                log.warning("Watch %s: operator notification failed: %s", wid[:8], exc)
             log.info("Watch %s: ALERT fired (risk %.1f, channel=%s)",
                      wid[:8], risk, "email" if sent else "db_only")
         except Exception as exc:

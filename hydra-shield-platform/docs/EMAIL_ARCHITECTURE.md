@@ -1,96 +1,148 @@
 # HydraShield — Email Architecture
 
-**Status:** implemented capability description. Distinguishes precisely what
-the platform CAN and CANNOT do today, and what must be configured outside
-the repository. **No credentials live in Git.**
+**Status:** verified production architecture (2026-08-17). Describes the
+real, confirmed configuration. **No credentials live in Git.**
+Normative rule: DNS, Google Workspace, MX, SPF, DKIM and DMARC are
+operator-managed and are **never modified by the platform or its
+automation**.
 
 ---
 
-## 1. Capability matrix (honest)
+## 1. Verified foundation (operator-confirmed)
 
-| # | Capability | Status | Mechanism |
-|---|---|---|---|
-| A | **Send** transactional email | **implemented, inactive until SMTP env is set** | `mailer.py` STARTTLS SMTP via `SMTP_HOST/PORT/USER/PASSWORD/FROM` env secrets |
-| B | **Receive** arbitrary external email at info@hydrashield.earth | **NOT a platform capability** — requires mailbox hosting + DNS/MX configuration outside this repository (§4). The platform never reads mailboxes |
-| C | Contact form → platform inbox | **implemented** — submissions are delivered to `CONTACT_INBOX` (default info@hydrashield.earth) via the send path; in dev/unconfigured they land in the safe outbox (`data/outbox/`) |
-| D | Registration notification (user) | implemented — `welcome` + `email_verification` |
-| E | Report ready / delivery | templates implemented (`report_ready`, `report_delivery`) — wiring to account report generation is a later stage |
-| F | Alerts | implemented — watch alerts via `alert` template (`scripts/check_watches.py`) |
-| G | Account verification | implemented — `email_verification`, 24 h single-use token |
-| H | Password reset | implemented — `password_reset`, single-use token, sessions invalidated |
-| I | Admin notification on registration | implemented — `admin_notification` to the platform inbox (email + timestamp only, never secrets) |
-| J | Marketing campaigns / newsletters | **deliberately not built** — infrastructure (mailer, templates, subscriber records) is ready for an authorized, legally-configured addition; the platform never sends marketing email automatically |
+| Component | State |
+|---|---|
+| Domain | `hydrashield.earth` |
+| Mail provider | **Google Workspace — Business Starter** |
+| Primary mailbox | `info@hydrashield.earth` — **fully operational** |
+| Domain ownership | PASS |
+| Gmail | READY |
+| Sending | PASS · Receiving | PASS |
+| SPF | PASS · DKIM | PASS (google._domainkey) · DMARC | PASS · TLS | PASS |
 
-**Sending is not receiving.** An SMTP sender does not imply the platform
-can receive arbitrary external email. Receiving requires mailbox hosting
-and DNS/MX records (§4), which are outside the repository and are NOT
-claimed to be configured.
+**DNS architecture (as deployed — do not change automatically):**
 
-## 2. Send path (implemented)
+```
+A      @    → 45.77.54.166
+A      app  → 45.77.54.166
+CNAME  www  → hydrashield.earth
+MX     @    → smtp.google.com (priority 1)
+TXT    @    → v=spf1 include:_spf.google.com ~all
+DKIM   google._domainkey → Google Workspace key (configured, verified)
+DMARC  _dmarc → v=DMARC1; p=none   (intentionally monitoring mode —
+                                    do NOT move to quarantine/reject
+                                    automatically)
+```
 
-`src/dashboard/mailer.py` — one `send_mail(to, template, context)` entry:
+## 2. Address & identity model
 
-- **SMTP backend** (production): active when `SMTP_HOST` is set.
-  `SMTP_PORT` (default 587, STARTTLS), `SMTP_USER`,
-  `SMTP_PASSWORD` (canonical; legacy `SMTP_PASS` honoured),
-  `SMTP_FROM` (default `info@hydrashield.earth`).
-- **Safe outbox backend** (dev / unconfigured): messages are written as
-  `.eml` files to `data/outbox/` (override `HYDRASHIELD_OUTBOX_DIR`) and
-  logged. **Never sent.** Tests assert on outbox files.
-- Templates (`src/dashboard/email_templates/`): `welcome`,
-  `email_verification`, `password_reset`, `report_ready`,
-  `report_delivery`, `alert`, `contact_acknowledgement`,
-  `contact_message`, `admin_notification`, `subscription_confirmation`.
-- Contact flow: the visitor's message goes to `CONTACT_INBOX`
-  (`contact_message`); the visitor receives a `contact_acknowledgement`
-  that deliberately does NOT echo their message (anti-abuse).
+| Address | Role | Rules |
+|---|---|---|
+| `info@hydrashield.earth` | **Official HydraShield organizational address** — all public/platform communication, transactional email, operator notifications | preferred public address |
+| `motazomarien@gmail.com` | Founder / professional personal contact (long-term identity) | never modified by the platform |
+| `motaz3d@gmail.com` | Existing personal account — recovery / historical identity | **must remain active; never deleted, replaced, migrated or modified** |
 
-## 3. Secrets policy (normative)
+## 3. Alias plan (Google Workspace side — operator action, not automated)
 
-Mailbox/SMTP credentials are **runtime environment secrets only**. They
-must never appear in: Git, source code, frontend, Dockerfile,
-documentation, repository history, or public logs. The application reads
-them exclusively from the environment. `.env.example` documents variable
-names only. Production secrets are set server-side
-(`/opt/hydrashield/.env` on Vultr, mounted into the api container via
-docker-compose `env_file`).
+Aliases attached to the existing `info@` user (no additional paid seats):
 
-## 4. Receiving email at info@hydrashield.earth (outside the repository)
+```
+contact@ · hello@ · support@ · sales@ · partners@ · reports@ · alerts@
+        @hydrashield.earth  →  all route to info@hydrashield.earth
+```
 
-For the address to receive external mail, the following must exist —
-**none of which is configured by this repository**, and none of which is
-claimed to exist until verified:
+- Aliases are created in the Google Workspace admin console by the
+  operator. The platform does not and cannot create them.
+- **Sending from an alias**: once the alias exists and is enabled under
+  Gmail → Settings → "Send mail as", the platform can send with that
+  alias in the `From` header through the same `info@` SMTP credentials.
+  Per-template alias overrides are supported via env vars
+  (`SMTP_FROM_<TEMPLATE>`, e.g. `SMTP_FROM_ALERT=alerts@hydrashield.earth`,
+  `SMTP_FROM_REPORT_DELIVERY=reports@hydrashield.earth`) — see
+  `.env.example`. The platform **never invents sender identities**: an
+  alias is used only when explicitly set via env.
 
-1. A mailbox or forward for `info@hydrashield.earth` at a mail provider
-   (e.g. the domain registrar's mail hosting, or a dedicated provider).
-2. DNS `MX` record(s) for `hydrashield.earth` pointing at that provider.
-3. For the platform's *outbound* mail to be deliverable and not spam-flagged:
-   `SPF` (TXT) authorising the sending host, `DKIM` signing (provider
-   dependent), and optionally `DMARC` policy records.
-4. Optional later stage: an authorized mailbox connection (IMAP/Graph/Gmail
-   API) to ingest the platform inbox for support workflows — must be
-   explicitly configured, scoped read-only, never used for marketing
-   intelligence without a lawful basis, and never scraped.
+## 4. Capability matrix
 
-Until items 1–2 are verified in DNS, statements about "receiving email at
-info@hydrashield.earth" are limited to: the platform *delivers
-contact-form submissions and notifications to that address via its send
-path* — once SMTP credentials are configured.
+| # | Capability | Status |
+|---|---|---|
+| A | Google Workspace mailbox **receiving** at info@ | **operational** (operator-verified) — handled entirely by Google Workspace, not by the application |
+| B | Application **transactional sending** | implemented; activates when `SMTP_HOST/…` env secrets are set (Google Workspace SMTP: `smtp.gmail.com:587`, the info@ account + an app password — created operator-side, stored only in the server `.env`) |
+| C | Contact form → platform inbox | implemented (`contact_message` → `CONTACT_INBOX`) |
+| D | Registration notification (user) | implemented (`welcome`, `email_verification`) |
+| E | Report delivery / report-ready | templates implemented (`report_delivery`, `report_ready`); account wiring is a later stage |
+| F | Alerts (watch subscribers) | implemented (`alert`) |
+| G | Account verification | implemented (24 h single-use token) |
+| H | Password reset | implemented (single-use token, sessions invalidated) |
+| I | **Operator notifications** to info@ | implemented (see §5) |
+| J | Application reading/searching the Gmail mailbox | **not built — separate future design** (§7): SMTP credentials do NOT provide mailbox access |
+| K | Marketing campaigns / newsletters | deliberately not built (§8) |
 
-## 5. What works today without any credentials
+**Sending ≠ receiving.** The application never reads the mailbox. The
+mailbox receiving capability lives in Google Workspace (operator reads it
+in Gmail); the application only *sends* transactional email and *delivers
+messages to* the platform inbox via its send path.
 
-- Full registration → verification-email → verify → login → password-reset
-  flow, with every email visible as an `.eml` in the safe outbox.
-- Contact form → platform inbox (outbox) + acknowledgement (outbox).
-- Admin registration notifications (outbox).
-- Watch alert generation (recorded in DB; outbox email).
+## 5. Operator notification matrix (info@hydrashield.earth)
 
-## 6. Adding the real mailbox later (secure procedure)
+| Event | Mechanism | Content |
+|---|---|---|
+| New user registers | `admin_notification` | email, name, timestamp — never password/token |
+| New contact message | `contact_message` | name, email, message text |
+| Report generated | `operator_notification` (kind `report_generated`) | report type, location, report ID, history flag |
+| Alert condition at a monitored location | `operator_notification` (kind `alert_fired`) | location, risk, threshold, delivery channel — subscriber address deliberately excluded |
+| Subscription created | **pending** — subscriptions are recorded, not charged; no public creation endpoint exists yet. Notification hook point: `UserStore` subscription creation when that path ships |
+| Material change at a monitored location | covered by the watch-alert path (threshold crossing = material change; account alerts checker is a later stage) |
 
-1. Provision the mailbox + MX/SPF/DKIM at the provider (outside repo).
-2. Set `SMTP_HOST/PORT/USER/PASSWORD` + `SMTP_FROM=info@hydrashield.earth`
-   in the server `.env` (never in Git).
-3. `docker compose up -d api watch_checker` — the mailer switches from
-   outbox to SMTP automatically (`smtp_configured()`).
-4. Verify with a contact-form submission and a registration on production;
-   confirm receipt at the mailbox and check spam scoring.
+All operator notifications go through `mailer.operator_notify()`:
+anti-flood bucket (≤20/kind/hour), operational facts only, and the same
+backend selection as everything else (safe outbox until SMTP env is set).
+
+## 6. Local development & tests
+
+- No credentials → the **safe outbox backend** writes `.eml` files to
+  `data/outbox/` and never sends. All tests use it; **tests never contain
+  real credentials and never send real email**.
+- `HYDRASHIELD_OUTBOX_DIR` overrides the outbox location.
+
+## 7. Future: application-level mailbox access (separate design)
+
+If searching/reading the Gmail mailbox is ever required (support triage,
+bounce handling), it must be a **separate, explicitly authorized**
+architecture: Google Workspace Gmail API with OAuth 2.0 (domain-wide
+delegation or per-user consent), least scopes (e.g. `gmail.readonly`),
+credentials in server-side secret storage, audit logging, and a lawful
+basis for any processing. Never: the Workspace password in the repo,
+browser automation against Gmail, or mailbox credentials in frontend code.
+
+## 8. Future: newsletter / campaign architecture
+
+Not built. When authorized: double opt-in subscriber lists (the
+`subscriptions`/consent records exist), unsubscribe links in every
+message, provider-side sending (Google Workspace is not a bulk-mail
+service — evaluate a proper ESP when the time comes), and **no use of
+email data for marketing intelligence** without explicit configuration
+and legal permission. The platform never sends marketing email
+automatically.
+
+## 9. Security policy (normative)
+
+- Secrets come only from environment/secret storage.
+- Logs never print SMTP passwords/tokens (the mailer logs template,
+  recipient and outbox path only).
+- `.env` files stay ignored (`.gitignore`); templates are versioned,
+  credentials are not.
+- Production secrets live only in the production server `.env`
+  (`/opt/hydrashield/.env`, compose `env_file`).
+- Audit events never contain email credentials.
+- DMARC stays `p=none` (monitoring) until the operator decides otherwise.
+
+## 10. Templates (versioned in Git)
+
+`welcome` · `email_verification` · `password_reset` · `report_ready` ·
+`report_delivery` · `alert` · `contact_acknowledgement` ·
+`contact_message` · `admin_notification` · `operator_notification` ·
+`subscription_confirmation`
+
+Sender defaults to `SMTP_FROM` (info@hydrashield.earth); per-template
+alias overrides via `SMTP_FROM_<TEMPLATE>` env (§3).

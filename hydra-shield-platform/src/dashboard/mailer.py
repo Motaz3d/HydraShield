@@ -55,6 +55,7 @@ _TEMPLATE_NAMES = {
     "contact_acknowledgement",
     "contact_message",
     "admin_notification",
+    "operator_notification",
     "subscription_confirmation",
 }
 
@@ -117,14 +118,26 @@ def _minimal_html(text: str) -> str:
     )
 
 
-def _build_message(to: str, subject: str, text: str) -> EmailMessage:
+def _build_message(to: str, subject: str, text: str, template: str = "") -> EmailMessage:
     msg = EmailMessage()
-    msg["From"] = os.environ.get("SMTP_FROM") or DEFAULT_FROM
+    msg["From"] = from_for_template(template)
     msg["To"] = to
     msg["Subject"] = subject
     msg.set_content(text)
     msg.add_alternative(_minimal_html(text), subtype="html")
     return msg
+
+
+def from_for_template(template: str) -> str:
+    """From address for a template: per-template alias override via
+    ``SMTP_FROM_<TEMPLATE>`` (e.g. ``SMTP_FROM_ALERT=alerts@hydrashield.earth``),
+    falling back to ``SMTP_FROM`` then the default info@ address.
+
+    Alias send-as must be configured in Google Workspace by the operator —
+    the platform never invents sender identities.
+    """
+    override = os.environ.get(f"SMTP_FROM_{(template or '').upper()}")
+    return override or os.environ.get("SMTP_FROM") or DEFAULT_FROM
 
 
 def _send_smtp(msg: EmailMessage) -> None:
@@ -171,7 +184,7 @@ def send_mail(
     """
     rendered = render_template(template, context)
     subject = subject_override or rendered["subject"]
-    msg = _build_message(to, subject, rendered["text"])
+    msg = _build_message(to, subject, rendered["text"], template=template)
 
     if smtp_configured():
         _send_smtp(msg)
@@ -182,3 +195,40 @@ def send_mail(
     log.info("SMTP not configured — wrote '%s' email for %s to outbox: %s",
              template, to, path)
     return {"backend": "outbox", "path": path, "to": to, "subject": subject}
+
+
+# ---------------------------------------------------------------------------
+# Operator notifications (platform → info@hydrashield.earth)
+# ---------------------------------------------------------------------------
+
+# Anti-flood bucket: at most this many operator emails per kind per hour
+# (in-memory, per-process — deliberately simple; the outbox/SMTP path stays
+# the single delivery channel).
+_OPERATOR_BUCKET_LIMIT = 20
+_operator_bucket: Dict[str, list] = {}
+
+
+def operator_notify(subject: str, message: str, kind: str = "general") -> Dict:
+    """
+    Notify the platform operator (info@hydrashield.earth via
+    :func:`contact_inbox`) of a platform event: registration, contact
+    message, report generated, alert condition, subscription, material
+    change at a monitored location.
+
+    Content rules: ``subject``/``message`` must carry operational facts
+    only (location, type, IDs, timestamps) — NEVER passwords, tokens,
+    SMTP credentials, or user secrets. Delivery uses the same mailer
+    backend as everything else (safe outbox until SMTP env is set).
+    """
+    now = time.time()
+    bucket = _operator_bucket.setdefault(kind, [])
+    bucket[:] = [t for t in bucket if t > now - 3600.0]
+    if len(bucket) >= _OPERATOR_BUCKET_LIMIT:
+        log.warning("Operator notification suppressed (bucket full) kind=%s", kind)
+        return {"backend": "suppressed", "path": None, "to": None, "subject": subject}
+    bucket.append(now)
+    return send_mail(
+        contact_inbox(),
+        "operator_notification",
+        {"subject": subject, "message": message},
+    )

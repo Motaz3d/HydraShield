@@ -346,6 +346,24 @@ def create_app() -> Flask:
         except Exception as exc:
             return _error(f"Report generation failed: {exc}", 502)
 
+        # Operator notification: a report was generated (operational facts
+        # only — location/type/report ID; never any secret). A mailer
+        # failure must never break report delivery.
+        try:
+            from . import mailer
+
+            mailer.operator_notify(
+                "Report generated",
+                f"Report type: {report_type}\n"
+                f"Location: {name} ({round(lat, 4)}, {round(lon, 4)})\n"
+                f"Report ID: {report_module.report_content_id(result, report_type)}\n"
+                f"History included: {'yes' if history else 'no'}\n"
+                f"Generated: {result.get('generated_at', '')}",
+                kind="report_generated",
+            )
+        except Exception:
+            pass
+
         from flask import Response
 
         safe = "".join(c if c.isalnum() else "_" for c in str(name))[:40]
