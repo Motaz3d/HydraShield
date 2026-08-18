@@ -742,3 +742,96 @@ def test_check_alert_rules_fires_exactly_one_alert(env, monkeypatch):
     # A second run at the same severity fires nothing new.
     assert car.main() == 0
     assert len(store.list_history(user["id"])) == 1
+
+
+# ---------------------------------------------------------------------------
+# End-to-end with a mock HTTP provider (proves the delivery chain without
+# a real provider account; no real SMS is ever sent)
+# ---------------------------------------------------------------------------
+
+@pytest.fixture()
+def mock_sms_provider(monkeypatch):
+    """A local HTTP server honouring the provider contract:
+    POST {"to","from","message"} → {"message_id": ...}."""
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    received = []
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_POST(self):
+            length = int(self.headers.get("Content-Length", 0))
+            body = json.loads(self.rfile.read(length) or b"{}")
+            received.append(body)
+            payload = json.dumps(
+                {"message_id": f"mock-{len(received):04d}"}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(payload)))
+            self.end_headers()
+            self.wfile.write(payload)
+
+        def log_message(self, *args):  # silence
+            pass
+
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    url = f"http://127.0.0.1:{server.server_port}/sms"
+    monkeypatch.setenv("SMS_PROVIDER", "http")
+    monkeypatch.setenv("SMS_HTTP_URL", url)
+    monkeypatch.setenv("SMS_FROM", "HydraShield")
+    yield {"url": url, "received": received}
+    server.shutdown()
+
+
+def test_full_sms_chain_via_mock_provider(client, env, mock_sms_provider):
+    """Registration → verification code via provider → verify → rule →
+    dispatch → provider message id recorded → status 'sent'."""
+    headers = _auth_headers(client, env)
+
+    resp = _add_phone(client, headers)
+    assert resp.get_json()["delivery_backend"] == "http"
+    assert mock_sms_provider["received"], "provider received no SMS"
+    code_msg = mock_sms_provider["received"][-1]
+    assert code_msg["to"] == "+306912345678"
+    code = re.search(r"code: (\d{6})", code_msg["message"]).group(1)
+
+    resp = client.post("/api/v2/alerts/phone/verify", json={"code": code},
+                       headers=headers)
+    assert resp.status_code == 200
+
+    resp = _add_rule(client, headers)
+    assert resp.status_code == 201
+
+    # Dispatch a fired alert through the engine.
+    store = NotifyStore(str(env["db"]))
+    user = UserStore(str(env["db"])).get_user_by_email("user@example.org")
+    rule = store.list_rules(user["id"])[0]
+    analysis = {"analysis": {"risk": {"baseline": 75.0, "class": "Extreme"}},
+                "fire_danger": {"fwi": 40.0, "class": "Extreme"},
+                "summary": "Extreme fire weather."}
+    result = alert_engine.dispatch_alert(
+        store, user, rule, analysis,
+        mailer=FakeMailer(), sms=sms, severity="EXTREME",
+        trigger="threshold_crossing")
+    assert result["sent"] is True
+    sms_delivery = next(d for d in result["deliveries"] if d["channel"] == "sms")
+    assert sms_delivery["status"] == "sent"
+
+    # The provider message id is persisted on the delivery row.
+    with sqlite3.connect(str(env["db"])) as conn:
+        row = conn.execute(
+            "SELECT status, provider_message_id FROM alert_deliveries "
+            "WHERE channel = 'sms' ORDER BY id DESC").fetchone()
+    assert row[0] == "sent"
+    assert row[1] == "mock-0002"  # second provider call (after the code SMS)
+
+
+def test_sms_delivery_state_reported_honestly(client, env):
+    """Without a provider the API must not pretend delivery is possible."""
+    headers = _auth_headers(client, env)
+    resp = client.get("/api/v2/alerts/preferences", headers=headers)
+    delivery = resp.get_json()["sms_delivery"]
+    assert delivery["provider_configured"] is False
+    assert "outbox" in delivery["note"]

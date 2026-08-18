@@ -166,3 +166,21 @@ Foundation analyses (all real-data):
 Every integrated source is registered in `config/source_registry.json`
 with provider, resolution, update frequency, license, limitations and
 `hydrashield_use` — and is served at `/api/sources`.
+
+## 6. Expansion candidates (registered, honestly unavailable)
+
+The registry also carries two expansion hazards with real sources but no
+integrated pipeline yet — they appear in `/api/v2/hazards` with
+`analysis.available: false` and `events.available: false` and the reason
+stated, never as working features:
+
+- **dust** (dust / sandstorm) — candidate sources: CAMS (requires ADS
+  credentials) and WMO SDS-WAS. Regional terms (Sirocco, Khamsin, dust
+  transport) are related but not identical; any pipeline must classify by
+  the source's own terminology.
+- **volcanic** — candidate source: Smithsonian/USGS Global Volcanism
+  Program (bot-protected for automated access; needs a dataset export
+  path). HydraShield never predicts eruptions; future capability is
+  monitoring / historical evidence / exposure only.
+
+Enabling either requires a real, tested fetch path first.

@@ -1292,6 +1292,120 @@
       ],
       "confidence": "high",
       "quantification_status": "not_quantified"
+    },
+    {
+      "solution_id": "dust_monitoring_early_warning",
+      "name": "Dust / sandstorm monitoring and early warning",
+      "classes": [
+        "technology",
+        "early_warning"
+      ],
+      "hazards_addressed": [
+        "dust"
+      ],
+      "economic_sectors": [
+        "logistics",
+        "energy",
+        "agriculture",
+        "population_municipal"
+      ],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Dust transport monitoring and forecast-based warning give lead time for transport, solar-energy and outdoor-activity decisions; benefit declared qualitative.",
+      "expected_benefit": {
+        "quantified": false,
+        "quantification_note": "value depends on the decisions the warnings inform"
+      },
+      "limitations": [
+        "detection/forecast skill varies by region and model",
+        "warning does not reduce the hazard itself",
+        "regional dust terminology must not be merged across sources"
+      ],
+      "implementation_complexity": "medium",
+      "maintenance": "low; service-based monitoring",
+      "environmental_considerations": [
+        "no direct environmental footprint"
+      ],
+      "technology_maturity": "established operational service",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "confidence": "medium",
+      "quantification_status": "not_quantified",
+      "sources": [
+        {
+          "name": "WMO SDS-WAS — Sand and Dust Storm Warning Advisory and Assessment System (Barcelona Dust Centre)",
+          "url": "https://dust.aemet.es/",
+          "class": "OPEN_DATA_OFFICIAL",
+          "accessed": "2026-08-18"
+        },
+        {
+          "name": "CAMS — Copernicus Atmosphere Monitoring Service",
+          "url": "https://ads.atmosphere.copernicus.eu/",
+          "class": "OPEN_DATA_OFFICIAL",
+          "accessed": "2026-08-18"
+        }
+      ]
+    },
+    {
+      "solution_id": "volcanic_monitoring_preparedness",
+      "name": "Volcanic activity monitoring and preparedness planning",
+      "classes": [
+        "technology",
+        "early_warning"
+      ],
+      "hazards_addressed": [
+        "volcanic"
+      ],
+      "economic_sectors": [
+        "population_municipal",
+        "tourism",
+        "insurance_finance",
+        "critical_facilities"
+      ],
+      "applicability": {
+        "climate_zones": null,
+        "min_elevation_m": null,
+        "max_elevation_m": null,
+        "moisture_regimes": null,
+        "landcover_any": null,
+        "requires_water": false,
+        "requires_urban": false
+      },
+      "mechanism": "Authoritative volcano observatories and the Global Volcanism Program document activity and history; preparedness planning uses that documented evidence. Benefit declared qualitative.",
+      "expected_benefit": {
+        "quantified": false,
+        "quantification_note": "public-safety value; not site-generically quantifiable"
+      },
+      "limitations": [
+        "eruption timing cannot be predicted by this class of tool",
+        "coverage depends on observatory networks",
+        "documented history is not a forecast"
+      ],
+      "implementation_complexity": "medium",
+      "maintenance": "low; service-based monitoring",
+      "environmental_considerations": [
+        "no direct environmental footprint"
+      ],
+      "technology_maturity": "established operational service",
+      "cost_basis": "not quantified",
+      "quantified": false,
+      "confidence": "medium",
+      "quantification_status": "not_quantified",
+      "sources": [
+        {
+          "name": "Smithsonian Institution / USGS — Global Volcanism Program",
+          "url": "https://volcano.si.edu/",
+          "class": "OPEN_DATA_OFFICIAL",
+          "accessed": "2026-08-18"
+        }
+      ]
     }
   ],
   "knowledge_curation": {

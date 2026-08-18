@@ -659,3 +659,36 @@ def test_report_endpoint_returns_pdf(client, monkeypatch):
     assert resp.status_code == 200
     assert resp.mimetype == "application/pdf"
     assert resp.data[:5] == b"%PDF-"
+
+
+def test_pdf_report_solutions_funding_section():
+    """The decision report renders the Solutions & potential funding
+    section from the real engines — with the no-guarantee and
+    not-financial-advice disclaimers."""
+    pytest.importorskip("reportlab")
+    from src.climate import solutions as sol_module
+    from src.climate import funding as funding_module
+
+    site = {
+        "lat": 37.6, "lon": -6.5,
+        "hazards": [{"id": "wildfire", "level": "High"}],
+        "landcover_classes": ["Tree cover", "Shrubland"],
+        "water_features_count": 3, "buildings_count": 120,
+    }
+    solutions = sol_module.recommend_solutions(site)
+    funding = funding_module.match_funding({"hazards": ["wildfire"]})
+    text = _pdf_text(report_module.build_report_pdf(
+        _report_payload(), report_type="decision",
+        solutions=solutions, funding=funding))
+    assert "Solutions & potential funding" in text
+    assert "No solution guarantees prevention" in text
+    assert "not financial advice" in text
+    assert "Fuel management" in text or "fuel" in text.lower()
+
+
+def test_pdf_report_without_solutions_omits_section():
+    """Without engine results the section is honestly omitted."""
+    pytest.importorskip("reportlab")
+    text = _pdf_text(report_module.build_report_pdf(
+        _report_payload(), report_type="decision"))
+    assert "Solutions & potential funding" not in text

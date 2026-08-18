@@ -101,6 +101,7 @@
                 status('error', 'Please tick the consent box — it is required to create an account.');
                 return;
             }
+            if (window.HS && HS.track) HS.track('account_started');
             status('info', 'Registering…');
             postJSON(API + '/v2/auth/register', {
                 email: el('regEmail').value,
@@ -576,6 +577,7 @@
 
     function wireSms() {
         el('smsExpandBtn').addEventListener('click', function () {
+            if (window.HS && HS.track) HS.track('sms_interest');
             smsState.expanded = true;
             renderSmsVisibility();
         });

@@ -32,7 +32,7 @@ from src.climate.evidence import (
 # ---------------------------------------------------------------------------
 
 
-def test_hazard_types_are_the_registered_six():
+def test_hazard_types_are_the_registered_set():
     assert {h.value for h in HazardType} == {
         "wildfire",
         "flood",
@@ -40,6 +40,9 @@ def test_hazard_types_are_the_registered_six():
         "heat",
         "wind",
         "coastal",
+        # expansion candidates (registered with honest unavailable states)
+        "dust",
+        "volcanic",
     }
 
 

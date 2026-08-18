@@ -1,38 +1,87 @@
-/* HydraShield — contextual conversion prompts (Phase F).
+/* HydraShield — conversion engine (privacy-conscious, first-party).
  *
- * One quiet, contextual invitation per surface — "save this analysis",
- * "monitor this area" — shown once, dismissible, never a modal, never
- * repeated after dismissal. The free core stays fully usable without an
- * account; the prompt appears only after a real result exists.
+ * One central conversion policy (CONVERSION_CONFIG) — thresholds and
+ * messages are NOT scattered across pages. Usage counters live only in
+ * the visitor's browser (localStorage, keyed by the pseudonymous session
+ * id from analytics.js) — no fingerprinting, no server-side identity,
+ * DNT respected. Analytics events (cta_viewed/cta_clicked/…) go through
+ * the whitelisted first-party beacon.
  *
- * Usage: <script src="js/convert.js" defer></script> + HSConvert.show({
- *   mount: 'elementId', text: '…', cta: '…', href: 'account.html' })
+ * Principles (docs/CONVERSION_STRATEGY.md): value first — the first
+ * analysis is never gated; prompts escalate gently with demonstrated
+ * repeated use; one quiet strip per surface; dismissal persists.
  */
 (function () {
     'use strict';
 
+    /* Central conversion policy — the single place thresholds live. */
+    var CONVERSION_CONFIG = {
+        thresholds: {
+            account_nudge: 2,   // 2nd high-value analysis → account CTA
+            monitor_nudge: 3,   // 3rd+ → save & monitor CTA
+            strong_nudge: 5     // 5th+ → professional capabilities CTA
+        },
+        // high-value actions counted toward the thresholds
+        high_value_actions: ['location_analyzed', 'solution_viewed',
+                             'report_generated', 'funding_viewed'],
+        messages: {
+            account: 'You are getting real value from HydraShield. Create a free account to save analyses, monitor locations and receive updates.',
+            monitor: 'Save this and monitor it — HydraShield watches so you don\'t have to.',
+            professional: 'Heavy use detected — professional capabilities (more monitoring, SMS alerts, API) may fit you. Subscription required; contact us for business.'
+        }
+    };
+
     var DISMISS_KEY = 'hs_convert_dismissed';
+    var USAGE_KEY = 'hs_usage';
 
-    function dismissed(context) {
-        try {
-            var d = JSON.parse(localStorage.getItem(DISMISS_KEY) || '{}');
-            return !!d[context];
-        } catch (e) { return false; }
+    function readJSON(key) {
+        try { return JSON.parse(localStorage.getItem(key) || '{}'); }
+        catch (e) { return {}; }
     }
 
+    function writeJSON(key, obj) {
+        try { localStorage.setItem(key, JSON.stringify(obj)); } catch (e) { /* ignore */ }
+    }
+
+    function dismissed(context) { return !!readJSON(DISMISS_KEY)[context]; }
     function dismiss(context) {
-        try {
-            var d = JSON.parse(localStorage.getItem(DISMISS_KEY) || '{}');
-            d[context] = true;
-            localStorage.setItem(DISMISS_KEY, JSON.stringify(d));
-        } catch (e) { /* ignore */ }
+        var d = readJSON(DISMISS_KEY);
+        d[context] = true;
+        writeJSON(DISMISS_KEY, d);
     }
 
-    /* HSConvert.show({mount, context, text, cta, href}) */
+    /* Record a high-value usage action (local counter + analytics event). */
+    function trackAction(action, props) {
+        var usage = readJSON(USAGE_KEY);
+        usage[action] = (usage[action] || 0) + 1;
+        writeJSON(USAGE_KEY, usage);
+        if (window.HS && HS.track) HS.track(action, props || {});
+        return usage[action];
+    }
+
+    /* Total high-value actions across surfaces. */
+    function highValueCount() {
+        var usage = readJSON(USAGE_KEY);
+        return CONVERSION_CONFIG.high_value_actions.reduce(function (n, a) {
+            return n + (usage[a] || 0);
+        }, 0);
+    }
+
+    /* Which escalation tier applies right now (or null). */
+    function currentTier() {
+        var n = highValueCount();
+        var t = CONVERSION_CONFIG.thresholds;
+        if (n >= t.strong_nudge) return 'professional';
+        if (n >= t.monitor_nudge) return 'monitor';
+        if (n >= t.account_nudge) return 'account';
+        return null;
+    }
+
+    /* HSConvert.show({mount, context, text, cta, href}) — one quiet strip. */
     function show(opts) {
         var mount = document.getElementById(opts.mount);
         if (!mount || dismissed(opts.context)) return;
-        if (mount.querySelector('.convert-strip')) return; // one per mount
+        if (mount.querySelector('.convert-strip')) return;
 
         var strip = document.createElement('div');
         strip.className = 'convert-strip notice notice-info';
@@ -41,11 +90,14 @@
 
         var text = document.createElement('span');
         text.textContent = opts.text + ' ';
-
         var link = document.createElement('a');
         link.className = 'text-link';
         link.href = opts.href;
         link.textContent = opts.cta + ' →';
+        link.addEventListener('click', function () {
+            if (window.HS && HS.track) HS.track('cta_clicked',
+                { feature: opts.context });
+        });
         text.appendChild(link);
 
         var close = document.createElement('button');
@@ -61,7 +113,27 @@
         strip.appendChild(text);
         strip.appendChild(close);
         mount.appendChild(strip);
+        if (window.HS && HS.track) HS.track('cta_viewed', { feature: opts.context });
     }
 
-    window.HSConvert = { show: show };
+    /* HSConvert.evaluate(mountId) — threshold-driven nudge for heavy use. */
+    function evaluate(mountId) {
+        var tier = currentTier();
+        if (!tier) return;
+        show({
+            mount: mountId,
+            context: 'tier_' + tier,
+            text: CONVERSION_CONFIG.messages[tier],
+            cta: tier === 'professional' ? 'Explore professional capabilities'
+                : (tier === 'monitor' ? 'Save and monitor' : 'Create a free account'),
+            href: 'account.html'
+        });
+    }
+
+    window.HSConvert = {
+        show: show,
+        evaluate: evaluate,
+        trackAction: trackAction,
+        _config: CONVERSION_CONFIG   // exposed for tests/inspection
+    };
 })();

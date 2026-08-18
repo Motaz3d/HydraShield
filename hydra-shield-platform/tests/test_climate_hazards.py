@@ -652,12 +652,32 @@ def test_coastal_analyze_unavailable(monkeypatch):
 # ---------------------------------------------------------------------------
 
 
-def test_registry_lists_all_six_hazards():
+def test_registry_lists_all_eight_hazards():
     ids = registry.ids()
-    assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind", "coastal"}
+    assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind",
+                        "coastal", "dust", "volcanic"}
     for module in registry.all_modules():
         d = module.descriptor()
         assert d["temporal_coverage"], module.id
+
+
+def test_expansion_hazards_are_honestly_unavailable():
+    """Dust and volcanic are registered expansion candidates: real sources,
+    but analysis and events honestly unavailable until a real pipeline is
+    wired in — never fake availability."""
+    for hid in ("dust", "volcanic"):
+        module = registry.get(hid)
+        d = module.descriptor()
+        assert d["analysis"]["available"] is False
+        assert d["analysis"]["reason"], hid
+        assert d["events"]["available"] is False
+        assert d["events"]["reason"], hid
+        assert d["sources"], hid
+        # analyze() must return the honest unavailable path, not numbers.
+        result = module.analyze(37.0, 15.0)
+        assert result.status == "unavailable"
+        assert result.unavailable_reason
+        assert result.level is None
 
 
 def test_registry_descriptors_carry_enabled_sources_provenance():
@@ -710,23 +730,25 @@ def client(tmp_path, monkeypatch):
     return app.test_client()
 
 
-def test_v2_hazards_lists_all_six(client):
+def test_v2_hazards_lists_all_eight(client):
     resp = client.get("/api/v2/hazards")
     assert resp.status_code == 200
     ids = [h["id"] for h in resp.get_json()["hazards"]]
-    assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind", "coastal"}
+    assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind",
+                        "coastal", "dust", "volcanic"}
 
 
 def test_v2_hazards_descriptor_contract(client):
     """Endpoint-level descriptor contract (Section: hazard registry):
-    HTTP 200 JSON, six hazards, and per hazard: id, name, enabled state,
-    analysis/events availability, temporal coverage, official sources with
-    URLs, and provenance."""
+    HTTP 200 JSON, eight hazards (six active + dust/volcanic honestly
+    unavailable), and per hazard: id, name, enabled state, analysis/events
+    availability, temporal coverage, official sources with URLs, and
+    provenance."""
     resp = client.get("/api/v2/hazards")
     assert resp.status_code == 200
     assert resp.content_type.startswith("application/json")
     hazards = resp.get_json()["hazards"]
-    assert len(hazards) == 6
+    assert len(hazards) == 8
     for h in hazards:
         assert h["id"] and h["name"] and h["tagline"]
         assert h["enabled"] is True

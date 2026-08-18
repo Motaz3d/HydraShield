@@ -306,14 +306,18 @@ def _map_drawing(analysis: Dict, grid: Optional[Dict]):
 
 def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                      report_type: str = "decision",
-                     grid: Optional[Dict] = None) -> bytes:
+                     grid: Optional[Dict] = None,
+                     solutions: Optional[Dict] = None,
+                     funding: Optional[Dict] = None) -> bytes:
     """
     Render a professional PDF report from a real analysis payload.
 
     ``report_type`` selects the audience-specific composition — all types
     are rendered from the SAME analysis object (never a separate
     calculation): "simple" (citizens), "decision" (operational users),
-    "scientific" (full methodology appendix).
+    "scientific" (full methodology appendix). ``solutions``/``funding``
+    carry the Solutions/Funding Intelligence engine outputs (decision and
+    scientific types); when absent, the section is honestly omitted.
     """
     if not _HAS_REPORTLAB:
         raise RuntimeError("reportlab is not installed on this server")
@@ -690,6 +694,54 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                                (ecology.get("verification_note") or ""), _SM))
     elif not simple:
         story.append(Paragraph(ecology.get("message") or "unavailable", _B))
+
+    # ---- 11b. Solutions & potential funding (decision/scientific) --------
+    if not simple and solutions and solutions.get("status") == "ok":
+        story.append(Paragraph(S("Solutions & potential funding"), _S))
+        recs_by_hazard = solutions.get("recommendations_by_hazard") or {}
+        fitted = [s for sols in recs_by_hazard.values() for s in sols]
+        fitted.sort(key=lambda s: (-s.get("fit_score", 0), s.get("solution_id", "")))
+        if fitted:
+            rows = [["Solution", "Fit", "Why it fits (real site values)",
+                     "Limitations"]]
+            for s in fitted[:5]:
+                rows.append([
+                    Paragraph(f"<b>{s.get('name')}</b>", _SM),
+                    s.get("fit_band", "—").replace("_", " "),
+                    Paragraph(s.get("why_it_fits") or "", _SM),
+                    Paragraph("; ".join(s.get("limitations") or []), _SM),
+                ])
+            t_sol = Table(rows, colWidths=[34 * mm, 20 * mm, 66 * mm, 40 * mm])
+            t_sol.setStyle(TableStyle([
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, -1), 7.5),
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+                ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ]))
+            story.append(t_sol)
+            story.append(Paragraph(
+                solutions.get("guarantee_disclaimer") or "", _SM))
+        if funding and funding.get("matches"):
+            story.append(Paragraph("Potential funding sources", _B))
+            rows = [["Programme", "Type", "Why it matches", "Not verified"]]
+            for m in funding["matches"][:4]:
+                rows.append([
+                    Paragraph(f"<b>{m.get('name')}</b>", _SM),
+                    Paragraph(", ".join(m.get("funding_type") or []), _SM),
+                    Paragraph(m.get("why_it_matches") or "", _SM),
+                    Paragraph("; ".join(m.get("not_verified") or []) or "—", _SM),
+                ])
+            t_fund = Table(rows, colWidths=[32 * mm, 26 * mm, 62 * mm, 40 * mm])
+            t_fund.setStyle(TableStyle([
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, -1), 7.5),
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+                ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ]))
+            story.append(t_fund)
+            story.append(Paragraph(funding.get("disclaimer") or "", _SM))
 
     # ---- 12. Scenarios -----------------------------------------------------
     if not simple:

@@ -401,10 +401,34 @@ def create_app() -> Flask:
             except Exception:
                 grid = None  # the report states the map as unavailable
 
+        # Solutions + funding sections (decision/scientific): same engines
+        # as the public endpoints, best-effort — a failure never breaks the
+        # report; the section is simply omitted.
+        solutions_result = None
+        funding_result = None
+        if report_type != "simple":
+            try:
+                from ..climate.api_v2 import _assemble_site
+                from ..climate import solutions as solutions_module
+                from ..climate import funding as funding_module
+
+                risk_level = ((result.get("analysis") or {}).get("risk") or {})
+                site = _assemble_site(lat, lon)
+                site["hazards"] = [{"id": "wildfire",
+                                    "level": {"label": risk_level.get("class")}}]
+                solutions_result = solutions_module.recommend_solutions(site)
+                funding_result = funding_module.match_funding(
+                    {"hazards": ["wildfire"]})
+            except Exception:
+                solutions_result = None
+                funding_result = None
+
         try:
             pdf = report_module.build_report_pdf(result, history=history,
                                                  report_type=report_type,
-                                                 grid=grid)
+                                                 grid=grid,
+                                                 solutions=solutions_result,
+                                                 funding=funding_result)
         except RuntimeError as exc:
             return _error(f"Report generation unavailable: {exc}", 503)
         except Exception as exc:

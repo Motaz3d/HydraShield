@@ -103,7 +103,8 @@
             '</div>' +
             '</div>' +
             '<div class="footer-bottom">' +
-            '<p>© 2026 HydraShield Earth Systems. All rights reserved.</p>' +
+            '<p>© 2026 HydraShield Earth Systems. All rights reserved.<br>' +
+            'Founder &amp; CEO: Motaz Omarien · <a href="mailto:info@hydrashield.earth" style="color:inherit;">info@hydrashield.earth</a></p>' +
             '<p>Evidence: OBSERVED · DOCUMENTED · REPORTED · MODELLED · INFERRED · UNKNOWN<br>' +
             'Time: OBSERVED · HISTORICAL · FORECAST · PROJECTED · SCENARIO</p>' +
             '</div>' +

@@ -917,6 +917,62 @@
       "cta": "Analyze your forest area",
       "outreach_style": "practical, land-management focused",
       "evidence_requirements": "documented methods; species/limitations honesty"
+    },
+    "aviation": {
+      "pain_points": [
+        "volcanic ash and dust events disrupt aviation operations",
+        "route planning needs documented activity evidence"
+      ],
+      "relevant_hazards": [
+        "volcanic",
+        "dust"
+      ],
+      "capabilities": [
+        "documented activity intelligence (planned)",
+        "historical event evidence",
+        "monitoring (planned)"
+      ],
+      "decision_maker_roles": [
+        "Risk Manager",
+        "Infrastructure Director"
+      ],
+      "content_topics": [
+        "volcanic and dust activity evidence for aviation"
+      ],
+      "offer": "capability briefing (hazards in expansion \u2014 honest availability)",
+      "cta": "Register interest for aviation hazard intelligence",
+      "outreach_style": "technical, safety-aware",
+      "evidence_requirements": "authoritative sources only (GVP, SDS-WAS, CAMS)"
+    },
+    "emergency_management": {
+      "pain_points": [
+        "civil protection needs documented multi-hazard activity and alerting",
+        "new hazard classes (dust, volcanic) affect response planning"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "volcanic",
+        "dust",
+        "heat"
+      ],
+      "capabilities": [
+        "monitoring + SMS alerts",
+        "historical evidence",
+        "multi-hazard registry"
+      ],
+      "decision_maker_roles": [
+        "Municipal Resilience Officer",
+        "Climate Policy Officer"
+      ],
+      "content_topics": [
+        "early warning evidence",
+        "documented activity for preparedness"
+      ],
+      "offer": "monitoring pilot",
+      "cta": "Monitor your territory",
+      "outreach_style": "public-service, operational",
+      "evidence_requirements": "official sources; honest availability states"
     }
   },
   "priority_model": {

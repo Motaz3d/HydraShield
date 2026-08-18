@@ -64,6 +64,13 @@ ALLOWED_EVENTS = frozenset({
     "alert_created",
     "qgis_interest",
     "contact_started",
+    # Conversion funnel (docs/CONVERSION_STRATEGY.md §4)
+    "cta_viewed",
+    "cta_clicked",
+    "funding_viewed",
+    "monitor_started",
+    "sms_interest",
+    "subscription_viewed",
 })
 
 #: Events that may carry an account id (explicit account actions only).

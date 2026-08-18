@@ -41,6 +41,10 @@ class HazardType(str, Enum):
     HEAT = "heat"
     WIND = "wind"
     COASTAL = "coastal"
+    # Expansion candidates: registered with honest unavailable states until
+    # a real pipeline is wired in (docs/CLIMATE_HAZARDS.md).
+    DUST = "dust"
+    VOLCANIC = "volcanic"
 
 
 class ClaimStatus(str, Enum):

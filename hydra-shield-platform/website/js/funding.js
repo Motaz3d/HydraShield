@@ -119,6 +119,9 @@
         el('fundingArea').innerHTML =
             '<div class="card-grid">' + matches.map(matchCard).join('') + '</div>' +
             '<div class="disclaimer-box" style="margin-top:18px;">' + esc(body.disclaimer) + '</div>';
+        if (window.HSConvert) HSConvert.trackAction('funding_viewed', {
+            feature: (body.query && body.query.hazards || []).join(',') });
+        if (window.HSConvert) HSConvert.evaluate('statusArea');
         if (window.HSConvert) HSConvert.show({
             mount: 'statusArea', context: 'funding_monitor',
             text: 'Calls and programmes change — save this context and get told when to re-check.',

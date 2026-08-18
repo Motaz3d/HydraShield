@@ -42,7 +42,9 @@
         }).join('');
         actions.querySelectorAll('a').forEach(function (a, i) {
             a.addEventListener('click', function () {
-                if (window.HS && HS.track) HS.track('report_generated',
+                if (window.HSConvert) HSConvert.trackAction('report_generated',
+                    { feature: TYPES[i].id });
+                else if (window.HS && HS.track) HS.track('report_generated',
                     { feature: TYPES[i].id });
             });
         });

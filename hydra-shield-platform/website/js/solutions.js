@@ -95,10 +95,11 @@
         var byHazard = body.recommendations_by_hazard || {};
         var hazardIds = Object.keys(byHazard);
         var totalMatches = hazardIds.reduce(function (n, h) { return n + byHazard[h].length; }, 0);
-        if (ok && totalMatches && window.HS && HS.track) {
-            HS.track('solution_viewed', { lat: loc.lat, lon: loc.lon,
+        if (ok && totalMatches && window.HSConvert) {
+            HSConvert.trackAction('solution_viewed', { lat: loc.lat, lon: loc.lon,
                 feature: hazardIds.join(',') });
         }
+        if (ok && totalMatches && window.HSConvert) HSConvert.evaluate('statusArea');
         if (ok && totalMatches && window.HSConvert) HSConvert.show({
             mount: 'statusArea', context: 'resilience_plan',
             text: 'Build a resilience plan — save these matched solutions with a free account.',
