@@ -248,6 +248,24 @@ def create_app() -> Flask:
         return resp
 
     # ------------------------------------------------------------------
+    @app.route("/api/geocode", methods=["GET"])
+    def geocode():
+        """Lightweight place-name → coordinates (Nominatim), for the
+        location widget's fast preview. Unlike /api/analyze this runs no
+        hazard analysis."""
+        if not _rate_limiter.allow(f"geocode:{_client_key()}", 30, 60.0):
+            return _error("Rate limit exceeded (30 requests/minute)", 429)
+        query = (request.args.get("location") or "").strip()[:200]
+        if not query:
+            return _error("location parameter is required", 400)
+        from .real_data import geocode_location
+
+        result = geocode_location(query)
+        if "error" in result:
+            return _error(result["error"], 404)
+        return jsonify({"location": result})
+
+    # ------------------------------------------------------------------
     @app.route("/api/analyze", methods=["GET"])
     def analyze():
         if not _rate_limiter.allow(f"analyze:{_client_key()}", 30, 60.0):

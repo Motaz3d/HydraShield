@@ -184,3 +184,23 @@ def test_human_sources_page_renders_from_api():
     assert "/api/sources" in html
     assert "s.status" in html and "limitations" in html
     assert "data-table" in html
+
+
+def test_geocode_endpoint_contract(client, monkeypatch):
+    """The light geocode endpoint returns name/lat/lon/source and honest
+    errors — without running the heavy analysis pipeline."""
+    from src.dashboard import real_data
+    monkeypatch.setattr(real_data, "geocode_location",
+                        lambda q: {"name": "Clervaux, Lëtzebuerg",
+                                   "lat": 50.05, "lon": 6.03,
+                                   "source": "Nominatim (OpenStreetMap)"})
+    resp = client.get("/api/geocode?location=Clervaux")
+    assert resp.status_code == 200
+    loc = resp.get_json()["location"]
+    assert loc["lat"] == 50.05 and loc["lon"] == 6.03
+    assert loc["source"].startswith("Nominatim")
+    # missing param → 400; unresolvable → 404
+    assert client.get("/api/geocode").status_code == 400
+    monkeypatch.setattr(real_data, "geocode_location",
+                        lambda q: {"error": "Location not found"})
+    assert client.get("/api/geocode?location=zzz").status_code == 404

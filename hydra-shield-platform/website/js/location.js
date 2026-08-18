@@ -35,6 +35,38 @@
         return { lat: lat, lon: lon };
     }
 
+    /* Fast geocode: /api/geocode (light, Nominatim) with the heavy
+     * /api/analyze path as fallback. Returns a promise of
+     * {ok, lat, lon, name} — same shape as HS.resolveLocation. */
+    function geocode(text) {
+        var direct = parseLatLon(text);
+        if (direct) {
+            return Promise.resolve({
+                ok: true, lat: direct.lat, lon: direct.lon,
+                name: direct.lat.toFixed(4) + ', ' + direct.lon.toFixed(4)
+            });
+        }
+        var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+            ? 'http://localhost:8051/api' : '/api';
+        return fetch(API + '/geocode?location=' + encodeURIComponent(text))
+            .then(function (r) { return r.json().then(function (b) {
+                return { ok: r.ok, body: b };
+            }); })
+            .then(function (res) {
+                var loc = res.body && res.body.location;
+                if (res.ok && loc && loc.lat != null && loc.lon != null) {
+                    return { ok: true, lat: loc.lat, lon: loc.lon,
+                             name: loc.name || text };
+                }
+                return { ok: false, error: (res.body && res.body.error) ||
+                             'Location could not be resolved.' };
+            })
+            .catch(function () {
+                // fall back to the analysis path (slower, still correct)
+                return HS.resolveLocation(text);
+            });
+    }
+
     function normalize(result, inputText) {
         /* result: HS.resolveLocation payload → canonical location. */
         var direct = parseLatLon(inputText);
@@ -84,7 +116,7 @@
             var text = q.value.trim();
             if (!text) return;
             out.innerHTML = '<span class="muted small">Resolving location…</span>';
-            HS.resolveLocation(text).then(function (res) {
+            geocode(text).then(function (res) {
                 if (!res.ok) {
                     out.innerHTML = '<div class="notice notice-error">' +
                         esc(res.error || 'Location could not be resolved.') + '</div>';
@@ -141,7 +173,7 @@
         function resolve() {
             var text = input.value.trim();
             if (!text) return;
-            HS.resolveLocation(text).then(function (res) {
+            geocode(text).then(function (res) {
                 if (!res.ok) return;  // the page's own flow reports errors
                 var loc = normalize(res, text);
                 loc._input = text;
