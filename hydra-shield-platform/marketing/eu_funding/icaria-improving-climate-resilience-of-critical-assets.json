@@ -1,0 +1,21 @@
+{
+  "programme": "Horizon Europe, Research and Innovation Action, grant 101093806",
+  "call": "ICARIA \u2014 Improving ClimAte Resilience of crItical Assets",
+  "topic": "CORDIS states ICARIA uses asset-level modelling of direct and indirect impacts from complex, compound and cascading climate disasters on critical infrastructure in the Barcelona Metropolitan Area, South Aegean archipelago and Salzburg region \u2014 requiring granular, evidence-labelled multi-hazard and historical event data at asset level.",
+  "institution": "Aquatec Soluciones Medioambientales, S.A. (with UPC as scientific co-coordinator)",
+  "official_source": "https://cordis.europa.eu/project/id/101093806",
+  "deadline": "not currently verified",
+  "sector": "governments",
+  "hazards": [
+    "flood",
+    "heat",
+    "drought",
+    "wildfire",
+    "coastal"
+  ],
+  "hydrashield_relevance": "Pitch HydraShield's asset-level, evidence-labelled multi-hazard and historical event data as validation input for ICARIA's critical-infrastructure resilience models.",
+  "evidence": "Asset-level, evidence-labelled multi-hazard exposure and historical event intelligence for Barcelona, South Aegean and Salzburg to validate ICARIA's compound and cascading risk models.",
+  "recommended_strategy": "Pitch HydraShield's asset-level, evidence-labelled multi-hazard and historical event data as validation input for ICARIA's critical-infrastructure resilience models.",
+  "date_checked": "2026-08-18",
+  "status": "watching"
+}

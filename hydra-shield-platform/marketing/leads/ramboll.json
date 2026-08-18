@@ -1,0 +1,41 @@
+{
+  "organization": "Ramboll",
+  "segment": "environmental_consulting",
+  "country": "DK",
+  "website": "https://www.ramboll.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "Ramboll's homepage leads with climate adaptation content ('Climate change is no longer something we can avoid... how we adapt, endure, and navigate the shocks ahead'), resilient cities and even a megafires article \u2014 a consultancy actively selling adaptation that needs fast, defensible local hazard intelligence.",
+  "climate_exposure": "Strong Nordic/European urban and infrastructure footprint: pluvial/fluvial flooding, coastal surge on low-lying coasts, storm wind, and rising heat in cities; wildfire interest signalled by its megafires article.",
+  "potential_pain": "Ramboll's homepage leads with climate adaptation content ('Climate change is no longer something we can avoid... how we adapt, endure, and navigate the shocks ahead'), resilient cities and even a megafires article \u2014 a consultancy actively selling adaptation that needs fast, defensible local hazard intelligence.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "wind",
+    "heat",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "City-scale flood and heat exposure analysis with historical event layers for a Nordic city, plus solutions and funding intelligence Ramboll can reuse in adaptation proposals.",
+  "relevant_capability": "City-scale flood and heat exposure analysis with historical event layers for a Nordic city, plus solutions and funding i",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Angle: give Ramboll's adaptation teams a shared dashboard of evidence-labelled hazard, exposure and funding intelligence to accelerate resilient-city proposals.",
+  "priority": "high",
+  "fit_score": "Ramboll's homepage leads with climate adaptation content ('Climate change is no longer something we can avoid... how we adapt, endure, and navigate the shocks ahead'), resilient cities and even a mega",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage currently highlights climate adaptation, resilient cities (Faelledby, Copenhagen) and a megafires analysis article",
+      "source": "https://www.ramboll.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ramboll.com",
+  "date_checked": "2026-08-18"
+}

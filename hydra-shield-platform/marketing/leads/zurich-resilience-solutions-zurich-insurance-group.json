@@ -1,0 +1,42 @@
+{
+  "organization": "Zurich Resilience Solutions (Zurich Insurance Group)",
+  "segment": "insurance",
+  "country": "CH",
+  "website": "https://www.zurichresilience.com/en",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "Zurich Resilience Solutions' official site states it uses 'predictive risk modelling' to address emerging risks 'presented by climate change', delivering 60,000+ risk assessments a year via 1,000+ risk specialists in 40 countries \u2014 a service line that needs scalable, location-specific climate hazard data.",
+  "climate_exposure": "Risk-engineering arm of a global insurer advising commercial clients on physical climate risk to infrastructure, people and property across Europe and beyond.",
+  "potential_pain": "Zurich Resilience Solutions' official site states it uses 'predictive risk modelling' to address emerging risks 'presented by climate change', delivering 60,000+ risk assessments a year via 1,000+ risk specialists in 40 countries \u2014 a service line that needs scalable, location-specific climate hazard data.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "wind",
+    "heat",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield multi-hazard exposure and historical event intelligence, plus the API/QGIS plugin, as white-label-ready data inputs to Zurich's site-level climate risk assessments.",
+  "relevant_capability": "HydraShield multi-hazard exposure and historical event intelligence, plus the API/QGIS plugin, as white-label-ready data",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose HydraShield's evidence-labelled multi-hazard intelligence and QGIS/API access as a data backbone that Zurich's risk engineers can embed into client climate resilience assessments.",
+  "priority": "high",
+  "fit_score": "Zurich Resilience Solutions' official site states it uses 'predictive risk modelling' to address emerging risks 'presented by climate change', delivering 60,000+ risk assessments a year via 1,000+ ris",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site live, explicitly framing climate change as an emerging risk addressed with predictive risk modelling.",
+      "source": "https://www.zurichresilience.com/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.zurichresilience.com/en",
+  "date_checked": "2026-08-18"
+}

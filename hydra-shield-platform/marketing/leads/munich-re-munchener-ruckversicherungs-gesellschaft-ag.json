@@ -1,0 +1,42 @@
+{
+  "organization": "Munich Re (M\u00fcnchener R\u00fcckversicherungs-Gesellschaft AG)",
+  "segment": "insurance",
+  "country": "DE",
+  "website": "https://www.munichre.com/en/solutions/for-industry-clients/natcatservice.html",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Munich Re runs NatCatSERVICE, its proprietary global natural-catastrophe loss database recording loss events since 1980, so it depends on continuously validated, well-sourced hazard and loss data to analyse and price natcat risk worldwide.",
+  "climate_exposure": "World's largest reinsurer with direct balance-sheet exposure to insured losses from European windstorms, floods, hail and wildfire, plus global natcat accumulation risk.",
+  "potential_pain": "Munich Re runs NatCatSERVICE, its proprietary global natural-catastrophe loss database recording loss events since 1980, so it depends on continuously validated, well-sourced hazard and loss data to analyse and price natcat risk worldwide.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "wildfire",
+    "heat",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield's evidence-labelled historical event catalogue and Earth-observation-based damage footprints as an independent cross-check/complement to NatCatSERVICE event entries for European perils.",
+  "relevant_capability": "HydraShield's evidence-labelled historical event catalogue and Earth-observation-based damage footprints as an independe",
+  "recommended_product": "api",
+  "recommended_message": "Position HydraShield's evidence-labelled European hazard/event API as an independent open-data corroboration layer that can enrich NatCatSERVICE-style event footprints for secondary perils (hail, flash flood, wildfire) where loss data is sparse.",
+  "priority": "high",
+  "fit_score": "Munich Re runs NatCatSERVICE, its proprietary global natural-catastrophe loss database recording loss events since 1980, so it depends on continuously validated, well-sourced hazard and loss data to a",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official NatCatSERVICE product page live, describing the natural catastrophe loss database with data on natural disasters since 1980.",
+      "source": "https://www.munichre.com/en/solutions/for-industry-clients/natcatservice.html"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.munichre.com/en/solutions/for-industry-clients/natcatservice.html",
+  "date_checked": "2026-08-18"
+}

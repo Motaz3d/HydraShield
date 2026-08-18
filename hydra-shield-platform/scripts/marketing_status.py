@@ -37,9 +37,10 @@ MARKETING = os.path.join(ROOT, "marketing")
 LEAD_STATUSES = ["researched", "qualified", "draft_prepared", "contacted",
                  "responded", "opportunity", "closed_lost"]
 DRAFT_STATUSES = ["draft", "reviewed", "queued", "published", "retired"]
-INTERACTION_TYPES = ["discovered", "researched", "contacted", "replied",
-                     "meeting", "demo", "report_requested", "trial",
-                     "subscription", "renewal", "lost", "follow_up"]
+INTERACTION_TYPES = ["discovered", "researched", "qualified", "contacted",
+                     "replied", "meeting", "demo", "proposal",
+                     "report_requested", "trial", "customer", "subscription",
+                     "renewal", "lost", "follow_up"]
 REQUIRED_LEAD_FIELDS = ("organization", "segment", "country", "website",
                         "source", "date_checked")
 REQUIRED_SIGNAL_FIELDS = ("id", "organization", "sector", "country",
@@ -510,6 +511,112 @@ def cmd_evening() -> int:
     return 0
 
 
+def cmd_prospects() -> int:
+    leads = _leads()
+    print(f"PROSPECTS ({len(leads)} researched organizations)")
+    print("=" * 60)
+    ordered = sorted(leads, key=lambda kv: (
+        _PRIORITY_RANK.get(kv[1].get("priority"), 3),
+        kv[1].get("segment", ""), kv[1].get("organization", "")))
+    for _n, lead in ordered:
+        print(f"· [{lead.get('priority','?')}] {lead.get('organization')} "
+              f"({lead.get('segment')}, {lead.get('country')}) → "
+              f"{(lead.get('recommended_product') or '?').replace('_', ' ')}")
+    return 0
+
+
+def cmd_market() -> int:
+    leads = _leads()
+    print("MARKET COVERAGE (leads by segment)")
+    print("=" * 60)
+    agg = {}
+    for _n, lead in leads:
+        agg.setdefault(lead.get("segment", "?"), []).append(lead)
+    for seg, items in sorted(agg.items(), key=lambda kv: -len(kv[1])):
+        high = sum(1 for l in items if l.get("priority") == "high")
+        print(f"· {seg}: {len(items)} prospect(s), {high} high-priority")
+    if not leads:
+        print("No leads yet.")
+    return 0
+
+
+def cmd_campaigns() -> int:
+    campaigns = _campaigns()
+    print("CAMPAIGNS")
+    print("=" * 60)
+    for c in campaigns:
+        print(f"· {c['id']} — {c['name']}")
+        print(f"    audience: {', '.join(c.get('audience', {}).get('segments', []))}")
+        print(f"    CTA: {c.get('cta')} → {c.get('conversion_goal')}")
+    return 0
+
+
+def cmd_outreach() -> int:
+    print("OUTREACH QUEUE + AUDIT")
+    print("=" * 60)
+    queue = _load_json(os.path.join(MARKETING, "outreach", "queue.json")).get("queue", [])
+    print(f"Queued drafts (awaiting human review): {len(queue)}")
+    for q in queue:
+        print(f"· {q.get('lead')} — {q.get('purpose')} [{q.get('status')}]")
+    audit = os.path.join(MARKETING, "outreach", "audit.jsonl")
+    if os.path.exists(audit):
+        lines = [l for l in open(audit, encoding="utf-8").read().splitlines() if l.strip()]
+        print(f"Audit records: {len(lines)}")
+        for line in lines[-5:]:
+            rec = json.loads(line)
+            print(f"· {rec.get('date')} {rec.get('action')} — {rec.get('lead')}")
+    else:
+        print("No audit records yet.")
+    print("Nothing sends automatically — human approval gates every send.")
+    return 0
+
+
+def cmd_pipeline() -> int:
+    leads = _leads()
+    print("PIPELINE (by outreach status)")
+    print("=" * 60)
+    counts = {s: 0 for s in LEAD_STATUSES}
+    for _n, lead in leads:
+        counts[lead.get("outreach_status", "researched")] = \
+            counts.get(lead.get("outreach_status", "researched"), 0) + 1
+    for status in LEAD_STATUSES:
+        print(f"· {status}: {counts.get(status, 0)}")
+    won = sum(1 for _n, l in leads if l.get("status") == "won")
+    print(f"· won: {won}")
+    return 0
+
+
+def cmd_meetings() -> int:
+    leads = _leads()
+    print("MEETINGS & DEMOS")
+    print("=" * 60)
+    found = 0
+    for _n, lead in leads:
+        for inter in lead.get("interactions") or []:
+            if inter.get("type") in ("meeting", "demo"):
+                print(f"· {inter.get('date')} {lead.get('organization')}: "
+                      f"{inter.get('type')} — {inter.get('summary')}")
+                found += 1
+    if not found:
+        print("No meetings recorded yet.")
+    return 0
+
+
+def cmd_partners() -> int:
+    leads = _leads()
+    print("PARTNERS (by relationship type)")
+    print("=" * 60)
+    agg = {}
+    for _n, lead in leads:
+        agg.setdefault(lead.get("relationship_type", "customer"), []).append(
+            lead.get("organization"))
+    for rtype, orgs in sorted(agg.items()):
+        print(f"· {rtype}: {len(orgs)}")
+    if not leads:
+        print("No leads yet.")
+    return 0
+
+
 def cmd_funding() -> int:
     """EU funding ledger + platform funding knowledge base state."""
     print("FUNDING INTELLIGENCE")
@@ -546,6 +653,13 @@ _COMMANDS = {
     "demand": cmd_demand,
     "funding": cmd_funding,
     "lessons": cmd_lessons,
+    "prospects": cmd_prospects,
+    "market": cmd_market,
+    "campaigns": cmd_campaigns,
+    "outreach": cmd_outreach,
+    "pipeline": cmd_pipeline,
+    "meetings": cmd_meetings,
+    "partners": cmd_partners,
     "morning": cmd_morning,
     "evening": cmd_evening,
 }

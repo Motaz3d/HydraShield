@@ -1,0 +1,41 @@
+{
+  "organization": "European Bank for Reconstruction and Development (EBRD)",
+  "segment": "investment",
+  "country": "GB",
+  "website": "https://www.ebrd.com/home",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The EBRD invests across three continents combining financing, advice and policy reform, with official figures including 10.8 GW of renewables installed in its regions (2018\u20132025); its energy, municipal and private-sector portfolio in hazard-prone regions requires robust physical climate risk screening for project appraisal and resilience policy work.",
+  "climate_exposure": "Project finance and policy engagement across Central/Eastern Europe, the Southern and Eastern Mediterranean and Central Asia \u2014 regions with acute wildfire, drought, heat and flood exposure.",
+  "potential_pain": "The EBRD invests across three continents combining financing, advice and policy reform, with official figures including 10.8 GW of renewables installed in its regions (2018\u20132025); its energy, municipal and private-sector portfolio in hazard-prone regions requires robust physical climate risk screening for project appraisal and resilience policy work.",
+  "relevant_hazards": [
+    "drought",
+    "heat",
+    "wildfire",
+    "flood",
+    "wind"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Country- and project-level multi-hazard exposure evidence, historical event intelligence for appraisal documents, and solutions/funding intelligence for adaptation project pipelines.",
+  "relevant_capability": "Country- and project-level multi-hazard exposure evidence, historical event intelligence for appraisal documents, and so",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Position HydraShield's evidence-labelled hazard and solutions intelligence as an appraisal and resilience-screening input for EBRD project and policy teams.",
+  "priority": "high",
+  "fit_score": "The EBRD invests across three continents combining financing, advice and policy reform, with official figures including 10.8 GW of renewables installed in its regions (2018\u20132025); its energy, municipa",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: 10.8 GW renewables installed in its regions 2018\u20132025; model combines 'financing, advice and policy reform' across three continents.",
+      "source": "https://www.ebrd.com/home"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ebrd.com/home",
+  "date_checked": "2026-08-18"
+}

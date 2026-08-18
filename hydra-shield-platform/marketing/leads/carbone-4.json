@@ -1,0 +1,40 @@
+{
+  "organization": "Carbone 4",
+  "segment": "environmental_consulting",
+  "country": "FR",
+  "website": "https://www.carbone4.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Carbone 4 runs a dedicated 'Adaptation aux risques physiques' practice and its own OCARA software platform for steering corporate climate adaptation \u2014 it is a direct peer user of physical-risk data and a potential data/API partner rather than an end buyer.",
+  "climate_exposure": "French industrial, transport, agri-food and real-estate clients (ArianeGroup, Renault Trucks, Agrial case studies June 2026) exposed to heatwaves, drought, river flood and wildfire.",
+  "potential_pain": "Carbone 4 runs a dedicated 'Adaptation aux risques physiques' practice and its own OCARA software platform for steering corporate climate adaptation \u2014 it is a direct peer user of physical-risk data and a potential data/API partner rather than an end buyer.",
+  "relevant_hazards": [
+    "heat",
+    "drought",
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "API-level hazard and historical-event layers that could complement OCARA's methodology, demonstrated on one French industrial site with full evidence labelling.",
+  "relevant_capability": "API-level hazard and historical-event layers that could complement OCARA's methodology, demonstrated on one French indus",
+  "recommended_product": "api",
+  "recommended_message": "Angle: explore a data partnership where HydraShield's evidence-labelled hazard API enriches Carbone 4's OCARA adaptation platform.",
+  "priority": "medium",
+  "fit_score": "Carbone 4 runs a dedicated 'Adaptation aux risques physiques' practice and its own OCARA software platform for steering corporate climate adaptation \u2014 it is a direct peer user of physical-risk data an",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage promotes OCARA adaptation platform and June 2026 case studies (ArianeGroup, Renault Trucks) on physical climate risk",
+      "source": "https://www.carbone4.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.carbone4.com",
+  "date_checked": "2026-08-18"
+}

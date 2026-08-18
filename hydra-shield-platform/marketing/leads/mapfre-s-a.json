@@ -1,0 +1,41 @@
+{
+  "organization": "Mapfre S.A.",
+  "segment": "insurance",
+  "country": "ES",
+  "website": "https://www.mapfre.com/en/sustainability/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "Mapfre's official sustainability page states it 'develop[s] tools to measure and analyze climate impact and incorporate different scenarios that facilitate underwriting decision-making, including the TCFD recommendations' \u2014 an explicit need for scenario-based climate hazard data in underwriting.",
+  "climate_exposure": "Largest Spanish insurer (present in 37 countries per its corporate site) with Iberian and Latin American books highly exposed to wildfire, drought, heat, flood and coastal hazards.",
+  "potential_pain": "Mapfre's official sustainability page states it 'develop[s] tools to measure and analyze climate impact and incorporate different scenarios that facilitate underwriting decision-making, including the TCFD recommendations' \u2014 an explicit need for scenario-based climate hazard data in underwriting.",
+  "relevant_hazards": [
+    "wildfire",
+    "drought",
+    "heat",
+    "flood",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield wildfire/drought/heat exposure layers and historical event intelligence for Iberia, with evidence labels suitable for TCFD/CSRD-aligned underwriting scenario analysis.",
+  "relevant_capability": "HydraShield wildfire/drought/heat exposure layers and historical event intelligence for Iberia, with evidence labels sui",
+  "recommended_product": "professional_report",
+  "recommended_message": "Pitch HydraShield's Iberian wildfire-drought-heat intelligence reports as evidence-labelled inputs to Mapfre's climate scenario tooling for underwriting decisions.",
+  "priority": "medium",
+  "fit_score": "Mapfre's official sustainability page states it 'develop[s] tools to measure and analyze climate impact and incorporate different scenarios that facilitate underwriting decision-making, including the ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official sustainability page (Sustainability Plan 2024-2026) describing climate-impact measurement tools and scenario-based underwriting decision support.",
+      "source": "https://www.mapfre.com/en/sustainability/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mapfre.com/en/sustainability/",
+  "date_checked": "2026-08-18"
+}

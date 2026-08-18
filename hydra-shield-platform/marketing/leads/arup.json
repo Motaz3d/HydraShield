@@ -1,0 +1,41 @@
+{
+  "organization": "Arup",
+  "segment": "environmental_consulting",
+  "country": "GB",
+  "website": "https://www.arup.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Arup runs a dedicated 'Climate and sustainability consulting' service (verified service page) advising on resilient buildings, cities and infrastructure \u2014 its engineers and planners need location-specific hazard data and historical event evidence for resilience design.",
+  "climate_exposure": "Infrastructure and built-environment projects across Europe exposed to river/coastal flooding, storm wind, urban heat and drought-driven subsidence and water stress.",
+  "potential_pain": "Arup runs a dedicated 'Climate and sustainability consulting' service (verified service page) advising on resilient buildings, cities and infrastructure \u2014 its engineers and planners need location-specific hazard data and historical event evidence for resilience design.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "wind",
+    "heat",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Site-specific hazard and historical-event intelligence for a European infrastructure corridor, plus QGIS plugin delivery that fits Arup's GIS-heavy design workflows.",
+  "relevant_capability": "Site-specific hazard and historical-event intelligence for a European infrastructure corridor, plus QGIS plugin delivery",
+  "recommended_product": "api",
+  "recommended_message": "Angle: plug HydraShield's hazard API and QGIS plugin into Arup's resilience design workflows for evidence-labelled site screening.",
+  "priority": "high",
+  "fit_score": "Arup runs a dedicated 'Climate and sustainability consulting' service (verified service page) advising on resilient buildings, cities and infrastructure \u2014 its engineers and planners need location-spec",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Operates a dedicated 'Climate and sustainability consulting' service page (arup.com/services/climate-and-sustainability-services/)",
+      "source": "https://www.arup.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.arup.com",
+  "date_checked": "2026-08-18"
+}

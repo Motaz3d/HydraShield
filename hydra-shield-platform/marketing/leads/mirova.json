@@ -1,0 +1,41 @@
+{
+  "organization": "Mirova",
+  "segment": "investment",
+  "country": "FR",
+  "website": "https://www.mirova.com/en",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "Mirova is a mission-driven, B Corp sustainable asset manager (EUR 36.7bn AUM) investing in energy transition infrastructure, natural capital and private equity; its renewables, storage and natural-capital assets are physically exposed to wildfire, drought, wind, flood and heat, and it needs granular physical-risk evidence for impact and risk reporting.",
+  "climate_exposure": "Energy transition infrastructure and natural capital portfolio (solar, wind, storage, forestry/land) exposed to wildfire, drought, wind and heat across Europe and globally.",
+  "potential_pain": "Mirova is a mission-driven, B Corp sustainable asset manager (EUR 36.7bn AUM) investing in energy transition infrastructure, natural capital and private equity; its renewables, storage and natural-capital assets are physically exposed to wildfire, drought, wind, flood and heat, and it needs granular physical-risk evidence for impact and risk reporting.",
+  "relevant_hazards": [
+    "wildfire",
+    "drought",
+    "heat",
+    "wind",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Site-level hazard exposure and historical event loss data for renewable and natural-capital assets, plus solutions intelligence on adaptation options per asset class.",
+  "relevant_capability": "Site-level hazard exposure and historical event loss data for renewable and natural-capital assets, plus solutions intel",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose asset-level, evidence-labelled physical climate risk intelligence for Mirova's energy transition and natural capital portfolios to strengthen impact and risk disclosure.",
+  "priority": "high",
+  "fit_score": "Mirova is a mission-driven, B Corp sustainable asset manager (EUR 36.7bn AUM) investing in energy transition infrastructure, natural capital and private equity; its renewables, storage and natural-cap",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: Mirova Energy Transition 6 fund reached EUR 1.2bn at second close; B Corp and 'soci\u00e9t\u00e9 \u00e0 mission' status; new CEO appointed 26/06/2026.",
+      "source": "https://www.mirova.com/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mirova.com/en",
+  "date_checked": "2026-08-18"
+}

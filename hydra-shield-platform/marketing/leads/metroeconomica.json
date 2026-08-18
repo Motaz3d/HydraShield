@@ -1,0 +1,40 @@
+{
+  "organization": "Metroeconomica",
+  "segment": "environmental_consulting",
+  "country": "ES",
+  "website": "https://www.metroeconomica.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Metroeconomica is an 'independent consultancy specialising in economic and public policy analysis with a special emphasis on environmental issues' (per its own site description) \u2014 climate adaptation economics requires exactly the hazard, exposure and historical-loss evidence HydraShield produces.",
+  "climate_exposure": "Spanish and EU public-sector studies on adaptation economics: flood losses, drought impacts on agriculture and water supply, coastal erosion and heat mortality.",
+  "potential_pain": "Metroeconomica is an 'independent consultancy specialising in economic and public policy analysis with a special emphasis on environmental issues' (per its own site description) \u2014 climate adaptation economics requires exactly the hazard, exposure and historical-loss evidence HydraShield produces.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Historical event intelligence (documented past losses) combined with hazard and economic-exposure layers to underpin cost-benefit analysis of adaptation options.",
+  "relevant_capability": "Historical event intelligence (documented past losses) combined with hazard and economic-exposure layers to underpin cos",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Angle: feed Metroeconomica's adaptation cost-benefit studies with HydraShield's evidence-labelled historical event and economic-exposure intelligence.",
+  "priority": "medium",
+  "fit_score": "Metroeconomica is an 'independent consultancy specialising in economic and public policy analysis with a special emphasis on environmental issues' (per its own site description) \u2014 climate adaptation e",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Site describes specialisation in economic and public policy analysis 'con un \u00e9nfasis especial en cuestiones ambientales' (content updated June 2026)",
+      "source": "https://www.metroeconomica.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.metroeconomica.com",
+  "date_checked": "2026-08-18"
+}

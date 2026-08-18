@@ -1,0 +1,39 @@
+{
+  "organization": "Bouygues",
+  "segment": "engineering_firms",
+  "country": "FR",
+  "website": "https://www.bouygues.com/en/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Bouygues is a diversified group (Colas, Bouygues Construction, Bouygues Immobilier, Equans) in over 80 countries that publicly commits to 'making a significant contribution to the environmental and energy transitions' \u2014 its construction and property arms need site-level climate hazard evidence for resilient design and development decisions.",
+  "climate_exposure": "Construction sites, road works (Colas) and property developments (Bouygues Immobilier) across Europe exposed to heat stress on worksites, flood disruption, and wind; long-lived buildings require forward-looking hazard data at siting and design stage.",
+  "potential_pain": "Bouygues is a diversified group (Colas, Bouygues Construction, Bouygues Immobilier, Equans) in over 80 countries that publicly commits to 'making a significant contribution to the environmental and energy transitions' \u2014 its construction and property arms need site-level climate hazard evidence for resilient design and development decisions.",
+  "relevant_hazards": [
+    "heat",
+    "flood",
+    "wind"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Site and development-level multi-hazard assessments (heat, flood, wind) with historical event context for Bouygues Immobilier developments and Colas road corridors, delivered via API into existing project workflows.",
+  "relevant_capability": "Site and development-level multi-hazard assessments (heat, flood, wind) with historical event context for Bouygues Immob",
+  "recommended_product": "api",
+  "recommended_message": "Offer HydraShield's API as an embeddable hazard-evidence layer for Bouygues' construction and property development workflows across European markets.",
+  "priority": "medium",
+  "fit_score": "Bouygues is a diversified group (Colas, Bouygues Construction, Bouygues Immobilier, Equans) in over 80 countries that publicly commits to 'making a significant contribution to the environmental and en",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official group site states commitments centred on people, the environmental and energy transitions, and lists six subsidiaries across construction, energies & services, media and telecoms.",
+      "source": "https://www.bouygues.com/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bouygues.com/en/",
+  "date_checked": "2026-08-18"
+}

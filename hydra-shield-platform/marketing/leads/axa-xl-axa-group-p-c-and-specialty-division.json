@@ -1,0 +1,41 @@
+{
+  "organization": "AXA XL (AXA Group P&C and Specialty division)",
+  "segment": "insurance",
+  "country": "FR",
+  "website": "https://axaxl.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Insurance Underwriter",
+  "identified_problem": "AXA XL's official site shows a Risk Consulting practice covering 'all major risks; from natural hazards to machinery breakdown' and the AXA Digital Commercial Platform built to PREDICT and PREVENT risks with real-time insights \u2014 both need granular hazard and asset-exposure data feeds.",
+  "climate_exposure": "Large commercial and specialty insurer/reinsurer serving clients in 200+ countries, with property and natural-hazard underwriting exposure across Europe.",
+  "potential_pain": "AXA XL's official site shows a Risk Consulting practice covering 'all major risks; from natural hazards to machinery breakdown' and the AXA Digital Commercial Platform built to PREDICT and PREVENT risks with real-time insights \u2014 both need granular hazard and asset-exposure data feeds.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "wind",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield monitoring + API feeds of asset-level hazard exposure and event alerts that could plug into client-facing risk engineering and predict-and-prevent platforms like AXA DCP.",
+  "relevant_capability": "HydraShield monitoring + API feeds of asset-level hazard exposure and event alerts that could plug into client-facing ri",
+  "recommended_product": "api",
+  "recommended_message": "Pitch HydraShield's monitoring API and evidence-labelled hazard layers as an embeddable open-data component for AXA XL's risk consulting and digital risk-management platforms.",
+  "priority": "high",
+  "fit_score": "AXA XL's official site shows a Risk Consulting practice covering 'all major risks; from natural hazards to machinery breakdown' and the AXA Digital Commercial Platform built to PREDICT and PREVENT ris",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage highlights Risk Consulting 'from natural hazards to machinery breakdown' and the AXA Digital Commercial Platform for risk prediction/prevention.",
+      "source": "https://axaxl.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://axaxl.com",
+  "date_checked": "2026-08-18"
+}

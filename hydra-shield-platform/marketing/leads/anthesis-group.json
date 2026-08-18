@@ -1,0 +1,40 @@
+{
+  "organization": "Anthesis Group",
+  "segment": "environmental_consulting",
+  "country": "GB",
+  "website": "https://www.anthesisgroup.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Anthesis Group ('Sustainability Consulting', per its own site title) is one of the largest pure sustainability consultancies; it needs scalable hazard and exposure intelligence to serve CSRD/ESRS and climate-risk work for a large European client base.",
+  "climate_exposure": "Broad European corporate client base with multi-site exposure to flooding, heat stress, drought-driven supply-chain disruption and storm wind.",
+  "potential_pain": "Anthesis Group ('Sustainability Consulting', per its own site title) is one of the largest pure sustainability consultancies; it needs scalable hazard and exposure intelligence to serve CSRD/ESRS and climate-risk work for a large European client base.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "drought",
+    "wind"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Multi-site hazard exposure screening with evidence-labelled sources, delivered via dashboard for consultant reuse across many client engagements.",
+  "relevant_capability": "Multi-site hazard exposure screening with evidence-labelled sources, delivered via dashboard for consultant reuse across",
+  "recommended_product": "organization_account",
+  "recommended_message": "Angle: an organization account lets Anthesis consultants generate consistent, evidence-labelled hazard intelligence across all client engagements.",
+  "priority": "medium",
+  "fit_score": "Anthesis Group ('Sustainability Consulting', per its own site title) is one of the largest pure sustainability consultancies; it needs scalable hazard and exposure intelligence to serve CSRD/ESRS and ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: none recorded",
+      "source": "https://www.anthesisgroup.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.anthesisgroup.com",
+  "date_checked": "2026-08-18"
+}

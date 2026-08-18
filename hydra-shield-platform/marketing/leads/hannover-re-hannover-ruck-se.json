@@ -1,0 +1,41 @@
+{
+  "organization": "Hannover Re (Hannover R\u00fcck SE)",
+  "segment": "insurance",
+  "country": "DE",
+  "website": "https://www.hannover-re.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Hannover Re's official homepage ties its H1 2026 earnings beat explicitly to 'lower-than-expected large losses', underscoring how natcat large-loss frequency/severity drives its results and the need for independent hazard and event-loss verification data.",
+  "climate_exposure": "One of the world's leading reinsurers (per its own homepage) with global P&C natcat exposure, including European windstorm and flood treaties.",
+  "potential_pain": "Hannover Re's official homepage ties its H1 2026 earnings beat explicitly to 'lower-than-expected large losses', underscoring how natcat large-loss frequency/severity drives its results and the need for independent hazard and event-loss verification data.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "wildfire",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield historical event intelligence with evidence-labelled loss footprints for European events, useful for independent large-loss validation and treaty structuring.",
+  "relevant_capability": "HydraShield historical event intelligence with evidence-labelled loss footprints for European events, useful for indepen",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Present HydraShield's evidence-labelled European historical event catalogue as an independent verification source for large-loss assessment and natcat treaty analytics.",
+  "priority": "medium",
+  "fit_score": "Hannover Re's official homepage ties its H1 2026 earnings beat explicitly to 'lower-than-expected large losses', underscoring how natcat large-loss frequency/severity drives its results and the need f",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage (12 August 2026 quarterly statement) citing lower-than-expected large losses as a driver of results.",
+      "source": "https://www.hannover-re.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hannover-re.com/",
+  "date_checked": "2026-08-18"
+}

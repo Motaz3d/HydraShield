@@ -1,0 +1,42 @@
+{
+  "organization": "European Investment Bank (EIB)",
+  "segment": "investment",
+  "country": "LU",
+  "website": "https://www.eib.org/en/about/index.htm",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The EIB describes itself as one of the largest providers of climate finance in the world; its lending portfolio to infrastructure, cohesion and green-transition projects across the EU is directly exposed to physical climate hazards (floods, wildfires, heat, wind) that affect borrower creditworthiness and project bankability.",
+  "climate_exposure": "EU-wide loan portfolio concentrated in transport, energy, water and social infrastructure assets exposed to flood, wildfire, heat and wind extremes.",
+  "potential_pain": "The EIB describes itself as one of the largest providers of climate finance in the world; its lending portfolio to infrastructure, cohesion and green-transition projects across the EU is directly exposed to physical climate hazards (floods, wildfires, heat, wind) that affect borrower creditworthiness and project bankability.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "drought",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Asset-level multi-hazard exposure mapping of financed projects, historical event losses for counterparties' regions, and evidence-labelled climate risk screening suitable for EIB Climate Bank Roadmap alignment.",
+  "relevant_capability": "Asset-level multi-hazard exposure mapping of financed projects, historical event losses for counterparties' regions, and",
+  "recommended_product": "api",
+  "recommended_message": "Position HydraShield's API as an evidence-labelled physical-risk screening layer for the EIB's climate finance due diligence and Climate Bank Roadmap reporting.",
+  "priority": "high",
+  "fit_score": "The EIB describes itself as one of the largest providers of climate finance in the world; its lending portfolio to infrastructure, cohesion and green-transition projects across the EU is directly expo",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: EIB is 'one of the largest providers of climate finance' and prioritises accelerating the green transition.",
+      "source": "https://www.eib.org/en/about/index.htm"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.eib.org/en/about/index.htm",
+  "date_checked": "2026-08-18"
+}

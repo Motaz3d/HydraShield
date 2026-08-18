@@ -1,0 +1,42 @@
+{
+  "organization": "Amundi",
+  "segment": "investment",
+  "country": "FR",
+  "website": "https://www.amundi.com/institutional",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Amundi (around EUR 2.4 trillion AUM, self-described 'European leader' and committed responsible investor since 2010) must assess physical climate risk across very large institutional portfolios and meet EU sustainability disclosure expectations with defensible, evidence-based hazard data.",
+  "climate_exposure": "Diversified institutional portfolios across European equities, fixed income and real assets with diffuse exposure to all six hazards, notably flood, heat and wind.",
+  "potential_pain": "Amundi (around EUR 2.4 trillion AUM, self-described 'European leader' and committed responsible investor since 2010) must assess physical climate risk across very large institutional portfolios and meet EU sustainability disclosure expectations with defensible, evidence-based hazard data.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "wildfire",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Issuer- and asset-level multi-hazard exposure datasets via API, historical event intelligence for portfolio stress narratives, and solutions intelligence for stewardship engagement.",
+  "relevant_capability": "Issuer- and asset-level multi-hazard exposure datasets via API, historical event intelligence for portfolio stress narra",
+  "recommended_product": "api",
+  "recommended_message": "Pitch HydraShield's API as an evidence-labelled physical hazard data feed that Amundi's responsible investment teams can embed in portfolio risk and disclosure workflows.",
+  "priority": "medium",
+  "fit_score": "Amundi (around EUR 2.4 trillion AUM, self-described 'European leader' and committed responsible investor since 2010) must assess physical climate risk across very large institutional portfolios and me",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: 'Responsible Investment has been part of our DNA' since 2010; around EUR 2.4 trillion AUM; 1,000+ institutional clients.",
+      "source": "https://www.amundi.com/institutional"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.amundi.com/institutional",
+  "date_checked": "2026-08-18"
+}

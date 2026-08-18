@@ -1,0 +1,42 @@
+{
+  "organization": "European Environment Agency (EEA)",
+  "segment": "research_centers",
+  "country": "DK",
+  "website": "https://www.eea.europa.eu/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "EEA's mandate is to provide knowledge and quality-checked data for sustainability policy across Europe, and its official site confirms it tracks 'our changing environment and climate, the challenges we face'; it needs granular, evidence-labelled climate hazard and exposure intelligence to feed its assessments and the Eionet network it coordinates.",
+  "climate_exposure": "Pan-European assessment of climate impacts across all member and cooperating countries, requiring consistent multi-hazard data layers.",
+  "potential_pain": "EEA's mandate is to provide knowledge and quality-checked data for sustainability policy across Europe, and its official site confirms it tracks 'our changing environment and climate, the challenges we face'; it needs granular, evidence-labelled climate hazard and exposure intelligence to feed its assessments and the Eionet network it coordinates.",
+  "relevant_hazards": [
+    "wildfire",
+    "flood",
+    "drought",
+    "heat",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield multi-hazard exposure layers with evidence labels, historical event intelligence for Europe, and API endpoints that could interoperate with EEA/Eionet data dissemination.",
+  "relevant_capability": "HydraShield multi-hazard exposure layers with evidence labels, historical event intelligence for Europe, and API endpoin",
+  "recommended_product": "api",
+  "recommended_message": "Position HydraShield's evidence-labelled multi-hazard API as a complementary data source for EEA's climate impact and adaptation knowledge products.",
+  "priority": "high",
+  "fit_score": "EEA's mandate is to provide knowledge and quality-checked data for sustainability policy across Europe, and its official site confirms it tracks 'our changing environment and climate, the challenges w",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage highlights 'Europe's environment 2025' assessment on the changing environment and climate, and EEA/Eionet network extension to 40 countries with Ukraine as cooperating country",
+      "source": "https://www.eea.europa.eu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.eea.europa.eu/",
+  "date_checked": "2026-08-18"
+}

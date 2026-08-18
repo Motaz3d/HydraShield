@@ -1,0 +1,42 @@
+{
+  "organization": "Marguerite",
+  "segment": "investment",
+  "country": "LU",
+  "website": "https://www.marguerite.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Marguerite invests in capital-intensive sustainable infrastructure across Europe \u2014 its official portfolio map shows wind farms, solar PV, biomass plants, district heating, airports, motorways, waste-to-energy and subsea cables in hazard-exposed countries (Spain, Portugal, Greece, Croatia, Italy) \u2014 and needs physical hazard screening across a geographically diverse portfolio.",
+  "climate_exposure": "Renewables and transport assets concentrated in Southern and Eastern Europe exposed to wildfire, drought, heat, wind and coastal risks (e.g. Greek regional airports, Iberian solar and biomass, offshore wind).",
+  "potential_pain": "Marguerite invests in capital-intensive sustainable infrastructure across Europe \u2014 its official portfolio map shows wind farms, solar PV, biomass plants, district heating, airports, motorways, waste-to-energy and subsea cables in hazard-exposed countries (Spain, Portugal, Greece, Croatia, Italy) \u2014 and needs physical hazard screening across a geographically diverse portfolio.",
+  "relevant_hazards": [
+    "wildfire",
+    "drought",
+    "heat",
+    "wind",
+    "coastal",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Portfolio-map-level hazard exposure overlay for their disclosed assets, wildfire and drought historical event intelligence for Iberian and Greek holdings, and solutions intelligence for adaptation capex.",
+  "relevant_capability": "Portfolio-map-level hazard exposure overlay for their disclosed assets, wildfire and drought historical event intelligen",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Demonstrate a dashboard that overlays HydraShield's six-hazard exposure and historical event evidence onto Marguerite's published European portfolio map.",
+  "priority": "high",
+  "fit_score": "Marguerite invests in capital-intensive sustainable infrastructure across Europe \u2014 its official portfolio map shows wind farms, solar PV, biomass plants, district heating, airports, motorways, waste-t",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: live portfolio of wind, solar, biomass, district heating, airports, motorways and subsea cables across Spain, Portugal, Greece, Italy, Croatia and CEE.",
+      "source": "https://www.marguerite.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.marguerite.com/",
+  "date_checked": "2026-08-18"
+}

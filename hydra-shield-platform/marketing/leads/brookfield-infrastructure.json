@@ -1,0 +1,41 @@
+{
+  "organization": "Brookfield (Infrastructure)",
+  "segment": "investment",
+  "country": "CA",
+  "website": "https://www.brookfield.com/our-businesses/infrastructure",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Brookfield is one of the largest global infrastructure investors ($262B infrastructure AUM, 63,000+ operating employees) owning essential transport, energy, data and utility assets; these long-lived European assets face material physical risk from flood, wind, heat, wildfire and coastal hazards that must be priced and managed over decades-long hold periods.",
+  "climate_exposure": "Long-hold essential infrastructure (transport, energy, data, utilities) across Europe exposed to flood, wind, coastal surge, heat and wildfire.",
+  "potential_pain": "Brookfield is one of the largest global infrastructure investors ($262B infrastructure AUM, 63,000+ operating employees) owning essential transport, energy, data and utility assets; these long-lived European assets face material physical risk from flood, wind, heat, wildfire and coastal hazards that must be priced and managed over decades-long hold periods.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal",
+    "heat",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Asset-level hazard exposure scores, historical extreme-event loss records around portfolio sites, and forward monitoring with SMS alerts for operating assets.",
+  "relevant_capability": "Asset-level hazard exposure scores, historical extreme-event loss records around portfolio sites, and forward monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer continuous multi-hazard monitoring with alerts for Brookfield's European infrastructure assets, backed by evidence-labelled historical event intelligence for underwriting and hold-period risk management.",
+  "priority": "high",
+  "fit_score": "Brookfield is one of the largest global infrastructure investors ($262B infrastructure AUM, 63,000+ operating employees) owning essential transport, energy, data and utility assets; these long-lived E",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: $262B infrastructure AUM, 300+ professionals, 63,000+ operating employees; 'one of the largest investors in global infrastructure'.",
+      "source": "https://www.brookfield.com/our-businesses/infrastructure"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.brookfield.com/our-businesses/infrastructure",
+  "date_checked": "2026-08-18"
+}

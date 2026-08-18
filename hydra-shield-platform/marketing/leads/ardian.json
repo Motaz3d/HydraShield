@@ -1,0 +1,41 @@
+{
+  "organization": "Ardian",
+  "segment": "investment",
+  "country": "FR",
+  "website": "https://www.ardian.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "Ardian is a global diversified private markets firm ($200bn AUM/advised, 22 offices) covering infrastructure, real assets, buyout and secondaries; physical climate risk across this diversified European asset base must be assessed consistently for investors, regulators and its 'lasting value' sustainability positioning.",
+  "climate_exposure": "Diversified private markets AUM including European infrastructure and real assets exposed to flood, wind, heat, wildfire and coastal hazards.",
+  "potential_pain": "Ardian is a global diversified private markets firm ($200bn AUM/advised, 22 offices) covering infrastructure, real assets, buyout and secondaries; physical climate risk across this diversified European asset base must be assessed consistently for investors, regulators and its 'lasting value' sustainability positioning.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "heat",
+    "wildfire",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Cross-portfolio hazard exposure datasets via API for pre-deal screening and LP/regulatory reporting, plus historical event intelligence for target-asset regions.",
+  "relevant_capability": "Cross-portfolio hazard exposure datasets via API for pre-deal screening and LP/regulatory reporting, plus historical eve",
+  "recommended_product": "api",
+  "recommended_message": "Offer HydraShield's API as a consistent, evidence-labelled physical climate risk layer for Ardian's pre-deal screening and portfolio reporting across private markets.",
+  "priority": "medium",
+  "fit_score": "Ardian is a global diversified private markets firm ($200bn AUM/advised, 22 offices) covering infrastructure, real assets, buyout and secondaries; physical climate risk across this diversified Europea",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: $200bn AUM or advised, 22 offices, 350+ investment professionals; 'Lasting Change' commitment highlighted.",
+      "source": "https://www.ardian.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ardian.com/",
+  "date_checked": "2026-08-18"
+}

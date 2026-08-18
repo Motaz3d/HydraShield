@@ -1,0 +1,11 @@
+{
+  "description": "Evidence-based editorial backlog (docs/SEO_STRATEGY.md). Items are ranked from demand signals and segment needs; each requires real data and sources before drafting. Status: idea → research → drafting → review → published.",
+  "items": [
+    {"topic": "Historical wildfire intelligence: how documented fire events are derived from NASA FIRMS", "cluster": "historical_evidence", "hazards": ["wildfire"], "segment": "insurance", "status": "idea", "source_requirements": ["NASA FIRMS documentation", "HydraShield events endpoint"]},
+    {"topic": "Flood exposure analysis: discharge vs climatology, with a worked European example", "cluster": "exposure", "hazards": ["flood"], "segment": "municipalities", "status": "idea", "source_requirements": ["GloFAS via Open-Meteo", "HydraShield flood analysis"]},
+    {"topic": "Climate risk for real estate: six hazards on one location", "cluster": "sector_risk", "hazards": ["wildfire", "flood", "drought", "heat", "wind", "coastal"], "segment": "real_estate", "status": "idea", "source_requirements": ["HydraShield per-hazard analyses"]},
+    {"topic": "EU climate adaptation funding: the main programme landscape (official sources only)", "cluster": "funding", "hazards": [], "segment": "municipal_climate_adaptation", "status": "idea", "source_requirements": ["config/funding_knowledge.json official URLs"]},
+    {"topic": "Earth observation for climate risk: what satellites can and cannot tell you", "cluster": "methods", "hazards": ["wildfire", "drought"], "segment": "research_centers", "status": "idea", "source_requirements": ["Copernicus Sentinel-2 docs", "HydraShield provenance model"]},
+    {"topic": "Drought intelligence for agriculture: soil-moisture anomalies vs climatology", "cluster": "hazard_analysis", "hazards": ["drought"], "segment": "agriculture", "status": "idea", "source_requirements": ["ERA5-Land via Open-Meteo", "declared anomaly method"]}
+  ]
+}

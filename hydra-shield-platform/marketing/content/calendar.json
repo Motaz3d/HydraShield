@@ -1,6 +1,13 @@
 {
-  "description": "Rolling LinkedIn content calendar (docs/LINKEDIN_STRATEGY.md §3). 2–3 posts per week, rotating pillars. Each slot is filled by a draft from marketing/content/drafts/ before its date; publishing is human-executed.",
-  "cadence": {"posts_per_week": 3, "days": ["Tuesday", "Thursday", "Saturday"]},
+  "description": "Rolling LinkedIn content calendar (docs/LINKEDIN_STRATEGY.md \u00a73). 2\u20133 posts per week, rotating pillars. Each slot is filled by a draft from marketing/content/drafts/ before its date; publishing is human-executed.",
+  "cadence": {
+    "posts_per_week": 3,
+    "days": [
+      "Tuesday",
+      "Thursday",
+      "Saturday"
+    ]
+  },
   "pillar_rotation": [
     "current_climate_extremes",
     "historical_event_intelligence",
@@ -15,8 +22,117 @@
   ],
   "rules": [
     "Every post links to a checkable HydraShield page or an authoritative source.",
-    "No invented numbers, events, or engagement bait; evidence rules of docs/PRODUCT_STORY.md §8 apply.",
+    "No invented numbers, events, or engagement bait; evidence rules of docs/PRODUCT_STORY.md \u00a78 apply.",
     "Campaign-tagged landing URLs are used when a post belongs to a campaign."
   ],
-  "queue": []
+  "queue": [
+    {
+      "date": "2026-08-19",
+      "pillar": "current_climate_extremes",
+      "campaign": "D",
+      "segment": "municipalities",
+      "topic": "Live multi-hazard intelligence: what the data shows this week",
+      "draft": "2026-08-heat-andalusia-monitoring.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-08-22",
+      "pillar": "insurance_intelligence",
+      "campaign": "A",
+      "segment": "insurance",
+      "topic": "Historical hazard profiles: OBSERVED vs MODELLED vs PROJECTED \u2014 why the difference matters for underwriting context",
+      "draft": "2026-08-insurance-evidence-labels.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-08-25",
+      "pillar": "climate_risk_for_business",
+      "campaign": "C",
+      "segment": "investment",
+      "topic": "Assess climate exposure before committing capital: a worked example with sources",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-08-27",
+      "pillar": "sustainable_solutions",
+      "campaign": "G",
+      "segment": "municipalities",
+      "topic": "From hazard to solution to funding: the resilience chain for a real place",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-08-29",
+      "pillar": "map_discoveries",
+      "campaign": "F",
+      "segment": "infrastructure",
+      "topic": "Reading the map: what real exposure layers show around infrastructure",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-01",
+      "pillar": "technology_discoveries",
+      "campaign": "K",
+      "segment": "research_centers",
+      "topic": "QGIS-native climate intelligence: analysis as layers with provenance",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-03",
+      "pillar": "historical_event_intelligence",
+      "campaign": "B",
+      "segment": "real_estate",
+      "topic": "What happened at this property? Historical event intelligence with sources",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-05",
+      "pillar": "investment_intelligence",
+      "campaign": "J",
+      "segment": "sustainable_finance",
+      "topic": "Exposure before euros: honest non-quantification in climate finance",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-08",
+      "pillar": "research",
+      "campaign": "E",
+      "segment": "universities",
+      "topic": "Reproducible hazard analysis: content-hashed runs and open registries",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-10",
+      "pillar": "satellite_observations",
+      "campaign": "K",
+      "segment": "research_centers",
+      "topic": "What Sentinel-2 actually saw: vegetation moisture as evidence",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-12",
+      "pillar": "climate_risk_for_business",
+      "campaign": "I",
+      "segment": "construction",
+      "topic": "Hazard-aware siting: evidence before concrete",
+      "draft": null,
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-15",
+      "pillar": "annual_reports",
+      "campaign": "H",
+      "segment": "governments",
+      "topic": "Toward the Annual Climate Extreme Intelligence Report: the sourcing rules",
+      "draft": null,
+      "status": "planned"
+    }
+  ]
 }

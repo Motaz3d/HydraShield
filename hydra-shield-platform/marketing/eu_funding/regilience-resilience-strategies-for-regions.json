@@ -1,0 +1,20 @@
+{
+  "programme": "Horizon 2020 (H2020-EU.3.5 Climate action), Coordination and Support Action, grant 101036560",
+  "call": "REGILIENCE \u2014 Resilience Strategies for Regions",
+  "topic": "CORDIS states REGILIENCE surveys the 50 most vulnerable EU regions and disseminates regional climate resilience pathways, tools and funding knowledge through ~700 activities \u2014 a coordination action that needs credible, comparable regional hazard and vulnerability evidence to feed its indicator set and resilience scan tools.",
+  "institution": "Institute for European Energy and Climate Policy Stichting (IEECP)",
+  "official_source": "https://cordis.europa.eu/project/id/101036560",
+  "deadline": "not currently verified",
+  "sector": "governments",
+  "hazards": [
+    "flood",
+    "heat",
+    "drought",
+    "wildfire"
+  ],
+  "hydrashield_relevance": "Offer HydraShield's evidence-labelled regional risk and solutions intelligence as a data layer for REGILIENCE's 50-region needs survey and resilience pathway dissemination.",
+  "evidence": "Comparable, evidence-labelled regional hazard exposure profiles and historical event loss records that can plug into REGILIENCE's regional resilience indicator set and citizen Resilience Scan tool.",
+  "recommended_strategy": "Offer HydraShield's evidence-labelled regional risk and solutions intelligence as a data layer for REGILIENCE's 50-region needs survey and resilience pathway dissemination.",
+  "date_checked": "2026-08-18",
+  "status": "watching"
+}

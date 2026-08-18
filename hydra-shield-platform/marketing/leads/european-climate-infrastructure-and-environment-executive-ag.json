@@ -1,0 +1,41 @@
+{
+  "organization": "European Climate, Infrastructure and Environment Executive Agency (CINEA)",
+  "segment": "governments",
+  "country": "BE",
+  "website": "https://cinea.ec.europa.eu/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "CINEA implements EU programmes including LIFE climate action and environment projects; its official site confirms it manages project funding, prizes for climate action projects, and the Green Advisory Service for Sustainable Investments Support \u2014 it needs independent, evidence-labelled hazard and exposure intelligence to screen proposals and monitor funded adaptation projects.",
+  "climate_exposure": "Portfolio-level exposure of EU-funded climate adaptation and mitigation projects across Member States to floods, wildfires, drought, heat and coastal risks.",
+  "potential_pain": "CINEA implements EU programmes including LIFE climate action and environment projects; its official site confirms it manages project funding, prizes for climate action projects, and the Green Advisory Service for Sustainable Investments Support \u2014 it needs independent, evidence-labelled hazard and exposure intelligence to screen proposals and monitor funded adaptation projects.",
+  "relevant_hazards": [
+    "wildfire",
+    "flood",
+    "drought",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield project-site hazard exposure scoring, historical event intelligence to validate project baselines, and funding/solutions intelligence aligning with LIFE climate priorities.",
+  "relevant_capability": "HydraShield project-site hazard exposure scoring, historical event intelligence to validate project baselines, and fundi",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer CINEA a portfolio-level climate risk dashboard to evidence-screen LIFE climate adaptation proposals and monitor funded project sites against observed hazard events.",
+  "priority": "high",
+  "fit_score": "CINEA implements EU programmes including LIFE climate action and environment projects; its official site confirms it manages project funding, prizes for climate action projects, and the Green Advisory",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: LIFE programme page active with news dated 14 August 2026, LIFE Prizes for climate action projects, and Green Advisory Service for Sustainable Investments Support listed among managed initiatives",
+      "source": "https://cinea.ec.europa.eu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://cinea.ec.europa.eu/",
+  "date_checked": "2026-08-18"
+}

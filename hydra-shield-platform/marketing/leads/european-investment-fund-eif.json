@@ -1,0 +1,41 @@
+{
+  "organization": "European Investment Fund (EIF)",
+  "segment": "investment",
+  "country": "LU",
+  "website": "https://www.eif.org/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "The EIF channels equity and debt into EU infrastructure and SME funds, and its official site states it is 'building a green and sustainable future' under the second phase of the EIB Group Climate Bank Roadmap; it needs physical climate risk data on the funds and infrastructure projects it backs.",
+  "climate_exposure": "Indirect exposure via fund investments in green and digital infrastructure and SMEs across hazard-prone European regions.",
+  "potential_pain": "The EIF channels equity and debt into EU infrastructure and SME funds, and its official site states it is 'building a green and sustainable future' under the second phase of the EIB Group Climate Bank Roadmap; it needs physical climate risk data on the funds and infrastructure projects it backs.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Portfolio-level hazard exposure analytics for intermediated infrastructure funds, historical event intelligence for investee regions, and monitoring feeds for post-investment risk surveillance.",
+  "relevant_capability": "Portfolio-level hazard exposure analytics for intermediated infrastructure funds, historical event intelligence for inve",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer a portfolio-monitoring dashboard giving the EIF continuous, evidence-labelled hazard exposure across its intermediated green infrastructure investments.",
+  "priority": "high",
+  "fit_score": "The EIF channels equity and debt into EU infrastructure and SME funds, and its official site states it is 'building a green and sustainable future' under the second phase of the EIB Group Climate Bank",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: 'The second phase of our Climate Bank Roadmap doubles down on our climate objectives, placing sustainability at the heart of our activities.'",
+      "source": "https://www.eif.org/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.eif.org/",
+  "date_checked": "2026-08-18"
+}

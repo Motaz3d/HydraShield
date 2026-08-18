@@ -1,0 +1,40 @@
+{
+  "organization": "SE Advisory Services (formerly EcoAct)",
+  "segment": "environmental_consulting",
+  "country": "FR",
+  "website": "https://eco-act.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "The former EcoAct practice (now SE Advisory Services, the Schneider Electric climate consultancy) explicitly lists 'Climate Risk Assessment' as a service line: 'Understanding the climate risks and opportunities posed to your organisation... will allow you to strengthen your net-zero strategy and keep up with reporting demands.'",
+  "climate_exposure": "French and European corporate clients with exposure to heatwaves, drought stress on operations and supply chains, river flooding and Mediterranean wildfire.",
+  "potential_pain": "The former EcoAct practice (now SE Advisory Services, the Schneider Electric climate consultancy) explicitly lists 'Climate Risk Assessment' as a service line: 'Understanding the climate risks and opportunities posed to your organisation... will allow you to strengthen your net-zero strategy and keep up with reporting demands.'",
+  "relevant_hazards": [
+    "heat",
+    "drought",
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Multi-hazard screening of a sample client portfolio with transparent evidence labelling, plus economic-exposure quantification to strengthen its climate risk assessment deliverables.",
+  "relevant_capability": "Multi-hazard screening of a sample client portfolio with transparent evidence labelling, plus economic-exposure quantifi",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Angle: power SE Advisory Services' Climate Risk Assessment line with HydraShield's evidence-labelled hazard and economic-exposure intelligence.",
+  "priority": "high",
+  "fit_score": "The former EcoAct practice (now SE Advisory Services, the Schneider Electric climate consultancy) explicitly lists 'Climate Risk Assessment' as a service line: 'Understanding the climate risks and opp",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Site lists 'Climate Risk Assessment' as a named service and promotes 'The Big eBook of Sustainability Reporting Frameworks 2026'",
+      "source": "https://eco-act.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://eco-act.com",
+  "date_checked": "2026-08-18"
+}

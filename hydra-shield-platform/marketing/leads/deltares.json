@@ -1,0 +1,40 @@
+{
+  "organization": "Deltares",
+  "segment": "research_centers",
+  "country": "NL",
+  "website": "https://www.deltares.nl/en/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Deltares is an independent knowledge institute for water and subsurface that builds applied solutions 'to enable delta life' worldwide \u2014 it continuously needs hazard, exposure and event data to validate models and deliver client projects on flood, drought and coastal risk.",
+  "climate_exposure": "Core mission focus on deltas and coastal zones: riverine and coastal flood, drought and subsurface/salinity stress, compounded by sea-level rise and heat.",
+  "potential_pain": "Deltares is an independent knowledge institute for water and subsurface that builds applied solutions 'to enable delta life' worldwide \u2014 it continuously needs hazard, exposure and event data to validate models and deliver client projects on flood, drought and coastal risk.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "drought",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield's evidence-labelled flood/coastal/drought layers, historical event catalogue and EO-derived indicators as complementary data and validation sources for Deltares' modelling and advisory projects; potential data/partnership pilot.",
+  "relevant_capability": "HydraShield's evidence-labelled flood/coastal/drought layers, historical event catalogue and EO-derived indicators as co",
+  "recommended_product": "custom_analysis",
+  "recommended_message": "Propose a custom analysis or data partnership pilot where HydraShield's evidence-labelled multi-hazard and historical-event layers complement Deltares' water and subsurface modelling.",
+  "priority": "high",
+  "fit_score": "Deltares is an independent knowledge institute for water and subsurface that builds applied solutions 'to enable delta life' worldwide \u2014 it continuously needs hazard, exposure and event data to valida",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: 'As an independent knowledge institute, Deltares works on innovative solutions in the field of water and subsurface' with projects worldwide to 'enable delta life'.",
+      "source": "https://www.deltares.nl/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.deltares.nl/en/",
+  "date_checked": "2026-08-18"
+}

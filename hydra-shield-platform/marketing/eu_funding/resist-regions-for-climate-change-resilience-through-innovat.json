@@ -1,0 +1,20 @@
+{
+  "programme": "Horizon Europe (Mission Adaptation), Innovation Action, grant 101093968",
+  "call": "RESIST \u2014 Regions for climate change resilience through Innovation, Science and Technology",
+  "topic": "CORDIS states RESIST runs 4 large-scale resilience demonstrators and 8 twinning regions using immersive digital twins, aiming to cut economic losses from natural hazards such as floods by 14% \u2014 the consortium needs continuous, evidence-labelled hazard monitoring and loss data for its regional digital twins.",
+  "institution": "SINTEF AS",
+  "official_source": "https://cordis.europa.eu/project/id/101093968",
+  "deadline": "not currently verified",
+  "sector": "governments",
+  "hazards": [
+    "flood",
+    "wind",
+    "heat",
+    "coastal"
+  ],
+  "hydrashield_relevance": "Offer HydraShield's monitoring and evidence-labelled hazard data as a live evidence feed for RESIST's regional digital twins and loss-reduction targets.",
+  "evidence": "Continuous multi-hazard monitoring with evidence-labelled exposure and historical loss feeds to enrich RESIST's immersive regional digital twins and demonstrator KPIs.",
+  "recommended_strategy": "Offer HydraShield's monitoring and evidence-labelled hazard data as a live evidence feed for RESIST's regional digital twins and loss-reduction targets.",
+  "date_checked": "2026-08-18",
+  "status": "watching"
+}

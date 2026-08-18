@@ -1,0 +1,42 @@
+{
+  "organization": "Swiss Re Institute (Swiss Re Ltd)",
+  "segment": "insurance",
+  "country": "CH",
+  "website": "https://www.sigma-explorer.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Swiss Re Institute operates sigma explorer, its official public data platform for insurance-market and risk data (the fetched page shows live macroeconomic and insurance premium datasets); the Institute's catastrophe research franchise depends on continuously updated, verifiable hazard and loss event data. (Note: swissre.com itself returned HTTP 403 to automated fetches; this official Institute product site verified instead.)",
+  "climate_exposure": "World's second-largest reinsurer with flagship natural-catastrophe research (sigma) and global P&C books exposed to European windstorm/flood and global wildfire/heat events.",
+  "potential_pain": "Swiss Re Institute operates sigma explorer, its official public data platform for insurance-market and risk data (the fetched page shows live macroeconomic and insurance premium datasets); the Institute's catastrophe research franchise depends on continuously updated, verifiable hazard and loss event data. (Note: swissre.com itself returned HTTP 403 to automated fetches; this official Institute product site verified instead.)",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "wildfire",
+    "heat",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield evidence-labelled historical event intelligence and EO-derived damage data as an independent open-data cross-reference alongside sigma catastrophe statistics.",
+  "relevant_capability": "HydraShield evidence-labelled historical event intelligence and EO-derived damage data as an independent open-data cross",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Propose HydraShield's transparent, evidence-labelled European event catalogue as a complementary open-data layer to Swiss Re Institute's sigma catastrophe research.",
+  "priority": "medium",
+  "fit_score": "Swiss Re Institute operates sigma explorer, its official public data platform for insurance-market and risk data (the fetched page shows live macroeconomic and insurance premium datasets); the Institu",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official Swiss Re Institute sigma explorer data platform live with current 2026-2028 forecast datasets.",
+      "source": "https://www.sigma-explorer.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sigma-explorer.com/",
+  "date_checked": "2026-08-18"
+}

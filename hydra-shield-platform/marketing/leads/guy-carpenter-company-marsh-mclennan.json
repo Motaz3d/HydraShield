@@ -1,0 +1,41 @@
+{
+  "organization": "Guy Carpenter & Company (Marsh McLennan)",
+  "segment": "insurance",
+  "country": "US",
+  "website": "https://www.guycarp.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Guy Carpenter's official homepage advertises a 'CAT Resource Center' providing live event, post-event, seasonal outlooks and thought leadership on natural catastrophes, and its CEO names climate change and wildfires as macro risks clients must navigate \u2014 a content and analytics operation that consumes event-level hazard data, including for its large London/Europe reinsurance broking operation.",
+  "climate_exposure": "Leading global reinsurance broker and catastrophe analytics firm placing European natcat treaties and advising cedants on climate-driven volatility.",
+  "potential_pain": "Guy Carpenter's official homepage advertises a 'CAT Resource Center' providing live event, post-event, seasonal outlooks and thought leadership on natural catastrophes, and its CEO names climate change and wildfires as macro risks clients must navigate \u2014 a content and analytics operation that consumes event-level hazard data, including for its large London/Europe reinsurance broking operation.",
+  "relevant_hazards": [
+    "wildfire",
+    "wind",
+    "flood",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield near-real-time monitoring plus evidence-labelled event footprints for European perils as a feed for live-event and post-event analysis products.",
+  "relevant_capability": "HydraShield near-real-time monitoring plus evidence-labelled event footprints for European perils as a feed for live-eve",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer HydraShield's evidence-labelled European event monitoring feed as a complementary open-data source for Guy Carpenter's CAT Resource Center live and post-event coverage.",
+  "priority": "medium",
+  "fit_score": "Guy Carpenter's official homepage advertises a 'CAT Resource Center' providing live event, post-event, seasonal outlooks and thought leadership on natural catastrophes, and its CEO names climate chang",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage features the CAT Resource Center (live/post-event natcat coverage) and a CEO quote on climate change and wildfire as macro risks.",
+      "source": "https://www.guycarp.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.guycarp.com/",
+  "date_checked": "2026-08-18"
+}

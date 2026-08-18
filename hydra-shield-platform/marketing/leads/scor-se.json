@@ -1,0 +1,41 @@
+{
+  "organization": "SCOR SE",
+  "segment": "insurance",
+  "country": "FR",
+  "website": "https://www.scor.com/en",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "SCOR is a global reinsurer reporting quarterly P&C results (EUR 171m net income Q2 2026 per its official homepage) whose earnings are directly driven by natural catastrophe large losses, requiring robust hazard and exposure intelligence for pricing and capital management.",
+  "climate_exposure": "Tier-1 global reinsurer with European and worldwide P&C natcat books exposed to windstorm, flood, hail, wildfire and heat events.",
+  "potential_pain": "SCOR is a global reinsurer reporting quarterly P&C results (EUR 171m net income Q2 2026 per its official homepage) whose earnings are directly driven by natural catastrophe large losses, requiring robust hazard and exposure intelligence for pricing and capital management.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "wildfire",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield multi-hazard exposure layers and evidence-labelled historical event intelligence for European territories relevant to SCOR's treaty pricing and retrocession analysis.",
+  "relevant_capability": "HydraShield multi-hazard exposure layers and evidence-labelled historical event intelligence for European territories re",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer HydraShield's multi-hazard, evidence-labelled exposure dashboard as a transparent open-data complement to proprietary cat models for European treaty pricing and portfolio steering.",
+  "priority": "high",
+  "fit_score": "SCOR is a global reinsurer reporting quarterly P&C results (EUR 171m net income Q2 2026 per its official homepage) whose earnings are directly driven by natural catastrophe large losses, requiring rob",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage live (July 30, 2026 Q2 results release; 2025 Activity Report published).",
+      "source": "https://www.scor.com/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.scor.com/en",
+  "date_checked": "2026-08-18"
+}

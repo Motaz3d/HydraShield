@@ -64,6 +64,7 @@ def _workspace_section() -> Dict[str, Any]:
     leads = _records("leads")
     signals = _records("signals")
     events = _records("events")
+    eu_funding = _records("eu_funding")
     today = _today()
     followups_due = [
         {"organization": l.get("organization"),
@@ -73,8 +74,42 @@ def _workspace_section() -> Dict[str, Any]:
         if l.get("next_followup") and l["next_followup"] <= today
         and l.get("status", "open") not in ("won", "lost")
     ]
+
+    def _status_count(leads, *statuses):
+        return sum(1 for l in leads
+                   if l.get("outreach_status", "researched") in statuses)
+
+    interactions = []
+    for l in leads:
+        for i in l.get("interactions") or []:
+            interactions.append({"organization": l.get("organization"),
+                                 "date": i.get("date"), "type": i.get("type"),
+                                 "summary": i.get("summary"),
+                                 "next_action": i.get("next_action")})
+    interactions.sort(key=lambda x: x.get("date") or "", reverse=True)
+
+    markets = {}
+    for l in leads:
+        markets[l.get("segment", "?")] = markets.get(l.get("segment", "?"), 0) + 1
+
     return {
         "available": True,
+        "prospects": {
+            "total": len(leads),
+            "new": _status_count(leads, "researched"),
+            "qualified": _status_count(leads, "qualified", "draft_prepared"),
+            "high_priority": sum(1 for l in leads if l.get("priority") == "high"),
+            "contacted": _status_count(leads, "contacted"),
+            "responded": _status_count(leads, "responded"),
+            "opportunities": _status_count(leads, "opportunity"),
+            "followups_due": followups_due,
+        },
+        "markets": markets,
+        "signals": {
+            "total": len(signals),
+            "eu_funding_records": len(eu_funding),
+            "events_tracked": len(events),
+        },
         "leads": [
             {"organization": l.get("organization"),
              "segment": l.get("segment"), "country": l.get("country"),
@@ -82,27 +117,14 @@ def _workspace_section() -> Dict[str, Any]:
              "hazards": l.get("relevant_hazards"),
              "priority": l.get("priority"), "urgency": l.get("urgency"),
              "outreach_status": l.get("outreach_status", "researched"),
+             "relationship_type": l.get("relationship_type", "customer"),
              "status": l.get("status", "open"),
              "last_contact": l.get("last_contact"),
              "next_action": l.get("next_action"),
              "interactions": l.get("interactions") or []}
             for l in leads
         ],
-        "signals": [
-            {"organization": s.get("organization"), "sector": s.get("sector"),
-             "signal_type": s.get("signal_type"),
-             "signal_strength": s.get("signal_strength"),
-             "date_observed": s.get("date_observed"),
-             "source_url": s.get("source_url")}
-            for s in signals
-        ],
-        "events": [
-            {"event": e.get("event"), "location": e.get("location"),
-             "date": e.get("date"), "relevance": e.get("relevance"),
-             "status": e.get("status", "watching")}
-            for e in events
-        ],
-        "followups_due": followups_due,
+        "relationships": interactions,
     }
 
 
@@ -149,10 +171,30 @@ def admin_intelligence():
             "SELECT page, COUNT(*) AS c FROM analytics_events "
             "WHERE page IS NOT NULL GROUP BY page ORDER BY c DESC LIMIT 8"
         ).fetchall()
+        visitors_today = conn.execute(
+            "SELECT COUNT(DISTINCT session_hash) FROM analytics_events "
+            "WHERE ts >= ? AND session_hash IS NOT NULL", (today,)).fetchone()[0]
+
+    # 30-day commercial experiment: TARGETS vs ACTUAL — structurally
+    # separate; targets are never presented as results.
+    ws = _workspace_section()
+    targets = {
+        "researched_organizations": {"target": 100,
+            "actual": (ws.get("prospects") or {}).get("total", 0) if ws.get("available") else 0},
+        "qualified_prospects": {"target": 30,
+            "actual": (ws.get("prospects") or {}).get("qualified", 0) if ws.get("available") else 0},
+        "eu_funding_records": {"target": 10,
+            "actual": (ws.get("signals") or {}).get("eu_funding_records", 0) if ws.get("available") else 0},
+        "linkedin_posts_published": {"target": 12, "actual": 0},
+        "target_meetings": {"target": 5,
+            "actual": sum(1 for r in (ws.get("relationships") or [])
+                          if r.get("type") in ("meeting", "demo")) if ws.get("available") else 0},
+    }
 
     return jsonify({
         "date": today,
         "today": {
+            "visitors": visitors_today,
             "new_users": users_today,
             "new_alert_rules": rules_today,
             "analytics_events": events_today,
@@ -170,5 +212,6 @@ def admin_intelligence():
             "note": "Aggregate counts only — no individual visitor is "
                     "identifiable from this data.",
         },
-        "workspace": _workspace_section(),
+        "targets": targets,
+        "workspace": ws,
     })

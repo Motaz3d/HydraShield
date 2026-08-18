@@ -310,18 +310,22 @@ def test_composer_never_sends():
 
 
 def test_no_personal_gmail_as_sender_anywhere():
-    """No HydraShield sender path may use the personal mailboxes. The only
-    legitimate occurrence is the FORBIDDEN_SENDERS guard list itself."""
+    """No HydraShield sender path or public surface may use the personal
+    mailboxes. The only legitimate occurrences are the FORBIDDEN_SENDERS
+    guard list and the private operational reference inside
+    docs/EMAIL_ARCHITECTURE.md (never rendered publicly)."""
     import re
     pattern = re.compile(r"motaz3d@gmail\.com|motazomarien@gmail\.com")
-    for sub in ("src", "website", "scripts", "marketing"):
+    for sub in ("src", "website", "scripts", "marketing", "docs"):
         for dirpath, _dirs, files in os.walk(os.path.join(ROOT, sub)):
             if "__pycache__" in dirpath:
                 continue
             for name in files:
-                if not name.endswith((".py", ".js", ".html", ".json")):
+                if not name.endswith((".py", ".js", ".html", ".json", ".md")):
                     continue
                 path = os.path.join(dirpath, name)
+                if path.endswith(os.path.join("docs", "EMAIL_ARCHITECTURE.md")):
+                    continue  # private operational reference, not rendered
                 for lineno, line in enumerate(open(path, encoding="utf-8"), 1):
                     if pattern.search(line) and "FORBIDDEN_SENDERS" not in line:
                         raise AssertionError(

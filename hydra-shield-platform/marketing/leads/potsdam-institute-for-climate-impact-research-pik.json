@@ -1,0 +1,40 @@
+{
+  "organization": "Potsdam Institute for Climate Impact Research (PIK)",
+  "segment": "research_centers",
+  "country": "DE",
+  "website": "https://www.pik-potsdam.de/en",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "PIK (~480 staff) researches weather extremes, climate economics and policy advice ('Weather, Extremes & Atmosphere', 'Climate Policy, Economics & Energy') \u2014 it needs granular, decision-ready hazard and impact data to ground its extreme-event attribution, impact modelling and policy advice.",
+  "climate_exposure": "Research coverage of weather extremes (heatwaves, heavy precipitation/flood, drought) and sea-level rise, with a mandate to quantify risks and inform policy decisions.",
+  "potential_pain": "PIK (~480 staff) researches weather extremes, climate economics and policy advice ('Weather, Extremes & Atmosphere', 'Climate Policy, Economics & Energy') \u2014 it needs granular, decision-ready hazard and impact data to ground its extreme-event attribution, impact modelling and policy advice.",
+  "relevant_hazards": [
+    "heat",
+    "drought",
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield's historical event intelligence and evidence-labelled extreme-event layers (heat, drought, flood, wildfire) as case-study and validation material for PIK's extremes and climate economics research; scientific collaboration angle.",
+  "relevant_capability": "HydraShield's historical event intelligence and evidence-labelled extreme-event layers (heat, drought, flood, wildfire) ",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Offer HydraShield's historical event intelligence as curated, evidence-labelled extreme-event material for PIK's weather-extremes and climate-economics research groups.",
+  "priority": "medium",
+  "fit_score": "PIK (~480 staff) researches weather extremes, climate economics and policy advice ('Weather, Extremes & Atmosphere', 'Climate Policy, Economics & Energy') \u2014 it needs granular, decision-ready hazard an",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site lists core topics including 'Weather, Extremes & Atmosphere' and 'Climate Policy, Economics & Energy', and current video series on climate economics and planetary boundaries.",
+      "source": "https://www.pik-potsdam.de/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pik-potsdam.de/en",
+  "date_checked": "2026-08-18"
+}

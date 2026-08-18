@@ -1,0 +1,41 @@
+{
+  "organization": "Lloyd's of London (Corporation of Lloyd's)",
+  "segment": "insurance",
+  "country": "GB",
+  "website": "https://www.lloyds.com/about-lloyds/responsible-business",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Lloyd's official sustainability page states its approach 'reinforces Lloyd's commitment to remove barriers to innovation for market participants who come to Lloyd's to place emerging or sustainability-related risks' \u2014 the market needs credible hazard data to underwrite and aggregate climate-driven specialty risks.",
+  "climate_exposure": "The world's specialist insurance/reinsurance marketplace, with syndicates writing European windstorm, flood, wildfire and parametric covers and market-level accumulation oversight.",
+  "potential_pain": "Lloyd's official sustainability page states its approach 'reinforces Lloyd's commitment to remove barriers to innovation for market participants who come to Lloyd's to place emerging or sustainability-related risks' \u2014 the market needs credible hazard data to underwrite and aggregate climate-driven specialty risks.",
+  "relevant_hazards": [
+    "wind",
+    "flood",
+    "wildfire",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield evidence-labelled multi-hazard exposure and historical event intelligence via API, usable by Lloyd's market participants for emerging-risk product development and exposure aggregation.",
+  "relevant_capability": "HydraShield evidence-labelled multi-hazard exposure and historical event intelligence via API, usable by Lloyd's market ",
+  "recommended_product": "api",
+  "recommended_message": "Position HydraShield's evidence-labelled hazard API as market infrastructure Lloyd's syndicates and coverholders can use to design and aggregate climate-driven specialty products.",
+  "priority": "medium",
+  "fit_score": "Lloyd's official sustainability page states its approach 'reinforces Lloyd's commitment to remove barriers to innovation for market participants who come to Lloyd's to place emerging or sustainability",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official sustainability page live, describing Lloyd's role in enabling emerging and sustainability-related risk placement.",
+      "source": "https://www.lloyds.com/about-lloyds/responsible-business"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.lloyds.com/about-lloyds/responsible-business",
+  "date_checked": "2026-08-18"
+}

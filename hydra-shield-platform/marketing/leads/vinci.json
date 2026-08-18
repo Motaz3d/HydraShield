@@ -1,0 +1,41 @@
+{
+  "organization": "VINCI",
+  "segment": "engineering_firms",
+  "country": "FR",
+  "website": "https://www.vinci.com/en",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "VINCI (concessions, energy, construction) publicly commits to environmental action 'in cities and regions' and operates long-lived infrastructure (airports, motorways, energy networks) whose design, operation and concession value depend on quantified climate hazard exposure.",
+  "climate_exposure": "Linear and point infrastructure across Europe \u2014 motorways, bridges, airports \u2014 exposed to flood, heat (pavement/rail stress), storms/wind and coastal hazards at airport and port concessions; wildfire risk on Mediterranean corridors.",
+  "potential_pain": "VINCI (concessions, energy, construction) publicly commits to environmental action 'in cities and regions' and operates long-lived infrastructure (airports, motorways, energy networks) whose design, operation and concession value depend on quantified climate hazard exposure.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "coastal",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Corridor-scale hazard screening for VINCI concession assets (e.g. French motorways, European airports) combining EO-based hazard layers, historical events and exposure/economic layers, plus solutions intelligence for adaptation options.",
+  "relevant_capability": "Corridor-scale hazard screening for VINCI concession assets (e.g. French motorways, European airports) combining EO-base",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Position HydraShield's enterprise dashboard as the multi-hazard evidence layer for VINCI's infrastructure concessions, from design-phase screening to operational monitoring.",
+  "priority": "high",
+  "fit_score": "VINCI (concessions, energy, construction) publicly commits to environmental action 'in cities and regions' and operates long-lived infrastructure (airports, motorways, energy networks) whose design, o",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site leads with 'Our actions for a sustainable world' and current editorial on urban land artificialisation ('Green to Grey') and mobility infrastructure.",
+      "source": "https://www.vinci.com/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.vinci.com/en",
+  "date_checked": "2026-08-18"
+}

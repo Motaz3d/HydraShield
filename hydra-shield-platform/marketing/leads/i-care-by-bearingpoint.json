@@ -1,0 +1,39 @@
+{
+  "organization": "I Care by BearingPoint",
+  "segment": "environmental_consulting",
+  "country": "FR",
+  "website": "https://www.i-care-consult.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "I Care by BearingPoint is BearingPoint's center of expertise for sustainable development, delivering 'technical expertise on environmental, climate, biodiversity... and sustainable finance issues' for companies, financial institutions and public organizations \u2014 work that requires granular, defensible climate-risk data.",
+  "climate_exposure": "Corporate and financial-institution clients in France and Europe needing physical-risk screening of assets and portfolios against flood, drought and heat for strategy and disclosure work.",
+  "potential_pain": "I Care by BearingPoint is BearingPoint's center of expertise for sustainable development, delivering 'technical expertise on environmental, climate, biodiversity... and sustainable finance issues' for companies, financial institutions and public organizations \u2014 work that requires granular, defensible climate-risk data.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Portfolio-scale physical risk screening with evidence labels and economic-exposure metrics that I Care consultants can hand directly to financial and corporate clients.",
+  "relevant_capability": "Portfolio-scale physical risk screening with evidence labels and economic-exposure metrics that I Care consultants can h",
+  "recommended_product": "professional_report",
+  "recommended_message": "Angle: equip I Care's climate experts with evidence-labelled physical-risk reports they can white-label into transition and disclosure engagements.",
+  "priority": "medium",
+  "fit_score": "I Care by BearingPoint is BearingPoint's center of expertise for sustainable development, delivering 'technical expertise on environmental, climate, biodiversity... and sustainable finance issues' for",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Positions itself as BearingPoint's 'center of expertise for sustainable development' (I Care joined BearingPoint in June 2022)",
+      "source": "https://www.i-care-consult.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.i-care-consult.com",
+  "date_checked": "2026-08-18"
+}

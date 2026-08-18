@@ -1,0 +1,42 @@
+{
+  "organization": "European Commission \u2014 Directorate-General for Climate Action (DG CLIMA)",
+  "segment": "governments",
+  "country": "BE",
+  "website": "https://climate.ec.europa.eu/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "DG CLIMA shapes EU climate policy and its official news stream shows it is actively working on managing climate risks and strengthening disaster prevention, preparedness and response amid heatwaves and wildfires; it needs consistent, evidence-labelled hazard and exposure intelligence to underpin adaptation policy.",
+  "climate_exposure": "EU-wide policy exposure to intensifying heatwaves, wildfires and other climate extremes requiring risk management and adaptation measures.",
+  "potential_pain": "DG CLIMA shapes EU climate policy and its official news stream shows it is actively working on managing climate risks and strengthening disaster prevention, preparedness and response amid heatwaves and wildfires; it needs consistent, evidence-labelled hazard and exposure intelligence to underpin adaptation policy.",
+  "relevant_hazards": [
+    "heat",
+    "wildfire",
+    "flood",
+    "drought",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield historical event intelligence on European heatwaves/wildfires, multi-hazard exposure maps with full evidence labelling, and economic exposure quantification for adaptation cost-benefit analysis.",
+  "relevant_capability": "HydraShield historical event intelligence on European heatwaves/wildfires, multi-hazard exposure maps with full evidence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Present HydraShield's evidence-labelled climate risk intelligence as decision support for EU adaptation and disaster-prevention policy work already underway at DG CLIMA.",
+  "priority": "high",
+  "fit_score": "DG CLIMA shapes EU climate policy and its official news stream shows it is actively working on managing climate risks and strengthening disaster prevention, preparedness and response amid heatwaves an",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: 16 July 2026 news: Commission underlined measures to better manage climate risks and strengthen disaster prevention, preparedness and response against a summer marked by heatwaves and wildfires; 13 August 2026 news on more frequent and intense European heatwaves",
+      "source": "https://climate.ec.europa.eu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://climate.ec.europa.eu/",
+  "date_checked": "2026-08-18"
+}

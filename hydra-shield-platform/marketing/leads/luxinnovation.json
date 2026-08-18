@@ -1,0 +1,40 @@
+{
+  "organization": "Luxinnovation",
+  "segment": "governments",
+  "country": "LU",
+  "website": "https://www.luxinnovation.lu/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Luxinnovation is Luxembourg's national innovation agency providing companies with access to knowledge, funding, infrastructure and networks and fostering a sustainable, competitive and digital economy; its official site confirms it guides firms to national and European funding, making it a natural channel and partner for climate risk intelligence services targeting Luxembourg companies.",
+  "climate_exposure": "Client-portfolio exposure: Luxembourg companies Luxinnovation supports face physical climate risks (flood, heat, storms) and need climate evidence for funding applications and innovation projects.",
+  "potential_pain": "Luxinnovation is Luxembourg's national innovation agency providing companies with access to knowledge, funding, infrastructure and networks and fostering a sustainable, competitive and digital economy; its official site confirms it guides firms to national and European funding, making it a natural channel and partner for climate risk intelligence services targeting Luxembourg companies.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield free analysis and professional reports demonstrating how climate exposure evidence strengthens companies' funding applications and resilience planning \u2014 a service Luxinnovation could refer or co-offer.",
+  "relevant_capability": "HydraShield free analysis and professional reports demonstrating how climate exposure evidence strengthens companies' fu",
+  "recommended_product": "organization_account",
+  "recommended_message": "Propose a referral/partnership where Luxinnovation's supported companies use HydraShield analyses as climate evidence in national and EU funding applications.",
+  "priority": "medium",
+  "fit_score": "Luxinnovation is Luxembourg's national innovation agency providing companies with access to knowledge, funding, infrastructure and networks and fostering a sustainable, competitive and digital economy",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: About page states Luxinnovation provides companies access to knowledge, funding, infrastructure and networks and fosters collaborative innovation for a sustainable, competitive and digital economy",
+      "source": "https://www.luxinnovation.lu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.luxinnovation.lu/",
+  "date_checked": "2026-08-18"
+}

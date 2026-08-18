@@ -1,0 +1,40 @@
+{
+  "organization": "South Pole",
+  "segment": "environmental_consulting",
+  "country": "CH",
+  "website": "https://www.southpole.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "South Pole sells 'Sustainability reporting' that must 'stand up to audit, regulators and board scrutiny' plus net-zero planning; its consultants need verifiable physical-risk evidence to complement emissions data in disclosure engagements.",
+  "climate_exposure": "500+ experts in 20+ countries serving corporates with global supply chains and European assets exposed to flood, drought, heat and wildfire \u2014 the physical-risk half of CSRD/TCFD-style disclosure.",
+  "potential_pain": "South Pole sells 'Sustainability reporting' that must 'stand up to audit, regulators and board scrutiny' plus net-zero planning; its consultants need verifiable physical-risk evidence to complement emissions data in disclosure engagements.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "heat",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Asset-level physical risk screening with evidence labels (source, date, method) that slots directly into audit-ready sustainability disclosures South Pole produces for clients.",
+  "relevant_capability": "Asset-level physical risk screening with evidence labels (source, date, method) that slots directly into audit-ready sus",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Angle: supply South Pole's disclosure teams with audit-ready, evidence-labelled physical climate risk intelligence for client reporting mandates.",
+  "priority": "high",
+  "fit_score": "South Pole sells 'Sustainability reporting' that must 'stand up to audit, regulators and board scrutiny' plus net-zero planning; its consultants need verifiable physical-risk evidence to complement em",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Site promotes '2026 Carbon Market Buyer's Guide', SBTi Corporate Net-Zero Standard V2.0 executive briefing and Article 6 quickguide",
+      "source": "https://www.southpole.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.southpole.com",
+  "date_checked": "2026-08-18"
+}

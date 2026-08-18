@@ -1,0 +1,40 @@
+{
+  "organization": "Ministry of the Environment, Climate and Biodiversity (Luxembourg)",
+  "segment": "governments",
+  "country": "LU",
+  "website": "https://mecb.gouvernement.lu/en.html",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The ministry's remit, fixed by government regulation per its official page, covers environment, climate and biodiversity; as the national authority it needs territory-wide, evidence-labelled hazard and exposure intelligence (notably flood and heat) for climate adaptation planning and policy reporting.",
+  "climate_exposure": "National territory exposure \u2014 Luxembourg faces river flood (e.g. 2021 events), heat and storm risk \u2014 requiring monitoring and historical event baselines for adaptation policy.",
+  "potential_pain": "The ministry's remit, fixed by government regulation per its official page, covers environment, climate and biodiversity; as the national authority it needs territory-wide, evidence-labelled hazard and exposure intelligence (notably flood and heat) for climate adaptation planning and policy reporting.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield national dashboard with multi-hazard exposure, historical event intelligence for Luxembourg, and monitoring with alerting for at-risk areas and critical infrastructure.",
+  "relevant_capability": "HydraShield national dashboard with multi-hazard exposure, historical event intelligence for Luxembourg, and monitoring ",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer the ministry a HydraShield enterprise dashboard giving evidence-labelled, national-scale hazard exposure and historical event intelligence to support climate adaptation planning.",
+  "priority": "high",
+  "fit_score": "The ministry's remit, fixed by government regulation per its official page, covers environment, climate and biodiversity; as the national authority it needs territory-wide, evidence-labelled hazard an",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official ministry page confirms the institution as Ministry of the Environment, Climate and Biodiversity with remit fixed by Government regulation",
+      "source": "https://mecb.gouvernement.lu/en.html"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://mecb.gouvernement.lu/en.html",
+  "date_checked": "2026-08-18"
+}

@@ -1,0 +1,42 @@
+{
+  "organization": "ERM (Environmental Resources Management)",
+  "segment": "environmental_consulting",
+  "country": "GB",
+  "website": "https://www.erm.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "ERM's homepage positions 'Corporate sustainability, net zero & climate change' as a core practice; as a pure-play sustainability consultancy it needs scalable, evidence-labelled physical climate risk data to feed client net-zero and adaptation engagements across Europe.",
+  "climate_exposure": "Client portfolios across industrial, energy and infrastructure sites exposed to multiple European perils; ERM's own June 2026 'Quarterly Trends' and Europe-focused insights track escalating regulatory and physical-risk pressure on clients.",
+  "potential_pain": "ERM's homepage positions 'Corporate sustainability, net zero & climate change' as a core practice; as a pure-play sustainability consultancy it needs scalable, evidence-labelled physical climate risk data to feed client net-zero and adaptation engagements across Europe.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "drought",
+    "wind",
+    "coastal",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Hazard-by-hazard exposure screening for a sample ERM client site portfolio, with evidence-labelled sources (EO + official open data + historical events) suitable for audit-grade client deliverables.",
+  "relevant_capability": "Hazard-by-hazard exposure screening for a sample ERM client site portfolio, with evidence-labelled sources (EO + officia",
+  "recommended_product": "api",
+  "recommended_message": "Angle: embed HydraShield's evidence-labelled multi-hazard API into ERM's client climate-risk workflows to cut evidence-gathering time per engagement.",
+  "priority": "high",
+  "fit_score": "ERM's homepage positions 'Corporate sustainability, net zero & climate change' as a core practice; as a pure-play sustainability consultancy it needs scalable, evidence-labelled physical climate risk ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage features 'Sustainability Report 2026', 'June 2026 Quarterly Trends' and a July 2026 blog on sustainability execution in Europe",
+      "source": "https://www.erm.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.erm.com",
+  "date_checked": "2026-08-18"
+}

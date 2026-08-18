@@ -1,0 +1,40 @@
+{
+  "organization": "Unibail-Rodamco-Westfield (URW)",
+  "segment": "real_estate",
+  "country": "FR",
+  "website": "https://www.urw.com/en",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "URW owns, develops and operates 66 shopping centres in 11 European countries plus the US, and runs a 'Better Places' sustainability roadmap with published annual sustainability performance \u2014 a large, fixed asset base whose physical climate exposure must be assessed, disclosed and managed.",
+  "climate_exposure": "Flagship retail and mixed-use assets in flood-prone and heat-stressed European cities (Paris basin, Hamburg, the Netherlands, Spain, Italy, Poland), with Dutch and coastal assets exposed to coastal/pluvial flood and southern assets to heat and wildfire smoke.",
+  "potential_pain": "URW owns, develops and operates 66 shopping centres in 11 European countries plus the US, and runs a 'Better Places' sustainability roadmap with published annual sustainability performance \u2014 a large, fixed asset base whose physical climate exposure must be assessed, disclosed and managed.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "coastal",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Asset-by-asset multi-hazard exposure profile of URW's European flagship centres (e.g. Westfield Mall of the Netherlands, Westfield La Maquinista, Westfield Hamburg-\u00dcberseequartier) with historical event intelligence and economic exposure layers.",
+  "relevant_capability": "Asset-by-asset multi-hazard exposure profile of URW's European flagship centres (e.g. Westfield Mall of the Netherlands,",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer a professional report quantifying flood, heat and coastal exposure across URW's European flagship portfolio to feed its Better Places disclosure and adaptation planning.",
+  "priority": "high",
+  "fit_score": "URW owns, develops and operates 66 shopping centres in 11 European countries plus the US, and runs a 'Better Places' sustainability roadmap with published annual sustainability performance \u2014 a large, ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site lists a 'Better Places' sustainability roadmap, recent 'our-2025-sustainability-performance' news, an SBTn-validated nature target and an updated green financing framework.",
+      "source": "https://www.urw.com/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.urw.com/en",
+  "date_checked": "2026-08-18"
+}

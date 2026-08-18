@@ -1,0 +1,39 @@
+{
+  "organization": "Luxembourg Sustainable Finance Initiative (LSFI)",
+  "segment": "investment",
+  "country": "LU",
+  "website": "https://lsfi.lu/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "LSFI is Luxembourg's coordinating entity on sustainable finance and a knowledge hub measuring progress of the financial sector's transition financing; its official site confirms active workstreams on carbon markets, impact investing and EU sustainable finance regulation, where quantified physical climate risk data for members' portfolios is a concrete gap HydraShield can fill.",
+  "climate_exposure": "Ecosystem exposure: Luxembourg financial institutions need physical climate risk measurement (flood, heat, drought) on financed assets to meet EU sustainable finance regulation and transition-planning expectations LSFI tracks.",
+  "potential_pain": "LSFI is Luxembourg's coordinating entity on sustainable finance and a knowledge hub measuring progress of the financial sector's transition financing; its official site confirms active workstreams on carbon markets, impact investing and EU sustainable finance regulation, where quantified physical climate risk data for members' portfolios is a concrete gap HydraShield can fill.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield portfolio/asset-level climate exposure analytics with evidence labels, plus a professional sample report demonstrating methodology for LSFI's member institutions.",
+  "relevant_capability": "HydraShield portfolio/asset-level climate exposure analytics with evidence labels, plus a professional sample report dem",
+  "recommended_product": "organization_account",
+  "recommended_message": "Propose HydraShield as a physical climate risk data partner for LSFI's knowledge hub and working groups, with an organization account demonstrable to member institutions.",
+  "priority": "medium",
+  "fit_score": "LSFI is Luxembourg's coordinating entity on sustainable finance and a knowledge hub measuring progress of the financial sector's transition financing; its official site confirms active workstreams on ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage lists active initiatives: Voluntary Carbon Credits and Carbon Markets Taskforce with ALFI, Luxembourg Impact Investing Definition, EU Sustainable Finance Regulation Resource Hub, and an Innovation and Retail Products for Sustainable Finance Working Group",
+      "source": "https://lsfi.lu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://lsfi.lu/",
+  "date_checked": "2026-08-18"
+}

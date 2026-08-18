@@ -1,0 +1,40 @@
+{
+  "organization": "dss+",
+  "segment": "environmental_consulting",
+  "country": "CH",
+  "website": "https://www.consultdss.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "dss+ (DSS Sustainable Solutions, HQ Versoix, Geneva) is 'the operational transformation partner for complex and high-hazard industries' helping clients with 'safety, performance, and sustainability' and 'risk management capabilities' \u2014 climate extremes are a direct operational-risk input it must quantify for industrial clients.",
+  "climate_exposure": "High-hazard industrial sites (energy, chemicals, mining, manufacturing) exposed to heat stress on workers, flood disruption, wildfire encroachment and storm wind damage.",
+  "potential_pain": "dss+ (DSS Sustainable Solutions, HQ Versoix, Geneva) is 'the operational transformation partner for complex and high-hazard industries' helping clients with 'safety, performance, and sustainability' and 'risk management capabilities' \u2014 climate extremes are a direct operational-risk input it must quantify for industrial clients.",
+  "relevant_hazards": [
+    "heat",
+    "flood",
+    "wildfire",
+    "wind"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Operational-risk framing: hazard exposure plus historical event intelligence for industrial sites, with SMS alerting as a worker-safety continuity channel.",
+  "relevant_capability": "Operational-risk framing: hazard exposure plus historical event intelligence for industrial sites, with SMS alerting as ",
+  "recommended_product": "monitoring",
+  "recommended_message": "Angle: continuous multi-hazard monitoring with SMS alerts as an operational safety layer for dss+'s high-hazard industry clients.",
+  "priority": "medium",
+  "fit_score": "dss+ (DSS Sustainable Solutions, HQ Versoix, Geneva) is 'the operational transformation partner for complex and high-hazard industries' helping clients with 'safety, performance, and sustainability' a",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Positions itself as operational transformation partner for 'complex and high-hazard industries' with Geneva HQ address published",
+      "source": "https://www.consultdss.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.consultdss.com",
+  "date_checked": "2026-08-18"
+}

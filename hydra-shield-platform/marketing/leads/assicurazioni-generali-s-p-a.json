@@ -1,0 +1,41 @@
+{
+  "organization": "Assicurazioni Generali S.p.A.",
+  "segment": "insurance",
+  "country": "IT",
+  "website": "https://www.generali.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Generali's official homepage promotes its 'CLIMATE HUB \u2014 the Group centre of excellence on climate risk to a safer and more resilient future', signalling an active internal programme that requires climate-risk data, scenario inputs and hazard analytics for underwriting and disclosure.",
+  "climate_exposure": "One of the largest integrated insurance and asset management groups worldwide (75m customers, \u20ac53.4bn GWP per homepage), headquartered in Italy with heavy exposure to Mediterranean flood, wildfire, heat, drought and coastal perils.",
+  "potential_pain": "Generali's official homepage promotes its 'CLIMATE HUB \u2014 the Group centre of excellence on climate risk to a safer and more resilient future', signalling an active internal programme that requires climate-risk data, scenario inputs and hazard analytics for underwriting and disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield multi-hazard exposure and solutions/funding intelligence for Italy and the Mediterranean, mapped to the six hazards, supporting Climate Hub analytics and CSRD/TCFD-style disclosure.",
+  "relevant_capability": "HydraShield multi-hazard exposure and solutions/funding intelligence for Italy and the Mediterranean, mapped to the six ",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer HydraShield's evidence-labelled Mediterranean hazard intelligence dashboard as an open-data input to Generali's Climate Hub for underwriting, disclosure and resilience advisory use cases.",
+  "priority": "high",
+  "fit_score": "Generali's official homepage promotes its 'CLIMATE HUB \u2014 the Group centre of excellence on climate risk to a safer and more resilient future', signalling an active internal programme that requires cli",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage features the Group 'CLIMATE HUB' centre of excellence on climate risk.",
+      "source": "https://www.generali.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.generali.com/",
+  "date_checked": "2026-08-18"
+}

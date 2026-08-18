@@ -1,0 +1,42 @@
+{
+  "organization": "European Union Agency for the Space Programme (EUSPA)",
+  "segment": "governments",
+  "country": "CZ",
+  "website": "https://www.euspa.europa.eu/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "EUSPA drives market uptake of the EU Space Programme; its official site promotes Copernicus Demonstrators showing how businesses benefit from Copernicus data, plus procurement and grants \u2014 HydraShield is exactly the kind of downstream Copernicus-powered climate service its uptake programmes are meant to foster.",
+  "climate_exposure": "Programme-level exposure: Copernicus services underpin flood, fire, drought, heat and coastal monitoring, and EUSPA must demonstrate concrete downstream climate applications to justify uptake.",
+  "potential_pain": "EUSPA drives market uptake of the EU Space Programme; its official site promotes Copernicus Demonstrators showing how businesses benefit from Copernicus data, plus procurement and grants \u2014 HydraShield is exactly the kind of downstream Copernicus-powered climate service its uptake programmes are meant to foster.",
+  "relevant_hazards": [
+    "wildfire",
+    "flood",
+    "drought",
+    "heat",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield platform demo showing Copernicus/EO-derived multi-hazard exposure, monitoring and alerting as a reference downstream use case for EUSPA's demonstrator and funding instruments.",
+  "relevant_capability": "HydraShield platform demo showing Copernicus/EO-derived multi-hazard exposure, monitoring and alerting as a reference do",
+  "recommended_product": "api",
+  "recommended_message": "Apply to EUSPA's Copernicus uptake instruments positioning HydraShield as a downstream demonstrator converting Copernicus data into climate risk and funding intelligence for businesses and municipalities.",
+  "priority": "high",
+  "fit_score": "EUSPA drives market uptake of the EU Space Programme; its official site promotes Copernicus Demonstrators showing how businesses benefit from Copernicus data, plus procurement and grants \u2014 HydraShield",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage promotes EUSPA Copernicus Demonstrators for businesses, the User Consultation Platform returning 26\u201327 November 2026, and UCP 2025 User Needs and Requirements reports published 17 August 2026",
+      "source": "https://www.euspa.europa.eu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.euspa.europa.eu/",
+  "date_checked": "2026-08-18"
+}

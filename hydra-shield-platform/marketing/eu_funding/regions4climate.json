@@ -1,0 +1,20 @@
+{
+  "programme": "Horizon Europe, Innovation Action, grant 101093873",
+  "call": "Regions4Climate",
+  "topic": "CORDIS states Regions4Climate (44+ partners) develops tools and collaborative practices so European regions can build evidence-based risk and vulnerability analyses and resilience plans \u2014 they need interoperable, trustworthy hazard and exposure data to feed their system-dynamic modelling and decision tools.",
+  "institution": "Teknologian tutkimuskeskus VTT Oy (VTT Technical Research Centre of Finland)",
+  "official_source": "https://cordis.europa.eu/project/id/101093873",
+  "deadline": "not currently verified",
+  "sector": "governments",
+  "hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "coastal"
+  ],
+  "hydrashield_relevance": "Offer HydraShield's evidence-labelled multi-hazard dashboards and data layers as decision-support input for Regions4Climate's twelve regional resilience plans.",
+  "evidence": "Interoperable, evidence-labelled hazard and exposure datasets plus historical event records to power Regions4Climate's risk and vulnerability analyses and regional resilience dashboards.",
+  "recommended_strategy": "Offer HydraShield's evidence-labelled multi-hazard dashboards and data layers as decision-support input for Regions4Climate's twelve regional resilience plans.",
+  "date_checked": "2026-08-18",
+  "status": "watching"
+}

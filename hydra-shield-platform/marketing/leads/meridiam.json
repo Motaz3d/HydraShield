@@ -1,0 +1,41 @@
+{
+  "organization": "Meridiam",
+  "segment": "investment",
+  "country": "FR",
+  "website": "https://www.meridiam.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Meridiam (B Corp, Paris HQ, c. EUR 24bn AUM, 130+ projects) designs, finances, develops and operates long-term public infrastructure explicitly aligned to the UN SDGs and 'tackling climate change'; as a long-term operator it carries decades of physical climate exposure on each project and needs defensible risk evidence at both development and operation stages.",
+  "climate_exposure": "Long-term concessions in mobility, energy and public services across Europe, Africa and the Americas exposed to flood, heat, wind and coastal hazards.",
+  "potential_pain": "Meridiam (B Corp, Paris HQ, c. EUR 24bn AUM, 130+ projects) designs, finances, develops and operates long-term public infrastructure explicitly aligned to the UN SDGs and 'tackling climate change'; as a long-term operator it carries decades of physical climate exposure on each project and needs defensible risk evidence at both development and operation stages.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Project-site multi-hazard exposure reports for due diligence, historical event intelligence for concession regions, and ongoing monitoring with alerts during operation.",
+  "relevant_capability": "Project-site multi-hazard exposure reports for due diligence, historical event intelligence for concession regions, and ",
+  "recommended_product": "professional_report",
+  "recommended_message": "Propose per-project, evidence-labelled climate risk reports for Meridiam's infrastructure pipeline, supporting SDG-aligned due diligence and long-term operational resilience.",
+  "priority": "high",
+  "fit_score": "Meridiam (B Corp, Paris HQ, c. EUR 24bn AUM, 130+ projects) designs, finances, develops and operates long-term public infrastructure explicitly aligned to the UN SDGs and 'tackling climate change'; as",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: B Corp asset manager, c. EUR 24bn AUM, 130+ projects, mission 'building resilient communities, tackling climate change'.",
+      "source": "https://www.meridiam.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.meridiam.com/",
+  "date_checked": "2026-08-18"
+}

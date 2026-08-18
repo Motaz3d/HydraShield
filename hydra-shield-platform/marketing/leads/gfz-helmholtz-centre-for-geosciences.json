@@ -1,0 +1,39 @@
+{
+  "organization": "GFZ Helmholtz Centre for Geosciences",
+  "segment": "research_centers",
+  "country": "DE",
+  "website": "https://www.gfz.de/en",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "GFZ is Germany's national centre for solid Earth research ('Taking the pulse of our Earth to safeguard a habitable planet') and runs public information services on global water storage, earthquakes and related natural hazards \u2014 a natural scientific partner/user for multi-hazard evidence and monitoring data.",
+  "climate_exposure": "Research focus spans hydro-meteorological hazards: global water storage/drought monitoring, flood-related hydrology, and heat-driven compounding extremes affecting the solid Earth and water cycle.",
+  "potential_pain": "GFZ is Germany's national centre for solid Earth research ('Taking the pulse of our Earth to safeguard a habitable planet') and runs public information services on global water storage, earthquakes and related natural hazards \u2014 a natural scientific partner/user for multi-hazard evidence and monitoring data.",
+  "relevant_hazards": [
+    "drought",
+    "flood",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield's drought/flood hazard layers, EO time series and historical event intelligence as complementary datasets for GFZ's global water storage and natural hazard research; joint validation or integration use case.",
+  "relevant_capability": "HydraShield's drought/flood hazard layers, EO time series and historical event intelligence as complementary datasets fo",
+  "recommended_product": "api",
+  "recommended_message": "Explore API-level data exchange: HydraShield's evidence-labelled hazard and event layers as inputs and validation for GFZ's water storage and hazard information services.",
+  "priority": "medium",
+  "fit_score": "GFZ is Germany's national centre for solid Earth research ('Taking the pulse of our Earth to safeguard a habitable planet') and runs public information services on global water storage, earthquakes an",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site highlights live services: current earthquake information, global water storage, space weather, and RIFS sustainability research news.",
+      "source": "https://www.gfz.de/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gfz.de/en",
+  "date_checked": "2026-08-18"
+}

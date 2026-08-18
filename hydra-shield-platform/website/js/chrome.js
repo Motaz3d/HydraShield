@@ -90,6 +90,12 @@
             '<div class="footer-links"><h4>About</h4><ul>' +
             LEGACY.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
             '</ul></div>' +
+            '<div class="footer-links"><h4>Solutions for</h4><ul>' +
+            '<li><a href="for-consulting.html">Consultants</a></li>' +
+            '<li><a href="for-investors.html">Investors</a></li>' +
+            '<li><a href="for-insurance.html">Insurance</a></li>' +
+            '<li><a href="for-real-estate.html">Real estate</a></li>' +
+            '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
             '<p><a href="/api/sources" target="_blank" rel="noopener">Data-source registry</a></p>' +
             '<p><a href="/api/v2/hazards" target="_blank" rel="noopener">Hazard registry (API)</a></p>' +

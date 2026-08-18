@@ -1,8 +1,9 @@
-/* HydraShield — Operator Intelligence dashboard (admin.html).
+/* HydraShield — Commercial Center (admin.html).
  *
  * Admin-only: GET /api/v2/admin/intel (cookie session; 401 shows a plain
- * sign-in hint, 403 the tier message). Renders TODAY / DEMAND / PROSPECTS
- * / RELATIONSHIPS from aggregate data — never individual visitors.
+ * sign-in hint, 403 the tier message). Renders TODAY / TARGETS vs ACTUAL /
+ * DEMAND / PROSPECTS / MARKETS / SIGNALS / RELATIONSHIPS from aggregate
+ * data — never individual visitors. Targets are targets, never results.
  */
 (function () {
     'use strict';
@@ -25,8 +26,7 @@
 
     function tableRows(items, columns) {
         if (!items.length) {
-            return '<div class="notice notice-empty">Nothing recorded yet — ' +
-                'the workspace fills with real, source-checked records.</div>';
+            return '<div class="notice notice-empty">Nothing recorded yet.</div>';
         }
         return '<div class="table-scroll"><table class="data-table"><thead><tr>' +
             columns.map(function (c) { return '<th>' + esc(c.label) + '</th>'; }).join('') +
@@ -40,11 +40,12 @@
 
     function render(d) {
         el('adminView').classList.remove('hidden');
+        var ws = d.workspace || {};
 
+        // TODAY
         el('todayCards').innerHTML =
-            card('New users today', d.today.new_users) +
-            card('New alert rules today', d.today.new_alert_rules) +
-            card('Analytics events today', d.today.analytics_events) +
+            card('Visitors today', d.today.visitors, 'pseudonymous sessions') +
+            card('New registrations today', d.today.new_users) +
             card('Total accounts', d.accounts.total_users,
                  Object.keys(d.accounts.by_role || {}).map(function (r) {
                      return r + ': ' + d.accounts.by_role[r];
@@ -53,6 +54,21 @@
             card('Verified phones', d.alerts.verified_phones) +
             card('Alerts fired (7d)', d.alerts.records_last_7d);
 
+        // TARGETS vs ACTUAL (30-day experiment — targets are not results)
+        el('targetsBlock').innerHTML = tableRows(
+            Object.keys(d.targets || {}).map(function (k) {
+                var t = d.targets[k];
+                return { metric: k.replace(/_/g, ' '), target: t.target,
+                         actual: t.actual,
+                         progress: Math.min(100, Math.round(100 * t.actual / t.target)) + '%' };
+            }),
+            [{ label: 'Metric', get: function (r) { return r.metric; } },
+             { label: 'Target', get: function (r) { return r.target; } },
+             { label: 'Actual', get: function (r) { return r.actual; } },
+             { label: 'Progress', get: function (r) { return r.progress; } }]
+        );
+
+        // DEMAND
         var funnel = d.demand.funnel || {};
         el('demandBlock').innerHTML =
             '<div class="badge-row">' +
@@ -63,42 +79,51 @@
             '<p class="muted small">Top hazards: ' +
             (d.demand.top_hazards.map(function (h) {
                 return esc(h.hazard) + ' (' + esc(h.count) + ')';
-            }).join(' · ') || '—') + '</p>' +
-            '<p class="muted small">' + esc(d.demand.note || '') + '</p>';
+            }).join(' · ') || '—') + ' · ' + esc(d.demand.note || '') + '</p>';
 
-        var ws = d.workspace || {};
         if (!ws.available) {
             el('prospectsBlock').innerHTML =
                 '<div class="notice notice-empty">' + esc(ws.note ||
                 'Marketing workspace not present in this deployment.') + '</div>';
+            el('marketsBlock').innerHTML = '';
+            el('signalsBlock').innerHTML = '';
             el('relationshipsBlock').innerHTML = '';
             return;
         }
-        el('prospectsBlock').innerHTML = tableRows(ws.leads || [], [
-            { label: 'Organization', get: function (l) { return l.organization; } },
-            { label: 'Segment', get: function (l) { return l.segment; } },
-            { label: 'Country', get: function (l) { return l.country; } },
-            { label: 'Problem', get: function (l) { return l.identified_problem; } },
-            { label: 'Priority', get: function (l) { return l.priority; } },
-            { label: 'Urgency', get: function (l) { return l.urgency; } },
-            { label: 'Last contact', get: function (l) { return l.last_contact; } },
-            { label: 'Next action', get: function (l) { return l.next_action; } },
-        ]);
 
-        var interactions = [];
-        (ws.leads || []).forEach(function (l) {
-            (l.interactions || []).forEach(function (i) {
-                interactions.push({
-                    organization: l.organization, date: i.date,
-                    type: i.type, summary: i.summary,
-                    next_action: i.next_action
-                });
-            });
-        });
-        interactions.sort(function (a, b) {
-            return (a.date || '') < (b.date || '') ? 1 : -1;
-        });
-        el('relationshipsBlock').innerHTML = tableRows(interactions, [
+        // PROSPECTS
+        var p = ws.prospects || {};
+        el('prospectsBlock').innerHTML =
+            '<div class="badge-row">' +
+            ['total', 'new', 'qualified', 'high_priority', 'contacted',
+             'responded', 'opportunities'].map(function (k) {
+                return '<span class="chip chip-inferred">' + k.replace(/_/g, ' ') +
+                    ': ' + esc(p[k] == null ? 0 : p[k]) + '</span>';
+            }).join('') + '</div>' +
+            tableRows(ws.leads || [], [
+                { label: 'Organization', get: function (l) { return l.organization; } },
+                { label: 'Segment', get: function (l) { return l.segment; } },
+                { label: 'Country', get: function (l) { return l.country; } },
+                { label: 'Priority', get: function (l) { return l.priority; } },
+                { label: 'Status', get: function (l) { return l.outreach_status; } },
+                { label: 'Next action', get: function (l) { return l.next_action; } },
+            ]);
+
+        // MARKETS + SIGNALS
+        el('marketsBlock').innerHTML =
+            '<div class="badge-row">' +
+            Object.keys(ws.markets || {}).sort().map(function (seg) {
+                return '<span class="chip chip-modelled">' + esc(seg.replace(/_/g, ' ')) +
+                    ': ' + esc(ws.markets[seg]) + '</span>';
+            }).join('') + '</div>';
+        var s = ws.signals || {};
+        el('signalsBlock').innerHTML =
+            '<p class="muted">Commercial signals: ' + esc(s.total || 0) +
+            ' · EU funding records: ' + esc(s.eu_funding_records || 0) +
+            ' · events tracked: ' + esc(s.events_tracked || 0) + '</p>';
+
+        // RELATIONSHIPS
+        el('relationshipsBlock').innerHTML = tableRows(ws.relationships || [], [
             { label: 'Date', get: function (i) { return i.date; } },
             { label: 'Organization', get: function (i) { return i.organization; } },
             { label: 'Type', get: function (i) { return i.type; } },

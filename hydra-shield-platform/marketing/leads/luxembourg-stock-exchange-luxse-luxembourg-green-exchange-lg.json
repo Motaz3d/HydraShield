@@ -1,0 +1,41 @@
+{
+  "organization": "Luxembourg Stock Exchange (LuxSE) \u2014 Luxembourg Green Exchange (LGX)",
+  "segment": "investment",
+  "country": "LU",
+  "website": "https://www.luxse.com/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "LuxSE runs LGX, the world's first platform for sustainable securities, now including data services and an EU Taxonomy Issuers Window; its official LGX page emphasizes harmonised data and strict eligibility and reporting standards, which creates demand for credible, evidence-labelled physical climate risk data on the assets behind listed securities.",
+  "climate_exposure": "Issuer- and security-level exposure: physical climate risk (floods, heat, wildfire, coastal) to assets financed by green/sustainability bonds displayed on LGX, where transparency standards require robust underlying data.",
+  "potential_pain": "LuxSE runs LGX, the world's first platform for sustainable securities, now including data services and an EU Taxonomy Issuers Window; its official LGX page emphasizes harmonised data and strict eligibility and reporting standards, which creates demand for credible, evidence-labelled physical climate risk data on the assets behind listed securities.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "drought",
+    "wildfire",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "HydraShield evidence-labelled hazard exposure and economic exposure layers for bond-financed assets, demonstrable as a data feed enriching sustainable security disclosure.",
+  "relevant_capability": "HydraShield evidence-labelled hazard exposure and economic exposure layers for bond-financed assets, demonstrable as a d",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer LGX's sustainable finance data services an evidence-labelled physical climate risk layer for the assets behind displayed securities, strengthening its transparency and eligibility standards.",
+  "priority": "high",
+  "fit_score": "LuxSE runs LGX, the world's first platform for sustainable securities, now including data services and an EU Taxonomy Issuers Window; its official LGX page emphasizes harmonised data and strict eligib",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: LGX marks its 10th anniversary in 2026, describes itself as the international reference point for sustainable finance with harmonised data, strict eligibility criteria and a new EU Taxonomy Issuers Window",
+      "source": "https://www.luxse.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.luxse.com/",
+  "date_checked": "2026-08-18"
+}

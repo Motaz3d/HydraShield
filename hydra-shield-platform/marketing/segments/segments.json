@@ -918,5 +918,71 @@
       "outreach_style": "practical, land-management focused",
       "evidence_requirements": "documented methods; species/limitations honesty"
     }
-  }
+  },
+  "priority_model": {
+    "note": "Priority tiers focus commercial effort; they do not change what the platform offers any user.",
+    "primary": {
+      "consulting": {
+        "tier_focus": "A",
+        "why": "consultants resell evidence into many client engagements; fastest path to repeated B2B use",
+        "likely_tier": "professional/business",
+        "communication_angle": "Reduce the time to assemble documented historical climate-risk evidence",
+        "objections": [
+          "build-vs-buy",
+          "coverage depth per region"
+        ],
+        "follow_up_strategy": "sample evidence pack for one of their sites, then a walkthrough call"
+      },
+      "investment": {
+        "tier_focus": "B",
+        "why": "capital allocation needs traceable exposure evidence before commitment",
+        "likely_tier": "professional/business",
+        "communication_angle": "Assess climate exposure before committing capital",
+        "objections": [
+          "validation status",
+          "method transparency"
+        ],
+        "follow_up_strategy": "portfolio-location screening demo, then API discussion"
+      },
+      "insurance": {
+        "tier_focus": "C",
+        "why": "underwriting/risk context needs documented hazard and exposure history",
+        "likely_tier": "professional/business",
+        "communication_angle": "Documented historical hazard and exposure profile per insured asset \u2014 not pricing",
+        "objections": [
+          "actuarial fit",
+          "data granularity"
+        ],
+        "follow_up_strategy": "historical-evidence sample for a known asset, then pilot"
+      },
+      "eu_funded_projects": {
+        "tier_focus": "D",
+        "why": "EU projects need evidence/monitoring components and are publicly listed",
+        "likely_tier": "research/partnership",
+        "communication_angle": "Evidence + monitoring components for funded resilience projects",
+        "objections": [
+          "consortium formalities",
+          "procurement rules"
+        ],
+        "follow_up_strategy": "project-fit note to coordinator, then consortium conversation"
+      }
+    },
+    "secondary": [
+      "banks/banking",
+      "real_estate",
+      "engineering_firms",
+      "construction",
+      "sustainable_finance",
+      "governments/municipalities",
+      "research_centers/universities"
+    ]
+  },
+  "partner_types": [
+    "customer",
+    "partner",
+    "research_partner",
+    "data_partner",
+    "funding_partner",
+    "technology_partner"
+  ]
 }

@@ -1,0 +1,41 @@
+{
+  "organization": "AECOM",
+  "segment": "environmental_consulting",
+  "country": "US",
+  "website": "https://www.aecom.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "AECOM, 'the trusted global infrastructure leader' with a major European practice (its homepage features an Ireland Annual Review and its Sustainable Legacies ESG programme), delivers climate resilience advisory for infrastructure and needs scalable multi-hazard screening across European projects.",
+  "climate_exposure": "European transport, water and urban infrastructure portfolios exposed to river and coastal flooding, storm wind, wildfire at wildland-urban interfaces and extreme heat.",
+  "potential_pain": "AECOM, 'the trusted global infrastructure leader' with a major European practice (its homepage features an Ireland Annual Review and its Sustainable Legacies ESG programme), delivers climate resilience advisory for infrastructure and needs scalable multi-hazard screening across European projects.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "wind",
+    "wildfire",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Portfolio-level hazard screening with evidence labels plus solutions and funding intelligence (EU adaptation funds) relevant to AECOM's public-sector infrastructure clients.",
+  "relevant_capability": "Portfolio-level hazard screening with evidence labels plus solutions and funding intelligence (EU adaptation funds) rele",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Angle: an enterprise dashboard giving AECOM's European resilience teams consistent, evidence-labelled hazard, solutions and funding intelligence across projects.",
+  "priority": "medium",
+  "fit_score": "AECOM, 'the trusted global infrastructure leader' with a major European practice (its homepage features an Ireland Annual Review and its Sustainable Legacies ESG programme), delivers climate resilienc",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage features Annual Report 2025, 'Ireland Annual Review' and its 'Sustainable Legacies' ESG programme",
+      "source": "https://www.aecom.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aecom.com",
+  "date_checked": "2026-08-18"
+}

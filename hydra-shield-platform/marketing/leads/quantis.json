@@ -1,0 +1,39 @@
+{
+  "organization": "Quantis",
+  "segment": "environmental_consulting",
+  "country": "CH",
+  "website": "https://quantis.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "Quantis ('Environmental Sustainability Consulting', per its site) focuses on environmental footprinting and sustainable transformation; as client demand shifts from footprinting to physical climate risk and resilience, it needs hazard intelligence to extend its offering.",
+  "climate_exposure": "Food, cosmetics and consumer-goods clients with agricultural supply chains highly exposed to drought and heat, and facilities exposed to flooding.",
+  "potential_pain": "Quantis ('Environmental Sustainability Consulting', per its site) focuses on environmental footprinting and sustainable transformation; as client demand shifts from footprinting to physical climate risk and resilience, it needs hazard intelligence to extend its offering.",
+  "relevant_hazards": [
+    "drought",
+    "heat",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Supply-chain-relevant drought and heat exposure analysis for an agri-food sourcing region, with evidence-labelled data that fits Quantis's science-based brand.",
+  "relevant_capability": "Supply-chain-relevant drought and heat exposure analysis for an agri-food sourcing region, with evidence-labelled data t",
+  "recommended_product": "professional_report",
+  "recommended_message": "Angle: evidence-labelled drought and heat intelligence that lets Quantis extend from footprinting into physical climate risk for supply-chain clients.",
+  "priority": "low",
+  "fit_score": "Quantis ('Environmental Sustainability Consulting', per its site) focuses on environmental footprinting and sustainable transformation; as client demand shifts from footprinting to physical climate ri",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: none recorded",
+      "source": "https://quantis.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://quantis.com",
+  "date_checked": "2026-08-18"
+}
