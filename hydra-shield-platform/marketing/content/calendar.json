@@ -1,0 +1,22 @@
+{
+  "description": "Rolling LinkedIn content calendar (docs/LINKEDIN_STRATEGY.md §3). 2–3 posts per week, rotating pillars. Each slot is filled by a draft from marketing/content/drafts/ before its date; publishing is human-executed.",
+  "cadence": {"posts_per_week": 3, "days": ["Tuesday", "Thursday", "Saturday"]},
+  "pillar_rotation": [
+    "current_climate_extremes",
+    "historical_event_intelligence",
+    "climate_risk_for_business",
+    "sustainable_solutions",
+    "satellite_observations",
+    "insurance_intelligence",
+    "map_discoveries",
+    "research",
+    "investment_intelligence",
+    "technology_discoveries"
+  ],
+  "rules": [
+    "Every post links to a checkable HydraShield page or an authoritative source.",
+    "No invented numbers, events, or engagement bait; evidence rules of docs/PRODUCT_STORY.md §8 apply.",
+    "Campaign-tagged landing URLs are used when a post belongs to a campaign."
+  ],
+  "queue": []
+}
