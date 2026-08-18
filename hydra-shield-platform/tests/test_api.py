@@ -170,3 +170,17 @@ def test_sources_payload_official_urls(client):
 def test_unknown_hazard_still_404_with_slash(client):
     assert client.get("/api/v2/hazards/tsunami").status_code == 404
     assert client.get("/api/v2/hazards/tsunami/").status_code == 404
+
+
+def test_human_sources_page_renders_from_api():
+    """website/sources.html is the human-facing registry view: it must
+    exist, fetch /api/sources, and render status/provider/limitations —
+    the API endpoint itself stays JSON (contract tested above)."""
+    import os as _os
+    path = _os.path.join(_os.path.dirname(__file__), "..", "website",
+                         "sources.html")
+    with open(path, encoding="utf-8") as fh:
+        html = fh.read()
+    assert "/api/sources" in html
+    assert "s.status" in html and "limitations" in html
+    assert "data-table" in html

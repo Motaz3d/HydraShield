@@ -98,7 +98,7 @@
             '<li><a href="for-government.html">Government</a></li>' +
             '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
-            '<p><a href="sources.html">Data sources</a></p>' +
+            '<p><a href="/sources">Data sources</a></p>' +
             '<p><a href="/api/sources" target="_blank" rel="noopener">Data-source registry (API)</a></p>' +
             '<p><a href="/api/v2/hazards" target="_blank" rel="noopener">Hazard registry (API)</a></p>' +
             '<p><a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a></p>' +
