@@ -1,0 +1,21 @@
+{
+  "id": "sig_th_adb_flood_risk_climate_agri_pipeline",
+  "organization": "Asian Development Bank / Government of Thailand",
+  "sector": "agriculture",
+  "country": "TH",
+  "region": "Thailand (national)",
+  "hazards": [
+    "flood",
+    "drought"
+  ],
+  "signal_type": "investment_signal",
+  "signal_strength": "moderate",
+  "source": "Asian Development Bank",
+  "source_url": "https://www.adb.org/where-we-work/thailand/overview",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "ADB Thailand page states the project pipeline includes ADB's entry into new sectors including flood risk management, technical assistance for a financial intermediary loan for a climate-adaptive agriculture facility, piloting urban/regional approaches against pollution and flooding, and notes extreme weather effects constrain long-term growth. Specific hazard types for the agriculture facility are not stated; flood/drought inferred from 'climate-adaptive agriculture' framing.",
+  "recommended_action": "Engage the financial intermediary selected for the climate-adaptive agriculture facility to embed HydraShield exposure scores into agri-loan screening; monitor ADB procurement notices for the flood risk management project."
+}

@@ -1,0 +1,39 @@
+{
+  "organization": "National Disaster Management Agency (NADMA)",
+  "segment": "governments",
+  "country": "MY",
+  "website": "https://www.nadma.gov.my/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of Disaster Planning and Preparedness Division",
+  "identified_problem": "NADMA coordinates national disaster operations, runs the National Disaster Control Centre and aggregates flood, strong wind/rough sea and heavy rain warnings from multiple departments, needing integrated multi-hazard situational awareness and alerting.",
+  "climate_exposure": "",
+  "potential_pain": "NADMA coordinates national disaster operations, runs the National Disaster Control Centre and aggregates flood, strong wind/rough sea and heavy rain warnings from multiple departments, needing integrated multi-hazard situational awareness and alerting.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "NADMA official portal lists the NDCC, disaster relief trust fund (KWABBN), DRR policy oversight and live hazard information feeds (flood, strong winds & rough seas, continuous heavy rain).",
+  "relevant_capability": "NADMA official portal lists the NDCC, disaster relief trust fund (KWABBN), DRR policy oversight and live hazard informat",
+  "recommended_product": "monitoring",
+  "recommended_message": "HydraShield can fuse satellite hazard intelligence with NADMA's existing departmental feeds into a single multi-hazard monitoring and SMS alert layer for state and district officers ahead of the northeast monsoon.",
+  "priority": "high",
+  "fit_score": "NADMA coordinates national disaster operations, runs the National Disaster Control Centre and aggregates flood, strong wind/rough sea and heavy rain warnings from multiple departments, needing integra",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.nadma.gov.my/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.nadma.gov.my/",
+  "date_checked": "2026-08-18"
+}

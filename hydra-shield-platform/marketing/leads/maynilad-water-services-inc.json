@@ -1,0 +1,39 @@
+{
+  "organization": "Maynilad Water Services, Inc.",
+  "segment": "infrastructure",
+  "country": "PH",
+  "website": "https://www.mayniladwater.com.ph/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Maynilad is expanding and modernizing Metro Manila water and wastewater infrastructure with a $145 million ADB cornerstone investment to enhance water security; flood, drought and heat extremes threaten raw water supply and treatment/distribution assets.",
+  "climate_exposure": "",
+  "potential_pain": "Maynilad is expanding and modernizing Metro Manila water and wastewater infrastructure with a $145 million ADB cornerstone investment to enhance water security; flood, drought and heat extremes threaten raw water supply and treatment/distribution assets.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "ADB Philippines country page: ADB was one of two lead cornerstone investors in Maynilad's IPO; the $145 million investment will help enhance water security in Metro Manila through expansion and modernization of water and wastewater infrastructure.",
+  "relevant_capability": "ADB Philippines country page: ADB was one of two lead cornerstone investors in Maynilad's IPO; the $145 million investme",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield can deliver asset-level flood, drought and heat exposure scores and forward-looking hazard intelligence across Maynilad's concession area to support climate-resilient capital planning tied to its post-IPO investment program.",
+  "priority": "high",
+  "fit_score": "Maynilad is expanding and modernizing Metro Manila water and wastewater infrastructure with a $145 million ADB cornerstone investment to enhance water security; flood, drought and heat extremes threat",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.mayniladwater.com.ph/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mayniladwater.com.ph/",
+  "date_checked": "2026-08-18"
+}

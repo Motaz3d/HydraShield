@@ -1,0 +1,24 @@
+{
+  "id": "sig_cdri_infra_resilience_risk",
+  "organization": "Coalition for Disaster Resilient Infrastructure (CDRI)",
+  "sector": "infrastructure",
+  "country": "IN",
+  "region": "National (HQ New Delhi)",
+  "hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "signal_type": "exposure_signal",
+  "signal_strength": "strong",
+  "source": "Coalition for Disaster Resilient Infrastructure",
+  "source_url": "https://www.cdri.world/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "CDRI homepage and its 'Mainstreaming Resilience into Infrastructure' study (April 2026): India projected to spend $4.51 trillion on infrastructure by 2030 toward its $5 trillion economy vision; natural hazards pose risk of losses up to $1.02 trillion. Study covers roads, railways, power; introduces a Resilience Cost-Benefit Analysis (RCBA) tool (up to $12 benefit per $1 invested) and a Disaster Resilience Toolkit for ministries and bidders. CDRI reports 70 members, 183 projects, $21.84 mn funding disbursed.",
+  "recommended_action": "Position HydraShield exposure/economy intelligence as a data layer for CDRI's RCBA and toolkit workstreams; offer multi-hazard risk screening for Indian infrastructure portfolios."
+}

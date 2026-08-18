@@ -1,0 +1,22 @@
+{
+  "id": "sig_cdri_odisha_power_resilience",
+  "organization": "Coalition for Disaster Resilient Infrastructure (CDRI) - Odisha power sector study",
+  "sector": "energy",
+  "country": "IN",
+  "region": "Odisha",
+  "hazards": [
+    "wind",
+    "coastal",
+    "flood"
+  ],
+  "signal_type": "infrastructure_signal",
+  "signal_strength": "strong",
+  "source": "Coalition for Disaster Resilient Infrastructure",
+  "source_url": "https://www.cdri.world/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "CDRI report 'Towards Resilient Power Infrastructure in Odisha' (Jan 6, 2026): cyclone-prone Odisha suffered over $1.2 billion in power sector damages from Cyclone Fani (2019). Recommends exposure mapping and hazard prioritization, GIS mapping/drones/outage management, and financial mechanisms including liquidity funds, parametric insurance and CAT bonds; roadmap of near/medium/long-term actions for utilities.",
+  "recommended_action": "Target Odisha transmission/distribution utilities with HydraShield coastal/wind monitoring and exposure analytics; the report's parametric insurance and CAT bond recommendations open a door with insurers and DFIs active in the state."
+}

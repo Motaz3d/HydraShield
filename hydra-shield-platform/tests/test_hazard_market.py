@@ -86,3 +86,14 @@ def test_won_lost_leads_excluded():
     leads = [_lead("Won Corp", "ES", "insurance", ["wildfire"])]
     leads[0]["status"] = "won"
     assert build_opportunities(leads, _AREAS) == []
+
+
+def test_asia_country_mapping():
+    """The radar's geography covers the Asia expansion countries."""
+    assert area_country_iso("Henan Province, China") == "CN"
+    assert area_country_iso("Kerala, India") == "IN"
+    assert area_country_iso("Metro Manila, Philippines") == "PH"
+    assert area_country_iso("Singapore") == "SG"
+    assert area_country_iso("Ho Chi Minh City, Vietnam") == "VN"
+    assert area_country_iso("Busan, South Korea") == "KR"
+    assert area_country_iso("Kanto, Japan") == "JP"

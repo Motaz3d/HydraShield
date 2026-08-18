@@ -1,0 +1,22 @@
+{
+  "id": "sig_ph_adb_insurance_market_reform",
+  "organization": "Asian Development Bank / Government of the Philippines",
+  "sector": "insurance",
+  "country": "PH",
+  "region": "Philippines (national)",
+  "hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "signal_type": "insurance_signal",
+  "signal_strength": "moderate",
+  "source": "Asian Development Bank",
+  "source_url": "https://www.adb.org/where-we-work/philippines/overview",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "medium",
+  "notes": "ADB Philippines page states that among policy-based loans committed in 2025 was one supporting reforms to 'create a more vibrant insurance market'. The page does not specify climate/parametric insurance detail or named insurers; hazard linkage inferred from the country's disaster resilience agenda.",
+  "recommended_action": "Track the insurance-market policy loan's reform matrix for climate/parametric insurance components and approach the Philippine Insurance Commission and domestic insurers with HydraShield hazard and exposure APIs for underwriting and parametric triggers."
+}

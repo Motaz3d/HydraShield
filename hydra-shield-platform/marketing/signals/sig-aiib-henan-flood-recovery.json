@@ -1,0 +1,20 @@
+{
+  "id": "sig_aiib_henan_flood_recovery",
+  "organization": "Asian Infrastructure Investment Bank (AIIB)",
+  "sector": "investment",
+  "country": "CN",
+  "region": "Henan Province",
+  "hazards": [
+    "flood"
+  ],
+  "signal_type": "funding_signal",
+  "signal_strength": "strong",
+  "source": "AIIB official project list data (all-projects-data.js) and project detail page",
+  "source_url": "https://www.aiib.org/en/projects/details/2021/approved/China-Henan-Flood-Emergency-Rehabilitation-and-Recovery-Project.html",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "AIIB's official projects data file lists 'China: Henan Flood Emergency Rehabilitation and Recovery Project' \u2014 sector Water, sovereign financing, approved funding USD 1,000 million, year 2021, status Approved. (Detail page is a JS single-page app; the structured data file served by aiib.org confirms name, amount, sector and status.)",
+  "recommended_action": "Track implementation of the Henan project and similar MDB flood-recovery pipelines; offer HydraShield exposure/flood analytics for project monitoring, results verification and climate screening of AIIB's China water-sector portfolio."
+}

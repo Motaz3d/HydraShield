@@ -1,0 +1,22 @@
+{
+  "id": "sig_tokio_marine_climate_gx_targets",
+  "organization": "Tokio Marine Holdings",
+  "sector": "insurance",
+  "country": "JP",
+  "region": "Tokyo (global operations)",
+  "hazards": [
+    "wind",
+    "flood",
+    "coastal"
+  ],
+  "signal_type": "insurance_signal",
+  "signal_strength": "strong",
+  "source": "Tokio Marine Holdings \u2014 Environmental Initiatives (official sustainability page)",
+  "source_url": "https://www.tokiomarinehd.com/en/sustainability/environment/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "Official page states: net-zero by fiscal 2050 (own operations and investees); 60% emissions reduction by fiscal 2030 (vs FY2015); carbon neutrality achieved for 11 consecutive years to FY2023; target of 45 billion yen in decarbonization-related premiums by fiscal 2026; engagement with 200 major client companies by 2030; mangrove plantation programme with target of over 300 billion yen cumulative economic value by fiscal 2038 (coastal protection relevance).",
+  "recommended_action": "Approach Tokio Marine's sustainability/GX underwriting teams with hazard exposure APIs and coastal-risk intelligence to support their 45bn yen decarbonization premium target, client engagement, and mangrove/nature-based resilience valuation."
+}

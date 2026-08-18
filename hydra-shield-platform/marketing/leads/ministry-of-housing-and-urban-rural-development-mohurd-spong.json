@@ -1,0 +1,38 @@
+{
+  "organization": "Ministry of Housing and Urban-Rural Development (MOHURD) \u2014 Sponge City programme",
+  "segment": "municipalities",
+  "country": "CN",
+  "website": "https://www.mohurd.gov.cn",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Director-General, Urban Construction Department (sponge city supervision)",
+  "identified_problem": "MOHURD is mandated to supervise national sponge city construction and create replicable demonstration projects; cities need quantified waterlogging/flood exposure and rainfall-runoff performance evidence to meet the 2030 target (80% of built-up area compliant).",
+  "climate_exposure": "",
+  "potential_pain": "MOHURD is mandated to supervise national sponge city construction and create replicable demonstration projects; cities need quantified waterlogging/flood exposure and rainfall-runoff performance evidence to meet the 2030 target (80% of built-up area compliant).",
+  "relevant_hazards": [
+    "flood",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "State Council General Office Guiding Opinions \u56fd\u529e\u53d1\u30142015\u301575\u53f7 assign MOHURD to supervise and guide sponge city construction nationwide, with targets for waterlogging elimination and heat-island mitigation.",
+  "relevant_capability": "State Council General Office Guiding Opinions \u56fd\u529e\u53d1\u30142015\u301575\u53f7 assign MOHURD to supervise and guide sponge city construction",
+  "recommended_product": "monitoring",
+  "recommended_message": "HydraShield's flood/waterlogging monitoring and historical event intelligence gives sponge city programme managers and pilot municipalities objective evidence for planning, performance assessment and PPP project documentation.",
+  "priority": "medium",
+  "fit_score": "MOHURD is mandated to supervise national sponge city construction and create replicable demonstration projects; cities need quantified waterlogging/flood exposure and rainfall-runoff performance evide",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.mohurd.gov.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mohurd.gov.cn",
+  "date_checked": "2026-08-18"
+}

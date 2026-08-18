@@ -1,0 +1,38 @@
+{
+  "organization": "PUB, Singapore's National Water Agency",
+  "segment": "infrastructure",
+  "country": "SG",
+  "website": "https://www.pub.gov.sg/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Director of Coastal Protection (PUB) / Programme Director, Coastal Protection and Flood Management Research Programme",
+  "identified_problem": "Mandated to protect a low-lying island (~30% of land <5 m above mean sea level) from sea level rise of up to 1.15 m by 2100 and storm surges up to 5 m; running site-specific coastal studies, the 'Long Island' project, CFRP research programme and CFI Singapore, with new coastal protection legislation and Code of Practice in development.",
+  "climate_exposure": "",
+  "potential_pain": "Mandated to protect a low-lying island (~30% of land <5 m above mean sea level) from sea level rise of up to 1.15 m by 2100 and storm surges up to 5 m; running site-specific coastal studies, the 'Long Island' project, CFRP research programme and CFI Singapore, with new coastal protection legislation and Code of Practice in development.",
+  "relevant_hazards": [
+    "coastal",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "NCCS coastal protection page states PUB 'manages both inland and coastal floods holistically and leads and coordinates whole-of-government efforts in ensuring coastal and flood resilience', launched the CFRP in 2023, and partnered with NUS to launch CFI Singapore; City-East Coast site-specific study completed 2025.",
+  "relevant_capability": "NCCS coastal protection page states PUB 'manages both inland and coastal floods holistically and leads and coordinates w",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield provides coastal and flood exposure analytics, historical event intelligence and solutions intelligence that can accelerate site-specific study follow-ons and support evidence-based design standards under the forthcoming coastal protection Code of Practice.",
+  "priority": "high",
+  "fit_score": "Mandated to protect a low-lying island (~30% of land <5 m above mean sea level) from sea level rise of up to 1.15 m by 2100 and storm surges up to 5 m; running site-specific coastal studies, the 'Long",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.pub.gov.sg/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pub.gov.sg/",
+  "date_checked": "2026-08-18"
+}

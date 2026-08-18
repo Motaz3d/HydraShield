@@ -1,0 +1,23 @@
+{
+  "id": "sig_kr_worldbank_green_growth_partnership",
+  "organization": "World Bank Group / Republic of Korea",
+  "sector": "investment",
+  "country": "KR",
+  "region": "Korea (with global deployment scope)",
+  "hazards": [
+    "flood",
+    "heat",
+    "coastal",
+    "wind"
+  ],
+  "signal_type": "investment_signal",
+  "signal_strength": "moderate",
+  "source": "World Bank Group",
+  "source_url": "https://www.worldbank.org/en/country/korea/overview",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "World Bank Korea country overview describes Korea as a leader in digital innovation and green growth hosting an integrated WBG office re-established in 2013, 'now a global center for innovation and technology for sustainable development'; Korea\u2013World Bank Partnership Facility and trust funds channel Korean expertise to client countries; since 2013 IFC has supported 60+ cross-border projects with $10.2 billion in commitments (incl. mobilized funds) in renewable energy, electric mobility, digital infrastructure and MSME finance; MIGA has provided $560 million in guarantees for Korean investors in renewable energy, agribusiness and infrastructure. This reflects Korea's outward investment role more than domestic resilience spending \u2014 domestic hazard exposure not quantified on this page.",
+  "recommended_action": "Engage the WBG Korea Office and Korean green-growth institutions (e.g. GGGI-style partners) to position HydraShield's multi-hazard intelligence as an analytics component for Korea-financed climate and infrastructure projects abroad."
+}

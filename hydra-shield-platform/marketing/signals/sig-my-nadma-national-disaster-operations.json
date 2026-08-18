@@ -1,0 +1,22 @@
+{
+  "id": "sig_my_nadma_national_disaster_operations",
+  "organization": "National Disaster Management Agency (NADMA), Prime Minister's Department, Malaysia",
+  "sector": "governments",
+  "country": "MY",
+  "region": "Malaysia (national)",
+  "hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "signal_type": "resilience_programme",
+  "signal_strength": "moderate",
+  "source": "NADMA Malaysia",
+  "source_url": "https://www.nadma.gov.my/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "NADMA's official portal shows it runs the National Disaster Control Centre (NDCC), the National Disaster Relief Trust Fund (KWABBN), national disaster risk reduction policy oversight, and publishes live disaster information feeds including floods (Drainage and Irrigation Department), strong winds and rough seas, and continuous heavy rain warnings.",
+  "recommended_action": "Propose HydraShield multi-hazard monitoring and SMS alerting as a complementary layer to NADMA's NDCC feeds, starting with a free analysis of monsoon flood exposure for priority districts."
+}

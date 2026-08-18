@@ -1,0 +1,22 @@
+{
+  "id": "sig_ph_adb_disaster_resilience_program",
+  "organization": "Asian Development Bank / Government of the Philippines",
+  "sector": "governments",
+  "country": "PH",
+  "region": "Philippines (national)",
+  "hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "signal_type": "funding_signal",
+  "signal_strength": "strong",
+  "source": "Asian Development Bank",
+  "source_url": "https://www.adb.org/where-we-work/philippines/overview",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "ADB country page states it approved a second $500 million disaster resilience program in 2025 allowing rapid release of funds for disaster or health-related emergencies, and the country partnership strategy 2024-2029 includes scaling up nature-based development and disaster resilience. Hazard breakdown is not itemized on the page; flood/wind/coastal are the dominant Philippine hazards per general country context, not stated explicitly here.",
+  "recommended_action": "Track the Disaster Resilience Improvement Program tranche and offer HydraShield's funding + monitoring intelligence to the executing agencies and their consultants for hazard analytics in program design."
+}

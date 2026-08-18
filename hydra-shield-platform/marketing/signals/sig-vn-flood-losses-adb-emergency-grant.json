@@ -1,0 +1,20 @@
+{
+  "id": "sig_vn_flood_losses_adb_emergency_grant",
+  "organization": "Government of Viet Nam / Asian Development Bank",
+  "sector": "governments",
+  "country": "VN",
+  "region": "Central provinces, Viet Nam",
+  "hazards": [
+    "flood"
+  ],
+  "signal_type": "exposure_signal",
+  "signal_strength": "strong",
+  "source": "Asian Development Bank",
+  "source_url": "https://www.adb.org/where-we-work/viet-nam/overview",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "ADB Viet Nam country page states damages and losses of around 0.8% of GDP were incurred due to flooding in 2025, and that a $2 million grant for emergency response to severe flooding in the central provinces will augment Viet Nam's disaster management efforts. ADB support focuses on disaster response, resilience and adaptation measures.",
+  "recommended_action": "Position HydraShield flood exposure and historical event intelligence for central Vietnamese provinces to provincial authorities and ADB project teams preparing resilient infrastructure investments."
+}

@@ -37,6 +37,11 @@ COUNTRY_NAME_TO_ISO = {
     "croatia": "HR", "slovenia": "SI", "sweden": "SE", "denmark": "DK",
     "ireland": "IE", "finland": "FI", "norway": "NO",
     "czechia": "CZ", "czech republic": "CZ",
+    # Asia (commercial radar expansion — leads/signals exist here)
+    "china": "CN", "japan": "JP", "south korea": "KR", "korea": "KR",
+    "singapore": "SG", "india": "IN", "indonesia": "ID",
+    "philippines": "PH", "vietnam": "VN", "viet nam": "VN",
+    "thailand": "TH", "malaysia": "MY",
 }
 
 #: The live snapshot is the wildfire product today; other hazards appear

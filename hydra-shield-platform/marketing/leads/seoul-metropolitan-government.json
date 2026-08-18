@@ -1,0 +1,38 @@
+{
+  "organization": "Seoul Metropolitan Government",
+  "segment": "municipalities",
+  "country": "KR",
+  "website": "https://english.seoul.go.kr/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Director-General, Disaster & Safety Management / Head of Heat Wave Response (Comprehensive Heat Wave Support Command Center)",
+  "identified_problem": "Seoul issued its first highest-level heat wave emergency warning of summer 2026 on August 4 after a warning in effect since July 23; the city is mobilising disaster relief funds (20.5 billion won), district grants (440 million won), ~4,000 heat shelters and twice-daily monitoring of vulnerable residents \u2014 a recurrent, resource-intensive manual response to escalating urban heat.",
+  "climate_exposure": "",
+  "potential_pain": "Seoul issued its first highest-level heat wave emergency warning of summer 2026 on August 4 after a warning in effect since July 23; the city is mobilising disaster relief funds (20.5 billion won), district grants (440 million won), ~4,000 heat shelters and twice-daily monitoring of vulnerable residents \u2014 a recurrent, resource-intensive manual response to escalating urban heat.",
+  "relevant_hazards": [
+    "heat",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official SMG press release (August 6, 2026) details the emergency warning, suspension of outdoor construction, cooling roads expansion, 410,000-household cooling cost support and twice-daily in-person/phone monitoring of jjokbang residents.",
+  "relevant_capability": "Official SMG press release (August 6, 2026) details the emergency warning, suspension of outdoor construction, cooling r",
+  "recommended_product": "monitoring",
+  "recommended_message": "HydraShield's real-time heat monitoring and SMS alerting can automate vulnerable-group targeting for SMG's 25 district governments, prioritising jjokbang residents, elderly living alone and mobility workers, and reducing manual patrol workload during highest-level heat warnings.",
+  "priority": "high",
+  "fit_score": "Seoul issued its first highest-level heat wave emergency warning of summer 2026 on August 4 after a warning in effect since July 23; the city is mobilising disaster relief funds (20.5 billion won), di",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://english.seoul.go.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://english.seoul.go.kr/",
+  "date_checked": "2026-08-18"
+}

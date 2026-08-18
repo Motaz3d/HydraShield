@@ -1,0 +1,41 @@
+{
+  "organization": "Coalition for Disaster Resilient Infrastructure (CDRI)",
+  "segment": "infrastructure",
+  "country": "IN",
+  "website": "https://www.cdri.world/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of Data & Technology / Director of Programmes",
+  "identified_problem": "CDRI runs 183 resilience projects and published a Data and Technology Strategy (Dec 2025) focused on geospatial/risk data, AI/ML, remote sensing and Earth observation; it is also knowledge partner on the new $245M World Bank Himachal Pradesh project and quantifies India's infrastructure hazard risk at up to $1.02 trillion by 2030.",
+  "climate_exposure": "",
+  "potential_pain": "CDRI runs 183 resilience projects and published a Data and Technology Strategy (Dec 2025) focused on geospatial/risk data, AI/ML, remote sensing and Earth observation; it is also knowledge partner on the new $245M World Bank Himachal Pradesh project and quantifies India's infrastructure hazard risk at up to $1.02 trillion by 2030.",
+  "relevant_hazards": [
+    "flood",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "CDRI official site: 70 members, 183 projects, $21.84 mn disbursed; Data and Technology Strategy (Dec 2025); 'Mainstreaming Resilience into Infrastructure' study (2026); named as knowledge partner in World Bank Himachal press release (Feb 2026).",
+  "relevant_capability": "CDRI official site: 70 members, 183 projects, $21.84 mn disbursed; Data and Technology Strategy (Dec 2025); 'Mainstreami",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield's multi-hazard exposure and economic-loss intelligence can feed CDRI's RCBA tool, Disaster Resilience Toolkit and member-country data strategy - propose a pilot on one Indian infrastructure portfolio.",
+  "priority": "high",
+  "fit_score": "CDRI runs 183 resilience projects and published a Data and Technology Strategy (Dec 2025) focused on geospatial/risk data, AI/ML, remote sensing and Earth observation; it is also knowledge partner on ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.cdri.world/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cdri.world/",
+  "date_checked": "2026-08-18"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "sig_sponge_city_programme",
+  "organization": "General Office of the State Council of the PRC (Sponge City programme; supervised by Ministry of Housing and Urban-Rural Development)",
+  "sector": "municipalities",
+  "country": "CN",
+  "region": "Nationwide (all cities)",
+  "hazards": [
+    "flood",
+    "heat"
+  ],
+  "signal_type": "resilience_programme",
+  "signal_strength": "strong",
+  "source": "State Council General Office Guiding Opinions \u56fd\u529e\u53d1\u30142015\u301575\u53f7, www.gov.cn",
+  "source_url": "http://www.gov.cn/zhengce/content/2015-10/16/content_10228.htm",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_document",
+  "confidence": "high",
+  "notes": "The 2015 Guiding Opinions on Advancing Sponge City Construction define the national programme: absorb and reuse 70% of rainfall locally; by 2020 over 20% of urban built-up area to meet requirements, by 2030 over 80%. Goals include eliminating urban waterlogging and mitigating heat islands ('\u5c0f\u96e8\u4e0d\u79ef\u6c34\u3001\u5927\u96e8\u4e0d\u5185\u6d9d\u3001\u6c34\u4f53\u4e0d\u9ed1\u81ed\u3001\u70ed\u5c9b\u6709\u7f13\u89e3'). It directs central and local government funding, encourages PPP, development/policy-bank credit, bonds and ABS for sponge city projects, and assigns MOHURD the supervisory role with pilots and replicable demonstration projects.",
+  "recommended_action": "Target sponge-city pilot municipalities and their design institutes with flood/waterlogging monitoring, historical event intelligence and solutions_intelligence to support sponge city planning, performance assessment and PPP project documentation."
+}

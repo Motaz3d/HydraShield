@@ -1,0 +1,22 @@
+{
+  "id": "sig_national_adaptation_strategy_2035",
+  "organization": "Ministry of Ecology and Environment and 16 co-issuing departments (incl. NDRC, Ministry of Finance, Ministry of Emergency Management, People's Bank of China, China Meteorological Administration)",
+  "sector": "governments",
+  "country": "CN",
+  "region": "Nationwide",
+  "hazards": [
+    "flood",
+    "drought",
+    "heat"
+  ],
+  "signal_type": "resilience_programme",
+  "signal_strength": "strong",
+  "source": "State Council policy document library, www.gov.cn",
+  "source_url": "https://www.gov.cn/zhengce/zhengceku/2022-06/14/content_5695555.htm",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_document",
+  "confidence": "high",
+  "notes": "Official notice (\u73af\u6c14\u5019\u30142022\u301541\u53f7, dated 2022-05-10) printing and distributing the National Climate Change Adaptation Strategy 2035, jointly issued by 17 bodies. It requires all provinces, autonomous regions and municipalities (and Xinjiang Production and Construction Corps) to formulate provincial-level climate adaptation action plans and organize implementation. The fetched page does not enumerate specific hazards; hazard tags are analyst classification of the strategy's multi-hazard scope.",
+  "recommended_action": "Map provincial adaptation action plans as they are published and position HydraShield's climate_risk_intelligence and exposure analytics as decision-support tooling for provincial ecology & environment and emergency-management bureaus."
+}

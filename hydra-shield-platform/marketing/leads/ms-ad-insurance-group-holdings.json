@@ -1,0 +1,40 @@
+{
+  "organization": "MS&AD Insurance Group Holdings",
+  "segment": "insurance",
+  "country": "JP",
+  "website": "https://www.ms-ad-hd.com/en/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of Sustainability / Chief Risk Officer",
+  "identified_problem": "Leading Japanese non-life insurer underwriting climate-driven natural catastrophe risk (typhoons, floods, heat) across Japan and 48 countries; needs granular, real-time hazard exposure data for underwriting, pricing and group risk management.",
+  "climate_exposure": "",
+  "potential_pain": "Leading Japanese non-life insurer underwriting climate-driven natural catastrophe risk (typhoons, floods, heat) across Japan and 48 countries; needs granular, real-time hazard exposure data for underwriting, pricing and group risk management.",
+  "relevant_hazards": [
+    "wind",
+    "flood",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official 'MS&AD at a Glance' page states a leading non-life insurance franchise in Japan, consolidated net premiums written of 5,004.7 billion yen and an overseas network of 48 countries (as of March 31, 2026).",
+  "relevant_capability": "Official 'MS&AD at a Glance' page states a leading non-life insurance franchise in Japan, consolidated net premiums writ",
+  "recommended_product": "api",
+  "recommended_message": "HydraShield's six-hazard exposure API (typhoon wind, pluvial/fluvial flood, heat, coastal surge) can plug directly into MS&AD's underwriting and accumulation-risk workflows across Japan and Asia-Pacific portfolios.",
+  "priority": "high",
+  "fit_score": "Leading Japanese non-life insurer underwriting climate-driven natural catastrophe risk (typhoons, floods, heat) across Japan and 48 countries; needs granular, real-time hazard exposure data for underw",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.ms-ad-hd.com/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ms-ad-hd.com/en/",
+  "date_checked": "2026-08-18"
+}

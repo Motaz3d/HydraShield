@@ -1,0 +1,22 @@
+{
+  "id": "sig_pingan_climate_risk",
+  "organization": "Ping An Insurance (Group) Company of China",
+  "sector": "insurance",
+  "country": "CN",
+  "region": "Nationwide (HQ Shenzhen)",
+  "hazards": [
+    "flood",
+    "wind",
+    "heat"
+  ],
+  "signal_type": "insurance_signal",
+  "signal_strength": "moderate",
+  "source": "Ping An Group official Sustainability \u2014 Environment page",
+  "source_url": "https://group.pingan.com/Sustainability/environment.html",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "Ping An's official page states it has integrated climate change as a key topic in the Group's long-term development strategy, that 'the identification and management of climate-related financial risks are core to Ping An's response to climate change', references its Climate Risk (TCFD) report, and says it develops green insurance, investment and lending products. Specific hazard perils are not enumerated on the page; hazard tags are analyst classification of a major P&C insurer's typical China exposures.",
+  "recommended_action": "Approach Ping An's risk/ESG function with multi-hazard physical risk data (flood, typhoon wind, heat) for TCFD climate-risk reporting, underwriting pricing and green insurance product development."
+}

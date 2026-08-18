@@ -1,0 +1,42 @@
+{
+  "organization": "Ministry of Emergency Management of the PRC",
+  "segment": "governments",
+  "country": "CN",
+  "website": "https://www.mem.gov.cn",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Director-General responsible for natural disaster risk monitoring and early warning",
+  "identified_problem": "As co-issuer of the National Climate Change Adaptation Strategy 2035, MEM shares responsibility for guarding against climate impacts and disaster risk; 2024 brought record-breaking heat months, drought losses affecting ~4.8 million people and typhoon damage (WMO), underscoring demand for multi-hazard monitoring and early warning.",
+  "climate_exposure": "",
+  "potential_pain": "As co-issuer of the National Climate Change Adaptation Strategy 2035, MEM shares responsibility for guarding against climate impacts and disaster risk; 2024 brought record-breaking heat months, drought losses affecting ~4.8 million people and typhoon damage (WMO), underscoring demand for multi-hazard monitoring and early warning.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "heat",
+    "wind",
+    "coastal",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "gov.cn policy library notice for the National Climate Change Adaptation Strategy 2035 lists the Ministry of Emergency Management among the 17 issuing bodies; WMO documents 2024 heat, drought and cyclone impacts in China.",
+  "relevant_capability": "gov.cn policy library notice for the National Climate Change Adaptation Strategy 2035 lists the Ministry of Emergency Ma",
+  "recommended_product": "monitoring",
+  "recommended_message": "HydraShield's six-hazard monitoring with SMS alerting and API can complement national disaster early-warning capacity and support implementation of the Adaptation Strategy 2035 at national and provincial levels.",
+  "priority": "high",
+  "fit_score": "As co-issuer of the National Climate Change Adaptation Strategy 2035, MEM shares responsibility for guarding against climate impacts and disaster risk; 2024 brought record-breaking heat months, drough",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.mem.gov.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mem.gov.cn",
+  "date_checked": "2026-08-18"
+}

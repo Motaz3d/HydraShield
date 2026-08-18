@@ -1,0 +1,21 @@
+{
+  "id": "sig_aplat_adaptation_platform",
+  "organization": "Climate Change Adaptation Information Platform (A-PLAT), National Institute for Environmental Studies / Ministry of the Environment",
+  "sector": "governments",
+  "country": "JP",
+  "region": "National (with local adaptation centers nationwide)",
+  "hazards": [
+    "heat",
+    "flood"
+  ],
+  "signal_type": "resilience_programme",
+  "signal_strength": "moderate",
+  "source": "A-PLAT \u2014 Climate Change Adaptation Information Platform (official, NIES)",
+  "source_url": "https://adaptation-platform.nies.go.jp/en/index.html",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "Official platform promotes regional/local climate change adaptation based on scientific knowledge; explicitly cites 'more hot summer days and extremely hot days' and 'an increase in flood damage caused by heavy rain'; runs dedicated sections for local governments' adaptation plans/centers and for private-sector business adaptation with case studies and events.",
+  "recommended_action": "Offer HydraShield monitoring + SMS alerting and municipal heat/flood risk analytics to local climate change adaptation centers; list solutions on A-PLAT's private-sector adaptation channels."
+}

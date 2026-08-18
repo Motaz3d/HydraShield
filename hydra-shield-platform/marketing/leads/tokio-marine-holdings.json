@@ -1,0 +1,40 @@
+{
+  "organization": "Tokio Marine Holdings",
+  "segment": "insurance",
+  "country": "JP",
+  "website": "https://www.tokiomarinehd.com/en/sustainability/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Group Chief Sustainability Officer (CSUO) / Head of GX Underwriting",
+  "identified_problem": "Publicly committed climate/GX targets \u2014 45 billion yen in decarbonization-related premiums by FY2026, engagement with 200 major clients, net-zero by FY2050, and a mangrove coastal-protection programme valued at 300+ billion yen by FY2038 \u2014 require hazard and coastal-risk intelligence to execute.",
+  "climate_exposure": "",
+  "potential_pain": "Publicly committed climate/GX targets \u2014 45 billion yen in decarbonization-related premiums by FY2026, engagement with 200 major clients, net-zero by FY2050, and a mangrove coastal-protection programme valued at 300+ billion yen by FY2038 \u2014 require hazard and coastal-risk intelligence to execute.",
+  "relevant_hazards": [
+    "wind",
+    "flood",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official Environmental Initiatives page lists the GX premium target, client-engagement target, net-zero pathway and mangrove economic-value target.",
+  "relevant_capability": "Official Environmental Initiatives page lists the GX premium target, client-engagement target, net-zero pathway and mang",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield can quantify client-level physical climate exposure to support Tokio Marine's 200-company GX engagement and decarbonization premium growth, and provide coastal-risk analytics for its mangrove/nature-based resilience programme.",
+  "priority": "high",
+  "fit_score": "Publicly committed climate/GX targets \u2014 45 billion yen in decarbonization-related premiums by FY2026, engagement with 200 major clients, net-zero by FY2050, and a mangrove coastal-protection programme",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.tokiomarinehd.com/en/sustainability/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.tokiomarinehd.com/en/sustainability/",
+  "date_checked": "2026-08-18"
+}

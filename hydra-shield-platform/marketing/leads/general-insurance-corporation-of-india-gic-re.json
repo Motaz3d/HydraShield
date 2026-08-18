@@ -1,0 +1,40 @@
+{
+  "organization": "General Insurance Corporation of India (GIC Re)",
+  "segment": "insurance",
+  "country": "IN",
+  "website": "https://www.gicre.in/en/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Risk Officer / Head of Property & Casualty Reinsurance",
+  "identified_problem": "As the sole reinsurer in the Indian domestic market, GIC Re carries concentrated exposure to India's escalating flood, cyclone and heat losses (e.g., Odisha power sector alone lost $1.2B+ to Cyclone Fani; Himachal Pradesh lost ~$1B in three years); the World Bank Himachal project explicitly aims to mobilize $100M in private capital for disaster-risk financing and insurance solutions in India.",
+  "climate_exposure": "",
+  "potential_pain": "As the sole reinsurer in the Indian domestic market, GIC Re carries concentrated exposure to India's escalating flood, cyclone and heat losses (e.g., Odisha power sector alone lost $1.2B+ to Cyclone Fani; Himachal Pradesh lost ~$1B in three years); the World Bank Himachal project explicitly aims to mobilize $100M in private capital for disaster-risk financing and insurance solutions in India.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "GIC Re official site confirms it is the sole reinsurer in the domestic Indian market; loss context verified from World Bank press release and CDRI Odisha report. Climate-specific product offerings are not stated on the fetched GIC Re page.",
+  "relevant_capability": "GIC Re official site confirms it is the sole reinsurer in the domestic Indian market; loss context verified from World B",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "HydraShield's historical event intelligence and multi-hazard exposure data can sharpen GIC Re's NatCat pricing, accumulation control and parametric product design for the Indian market.",
+  "priority": "medium",
+  "fit_score": "As the sole reinsurer in the Indian domestic market, GIC Re carries concentrated exposure to India's escalating flood, cyclone and heat losses (e.g., Odisha power sector alone lost $1.2B+ to Cyclone F",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.gicre.in/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gicre.in/en/",
+  "date_checked": "2026-08-18"
+}

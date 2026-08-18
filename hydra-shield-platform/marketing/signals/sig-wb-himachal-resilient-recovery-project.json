@@ -1,0 +1,21 @@
+{
+  "id": "sig_wb_himachal_resilient_recovery_project",
+  "organization": "World Bank / Government of Himachal Pradesh",
+  "sector": "governments",
+  "country": "IN",
+  "region": "Himachal Pradesh",
+  "hazards": [
+    "flood",
+    "heat"
+  ],
+  "signal_type": "project_signal",
+  "signal_strength": "strong",
+  "source": "World Bank (official press release)",
+  "source_url": "https://www.worldbank.org/en/news/press-release/2026/02/11/india-world-bank-approves-support-to-help-himachal-pradesh-manage-extreme-weather-events-benefiting-2-3-million-people",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "Board approval Feb 10, 2026: $245 million 'Resilient Action for Development and Disaster Recovery Himachal Pradesh Project' benefiting 2.3 million people. State suffered an estimated $1 billion in losses from extreme weather over the past three years; heavy rainfall in the 2023 and 2025 monsoons caused deaths and damage to housing/infrastructure. Project includes strengthening early warning systems (with Agence Francaise de Developpement), rehabilitation of 250+ bridges/roads/footbridges, hazard and risk analysis, 'resilience cells', and aims to mobilize $100 million in private capital for disaster-risk financing and insurance. Prepared with GFDRR support; CDRI provides knowledge support.",
+  "recommended_action": "Offer multi-hazard monitoring, hazard/risk analytics, and historical event intelligence to the project's resilience cells and early-warning component; engage implementing state agencies and GFDRR/CDRI knowledge channels."
+}

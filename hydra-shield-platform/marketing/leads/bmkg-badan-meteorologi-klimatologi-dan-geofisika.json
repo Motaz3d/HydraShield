@@ -1,0 +1,39 @@
+{
+  "organization": "BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)",
+  "segment": "governments",
+  "country": "ID",
+  "website": "https://www.bmkg.go.id/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Deputy for Climatology",
+  "identified_problem": "BMKG operates Indonesia's weather/climate monitoring and public warning services while the country faces active fire/hotspot seasons in Kalimantan and Sumatra and prolonged dry conditions flagged by ASMC.",
+  "climate_exposure": "",
+  "potential_pain": "BMKG operates Indonesia's weather/climate monitoring and public warning services while the country faces active fire/hotspot seasons in Kalimantan and Sumatra and prolonged dry conditions flagged by ASMC.",
+  "relevant_hazards": [
+    "wildfire",
+    "drought",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "BMKG official site shows active monitoring and public advisory operations (18 August 2026 news items); ASMC reports widespread Kalimantan hotspots and dry-weather outlook for southern ASEAN on the same date.",
+  "relevant_capability": "BMKG official site shows active monitoring and public advisory operations (18 August 2026 news items); ASMC reports wide",
+  "recommended_product": "api",
+  "recommended_message": "HydraShield's hazard API and wildfire/drought monitoring layers can complement BMKG's observation network with satellite-derived fire, dry-condition and flood exposure intelligence for integration into national and district-level warning products.",
+  "priority": "medium",
+  "fit_score": "BMKG operates Indonesia's weather/climate monitoring and public warning services while the country faces active fire/hotspot seasons in Kalimantan and Sumatra and prolonged dry conditions flagged by A",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.bmkg.go.id/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bmkg.go.id/",
+  "date_checked": "2026-08-18"
+}

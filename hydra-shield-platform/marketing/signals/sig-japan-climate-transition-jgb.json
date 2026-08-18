@@ -1,0 +1,23 @@
+{
+  "id": "sig_japan_climate_transition_jgb",
+  "organization": "Ministry of Finance Japan",
+  "sector": "sustainable_finance",
+  "country": "JP",
+  "region": "National",
+  "hazards": [
+    "flood",
+    "wind",
+    "heat",
+    "coastal"
+  ],
+  "signal_type": "funding_signal",
+  "signal_strength": "strong",
+  "source": "Ministry of Finance Japan (official website, What's New)",
+  "source_url": "https://www.mof.go.jp/english/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "MOF's official English page lists (17 August 2026): 'Announcement of 10-year Climate Transition JGBs to Be Issued in August 2026' \u2014 Japan is actively issuing sovereign Climate Transition JGBs (GX transition bonds) this month. Exact issuance amount is not stated on the page viewed.",
+  "recommended_action": "Track Climate Transition JGB issuance and the GX-funded projects it finances (adaptation, resilient infrastructure); position HydraShield's exposure/funding intelligence as the data layer for agencies and contractors deploying GX capital."
+}

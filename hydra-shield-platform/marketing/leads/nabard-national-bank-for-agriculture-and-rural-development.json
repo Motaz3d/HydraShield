@@ -1,0 +1,39 @@
+{
+  "organization": "NABARD (National Bank for Agriculture and Rural Development)",
+  "segment": "banking",
+  "country": "IN",
+  "website": "https://www.nabard.org/",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of Climate Finance / Rural Resilience programmes",
+  "identified_problem": "India's apex rural development bank is formalizing access to meteorological intelligence (MoU with IMD signed 14 Aug 2026), signalling institutional demand for localized weather/climate data to protect agricultural portfolios and rural lending from drought, heat and flood.",
+  "climate_exposure": "",
+  "potential_pain": "India's apex rural development bank is formalizing access to meteorological intelligence (MoU with IMD signed 14 Aug 2026), signalling institutional demand for localized weather/climate data to protect agricultural portfolios and rural lending from drought, heat and flood.",
+  "relevant_hazards": [
+    "drought",
+    "heat",
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "IMD official homepage announces the IMD-NABARD MoU (14 Aug 2026). NABARD's own site could not be fetched during this check (see NOTES).",
+  "relevant_capability": "IMD official homepage announces the IMD-NABARD MoU (14 Aug 2026). NABARD's own site could not be fetched during this che",
+  "recommended_product": "api",
+  "recommended_message": "Complement your new IMD data partnership with HydraShield's multi-hazard API and SMS alerting for district-level drought/heat/flood risk scoring of agricultural portfolios.",
+  "priority": "high",
+  "fit_score": "India's apex rural development bank is formalizing access to meteorological intelligence (MoU with IMD signed 14 Aug 2026), signalling institutional demand for localized weather/climate data to protec",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.nabard.org/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.nabard.org/",
+  "date_checked": "2026-08-18"
+}

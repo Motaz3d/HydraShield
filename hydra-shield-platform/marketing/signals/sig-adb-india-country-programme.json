@@ -1,0 +1,22 @@
+{
+  "id": "sig_adb_india_country_programme",
+  "organization": "Asian Development Bank (India)",
+  "sector": "investment",
+  "country": "IN",
+  "region": "National",
+  "hazards": [
+    "flood",
+    "drought",
+    "heat"
+  ],
+  "signal_type": "funding_signal",
+  "signal_strength": "moderate",
+  "source": "Asian Development Bank (India country page)",
+  "source_url": "https://www.adb.org/countries/india/main",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "ADB country page: India is a founding member and fourth largest shareholder of ADB; among largest recipients of ADB public sector support. To date ADB has committed 683 public sector loans, grants and technical assistance totaling $63.8 billion to India. Operations guided by the country partnership strategy 2023-2027, aligned with priorities in urban development, industry-aligned skills and job creation. Climate-specific allocations are not stated on the fetched page.",
+  "recommended_action": "Monitor ADB India sovereign pipeline (urban and water/resilience operations) for procurement opportunities where multi-hazard risk intelligence is required in project design."
+}

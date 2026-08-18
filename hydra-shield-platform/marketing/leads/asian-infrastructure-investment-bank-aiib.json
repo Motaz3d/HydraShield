@@ -1,0 +1,40 @@
+{
+  "organization": "Asian Infrastructure Investment Bank (AIIB)",
+  "segment": "investment",
+  "country": "CN",
+  "website": "https://www.aiib.org",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Head of Investment Operations \u2014 Water and Urban (China portfolio)",
+  "identified_problem": "Finances large sovereign flood-recovery and climate-resilient urban projects in China (e.g., USD 1 billion Henan Flood Emergency Rehabilitation and Recovery Project; proposed USD 250 million Inner Mongolia Ulanhot Green and Climate Resilient Urban Development Project) and needs independent hazard exposure data for project screening, monitoring and results verification.",
+  "climate_exposure": "",
+  "potential_pain": "Finances large sovereign flood-recovery and climate-resilient urban projects in China (e.g., USD 1 billion Henan Flood Emergency Rehabilitation and Recovery Project; proposed USD 250 million Inner Mongolia Ulanhot Green and Climate Resilient Urban Development Project) and needs independent hazard exposure data for project screening, monitoring and results verification.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "heat",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "AIIB official projects data lists the Henan flood project (USD 1,000M, approved 2021, Water sector) plus proposed climate-resilient urban and coastal ecological restoration projects in China.",
+  "relevant_capability": "AIIB official projects data lists the Henan flood project (USD 1,000M, approved 2021, Water sector) plus proposed climat",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield's multi-hazard exposure and monitoring intelligence can support AIIB's China water and urban resilience portfolio \u2014 from climate screening at appraisal to real-time hazard monitoring during implementation of projects like Henan flood rehabilitation.",
+  "priority": "medium",
+  "fit_score": "Finances large sovereign flood-recovery and climate-resilient urban projects in China (e.g., USD 1 billion Henan Flood Emergency Rehabilitation and Recovery Project; proposed USD 250 million Inner Mon",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://www.aiib.org"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aiib.org",
+  "date_checked": "2026-08-18"
+}

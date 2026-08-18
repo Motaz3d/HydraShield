@@ -1,0 +1,22 @@
+{
+  "id": "sig_sg_green_plan_2030",
+  "organization": "Government of Singapore (Ministries of Education, National Development, Sustainability and the Environment, Trade and Industry, Transport)",
+  "sector": "governments",
+  "country": "SG",
+  "region": "Singapore (national)",
+  "hazards": [
+    "heat",
+    "flood",
+    "coastal"
+  ],
+  "signal_type": "resilience_programme",
+  "signal_strength": "moderate",
+  "source": "Singapore Green Plan 2030 official portal",
+  "source_url": "https://www.greenplan.gov.sg/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "Green Plan is a whole-of-nation movement with 5 pillars: City in Nature, Energy Reset, Sustainable Living, Green Economy, Resilient Future. Stated targets include 1 million more trees, quadruple solar deployment by 2025, 30% less waste to landfill by 2030, at least 20% of schools carbon neutral by 2030, cleaner-energy vehicles from 2030, and net zero aspiration by 2050. Budget figures for the Resilient Future pillar: not stated on this page.",
+  "recommended_action": "Align HydraShield's municipal resilience dashboards and exposure intelligence with the Resilient Future pillar; approach the five spearheading ministries' sustainability units with a free analysis offer for a pilot district."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "sig_national_resilience_programme",
+  "organization": "Cabinet Secretariat, National Resilience Promotion Office (\u56fd\u571f\u5f37\u9771\u5316\u63a8\u9032\u5ba4)",
+  "sector": "infrastructure",
+  "country": "JP",
+  "region": "National",
+  "hazards": [
+    "flood",
+    "wind",
+    "heat",
+    "coastal"
+  ],
+  "signal_type": "infrastructure_signal",
+  "signal_strength": "moderate",
+  "source": "Cabinet Secretariat of Japan \u2014 National Resilience (\u56fd\u571f\u5f37\u9771\u5316) official page",
+  "source_url": "https://www.cas.go.jp/jp/seisaku/kokudo_kyoujinka/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "medium",
+  "notes": "Official page frames National Resilience and disaster prevention/mitigation (\u9632\u707d\u30fb\u6e1b\u707d) as 'national risk management' to protect lives and property and strengthen industrial competitiveness; run by the Cabinet Secretariat National Resilience Promotion Office. Specific budgets or project lists are not stated on the page viewed.",
+  "recommended_action": "Map HydraShield's six-hazard exposure analytics to National Resilience action-plan reviews; pursue engagement via infrastructure ministries (MLIT) and prefectural resilience offices procuring risk data."
+}

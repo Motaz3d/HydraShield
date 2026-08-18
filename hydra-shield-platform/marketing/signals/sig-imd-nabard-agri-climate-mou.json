@@ -1,0 +1,22 @@
+{
+  "id": "sig_imd_nabard_agri_climate_mou",
+  "organization": "India Meteorological Department (IMD) / NABARD",
+  "sector": "agriculture",
+  "country": "IN",
+  "region": "National",
+  "hazards": [
+    "drought",
+    "heat",
+    "flood"
+  ],
+  "signal_type": "government_signal",
+  "signal_strength": "moderate",
+  "source": "India Meteorological Department (official site)",
+  "source_url": "https://mausam.imd.gov.in/",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "IMD homepage announcements: MoU signed 14 Aug 2026 between IMD and NABARD (National Bank for Agriculture and Rural Development); separate MoU signed 04 Aug 2026 between IMD and the Department of Higher Education, Government of Madhya Pradesh; LoA signed 20 July 2026 with Saunta Gaunta Foundation. Scope/details of the MoUs are not stated on the fetched page, but they show active institutional demand for meteorological data partnerships.",
+  "recommended_action": "Approach NABARD and state agencies as channel partners: HydraShield monitoring + SMS alerts and API can complement IMD data for agri-climate risk services to farmers and rural lenders."
+}

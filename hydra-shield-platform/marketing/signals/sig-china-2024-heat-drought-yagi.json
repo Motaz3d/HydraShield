@@ -1,0 +1,23 @@
+{
+  "id": "sig_china_2024_heat_drought_yagi",
+  "organization": "World Meteorological Organization \u2014 State of the Climate in Asia 2024",
+  "sector": "research_centers",
+  "country": "CN",
+  "region": "Nationwide (China); Yellow and East China seas",
+  "hazards": [
+    "heat",
+    "drought",
+    "wind",
+    "coastal"
+  ],
+  "signal_type": "hazard_signal",
+  "signal_strength": "strong",
+  "source": "World Meteorological Organization (WMO)",
+  "source_url": "https://wmo.int/news/media-centre/rising-temperatures-and-extreme-weather-hit-asia-hard",
+  "date_observed": "2026-08-18",
+  "date_checked": "2026-08-18",
+  "evidence_type": "official_website",
+  "confidence": "high",
+  "notes": "WMO press release on the State of the Climate in Asia 2024 report states: monthly average temperature records were broken in China in April, May, August, September and November 2024; drought in China affected nearly 4.8 million people, damaged 335,200 hectares of crops and caused an estimated 2.89 billion CNY (>USD 400 million) in direct losses; Tropical Cyclone Yagi, the strongest storm of the year in the region, caused widespread damage and casualties in China among other countries; sea-level rise on the Pacific side of Asia exceeded the global average; the Yellow and East China seas were especially affected by marine heatwaves.",
+  "recommended_action": "Use WMO-verified 2024 loss figures as anchor evidence in HydraShield's China country risk profile; pitch multi-hazard monitoring and historical_event_intelligence to Chinese exposure holders referencing documented drought, heat and typhoon losses."
+}

@@ -1,0 +1,40 @@
+{
+  "organization": "Ping An Insurance (Group) Company of China",
+  "segment": "insurance",
+  "country": "CN",
+  "website": "https://group.pingan.com",
+  "contact_type": "organization_generic",
+  "decision_maker_role": "Chief Risk Officer / Head of Climate Risk (ESG & TCFD reporting)",
+  "identified_problem": "Publicly committed to identifying and managing climate-related financial risks and publishing a TCFD-aligned Climate Risk Report; needs granular, forward-looking physical hazard data across flood, typhoon and heat perils for underwriting and disclosure.",
+  "climate_exposure": "",
+  "potential_pain": "Publicly committed to identifying and managing climate-related financial risks and publishing a TCFD-aligned Climate Risk Report; needs granular, forward-looking physical hazard data across flood, typhoon and heat perils for underwriting and disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "heat",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official Sustainability/Environment page: climate change integrated into Group long-term strategy; climate-related financial risk identification and management described as core; TCFD climate risk report referenced; green insurance products in development.",
+  "relevant_capability": "Official Sustainability/Environment page: climate change integrated into Group long-term strategy; climate-related finan",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield provides six-hazard physical climate risk and exposure intelligence that can feed Ping An's climate-related financial risk management and TCFD reporting, plus API access for underwriting and portfolio stress-testing across China's flood, typhoon and heat hotspots.",
+  "priority": "high",
+  "fit_score": "Publicly committed to identifying and managing climate-related financial risks and publishing a TCFD-aligned Climate Risk Report; needs granular, forward-looking physical hazard data across flood, typ",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources).",
+      "source": "https://group.pingan.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://group.pingan.com",
+  "date_checked": "2026-08-18"
+}
