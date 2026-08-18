@@ -60,6 +60,10 @@ jobs:
             docker compose pull
             docker compose build
             docker compose up -d --remove-orphans
+            # Caddy's config is a bind-mounted file; compose does not
+            # recreate the container when only the file changes — restart
+            # it explicitly so Caddyfile changes take effect.
+            docker compose restart caddy
             docker image prune -f
             docker compose ps
             echo "Waiting for stack to settle..."
