@@ -61,3 +61,18 @@ def test_unknown_conversion_event_rejected(client):
     resp = client.post("/api/v2/analytics/event",
                        json={"event": "cta_forced_click_autoplay"})
     assert resp.get_json()["recorded"] == 0
+
+
+def test_alert_deep_links_carry_location_and_hazard():
+    """The 'get alerts' CTAs deep-link into the account SMS flow with the
+    analyzed location + hazard (relevant-hazard alerts over generic)."""
+    intel = open(os.path.join(ROOT, "..", "website", "js",
+                              "intelligence.js"), encoding="utf-8").read()
+    assert "account.html?location=" in intel
+    assert "&hazard=" in intel and "#sms" in intel
+    ev = open(os.path.join(ROOT, "..", "website", "js",
+                           "events.js"), encoding="utf-8").read()
+    assert "account.html?location=" in ev and "#sms" in ev
+    acct = open(os.path.join(ROOT, "..", "website", "js",
+                             "account.js"), encoding="utf-8").read()
+    assert "prefillRuleFromUrl" in acct and "pendingRuleHazard" in acct

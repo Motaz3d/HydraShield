@@ -173,7 +173,9 @@
         if (window.HSConvert) HSConvert.show({
             mount: 'statusArea', context: 'monitor_area',
             text: 'Track this area — get an alert when conditions change meaningfully.',
-            cta: 'Monitor this area', href: 'account.html#sms'
+            cta: 'Get alerts for this area',
+            href: 'account.html?location=' + encodeURIComponent(loc.name || '') +
+                  (body.hazard ? '&hazard=' + encodeURIComponent(body.hazard) : '') + '#sms'
         });
 
         // Wire the per-event daily-table expanders lazily (they are plain

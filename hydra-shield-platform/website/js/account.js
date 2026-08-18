@@ -281,6 +281,15 @@
             // The SMS alert-rule form reuses the same already-loaded registry.
             var ruleHazard = el('ruleHazard');
             if (ruleHazard) ruleHazard.innerHTML = options;
+            // Apply a hazard carried by a deep link (?hazard=…#sms).
+            if (pendingRuleHazard && ruleHazard) {
+                for (var i = 0; i < ruleHazard.options.length; i++) {
+                    if (ruleHazard.options[i].value === pendingRuleHazard) {
+                        ruleHazard.value = pendingRuleHazard;
+                        break;
+                    }
+                }
+            }
         }).catch(function () {
             el('alertHazard').innerHTML = '<option value="wildfire">Wildfire</option>';
             var ruleHazard = el('ruleHazard');
@@ -371,6 +380,7 @@
     // outbox) and never appear in API responses.
 
     var smsState = { phone: null, prefs: null, rules: [], expanded: false, delivery: null };
+    var pendingRuleHazard = null;  // hazard from a deep link, applied on registry load
 
     function smsStatus(kind, msg) {
         el('smsStatus').innerHTML = msg
@@ -397,6 +407,31 @@
             smsState.rules.length > 0 || location.hash === '#sms';
         el('smsCollapsed').classList.toggle('hidden', expand);
         el('smsBody').classList.toggle('hidden', !expand);
+    }
+
+    /* Pre-fill the alert-rule form from a deep link
+     * (account.html?location=…&hazard=…#sms) — the "get alerts for this
+     * place" flow carries the analyzed location + hazard here. */
+    function prefillRuleFromUrl() {
+        var params = new URLSearchParams(location.search);
+        var loc = params.get('location');
+        var hazard = params.get('hazard');
+        if (!loc && !hazard) return;
+        smsState.expanded = true;
+        renderSmsVisibility();
+        if (loc && el('ruleLocation')) el('ruleLocation').value = loc;
+        if (hazard && el('ruleHazard')) {
+            pendingRuleHazard = hazard;   // applied once the registry options load
+            var sel = el('ruleHazard');
+            for (var i = 0; i < sel.options.length; i++) {
+                if (sel.options[i].value === hazard) { sel.value = hazard; break; }
+            }
+        }
+        if (loc || hazard) {
+            smsStatus('info', 'Alert context loaded for ' + (loc || '') +
+                (hazard ? ' (' + hazard + ')' : '') +
+                ' — verify your phone, then create the rule.');
+        }
     }
 
     // ---- Phone ---------------------------------------------------------
@@ -797,6 +832,7 @@
         wireLocations();
         wireAlerts();
         wireSms();
+        prefillRuleFromUrl();
         boot();
     }
 

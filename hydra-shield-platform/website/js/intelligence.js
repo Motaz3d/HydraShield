@@ -174,7 +174,9 @@
         if (window.HSConvert) HSConvert.show({
             mount: 'statusArea', context: 'save_analysis',
             text: 'This analysis is real but temporary — save it and monitor this place with a free account.',
-            cta: 'Save this analysis', href: 'account.html'
+            cta: 'Get alerts for this place',
+            href: 'account.html?location=' + encodeURIComponent(loc.name || '') +
+                  '&hazard=' + encodeURIComponent(a.hazard || currentHazard) + '#sms'
         });
         if (window.HSConvert) HSConvert.evaluate('statusArea');
         html += '<div class="panel">';
