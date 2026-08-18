@@ -63,7 +63,9 @@ _EU_JURISDICTIONS = ("EU", "EU + associated countries", "EU regions",
                      "EU member states meeting the Cohesion eligibility criterion")
 _GLOBAL_DEV_JURISDICTIONS = ("developing countries (UNFCCC)",
                              "developing countries and economies in transition",
-                             "client countries")
+                             "client countries",
+                             "ADB developing member countries (Asia-Pacific)",
+                             "AIIB member countries (Asia-Pacific and beyond)")
 
 
 def load_funding_knowledge(path: Optional[str] = None) -> Dict:

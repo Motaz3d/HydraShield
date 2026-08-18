@@ -135,3 +135,22 @@ def test_intel_commercial_center_sections(client, env):
         assert stage in funnel, stage
     # SMS delivery state is honest.
     assert body["attention"]["sms_delivery_configured"] is False
+
+
+def test_intel_funding_radar_provenance(client, env):
+    """The funding radar exposes programmes with official URLs and honest
+    deadline/amount states — never fabricated facts."""
+    headers = _make_admin(client, env)
+    body = client.get("/api/v2/admin/intel", headers=headers).get_json()
+    fr = body["funding_radar"]
+    assert "programmes" in fr and "eu_funding" in fr and "procurement" in fr
+    assert fr["programmes"], "platform funding KB must be present"
+    for p in fr["programmes"]:
+        assert p["official_url"].startswith("https://"), p["name"]
+        assert p["deadline"] in ("not stated", "not currently verified") \
+            or p["deadline"][:4].isdigit(), p["name"]
+        assert p["date_checked"]
+    # Asian development finance is now in the KB.
+    names = {p["name"] for p in fr["programmes"]}
+    assert any("Asian Development Bank" in n for n in names)
+    assert any("Asian Infrastructure Investment Bank" in n for n in names)

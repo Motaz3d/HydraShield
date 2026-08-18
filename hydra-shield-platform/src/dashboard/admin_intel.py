@@ -40,6 +40,22 @@ def _today() -> str:
     return datetime.utcnow().strftime("%Y-%m-%d")
 
 
+def _records_ws(subdir: str) -> List[Dict]:
+    """Workspace records from marketing/<subdir> (empty list when absent)."""
+    d = os.path.join(_WORKSPACE, subdir)
+    out: List[Dict] = []
+    if not os.path.isdir(d):
+        return out
+    for name in sorted(os.listdir(d)):
+        if name.endswith(".json") and name != "schema.json":
+            try:
+                with open(os.path.join(d, name), encoding="utf-8") as fh:
+                    out.append(json.load(fh))
+            except (OSError, ValueError):
+                continue
+    return out
+
+
 def _workspace_section() -> Dict[str, Any]:
     """Marketing workspace summary, or an honest unavailable marker."""
     if not os.path.isdir(_WORKSPACE):
@@ -347,6 +363,60 @@ def admin_intelligence():
         hazard_opportunities = build_opportunities(
             ws.get("leads") or [], entries, product_matching)
 
+    # Funding & Procurement Radar: platform KB programmes + EU funding
+    # ledger + procurement ledger — each with source, date_checked,
+    # eligibility, geography, sector, hazard, fit and next action.
+    funding_radar: Dict[str, Any] = {"programmes": [], "eu_funding": [],
+                                     "procurement": []}
+    kb_path = os.path.join(os.path.dirname(_WORKSPACE), "config",
+                           "funding_knowledge.json")
+    if os.path.exists(kb_path):
+        try:
+            with open(kb_path, encoding="utf-8") as fh:
+                kb = json.load(fh)
+            funding_radar["programmes"] = [
+                {"name": p.get("name"),
+                 "funding_body": p.get("funding_body"),
+                 "funding_type": p.get("funding_type"),
+                 "jurisdiction": p.get("jurisdiction"),
+                 "hazards": p.get("hazards"),
+                 "eligibility": p.get("eligibility"),
+                 "deadline": p.get("deadline"),
+                 "official_url": p.get("official_url"),
+                 "fit": p.get("hydrashield_relevance"),
+                 "next_action": p.get("recommended_action"),
+                 "date_checked": p.get("date_checked")}
+                for p in kb.get("programmes") or []
+            ]
+        except (OSError, ValueError):
+            funding_radar["programmes"] = []
+    if ws.get("available"):
+        funding_radar["eu_funding"] = [
+            {"programme": r.get("programme"), "call": r.get("call"),
+             "institution": r.get("institution"),
+             "official_source": r.get("official_source"),
+             "deadline": r.get("deadline"),
+             "sector": r.get("sector"), "hazards": r.get("hazards"),
+             "fit": r.get("hydrashield_relevance"),
+             "next_action": r.get("recommended_strategy"),
+             "date_checked": r.get("date_checked"),
+             "status": r.get("status", "watching")}
+            for r in _records_ws("eu_funding")
+        ]
+        funding_radar["procurement"] = [
+            {"title": r.get("title"), "type": r.get("type"),
+             "contracting_authority": r.get("contracting_authority"),
+             "geography": r.get("geography"), "sector": r.get("sector"),
+             "hazards": r.get("hazards"), "eligibility": r.get("eligibility"),
+             "deadline": r.get("deadline"),
+             "official_url": r.get("official_url"),
+             "fit": r.get("hydrashield_relevance"),
+             "next_action": r.get("next_action"),
+             "date_checked": r.get("date_checked"),
+             "status": r.get("status", "watching")}
+            for r in _records_ws("procurement")
+        ]
+
     return jsonify({
         "date": today,
         "today": {
@@ -378,6 +448,7 @@ def admin_intelligence():
         "priority_markets": priority_markets,
         "hazard_opportunities": hazard_opportunities,
         "hazard_areas": hazard_areas,
+        "funding_radar": funding_radar,
         "funnel_stages": {
             "visitor": funnel.get("page_view", 0),
             "analysis": funnel.get("location_analyzed", 0),

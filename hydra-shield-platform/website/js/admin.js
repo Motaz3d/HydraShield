@@ -159,6 +159,38 @@
                 { label: 'Next action', get: function (o) { return o.next_action; } },
             ]);
 
+        // Funding & procurement radar
+        var fr = d.funding_radar || {};
+        var prog = (fr.programmes || []).map(function (p) {
+            return { what: p.name, kind: (p.funding_type || []).join(', '),
+                     geo: p.jurisdiction, deadline: p.deadline,
+                     checked: p.date_checked, next: p.next_action };
+        });
+        var eu = (fr.eu_funding || []).map(function (r) {
+            return { what: (r.call || r.programme), kind: 'EU project',
+                     geo: r.institution, deadline: r.deadline,
+                     checked: r.date_checked, next: r.next_action };
+        });
+        var proc = (fr.procurement || []).map(function (r) {
+            return { what: r.title, kind: r.type, geo: r.geography,
+                     deadline: r.deadline, checked: r.date_checked,
+                     next: r.next_action };
+        });
+        var allFund = prog.concat(eu, proc);
+        el('fundingBlock').innerHTML =
+            '<p class="muted small">' + prog.length + ' programmes · ' +
+            eu.length + ' EU project records · ' + proc.length +
+            ' tenders — official sources only; deadlines/amounts only as ' +
+            'officially published.</p>' +
+            tableRows(allFund, [
+                { label: 'Programme / record', get: function (r) { return r.what; } },
+                { label: 'Type', get: function (r) { return r.kind; } },
+                { label: 'Geography', get: function (r) { return r.geo; } },
+                { label: 'Deadline', get: function (r) { return r.deadline; } },
+                { label: 'Checked', get: function (r) { return r.checked; } },
+                { label: 'Next action', get: function (r) { return r.next; } },
+            ]);
+
         var ws = d.workspace || {};
         el('prospectsBlock').innerHTML = ws.available
             ? tableRows(ws.leads || [], [
