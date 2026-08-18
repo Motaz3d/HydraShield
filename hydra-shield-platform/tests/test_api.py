@@ -138,3 +138,35 @@ def test_watch_store_roundtrip(tmp_path):
     store.record_alert(w["id"], 70.0, "High", "db_only", {"x": 1})
     assert store.remove_watch(w["id"]) is True
     assert store.list_watches() == []
+
+
+# --------------------------------------------------------------------------
+# Public route trailing-slash regression (release review: /api/sources/ and
+# /api/v2/hazards/ returned 404, making the URLs "appear broken" to clients)
+# --------------------------------------------------------------------------
+
+def test_public_routes_tolerate_trailing_slash(client):
+    for path in ("/api/sources", "/api/v2/sources", "/api/v2/hazards",
+                 "/api/health"):
+        plain = client.get(path)
+        slashed = client.get(path + "/")
+        assert plain.status_code == 200, path
+        assert slashed.status_code == 200, path + "/"
+        if path == "/api/health":
+            assert slashed.get_json()["status"] == plain.get_json()["status"]
+        else:
+            assert slashed.get_json() == plain.get_json(), path
+
+
+def test_sources_payload_official_urls(client):
+    resp = client.get("/api/sources")
+    body = resp.get_json()
+    assert body["sources"], "source registry must not be empty"
+    for src in body["sources"]:
+        assert src["url"].startswith("https://"), src["name"]
+        assert src["status"] in ("integrated", "candidate", "rejected")
+
+
+def test_unknown_hazard_still_404_with_slash(client):
+    assert client.get("/api/v2/hazards/tsunami").status_code == 404
+    assert client.get("/api/v2/hazards/tsunami/").status_code == 404

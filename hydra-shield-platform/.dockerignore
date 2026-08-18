@@ -16,3 +16,5 @@ docs
 # Business workspace — not runtime code (operator/AI tooling only).
 marketing
 scripts/marketing_status.py
+# QGIS plugin — desktop client, not part of the server image.
+qgis-plugin

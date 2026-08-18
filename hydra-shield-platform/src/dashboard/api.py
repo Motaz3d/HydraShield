@@ -162,6 +162,9 @@ def _error(message: str, status: int):
 
 def create_app() -> Flask:
     app = Flask(__name__)
+    # Public API URLs are referenced from the site, docs and SDKs; a
+    # trailing slash must not 404 them (Flask's default is strict).
+    app.url_map.strict_slashes = False
 
     @app.before_request
     def cors_preflight():
