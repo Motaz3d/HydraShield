@@ -33,10 +33,10 @@
             </div>
 
             <div class="panel">
-                <div class="toolbar">
-                    <div class="form-group">
-                        <label for="locInput">Location</label>
-                        <input type="text" id="locInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                <div class="toolbar" style="align-items:flex-start;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Location</label>
+                        <div id="locWidget"></div>
                     </div>
                     <button class="btn-action" id="analyzeBtn">Analyze</button>
                 </div>
@@ -53,6 +53,7 @@
     <script src="js/api.js"></script>
     <script src="js/chrome.js"></script>
     <script src="js/convert.js" defer></script>
-    <script src="js/intelligence.js"></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/intelligence.js" defer></script>
 </body>
 </html>

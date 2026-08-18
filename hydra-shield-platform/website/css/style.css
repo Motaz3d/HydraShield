@@ -318,6 +318,29 @@ body {
     transform: translateY(-2px);
 }
 
+/* Outline button for LIGHT backgrounds — .btn-outline/.btn-outline-light
+   are white-on-dark variants; using them on a light section makes the
+   label invisible until hover. This variant keeps the label readable in
+   the normal state and has a visible keyboard focus ring. */
+.btn-outline-dark {
+    background: transparent;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary-dark);
+}
+
+.btn-outline-dark:hover {
+    background: var(--primary-dark);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.btn:focus-visible,
+.btn-action:focus-visible,
+.text-link:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
 .hero-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

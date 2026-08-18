@@ -18,6 +18,7 @@
 
     var hazards = [];
     var currentHazard = null;
+    var resolvedLoc = null;   // canonical location from HS.location widget
 
     function el(id) { return document.getElementById(id); }
 
@@ -96,8 +97,8 @@
     // ------------------------------------------------------------------
 
     function analyze() {
-        var q = el('locInput').value.trim();
-        if (!q) {
+        var q = el('locWidget_q') ? el('locWidget_q').value.trim() : '';
+        if (!q && !resolvedLoc) {
             renderStatus('error', 'Enter a location — a place name or lat,lon coordinates.');
             return;
         }
@@ -106,7 +107,16 @@
         el('analysisArea').innerHTML = '';
         renderStatus('info', 'Resolving location…');
 
-        HS.resolveLocation(q).then(function (loc) {
+        // Use the widget's canonical location when it matches the current
+        // input; otherwise resolve fresh.
+        var direct = Promise.resolve(null);
+        if (resolvedLoc && q && resolvedLoc._input === q) {
+            direct = Promise.resolve({ ok: true, lat: resolvedLoc.lat,
+                                       lon: resolvedLoc.lon, name: resolvedLoc.name });
+        } else {
+            direct = HS.resolveLocation(q);
+        }
+        direct.then(function (loc) {
             if (!loc.ok) {
                 el('analyzeBtn').disabled = false;
                 renderStatus('error', loc.error || 'Location could not be resolved.');
@@ -375,12 +385,21 @@
 
     function init() {
         el('analyzeBtn').addEventListener('click', analyze);
-        el('locInput').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') analyze();
-        });
+        // Platform Location component: named search / coordinates / map link.
+        if (window.HS && HS.location) {
+            HS.location.mount('locWidget', {
+                onResolve: function (loc) {
+                    loc._input = el('locWidget_q').value.trim();
+                    resolvedLoc = loc;
+                }
+            });
+            el('locWidget_q').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') analyze();
+            });
+        }
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
-        if (q) el('locInput').value = q;
+        if (q && el('locWidget_q')) el('locWidget_q').value = q;
         var hash = (location.hash || '').replace('#', '');
         loadHazards(hash || undefined);
     }

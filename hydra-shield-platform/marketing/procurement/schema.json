@@ -1,0 +1,24 @@
+{
+  "$schema_note": "Procurement/tender records for marketing/procurement/*.json. BINDING: records come only from official procurement/tender portals (TED, national portals, institutional pages), live-checked at date_checked. No invented tenders, budgets, deadlines or contacts. Distinguish funding types precisely (procurement is a purchase of services, not a grant).",
+  "funding_types": ["grant", "loan", "equity", "guarantee", "procurement", "tender", "partnership", "research_call", "technical_assistance"],
+  "schema": {
+    "id": {"type": "string", "required": true},
+    "title": {"type": "string", "required": true},
+    "type": {"type": "enum", "values_from": "funding_types", "required": true},
+    "contracting_authority": {"type": "string", "required": true},
+    "geography": {"type": "string", "required": true, "note": "country/region of the tender"},
+    "sector": {"type": "enum", "values_from": "../segments/segments.json"},
+    "hazards": {"type": "list", "values": ["wildfire", "flood", "drought", "heat", "wind", "coastal", "dust", "volcanic"]},
+    "eligibility": {"type": "string", "note": "as officially stated; else 'not stated'"},
+    "deadline": {"type": "date", "note": "only as officially published; else 'not currently verified'"},
+    "budget": {"type": "string", "note": "only with an officially published figure (value+currency+year+source); else 'not stated'"},
+    "official_url": {"type": "url", "required": true},
+    "source": {"type": "string", "required": true},
+    "date_observed": {"type": "date", "required": true},
+    "date_checked": {"type": "date", "required": true},
+    "hydrashield_relevance": {"type": "string"},
+    "potential_partner": {"type": "string", "note": "if a consortium bid makes sense"},
+    "next_action": {"type": "string"},
+    "status": {"type": "enum", "values": ["watching", "preparing", "submitted", "won", "lost", "closed"], "default": "watching"}
+  }
+}

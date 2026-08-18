@@ -292,11 +292,15 @@ def admin_intelligence():
                 f for f in os.listdir(drafts_dir) if f.endswith(".md"))
         alerts_block["high_priority_prospects"] = [
             l.get("organization") for l in hot[:10]]
-        # The three priority commercial markets, with hazard context.
+        # The six priority commercial markets, with hazard context (first
+        # three carry the first commercial experiment; the rest follow).
         for seg_key, label in (
                 ("environmental_consulting", "Climate / ESG Consulting"),
                 ("investment", "Investment / Infrastructure"),
-                ("insurance", "Insurance / Risk")):
+                ("insurance", "Insurance / Risk"),
+                ("governments", "Governments / Municipalities"),
+                ("real_estate", "Real Estate / Engineering"),
+                ("research_centers", "Research / Earth Observation / GIS")):
             seg_leads = [l for l in leads_all if l.get("segment") == seg_key]
             priority_markets[label] = [
                 {"organization": l.get("organization"),

@@ -641,11 +641,29 @@ def cmd_funding() -> int:
     return 0
 
 
+def cmd_procurement() -> int:
+    """Procurement & tender radar (marketing/procurement/)."""
+    print("PROCUREMENT & TENDER RADAR")
+    print("=" * 60)
+    records = _records("procurement")
+    if not records:
+        print("No tenders tracked. Add them from official portals (TED, "
+              "national portals) per marketing/procurement/schema.json.")
+        return 0
+    for _n, rec in records:
+        print(f"· {rec.get('title')} — {rec.get('contracting_authority')} "
+              f"({rec.get('geography')}) [{rec.get('status', 'watching')}]")
+        print(f"    deadline: {rec.get('deadline', 'not currently verified')} "
+              f"· {rec.get('official_url')}")
+    return 0
+
+
 # ---------------------------------------------------------------------------
 # Hazard-driven marketing (the commercial intelligence engine)
 # ---------------------------------------------------------------------------
 
-_PRIORITY_SEGMENTS = ("environmental_consulting", "investment", "insurance")
+_PRIORITY_SEGMENTS = ("environmental_consulting", "investment", "insurance",
+                      "governments", "real_estate", "research_centers")
 
 
 def _snapshot_areas():
@@ -750,6 +768,7 @@ _COMMANDS = {
     "content": cmd_content,
     "demand": cmd_demand,
     "funding": cmd_funding,
+    "procurement": cmd_procurement,
     "lessons": cmd_lessons,
     "prospects": cmd_prospects,
     "market": cmd_market,

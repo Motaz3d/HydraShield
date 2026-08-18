@@ -57,6 +57,13 @@ jobs:
           key: ${{ secrets.VULTR_SSH_KEY }}
           script: |
             cd /opt/hydrashield
+            # Operator identity (public contact email, not a credential):
+            # ensure the server env enables the operator promotion for the
+            # official mailbox. Idempotent; the file itself stays out of Git.
+            touch .env && chmod 600 .env
+            if ! grep -q '^HYDRASHIELD_OPERATOR_EMAILS=' .env; then
+              echo 'HYDRASHIELD_OPERATOR_EMAILS=info@hydrashield.earth' >> .env
+            fi
             docker compose pull
             docker compose build
             docker compose up -d --remove-orphans
