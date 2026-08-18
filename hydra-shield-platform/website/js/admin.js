@@ -140,6 +140,25 @@
              { label: 'Progress', get: function (r) { return r.progress; } }]
         );
 
+        // Hazard opportunities (hazard-first radar)
+        var areas = d.hazard_areas || [];
+        var opps = d.hazard_opportunities || [];
+        el('hazardBlock').innerHTML =
+            (areas.length
+                ? '<p class="muted small">Current elevated areas (live snapshot): ' +
+                  areas.map(function (a) {
+                      return esc(a.area) + ' (' + esc(a.risk_class) + ')';
+                  }).join(' · ') + '</p>'
+                : '<p class="muted small">No elevated areas in the current snapshot.</p>') +
+            tableRows(opps.slice(0, 12), [
+                { label: 'Organization', get: function (o) { return o.organization; } },
+                { label: 'Segment', get: function (o) { return o.segment_label; } },
+                { label: 'Area', get: function (o) { return o.area; } },
+                { label: 'Match', get: function (o) { return o.match; } },
+                { label: 'Product fit', get: function (o) { return (o.product_fit || []).join(', '); } },
+                { label: 'Next action', get: function (o) { return o.next_action; } },
+            ]);
+
         var ws = d.workspace || {};
         el('prospectsBlock').innerHTML = ws.available
             ? tableRows(ws.leads || [], [

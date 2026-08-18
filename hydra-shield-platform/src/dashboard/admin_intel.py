@@ -322,6 +322,31 @@ def admin_intelligence():
     alerts_block["sms_opportunity_users"] = verified_phones
     alerts_block["sms_delivery_configured"] = sms_module.sms_configured()
 
+    # Hazard-driven opportunities (the radar): current snapshot × workspace
+    # leads. The snapshot is read from the local cache only — a rebuild is
+    # never triggered from the admin endpoint.
+    hazard_opportunities = []
+    hazard_areas = []
+    if ws.get("available"):
+        from .hazard_market import build_opportunities
+
+        snapshot = default_cache().get("risk_snapshot:current")
+        entries = (snapshot or {}).get("entries") or []
+        hazard_areas = [
+            {"area": e.get("name"), "risk_class": e.get("risk_class")}
+            for e in entries
+        ]
+        seg_doc_path = os.path.join(_WORKSPACE, "segments", "segments.json")
+        product_matching = {}
+        if os.path.exists(seg_doc_path):
+            try:
+                with open(seg_doc_path, encoding="utf-8") as fh:
+                    product_matching = json.load(fh).get("product_matching") or {}
+            except (OSError, ValueError):
+                product_matching = {}
+        hazard_opportunities = build_opportunities(
+            ws.get("leads") or [], entries, product_matching)
+
     return jsonify({
         "date": today,
         "today": {
@@ -351,6 +376,8 @@ def admin_intelligence():
         "copilot": copilot,
         "attention": alerts_block,
         "priority_markets": priority_markets,
+        "hazard_opportunities": hazard_opportunities,
+        "hazard_areas": hazard_areas,
         "funnel_stages": {
             "visitor": funnel.get("page_view", 0),
             "analysis": funnel.get("location_analyzed", 0),
