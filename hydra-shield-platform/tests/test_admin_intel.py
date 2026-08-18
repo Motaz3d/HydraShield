@@ -108,3 +108,30 @@ def test_intel_contains_no_individual_visitor_data(client, env):
                 json={"event": "page_view", "session_id": "secret-session-xyz"})
     body = client.get("/api/v2/admin/intel", headers=headers).get_json()
     assert "secret-session-xyz" not in str(body)
+
+
+def test_intel_commercial_center_sections(client, env):
+    """The Commercial Center payload carries the full section set with
+    aggregate counts and the honest workspace state."""
+    headers = _make_admin(client, env)
+    client.post("/api/v2/analytics/event",
+                json={"events": [{"event": "page_view", "session_id": "s1"},
+                                 {"event": "location_analyzed", "session_id": "s1"},
+                                 {"event": "cta_viewed", "session_id": "s1"}]})
+    body = client.get("/api/v2/admin/intel", headers=headers).get_json()
+    today = body["today"]
+    for key in ("visitors", "repeat_users", "new_users", "analyses",
+                "reports", "saved_locations", "monitoring_rules",
+                "sms_interest", "subscriptions"):
+        assert key in today, key
+    assert today["analyses"] >= 1
+    for section in ("customers", "marketing", "copilot", "attention",
+                    "funnel_stages", "targets"):
+        assert section in body, section
+    funnel = body["funnel_stages"]
+    for stage in ("visitor", "analysis", "repeat_analysis", "account",
+                  "saved_location", "monitoring", "sms", "subscription",
+                  "professional", "business"):
+        assert stage in funnel, stage
+    # SMS delivery state is honest.
+    assert body["attention"]["sms_delivery_configured"] is False

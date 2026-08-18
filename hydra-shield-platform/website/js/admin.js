@@ -1,9 +1,9 @@
 /* HydraShield — Commercial Center (admin.html).
  *
  * Admin-only: GET /api/v2/admin/intel (cookie session; 401 shows a plain
- * sign-in hint, 403 the tier message). Renders TODAY / TARGETS vs ACTUAL /
- * DEMAND / PROSPECTS / MARKETS / SIGNALS / RELATIONSHIPS from aggregate
- * data — never individual visitors. Targets are targets, never results.
+ * sign-in hint, 403 the tier message). Sections: TODAY / CUSTOMERS /
+ * MARKETING / AI COPILOT / ATTENTION / FUNNEL / targets / prospects /
+ * relationships. Aggregate counts only — never individual visitors.
  */
 (function () {
     'use strict';
@@ -24,6 +24,14 @@
             (note ? '<p class="muted small">' + esc(note) + '</p>' : '') + '</div>';
     }
 
+    function chips(obj) {
+        return '<div class="badge-row">' +
+            Object.keys(obj).map(function (k) {
+                return '<span class="chip chip-observed">' + esc(k.replace(/_/g, ' ')) +
+                    ': ' + esc(obj[k]) + '</span>';
+            }).join('') + '</div>';
+    }
+
     function tableRows(items, columns) {
         if (!items.length) {
             return '<div class="notice notice-empty">Nothing recorded yet.</div>';
@@ -40,27 +48,76 @@
 
     function render(d) {
         el('adminView').classList.remove('hidden');
-        var ws = d.workspace || {};
+        var t = d.today || {};
 
-        // TODAY
         el('todayCards').innerHTML =
-            card('Visitors today', d.today.visitors, 'pseudonymous sessions') +
-            card('New registrations today', d.today.new_users) +
-            card('Total accounts', d.accounts.total_users,
-                 Object.keys(d.accounts.by_role || {}).map(function (r) {
-                     return r + ': ' + d.accounts.by_role[r];
-                 }).join(' · ')) +
-            card('Active alert rules', d.alerts.active_rules) +
-            card('Verified phones', d.alerts.verified_phones) +
-            card('Alerts fired (7d)', d.alerts.records_last_7d);
+            card('Visitors', t.visitors, 'pseudonymous sessions') +
+            card('New accounts', t.new_users) +
+            card('Repeat users', t.repeat_users, 'seen on >1 day') +
+            card('Analyses', t.analyses) +
+            card('Reports', t.reports) +
+            card('Saved locations', t.saved_locations) +
+            card('Monitoring rules', t.monitoring_rules) +
+            card('SMS interest', t.sms_interest) +
+            card('Subscriptions', t.subscriptions);
 
-        // TARGETS vs ACTUAL (30-day experiment — targets are not results)
+        el('customersBlock').innerHTML = chips(d.customers || {});
+        el('marketingBlock').innerHTML = chips(d.marketing || {});
+
+        // AI Copilot — who to contact now + follow-ups + publish queue
+        var cp = d.copilot || {};
+        var copilotHtml = '';
+        if ((cp.contact_now || []).length) {
+            copilotHtml += '<h3 style="margin:0 0 8px;">Who to contact now</h3>' +
+                tableRows(cp.contact_now, [
+                    { label: 'Organization', get: function (l) { return l.organization; } },
+                    { label: 'Why now', get: function (l) { return (l.why || '').slice(0, 120); } },
+                    { label: 'Service', get: function (l) { return l.service; } },
+                    { label: 'Next action', get: function (l) { return l.next_action; } },
+                ]);
+        }
+        if ((cp.followups_due || []).length) {
+            copilotHtml += '<h3 style="margin:14px 0 8px;">Follow-ups due</h3>' +
+                tableRows(cp.followups_due, [
+                    { label: 'Organization', get: function (l) { return l.organization; } },
+                    { label: 'Due', get: function (l) { return l.next_followup; } },
+                    { label: 'Action', get: function (l) { return l.next_action; } },
+                ]);
+        }
+        if ((cp.publish_queue || []).length) {
+            copilotHtml += '<h3 style="margin:14px 0 8px;">Publish queue (human-reviewed)</h3>' +
+                '<p class="muted small">' + cp.publish_queue.map(esc).join('<br>') + '</p>';
+        }
+        el('copilotBlock').innerHTML = copilotHtml ||
+            '<div class="notice notice-empty">Copilot answers appear here as the workspace fills.</div>';
+
+        // Attention
+        var at = d.attention || {};
+        el('attentionBlock').innerHTML =
+            '<p class="muted">High-priority prospects: ' +
+            esc((at.high_priority_prospects || []).length) + '</p>' +
+            '<p class="muted">SMS opportunity (verified phones): ' +
+            esc(at.sms_opportunity_users || 0) + ' · SMS delivery configured: ' +
+            esc(at.sms_delivery_configured ? 'yes' : 'no — provider not configured') + '</p>';
+
+        // Funnel
+        var f = d.funnel_stages || {};
+        el('funnelBlock').innerHTML =
+            '<div class="badge-row">' +
+            ['visitor', 'analysis', 'repeat_analysis', 'account', 'saved_location',
+             'monitoring', 'sms', 'subscription', 'professional', 'business']
+                .map(function (k) {
+                    return '<span class="chip chip-modelled">' + esc(k.replace(/_/g, ' ')) +
+                        ': ' + esc(f[k] == null ? 0 : f[k]) + '</span>';
+                }).join(' → ') + '</div>';
+
+        // Targets vs actual
         el('targetsBlock').innerHTML = tableRows(
             Object.keys(d.targets || {}).map(function (k) {
-                var t = d.targets[k];
-                return { metric: k.replace(/_/g, ' '), target: t.target,
-                         actual: t.actual,
-                         progress: Math.min(100, Math.round(100 * t.actual / t.target)) + '%' };
+                var tg = d.targets[k];
+                return { metric: k.replace(/_/g, ' '), target: tg.target,
+                         actual: tg.actual,
+                         progress: Math.min(100, Math.round(100 * tg.actual / tg.target)) + '%' };
             }),
             [{ label: 'Metric', get: function (r) { return r.metric; } },
              { label: 'Target', get: function (r) { return r.target; } },
@@ -68,68 +125,26 @@
              { label: 'Progress', get: function (r) { return r.progress; } }]
         );
 
-        // DEMAND
-        var funnel = d.demand.funnel || {};
-        el('demandBlock').innerHTML =
-            '<div class="badge-row">' +
-            Object.keys(funnel).sort().map(function (ev) {
-                return '<span class="chip chip-observed">' + esc(ev) + ': ' +
-                    esc(funnel[ev]) + '</span>';
-            }).join('') + '</div>' +
-            '<p class="muted small">Top hazards: ' +
-            (d.demand.top_hazards.map(function (h) {
-                return esc(h.hazard) + ' (' + esc(h.count) + ')';
-            }).join(' · ') || '—') + ' · ' + esc(d.demand.note || '') + '</p>';
-
-        if (!ws.available) {
-            el('prospectsBlock').innerHTML =
-                '<div class="notice notice-empty">' + esc(ws.note ||
-                'Marketing workspace not present in this deployment.') + '</div>';
-            el('marketsBlock').innerHTML = '';
-            el('signalsBlock').innerHTML = '';
-            el('relationshipsBlock').innerHTML = '';
-            return;
-        }
-
-        // PROSPECTS
-        var p = ws.prospects || {};
-        el('prospectsBlock').innerHTML =
-            '<div class="badge-row">' +
-            ['total', 'new', 'qualified', 'high_priority', 'contacted',
-             'responded', 'opportunities'].map(function (k) {
-                return '<span class="chip chip-inferred">' + k.replace(/_/g, ' ') +
-                    ': ' + esc(p[k] == null ? 0 : p[k]) + '</span>';
-            }).join('') + '</div>' +
-            tableRows(ws.leads || [], [
+        var ws = d.workspace || {};
+        el('prospectsBlock').innerHTML = ws.available
+            ? tableRows(ws.leads || [], [
                 { label: 'Organization', get: function (l) { return l.organization; } },
                 { label: 'Segment', get: function (l) { return l.segment; } },
                 { label: 'Country', get: function (l) { return l.country; } },
                 { label: 'Priority', get: function (l) { return l.priority; } },
                 { label: 'Status', get: function (l) { return l.outreach_status; } },
                 { label: 'Next action', get: function (l) { return l.next_action; } },
-            ]);
+            ])
+            : '<div class="notice notice-empty">' + esc(ws.note || 'Workspace unavailable.') + '</div>';
 
-        // MARKETS + SIGNALS
-        el('marketsBlock').innerHTML =
-            '<div class="badge-row">' +
-            Object.keys(ws.markets || {}).sort().map(function (seg) {
-                return '<span class="chip chip-modelled">' + esc(seg.replace(/_/g, ' ')) +
-                    ': ' + esc(ws.markets[seg]) + '</span>';
-            }).join('') + '</div>';
-        var s = ws.signals || {};
-        el('signalsBlock').innerHTML =
-            '<p class="muted">Commercial signals: ' + esc(s.total || 0) +
-            ' · EU funding records: ' + esc(s.eu_funding_records || 0) +
-            ' · events tracked: ' + esc(s.events_tracked || 0) + '</p>';
-
-        // RELATIONSHIPS
-        el('relationshipsBlock').innerHTML = tableRows(ws.relationships || [], [
-            { label: 'Date', get: function (i) { return i.date; } },
-            { label: 'Organization', get: function (i) { return i.organization; } },
-            { label: 'Type', get: function (i) { return i.type; } },
-            { label: 'Summary', get: function (i) { return i.summary; } },
-            { label: 'Next action', get: function (i) { return i.next_action; } },
-        ]);
+        el('relationshipsBlock').innerHTML = ws.available
+            ? tableRows(ws.relationships || [], [
+                { label: 'Date', get: function (i) { return i.date; } },
+                { label: 'Organization', get: function (i) { return i.organization; } },
+                { label: 'Type', get: function (i) { return i.type; } },
+                { label: 'Summary', get: function (i) { return i.summary; } },
+            ])
+            : '';
     }
 
     fetchJSON(API + '/v2/admin/intel').then(function (res) {
@@ -144,12 +159,12 @@
             return;
         }
         if (!res.ok) {
-            status('error', 'Operator intelligence unavailable.');
+            status('error', 'Commercial Center unavailable.');
             return;
         }
         status('', '');
         render(res.body);
     }).catch(function () {
-        status('error', 'Operator intelligence could not be reached.');
+        status('error', 'Commercial Center could not be reached.');
     });
 })();
