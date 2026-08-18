@@ -241,6 +241,29 @@ on this endpoint (use `/api/v2/analyze` per hazard). Without `hazards=`,
 the response is the honest insufficient-data path (`insufficient_data`
 states what is missing).
 
+### `GET /api/v2/funding`
+
+Funding opportunities matched to caller context (docs/SUSTAINABILITY_INTELLIGENCE.md).
+**Rate limit: 20/min.**
+
+| Param | Required | Notes |
+|---|---|---|
+| `hazards` | no* | comma-separated registered ids; unknown ids → `unknown_hazards_requested` |
+| `sector` | no* | marketing-segment vocabulary (e.g. `agriculture`, `municipalities`) |
+| `beneficiary` | no | applicant type (`municipality`, `company`, `ngo`, …) |
+| `country` | no | ISO-2; drives the declared EU-vs-global jurisdiction rule |
+| `objective` | no | sustainability objective (e.g. `climate adaptation`) |
+| `role` | no | `adaptation` or `mitigation` |
+| `nature_based`, `technology` | no | `1` to require the dimension |
+
+*at least one of `hazards`/`sector`/`objective` is required, otherwise the
+honest `insufficient_data` path. Matches come from the curated funding
+knowledge base (`config/funding_knowledge.json` — real programmes with
+official URLs). Volatile facts (amounts, rates, deadlines) are returned
+as `not stated` / `not currently verified` unless officially published.
+Every response carries the disclaimer: potential sources only —
+eligibility requires verification — not financial advice.
+
 ### `GET /api/v2/sources`
 
 The data-source audit registry (`config/source_registry.json`): every

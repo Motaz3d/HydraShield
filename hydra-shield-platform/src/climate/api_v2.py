@@ -12,6 +12,8 @@ no fabricated data anywhere in v2.
 
 from __future__ import annotations
 
+from typing import Any, Dict
+
 from flask import Blueprint, jsonify, request
 
 v2 = Blueprint("v2", __name__, url_prefix="/api/v2")
@@ -411,6 +413,50 @@ def solutions():
             site["unknown_hazards_requested"] = sorted(unknown)
 
     return jsonify(solutions_module.recommend_solutions(site))
+
+
+# ---------------------------------------------------------------------------
+# Funding Intelligence
+# ---------------------------------------------------------------------------
+
+
+@v2.get("/funding")
+def funding():
+    """Funding opportunities matched to caller context:
+    /api/v2/funding?hazards=flood,drought&sector=agriculture&beneficiary=
+    municipality&country=ES&objective=climate%20adaptation
+
+    Matches the curated funding knowledge base (real programmes, official
+    URLs). Volatile facts are honestly "not stated" / "not currently
+    verified" — never estimated. Disclaimer: potential sources, not
+    financial advice, no guarantee of funding.
+    """
+    if not _rate("v2funding", 20, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from . import funding as funding_module
+    from . import registry
+
+    query: Dict[str, Any] = {}
+    hazards_param = (request.args.get("hazards") or "").strip()
+    if hazards_param:
+        selected, unknown = [], []
+        for hid in {h.strip().lower() for h in hazards_param.split(",") if h.strip()}:
+            (selected if registry.get(hid) is not None else unknown).append(hid)
+        query["hazards"] = selected
+        if unknown:
+            query["unknown_hazards_requested"] = sorted(unknown)
+    for param, key in (("sector", "sector"), ("beneficiary", "beneficiary"),
+                       ("country", "country"), ("objective", "objective"),
+                       ("role", "role")):
+        value = (request.args.get(param) or "").strip()
+        if value:
+            query[key] = value
+    for param in ("nature_based", "technology"):
+        if request.args.get(param) in ("1", "true", "yes"):
+            query[param] = True
+
+    return jsonify(funding_module.match_funding(query))
 
 
 # ---------------------------------------------------------------------------

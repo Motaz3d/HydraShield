@@ -25,6 +25,7 @@
         { id: 'map', href: 'map.html', label: 'Map' },
         { id: 'events', href: 'events.html', label: 'Events' },
         { id: 'solutions', href: 'solutions.html', label: 'Solutions' },
+        { id: 'funding', href: 'funding.html', label: 'Funding' },
         { id: 'economy', href: 'economy.html', label: 'Economy' },
         { id: 'reports', href: 'reports.html', label: 'Reports' }
     ];

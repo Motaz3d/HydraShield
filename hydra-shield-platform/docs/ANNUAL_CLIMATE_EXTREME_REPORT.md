@@ -47,12 +47,17 @@ partnerships).
    exposure for the major events (from the platform's exposure pipeline
    where computable, else cited institutional figures)
 4. **Economic consequences** — documented estimates only (rule §2.3)
-5. **Historical comparison** — trends only where a consistent dataset
+5. **Sustainability response** — documented adaptation/resilience
+   responses to the year's major events; the funding landscape from the
+   curated programme records (config/funding_knowledge.json, with
+   date_checked); solutions evidence from Solutions Intelligence; lessons
+   learned — all under the same sourcing rules, no fabricated rankings
+6. **Historical comparison** — trends only where a consistent dataset
    supports them, with the dataset named
-6. **Geographic concentration** — where the year clustered
-7. **Solutions & resilience investment** — what the evidence supports,
+7. **Geographic concentration** — where the year clustered
+8. **Solutions & resilience investment** — what the evidence supports,
    linked to Solutions Intelligence classes
-8. **Method & source appendix** — every dataset with version and access
+9. **Method & source appendix** — every dataset with version and access
    date; the platform's evidence vocabulary
 
 ## 4. Generation pipeline (target)

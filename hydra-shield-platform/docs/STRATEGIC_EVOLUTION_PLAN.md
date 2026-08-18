@@ -46,6 +46,14 @@ G/H commit. All LOCAL ONLY — nothing pushed, nothing deployed.
   (signals/sectors/events/priorities/followups/content/demand/lessons/
   morning/evening), aggregate-only demand view, daily workflow
   (marketing/WORKFLOW.md), and the classified future-integrations table.
+- **Sustainability & Funding Intelligence**: curated funding knowledge
+  base (15 real programmes, official URLs live-checked, volatile facts
+  honestly unverified), sustainability taxonomy wired to the solutions
+  KB, the deterministic funding match engine + `/api/v2/funding`, the
+  funding page (nav + conversion CTA + solutions→funding handoff), 10 new
+  sustainability marketing segments, the copilot `funding` command, and
+  `docs/SUSTAINABILITY_INTELLIGENCE.md` (profile/report/monthly/map/QGIS
+  futures documented, not fabricated).
 
 ### NEXT (highest first)
 

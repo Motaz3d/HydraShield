@@ -1,215 +1,922 @@
 {
-  "description": "HydraShield customer segmentation — curated marketing knowledge (not leads). Each segment declares its pain points, relevant hazards, HydraShield capabilities, decision-maker roles, content topics, offer, CTA, outreach style and evidence requirements. Capabilities referenced must exist in the platform; claims must follow docs/PRODUCT_STORY.md §8.",
-  "decision_maker_roles_vocabulary": ["CEO", "CFO", "CRO", "Chief Risk Officer", "Chief Sustainability Officer", "Head of ESG", "Investment Director", "Portfolio Manager", "Insurance Underwriter", "Risk Manager", "Infrastructure Director", "Asset Manager", "Municipal Resilience Officer", "Climate Policy Officer", "Research Director"],
+  "description": "HydraShield customer segmentation \u2014 curated marketing knowledge (not leads). Each segment declares its pain points, relevant hazards, HydraShield capabilities, decision-maker roles, content topics, offer, CTA, outreach style and evidence requirements. Capabilities referenced must exist in the platform; claims must follow docs/PRODUCT_STORY.md \u00a78.",
+  "decision_maker_roles_vocabulary": [
+    "CEO",
+    "CFO",
+    "CRO",
+    "Chief Risk Officer",
+    "Chief Sustainability Officer",
+    "Head of ESG",
+    "Investment Director",
+    "Portfolio Manager",
+    "Insurance Underwriter",
+    "Risk Manager",
+    "Infrastructure Director",
+    "Asset Manager",
+    "Municipal Resilience Officer",
+    "Climate Policy Officer",
+    "Research Director"
+  ],
   "segments": {
     "insurance": {
-      "pain_points": ["portfolio exposure to wildfire/flood/coastal is hard to evidence per location", "historical event evidence for underwriting context is fragmented", "regulatory pressure for documented climate-risk disclosure"],
-      "relevant_hazards": ["wildfire", "flood", "coastal", "heat", "wind"],
-      "capabilities": ["per-location multi-hazard analysis with provenance", "historical event intelligence", "population and infrastructure exposure", "monitoring + alerts", "API access"],
-      "decision_maker_roles": ["Chief Risk Officer", "Insurance Underwriter", "Risk Manager"],
-      "content_topics": ["evidence-labelled hazard screening", "historical event records per area", "exposure before euros"],
+      "pain_points": [
+        "portfolio exposure to wildfire/flood/coastal is hard to evidence per location",
+        "historical event evidence for underwriting context is fragmented",
+        "regulatory pressure for documented climate-risk disclosure"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "coastal",
+        "heat",
+        "wind"
+      ],
+      "capabilities": [
+        "per-location multi-hazard analysis with provenance",
+        "historical event intelligence",
+        "population and infrastructure exposure",
+        "monitoring + alerts",
+        "API access"
+      ],
+      "decision_maker_roles": [
+        "Chief Risk Officer",
+        "Insurance Underwriter",
+        "Risk Manager"
+      ],
+      "content_topics": [
+        "evidence-labelled hazard screening",
+        "historical event records per area",
+        "exposure before euros"
+      ],
       "offer": "professional analysis + monitoring pilot for a book of locations",
       "cta": "Analyze a portfolio location free",
       "outreach_style": "technical, evidence-first, no superlatives",
       "evidence_requirements": "source-attached results; screening-indicator labelling; validation status stated"
     },
     "real_estate": {
-      "pain_points": ["site selection and disclosure need documented climate exposure", "buyers and lenders increasingly ask for climate evidence", "coastal/flood exposure affects asset value"],
-      "relevant_hazards": ["flood", "coastal", "heat", "wildfire"],
-      "capabilities": ["site screening across six hazards", "historical events per site", "PDF reports with traceable methodology", "monitoring of owned assets"],
-      "decision_maker_roles": ["Asset Manager", "Investment Director", "Chief Sustainability Officer"],
-      "content_topics": ["climate exposure for assets", "what a traceable site report contains"],
+      "pain_points": [
+        "site selection and disclosure need documented climate exposure",
+        "buyers and lenders increasingly ask for climate evidence",
+        "coastal/flood exposure affects asset value"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "coastal",
+        "heat",
+        "wildfire"
+      ],
+      "capabilities": [
+        "site screening across six hazards",
+        "historical events per site",
+        "PDF reports with traceable methodology",
+        "monitoring of owned assets"
+      ],
+      "decision_maker_roles": [
+        "Asset Manager",
+        "Investment Director",
+        "Chief Sustainability Officer"
+      ],
+      "content_topics": [
+        "climate exposure for assets",
+        "what a traceable site report contains"
+      ],
       "offer": "free site analysis + report sample",
       "cta": "Run your site through the analysis",
       "outreach_style": "practical, asset-focused",
       "evidence_requirements": "sources and dates on every figure; honest not-quantified where no valuation basis exists"
     },
     "construction": {
-      "pain_points": ["building in hazard-exposed areas without evidence creates liability", "adaptation features need documented justification"],
-      "relevant_hazards": ["wind", "flood", "heat", "wildfire"],
-      "capabilities": ["site hazard screening", "solutions intelligence (engineering options with limitations)", "historical wind/flood context"],
-      "decision_maker_roles": ["Infrastructure Director", "CEO", "Risk Manager"],
-      "content_topics": ["hazard-aware siting", "resilient construction context per site"],
+      "pain_points": [
+        "building in hazard-exposed areas without evidence creates liability",
+        "adaptation features need documented justification"
+      ],
+      "relevant_hazards": [
+        "wind",
+        "flood",
+        "heat",
+        "wildfire"
+      ],
+      "capabilities": [
+        "site hazard screening",
+        "solutions intelligence (engineering options with limitations)",
+        "historical wind/flood context"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "CEO",
+        "Risk Manager"
+      ],
+      "content_topics": [
+        "hazard-aware siting",
+        "resilient construction context per site"
+      ],
       "offer": "project-site analysis pilot",
       "cta": "Screen a project site",
       "outreach_style": "engineering-precise",
       "evidence_requirements": "method named per indicator; climatology baselines stated"
     },
     "banking": {
-      "pain_points": ["loan-book climate exposure must be evidenced", "collateral in hazard zones needs screening", "regulatory climate-risk expectations (EU)"],
-      "relevant_hazards": ["flood", "coastal", "wildfire", "heat"],
-      "capabilities": ["location screening API", "exposure profiles", "historical event evidence", "monitoring for collateral locations"],
-      "decision_maker_roles": ["Chief Risk Officer", "CFO", "Head of ESG"],
-      "content_topics": ["traceable climate exposure for lending", "evidence-first risk data"],
+      "pain_points": [
+        "loan-book climate exposure must be evidenced",
+        "collateral in hazard zones needs screening",
+        "regulatory climate-risk expectations (EU)"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "coastal",
+        "wildfire",
+        "heat"
+      ],
+      "capabilities": [
+        "location screening API",
+        "exposure profiles",
+        "historical event evidence",
+        "monitoring for collateral locations"
+      ],
+      "decision_maker_roles": [
+        "Chief Risk Officer",
+        "CFO",
+        "Head of ESG"
+      ],
+      "content_topics": [
+        "traceable climate exposure for lending",
+        "evidence-first risk data"
+      ],
       "offer": "API pilot on a sample of collateral locations",
       "cta": "Request an API pilot",
       "outreach_style": "formal, regulation-aware",
       "evidence_requirements": "official sources only; audit trail per analysis"
     },
     "investment": {
-      "pain_points": ["due diligence lacks traceable climate evidence", "portfolio concentration in exposed regions is under-measured"],
-      "relevant_hazards": ["wildfire", "flood", "coastal", "drought", "heat"],
-      "capabilities": ["multi-location screening", "exposure + historical evidence", "monitoring for held assets", "annual intelligence reports"],
-      "decision_maker_roles": ["Investment Director", "Portfolio Manager", "Chief Sustainability Officer"],
-      "content_topics": ["climate exposure in due diligence", "evidence-labelled risk intelligence"],
+      "pain_points": [
+        "due diligence lacks traceable climate evidence",
+        "portfolio concentration in exposed regions is under-measured"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "coastal",
+        "drought",
+        "heat"
+      ],
+      "capabilities": [
+        "multi-location screening",
+        "exposure + historical evidence",
+        "monitoring for held assets",
+        "annual intelligence reports"
+      ],
+      "decision_maker_roles": [
+        "Investment Director",
+        "Portfolio Manager",
+        "Chief Sustainability Officer"
+      ],
+      "content_topics": [
+        "climate exposure in due diligence",
+        "evidence-labelled risk intelligence"
+      ],
       "offer": "portfolio-location screening pilot",
       "cta": "Screen three portfolio locations",
       "outreach_style": "analytical, concise",
       "evidence_requirements": "provenance per claim; uncertainty stated"
     },
     "asset_management": {
-      "pain_points": ["long-lived assets need ongoing exposure monitoring", "reporting to LPs requires documented climate context"],
-      "relevant_hazards": ["flood", "coastal", "wildfire", "wind", "heat"],
-      "capabilities": ["asset monitoring + alerts", "exposure profiles", "report generation", "API"],
-      "decision_maker_roles": ["Asset Manager", "Portfolio Manager"],
-      "content_topics": ["monitoring for long-lived assets", "alerting on meaningful change"],
+      "pain_points": [
+        "long-lived assets need ongoing exposure monitoring",
+        "reporting to LPs requires documented climate context"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "coastal",
+        "wildfire",
+        "wind",
+        "heat"
+      ],
+      "capabilities": [
+        "asset monitoring + alerts",
+        "exposure profiles",
+        "report generation",
+        "API"
+      ],
+      "decision_maker_roles": [
+        "Asset Manager",
+        "Portfolio Manager"
+      ],
+      "content_topics": [
+        "monitoring for long-lived assets",
+        "alerting on meaningful change"
+      ],
       "offer": "monitoring pilot for a set of assets",
       "cta": "Monitor your first asset free",
       "outreach_style": "operational, reliability-focused",
       "evidence_requirements": "delivery audit trail; data freshness shown"
     },
     "energy": {
-      "pain_points": ["grid and generation assets are exposed to wildfire, wind, heat and drought", "siting new infrastructure needs hazard evidence"],
-      "relevant_hazards": ["wildfire", "wind", "heat", "drought", "flood"],
-      "capabilities": ["asset screening", "hazard-aware siting intelligence", "monitoring + SMS alerts", "historical events"],
-      "decision_maker_roles": ["Infrastructure Director", "Risk Manager", "Asset Manager"],
-      "content_topics": ["wildfire context for grid assets", "siting with evidence"],
+      "pain_points": [
+        "grid and generation assets are exposed to wildfire, wind, heat and drought",
+        "siting new infrastructure needs hazard evidence"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "wind",
+        "heat",
+        "drought",
+        "flood"
+      ],
+      "capabilities": [
+        "asset screening",
+        "hazard-aware siting intelligence",
+        "monitoring + SMS alerts",
+        "historical events"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "Risk Manager",
+        "Asset Manager"
+      ],
+      "content_topics": [
+        "wildfire context for grid assets",
+        "siting with evidence"
+      ],
       "offer": "asset screening + monitoring pilot",
       "cta": "Screen a grid asset",
       "outreach_style": "technical, operational",
       "evidence_requirements": "real datasets named; resolution stated"
     },
     "logistics": {
-      "pain_points": ["routes and hubs are disrupted by flood, wind and coastal events", "historical disruption evidence is scattered"],
-      "relevant_hazards": ["flood", "wind", "coastal", "heat"],
-      "capabilities": ["hub/corridor screening", "historical event context", "alerts for hub locations"],
-      "decision_maker_roles": ["Infrastructure Director", "Risk Manager"],
-      "content_topics": ["exposure for logistics nodes", "alerting for hubs"],
+      "pain_points": [
+        "routes and hubs are disrupted by flood, wind and coastal events",
+        "historical disruption evidence is scattered"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "wind",
+        "coastal",
+        "heat"
+      ],
+      "capabilities": [
+        "hub/corridor screening",
+        "historical event context",
+        "alerts for hub locations"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "Risk Manager"
+      ],
+      "content_topics": [
+        "exposure for logistics nodes",
+        "alerting for hubs"
+      ],
       "offer": "hub screening pilot",
       "cta": "Screen a hub location",
       "outreach_style": "operational",
       "evidence_requirements": "event records with sources"
     },
     "ports": {
-      "pain_points": ["sea-level, surge and wind exposure threaten port infrastructure and operations", "long-lived assets need projected context kept separate from observations"],
-      "relevant_hazards": ["coastal", "wind", "flood"],
-      "capabilities": ["coastal exposure screening", "PROJECTED vs OBSERVED separation", "monitoring + alerts", "solutions intelligence (coastal adaptation)"],
-      "decision_maker_roles": ["Infrastructure Director", "CEO", "Risk Manager"],
-      "content_topics": ["coastal exposure intelligence", "projections kept separate from observations"],
+      "pain_points": [
+        "sea-level, surge and wind exposure threaten port infrastructure and operations",
+        "long-lived assets need projected context kept separate from observations"
+      ],
+      "relevant_hazards": [
+        "coastal",
+        "wind",
+        "flood"
+      ],
+      "capabilities": [
+        "coastal exposure screening",
+        "PROJECTED vs OBSERVED separation",
+        "monitoring + alerts",
+        "solutions intelligence (coastal adaptation)"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "CEO",
+        "Risk Manager"
+      ],
+      "content_topics": [
+        "coastal exposure intelligence",
+        "projections kept separate from observations"
+      ],
       "offer": "port-area coastal analysis",
       "cta": "Analyze your port area",
       "outreach_style": "engineering + strategic",
       "evidence_requirements": "IPCC-scenario labelling; elevation data resolution stated"
     },
     "agriculture": {
-      "pain_points": ["drought and heat drive yield variability", "water decisions lack local evidence"],
-      "relevant_hazards": ["drought", "heat", "wildfire", "wind"],
-      "capabilities": ["drought/heat screening vs climatology", "cropland exposure", "historical conditions per season", "solutions intelligence (irrigation, species)"],
-      "decision_maker_roles": ["CEO", "Asset Manager"],
-      "content_topics": ["drought intelligence for crops", "historical conditions per season"],
+      "pain_points": [
+        "drought and heat drive yield variability",
+        "water decisions lack local evidence"
+      ],
+      "relevant_hazards": [
+        "drought",
+        "heat",
+        "wildfire",
+        "wind"
+      ],
+      "capabilities": [
+        "drought/heat screening vs climatology",
+        "cropland exposure",
+        "historical conditions per season",
+        "solutions intelligence (irrigation, species)"
+      ],
+      "decision_maker_roles": [
+        "CEO",
+        "Asset Manager"
+      ],
+      "content_topics": [
+        "drought intelligence for crops",
+        "historical conditions per season"
+      ],
       "offer": "field-region analysis",
       "cta": "Analyze your growing region",
       "outreach_style": "practical, agronomic",
       "evidence_requirements": "climatology baseline stated; declared anomaly method"
     },
     "manufacturing": {
-      "pain_points": ["plants and supply chains sit in exposed areas", "business-interruption evidence is thin"],
-      "relevant_hazards": ["flood", "wind", "wildfire", "heat"],
-      "capabilities": ["site screening", "monitoring + alerts", "historical events", "exposure profiles"],
-      "decision_maker_roles": ["Risk Manager", "CEO", "Infrastructure Director"],
-      "content_topics": ["site exposure for plants", "alerting for operations"],
+      "pain_points": [
+        "plants and supply chains sit in exposed areas",
+        "business-interruption evidence is thin"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "wind",
+        "wildfire",
+        "heat"
+      ],
+      "capabilities": [
+        "site screening",
+        "monitoring + alerts",
+        "historical events",
+        "exposure profiles"
+      ],
+      "decision_maker_roles": [
+        "Risk Manager",
+        "CEO",
+        "Infrastructure Director"
+      ],
+      "content_topics": [
+        "site exposure for plants",
+        "alerting for operations"
+      ],
       "offer": "plant-site screening",
       "cta": "Screen a plant location",
       "outreach_style": "operational risk framing",
       "evidence_requirements": "sources + freshness per result"
     },
     "tourism": {
-      "pain_points": ["destinations face heat, wildfire and coastal exposure", "seasonality amplifies event impact"],
-      "relevant_hazards": ["heat", "wildfire", "coastal", "drought"],
-      "capabilities": ["destination screening", "historical event intelligence", "monitoring"],
-      "decision_maker_roles": ["CEO", "Asset Manager"],
-      "content_topics": ["climate exposure for destinations", "historical events per destination"],
+      "pain_points": [
+        "destinations face heat, wildfire and coastal exposure",
+        "seasonality amplifies event impact"
+      ],
+      "relevant_hazards": [
+        "heat",
+        "wildfire",
+        "coastal",
+        "drought"
+      ],
+      "capabilities": [
+        "destination screening",
+        "historical event intelligence",
+        "monitoring"
+      ],
+      "decision_maker_roles": [
+        "CEO",
+        "Asset Manager"
+      ],
+      "content_topics": [
+        "climate exposure for destinations",
+        "historical events per destination"
+      ],
       "offer": "destination analysis",
       "cta": "Analyze your destination",
       "outreach_style": "accessible, visual",
       "evidence_requirements": "observed vs projected separation"
     },
     "telecom": {
-      "pain_points": ["towers and cables are exposed to wildfire, wind and flood", "service continuity needs early warning"],
-      "relevant_hazards": ["wildfire", "wind", "flood", "heat"],
-      "capabilities": ["asset screening", "monitoring + SMS alerts", "historical events"],
-      "decision_maker_roles": ["Infrastructure Director", "Risk Manager"],
-      "content_topics": ["exposure for network assets", "SMS alerting for field teams"],
+      "pain_points": [
+        "towers and cables are exposed to wildfire, wind and flood",
+        "service continuity needs early warning"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "wind",
+        "flood",
+        "heat"
+      ],
+      "capabilities": [
+        "asset screening",
+        "monitoring + SMS alerts",
+        "historical events"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "Risk Manager"
+      ],
+      "content_topics": [
+        "exposure for network assets",
+        "SMS alerting for field teams"
+      ],
       "offer": "asset monitoring pilot",
       "cta": "Monitor a network asset",
       "outreach_style": "operational",
       "evidence_requirements": "alert audit trail"
     },
     "data_centers": {
-      "pain_points": ["heat and water availability constrain cooling", "site selection needs documented hazard context"],
-      "relevant_hazards": ["heat", "drought", "wildfire", "flood"],
-      "capabilities": ["site screening", "heat/drought climatology context", "monitoring"],
-      "decision_maker_roles": ["Infrastructure Director", "Chief Sustainability Officer"],
-      "content_topics": ["heat and drought context for facilities", "site selection evidence"],
+      "pain_points": [
+        "heat and water availability constrain cooling",
+        "site selection needs documented hazard context"
+      ],
+      "relevant_hazards": [
+        "heat",
+        "drought",
+        "wildfire",
+        "flood"
+      ],
+      "capabilities": [
+        "site screening",
+        "heat/drought climatology context",
+        "monitoring"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "Chief Sustainability Officer"
+      ],
+      "content_topics": [
+        "heat and drought context for facilities",
+        "site selection evidence"
+      ],
       "offer": "candidate-site screening",
       "cta": "Screen a candidate site",
       "outreach_style": "technical",
       "evidence_requirements": "climatology methods named"
     },
     "municipalities": {
-      "pain_points": ["civil protection needs current + historical hazard intelligence per territory", "residents must be warned on meaningful change", "adaptation grants require evidence"],
-      "relevant_hazards": ["wildfire", "flood", "heat", "drought", "wind", "coastal"],
-      "capabilities": ["territory maps", "historical events", "population exposure", "monitoring + SMS/email alerts", "evidence-labelled reports"],
-      "decision_maker_roles": ["Municipal Resilience Officer", "Climate Policy Officer", "Infrastructure Director"],
-      "content_topics": ["multi-hazard intelligence for municipalities", "alerts that reach people"],
+      "pain_points": [
+        "civil protection needs current + historical hazard intelligence per territory",
+        "residents must be warned on meaningful change",
+        "adaptation grants require evidence"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "heat",
+        "drought",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "territory maps",
+        "historical events",
+        "population exposure",
+        "monitoring + SMS/email alerts",
+        "evidence-labelled reports"
+      ],
+      "decision_maker_roles": [
+        "Municipal Resilience Officer",
+        "Climate Policy Officer",
+        "Infrastructure Director"
+      ],
+      "content_topics": [
+        "multi-hazard intelligence for municipalities",
+        "alerts that reach people"
+      ],
       "offer": "municipal monitoring pilot (free tier exists)",
       "cta": "Monitor your municipality",
       "outreach_style": "public-service, non-commercial tone",
       "evidence_requirements": "official sources; population data vintage stated"
     },
     "governments": {
-      "pain_points": ["national/regional resilience planning needs traceable evidence", "cross-border hazard context is fragmented"],
-      "relevant_hazards": ["wildfire", "flood", "drought", "heat", "wind", "coastal"],
-      "capabilities": ["regional analysis", "historical evidence", "API", "annual intelligence reports"],
-      "decision_maker_roles": ["Climate Policy Officer", "Infrastructure Director"],
-      "content_topics": ["evidence infrastructure for policy", "European data sources in one place"],
+      "pain_points": [
+        "national/regional resilience planning needs traceable evidence",
+        "cross-border hazard context is fragmented"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "regional analysis",
+        "historical evidence",
+        "API",
+        "annual intelligence reports"
+      ],
+      "decision_maker_roles": [
+        "Climate Policy Officer",
+        "Infrastructure Director"
+      ],
+      "content_topics": [
+        "evidence infrastructure for policy",
+        "European data sources in one place"
+      ],
       "offer": "agency briefing + pilot",
       "cta": "Request a briefing",
       "outreach_style": "formal, institutional",
       "evidence_requirements": "primary institutional sources only"
     },
     "research_centers": {
-      "pain_points": ["reproducibility requires provenance-carrying analysis", "method comparison needs open registries"],
-      "relevant_hazards": ["wildfire", "flood", "drought", "heat", "wind", "coastal"],
-      "capabilities": ["content-hashed analysis runs", "public source/model/ground-truth registries", "API + SDKs", "QGIS integration (roadmap)"],
-      "decision_maker_roles": ["Research Director"],
-      "content_topics": ["reproducible hazard analysis", "open evidence registries"],
+      "pain_points": [
+        "reproducibility requires provenance-carrying analysis",
+        "method comparison needs open registries"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "content-hashed analysis runs",
+        "public source/model/ground-truth registries",
+        "API + SDKs",
+        "QGIS integration (roadmap)"
+      ],
+      "decision_maker_roles": [
+        "Research Director"
+      ],
+      "content_topics": [
+        "reproducible hazard analysis",
+        "open evidence registries"
+      ],
       "offer": "research access + collaboration",
       "cta": "Reproduce an analysis",
       "outreach_style": "scientific, precise",
       "evidence_requirements": "methods + versions + content hashes"
     },
     "universities": {
-      "pain_points": ["teaching needs real, labelled datasets and tools", "student projects need accessible analysis"],
-      "relevant_hazards": ["wildfire", "flood", "drought", "heat", "wind", "coastal"],
-      "capabilities": ["free analysis tier", "API + SDKs", "QGIS plugin (roadmap)", "evidence vocabulary teaching value"],
-      "decision_maker_roles": ["Research Director"],
-      "content_topics": ["teaching with real evidence-labelled data", "GIS-integrated climate intelligence"],
+      "pain_points": [
+        "teaching needs real, labelled datasets and tools",
+        "student projects need accessible analysis"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "free analysis tier",
+        "API + SDKs",
+        "QGIS plugin (roadmap)",
+        "evidence vocabulary teaching value"
+      ],
+      "decision_maker_roles": [
+        "Research Director"
+      ],
+      "content_topics": [
+        "teaching with real evidence-labelled data",
+        "GIS-integrated climate intelligence"
+      ],
       "offer": "teaching/research use",
       "cta": "Use it in your course",
       "outreach_style": "educational",
       "evidence_requirements": "documented methods; honest limitations"
     },
     "ngos": {
-      "pain_points": ["advocacy and programmes need authoritative exposure evidence", "budgets are limited"],
-      "relevant_hazards": ["flood", "drought", "heat", "wildfire", "coastal"],
-      "capabilities": ["free analysis tier", "historical evidence", "population exposure", "reports"],
-      "decision_maker_roles": ["Research Director", "Climate Policy Officer"],
-      "content_topics": ["exposure evidence for advocacy", "free-tier capabilities"],
+      "pain_points": [
+        "advocacy and programmes need authoritative exposure evidence",
+        "budgets are limited"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "drought",
+        "heat",
+        "wildfire",
+        "coastal"
+      ],
+      "capabilities": [
+        "free analysis tier",
+        "historical evidence",
+        "population exposure",
+        "reports"
+      ],
+      "decision_maker_roles": [
+        "Research Director",
+        "Climate Policy Officer"
+      ],
+      "content_topics": [
+        "exposure evidence for advocacy",
+        "free-tier capabilities"
+      ],
       "offer": "free-tier usage + collaboration",
       "cta": "Start with the free analysis",
       "outreach_style": "mission-aligned, non-commercial",
       "evidence_requirements": "authoritative sources; no exaggeration"
+    },
+    "municipal_climate_adaptation": {
+      "pain_points": [
+        "adaptation plans need defensible evidence per location",
+        "EU/national adaptation funding requires documented projects",
+        "residents expect early warning"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "heat",
+        "wildfire",
+        "drought",
+        "coastal"
+      ],
+      "capabilities": [
+        "territory hazard screening",
+        "population exposure",
+        "solutions intelligence",
+        "funding intelligence",
+        "monitoring + alerts"
+      ],
+      "decision_maker_roles": [
+        "Municipal Resilience Officer",
+        "Climate Policy Officer"
+      ],
+      "content_topics": [
+        "adaptation planning with evidence",
+        "funding adaptation projects"
+      ],
+      "offer": "adaptation evidence + funding-match pilot",
+      "cta": "Match funding for your adaptation project",
+      "outreach_style": "public-service, funding-aware",
+      "evidence_requirements": "official sources; funding facts only as officially published"
+    },
+    "sustainable_finance": {
+      "pain_points": [
+        "sustainable-finance allocation needs traceable climate exposure",
+        "disclosure requires documented evidence"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "coastal",
+        "wildfire",
+        "heat"
+      ],
+      "capabilities": [
+        "exposure profiles with provenance",
+        "funding intelligence",
+        "monitoring"
+      ],
+      "decision_maker_roles": [
+        "Head of ESG",
+        "Chief Sustainability Officer",
+        "Chief Risk Officer"
+      ],
+      "content_topics": [
+        "traceable exposure for sustainable finance",
+        "evidence-labelled risk data"
+      ],
+      "offer": "portfolio exposure screening",
+      "cta": "Screen a portfolio location",
+      "outreach_style": "formal, disclosure-aware",
+      "evidence_requirements": "provenance per figure; honest not-quantified"
+    },
+    "green_investment": {
+      "pain_points": [
+        "green investments need verifiable climate impact context",
+        "resilience projects need evidence to attract capital"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "coastal",
+        "heat"
+      ],
+      "capabilities": [
+        "solutions intelligence",
+        "funding intelligence",
+        "monitoring of project locations"
+      ],
+      "decision_maker_roles": [
+        "Investment Director",
+        "Portfolio Manager"
+      ],
+      "content_topics": [
+        "resilience investment evidence",
+        "from hazard to funded project"
+      ],
+      "offer": "project-location evidence pack",
+      "cta": "Evaluate a project location",
+      "outreach_style": "analytical, investment-focused",
+      "evidence_requirements": "documented sources; no fabricated ROI"
+    },
+    "environmental_consulting": {
+      "pain_points": [
+        "client projects need defensible climate evidence fast",
+        "proposal writing needs citable sources"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "multi-hazard analysis",
+        "evidence-labelled reports",
+        "API",
+        "QGIS integration (roadmap)"
+      ],
+      "decision_maker_roles": [
+        "Research Director",
+        "CEO"
+      ],
+      "content_topics": [
+        "evidence-labelled analysis for consultants",
+        "QGIS-native climate intelligence"
+      ],
+      "offer": "professional analysis pilot",
+      "cta": "Analyze a client site",
+      "outreach_style": "technical, collegial",
+      "evidence_requirements": "methods + provenance + limitations"
+    },
+    "engineering_firms": {
+      "pain_points": [
+        "design decisions need site hazard evidence",
+        "resilient-design justification requires documentation"
+      ],
+      "relevant_hazards": [
+        "wind",
+        "flood",
+        "heat",
+        "coastal",
+        "wildfire"
+      ],
+      "capabilities": [
+        "site screening",
+        "solutions intelligence (engineering options)",
+        "funding intelligence"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "CEO"
+      ],
+      "content_topics": [
+        "site evidence for resilient design",
+        "hazard-aware siting"
+      ],
+      "offer": "project-site evidence pack",
+      "cta": "Screen a design site",
+      "outreach_style": "engineering-precise",
+      "evidence_requirements": "baselines, resolution, methods named"
+    },
+    "water_management": {
+      "pain_points": [
+        "drought and flood both stress water systems",
+        "investment plans need climate evidence"
+      ],
+      "relevant_hazards": [
+        "drought",
+        "flood",
+        "heat"
+      ],
+      "capabilities": [
+        "drought/flood screening",
+        "historical conditions",
+        "solutions intelligence (water management)",
+        "funding intelligence"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "Climate Policy Officer"
+      ],
+      "content_topics": [
+        "water resilience evidence",
+        "drought intelligence for utilities"
+      ],
+      "offer": "service-area drought/flood analysis",
+      "cta": "Analyze your service area",
+      "outreach_style": "technical, utility-focused",
+      "evidence_requirements": "reanalysis baselines stated; declared methods"
+    },
+    "eu_funded_projects": {
+      "pain_points": [
+        "consortia need evidence and monitoring components",
+        "reporting requires traceable data"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "evidence architecture",
+        "monitoring components",
+        "reproducible analysis runs",
+        "registries"
+      ],
+      "decision_maker_roles": [
+        "Research Director",
+        "Climate Policy Officer"
+      ],
+      "content_topics": [
+        "evidence components for EU projects",
+        "monitoring-as-a-component"
+      ],
+      "offer": "consortium component conversation",
+      "cta": "Discuss a project component",
+      "outreach_style": "institutional, collaborative",
+      "evidence_requirements": "reproducibility; open registries"
+    },
+    "technology_providers": {
+      "pain_points": [
+        "climate-tech products need credible hazard evidence",
+        "partnerships need complementary capabilities"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "API + SDKs",
+        "QGIS plugin (roadmap)",
+        "evidence-labelled layers"
+      ],
+      "decision_maker_roles": [
+        "CEO",
+        "Research Director"
+      ],
+      "content_topics": [
+        "climate intelligence as an API",
+        "integration architecture"
+      ],
+      "offer": "technical integration conversation",
+      "cta": "Explore the API",
+      "outreach_style": "technical, peer-to-peer",
+      "evidence_requirements": "documented contracts; honest availability states"
+    },
+    "infrastructure": {
+      "pain_points": [
+        "infrastructure assets face multi-hazard exposure",
+        "resilience investment needs documented justification"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "wind",
+        "wildfire",
+        "heat",
+        "coastal"
+      ],
+      "capabilities": [
+        "asset screening",
+        "monitoring + alerts",
+        "solutions intelligence",
+        "funding intelligence"
+      ],
+      "decision_maker_roles": [
+        "Infrastructure Director",
+        "Asset Manager",
+        "Risk Manager"
+      ],
+      "content_topics": [
+        "infrastructure resilience evidence",
+        "funding resilience projects"
+      ],
+      "offer": "asset screening + monitoring pilot",
+      "cta": "Screen an asset",
+      "outreach_style": "operational, asset-focused",
+      "evidence_requirements": "sources + freshness + resolution per result"
+    },
+    "forestry": {
+      "pain_points": [
+        "wildfire, drought and wind threaten forest assets",
+        "management plans need climate evidence"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "drought",
+        "wind",
+        "heat"
+      ],
+      "capabilities": [
+        "wildfire/drought screening",
+        "historical conditions",
+        "solutions intelligence (land management)",
+        "funding intelligence"
+      ],
+      "decision_maker_roles": [
+        "Asset Manager",
+        "Climate Policy Officer"
+      ],
+      "content_topics": [
+        "forest resilience evidence",
+        "fuel management with limitations"
+      ],
+      "offer": "forest-area analysis",
+      "cta": "Analyze your forest area",
+      "outreach_style": "practical, land-management focused",
+      "evidence_requirements": "documented methods; species/limitations honesty"
     }
   }
 }

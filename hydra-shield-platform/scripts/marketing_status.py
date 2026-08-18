@@ -510,6 +510,30 @@ def cmd_evening() -> int:
     return 0
 
 
+def cmd_funding() -> int:
+    """EU funding ledger + platform funding knowledge base state."""
+    print("FUNDING INTELLIGENCE")
+    print("=" * 60)
+    ledger = _records("eu_funding")
+    print(f"EU funding ledger records: {len(ledger)}")
+    for _n, rec in ledger:
+        print(f"· {rec.get('programme')} — {rec.get('status', 'watching')} "
+              f"(checked {rec.get('date_checked')})")
+        print(f"    {rec.get('hydrashield_relevance', '')}")
+    kb_path = os.path.join(ROOT, "config", "funding_knowledge.json")
+    if os.path.exists(kb_path):
+        kb = _load_json(kb_path)
+        programmes = kb.get("programmes") or []
+        print(f"Platform funding knowledge base: {len(programmes)} curated "
+              f"programmes (all with official URLs)")
+        print("Match them via /api/v2/funding or funding.html; EU-ledger "
+              "records stay marketing-side (opportunities being tracked).")
+    if not ledger:
+        print("Ledger empty — record opportunities only from official "
+              "sources (marketing/eu_funding/schema.json).")
+    return 0
+
+
 _COMMANDS = {
     "status": cmd_status,
     "radar": cmd_radar,
@@ -520,6 +544,7 @@ _COMMANDS = {
     "followups": cmd_followups,
     "content": cmd_content,
     "demand": cmd_demand,
+    "funding": cmd_funding,
     "lessons": cmd_lessons,
     "morning": cmd_morning,
     "evening": cmd_evening,

@@ -104,6 +104,13 @@
             text: 'Build a resilience plan — save these matched solutions with a free account.',
             cta: 'Save this solution set', href: 'account.html'
         });
+        if (ok && totalMatches) {
+            var fundParams = hazardIds.length ? '?hazards=' + encodeURIComponent(hazardIds.join(',')) : '';
+            el('statusArea').insertAdjacentHTML('beforeend',
+                '<p class="muted small" style="margin-top:8px;">Next step: ' +
+                '<a class="text-link" href="funding.html' + fundParams + '">find potential funding for these solutions →</a> ' +
+                '(potential sources only — eligibility requires verification).</p>');
+        }
 
         var statusHtml = '';
         if (body.status === 'insufficient_data') {

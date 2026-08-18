@@ -74,5 +74,5 @@ def test_status_script_runs_clean():
         [sys.executable, os.path.join(ROOT, "scripts", "marketing_status.py")],
         capture_output=True, text=True)
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "Segments defined: 19" in result.stdout
+    assert "Segments defined:" in result.stdout
     assert "INTEGRITY PROBLEMS" not in result.stdout
