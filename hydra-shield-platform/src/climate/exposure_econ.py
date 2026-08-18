@@ -517,11 +517,15 @@ def build_analytical_models(
     exposure_band = (models.get("exposure_concentration") or {}).get(
         "output", {}).get("band")
     if rank is None or not exposure_band:
+        missing = []
+        if rank is None:
+            missing.append("hazard level (pass hazard=…)")
+        if not exposure_band:
+            missing.append("exposure concentration (unmapped)")
         models["hazard_exposure"] = {
             "status": "not_computed",
-            "reason": "no hazard level was supplied (pass hazard=…) or "
-                      "exposure is unmapped — the intersection is not "
-                      "invented.",
+            "reason": "missing: " + " and ".join(missing) +
+                      " — the intersection is not invented.",
         }
     else:
         concern = "elevated" if (rank >= 3 and exposure_band == "dense") else \
