@@ -378,7 +378,10 @@ def test_hazard_market_command_runs_and_is_honest():
     assert result.returncode == 0
     out = result.stdout
     assert "HAZARD-DRIVEN MARKET RADAR" in out
-    assert "fabricated" in out  # honesty note present
+    # The command must be honest whether the live snapshot is reachable or
+    # not — live data, an honest empty state, or an honest unreachable note.
+    assert ("fabricated" in out) or ("unreachable" in out) or \
+           ("No elevated" in out)
 
 
 def test_hazards_command_runs():

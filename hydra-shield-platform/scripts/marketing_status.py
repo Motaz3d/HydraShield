@@ -31,8 +31,12 @@ import os
 import sys
 from datetime import date
 
-ROOT = os.path.join(os.path.dirname(__file__), "..")
+ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 MARKETING = os.path.join(ROOT, "marketing")
+# The copilot imports platform modules (e.g. src.dashboard.hazard_market);
+# make the platform root importable regardless of invocation directory.
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 
 LEAD_STATUSES = ["researched", "qualified", "draft_prepared", "contacted",
                  "responded", "opportunity", "closed_lost"]
