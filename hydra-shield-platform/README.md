@@ -23,7 +23,7 @@ blueprints for communities at risk of catastrophic wildfires.
 `docs/CLIMATE_HAZARDS.md` · `docs/EVIDENCE_ARCHITECTURE.md` ·
 `docs/ECONOMIC_INTELLIGENCE.md` · `docs/FINANCIAL_INTELLIGENCE.md` ·
 `docs/SOLUTIONS_INTELLIGENCE.md` · `docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md` ·
-`docs/IMPLEMENTATION_ROADMAP.md`
+`docs/IMPLEMENTATION_ROADMAP.md` · `docs/QGIS_INTEGRATION_ARCHITECTURE.md`
 
 ## Project Structure
 
