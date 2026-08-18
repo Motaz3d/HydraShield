@@ -64,6 +64,21 @@
         el('customersBlock').innerHTML = chips(d.customers || {});
         el('marketingBlock').innerHTML = chips(d.marketing || {});
 
+        // Priority markets (hazard-driven, three segments)
+        var pm = d.priority_markets || {};
+        el('marketsBlock').innerHTML = Object.keys(pm).map(function (label) {
+            var leads = pm[label];
+            return '<h3 style="margin:0 0 6px;">' + esc(label) + ' <span class="muted small">(' +
+                leads.length + ')</span></h3>' +
+                tableRows(leads.slice(0, 8), [
+                    { label: 'Organization', get: function (l) { return l.organization; } },
+                    { label: 'Country', get: function (l) { return l.country; } },
+                    { label: 'Hazards', get: function (l) { return (l.hazards || []).join(', '); } },
+                    { label: 'Product', get: function (l) { return l.product; } },
+                    { label: 'Priority', get: function (l) { return l.priority; } },
+                ]);
+        }).join('') || '<div class="notice notice-empty">No priority-market leads yet.</div>';
+
         // AI Copilot — who to contact now + follow-ups + publish queue
         var cp = d.copilot || {};
         var copilotHtml = '';

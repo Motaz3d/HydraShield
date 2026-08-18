@@ -217,6 +217,37 @@ def create_app() -> Flask:
         )
 
     # ------------------------------------------------------------------
+    @app.route("/admin.html", methods=["GET"])
+    def admin_page():
+        """The Commercial Center shell is served ONLY after server-side
+        authorization (Caddy routes /admin.html here — it is not a public
+        static file). Anonymous → 401; authenticated non-admin → 403 with
+        the upgrade descriptor. The page itself carries no data; all data
+        comes from the auth-gated /api/v2/admin/* endpoints."""
+        from .auth_api import current_user, ROLE_RANK  # lazy: avoid circulars
+
+        user = current_user()
+        if user is None:
+            return jsonify({"error": "Authentication required", "status": 401}), 401
+        if ROLE_RANK.get(user["role"], 0) < ROLE_RANK["admin"]:
+            return jsonify({"error": "This area requires the 'admin' tier",
+                            "status": 403,
+                            "upgrade": {"required_role": "admin",
+                                        "your_role": user["role"],
+                                        "unlocks": "Operator access."}}), 403
+        html_path = os.path.join(os.path.dirname(__file__), "..", "..",
+                                 "website", "admin.html")
+        try:
+            with open(html_path, encoding="utf-8") as fh:
+                content = fh.read()
+        except OSError:
+            return jsonify({"error": "Admin page unavailable", "status": 503}), 503
+        resp = app.response_class(content, mimetype="text/html")
+        resp.headers["X-Robots-Tag"] = "noindex, nofollow"
+        resp.headers["Cache-Control"] = "no-store"
+        return resp
+
+    # ------------------------------------------------------------------
     @app.route("/api/analyze", methods=["GET"])
     def analyze():
         if not _rate_limiter.allow(f"analyze:{_client_key()}", 30, 60.0):

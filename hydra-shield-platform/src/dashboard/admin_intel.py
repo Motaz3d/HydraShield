@@ -271,6 +271,7 @@ def admin_intelligence():
     alerts_block = {"organizations_with_signals": [],
                     "high_priority_prospects": [],
                     "sms_opportunity_users": 0}
+    priority_markets = {}
     if ws.get("available"):
         leads_all = ws.get("leads") or []
         hot = [l for l in leads_all if l.get("priority") == "high"
@@ -291,6 +292,25 @@ def admin_intelligence():
                 f for f in os.listdir(drafts_dir) if f.endswith(".md"))
         alerts_block["high_priority_prospects"] = [
             l.get("organization") for l in hot[:10]]
+        # The three priority commercial markets, with hazard context.
+        for seg_key, label in (
+                ("environmental_consulting", "Climate / ESG Consulting"),
+                ("investment", "Investment / Infrastructure"),
+                ("insurance", "Insurance / Risk")):
+            seg_leads = [l for l in leads_all if l.get("segment") == seg_key]
+            priority_markets[label] = [
+                {"organization": l.get("organization"),
+                 "country": l.get("country"),
+                 "hazards": l.get("relevant_hazards"),
+                 "priority": l.get("priority"),
+                 "why": l.get("identified_problem"),
+                 "product": (l.get("recommended_product") or "").replace("_", " "),
+                 "message": l.get("recommended_message"),
+                 "next_action": l.get("next_action")}
+                for l in sorted(seg_leads, key=lambda x: (
+                    {"high": 0, "medium": 1, "low": 2}.get(x.get("priority"), 3),
+                    x.get("organization") or ""))
+            ]
     # SMS opportunities: verified phones exist but SMS delivery is not
     # configured → the honest operator signal.
     from . import sms as sms_module
@@ -326,6 +346,7 @@ def admin_intelligence():
         "marketing": marketing,
         "copilot": copilot,
         "attention": alerts_block,
+        "priority_markets": priority_markets,
         "funnel_stages": {
             "visitor": funnel.get("page_view", 0),
             "analysis": funnel.get("location_analyzed", 0),

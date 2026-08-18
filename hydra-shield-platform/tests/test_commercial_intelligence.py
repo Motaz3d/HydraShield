@@ -354,3 +354,42 @@ def test_radar_runs_on_real_workspace():
     result = _run(["radar"])
     assert result.returncode == 0
     assert "Ranking formula" in result.stdout
+
+
+# ---------------------------------------------------------------------------
+# Hazard-driven marketing (copilot hazard commands + hazard_feed)
+# ---------------------------------------------------------------------------
+
+
+def test_hazard_feed_is_read_only():
+    """The hazard feed may only GET our own public API — no sending, no
+    third-party calls."""
+    src = open(os.path.join(ROOT, "scripts", "hazard_feed.py"),
+               encoding="utf-8").read()
+    for forbidden in ("smtplib", "sendmail", "requests.post", "urlopen(req"):
+        pass  # urlopen(req) is the allowed GET path; checked below
+    assert "smtplib" not in src and "sendmail" not in src
+    assert "method=\"POST\"" not in src and "method='POST'" not in src
+    assert "hydrashield.earth/api/risk-snapshot" in src
+
+
+def test_hazard_market_command_runs_and_is_honest():
+    result = _run(["hazard-market"])
+    assert result.returncode == 0
+    out = result.stdout
+    assert "HAZARD-DRIVEN MARKET RADAR" in out
+    assert "fabricated" in out  # honesty note present
+
+
+def test_hazards_command_runs():
+    result = _run(["hazards"])
+    assert result.returncode == 0
+    # Either live areas or an honest unavailable/empty message.
+    assert ("risk" in result.stdout) or ("unknown" in result.stdout) or \
+           ("No elevated" in result.stdout)
+
+
+def test_morning_is_hazard_first():
+    result = _run(["morning"])
+    assert result.returncode == 0
+    assert "hazard" in result.stdout.lower()

@@ -33,6 +33,21 @@ SMTP_FROM=...
 Without these, everything still runs; the affected layers are reported as
 unavailable in the analysis provenance instead of being simulated.
 
+### Operator (Commercial Center) access
+
+The Commercial Center (`/admin.html` + `/api/v2/admin/*`) is served only
+after server-side authorization. To activate the operator account:
+
+```bash
+HYDRASHIELD_OPERATOR_EMAILS=info@hydrashield.earth   # in /opt/hydrashield/.env
+```
+
+Then register `info@hydrashield.earth` via the normal account flow
+(verification email lands in the official mailbox) and sign in — the
+account is promoted to the admin role at session resolution, audited as
+`operator_promotion`. There is no endpoint or client path to set a role;
+anonymous visitors get 401 and normal users 403 on every admin surface.
+
 ## Prerequisites
 
 - A Vultr server running **Ubuntu 24.04 LTS** (1 vCPU / 4GB / 30GB is enough).

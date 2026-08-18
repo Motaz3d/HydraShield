@@ -475,10 +475,10 @@ def cmd_radar() -> int:
 
 
 def cmd_morning() -> int:
-    print("MORNING BRIEFING (operator workflow §9)")
+    print("MORNING BRIEFING — hazard-driven marketing day (workflow §23)")
     print("=" * 60)
-    steps = [("1 · New commercial signals", cmd_signals),
-             ("2 · Events to monitor", cmd_events),
+    steps = [("1 · Current hazard signals (where is the risk?)", cmd_hazards),
+             ("2 · Hazard → market opportunities (who is affected?)", cmd_hazard_market),
              ("3 · High-priority prospects", cmd_priorities),
              ("4 · Follow-ups due", cmd_followups),
              ("5 · Product demand signals", cmd_demand),
@@ -489,9 +489,9 @@ def cmd_morning() -> int:
         fn()
     print()
     print("## 7 · Recommended outreach")
-    print("Human decision: pick from priorities + followups above; draft via "
-          "the segment's style (marketing/segments/segments.json); queue in "
-          "marketing/outreach/queue.json. Nothing sends automatically.")
+    print("Human decision: pick from the opportunities above; draft with "
+          "scripts/outreach_composer.py (evidence required); queue; review; "
+          "send from info@hydrashield.earth only after human approval.")
     return 0
 
 
@@ -641,9 +641,107 @@ def cmd_funding() -> int:
     return 0
 
 
+# ---------------------------------------------------------------------------
+# Hazard-driven marketing (the commercial intelligence engine)
+# ---------------------------------------------------------------------------
+
+_PRIORITY_SEGMENTS = ("environmental_consulting", "investment", "insurance")
+
+
+def _snapshot_areas():
+    """Current elevated-risk areas from the public risk snapshot
+    (real platform data) or an honest unavailable marker."""
+    try:
+        from scripts.hazard_feed import fetch_risk_snapshot, snapshot_entries
+    except ImportError:
+        from hazard_feed import fetch_risk_snapshot, snapshot_entries
+    snap = fetch_risk_snapshot()
+    if snap is None:
+        return None
+    return snapshot_entries(snap)
+
+
+def cmd_hazards() -> int:
+    print("CURRENT HAZARD SIGNALS (live risk snapshot)")
+    print("=" * 60)
+    areas = _snapshot_areas()
+    if areas is None:
+        print("Snapshot unreachable — current hazard state is unknown "
+              "(not zero). Fetch https://hydrashield.earth/api/risk-snapshot "
+              "manually or run on the server.")
+        return 0
+    if not areas:
+        print("No elevated areas in the current snapshot — the monitored "
+              "areas show no meaningful risk right now. This is a real "
+              "answer, not missing data.")
+        return 0
+    for e in areas:
+        print(f"· {e.get('name')} — risk {e.get('risk')} "
+              f"({e.get('risk_class')}), FWI class {e.get('fwi_class')}")
+    return 0
+
+
+def cmd_hazard_market() -> int:
+    """The hazard → market chain: current hazard signals → affected
+    regions → the three priority segments → who to contact + why."""
+    print("HAZARD-DRIVEN MARKET RADAR")
+    print("=" * 60)
+    print("Chain: HAZARD → REGION → SECTOR → ORGANIZATION → PROBLEM → "
+          "PRODUCT → OUTREACH")
+    areas = _snapshot_areas()
+    if areas is None:
+        print("Hazard snapshot unreachable — showing prospect-side "
+              "prioritization only (hazard data unknown, not zero).")
+        areas = []
+    elif not areas:
+        print("No elevated hazard areas in the current snapshot.")
+    else:
+        print("Current elevated areas (real data):")
+        area_names = []
+        for e in areas:
+            label = f"{e.get('name')} ({e.get('risk_class')})"
+            area_names.append(label)
+            print(f"  · {label}")
+        area_text = " ".join(str(a.get("name", "")) for a in areas).lower()
+
+    leads = _leads()
+    if not leads:
+        print("No leads yet.")
+        return 0
+
+    print()
+    for segment in _PRIORITY_SEGMENTS:
+        print(f"## {segment.replace('_', ' ').upper()}")
+        seg_leads = [(n, l) for n, l in leads if l.get("segment") == segment]
+        if not seg_leads:
+            print("  (no prospects in this segment)")
+            continue
+        ordered = sorted(seg_leads, key=lambda kv: (
+            _PRIORITY_RANK.get(kv[1].get("priority"), 3),
+            kv[1].get("organization", "")))
+        for _n, lead in ordered[:6]:
+            in_region = bool(areas) and any(
+                part and part in (str(lead.get("country", "")) + " " +
+                                  str(lead.get("region", ""))).lower()
+                for part in area_text.replace(",", " ").split())
+            marker = " [IN AFFECTED REGION]" if in_region else ""
+            print(f"  · {lead.get('organization')} ({lead.get('country')})"
+                  f"{marker}")
+            print(f"      hazards: {', '.join(lead.get('relevant_hazards') or [])}")
+            print(f"      product: {(lead.get('recommended_product') or '?').replace('_', ' ')}")
+            print(f"      message: {lead.get('recommended_message') or '—'}")
+    print()
+    print("Region matching is name-based and explicitly approximate — "
+          "verify before outreach. No hazard is ever fabricated.")
+    return 0
+
+
 _COMMANDS = {
     "status": cmd_status,
     "radar": cmd_radar,
+    "hazards": cmd_hazards,
+    "hazard-market": cmd_hazard_market,
+    "market-radar": cmd_hazard_market,
     "signals": cmd_signals,
     "sectors": cmd_sectors,
     "events": cmd_events,

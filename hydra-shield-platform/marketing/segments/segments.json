@@ -1040,5 +1040,91 @@
     "data_partner",
     "funding_partner",
     "technology_partner"
-  ]
+  ],
+  "problem_vocabulary": {
+    "environmental_consulting": [
+      "climate-risk assessment",
+      "evidence gathering",
+      "GIS analysis",
+      "client reporting",
+      "multi-hazard assessment",
+      "funding identification"
+    ],
+    "investment": [
+      "asset exposure",
+      "site risk",
+      "investment due diligence",
+      "infrastructure resilience",
+      "geographic risk comparison",
+      "documented evidence"
+    ],
+    "insurance": [
+      "hazard exposure",
+      "portfolio/location assessment",
+      "historical evidence",
+      "risk monitoring",
+      "event intelligence",
+      "asset exposure"
+    ]
+  },
+  "product_matching": {
+    "environmental_consulting": [
+      "hazard_analysis",
+      "map",
+      "historical_events",
+      "exposure",
+      "reports",
+      "qgis",
+      "api"
+    ],
+    "investment": [
+      "hazard_analysis",
+      "exposure",
+      "economy",
+      "solutions",
+      "funding",
+      "reports"
+    ],
+    "insurance": [
+      "hazard_analysis",
+      "exposure",
+      "historical_events",
+      "monitoring",
+      "api"
+    ],
+    "infrastructure": [
+      "hazard_analysis",
+      "exposure",
+      "monitoring",
+      "alerts_sms",
+      "solutions"
+    ],
+    "municipalities": [
+      "map",
+      "exposure",
+      "monitoring",
+      "alerts_sms",
+      "reports"
+    ],
+    "governments": [
+      "hazard_analysis",
+      "exposure",
+      "monitoring",
+      "reports",
+      "api"
+    ],
+    "research_centers": [
+      "hazard_analysis",
+      "historical_events",
+      "api",
+      "qgis",
+      "reports"
+    ],
+    "agriculture": [
+      "hazard_analysis",
+      "solutions",
+      "monitoring",
+      "funding"
+    ]
+  }
 }

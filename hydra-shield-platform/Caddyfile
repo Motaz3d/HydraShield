@@ -10,6 +10,12 @@ hydrashield.earth {
 		reverse_proxy api:8051
 	}
 
+	# Commercial Center shell: served by the API only after server-side
+	# authorization (never a public static file).
+	handle /admin.html {
+		reverse_proxy api:8051
+	}
+
 	# Everything else: static website files
 	handle {
 		root * /srv/website

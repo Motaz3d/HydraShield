@@ -499,6 +499,27 @@ class UserStore:
         user = self.get_user(row[0])
         if user is None or user["status"] != "active":
             return None
+        return self._maybe_promote_operator(user)
+
+    def _maybe_promote_operator(self, user: Dict) -> Dict:
+        """Server-side operator promotion: accounts whose email is listed in
+        HYDRASHIELD_OPERATOR_EMAILS (comma-separated, server env only)
+        receive the admin role. There is NO endpoint or client path to set
+        a role — promotion happens here, at session resolution, from the
+        server environment. Idempotent and audited."""
+        emails = {e.strip().lower()
+                  for e in os.environ.get("HYDRASHIELD_OPERATOR_EMAILS", "").split(",")
+                  if e.strip()}
+        if not emails or (user.get("email") or "").lower() not in emails:
+            return user
+        if ROLE_RANK.get(user["role"], 0) >= ROLE_RANK["admin"]:
+            return user
+        with self._lock, self._connect() as conn:
+            conn.execute("UPDATE users SET role = 'admin' WHERE id = ?",
+                         (user["id"],))
+        self.audit(user["id"], "operator_promotion", target=user["email"],
+                   meta={"via": "HYDRASHIELD_OPERATOR_EMAILS"})
+        user = self.get_user(user["id"])
         return user
 
     def delete_session(self, token: str) -> bool:
