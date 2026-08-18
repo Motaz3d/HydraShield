@@ -495,3 +495,83 @@ def test_v2_solutions_endpoint_accepts_caller_selected_hazards(client, monkeypat
     assert all(h["level"] is None and "caller-selected" in h["basis"]
                for h in captured["hazards"])
     assert captured.get("unknown_hazards_requested") == ["tornado"]
+
+
+# ---------------------------------------------------------------------------
+# Analytical models (the interpretation layer over real inputs)
+# ---------------------------------------------------------------------------
+
+def _cats_full():
+    return {
+        "buildings": {"status": "mapped", "count": 214},
+        "critical_facilities": {"status": "mapped", "count": 8},
+        "energy": {"status": "mapped", "count": 3},
+        "tourism": {"status": "mapped", "count": 7},
+        "industry": {"status": "mapped", "count": 2},
+        "agriculture": {"status": "mapped", "cropland_fraction": 0.38},
+        "built_up": {"status": "mapped", "built_up_fraction": 0.12},
+        "water": {"status": "mapped", "count": 6},
+        "transport": {"status": "mapped", "count": 130},
+    }
+
+
+def test_models_exposure_and_critical_concentration():
+    m = econ_module.build_analytical_models(_cats_full(), None, 2000)
+    ec = m["exposure_concentration"]
+    assert ec["status"] == "ok"
+    assert ec["output"]["band"] == "dense"  # 214 buildings / ~12.6 km²
+    assert ec["output"]["buildings_per_km2"] > 0
+    ci = m["critical_infrastructure"]
+    assert ci["status"] == "ok"
+    assert ci["output"]["critical_per_km2"] > 0
+    assert "methodology" in ci
+
+
+def test_models_economic_activity_sectors():
+    m = econ_module.build_analytical_models(_cats_full(), None, 2000)
+    sectors = {s["sector"] for s in m["economic_activity"]["output"]["sectors_present"]}
+    assert "agriculture" in sectors
+    assert "tourism" in sectors
+    assert "industry" in sectors
+
+
+def test_models_hazard_exposure_and_priority():
+    m = econ_module.build_analytical_models(
+        _cats_full(), {"hazard": "flood", "level": {"label": "High"}}, 2000)
+    assert m["hazard_exposure"]["output"]["concern"] == "elevated"
+    assert m["resilience_priority"]["output"]["priority"] == "high"
+    # Without a hazard level the intersection is honestly not computed.
+    m2 = econ_module.build_analytical_models(_cats_full(), None, 2000)
+    assert m2["hazard_exposure"]["status"] == "not_computed"
+    assert "not invented" in m2["hazard_exposure"]["reason"]
+
+
+def test_models_never_fabricate_monetary():
+    import re
+    m = econ_module.build_analytical_models(_cats_full(), None, 2000)
+    text = str(m)
+    # No currency symbols or currency amounts anywhere in the models.
+    assert "€" not in text and "$" not in text
+    assert not re.search(r"\b(EUR|USD|GBP)\s*\d", text)
+
+
+def test_models_unmapped_is_honest():
+    cats = {"buildings": {"status": "not_mapped"},
+            "critical_facilities": {"status": "not_mapped"}}
+    m = econ_module.build_analytical_models(cats, None, 2000)
+    assert m["exposure_concentration"]["status"] == "unavailable"
+    assert m["evidence_completeness"]["output"]["mapped"] == 0
+
+
+def test_economy_endpoint_includes_models(client, monkeypatch):
+    _mock_fetchers(monkeypatch)
+    resp = client.get("/api/v2/economy?lat=49.75&lon=6.64")
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert "analytical_models" in body
+    models = body["analytical_models"]
+    for key in ("exposure_concentration", "critical_infrastructure",
+                "economic_activity", "hazard_exposure",
+                "resilience_priority", "evidence_completeness"):
+        assert key in models, key
+    assert body["monetary_quantification"]["status"] == "not_quantified"

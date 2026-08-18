@@ -99,3 +99,20 @@ distinctions used by climate-finance practice:
 - Not a damage model. Not a loss database. Not a cat-bond tool.
 - Not market-size marketing. Market claims follow the same evidence rules
   (source + reference period + method) as climate claims.
+
+## 7. Analytical models (interpretation layer)
+
+`/api/v2/economy` responses carry `analytical_models` — HydraShield's
+structured interpretation of the exposure profile, not a data dump.
+Each model is a declared screening heuristic over the real inputs with
+inputs/methodology/output/confidence/limitations:
+
+- `exposure_concentration` — mapped buildings per km² (declared bands)
+- `critical_infrastructure` — critical facilities + power per km²
+- `economic_activity` — sector presence flags (declared thresholds)
+- `hazard_exposure` — hazard level × exposure band → concern class
+  (only when a hazard level is supplied; otherwise `not_computed`)
+- `resilience_priority` — declared priority rule (high/moderate/standard)
+- `evidence_completeness` — how much of the profile is real (never filled)
+
+No monetary values anywhere; the no-fake-money rule (§3) is unchanged.

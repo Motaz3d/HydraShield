@@ -361,6 +361,8 @@ def build_economic_exposure(
             "note": "No hazard analysis was supplied; the exposure profile is "
                     "hazard-agnostic (current mapped conditions).",
         },
+        "analytical_models": build_analytical_models(
+            categories, hazard_context, radius_m),
         "monetary_quantification": {
             "status": "not_quantified",
             "statement": NOT_QUANTIFIED_STATEMENT,
@@ -384,3 +386,197 @@ def build_economic_exposure(
         },
     }
     return result
+
+
+# ---------------------------------------------------------------------------
+# Analytical models (declared screening heuristics over the real inputs)
+# ---------------------------------------------------------------------------
+
+#: Declared density thresholds (features per km²) for concentration bands.
+_DENSITY_BANDS = ((0.5, "sparse"), (5.0, "moderate"), (1e9, "dense"))
+
+_HAZARD_RANK = {"Low": 1, "Moderate": 2, "High": 3, "Extreme": 4,
+                "Severe": 4, "Very high": 3}
+
+
+def _band(per_km2: float) -> str:
+    for threshold, label in _DENSITY_BANDS:
+        if per_km2 < threshold:
+            return label
+    return "dense"
+
+
+def _count(category: Dict[str, Any]) -> Optional[float]:
+    if category.get("status") != "mapped":
+        return None
+    count = category.get("count")
+    try:
+        return float(count)
+    except (TypeError, ValueError):
+        return None
+
+
+def build_analytical_models(
+    categories: Dict[str, Dict],
+    hazard_context: Optional[Dict[str, Any]],
+    radius_m: int,
+) -> Dict[str, Any]:
+    """HydraShield's structured interpretation of the exposure profile —
+    the product. Each model: inputs, methodology, output, confidence,
+    limitations. All declared screening heuristics over real mapped data;
+    no monetary values, no invented precision."""
+    area_km2 = 3.14159265 * (radius_m / 1000.0) ** 2
+    models: Dict[str, Any] = {}
+
+    buildings = _count(categories.get("buildings") or {})
+    facilities = _count(categories.get("critical_facilities") or {})
+    power = _count(categories.get("energy") or {})
+
+    # 1 · Exposure concentration (built environment per km²)
+    if buildings is None:
+        models["exposure_concentration"] = {
+            "status": "unavailable",
+            "reason": "building counts not mapped for this location",
+        }
+    else:
+        per_km2 = round(buildings / area_km2, 2)
+        models["exposure_concentration"] = {
+            "status": "ok",
+            "inputs": {"buildings_mapped": buildings,
+                       "area_km2": round(area_km2, 2)},
+            "methodology": "mapped OSM buildings / analysis area; bands: "
+                           "<0.5 sparse, <5 moderate, >=5 dense per km²",
+            "output": {"buildings_per_km2": per_km2,
+                       "band": _band(per_km2)},
+            "confidence": Confidence.MEDIUM.value,
+            "limitations": OSM_COMPLETENESS_CAVEAT,
+        }
+
+    # 2 · Critical infrastructure concentration
+    if facilities is None and power is None:
+        models["critical_infrastructure"] = {
+            "status": "unavailable",
+            "reason": "critical facility counts not mapped for this location",
+        }
+    else:
+        total = (facilities or 0) + (power or 0)
+        per_km2 = round(total / area_km2, 2)
+        models["critical_infrastructure"] = {
+            "status": "ok",
+            "inputs": {"critical_facilities": facilities,
+                       "power_facilities": power,
+                       "area_km2": round(area_km2, 2)},
+            "methodology": "(hospitals + schools + fire stations + power "
+                           "facilities) per km²; bands as exposure "
+                           "concentration",
+            "output": {"critical_per_km2": per_km2, "band": _band(per_km2)},
+            "confidence": Confidence.MEDIUM.value,
+            "limitations": OSM_COMPLETENESS_CAVEAT +
+                " Sector-specific inventories are not integrated.",
+        }
+
+    # 3 · Economic activity profile (which sectors show material presence)
+    sectors_present = []
+    ag = categories.get("agriculture") or {}
+    if ag.get("status") == "mapped" and (ag.get("cropland_fraction") or 0) >= 0.1:
+        sectors_present.append({
+            "sector": "agriculture",
+            "basis": f"cropland fraction {ag['cropland_fraction']:.2f} "
+                     "(ESA WorldCover)"})
+    built = categories.get("built_up") or {}
+    if built.get("status") == "mapped" and (built.get("built_up_fraction") or 0) >= 0.1:
+        sectors_present.append({
+            "sector": "urban/built-up",
+            "basis": f"built-up fraction {built['built_up_fraction']:.2f} "
+                     "(ESA WorldCover)"})
+    tourism = _count(categories.get("tourism") or {})
+    if tourism is not None and tourism >= 5:
+        sectors_present.append({"sector": "tourism",
+                                "basis": f"{int(tourism)} mapped tourism features (OSM)"})
+    industry = _count(categories.get("industry") or {})
+    if industry is not None and industry >= 1:
+        sectors_present.append({"sector": "industry",
+                                "basis": f"{int(industry)} mapped industrial areas (OSM)"})
+    models["economic_activity"] = {
+        "status": "ok",
+        "methodology": "sector presence flags from declared thresholds "
+                       "(cropland/built-up fraction ≥ 0.10; tourism ≥ 5 "
+                       "features; industry ≥ 1 area)",
+        "output": {"sectors_present": sectors_present},
+        "confidence": Confidence.MEDIUM.value,
+        "limitations": "Presence flags, not economic share; OSM/WorldCover "
+                       "completeness caveats apply.",
+    }
+
+    # 4 · Hazard × exposure intersection (only with a real hazard level)
+    level_label = None
+    if isinstance(hazard_context, dict):
+        level = hazard_context.get("level") or {}
+        level_label = level.get("label") or hazard_context.get("class")
+    rank = _HAZARD_RANK.get(level_label or "", None)
+    exposure_band = (models.get("exposure_concentration") or {}).get(
+        "output", {}).get("band")
+    if rank is None or not exposure_band:
+        models["hazard_exposure"] = {
+            "status": "not_computed",
+            "reason": "no hazard level was supplied (pass hazard=…) or "
+                      "exposure is unmapped — the intersection is not "
+                      "invented.",
+        }
+    else:
+        concern = "elevated" if (rank >= 3 and exposure_band == "dense") else \
+                  "moderate" if (rank >= 3 or exposure_band == "dense") else \
+                  "standard"
+        models["hazard_exposure"] = {
+            "status": "ok",
+            "inputs": {"hazard_level": level_label,
+                       "exposure_band": exposure_band},
+            "methodology": "declared screening rule: hazard rank (from the "
+                           "hazard module's level) × exposure concentration "
+                           "band → concern class (elevated / moderate / "
+                           "standard)",
+            "output": {"concern": concern},
+            "confidence": Confidence.LOW.value,
+            "limitations": "Screening heuristic — not a validated risk "
+                           "estimate; both inputs carry their own caveats.",
+        }
+
+    # 5 · Resilience priority (declared rule over the above)
+    if rank is None and not exposure_band:
+        models["resilience_priority"] = {
+            "status": "not_computed",
+            "reason": "requires a hazard level or a mapped exposure "
+                      "concentration",
+        }
+    else:
+        score = (rank or 0) + {"sparse": 0, "moderate": 1, "dense": 2}.get(
+            exposure_band, 0)
+        priority = "high" if score >= 5 else "moderate" if score >= 3 else "standard"
+        models["resilience_priority"] = {
+            "status": "ok",
+            "methodology": "declared rule: hazard rank (0-4) + exposure band "
+                           "(sparse 0 / moderate 1 / dense 2); high ≥ 5, "
+                           "moderate ≥ 3, else standard",
+            "output": {"priority": priority, "score": score},
+            "confidence": Confidence.LOW.value,
+            "limitations": "Prioritization heuristic for screening only; "
+                           "local expert assessment is required.",
+        }
+
+    # 6 · Evidence completeness (how much of the profile is real)
+    total = len(categories)
+    mapped = sum(1 for c in categories.values()
+                 if c.get("status") in ("mapped", "proxy"))
+    models["evidence_completeness"] = {
+        "status": "ok",
+        "inputs": {"categories": total, "mapped": mapped},
+        "methodology": "mapped or proxy categories / total categories",
+        "output": {"fraction": round(mapped / total, 2) if total else 0.0,
+                   "mapped": mapped, "total": total},
+        "confidence": Confidence.HIGH.value if total and mapped / total >= 0.7
+                      else Confidence.MEDIUM.value,
+        "limitations": "Completeness of the profile, not of the real world; "
+                       "unmapped categories are stated, not filled.",
+    }
+
+    return models

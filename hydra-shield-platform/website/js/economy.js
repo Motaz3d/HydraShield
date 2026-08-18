@@ -120,6 +120,44 @@
 
         var html = '';
 
+        // ---- HydraShield analytical models (the interpretation layer) -----
+        var models = body.analytical_models || {};
+        var modelKeys = Object.keys(models);
+        if (modelKeys.length) {
+            html += '<div class="panel" style="border-left:4px solid var(--primary);">' +
+                '<h2>HydraShield analytical models</h2>' +
+                '<p class="muted small">The platform\'s structured interpretation — ' +
+                'declared screening heuristics over the real inputs, never invented ' +
+                'values.</p>' +
+                '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>Model</th><th>Output</th><th>Basis / methodology</th>' +
+                '<th>Confidence</th></tr></thead><tbody>' +
+                modelKeys.map(function (key) {
+                    var m = models[key];
+                    var output = '—', basis = '';
+                    if (m.status === 'ok' && m.output) {
+                        output = Object.keys(m.output).map(function (k) {
+                            var v = m.output[k];
+                            if (Array.isArray(v)) {
+                                return v.map(function (s) {
+                                    return s.sector ? (s.sector + ' (' + s.basis + ')')
+                                                    : JSON.stringify(s);
+                                }).join('; ');
+                            }
+                            return k.replace(/_/g, ' ') + ': ' + v;
+                        }).join(' · ');
+                        basis = m.methodology || '';
+                    } else {
+                        output = m.status || 'unavailable';
+                        basis = m.reason || '';
+                    }
+                    return '<tr><td>' + esc(key.replace(/_/g, ' ')) + '</td>' +
+                        '<td>' + esc(output) + '</td>' +
+                        '<td class="muted small">' + esc(basis) + '</td>' +
+                        '<td>' + esc(m.confidence || '—') + '</td></tr>';
+                }).join('') + '</tbody></table></div></div>';
+        }
+
         // ---- Exposure categories ------------------------------------------
         var categories = body.exposure || {};
         if (Object.keys(categories).length) {
