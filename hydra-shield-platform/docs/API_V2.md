@@ -498,6 +498,23 @@ users' data.
 
 ---
 
+## 7a. Product analytics (first-party)
+
+`POST /api/v2/analytics/event` — public, 60/min per IP, returns 202.
+First-party, privacy-conscious product events (docs/PRODUCT_ANALYTICS.md
+is normative): whitelisted event names only, unknown fields dropped, no
+identity accepted, coordinates rounded to ~11 km, session pseudonyms
+stored as HMAC hashes. Single event object or `{"events": [...]}`
+(max 20).
+
+Admin aggregates — `admin` tier required, aggregate counts only:
+
+- `GET /api/v2/admin/analytics/summary` — totals, by-event counts, funnel
+- `GET /api/v2/admin/analytics/top?dimension=page|hazard|referrer|feature&limit=N`
+- `GET /api/v2/admin/analytics/daily?days=N` (max 90)
+
+---
+
 ## 8. Versioning policy
 
 - `/api/v2/…` is stable: new fields and new endpoints may be added;
