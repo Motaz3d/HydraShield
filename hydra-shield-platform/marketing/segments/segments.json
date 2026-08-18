@@ -451,9 +451,10 @@
     },
     "municipalities": {
       "pain_points": [
-        "civil protection needs current + historical hazard intelligence per territory",
+        "territorial risk decisions need defensible evidence",
         "residents must be warned on meaningful change",
-        "adaptation grants require evidence"
+        "adaptation funding requires documented projects",
+        "infrastructure planning needs hazard context"
       ],
       "relevant_hazards": [
         "wildfire",
@@ -476,13 +477,16 @@
         "Infrastructure Director"
       ],
       "content_topics": [
-        "multi-hazard intelligence for municipalities",
-        "alerts that reach people"
+        "territorial risk evidence",
+        "alerts that reach duty officers",
+        "funding adaptation projects",
+        "evidence you can show a council"
       ],
-      "offer": "municipal monitoring pilot (free tier exists)",
-      "cta": "Monitor your municipality",
+      "offer": "territory analysis + monitoring pilot (free tier exists; organization tier for multiple places and recipients)",
+      "cta": "Analyze your territory \u2014 then monitor it",
       "outreach_style": "public-service, non-commercial tone",
-      "evidence_requirements": "official sources; population data vintage stated"
+      "evidence_requirements": "official sources; population data vintage stated",
+      "journey": "territorial risk \u2192 exposure \u2192 economy \u2192 solutions \u2192 funding \u2192 monitoring (for-government.html)"
     },
     "governments": {
       "pain_points": [
@@ -509,12 +513,14 @@
       ],
       "content_topics": [
         "evidence infrastructure for policy",
+        "multi-hazard territorial intelligence",
         "European data sources in one place"
       ],
-      "offer": "agency briefing + pilot",
+      "offer": "agency briefing + territory pilot; organization tier for multi-location monitoring",
       "cta": "Request a briefing",
       "outreach_style": "formal, institutional",
-      "evidence_requirements": "primary institutional sources only"
+      "evidence_requirements": "primary institutional sources only",
+      "journey": "territorial risk \u2192 exposure \u2192 economy \u2192 solutions \u2192 funding \u2192 monitoring (for-government.html)"
     },
     "research_centers": {
       "pain_points": [

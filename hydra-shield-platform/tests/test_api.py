@@ -204,3 +204,22 @@ def test_geocode_endpoint_contract(client, monkeypatch):
     monkeypatch.setattr(real_data, "geocode_location",
                         lambda q: {"error": "Location not found"})
     assert client.get("/api/geocode?location=zzz").status_code == 404
+
+
+def test_government_page_has_public_sector_journey():
+    """for-government.html carries the full public-sector journey and the
+    subscription path — territorial risk → exposure → economy → solutions
+    → funding → monitoring, with CTAs and no invented pricing."""
+    import os as _os
+    html = open(_os.path.join(_os.path.dirname(__file__), "..", "website",
+                              "for-government.html"), encoding="utf-8").read()
+    for step in ("Territorial risk", "exposed", "Economic exposure",
+                 "Resilience solutions", "Funding programmes",
+                 "Continuous monitoring"):
+        assert step in html, step
+    for cta in ("Analyze your territory", "Create a free account",
+                "Enable alerts", "contact"):
+        assert cta.lower() in html.lower(), cta
+    # Government roles are named; no pricing is invented.
+    assert "Municipal resilience officers" in html
+    assert "€" not in html
