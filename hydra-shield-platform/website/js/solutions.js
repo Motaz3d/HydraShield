@@ -3,11 +3,13 @@
  * Location + caller-selected hazards of interest →
  *   GET /api/v2/solutions?lat&lon&hazards=wildfire,drought
  *
- * Renders recommendations_by_hazard as grouped solution cards: name,
- * class chips, why_it_fits, expected benefit (mechanism + quantified
- * flag), limitations, complexity / maintenance / maturity, sources, and
- * the no-guarantee disclaimer visibly repeated per card. The
- * insufficient_data block is shown when present.
+ * Renders the inferred site-sector context (declared inference), solution
+ * PACKAGES (combinations that fit, with why_together and the no-guarantee
+ * disclaimer), and recommendations_by_hazard as grouped solution cards:
+ * name, class chips, fit band, why_it_fits, expected benefit (mechanism +
+ * quantified flag), limitations, complexity / maintenance / maturity,
+ * economic sectors, sources, and the no-guarantee disclaimer visibly
+ * repeated per card. The insufficient_data block is shown when present.
  *
  * Endpoints used:
  *   GET /api/v2/hazards            (hazard checkboxes)
@@ -109,6 +111,38 @@
 
         var html = '';
 
+        // Inferred site-sector context (declared inference, never measured).
+        if (body.site_sectors && body.site_sectors.length) {
+            html += '<p class="muted small">Inferred site context (from mapped land cover / OSM counts): ' +
+                body.site_sectors.map(function (s) {
+                    return '<span title="' + esc(s.basis) + '">' + esc(s.sector.replace(/_/g, ' ')) + '</span>';
+                }).join(' · ') + '</p>';
+        }
+
+        // Solution packages — combinations that fit this site (>= 2 components).
+        var packages = body.packages || [];
+        if (packages.length) {
+            html += '<div class="panel"><h2>Solution packages for this place</h2>' +
+                packages.map(function (p) {
+                    return '<div class="sub-block">' +
+                        '<div class="sub-block-title" style="color:var(--dark);">' + esc(p.name) +
+                        ' <span class="muted small">(' + esc(p.hazard) + ')</span></div>' +
+                        '<p class="muted" style="margin:0 0 6px;">' + esc(p.why_together) + '</p>' +
+                        '<div class="badge-row">' + p.components.map(function (c) {
+                            return '<span class="chip chip-observed">' + esc(c.name) +
+                                ' — fit: ' + esc(c.fit_band) + '</span>';
+                        }).join('') + '</div>' +
+                        (p.excluded_components && p.excluded_components.length
+                            ? '<div class="muted small" style="margin-top:6px;">Not fitted here: ' +
+                              p.excluded_components.map(function (c) {
+                                  return esc(c.solution_id.replace(/_/g, ' '));
+                              }).join(', ') + ' (site conditions did not match)</div>'
+                            : '') +
+                        '<div class="disclaimer-box" style="margin-top:8px;">' + esc(p.guarantee_disclaimer) + '</div>' +
+                        '</div>';
+                }).join('') + '</div>';
+        }
+
         // Grouped solution cards.
         hazardIds.forEach(function (hid) {
             var list = byHazard[hid];
@@ -173,9 +207,12 @@
 
         // Fit + confidence.
         var meta = [];
-        if (fit.conditions_matched !== undefined && fit.conditions_relevant) {
-            meta.push('Site-fit: ' + fit.conditions_matched + '/' + fit.conditions_relevant +
-                ' declared conditions verified');
+        if (s.fit_band) {
+            meta.push('Fit: ' + s.fit_band.replace(/_/g, ' ') +
+                (fit.conditions_relevant
+                    ? ' (' + fit.conditions_matched + '/' + fit.conditions_relevant +
+                      ' declared conditions verified)'
+                    : ''));
         }
         if (s.data_confidence) meta.push('Data confidence: ' + s.data_confidence);
         if (s.implementation_complexity) meta.push('Complexity: ' + s.implementation_complexity);
@@ -184,6 +221,12 @@
         if (s.cost_basis) meta.push('Cost basis: ' + s.cost_basis);
         if (meta.length) {
             html += '<div class="muted small">' + meta.map(esc).join(' · ') + '</div>';
+        }
+
+        if (s.economic_sectors && s.economic_sectors.length) {
+            html += '<div class="badge-row">' + s.economic_sectors.map(function (sec) {
+                return '<span class="chip chip-inferred">' + esc(sec.replace(/_/g, ' ')) + '</span>';
+            }).join('') + '</div>';
         }
 
         if (s.limitations && s.limitations.length) {

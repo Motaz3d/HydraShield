@@ -27,6 +27,12 @@ site value is present and VIOLATES a hard constraint (climate zone,
 elevation range, land cover, water, urban presence) excludes the solution
 for that hazard.
 
+``fit_band`` is a declared label over the score: ``high`` when every
+declared condition was verified as matched (score >= 0.99), ``moderate``
+for score >= 0.5, ``low`` below that, and ``hazard_match_only`` when the
+entry declares no site conditions at all (relevant == 0 — nothing was
+verified beyond the hazard gate).
+
 The module performs no network I/O; site assembly lives in the API layer.
 """
 
@@ -44,6 +50,26 @@ _DEFAULT_KB = os.path.join(
 )
 
 GUARANTEE_DISCLAIMER = "No solution guarantees prevention of an event."
+
+#: Declared fit-band thresholds over fit_score (see module docstring).
+FIT_BANDS = {"high": 0.99, "moderate": 0.5}
+
+#: Declared future monetary fields (docs/SOLUTIONS_INTELLIGENCE.md §5).
+#: Every one is "not_quantified" until a documented value with method,
+#: assumptions and source exists. Never fabricate ROI.
+RESILIENCE_ECONOMICS = {
+    "status": "not_quantified",
+    "fields": {
+        "adaptation_cost": "not_quantified",
+        "avoided_loss": "not_quantified",
+        "resilience_investment": "not_quantified",
+        "maintenance_cost": "not_quantified",
+        "business_interruption_reduction": "not_quantified",
+    },
+    "rule": "Any future monetary value must carry a documented source, "
+            "method, assumptions, currency, year and uncertainty — "
+            "otherwise the field stays 'not_quantified'.",
+}
 
 INSUFFICIENT_DATA_MESSAGE = (
     "Site data is insufficient to fit solutions reliably; see missing_inputs "
@@ -241,6 +267,17 @@ def _data_confidence(relevant: int, unverified: int) -> str:
             else Confidence.LOW.value)
 
 
+def _fit_band(fit_score: float, relevant: int) -> str:
+    """Declared label over the score (see module docstring)."""
+    if relevant == 0:
+        return "hazard_match_only"
+    if fit_score >= FIT_BANDS["high"]:
+        return "high"
+    if fit_score >= FIT_BANDS["moderate"]:
+        return "moderate"
+    return "low"
+
+
 def _solution_output(
     entry: Dict,
     hazard: Dict,
@@ -272,8 +309,10 @@ def _solution_output(
         "name": entry["name"],
         "classes": entry.get("classes") or [],
         "hazards_addressed": entry.get("hazards_addressed") or [],
+        "economic_sectors": entry.get("economic_sectors") or [],
         "why_it_fits": why_it_fits,
         "fit_score": fit_score,
+        "fit_band": _fit_band(fit_score, relevant),
         "fit": {
             "scoring": "conditions_matched / conditions_relevant",
             "conditions_matched": matched,
@@ -293,6 +332,8 @@ def _solution_output(
         "environmental_considerations": entry.get("environmental_considerations") or [],
         "technology_maturity": entry.get("technology_maturity"),
         "cost_basis": entry.get("cost_basis", "not quantified"),
+        "knowledge_confidence": entry.get("confidence", "medium"),
+        "quantification_status": entry.get("quantification_status", "not_quantified"),
         "data_confidence": _data_confidence(relevant, len(unverified)),
         "sources": entry.get("sources") or [],
         "guarantee_disclaimer": GUARANTEE_DISCLAIMER,
@@ -310,6 +351,89 @@ def _normalise_hazards(site: Dict) -> List[Dict]:
         elif isinstance(h, str):
             out.append({"id": h})
     return out
+
+
+def infer_site_sectors(site: Dict) -> List[Dict[str, str]]:
+    """Declared inference of possibly-affected economic sectors from real
+    site signals (mapped land cover / OSM counts). Each entry states its
+    basis — this is INFERRED context, never a measured exposure.
+    """
+    sectors: List[Dict[str, str]] = []
+
+    def _add(sector: str, basis: str) -> None:
+        if not any(s["sector"] == sector for s in sectors):
+            sectors.append({"sector": sector, "basis": basis,
+                            "status": "inferred"})
+
+    classes = site.get("landcover_classes") or []
+    if "Cropland" in classes:
+        _add("agriculture", "'Cropland' present in ESA WorldCover classes")
+    if "Built-up" in classes:
+        _add("population_municipal",
+             "'Built-up' land cover present in ESA WorldCover classes")
+        _add("real_estate_construction",
+             "'Built-up' land cover present in ESA WorldCover classes")
+    try:
+        buildings = int(site.get("buildings_count"))
+    except (TypeError, ValueError):
+        buildings = 0
+    if buildings >= _URBAN_BUILDINGS_THRESHOLD:
+        _add("population_municipal",
+             f"{buildings} buildings mapped within the analysis window (OSM)")
+        _add("critical_facilities",
+             "urban context — critical-facility presence likely but not "
+             "verified here (see /api/v2/economy for mapped facilities)")
+    try:
+        water = int(site.get("water_features_count"))
+    except (TypeError, ValueError):
+        water = 0
+    if water > 0:
+        _add("water_utilities",
+             f"{water} water features mapped within the analysis window (OSM)")
+    return sectors
+
+
+def build_packages(kb: Dict, by_hazard: Dict[str, List[Dict]]) -> List[Dict[str, Any]]:
+    """Assemble declared solution packages (KB ``solution_packages``) from
+    the per-hazard fitted recommendations.
+
+    A package is offered when at least two of its components passed the
+    hazard gate and applicability checks for this site. Components that did
+    not fit are listed with the honest reason. The package explains *why
+    the combination is useful* — never that prevention is guaranteed.
+    """
+    packages: List[Dict[str, Any]] = []
+    for pkg in kb.get("solution_packages") or []:
+        hazard = str(pkg.get("hazard") or "").lower()
+        fitted = {s["solution_id"]: s for s in by_hazard.get(hazard, [])}
+        included, excluded = [], []
+        for sid in pkg.get("components") or []:
+            if sid in fitted:
+                included.append({
+                    "solution_id": sid,
+                    "name": fitted[sid]["name"],
+                    "fit_band": fitted[sid]["fit_band"],
+                    "fit_score": fitted[sid]["fit_score"],
+                })
+            else:
+                excluded.append({
+                    "solution_id": sid,
+                    "reason": "did not pass the hazard gate or the site's "
+                              "applicability conditions (see per-hazard "
+                              "recommendations for detail)",
+                })
+        if len(included) < 2:
+            continue
+        packages.append({
+            "package_id": pkg["package_id"],
+            "hazard": hazard,
+            "name": pkg.get("name"),
+            "why_together": pkg.get("why_together"),
+            "components": included,
+            "excluded_components": excluded,
+            "guarantee_disclaimer": GUARANTEE_DISCLAIMER,
+        })
+    return packages
 
 
 def recommend_solutions(
@@ -396,7 +520,10 @@ def recommend_solutions(
     return {
         "status": "ok",
         "site": site,
+        "site_sectors": infer_site_sectors(site),
         "recommendations_by_hazard": by_hazard,
+        "packages": build_packages(kb, by_hazard),
+        "resilience_economics": RESILIENCE_ECONOMICS,
         "insufficient_data": insufficient,
         "guarantee_disclaimer": GUARANTEE_DISCLAIMER,
         "provenance": {
@@ -409,6 +536,8 @@ def recommend_solutions(
             "limitations": "Fit scoring is a declared screening heuristic "
                            "(conditions matched / conditions relevant), not "
                            "a validated performance estimate; costs and "
-                           "benefits are not quantified.",
+                           "benefits are not quantified; inferred site "
+                           "sectors are labelled context, not measured "
+                           "exposure.",
         },
     }

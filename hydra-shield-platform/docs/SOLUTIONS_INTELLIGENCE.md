@@ -52,8 +52,13 @@ Each recommended solution carries:
   "maintenance": "low-medium; periodic vegetation management",
   "environmental_considerations": ["habitat gain", "water-table effects to assess"],
   "technology_maturity": "established practice",
+  "economic_sectors": ["population_municipal", "agriculture", "insurance_finance"],
+  "fit_score": 1.0,
+  "fit_band": "high",
+  "knowledge_confidence": "high",
+  "quantification_status": "not_quantified",
   "data_confidence": "medium",
-  "sources": [{"name": "…", "url": "…", "class": "SCIENTIFIC|OPEN_DATA_OFFICIAL"}],
+  "sources": [{"name": "…", "url": "…", "class": "SCIENTIFIC|OPEN_DATA_OFFICIAL", "accessed": "YYYY-MM-DD"}],
   "guarantee_disclaimer": "No solution guarantees prevention of an event."
 }
 ```
@@ -65,10 +70,46 @@ Rules:
 - `expected_benefit.quantified` is `true` only when a documented,
   source-bound quantification exists; otherwise the mechanism is
   qualitative and says so.
+- `fit_band` is a declared label over the explainable `fit_score`
+  (conditions matched / conditions relevant): `high` ≥ 0.99, `moderate`
+  ≥ 0.5, `low` below, and `hazard_match_only` when the entry declares no
+  site conditions (nothing was verified beyond the hazard gate).
+- `economic_sectors` names the sectors the solution class serves
+  (population/municipal, agriculture, energy, transport/logistics,
+  ports/maritime, real estate/construction, insurance/finance, critical
+  facilities, water utilities, forestry, tourism, industry/manufacturing).
 - Every solution states limitations. Every output repeats the no-guarantee
   disclaimer.
 - Where site data is insufficient → explicit `insufficient_data` path with
   what is missing (existing ecology pattern).
+
+## 3a. Solution packages
+
+The KB declares per-hazard **solution packages** (`solution_packages`) —
+combinations whose components address different stages or scales of the
+same problem (e.g. flood: early warning + retention + wetland restoration
++ urban drainage + hazard-aware siting). The engine offers a package only
+when **at least two components actually fit the site**; unfitted
+components are listed with the honest reason. Every package carries
+`why_together` (why the combination is useful) and the no-guarantee
+disclaimer. Packages never claim prevention.
+
+## 3b. Resilience economics (architecture, all not-quantified today)
+
+The response carries a `resilience_economics` block with the declared
+future monetary fields — `adaptation_cost`, `avoided_loss`,
+`resilience_investment`, `maintenance_cost`,
+`business_interruption_reduction` — all `not_quantified`. The binding
+rule: any future monetary value must carry a documented source, method,
+assumptions, currency, year and uncertainty; otherwise the field stays
+`not_quantified`. ROI is never fabricated.
+
+## 3c. Inferred site sectors
+
+The response carries `site_sectors`: sectors *inferred* from real site
+signals (e.g. `Cropland` in the ESA WorldCover window → agriculture; ≥ 20
+mapped buildings → municipal/real-estate context). Each entry states its
+basis and is labelled `inferred` — context, never measured exposure.
 
 ## 4. Knowledge base
 

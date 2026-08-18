@@ -265,10 +265,11 @@ def test_solutions_insufficient_data_without_hazards():
 # ---------------------------------------------------------------------------
 
 _REQUIRED_FIELDS = [
-    "solution_id", "name", "classes", "hazards_addressed", "applicability",
-    "mechanism", "limitations", "implementation_complexity", "maintenance",
-    "environmental_considerations", "technology_maturity", "cost_basis",
-    "quantified", "sources",
+    "solution_id", "name", "classes", "hazards_addressed", "economic_sectors",
+    "applicability", "mechanism", "limitations", "implementation_complexity",
+    "maintenance", "environmental_considerations", "technology_maturity",
+    "cost_basis", "quantified", "confidence", "quantification_status",
+    "sources",
 ]
 
 
@@ -287,9 +288,13 @@ def test_solutions_knowledge_base_is_valid():
         for h in e["hazards_addressed"]:
             HazardType(h)  # raises on an unregistered hazard
         assert e["limitations"], e["solution_id"]
+        assert e["economic_sectors"], e["solution_id"]
+        assert e["confidence"] in ("high", "medium", "low")
+        assert e["quantification_status"] == "not_quantified"
         assert e["sources"], e["solution_id"]
         for src in e["sources"]:
             assert src["name"] and src["url"].startswith("http")
+            assert src.get("accessed"), (e["solution_id"], src["name"])
             EvidenceClass(src["class"])
         assert e["cost_basis"] == "not quantified"
         assert e["quantified"] is False
@@ -299,6 +304,99 @@ def test_solutions_knowledge_base_is_valid():
     assert all_hazards == {h.value for h in HazardType}
     all_classes = {c for e in entries for c in e["classes"]}
     assert all_classes == declared_classes
+
+
+def test_solution_packages_reference_valid_solutions():
+    """Every declared package references existing solutions and a
+    registered hazard, and explains why the combination is useful."""
+    kb = sol_module.load_solutions_knowledge()
+    packages = kb.get("solution_packages")
+    assert packages, "solution_packages must be declared in the KB"
+    ids = {e["solution_id"] for e in kb["solutions"]}
+    for pkg in packages:
+        HazardType(pkg["hazard"])
+        assert pkg["package_id"] and pkg["name"]
+        assert len(pkg["components"]) >= 2, pkg["package_id"]
+        for sid in pkg["components"]:
+            assert sid in ids, (pkg["package_id"], sid)
+        assert pkg.get("why_together"), pkg["package_id"]
+
+
+# ---------------------------------------------------------------------------
+# Fit bands, packages, sectors, resilience economics (Phase A)
+# ---------------------------------------------------------------------------
+
+
+def test_solutions_fit_bands_declared():
+    full = sol_module.recommend_solutions(_site_full())
+    seen = [s for sols in full["recommendations_by_hazard"].values() for s in sols]
+    assert seen
+    for s in seen:
+        assert s["fit_band"] in ("high", "moderate", "low", "hazard_match_only")
+        if s["fit"]["conditions_relevant"] == 0:
+            assert s["fit_band"] == "hazard_match_only", s["solution_id"]
+        elif s["fit_score"] >= 0.99:
+            assert s["fit_band"] == "high", s["solution_id"]
+    # A condition-free entry (water_conservation) must be honestly labelled.
+    drought = full["recommendations_by_hazard"]["drought"]
+    wc = next(s for s in drought if s["solution_id"] == "water_conservation")
+    assert wc["fit_band"] == "hazard_match_only"
+
+
+def test_solutions_packages_assemble_from_fitted_components():
+    out = sol_module.recommend_solutions(_site_full())
+    packages = {p["package_id"]: p for p in out["packages"]}
+    # The full site fits flood and drought components of both packages.
+    assert "flood_resilience_package" in packages
+    assert "drought_resilience_package" in packages
+    flood = packages["flood_resilience_package"]
+    assert flood["hazard"] == "flood"
+    assert len(flood["components"]) >= 2
+    assert flood["why_together"]
+    assert flood["guarantee_disclaimer"] == sol_module.GUARANTEE_DISCLAIMER
+    for comp in flood["components"]:
+        assert comp["fit_band"] and comp["name"]
+
+
+def test_solutions_package_requires_two_fitted_components():
+    """A package is offered only when at least two components actually fit
+    the site — a single match stays a plain recommendation."""
+    site = {
+        "lat": 40.0, "lon": -3.7,
+        "hazards": [{"id": "heat", "level": "High"}],
+        # buildings_count=0 excludes both urban-cooling components, leaving
+        # only heat_health_alerting — no package may be offered.
+        "buildings_count": 0,
+        "landcover_classes": ["Grassland"],
+    }
+    out = sol_module.recommend_solutions(site)
+    heat_pkgs = [p for p in out["packages"] if p["hazard"] == "heat"]
+    assert heat_pkgs == []
+    heat = out["recommendations_by_hazard"]["heat"]
+    assert [s["solution_id"] for s in heat] == ["heat_health_alerting"]
+
+
+def test_solutions_site_sectors_are_declared_inference():
+    out = sol_module.recommend_solutions(_site_full())
+    sectors = {s["sector"]: s for s in out["site_sectors"]}
+    # Cropland in the land-cover window → agriculture, with the basis stated.
+    assert sectors["agriculture"]["status"] == "inferred"
+    assert "'Cropland'" in sectors["agriculture"]["basis"]
+    # 12 water features → water_utilities; 5 buildings → no urban inference.
+    assert "water_utilities" in sectors
+    assert "population_municipal" not in sectors
+
+
+def test_solutions_resilience_economics_never_quantified():
+    out = sol_module.recommend_solutions(_site_full())
+    econ = out["resilience_economics"]
+    assert econ["status"] == "not_quantified"
+    assert set(econ["fields"]) == {
+        "adaptation_cost", "avoided_loss", "resilience_investment",
+        "maintenance_cost", "business_interruption_reduction",
+    }
+    assert all(v == "not_quantified" for v in econ["fields"].values())
+    assert "documented source" in econ["rule"]
 
 
 # ---------------------------------------------------------------------------
