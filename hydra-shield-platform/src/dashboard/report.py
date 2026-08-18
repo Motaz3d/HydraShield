@@ -182,6 +182,47 @@ def _metadata_table(analysis: Dict, report_type: str, loc: Dict) -> Table:
     return _kv_table(rows)
 
 
+def _bar_chart(title: str, pairs, note: str = ""):
+    """Horizontal bar chart for real count data (reportlab graphics).
+
+    ``pairs`` is a list of (label, value) from real analysis data. Returns
+    None when there is nothing meaningful to draw (fewer than 2 non-zero
+    values) — a chart is only rendered when it materially helps.
+    """
+    if not _HAS_REPORTLAB:
+        return None
+    data = [(str(l), float(v)) for l, v in (pairs or [])
+            if v is not None and float(v) > 0]
+    if len(data) < 2:
+        return None
+    from reportlab.graphics.shapes import Drawing, Rect, String
+
+    W, row_h = 460.0, 22.0
+    H = 30 + row_h * len(data) + 10
+    label_w = 130.0
+    max_v = max(v for _l, v in data) or 1.0
+    bar_w_max = W - label_w - 70
+
+    d = Drawing(W, H)
+    d.add(String(0, H - 12, title, fontName="Helvetica-Bold", fontSize=9,
+                 fillColor=_DARK))
+    y = H - 30
+    for label, value in data:
+        w = max(2.0, bar_w_max * value / max_v)
+        d.add(String(0, y + 3, label, fontName="Helvetica", fontSize=7.5,
+                     fillColor=_DARK))
+        d.add(Rect(label_w, y, w, row_h - 8,
+                   fillColor=_ACCENT, fillOpacity=0.75,
+                   strokeColor=None))
+        d.add(String(label_w + w + 5, y + 3, f"{value:,.0f}",
+                     fontName="Helvetica", fontSize=7.5, fillColor=_MUTED))
+        y -= row_h
+    if note:
+        d.add(String(0, 2, note, fontName="Helvetica", fontSize=7,
+                     fillColor=_MUTED))
+    return d
+
+
 def _fwi_chart(fwi_block: Dict):
     """Real FWI series line chart (reportlab graphics). None when no series."""
     series = (fwi_block or {}).get("series") or []
@@ -532,6 +573,31 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                              f"{_fmt(cf.get('fire_stations'), '', 0)}, power "
                              f"{_fmt(cf.get('power_facilities'), '', 0)} (OBSERVED)"])
             story.append(_kv_table(rows))
+            # Material graphics from the real population data: population by
+            # hazard class and the critical-facilities breakdown — only
+            # drawn when there are at least two non-zero values.
+            by_class = population.get("population_by_hazard_class") or {}
+            class_pairs = [(k, v) for k, v in by_class.items()
+                           if isinstance(v, (int, float)) and v > 0]
+            pop_chart = _bar_chart(
+                "Estimated population by hazard class "
+                f"({population.get('product') or 'population grid'}, "
+                f"ref {population.get('reference_year') or 'n/a'})",
+                class_pairs,
+                "Gridded estimates — not exact counts (MODELLED)")
+            if pop_chart is not None:
+                story.append(pop_chart)
+                story.append(Spacer(1, 6))
+            cf = population.get("critical_facilities")
+            if cf:
+                cf_pairs = [(k.replace("_", " "), v) for k, v in cf.items()
+                            if isinstance(v, (int, float)) and v > 0]
+                cf_chart = _bar_chart(
+                    "Mapped critical facilities (OpenStreetMap — counts are a "
+                    "lower bound)", cf_pairs, "OBSERVED, completeness varies")
+                if cf_chart is not None:
+                    story.append(cf_chart)
+                    story.append(Spacer(1, 6))
             # Mandatory honesty notes — population is a gridded estimate,
             # never an exact count, and is kept separate from the score.
             story.append(Paragraph(population.get("estimate_note") or "", _SM))

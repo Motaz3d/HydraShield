@@ -692,3 +692,22 @@ def test_pdf_report_without_solutions_omits_section():
     text = _pdf_text(report_module.build_report_pdf(
         _report_payload(), report_type="decision"))
     assert "Solutions & potential funding" not in text
+
+
+def test_pdf_report_population_charts_rendered_from_real_data():
+    """Population-by-hazard-class and critical-facilities bar charts render
+    when the real data carries them — and are omitted when it doesn't."""
+    pytest.importorskip("reportlab")
+    payload = _report_payload()
+    payload["population"]["population_by_hazard_class"] = {
+        "High": 4820, "Moderate": 1200}
+    text = _pdf_text(report_module.build_report_pdf(payload,
+                                                    report_type="decision"))
+    assert "Estimated population by hazard class" in text
+    assert "Mapped critical facilities" in text
+
+    # Without the breakdown, no chart title is rendered.
+    payload2 = _report_payload()
+    text2 = _pdf_text(report_module.build_report_pdf(payload2,
+                                                     report_type="decision"))
+    assert "Estimated population by hazard class" not in text2
