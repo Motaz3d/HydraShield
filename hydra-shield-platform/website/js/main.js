@@ -62,32 +62,56 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Contact form handling
+// Contact form → POST /api/v2/contact (the real delivery path: the message
+// reaches info@hydrashield.earth and the submitter gets an acknowledgement).
+// Only when the API cannot be reached do we fall back to a mailto draft.
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const organization = document.getElementById('organization').value;
+        const interest = document.getElementById('interest') ? document.getElementById('interest').value : '';
         const message = document.getElementById('message').value;
-        
-        // Build mailto link
-        const subject = encodeURIComponent(`Contact from ${name} - ${organization}`);
-        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nOrganization: ${organization}\n\nMessage:\n${message}`);
-        
-        window.location.href = `mailto:motaz3d@gmail.com?subject=${subject}&body=${body}`;
-        
-        // Show success message
-        const successMsg = document.createElement('div');
-        successMsg.className = 'form-success';
-        successMsg.textContent = 'Thank you! Your message has been prepared. Please check your email client to send.';
-        contactForm.appendChild(successMsg);
-        
-        setTimeout(() => {
-            successMsg.remove();
-            contactForm.reset();
-        }, 5000);
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+
+        const apiBase = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+            ? 'http://localhost:8051/api' : '/api';
+
+        function showStatus(kind, text) {
+            const el = document.createElement('div');
+            el.className = 'notice ' + (kind === 'success' ? 'notice-info' : 'notice-error');
+            el.style.marginTop = '12px';
+            el.textContent = text;
+            contactForm.appendChild(el);
+            setTimeout(() => el.remove(), 12000);
+        }
+
+        fetch(apiBase + '/v2/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, organization, interest, message })
+        }).then((res) => res.json().then((body) => ({ ok: res.ok, body })))
+            .then(({ ok, body }) => {
+                if (submitBtn) submitBtn.disabled = false;
+                if (ok) {
+                    showStatus('success', body.message || 'Thank you — your message has been received. We reply by email.');
+                    contactForm.reset();
+                } else {
+                    showStatus('error', body.error || 'Your message could not be sent. Please email info@hydrashield.earth directly.');
+                }
+            })
+            .catch(() => {
+                if (submitBtn) submitBtn.disabled = false;
+                // Network-level failure: honest fallback — open a mail draft.
+                const subject = encodeURIComponent(`Contact from ${name} - ${organization}`);
+                const bodyText = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nOrganization: ${organization}\nInterest: ${interest}\n\nMessage:\n${message}`);
+                window.location.href = `mailto:info@hydrashield.earth?subject=${subject}&body=${bodyText}`;
+                showStatus('error', 'The contact service could not be reached — a mail draft to info@hydrashield.earth was opened instead.');
+            });
     });
 }
 

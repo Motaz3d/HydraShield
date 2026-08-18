@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technology | HydraShield Earth Systems</title>
-    <meta name="description" content="HydraShield leverages Copernicus satellite data, ECMWF weather forecasts, and advanced AI to predict and prevent catastrophic wildfires.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <title>Technology | HydraShield — Climate Extreme Intelligence</title>
+    <meta name="description" content="How HydraShield works: real datasets, documented methods, per-component provenance and honest evidence labels for six climate hazards. Only integrated sources are claimed.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,8 +21,10 @@
                 <span class="pulse-dot"></span>
                 Technology
             </div>
-            <h1>Built on <span class="gradient-text">European Assets</span></h1>
-            <p>Leveraging the power of Copernicus, ECMWF, and advanced AI to create a comprehensive wildfire prevention platform.</p>
+            <h1>Real Data, <span class="gradient-text">Traceable Methods</span></h1>
+            <p>HydraShield computes climate-extreme intelligence from documented datasets
+               and published methods. Every component says what it rests on — and what it
+               does not know.</p>
         </div>
     </header>
 
@@ -55,7 +57,7 @@
                     <tr>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Copernicus C3S ERA5</a></b><br><small>via Open-Meteo archive</small></td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Historical daily weather reanalysis</td>
-                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Fire-danger history, "What changed?", validation features</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Climatologies, hazard history, "What changed?", validation features</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Daily, lag of several days</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">~11–25 km, daily</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled (reanalysis)</td>
@@ -63,15 +65,31 @@
                     <tr>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Open-Meteo forecast</a></b></td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Current &amp; forecast weather, soil moisture, daily fire-weather series</td>
-                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Canadian FWI computation, spread model inputs</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Canadian FWI computation, hazard screening inputs</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Hourly model output</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">~11 km grid</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled / Forecast</td>
                     </tr>
                     <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://open-meteo.com/en/docs/flood-api" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">GloFAS river discharge</a></b><br><small>Copernicus EMS/JRC, via Open-Meteo Flood API</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled river discharge, daily</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Flood screening: discharge vs climatology</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Daily nowcast</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">river network, from 1984</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://open-meteo.com/en/docs/marine-weather-api" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Ocean waves (ECMWF WAM)</a></b><br><small>via Open-Meteo Marine API</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Wave height, period and direction</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Coastal exposure screening</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Nowcast + short forecast</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">marine grid</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled</td>
+                    </tr>
+                    <tr>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://www.opentopodata.org/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">EU-DEM / SRTM</a></b><br><small>Copernicus/EEA &amp; NASA, via OpenTopoData</small></td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Elevation, slope, aspect</td>
-                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Terrain contribution to risk and spread</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Terrain contribution to risk, coastal low-elevation screening</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Static</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">25 m (Europe) / 90 m</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
@@ -79,7 +97,7 @@
                     <tr>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://esa-worldcover.org/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">ESA WorldCover</a></b></td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Global land-cover classes</td>
-                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Burnability assessment, fuel-model selection</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Burnability, built-up and cropland exposure</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Yearly product</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">10 m</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
@@ -93,9 +111,25 @@
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
                     </tr>
                     <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://hub.worldpop.org/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">WorldPop</a></b></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Gridded population estimates</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Population exposure per hazard class</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Yearly vintage</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">100 m grid</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Modelled estimate</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://ohsome.org/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">OpenStreetMap</a></b><br><small>via ohsome API; Overpass fallback</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Buildings, roads, critical facilities, land use</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Exposure counting — with completeness caveats</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Continuously updated</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">feature-level</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Reported (crowdsourced)</td>
+                    </tr>
+                    <tr>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b>Canadian FWI System</b><br><small>Van Wagner 1987</small></td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Fire-weather danger indices (FFMC/DMC/DC/ISI/BUI/FWI)</td>
-                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Anchor of the composite risk score</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Anchor of the wildfire screening score</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Computed daily from the sources above</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">daily</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Derived</td>
@@ -105,17 +139,22 @@
             <div class="content-grid" style="margin-top:2rem;">
                 <div class="content-card">
                     <h3>🧭 Candidate sources (not yet integrated)</h3>
-                    <p>These official European datasets are evaluated for integration but are <b>not</b> currently used — HydraShield does not claim their capabilities:</p>
+                    <p>These official datasets are evaluated for integration but are <b>not</b>
+                       currently used — HydraShield does not claim their capabilities:</p>
                     <ul>
-                        <li><b>EFFIS / GWIS</b> (Copernicus EMS, JRC) — European fire-danger maps &amp; burned-area perimeters; currently accessible as a view-only WMS, under evaluation for reference comparison</li>
+                        <li><b>EFFIS / GWIS</b> (Copernicus EMS, JRC) — European fire-danger maps &amp; burned-area perimeters; under evaluation for reference comparison</li>
                         <li><b>Copernicus Sentinel-1</b> — SAR moisture under cloud cover</li>
                         <li><b>Copernicus Sentinel-3</b> — land surface temperature</li>
-                        <li><b>Copernicus Data Space Ecosystem</b> — direct L2A access (currently via the public Earth Search STAC)</li>
+                        <li><b>GHSL</b> (JRC) — global settlement and built-up grids</li>
                     </ul>
                 </div>
                 <div class="content-card">
                     <h3>🔍 Provenance by design</h3>
-                    <p>Every analysis component is labelled <b>observed / derived / modelled / forecast / unavailable</b> with acquisition time, resolution and limitations.</p>
+                    <p>Every analysis component is labelled by claim status
+                       (<b>observed / documented / reported / modelled / inferred / unknown</b>)
+                       and temporal class (<b>observed / historical / forecast / modelled /
+                       projected / scenario</b>) with acquisition time, resolution and
+                       limitations.</p>
                     <ul>
                         <li>No simulated or randomised values</li>
                         <li>Unavailable sources are stated, never filled in</li>
@@ -126,86 +165,94 @@
         </div>
     </section>
 
-    <!-- AI & Modelling -->
+    <!-- Analysis & modelling -->
     <section class="section section-dark">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">AI & Modelling</span>
-                <h2 class="section-title">Advanced <span class="gradient-text">Prediction</span></h2>
-                <p class="section-subtitle">Combining machine learning with physics-based models for accurate fire prediction.</p>
+                <span class="section-tag">Analysis &amp; Modelling</span>
+                <h2 class="section-title">Screening Intelligence, <span class="gradient-text">Honestly Labelled</span></h2>
+                <p class="section-subtitle">
+                    HydraShield computes screening-level indicators from real data. We do not
+                    claim to predict disasters: levels are labelled as screening indicators
+                    until validated, and validation status is shown in every report.
+                </p>
             </div>
             <div class="content-grid">
                 <div class="content-card">
-                    <h3>🧠 Machine Learning</h3>
-                    <p>ML models trained on historical wildfire data to identify risk patterns and predict fire behavior.</p>
+                    <h3>📐 Published methods</h3>
+                    <p>Hazard screening uses documented systems and reanalysis climatologies
+                       — the Canadian FWI system for fire danger, percentile-versus-
+                       climatology screening for heat, wind, discharge and deficit.</p>
                     <ul>
-                        <li>Risk assessment models</li>
-                        <li>Fuel moisture prediction</li>
-                        <li>Fire spread probability</li>
-                        <li>Pattern recognition</li>
+                        <li>Method named with every indicator</li>
+                        <li>Baseline periods stated (e.g. 1991–2020)</li>
+                        <li>Declared simplifications documented</li>
                     </ul>
                 </div>
                 <div class="content-card">
-                    <h3>🔬 Physics-Based Models</h3>
-                    <p>Established landscape-scale wildfire spread models integrated with soil physics for accurate simulation.</p>
+                    <h3>🧪 Validation &amp; reproducibility</h3>
+                    <p>Analyses are recorded as content-hashed runs, verifiable against the
+                       same underlying bytes; benchmark and ground-truth registries track
+                       what has — and has not — been validated.</p>
                     <ul>
-                        <li>Fire propagation modelling</li>
-                        <li>Soil-to-fuel moisture transfer</li>
-                        <li>Capillary rise simulation</li>
-                        <li>Vadose-zone dynamics</li>
+                        <li>Per-run audit trail (<a href="/api/v2/analysis-runs" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">analysis-runs API</a>)</li>
+                        <li>Ground-truth and benchmark registries</li>
+                        <li>Validation status in every report</li>
                     </ul>
                 </div>
                 <div class="content-card">
-                    <h3>💧 Soil Physics</h3>
-                    <p>Modelling capillary moisture transfer in the vadose zone to predict fuel moisture content dynamics.</p>
+                    <h3>🧠 Machine learning (research track)</h3>
+                    <p>ML components (fuel-moisture estimation, ignition-likelihood
+                       indicator) are research-track components: their outputs are labelled
+                       as modelled/inferred indicators, never as observed fact.</p>
                     <ul>
-                        <li>Soil moisture retention curves</li>
-                        <li>Hydraulic conductivity</li>
-                        <li>Evapotranspiration modelling</li>
-                        <li>Subsurface water movement</li>
+                        <li>Labelled MODELLED or INFERRED</li>
+                        <li>No ML output presented as measurement</li>
+                        <li>Uncertainty stated with the estimate</li>
                     </ul>
                 </div>
                 <div class="content-card">
-                    <h3>🛡️ Digital Twin</h3>
-                    <p>A simulated environment that allows for scenario testing and dynamic protection-zone optimization.</p>
+                    <h3>🛡️ Scenario tools</h3>
+                    <p>What-if tools (e.g. smoke-transport scenarios, protection planning)
+                       compute declared scenarios from stated inputs — always labelled
+                       SCENARIO, never mixed with observations.</p>
                     <ul>
-                        <li>Real-time simulation</li>
-                        <li>Scenario testing</li>
-                        <li>Protection zone optimization</li>
-                        <li>Water resource management</li>
+                        <li>Inputs and assumptions shown</li>
+                        <li>SCENARIO temporal class enforced</li>
+                        <li>Human decision gate on any operational use</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- HPC Requirements -->
+    <!-- Engineering -->
     <section class="content-section">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Computing Power</span>
-                <h2 class="section-title">High-Performance <span class="gradient-text">Computing</span></h2>
-                <p class="section-subtitle">HydraShield requires significant computing power for complex Earth Observation and environmental modelling.</p>
+                <span class="section-tag">Engineering</span>
+                <h2 class="section-title">Built to be <span class="gradient-text">Checked</span></h2>
+                <p class="section-subtitle">
+                    The platform is a containerized, tested system: an offline test suite
+                    gates every deploy, the public API is documented, and the source and
+                    model registries are public.
+                </p>
             </div>
             <div class="content-grid">
                 <div class="content-card">
-                    <h3>🖥️ HPC Infrastructure</h3>
-                    <p>Access to European supercomputing resources for complex simulations and data processing.</p>
+                    <h3>⚙️ Platform</h3>
                     <ul>
-                        <li>MeluXina (Luxembourg)</li>
-                        <li>BRAIN++ (Sofia Tech Park)</li>
-                        <li>Teide-HPC (Canary Islands)</li>
-                        <li>CRS4 (Sardinia)</li>
+                        <li>REST API v2 — hazards, analysis, events, economy, solutions</li>
+                        <li>Python &amp; JavaScript SDKs; QGIS integration architecture</li>
+                        <li>Accounts, subscriptions, alerts, SMS + email delivery</li>
                     </ul>
                 </div>
                 <div class="content-card">
-                    <h3>☁️ Cloud Computing</h3>
-                    <p>Scalable cloud infrastructure for data processing, model training, and real-time deployment.</p>
+                    <h3>✅ Quality gates</h3>
                     <ul>
-                        <li>Distributed computing</li>
-                        <li>GPU acceleration for ML</li>
-                        <li>Real-time data processing</li>
-                        <li>Scalable deployment</li>
+                        <li>A fully offline test suite gates every production deploy</li>
+                        <li>Live real-data integration checks</li>
+                        <li>No-fake-data and secret scans in the release process</li>
                     </ul>
                 </div>
             </div>
@@ -216,10 +263,10 @@
     <section class="cta-section">
         <div class="container">
             <h2>Want to Learn More?</h2>
-            <p>Explore our roadmap or get in touch to discuss partnership opportunities.</p>
+            <p>Explore the roadmap, the source registry, or get in touch to discuss partnerships.</p>
             <div class="cta-actions">
                 <a href="roadmap.html" class="btn btn-light">View Roadmap</a>
-                <a href="contact.html" class="btn btn-outline-light">Contact Us</a>
+                <a href="/api/sources" class="btn btn-outline-light" target="_blank" rel="noopener">Source Registry</a>
             </div>
         </div>
     </section>

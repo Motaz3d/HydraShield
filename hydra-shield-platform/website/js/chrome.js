@@ -91,12 +91,13 @@
             '<div class="footer-contact"><h4>Evidence</h4>' +
             '<p><a href="/api/sources" target="_blank" rel="noopener">Data-source registry</a></p>' +
             '<p><a href="/api/v2/hazards" target="_blank" rel="noopener">Hazard registry (API)</a></p>' +
-            '<p><a href="mailto:motaz3d@gmail.com">motaz3d@gmail.com</a></p>' +
+            '<p><a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a></p>' +
             '</div>' +
             '</div>' +
             '<div class="footer-bottom">' +
             '<p>© 2026 HydraShield Earth Systems. All rights reserved.</p>' +
-            '<p>Evidence-labelled: OBSERVED · DOCUMENTED · REPORTED · MODELLED · INFERRED · UNKNOWN</p>' +
+            '<p>Evidence: OBSERVED · DOCUMENTED · REPORTED · MODELLED · INFERRED · UNKNOWN<br>' +
+            'Time: OBSERVED · HISTORICAL · FORECAST · MODELLED · PROJECTED · SCENARIO</p>' +
             '</div>' +
             '</div></footer>';
     }

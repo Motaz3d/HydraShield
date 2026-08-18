@@ -12,13 +12,14 @@ fit each exact place. The central promise:
 > extremes, their consequences, their economic meaning, and the actions that
 > can reduce exposure."
 
-The platform began as — and still fully includes — an integrated wildfire
-system combining DeepTech, AI/satellite data, and environmental protection
-via subsurface hydration barriers: an AI-driven Digital Twin that transforms
-Copernicus satellite data into actionable, water-optimized protection
-blueprints for communities at risk of catastrophic wildfires.
+The platform began as — and continues to develop as a clearly-labelled
+R&D track — a wildfire protection programme combining DeepTech,
+AI/satellite data, and environmental protection via subsurface hydration
+barriers. That programme is powered by the intelligence platform and
+claims no validated prevention capability (see `docs/PRODUCT_STORY.md`).
 
 **Product evolution docs** (read these first):
+`docs/PRODUCT_STORY.md` · `docs/STRATEGIC_EVOLUTION_PLAN.md` ·
 `docs/PRODUCT_VISION.md` · `docs/PLATFORM_ARCHITECTURE.md` ·
 `docs/CLIMATE_HAZARDS.md` · `docs/EVIDENCE_ARCHITECTURE.md` ·
 `docs/ECONOMIC_INTELLIGENCE.md` · `docs/FINANCIAL_INTELLIGENCE.md` ·

@@ -619,6 +619,8 @@ def contact():
     email = (data.get("email") or "").strip()
     message = (data.get("message") or "").strip()
     name = (data.get("name") or "").strip()[:200]
+    organization = (data.get("organization") or "").strip()[:200]
+    interest = (data.get("interest") or "").strip()[:100]
     if UserStore.validate_email(email):
         return _err("A valid email address is required", 400)
     if len(message) < 10:
@@ -632,7 +634,10 @@ def contact():
     mailer.send_mail(
         mailer.contact_inbox(),
         "contact_message",
-        {"name": name or "(no name given)", "email": email, "message": message},
+        {"name": name or "(no name given)", "email": email,
+         "organization": organization or "(not given)",
+         "interest": interest or "(not given)",
+         "message": message},
     )
     # The acknowledgement to the submitter intentionally does NOT echo the
     # message: quoting attacker-controlled content to arbitrary addresses

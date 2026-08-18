@@ -428,6 +428,20 @@ def test_contact_message_reaches_platform_inbox(client, env):
     assert "visitor2@example.org" in eml
 
 
+def test_contact_organization_and_interest_pass_through(client, env):
+    """The website form sends organization + interest; they must reach the
+    platform inbox (and be length-capped) — never dropped silently."""
+    resp = client.post("/api/v2/contact",
+                       json={"email": "org@example.org", "name": "Org",
+                             "organization": "Municipality of Test",
+                             "interest": "partnership",
+                             "message": "We want a pilot for our municipality."})
+    assert resp.status_code == 201
+    eml = _eml_text(env["outbox"], "contact_message")
+    assert "Municipality of Test" in eml
+    assert "partnership" in eml
+
+
 def test_contact_rate_limit_5_per_hour(client, env):
     payload = {"email": "rl@example.org",
                "message": "Rate limit probe message."}
