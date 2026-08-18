@@ -1,8 +1,9 @@
 /* HydraShield — per-hazard Climate Intelligence (intelligence.html).
  *
- * Tab strip of the registered hazards (GET /api/v2/hazards); a location
- * ("lat,lon" directly, or a place name geocoded via GET /api/analyze) is
- * analysed through GET /api/v2/analyze?hazard=<id>&lat&lon.
+ * Tab strip of the registered hazards (GET /api/v2/hazards — names,
+ * availability and official source links are rendered from the descriptor);
+ * a location ("lat,lon" directly, or a place name geocoded via
+ * GET /api/analyze) is analysed through GET /api/v2/analyze?hazard=<id>&lat&lon.
  *
  * Rendering is generic and data-driven: the HazardAnalysis level, summary,
  * blocks (key-value tables, daily-series tables wherever arrays of
@@ -70,10 +71,20 @@
         if (hazardId === 'wildfire') {
             note += ' For the full wildfire pipeline (spread scenarios, protection planning, reports) use the ';
         }
-        el('hazardNote').innerHTML = esc(note) +
+        var noteHtml = esc(note) +
             (hazardId === 'wildfire'
                 ? '<a class="text-link" href="dashboard.html">full wildfire analyzer →</a>'
                 : '');
+        // Official sources behind this hazard (from the registry descriptor —
+        // the same declarations the map layer panel shows).
+        if (h && h.sources && h.sources.length) {
+            noteHtml += '<span class="muted small" style="display:block;margin-top:6px;">Sources: ' +
+                h.sources.map(function (s) {
+                    return '<a class="text-link" href="' + esc(s.url) +
+                        '" target="_blank" rel="noopener">' + esc(s.name) + '</a>';
+                }).join(' · ') + '</span>';
+        }
+        el('hazardNote').innerHTML = noteHtml;
         el('analysisArea').innerHTML = '';
         el('statusArea').innerHTML = '';
         if (history.replaceState) history.replaceState(null, '', '#' + hazardId);

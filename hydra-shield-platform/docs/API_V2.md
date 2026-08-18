@@ -124,9 +124,15 @@ The hazard registry. No rate limit.
       "id": "wildfire",
       "name": "Wildfire",
       "tagline": "…",
+      "enabled": true,
       "analysis": {"available": true, "reason": null},
       "events": {"available": false, "reason": "NASA FIRMS key … not configured"},
-      "temporal_coverage": {"<dataset>": {"start": "2012", "end": "present"}}
+      "temporal_coverage": {"<dataset>": {"start": "2012", "end": "present"}},
+      "sources": [{"name": "NASA FIRMS (VIIRS/MODIS), …",
+                   "url": "https://firms.modaps.eosdis.nasa.gov/"}],
+      "provenance": {"module": "src.climate.hazards.wildfire.WildfireModule",
+                     "sources_declared_by": "…",
+                     "indicator_status": "…"}
     }
   ],
   "note": "A hazard is registered only when backed by a real, documented data source…"
@@ -134,7 +140,12 @@ The hazard registry. No rate limit.
 ```
 
 `temporal_coverage` is per-dataset and drives year selection — years are
-never hardcoded.
+never hardcoded. `enabled` is the registry state (a registered hazard is
+enabled by definition); per-capability runtime state lives under
+`analysis`/`events`. `sources` lists the official datasets behind the
+hazard (name + URL, de-duplicated from the same declarations the map layer
+panel shows); `provenance` states where the descriptor comes from and the
+screening-indicator status of the levels.
 
 ### `GET /api/v2/hazards/<hazard_id>`
 

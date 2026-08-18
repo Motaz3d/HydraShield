@@ -10,6 +10,7 @@ data). Percentile / spell-detection math is checked on synthetic series.
 
 import json
 import os
+import re
 from datetime import date, timedelta
 
 import pytest
@@ -659,6 +660,31 @@ def test_registry_lists_all_six_hazards():
         assert d["temporal_coverage"], module.id
 
 
+def test_registry_descriptors_carry_enabled_sources_provenance():
+    """The /api/v2/hazards descriptor contract: every registered hazard is
+    enabled, names its official sources (name + official https URL — the
+    same declarations the map layer panel shows) and states its provenance.
+    No source may appear without a URL, and no invented domains."""
+    for module in registry.all_modules():
+        d = module.descriptor()
+        assert d["enabled"] is True, module.id
+        assert d["sources"], f"{module.id}: at least one official source required"
+        for src in d["sources"]:
+            assert src["name"], module.id
+            assert re.match(r"^https://[a-z0-9.-]+\.[a-z]{2,}(/|$)", src["url"]), \
+                f"{module.id}: non-official source URL {src['url']!r}"
+        # De-duplicated by name, and consistent with the map-layer declarations.
+        names = [s["name"] for s in d["sources"]]
+        assert len(names) == len(set(names)), module.id
+        layer_pairs = {(l.get("source"), l.get("url"))
+                       for l in module.map_layers() if l.get("source") and l.get("url")}
+        assert {(s["name"], s["url"]) for s in d["sources"]} == layer_pairs, module.id
+        prov = d["provenance"]
+        assert prov["module"].endswith("Module"), module.id
+        assert prov["sources_declared_by"], module.id
+        assert "screening indicators" in prov["indicator_status"], module.id
+
+
 def test_new_hazard_map_layers_carry_source_resolution_status():
     for hazard_id in ("flood", "drought", "heat", "wind", "coastal"):
         layers = registry.get(hazard_id).map_layers()
@@ -689,6 +715,36 @@ def test_v2_hazards_lists_all_six(client):
     assert resp.status_code == 200
     ids = [h["id"] for h in resp.get_json()["hazards"]]
     assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind", "coastal"}
+
+
+def test_v2_hazards_descriptor_contract(client):
+    """Endpoint-level descriptor contract (Section: hazard registry):
+    HTTP 200 JSON, six hazards, and per hazard: id, name, enabled state,
+    analysis/events availability, temporal coverage, official sources with
+    URLs, and provenance."""
+    resp = client.get("/api/v2/hazards")
+    assert resp.status_code == 200
+    assert resp.content_type.startswith("application/json")
+    hazards = resp.get_json()["hazards"]
+    assert len(hazards) == 6
+    for h in hazards:
+        assert h["id"] and h["name"] and h["tagline"]
+        assert h["enabled"] is True
+        assert set(h["analysis"]) == {"available", "reason"}
+        assert set(h["events"]) == {"available", "reason"}
+        assert h["temporal_coverage"], h["id"]
+        assert h["sources"], h["id"]
+        for src in h["sources"]:
+            assert src["name"] and src["url"].startswith("https://"), h["id"]
+        prov = h["provenance"]
+        assert prov["module"] and prov["sources_declared_by"], h["id"]
+
+
+def test_v2_hazards_unknown_hazard_404(client):
+    resp = client.get("/api/v2/hazards/tsunami")
+    assert resp.status_code == 404
+    body = resp.get_json()
+    assert "error" in body and body["status"] == 404
 
 
 def test_v2_analyze_flood_with_mocked_fetchers(client, monkeypatch):

@@ -143,6 +143,22 @@ class HazardModule(ABC):
     def map_layers(self, **kw: Any) -> List[Dict[str, Any]]:
         return []
 
+    def sources(self) -> List[Dict[str, str]]:
+        """Official data sources behind this hazard — ``[{"name", "url"}]``.
+
+        Derived from the module's own map-layer declarations (the same
+        source/URL pairs the map UI shows), de-duplicated by name. Nothing
+        is invented: a source appears here only when the module declared it
+        with an official URL.
+        """
+        seen: List[Dict[str, str]] = []
+        for layer in self.map_layers():
+            name = layer.get("source")
+            url = layer.get("url")
+            if name and url and not any(s["name"] == name for s in seen):
+                seen.append({"name": name, "url": url})
+        return seen
+
     def descriptor(self) -> Dict[str, Any]:
         """Public descriptor for /api/v2/hazards."""
         available, reason = self.availability()
@@ -151,7 +167,24 @@ class HazardModule(ABC):
             "id": self.id,
             "name": self.name,
             "tagline": self.tagline,
+            # A module in the registry is enabled by definition — the
+            # registry only ever contains wired modules (registry._build);
+            # per-capability runtime state is reported under analysis/events.
+            "enabled": True,
             "analysis": {"available": available, "reason": reason},
             "events": {"available": events_ok, "reason": events_reason},
             "temporal_coverage": self.temporal_coverage(),
+            "sources": self.sources(),
+            "provenance": {
+                "module": f"{type(self).__module__}.{type(self).__name__}",
+                "sources_declared_by": (
+                    "the hazard module's map-layer declarations — the same "
+                    "source/URL pairs shown in the map layer panel"
+                ),
+                "indicator_status": (
+                    "Levels are screening indicators computed from the "
+                    "listed real datasets unless explicitly labelled "
+                    "validated (docs/EVIDENCE_ARCHITECTURE.md)."
+                ),
+            },
         }
