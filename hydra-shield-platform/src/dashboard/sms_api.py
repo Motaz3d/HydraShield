@@ -131,7 +131,21 @@ def get_preferences():
     store = NotifyStore()
     prefs = store.get_prefs(g.current_user["id"])
     phone = store.get_phone(g.current_user["id"])
-    return jsonify({"prefs": prefs, "phone": phone})
+    # Honest delivery state: the UI shows whether a real SMS provider is
+    # configured (True) or messages go to the safe dev outbox (False).
+    return jsonify({
+        "prefs": prefs,
+        "phone": phone,
+        "sms_delivery": {
+            "provider_configured": sms_module.sms_configured(),
+            "note": (
+                "Real SMS delivery is active."
+                if sms_module.sms_configured()
+                else "No SMS provider is configured — messages are written to "
+                     "the operator outbox, not delivered."
+            ),
+        },
+    })
 
 
 @sms_bp.patch("/alerts/preferences")

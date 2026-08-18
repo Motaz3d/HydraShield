@@ -314,6 +314,25 @@ def test_preferences_defaults_and_patch(client, env):
     assert resp.get_json()["prefs"]["quiet_hours"] is None
 
 
+def test_preferences_report_sms_delivery_state(client, env, monkeypatch):
+    """GET /alerts/preferences honestly reports whether a real SMS provider
+    is configured (outbox dev default → provider_configured False; an
+    HTTP provider with URL → True). No credentials are exposed."""
+    headers = _auth_headers(client, env)
+    resp = client.get("/api/v2/alerts/preferences", headers=headers)
+    assert resp.status_code == 200
+    delivery = resp.get_json()["sms_delivery"]
+    assert delivery["provider_configured"] is False
+    assert "outbox" in delivery["note"]
+    assert "SMS_API_KEY" not in resp.get_data(as_text=True)
+
+    monkeypatch.setenv("SMS_PROVIDER", "http")
+    monkeypatch.setenv("SMS_HTTP_URL", "https://sms-provider.example/api")
+    delivery = client.get("/api/v2/alerts/preferences",
+                          headers=headers).get_json()["sms_delivery"]
+    assert delivery["provider_configured"] is True
+
+
 def test_preferences_validation(client, env):
     headers = _auth_headers(client, env)
     resp = client.patch("/api/v2/alerts/preferences",

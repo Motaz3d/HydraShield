@@ -369,7 +369,7 @@
     // no rules. Verification codes are delivered by SMS only (dev: server
     // outbox) and never appear in API responses.
 
-    var smsState = { phone: null, prefs: null, rules: [], expanded: false };
+    var smsState = { phone: null, prefs: null, rules: [], expanded: false, delivery: null };
 
     function smsStatus(kind, msg) {
         el('smsStatus').innerHTML = msg
@@ -411,6 +411,7 @@
             }
             smsState.phone = res.body.phone || null;
             smsState.prefs = res.body.prefs || null;
+            smsState.delivery = res.body.sms_delivery || null;
             renderPhone();
             renderPrefs();
             renderSmsVisibility();
@@ -468,6 +469,13 @@
         el('prefQuietEnd').value = (p.quiet_hours && p.quiet_hours.end) || '';
         el('prefLang').value = p.language || 'en';
         el('prefMaxPerDay').value = p.max_per_day != null ? p.max_per_day : 10;
+        var d = smsState.delivery;
+        if (d) {
+            el('smsDeliveryNote').textContent = d.provider_configured
+                ? 'SMS delivery: a provider is configured — alerts are delivered as real SMS.'
+                : 'SMS delivery: no provider is configured yet — alerts and verification ' +
+                  'codes are written to the operator outbox, not delivered as SMS.';
+        }
     }
 
     // ---- Rules -----------------------------------------------------------
