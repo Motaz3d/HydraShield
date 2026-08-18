@@ -130,5 +130,23 @@
     }
 
     el('matchBtn').addEventListener('click', match);
+    // Location widget: resolving a place preselects the country when the
+    // geocoder's country name matches a dropdown option (never guessed).
+    if (window.HS && HS.location) {
+        HS.location.mount('locWidget', {
+            onResolve: function (loc) {
+                var parts = (loc.hierarchy || []).map(function (p) {
+                    return p.toLowerCase();
+                });
+                var sel = el('countrySel');
+                Array.prototype.forEach.call(sel.options, function (opt) {
+                    if (opt.value && opt.value.length === 2 &&
+                            parts.indexOf(opt.text.toLowerCase()) >= 0) {
+                        sel.value = opt.value;
+                    }
+                });
+            }
+        });
+    }
     loadHazards();
 })();

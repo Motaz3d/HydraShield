@@ -290,6 +290,7 @@
     function init() {
         loadHazards();
         el('searchBtn').addEventListener('click', search);
+        if (window.HS && HS.location) HS.location.enhance('locInput', 'locAssist');
         el('locInput').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') search();
         });

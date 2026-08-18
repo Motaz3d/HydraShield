@@ -91,13 +91,8 @@
                     return;
                 }
                 var loc = normalize(res, text);
-                out.innerHTML =
-                    '<div class="notice notice-info" style="text-align:left;">' +
-                    '<strong>' + esc(loc.name) + '</strong><br>' +
-                    '<span class="muted small">' +
-                    loc.lat.toFixed(4) + ', ' + loc.lon.toFixed(4) + ' · ' +
-                    esc(loc.precision) + ' · source: ' + esc(loc.source) +
-                    '</span></div>';
+                loc._input = text;
+                out.innerHTML = cardHTML(loc);
                 if (opts.mapLink !== false) {
                     document.getElementById(elId + '_map').href =
                         'map.html?location=' + encodeURIComponent(
@@ -116,6 +111,50 @@
         });
     }
 
+    function cardHTML(loc) {
+        return '<div class="notice notice-info" style="text-align:left;">' +
+            '<strong>' + esc(loc.name) + '</strong><br>' +
+            '<span class="muted small">' +
+            loc.lat.toFixed(4) + ', ' + loc.lon.toFixed(4) + ' · ' +
+            esc(loc.precision) + ' · source: ' + esc(loc.source) +
+            (loc.hierarchy && loc.hierarchy.length > 1
+                ? ' · ' + esc(loc.hierarchy.join(' › ')) : '') +
+            '</span></div>';
+    }
+
+    /* Enhance an existing location input (progressive UX without changing
+     * the page's own action flow): adds guidance, a resolution card and a
+     * map link beneath the input. The page keeps its own button; the
+     * canonical location object is delivered via opts.onResolve. */
+    function enhance(inputId, outId, opts) {
+        var input = document.getElementById(inputId);
+        var out = document.getElementById(outId);
+        if (!input || !out) return;
+        opts = opts || {};
+        out.innerHTML =
+            '<p class="muted small" style="margin:6px 0 0;">Search a city, ' +
+            'region or place — or paste lat,lon — or ' +
+            '<a class="text-link" id="' + outId + '_map" href="map.html">select on the map</a>.</p>' +
+            '<div id="' + outId + '_card"></div>';
+        var card = document.getElementById(outId + '_card');
+
+        function resolve() {
+            var text = input.value.trim();
+            if (!text) return;
+            HS.resolveLocation(text).then(function (res) {
+                if (!res.ok) return;  // the page's own flow reports errors
+                var loc = normalize(res, text);
+                loc._input = text;
+                card.innerHTML = cardHTML(loc);
+                document.getElementById(outId + '_map').href =
+                    'map.html?location=' + encodeURIComponent(
+                        loc.lat.toFixed(4) + ',' + loc.lon.toFixed(4));
+                if (opts.onResolve) opts.onResolve(loc);
+            }).catch(function () { /* page flow handles */ });
+        }
+        input.addEventListener('change', resolve);
+    }
+
     window.HS = window.HS || {};
-    window.HS.location = { mount: mount, normalize: normalize };
+    window.HS.location = { mount: mount, enhance: enhance, normalize: normalize };
 })();

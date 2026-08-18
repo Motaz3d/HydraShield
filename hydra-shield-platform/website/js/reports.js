@@ -59,6 +59,7 @@
     }
 
     function init() {
+        if (window.HS && HS.location) HS.location.enhance('locInput', 'locAssist');
         el('locInput').addEventListener('input', refresh);
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
