@@ -66,6 +66,7 @@
     function selectHazard(hazardId) {
         currentHazard = hazardId;
         renderTabs();
+        if (window.HS && HS.track) HS.track('hazard_selected', { hazard: hazardId });
         var h = hazards.filter(function (x) { return x.id === hazardId; })[0];
         var note = h ? (h.tagline || '') : '';
         if (hazardId === 'wildfire') {
@@ -153,6 +154,9 @@
 
         el('statusArea').innerHTML = '';
         var html = '';
+        if (window.HS && HS.track) HS.track('location_analyzed', {
+            hazard: a.hazard || currentHazard, lat: loc.lat, lon: loc.lon
+        });
 
         // ---- Level banner ------------------------------------------------
         var lvl = a.level;

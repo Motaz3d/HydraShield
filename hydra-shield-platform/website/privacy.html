@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy | HydraShield — Climate Extreme Intelligence</title>
+    <meta name="description" content="What HydraShield collects, what it never collects, and the controls you have: data minimisation, pseudonymous analytics, retention limits and deletion.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="about">
+    <div id="site-header"></div>
+
+    <header class="page-hero">
+        <div class="container page-hero-content">
+            <div class="hero-badge"><span class="pulse-dot"></span>Privacy</div>
+            <h1>Privacy, in <span class="gradient-text">Plain Language</span></h1>
+            <p>The same honesty discipline we apply to climate data applies to your data:
+               collect the minimum, say exactly what it is, and give you control.</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>📊 Product analytics (first-party only)</h3>
+                    <p>We record product usage events (for example: a page was viewed, a
+                       hazard was selected, a place was analyzed) to understand what is
+                       useful and what to build next.</p>
+                    <ul>
+                        <li><b>No third-party trackers</b> — events go only to our own API</li>
+                        <li><b>No cookies for analytics</b> — a random pseudonymous session
+                            id lives in your browser's local storage; we store only its
+                            cryptographic hash</li>
+                        <li><b>No IP addresses stored</b> in analytics</li>
+                        <li><b>Coarse location only</b> — coordinates are rounded to ~11 km
+                            before storage</li>
+                        <li><b>Do Not Track honoured</b> — with DNT enabled, nothing is sent</li>
+                        <li><b>Retention</b> — analytics events are kept at most 12 months</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>👤 Accounts &amp; alerts</h3>
+                    <p>If you register, we store your email address and, only if you add
+                       them, your saved locations, alert rules and phone number — to
+                       provide the service you asked for.</p>
+                    <ul>
+                        <li>Registration requires an explicit consent checkbox</li>
+                        <li>Passwords are stored only as salted hashes</li>
+                        <li>Phone numbers are used only for alerts you configure; SMS
+                            starts only after you verify the number yourself</li>
+                        <li>Alert history and delivery status are kept for auditability</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🚫 What we never do</h3>
+                    <ul>
+                        <li>No selling or sharing of personal data</li>
+                        <li>No marketing email without your explicit action</li>
+                        <li>No cross-site tracking, fingerprinting or advertising profiles</li>
+                        <li>No collection of sensitive personal characteristics</li>
+                        <li>No passwords, message contents or secrets in analytics</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>🧭 Your controls</h3>
+                    <ul>
+                        <li>Delete saved locations, alert rules and your phone number at
+                            any time in your account</li>
+                        <li>Stop all SMS alerts with one action</li>
+                        <li>Request account deletion by email</li>
+                        <li>Enable Do Not Track to opt out of analytics entirely</li>
+                    </ul>
+                    <p class="muted small">Contact: <a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a>.
+                    Technical detail: see docs/PRODUCT_ANALYTICS.md in the public repository.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="site-footer"></div>
+
+    <script src="js/chrome.js"></script>
+</body>
+</html>

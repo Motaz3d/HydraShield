@@ -929,6 +929,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(sms_bp)
 
+    # First-party product analytics ingest (/api/v2/analytics/event).
+    from .analytics import analytics_bp as product_analytics_bp
+
+    app.register_blueprint(product_analytics_bp)
+
     return app
 
 

@@ -36,6 +36,7 @@
         { href: 'applications.html', label: 'Applications' },
         { href: 'roadmap.html', label: 'Roadmap' },
         { href: 'story.html', label: 'Story' },
+        { href: 'privacy.html', label: 'Privacy' },
         { href: 'contact.html', label: 'Contact' }
     ];
 
@@ -135,6 +136,13 @@
         if (header) renderHeader(header);
         if (footer) renderFooter(footer);
         wire();
+        // First-party product analytics beacon (privacy-conscious; see
+        // js/analytics.js + docs/PRODUCT_ANALYTICS.md). Loaded here so every
+        // page gets it; honours Do Not Track.
+        var beacon = document.createElement('script');
+        beacon.src = 'js/analytics.js';
+        beacon.defer = true;
+        document.head.appendChild(beacon);
     }
 
     // chrome.js is included after the mount divs, so the DOM is ready.

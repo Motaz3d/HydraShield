@@ -60,6 +60,7 @@
 
     function initMap() {
         map = L.map('map').setView([50.45, 7.0], 7);
+        if (window.HS && HS.track) HS.track('map_opened');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -360,8 +361,11 @@
 
         infoBtn.addEventListener('click', function () { detail.hidden = !detail.hidden; });
         cb.addEventListener('change', function () {
-            if (cb.checked) enableLayer(rec);
-            else disableLayer(rec);
+            if (cb.checked) {
+                enableLayer(rec);
+                if (window.HS && HS.track) HS.track('map_layer_enabled',
+                    { feature: rec.spec.layer_id, hazard: rec.spec.group });
+            } else disableLayer(rec);
         });
 
         applyEvidenceFilter();

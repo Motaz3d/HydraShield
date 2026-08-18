@@ -94,6 +94,11 @@
 
         var byHazard = body.recommendations_by_hazard || {};
         var hazardIds = Object.keys(byHazard);
+        var totalMatches = hazardIds.reduce(function (n, h) { return n + byHazard[h].length; }, 0);
+        if (ok && totalMatches && window.HS && HS.track) {
+            HS.track('solution_viewed', { lat: loc.lat, lon: loc.lon,
+                feature: hazardIds.join(',') });
+        }
 
         var statusHtml = '';
         if (body.status === 'insufficient_data') {

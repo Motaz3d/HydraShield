@@ -40,6 +40,12 @@
             return '<a class="btn-action" href="' + esc(reportUrl(q, t.id)) +
                 '" target="_blank" rel="noopener">' + esc(t.label) + ' (PDF)</a>';
         }).join('');
+        actions.querySelectorAll('a').forEach(function (a, i) {
+            a.addEventListener('click', function () {
+                if (window.HS && HS.track) HS.track('report_generated',
+                    { feature: TYPES[i].id });
+            });
+        });
         status.textContent = 'Links open the live report endpoint in a new tab. ' +
             'Generation runs the real analysis and can take a minute on a first request; ' +
             'when data is unavailable the endpoint says so instead of rendering invented content.';

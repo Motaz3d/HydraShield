@@ -252,6 +252,18 @@ def verify():
         ip=request.remote_addr,
         user_agent=request.headers.get("User-Agent"),
     )
+    # Product analytics: account_created is recorded server-side — the only
+    # place an account id legitimately meets the event stream (docs/
+    # PRODUCT_ANALYTICS.md). Analytics failure must never break auth.
+    try:
+        from .analytics import AnalyticsStore
+
+        AnalyticsStore().record(
+            {"event": "account_created", "page": "account.html"},
+            user_id=user_id,
+        )
+    except Exception:  # noqa: BLE001 — analytics must never break auth
+        pass
     from . import mailer
 
     mailer.send_mail(

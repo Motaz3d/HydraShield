@@ -69,6 +69,7 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (window.HS && HS.track) HS.track('contact_started');
 
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
