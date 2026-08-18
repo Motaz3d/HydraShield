@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Intelligence | HydraShield</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="admin">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Operator Intelligence</h1>
+            <p class="page-lead">
+                Internal commercial + product intelligence. Admin access only;
+                aggregate counts, never individual visitors.
+            </p>
+
+            <div id="statusArea"></div>
+
+            <div id="adminView" class="hidden">
+                <h2 style="margin-bottom:10px;">Today</h2>
+                <div class="story-grid" id="todayCards" style="margin-bottom:26px;"></div>
+
+                <h2 style="margin-bottom:10px;">Demand (aggregate)</h2>
+                <div class="panel" id="demandBlock" style="margin-bottom:26px;"></div>
+
+                <h2 style="margin-bottom:10px;">Prospects</h2>
+                <div class="panel" id="prospectsBlock" style="margin-bottom:26px;"></div>
+
+                <h2 style="margin-bottom:10px;">Relationships</h2>
+                <div class="panel" id="relationshipsBlock"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/admin.js" defer></script>
+</body>
+</html>

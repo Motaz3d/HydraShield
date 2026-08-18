@@ -112,6 +112,12 @@
         renderStatus('info', 'Exposure profile for ' + esc(loc.name) + ' · ' +
             esc(body.radius_km) + ' km radius · ' + esc(body.analysis_window || 'current conditions') + '.');
 
+        if (window.HSConvert) HSConvert.show({
+            mount: 'statusArea', context: 'economy_save',
+            text: 'This exposure profile is computed live — save it and monitor this place with a free account.',
+            cta: 'Save this exposure profile', href: 'account.html'
+        });
+
         var html = '';
 
         // ---- Exposure categories ------------------------------------------

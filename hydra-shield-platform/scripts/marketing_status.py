@@ -39,7 +39,7 @@ LEAD_STATUSES = ["researched", "qualified", "draft_prepared", "contacted",
 DRAFT_STATUSES = ["draft", "reviewed", "queued", "published", "retired"]
 INTERACTION_TYPES = ["discovered", "researched", "contacted", "replied",
                      "meeting", "demo", "report_requested", "trial",
-                     "subscription", "lost", "follow_up"]
+                     "subscription", "renewal", "lost", "follow_up"]
 REQUIRED_LEAD_FIELDS = ("organization", "segment", "country", "website",
                         "source", "date_checked")
 REQUIRED_SIGNAL_FIELDS = ("id", "organization", "sector", "country",
@@ -415,6 +415,64 @@ def cmd_lessons() -> int:
     return 0
 
 
+def _radar_score(lead: dict, signals: list) -> int:
+    """Deterministic, documented ranking (docs/COMMERCIAL_INTELLIGENCE.md §7):
+
+        score = urgency(0-3) + priority(0-3)
+              + strongest linked signal strength (0-3)
+              + 2 when a follow-up is due/overdue
+              − 99 for won/lost leads (excluded)
+
+    Every component is a recorded fact or judgement on the record — no
+    fabricated precision.
+    """
+    if lead.get("status", "open") in ("won", "lost"):
+        return -99
+    score = {"high": 3, "medium": 2, "low": 1}.get(lead.get("urgency"), 0)
+    score += {"high": 3, "medium": 2, "low": 1}.get(lead.get("priority"), 0)
+    best = 0
+    for sig in signals:
+        if sig.get("organization") == lead.get("organization") or sig.get("id") in \
+                set(lead.get("commercial_signals") or []):
+            best = max(best, {"strong": 3, "moderate": 2, "weak": 1}.get(
+                sig.get("signal_strength"), 0))
+    score += best
+    nf = lead.get("next_followup")
+    if nf and nf <= date.today().isoformat():
+        score += 2
+    return score
+
+
+def cmd_radar() -> int:
+    """The commercial radar: who should I contact today — and the full why."""
+    leads = _leads()
+    signals = [s for _n, s in _signals()]
+    print("COMMERCIAL RADAR — who to contact today")
+    print("=" * 60)
+    print("Ranking formula (documented, deterministic): urgency(0-3) + "
+          "priority(0-3) + strongest linked signal(0-3) + overdue "
+          "follow-up(2); won/lost excluded.")
+    if not leads:
+        print("No leads yet. Research path: docs/COMMERCIAL_INTELLIGENCE.md §4.")
+        return 0
+    ranked = sorted(leads, key=lambda kv: _radar_score(kv[1], signals),
+                    reverse=True)
+    for _n, lead in ranked:
+        score = _radar_score(lead, signals)
+        if score < 0:
+            continue
+        print()
+        print(f"WHO: {lead.get('organization')} ({lead.get('segment')}, "
+              f"{lead.get('country')}) — score {score}")
+        print(f"  WHY NOW: {lead.get('identified_problem') or lead.get('potential_pain') or '—'}")
+        print(f"  PROBLEM: {lead.get('climate_exposure') or '—'}")
+        print(f"  EVIDENCE: {lead.get('evidence') or '—'}")
+        print(f"  SERVICE: {(lead.get('recommended_product') or '—').replace('_', ' ')}")
+        print(f"  MESSAGE: {lead.get('recommended_message') or '—'}")
+        print(f"  NEXT ACTION: {lead.get('next_action') or '—'}")
+    return 0
+
+
 def cmd_morning() -> int:
     print("MORNING BRIEFING (operator workflow §9)")
     print("=" * 60)
@@ -454,6 +512,7 @@ def cmd_evening() -> int:
 
 _COMMANDS = {
     "status": cmd_status,
+    "radar": cmd_radar,
     "signals": cmd_signals,
     "sectors": cmd_sectors,
     "events": cmd_events,

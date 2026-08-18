@@ -937,6 +937,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(product_analytics_bp)
 
+    # Operator intelligence dashboard API (/api/v2/admin/intel).
+    from .admin_intel import admin_intel_bp
+
+    app.register_blueprint(admin_intel_bp)
+
     return app
 
 

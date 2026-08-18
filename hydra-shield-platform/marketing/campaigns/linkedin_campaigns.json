@@ -1,103 +1,348 @@
 {
-  "description": "HydraShield LinkedIn campaigns A–G (docs/LINKEDIN_STRATEGY.md). Drafts live in marketing/content/drafts/; publishing is human-executed. No fabricated metrics: the metrics fields name what will be measured, not invented values.",
+  "description": "HydraShield LinkedIn campaigns A\u2013G (docs/LINKEDIN_STRATEGY.md). Drafts live in marketing/content/drafts/; publishing is human-executed. No fabricated metrics: the metrics fields name what will be measured, not invented values.",
   "campaigns": [
     {
       "id": "A",
       "name": "Climate risk for insurers",
       "objective": "Reach underwriting and risk roles with evidence-labelled hazard intelligence",
-      "audience": {"segments": ["insurance"], "roles": ["Chief Risk Officer", "Insurance Underwriter", "Risk Manager"]},
+      "audience": {
+        "segments": [
+          "insurance"
+        ],
+        "roles": [
+          "Chief Risk Officer",
+          "Insurance Underwriter",
+          "Risk Manager"
+        ]
+      },
       "pain": "Portfolio exposure needs traceable, per-location evidence instead of black-box scores",
       "evidence": "Real per-location analysis with provenance; historical event records; screening-indicator honesty",
-      "content_pillars": ["insurance_intelligence", "historical_event_intelligence", "current_climate_extremes"],
+      "content_pillars": [
+        "insurance_intelligence",
+        "historical_event_intelligence",
+        "current_climate_extremes"
+      ],
       "cta": "Analyze a portfolio location free",
       "landing_page": "https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=A",
       "follow_up": "For responders: offer a monitoring pilot on a small book of locations",
       "conversion_goal": "account_created (then alert_created)",
-      "metrics": ["post engagement (manual)", "landing page views (analytics)", "account_created with campaign referrer"]
+      "metrics": [
+        "post engagement (manual)",
+        "landing page views (analytics)",
+        "account_created with campaign referrer"
+      ]
     },
     {
       "id": "B",
       "name": "Climate exposure for real-estate companies",
       "objective": "Reach asset/investment roles with site-level exposure evidence",
-      "audience": {"segments": ["real_estate"], "roles": ["Asset Manager", "Investment Director"]},
+      "audience": {
+        "segments": [
+          "real_estate"
+        ],
+        "roles": [
+          "Asset Manager",
+          "Investment Director"
+        ]
+      },
       "pain": "Site selection and disclosure need documented climate exposure with sources",
       "evidence": "Six-hazard site screening; coastal/flood exposure; PDF reports with traceable methodology",
-      "content_pillars": ["climate_risk_for_business", "map_discoveries"],
+      "content_pillars": [
+        "climate_risk_for_business",
+        "map_discoveries"
+      ],
       "cta": "Run your site through the analysis",
       "landing_page": "https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=B",
       "follow_up": "For responders: full report + monitoring of owned assets",
       "conversion_goal": "report_generated",
-      "metrics": ["landing views", "report_generated with campaign referrer", "contact_started"]
+      "metrics": [
+        "landing views",
+        "report_generated with campaign referrer",
+        "contact_started"
+      ]
     },
     {
       "id": "C",
       "name": "Climate intelligence for investors",
       "objective": "Reach investment/portfolio roles with due-diligence-grade exposure context",
-      "audience": {"segments": ["investment", "asset_management", "banking"], "roles": ["Investment Director", "Portfolio Manager", "Chief Sustainability Officer"]},
+      "audience": {
+        "segments": [
+          "investment",
+          "asset_management",
+          "banking"
+        ],
+        "roles": [
+          "Investment Director",
+          "Portfolio Manager",
+          "Chief Sustainability Officer"
+        ]
+      },
       "pain": "Due diligence lacks traceable climate evidence with stated uncertainty",
       "evidence": "Exposure profiles, historical evidence, monitoring for held assets; uncertainty stated",
-      "content_pillars": ["investment_intelligence", "annual_reports"],
+      "content_pillars": [
+        "investment_intelligence",
+        "annual_reports"
+      ],
       "cta": "Screen three portfolio locations",
       "landing_page": "https://hydrashield.earth/economy.html?utm_source=linkedin&utm_campaign=C",
       "follow_up": "For responders: multi-location screening pilot + API discussion",
       "conversion_goal": "contact_started",
-      "metrics": ["landing views", "contact_started with campaign referrer"]
+      "metrics": [
+        "landing views",
+        "contact_started with campaign referrer"
+      ]
     },
     {
       "id": "D",
       "name": "Extreme-weather intelligence for municipalities",
       "objective": "Reach municipal resilience/civil-protection roles with territory monitoring",
-      "audience": {"segments": ["municipalities", "governments"], "roles": ["Municipal Resilience Officer", "Climate Policy Officer"]},
+      "audience": {
+        "segments": [
+          "municipalities",
+          "governments"
+        ],
+        "roles": [
+          "Municipal Resilience Officer",
+          "Climate Policy Officer"
+        ]
+      },
       "pain": "Territory-level current + historical hazard intelligence and alerts that reach people",
       "evidence": "Territory maps, population exposure, monitoring with SMS/email alerts on meaningful change",
-      "content_pillars": ["current_climate_extremes", "historical_event_intelligence", "sustainable_solutions"],
+      "content_pillars": [
+        "current_climate_extremes",
+        "historical_event_intelligence",
+        "sustainable_solutions"
+      ],
       "cta": "Monitor your municipality",
       "landing_page": "https://hydrashield.earth/account.html?utm_source=linkedin&utm_campaign=D#sms",
       "follow_up": "For responders: municipal monitoring pilot walkthrough",
       "conversion_goal": "account_created (then alert_created / sms_enabled)",
-      "metrics": ["landing views", "account_created", "alert_created", "sms_enabled"]
+      "metrics": [
+        "landing views",
+        "account_created",
+        "alert_created",
+        "sms_enabled"
+      ]
     },
     {
       "id": "E",
       "name": "Earth-observation intelligence for researchers",
       "objective": "Reach research directors with reproducible, provenance-carrying analysis",
-      "audience": {"segments": ["research_centers", "universities"], "roles": ["Research Director"]},
+      "audience": {
+        "segments": [
+          "research_centers",
+          "universities"
+        ],
+        "roles": [
+          "Research Director"
+        ]
+      },
       "pain": "Reproducibility and method comparison need provenance and open registries",
       "evidence": "Content-hashed analysis runs; public source/model/ground-truth registries; API + SDKs",
-      "content_pillars": ["research", "satellite_observations", "technology_discoveries"],
+      "content_pillars": [
+        "research",
+        "satellite_observations",
+        "technology_discoveries"
+      ],
       "cta": "Reproduce an analysis",
       "landing_page": "https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=E",
       "follow_up": "For responders: research collaboration conversation",
       "conversion_goal": "API/SDK usage and contact_started",
-      "metrics": ["landing views", "contact_started with campaign referrer"]
+      "metrics": [
+        "landing views",
+        "contact_started with campaign referrer"
+      ]
     },
     {
       "id": "F",
       "name": "Climate resilience for infrastructure companies",
       "objective": "Reach infrastructure/asset roles in energy, logistics, ports, telecom, data centers",
-      "audience": {"segments": ["energy", "logistics", "ports", "telecom", "data_centers"], "roles": ["Infrastructure Director", "Risk Manager", "Asset Manager"]},
+      "audience": {
+        "segments": [
+          "energy",
+          "logistics",
+          "ports",
+          "telecom",
+          "data_centers"
+        ],
+        "roles": [
+          "Infrastructure Director",
+          "Risk Manager",
+          "Asset Manager"
+        ]
+      },
       "pain": "Asset exposure to wildfire, wind, flood, heat and coastal conditions; early warning for operations",
       "evidence": "Asset screening, hazard-aware siting intelligence, monitoring + SMS alerts",
-      "content_pillars": ["climate_risk_for_business", "current_climate_extremes", "map_discoveries"],
+      "content_pillars": [
+        "climate_risk_for_business",
+        "current_climate_extremes",
+        "map_discoveries"
+      ],
       "cta": "Screen an asset location",
       "landing_page": "https://hydrashield.earth/map.html?utm_source=linkedin&utm_campaign=F",
       "follow_up": "For responders: multi-asset monitoring pilot",
       "conversion_goal": "alert_created",
-      "metrics": ["landing views", "account_created", "alert_created with campaign referrer"]
+      "metrics": [
+        "landing views",
+        "account_created",
+        "alert_created with campaign referrer"
+      ]
     },
     {
       "id": "G",
       "name": "Sustainable solutions intelligence",
       "objective": "Reach practitioners evaluating adaptation options for specific places",
-      "audience": {"segments": ["municipalities", "agriculture", "real_estate", "construction"], "roles": ["Municipal Resilience Officer", "Infrastructure Director", "CEO"]},
-      "pain": "Adaptation options need site-fit, limitations and evidence — not vendor claims",
+      "audience": {
+        "segments": [
+          "municipalities",
+          "agriculture",
+          "real_estate",
+          "construction"
+        ],
+        "roles": [
+          "Municipal Resilience Officer",
+          "Infrastructure Director",
+          "CEO"
+        ]
+      },
+      "pain": "Adaptation options need site-fit, limitations and evidence \u2014 not vendor claims",
       "evidence": "Solutions Intelligence: site-matched solution classes and packages with limitations and sources",
-      "content_pillars": ["sustainable_solutions", "map_discoveries"],
+      "content_pillars": [
+        "sustainable_solutions",
+        "map_discoveries"
+      ],
       "cta": "Match solutions to your place",
       "landing_page": "https://hydrashield.earth/solutions.html?utm_source=linkedin&utm_campaign=G",
       "follow_up": "For responders: solutions deep-dive on their site",
       "conversion_goal": "solution_viewed (then account_created)",
-      "metrics": ["landing views", "solution_viewed with campaign referrer", "account_created"]
+      "metrics": [
+        "landing views",
+        "solution_viewed with campaign referrer",
+        "account_created"
+      ]
+    },
+    {
+      "id": "H",
+      "name": "EU funding & climate programmes",
+      "objective": "Position HydraShield for EU climate-adaptation, resilience, EO and innovation programmes",
+      "audience": {
+        "segments": [
+          "governments",
+          "research_centers",
+          "municipalities"
+        ],
+        "roles": [
+          "Climate Policy Officer",
+          "Research Director"
+        ]
+      },
+      "pain": "Programmes fund exactly what HydraShield does \u2014 but require credible, evidence-labelled capability",
+      "evidence": "Real-data pipeline, public source registry, validation discipline, QGIS/API-first architecture",
+      "content_pillars": [
+        "research",
+        "technology_discoveries",
+        "annual_reports"
+      ],
+      "cta": "See the evidence architecture",
+      "landing_page": "https://hydrashield.earth/technology.html?utm_source=linkedin&utm_campaign=H",
+      "follow_up": "For responders: programme-fit conversation; record opportunities in marketing/eu_funding/",
+      "conversion_goal": "contact_started",
+      "metrics": [
+        "landing views",
+        "contact_started with campaign referrer"
+      ]
+    },
+    {
+      "id": "I",
+      "name": "Climate resilience for construction",
+      "objective": "Reach construction/infrastructure decision-makers with hazard-aware siting and resilient-design context",
+      "audience": {
+        "segments": [
+          "construction"
+        ],
+        "roles": [
+          "Infrastructure Director",
+          "Risk Manager",
+          "CEO"
+        ]
+      },
+      "pain": "Building in exposed areas without evidence creates liability; adaptation needs documented justification",
+      "evidence": "Wind/flood/heat/wildfire site screening, solutions intelligence with limitations",
+      "content_pillars": [
+        "climate_risk_for_business",
+        "sustainable_solutions"
+      ],
+      "cta": "Screen a project site",
+      "landing_page": "https://hydrashield.earth/solutions.html?utm_source=linkedin&utm_campaign=I",
+      "follow_up": "For responders: project-site analysis pilot",
+      "conversion_goal": "solution_viewed",
+      "metrics": [
+        "landing views",
+        "solution_viewed with campaign referrer"
+      ]
+    },
+    {
+      "id": "J",
+      "name": "Sustainable finance intelligence",
+      "objective": "Reach sustainable-finance and ESG roles with traceable climate-exposure evidence",
+      "audience": {
+        "segments": [
+          "banking",
+          "investment",
+          "asset_management"
+        ],
+        "roles": [
+          "Head of ESG",
+          "Chief Sustainability Officer",
+          "Chief Risk Officer"
+        ]
+      },
+      "pain": "Climate-disclosure and allocation decisions need source-attached exposure evidence",
+      "evidence": "Exposure profiles with provenance; honest not-quantified where no valuation basis exists",
+      "content_pillars": [
+        "investment_intelligence",
+        "annual_reports"
+      ],
+      "cta": "Explore economic exposure",
+      "landing_page": "https://hydrashield.earth/economy.html?utm_source=linkedin&utm_campaign=J",
+      "follow_up": "For responders: portfolio-location screening pilot",
+      "conversion_goal": "contact_started",
+      "metrics": [
+        "landing views",
+        "contact_started with campaign referrer"
+      ]
+    },
+    {
+      "id": "K",
+      "name": "GIS & Earth-observation community",
+      "objective": "Reach geospatial professionals where they work (QGIS/GIS community)",
+      "audience": {
+        "segments": [
+          "research_centers",
+          "universities",
+          "municipalities"
+        ],
+        "roles": [
+          "Research Director",
+          "Municipal Resilience Officer"
+        ]
+      },
+      "pain": "GIS workflows need hazard intelligence as layers with provenance, not screenshots",
+      "evidence": "QGIS plugin (Phase 0), GeoJSON grids, API + SDKs, per-layer provenance",
+      "content_pillars": [
+        "technology_discoveries",
+        "map_discoveries",
+        "satellite_observations"
+      ],
+      "cta": "Try the analysis API / QGIS plugin",
+      "landing_page": "https://hydrashield.earth/map.html?utm_source=linkedin&utm_campaign=K",
+      "follow_up": "For responders: early-access plugin build + feedback loop",
+      "conversion_goal": "qgis_interest / account_created",
+      "metrics": [
+        "landing views",
+        "qgis_interest",
+        "account_created"
+      ]
     }
   ]
 }

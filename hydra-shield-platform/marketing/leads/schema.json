@@ -23,7 +23,7 @@
     "urgency": {"type": "enum", "values": ["low", "medium", "high"], "note": "tied to a real signal/date, else low"},
     "outreach_status": {"type": "enum", "values": ["researched", "qualified", "draft_prepared", "contacted", "responded", "opportunity", "closed_lost"], "default": "researched"},
     "status": {"type": "enum", "values": ["open", "nurturing", "won", "lost", "dormant"], "default": "open"},
-    "interactions": {"type": "list", "items": {"date": "date", "type": "discovered|researched|contacted|replied|meeting|demo|report_requested|trial|subscription|lost|follow_up", "summary": "string", "source": "string (where applicable)", "next_action": "string"}, "note": "real interactions only — the relationship history"},
+    "interactions": {"type": "list", "items": {"date": "date", "type": "discovered|researched|contacted|replied|meeting|demo|report_requested|trial|subscription|renewal|lost|follow_up", "summary": "string", "source": "string (where applicable)", "next_action": "string"}, "note": "real interactions only — the relationship history"},
     "last_contact": {"type": "date", "required": false},
     "next_action": {"type": "string"},
     "next_followup": {"type": "date", "required": false},

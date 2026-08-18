@@ -1,0 +1,19 @@
+{
+  "$schema_note": "EU Funding Intelligence records for marketing/eu_funding/*.json. BINDING: records come only from official sources (European Commission / EU funding & tenders portal / programme sites), live-checked at date_checked. No invented calls, deadlines, budgets or contacts. A public professional contact is recorded only when legitimately published (name+role+public source), never scraped.",
+  "schema": {
+    "programme": {"type": "string", "required": true, "note": "e.g. Horizon Europe, LIFE, Interreg, Digital Europe, EIC"},
+    "call": {"type": "string", "required": false, "note": "call identifier as published"},
+    "topic": {"type": "string", "required": false},
+    "institution": {"type": "string", "required": true, "note": "the publishing institution"},
+    "official_source": {"type": "url", "required": true},
+    "deadline": {"type": "date", "required": false, "note": "only as officially published; never estimated"},
+    "sector": {"type": "enum", "values_from": "../segments/segments.json", "required": false},
+    "hazards": {"type": "list", "values": ["wildfire", "flood", "drought", "heat", "wind", "coastal"]},
+    "hydrashield_relevance": {"type": "string", "required": true, "note": "why HydraShield fits, honestly assessed"},
+    "evidence": {"type": "string", "note": "what of ours to show (capabilities, provenance model, pilots)"},
+    "recommended_strategy": {"type": "string", "note": "relationship strategy: partner search, direct application, consortium role…"},
+    "public_contact": {"type": "string", "required": false, "note": "only a legitimately published professional contact (name, role, public source URL)"},
+    "date_checked": {"type": "date", "required": true},
+    "status": {"type": "enum", "values": ["watching", "preparing", "applied", "awarded", "rejected", "closed"], "default": "watching"}
+  }
+}

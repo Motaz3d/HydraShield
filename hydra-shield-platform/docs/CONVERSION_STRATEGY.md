@@ -19,6 +19,7 @@ modal, never a wall.
 | Events (`events.html`) | after historical events render | "Monitor this area" → account#sms |
 | Map (`map.html`) | on map open | "Create a monitoring alert" → account#sms |
 | Solutions (`solutions.html`) | after matched solutions render | "Save this solution set" → account |
+| Economy (`economy.html`) | after an exposure profile renders | "Save this exposure profile" → account |
 | Reports (`reports.html`) | after report links render | "Keep my reports" → account |
 | Homepage | always-on section | "Set up SMS alerts" → account#sms |
 

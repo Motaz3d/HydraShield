@@ -34,6 +34,11 @@ def env(tmp_path, monkeypatch):
     import src.dashboard.cache as cache_mod
 
     monkeypatch.setattr(cache_mod, "_default_cache", None)
+    # The rate limiter is process-global; reset it so the test is
+    # independent of how many registrations earlier modules consumed.
+    import src.dashboard.api as api_mod
+
+    monkeypatch.setattr(api_mod, "_rate_limiter", api_mod._RateLimiter())
     return {"db": db_path}
 
 

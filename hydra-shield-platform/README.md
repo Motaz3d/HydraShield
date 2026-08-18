@@ -30,7 +30,8 @@ claims no validated prevention capability (see `docs/PRODUCT_STORY.md`).
 `docs/SOLUTIONS_INTELLIGENCE.md` · `docs/PRODUCT_ANALYTICS.md` ·
 `docs/MARKETING_INTELLIGENCE.md` · `docs/CUSTOMER_SEGMENTATION.md` ·
 `docs/LINKEDIN_STRATEGY.md` · `docs/CONTENT_STRATEGY.md` ·
-`docs/CONVERSION_STRATEGY.md` · `docs/EXTERNAL_INTEGRATIONS.md`
+`docs/CONVERSION_STRATEGY.md` · `docs/EXTERNAL_INTEGRATIONS.md` ·
+`docs/COMMERCIAL_INTELLIGENCE.md` · `docs/ANNUAL_CLIMATE_EXTREME_REPORT.md`
 
 ## Project Structure
 

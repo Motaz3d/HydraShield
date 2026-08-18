@@ -234,3 +234,119 @@ def test_demand_is_aggregate_only(tmp_path):
     assert "Total events: 1" in result.stdout
     assert "map.html" in result.stdout
     assert "aggregate" in result.stdout.lower() or "counts only" in result.stdout
+
+
+# ---------------------------------------------------------------------------
+# Outreach composer (scripts/outreach_composer.py)
+# ---------------------------------------------------------------------------
+
+import scripts.outreach_composer as oc  # noqa: E402
+
+
+def _composer_workspace(tmp_path, monkeypatch):
+    base = tmp_path / "marketing"
+    (base / "leads").mkdir(parents=True)
+    (base / "segments").mkdir(parents=True)
+    (base / "outreach").mkdir(parents=True)
+    (base / "segments" / "segments.json").write_text(json.dumps({
+        "decision_maker_roles_vocabulary": ["Risk Manager"],
+        "segments": {"insurance": {"outreach_style": "technical"}},
+    }))
+    (base / "outreach" / "queue.json").write_text(
+        json.dumps({"rules": [], "queue": []}))
+    monkeypatch.setattr(oc, "MARKETING", str(base))
+    monkeypatch.setattr(oc, "QUEUE", str(base / "outreach" / "queue.json"))
+    monkeypatch.setattr(oc, "AUDIT", str(base / "outreach" / "audit.jsonl"))
+    return base
+
+
+def test_composer_requires_evidence():
+    """No problem/evidence on the lead → no draft (no generic spam)."""
+    with pytest.raises(ValueError):
+        oc.compose_draft({"organization": "X"}, {}, "pilot")
+
+
+def test_composer_draft_personalized_official_sender():
+    lead = {"organization": "Stadtwerke Example", "segment": "insurance",
+            "decision_maker_role": "Risk Manager",
+            "relevant_hazards": ["flood"],
+            "identified_problem": "flood exposure of insured assets",
+            "evidence": "per-location flood screening with discharge history",
+            "recommended_product": "monitoring"}
+    draft = oc.compose_draft(lead, {"outreach_style": "technical"},
+                             "monitoring pilot", "2026-09-01")
+    assert draft["from"] == "info@hydrashield.earth"
+    assert "Stadtwerke Example" in draft["body"]
+    assert "flood exposure of insured assets" in draft["body"]
+    assert "per-location flood screening" in draft["body"]
+    assert draft["followup_date"] == "2026-09-01"
+    for forbidden in oc.FORBIDDEN_SENDERS:
+        assert forbidden not in draft["body"]
+        assert forbidden not in draft["from"]
+
+
+def test_composer_queue_and_audit(tmp_path, monkeypatch):
+    base = _composer_workspace(tmp_path, monkeypatch)
+    (base / "leads" / "org.json").write_text(json.dumps(
+        {"organization": "Example Org", "segment": "insurance",
+         "identified_problem": "wildfire exposure",
+         "evidence": "FWI-based screening + FIRMS history"}))
+    lead = json.loads((base / "leads" / "org.json").read_text())
+    draft = oc.compose_draft(lead, {}, "pilot")
+    oc.queue_draft("org.json", draft)
+    queue = json.loads((base / "outreach" / "queue.json").read_text())
+    assert queue["queue"][0]["status"] == "drafted"  # human gate
+    assert queue["queue"][0]["from"] == "info@hydrashield.earth"
+    audit = (base / "outreach" / "audit.jsonl").read_text().strip()
+    assert "draft_created" in audit
+
+
+def test_composer_never_sends():
+    """The composer has no network/SMTP capability at all."""
+    src = open(os.path.join(ROOT, "scripts", "outreach_composer.py"),
+               encoding="utf-8").read()
+    for forbidden in ("smtplib", "requests", "urllib.request", "sendmail"):
+        assert forbidden not in src, forbidden
+
+
+def test_no_personal_gmail_as_sender_anywhere():
+    """No HydraShield sender path may use the personal mailboxes. The only
+    legitimate occurrence is the FORBIDDEN_SENDERS guard list itself."""
+    import re
+    pattern = re.compile(r"motaz3d@gmail\.com|motazomarien@gmail\.com")
+    for sub in ("src", "website", "scripts", "marketing"):
+        for dirpath, _dirs, files in os.walk(os.path.join(ROOT, sub)):
+            if "__pycache__" in dirpath:
+                continue
+            for name in files:
+                if not name.endswith((".py", ".js", ".html", ".json")):
+                    continue
+                path = os.path.join(dirpath, name)
+                for lineno, line in enumerate(open(path, encoding="utf-8"), 1):
+                    if pattern.search(line) and "FORBIDDEN_SENDERS" not in line:
+                        raise AssertionError(
+                            f"{path}:{lineno} uses a personal mailbox")
+
+
+# ---------------------------------------------------------------------------
+# Commercial radar (copilot `radar`)
+# ---------------------------------------------------------------------------
+
+
+def test_radar_formula_is_deterministic_and_documented():
+    lead = {"organization": "A", "status": "open", "urgency": "high",
+            "priority": "high", "commercial_signals": ["sig_test"]}
+    signals = [{"id": "sig_test", "organization": "A",
+                "signal_strength": "strong"}]
+    # urgency 3 + priority 3 + strong signal 3 = 9 (no overdue follow-up)
+    assert ms._radar_score(lead, signals) == 9
+    lead["next_followup"] = "2020-01-01"
+    assert ms._radar_score(lead, signals) == 11
+    lead["status"] = "won"
+    assert ms._radar_score(lead, signals) < 0  # excluded
+
+
+def test_radar_runs_on_real_workspace():
+    result = _run(["radar"])
+    assert result.returncode == 0
+    assert "Ranking formula" in result.stdout
