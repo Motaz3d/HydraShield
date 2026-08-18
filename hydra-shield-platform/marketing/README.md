@@ -23,6 +23,8 @@ lead and outcome is a file in this repository with history.
 | `strategy/` | Links to the normative docs in `docs/` | md |
 | `segments/` | `segments.json` — the 19 segment definitions | json |
 | `leads/` | One JSON per organization (schema: `leads/schema.json`) — starts empty | json |
+| `signals/` | Commercial signals (schema: `signals/schema.json`) — starts empty | json |
+| `events/` | Event radar records (schema: `events/schema.json`) — starts empty | json |
 | `campaigns/` | Campaign definitions (LinkedIn campaigns A–G etc.) | json/md |
 | `content/` | `calendar.json` + `drafts/` — authored content drafts | json/md |
 | `outreach/` | `queue.json` — prepared, human-executed outreach queue | json |

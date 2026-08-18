@@ -38,6 +38,14 @@ G/H commit. All LOCAL ONLY — nothing pushed, nothing deployed.
   + integrity check), CONTENT_STRATEGY.md (demand-driven backlog loop).
 - **Phase H — integration readiness** (this phase):
   `docs/EXTERNAL_INTEGRATIONS.md` activation matrix.
+- **Commercial Intelligence & Marketing Radar**: CommercialSignal +
+  EventSignal ledgers with enforced provenance (source, URL,
+  date_observed, date_checked, evidence_type, confidence), qualitative
+  activity levels (never fabricated spend), lead schema v2 (qualification
+  + relationship history vocabulary), the copilot's operator subcommands
+  (signals/sectors/events/priorities/followups/content/demand/lessons/
+  morning/evening), aggregate-only demand view, daily workflow
+  (marketing/WORKFLOW.md), and the classified future-integrations table.
 
 ### NEXT (highest first)
 

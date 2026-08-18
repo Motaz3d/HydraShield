@@ -1,15 +1,27 @@
 #!/usr/bin/env python3
-"""HydraShield marketing workspace status — the AI copilot's entry point.
+"""HydraShield marketing copilot — the operator-facing entry point to the
+commercial-intelligence workspace (marketing/).
 
-Reads the repository-based marketing workspace (marketing/) and prints the
-current state: segments, leads by status, campaigns, content drafts,
-outreach queue depth, and suggested next actions. Fully offline; no
-writes. Run from the platform directory:
+Reads only the repository (and, for `demand`, the local product-analytics
+SQLite DB); never writes, never sends. Fully offline.
 
-    python scripts/marketing_status.py
+Usage (from the platform directory):
 
-The workspace is the memory (marketing/README.md); this script is the
-quick orientation so a session starts from the repo, not from recall.
+    python scripts/marketing_status.py            # workspace status + integrity
+    python scripts/marketing_status.py signals    # newest commercial signals
+    python scripts/marketing_status.py sectors    # sector activity from signals
+    python scripts/marketing_status.py events     # events radar, ranked
+    python scripts/marketing_status.py priorities # who to contact, why, with what
+    python scripts/marketing_status.py followups  # follow-ups due / overdue
+    python scripts/marketing_status.py content    # drafts awaiting review/publish
+    python scripts/marketing_status.py demand     # aggregate product demand signals
+    python scripts/marketing_status.py lessons    # what past outreach taught us
+    python scripts/marketing_status.py morning    # morning operator briefing
+    python scripts/marketing_status.py evening    # evening record checklist
+
+The workspace is the memory (marketing/README.md); this tool is the
+orientation layer. It invents nothing: empty ledgers produce honest empty
+states and the next action to fill them.
 """
 
 from __future__ import annotations
@@ -17,6 +29,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+from datetime import date
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 MARKETING = os.path.join(ROOT, "marketing")
@@ -24,6 +37,22 @@ MARKETING = os.path.join(ROOT, "marketing")
 LEAD_STATUSES = ["researched", "qualified", "draft_prepared", "contacted",
                  "responded", "opportunity", "closed_lost"]
 DRAFT_STATUSES = ["draft", "reviewed", "queued", "published", "retired"]
+INTERACTION_TYPES = ["discovered", "researched", "contacted", "replied",
+                     "meeting", "demo", "report_requested", "trial",
+                     "subscription", "lost", "follow_up"]
+REQUIRED_LEAD_FIELDS = ("organization", "segment", "country", "website",
+                        "source", "date_checked")
+REQUIRED_SIGNAL_FIELDS = ("id", "organization", "sector", "country",
+                          "hazards", "signal_type", "signal_strength",
+                          "source", "source_url", "date_observed",
+                          "date_checked", "evidence_type", "confidence")
+REQUIRED_EVENT_FIELDS = ("event", "organizer", "location", "date", "url",
+                         "source", "sectors", "relevance",
+                         "relevance_reason", "date_checked")
+_PRIORITY_RANK = {"high": 0, "medium": 1, "low": 2}
+_STRENGTH_RANK = {"strong": 0, "moderate": 1, "weak": 2}
+_RELEVANCE_RANK = {"high": 0, "medium": 1, "low": 2}
+_ACTIVITY_RANK = {"HIGH": 3, "MEDIUM": 2, "LOW": 1}
 
 
 def _load_json(path):
@@ -31,94 +60,420 @@ def _load_json(path):
         return json.load(fh)
 
 
-def workspace_integrity():
-    """Validate the workspace: segments parse, leads follow the schema's
-    required fields and honesty rules, campaigns reference real segments."""
-    problems = []
-    seg_path = os.path.join(MARKETING, "segments", "segments.json")
-    segments = _load_json(seg_path)["segments"]
+def _records(subdir, skip=()):
+    """All JSON records in a workspace subdirectory (newest filename first)."""
+    d = os.path.join(MARKETING, subdir)
+    out = []
+    if not os.path.isdir(d):
+        return out
+    for name in sorted(os.listdir(d)):
+        if name.endswith(".json") and name not in skip and name != "schema.json":
+            out.append((name, _load_json(os.path.join(d, name))))
+    return out
 
-    leads_dir = os.path.join(MARKETING, "leads")
+
+def _segments():
+    return _load_json(os.path.join(MARKETING, "segments", "segments.json"))["segments"]
+
+
+def _leads():
+    return _records("leads")
+
+
+def _signals():
+    return _records("signals")
+
+
+def _events():
+    return _records("events")
+
+
+def _campaigns():
+    path = os.path.join(MARKETING, "campaigns", "linkedin_campaigns.json")
+    return _load_json(path)["campaigns"] if os.path.exists(path) else []
+
+
+def _drafts():
+    d = os.path.join(MARKETING, "content", "drafts")
+    out = []
+    if os.path.isdir(d):
+        for name in sorted(os.listdir(d)):
+            if not name.endswith(".md"):
+                continue
+            head = open(os.path.join(d, name), encoding="utf-8").read(600)
+            meta = {}
+            for line in head.splitlines():
+                if line.startswith("status:"):
+                    meta["status"] = line.split(":", 1)[1].strip()
+                if line.startswith("segment:"):
+                    meta["segment"] = line.split(":", 1)[1].strip()
+                if line.startswith("cta:"):
+                    meta["cta"] = line.split(":", 1)[1].strip().strip('"')
+            out.append((name, meta))
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Integrity
+# ---------------------------------------------------------------------------
+
+def workspace_integrity():
+    """Validate the workspace against the honesty contract. Returns
+    (segments, leads, signals, events, campaigns, problems)."""
+    problems = []
+    segments = _segments()
+    vocab_hazards = {"wildfire", "flood", "drought", "heat", "wind", "coastal"}
+
     leads = []
-    for name in sorted(os.listdir(leads_dir)):
-        if not name.endswith(".json") or name == "schema.json":
-            continue
-        lead = _load_json(os.path.join(leads_dir, name))
+    for name, lead in _leads():
         leads.append((name, lead))
-        for field in ("organization", "segment", "country", "website",
-                      "source", "date_checked"):
+        for field in REQUIRED_LEAD_FIELDS:
             if not lead.get(field):
-                problems.append(f"{name}: missing required field '{field}'")
+                problems.append(f"lead {name}: missing required field '{field}'")
         if lead.get("segment") and lead["segment"] not in segments:
-            problems.append(f"{name}: unknown segment '{lead['segment']}'")
+            problems.append(f"lead {name}: unknown segment '{lead['segment']}'")
         status = lead.get("outreach_status", "researched")
         if status not in LEAD_STATUSES:
-            problems.append(f"{name}: unknown outreach_status '{status}'")
+            problems.append(f"lead {name}: unknown outreach_status '{status}'")
+        for ix, inter in enumerate(lead.get("interactions") or []):
+            if inter.get("type") not in INTERACTION_TYPES:
+                problems.append(
+                    f"lead {name}: interaction {ix} unknown type "
+                    f"'{inter.get('type')}'")
+            if not inter.get("date") or not inter.get("summary"):
+                problems.append(f"lead {name}: interaction {ix} lacks date/summary")
 
-    camp_path = os.path.join(MARKETING, "campaigns", "linkedin_campaigns.json")
-    campaigns = []
-    if os.path.exists(camp_path):
-        campaigns = _load_json(camp_path)["campaigns"]
-        for camp in campaigns:
-            for seg in camp.get("audience", {}).get("segments", []):
-                if seg not in segments:
-                    problems.append(
-                        f"campaign {camp['id']}: unknown segment '{seg}'")
-    return segments, leads, campaigns, problems
+    signals = []
+    for name, sig in _signals():
+        signals.append((name, sig))
+        for field in REQUIRED_SIGNAL_FIELDS:
+            if not sig.get(field):
+                problems.append(f"signal {name}: missing required field '{field}'")
+        if sig.get("sector") and sig["sector"] not in segments:
+            problems.append(f"signal {name}: unknown sector '{sig['sector']}'")
+        if sig.get("hazards") and not set(sig["hazards"]) <= vocab_hazards:
+            problems.append(f"signal {name}: unknown hazard(s)")
+        # The no-fabricated-spend rule, machine-enforced.
+        for key in sig:
+            if any(tok in key.lower() for tok in ("spend", "budget", "cost_eur",
+                                                  "ad_spend", "expenditure")):
+                problems.append(
+                    f"signal {name}: field '{key}' looks like an advertising-spend "
+                    f"claim — prohibited without an authoritative published figure")
+
+    events = []
+    for name, ev in _events():
+        events.append((name, ev))
+        for field in REQUIRED_EVENT_FIELDS:
+            if not ev.get(field):
+                problems.append(f"event {name}: missing required field '{field}'")
+        if ev.get("sectors") and not set(ev["sectors"]) <= set(segments):
+            problems.append(f"event {name}: unknown sector(s)")
+
+    campaigns = _campaigns()
+    for camp in campaigns:
+        for seg in camp.get("audience", {}).get("segments", []):
+            if seg not in segments:
+                problems.append(f"campaign {camp['id']}: unknown segment '{seg}'")
+    return segments, leads, signals, events, campaigns, problems
 
 
-def main() -> int:
-    segments, leads, campaigns, problems = workspace_integrity()
+# ---------------------------------------------------------------------------
+# Subcommands
+# ---------------------------------------------------------------------------
 
+def cmd_status() -> int:
+    segments, leads, signals, events, campaigns, problems = workspace_integrity()
     print("HYDRASHIELD MARKETING STATUS")
     print("=" * 60)
     print(f"Segments defined: {len(segments)}")
-
-    by_status = {s: 0 for s in LEAD_STATUSES}
-    for _name, lead in leads:
-        by_status[lead.get("outreach_status", "researched")] += 1
+    by_status = {}
+    for _n, lead in leads:
+        s = lead.get("outreach_status", "researched")
+        by_status[s] = by_status.get(s, 0) + 1
     print(f"Leads: {len(leads)}  " +
-          " ".join(f"{k}={v}" for k, v in by_status.items() if v))
-
+          " ".join(f"{k}={v}" for k, v in sorted(by_status.items())))
+    print(f"Commercial signals: {len(signals)}")
+    print(f"Events tracked: {len(events)}")
     print(f"Campaigns: {len(campaigns)} " +
-          f"({', '.join(c['id'] for c in campaigns)})" if campaigns else
-          "Campaigns: 0")
-
-    drafts_dir = os.path.join(MARKETING, "content", "drafts")
-    drafts = [d for d in sorted(os.listdir(drafts_dir)) if d.endswith(".md")] \
-        if os.path.isdir(drafts_dir) else []
+          (f"({', '.join(c['id'] for c in campaigns)})" if campaigns else ""))
+    drafts = _drafts()
     print(f"Content drafts: {len(drafts)}")
-    for d in drafts:
-        head = open(os.path.join(drafts_dir, d), encoding="utf-8").read(400)
-        status = "draft"
-        for line in head.splitlines():
-            if line.startswith("status:"):
-                status = line.split(":", 1)[1].strip()
-                break
-        print(f"  - {d} [{status}]")
-
-    queue_path = os.path.join(MARKETING, "outreach", "queue.json")
-    queue = _load_json(queue_path).get("queue", [])
+    for d, meta in drafts:
+        print(f"  - {d} [{meta.get('status', 'draft')}]")
+    queue = _load_json(os.path.join(MARKETING, "outreach", "queue.json")).get("queue", [])
     print(f"Outreach queue: {len(queue)} entr(ies)")
-
     print("-" * 60)
     if problems:
         print("INTEGRITY PROBLEMS:")
         for p in problems:
             print(f"  ! {p}")
         return 1
-
     print("Next actions (derived, not invented):")
     if not leads:
         print("  · No leads yet — run lead discovery per MARKETING_INTELLIGENCE.md §4")
+    if not signals:
+        print("  · No commercial signals yet — see COMMERCIAL_INTELLIGENCE.md §2")
     if not queue:
         print("  · Outreach queue empty — qualify a lead and prepare a draft")
-    unpublished = [d for d in drafts if "[published]" not in d]
+    unpublished = [d for d, m in drafts if m.get("status") != "published"]
     if unpublished:
         print(f"  · {len(unpublished)} draft(s) awaiting human review/publish")
-    if not problems and leads and queue:
-        print("  · Review queue entries pending human execution")
+    if leads and not problems:
+        print("  · Run `priorities` and `followups` for today's operator actions")
     return 0
+
+
+def cmd_signals() -> int:
+    signals = _signals()
+    print("NEW COMMERCIAL SIGNALS")
+    print("=" * 60)
+    if not signals:
+        print("None recorded. Research path: docs/COMMERCIAL_INTELLIGENCE.md §2.")
+        return 0
+    ordered = sorted(signals, key=lambda kv: (
+        kv[1].get("date_observed", ""), _STRENGTH_RANK.get(
+            kv[1].get("signal_strength"), 3)), reverse=False)
+    ordered.sort(key=lambda kv: kv[1].get("date_observed", ""), reverse=True)
+    for _n, s in ordered:
+        print(f"· {s.get('date_observed')}  {s.get('organization')} "
+              f"({s.get('sector')}, {s.get('country')})")
+        print(f"    {s.get('signal_type')} [{s.get('signal_strength')}] — "
+              f"{s.get('evidence_type')}, confidence {s.get('confidence')}")
+        print(f"    source: {s.get('source_url')} (checked {s.get('date_checked')})")
+        if s.get("recommended_action"):
+            print(f"    → {s['recommended_action']}")
+    return 0
+
+
+def cmd_sectors() -> int:
+    signals = _signals()
+    print("SECTOR ACTIVITY (from recorded signals)")
+    print("=" * 60)
+    if not signals:
+        print("No signals recorded — sector activity is unknown, not zero.")
+        return 0
+    agg = {}
+    for _n, s in signals:
+        sec = s.get("sector", "?")
+        a = agg.setdefault(sec, {"signals": 0, "activity": 0, "hazards": set()})
+        a["signals"] += 1
+        a["activity"] += _ACTIVITY_RANK.get(s.get("activity_level"), 0)
+        a["hazards"].update(s.get("hazards") or [])
+    for sec, a in sorted(agg.items(), key=lambda kv: (-kv[1]["signals"], -kv[1]["activity"])):
+        print(f"· {sec}: {a['signals']} signal(s), hazards: "
+              f"{', '.join(sorted(a['hazards'])) or '—'}")
+    return 0
+
+
+def cmd_events() -> int:
+    events = _events()
+    print("EVENTS RADAR")
+    print("=" * 60)
+    if not events:
+        print("No events tracked. Add them from official event pages "
+              "(marketing/events/schema.json).")
+        return 0
+    active = [(n, e) for n, e in events
+              if e.get("status", "watching") in ("watching", "attending")]
+    active.sort(key=lambda kv: (_RELEVANCE_RANK.get(kv[1].get("relevance"), 3),
+                                kv[1].get("date", "")))
+    for _n, e in active:
+        print(f"· {e.get('event')} — {e.get('location')}, {e.get('date')} "
+              f"[{e.get('relevance')}, {e.get('status', 'watching')}]")
+        print(f"    {e.get('relevance_reason')}")
+        print(f"    {e.get('url')} (checked {e.get('date_checked')})")
+    return 0
+
+
+def cmd_priorities() -> int:
+    leads = _leads()
+    print("TODAY'S PRIORITY PROSPECTS")
+    print("=" * 60)
+    if not leads:
+        print("No leads yet. Qualification path: docs/COMMERCIAL_INTELLIGENCE.md §4.")
+        return 0
+    ordered = sorted(leads, key=lambda kv: (
+        _PRIORITY_RANK.get(kv[1].get("priority"), 3),
+        kv[1].get("organization", "")))
+    for _n, lead in ordered:
+        if lead.get("status", "open") in ("won", "lost"):
+            continue
+        print(f"· {lead.get('organization')} [{lead.get('priority', '?')}] "
+              f"— {lead.get('segment')}, {lead.get('country')}")
+        if lead.get("identified_problem"):
+            print(f"    why now: {lead['identified_problem']}")
+        if lead.get("recommended_product"):
+            print(f"    present: {lead['recommended_product']}")
+        if lead.get("evidence"):
+            print(f"    evidence: {lead['evidence']}")
+        if lead.get("next_action"):
+            print(f"    → {lead['next_action']}")
+    return 0
+
+
+def cmd_followups() -> int:
+    leads = _leads()
+    print("FOLLOW-UPS DUE")
+    print("=" * 60)
+    if not leads:
+        print("No leads yet — nothing to follow up.")
+        return 0
+    today = date.today().isoformat()
+    due = []
+    for _n, lead in leads:
+        nf = lead.get("next_followup")
+        if nf and nf <= today and lead.get("status", "open") not in ("won", "lost"):
+            due.append((nf, lead))
+    if not due:
+        print("None due. (Leads with a next_followup date appear here when due.)")
+        return 0
+    for nf, lead in sorted(due):
+        print(f"· {nf}  {lead.get('organization')} — "
+              f"{lead.get('next_action') or 'follow up'}")
+    return 0
+
+
+def cmd_content() -> int:
+    drafts = _drafts()
+    print("CONTENT PIPELINE")
+    print("=" * 60)
+    pending = [(d, m) for d, m in drafts if m.get("status") in ("draft", "reviewed")]
+    if not pending:
+        print("No pending drafts. Calendar: marketing/content/calendar.json")
+        return 0
+    for d, m in pending:
+        print(f"· {d} [{m.get('status')}] segment={m.get('segment', '?')}")
+        if m.get("cta"):
+            print(f"    CTA: {m['cta']}")
+    print("Publishing is human-executed (docs/LINKEDIN_STRATEGY.md §5).")
+    return 0
+
+
+def cmd_demand() -> int:
+    """Aggregate product demand from the local analytics DB — counts only,
+    no individual users (docs/PRODUCT_ANALYTICS.md)."""
+    print("AGGREGATE PRODUCT DEMAND (first-party analytics, counts only)")
+    print("=" * 60)
+    db = os.environ.get("HYDRASHIELD_CACHE_DB") or os.path.join(
+        ROOT, "data", "cache", "hydrashield_cache.sqlite3")
+    if not os.path.exists(db):
+        print(f"No analytics DB at {db} — demand unknown (not zero).")
+        return 0
+    import sqlite3
+    conn = sqlite3.connect(db)
+    try:
+        exists = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' "
+            "AND name='analytics_events'").fetchone()
+        if not exists:
+            print("Analytics table not present yet — demand unknown (not zero).")
+            return 0
+        total = conn.execute("SELECT COUNT(*) FROM analytics_events").fetchone()[0]
+        if not total:
+            print("No events recorded yet — demand unknown (not zero).")
+            return 0
+        print(f"Total events: {total}")
+        for label, sql in (
+            ("Top hazards", "SELECT hazard, COUNT(*) c FROM analytics_events "
+             "WHERE hazard IS NOT NULL GROUP BY hazard ORDER BY c DESC LIMIT 6"),
+            ("Top pages", "SELECT page, COUNT(*) c FROM analytics_events "
+             "WHERE page IS NOT NULL GROUP BY page ORDER BY c DESC LIMIT 8"),
+            ("Funnel", "SELECT event, COUNT(*) c FROM analytics_events WHERE "
+             "event IN ('location_analyzed','solution_viewed','report_generated',"
+             "'account_created','alert_created','sms_enabled','contact_started') "
+             "GROUP BY event ORDER BY c DESC"),
+        ):
+            print(f"{label}:")
+            for value, count in conn.execute(sql):
+                print(f"  · {value}: {count}")
+    finally:
+        conn.close()
+    print("Note: aggregate counts only. Sector/country demand comes from lead "
+          "records and events — never from user tracking.")
+    return 0
+
+
+def cmd_lessons() -> int:
+    leads = _leads()
+    print("OUTREACH LESSONS (from recorded interactions)")
+    print("=" * 60)
+    interactions = []
+    for name, lead in leads:
+        for inter in lead.get("interactions") or []:
+            interactions.append((lead.get("organization"), inter))
+    if not interactions:
+        print("No interactions recorded yet. Lessons appear here after real "
+              "outreach is recorded in lead records.")
+        return 0
+    wins = [i for _o, i in interactions if i["type"] in
+            ("replied", "meeting", "demo", "report_requested", "trial", "subscription")]
+    losses = [i for _o, i in interactions if i["type"] == "lost"]
+    print(f"Interactions: {len(interactions)} · positive: {len(wins)} · lost: {len(losses)}")
+    for org, i in interactions[-10:]:
+        print(f"· {i.get('date')} {org}: {i.get('type')} — {i.get('summary')}")
+    return 0
+
+
+def cmd_morning() -> int:
+    print("MORNING BRIEFING (operator workflow §9)")
+    print("=" * 60)
+    steps = [("1 · New commercial signals", cmd_signals),
+             ("2 · Events to monitor", cmd_events),
+             ("3 · High-priority prospects", cmd_priorities),
+             ("4 · Follow-ups due", cmd_followups),
+             ("5 · Product demand signals", cmd_demand),
+             ("6 · Content this week", cmd_content)]
+    for title, fn in steps:
+        print()
+        print("## " + title)
+        fn()
+    print()
+    print("## 7 · Recommended outreach")
+    print("Human decision: pick from priorities + followups above; draft via "
+          "the segment's style (marketing/segments/segments.json); queue in "
+          "marketing/outreach/queue.json. Nothing sends automatically.")
+    return 0
+
+
+def cmd_evening() -> int:
+    print("EVENING RECORD CHECKLIST (operator workflow §9)")
+    print("=" * 60)
+    print("Record today's reality into the workspace:")
+    print("  1 · interactions → append to each lead's interactions[] "
+          "(date, type, summary, source, next_action)")
+    print("  2 · lead status → update outreach_status / status / next_followup")
+    print("  3 · responses → record what worked/failed honestly")
+    print("  4 · lessons → note persuasive evidence + dead ends in "
+          "marketing/analytics/")
+    print("  5 · next actions → tomorrow's priorities emerge from the records")
+    print()
+    cmd_followups()
+    return 0
+
+
+_COMMANDS = {
+    "status": cmd_status,
+    "signals": cmd_signals,
+    "sectors": cmd_sectors,
+    "events": cmd_events,
+    "priorities": cmd_priorities,
+    "followups": cmd_followups,
+    "content": cmd_content,
+    "demand": cmd_demand,
+    "lessons": cmd_lessons,
+    "morning": cmd_morning,
+    "evening": cmd_evening,
+}
+
+
+def main() -> int:
+    command = sys.argv[1] if len(sys.argv) > 1 else "status"
+    fn = _COMMANDS.get(command)
+    if fn is None:
+        print(__doc__)
+        return 2
+    return fn()
 
 
 if __name__ == "__main__":

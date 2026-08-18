@@ -1,7 +1,10 @@
 # HydraShield — Marketing Intelligence
 
-**Status:** implemented (Phase C). The persistent, repository-based
-marketing system. Normative rules live here; data lives in `marketing/`.
+**Status:** implemented (Phase C), extended by the Commercial Intelligence
+& Marketing Radar (docs/COMMERCIAL_INTELLIGENCE.md — signals, events,
+lead qualification, relationship history, copilot subcommands). The
+persistent, repository-based marketing system. Normative rules live here;
+data lives in `marketing/`.
 
 ## 1. Purpose and loop
 

@@ -42,7 +42,8 @@ def test_segments_parse_and_stay_in_vocabulary():
 
 
 def test_campaigns_reference_real_segments():
-    segments, _leads, campaigns, problems = workspace_integrity()
+    segments, _leads, _signals, _events, campaigns, problems = \
+        workspace_integrity()
     assert len(campaigns) >= 5
     assert problems == [], problems
     assert segments  # non-empty

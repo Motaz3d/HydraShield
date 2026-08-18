@@ -18,6 +18,24 @@ operator decision per channel.
 | **Gmail mailbox reading** | not implemented | Gmail API/OAuth architecture with explicit scopes and operator authorization | access log; no browser automation, ever |
 | **Payment provider** | not integrated | provider evaluation + integration | transaction records |
 
+## Future commercial-intelligence integrations (classified)
+
+| Integration | Classification | Notes |
+|---|---|---|
+| Public procurement portals (TED, national) | RESEARCH REQUIRED | Public APIs exist; per-portal terms and rate limits to be verified before use |
+| Company registries (national/EU open data) | RESEARCH REQUIRED | Official sources only; coverage varies by country |
+| Official company publications (reports on company sites) | AVAILABLE | Manual research + URL live-check; no automation needed |
+| Official event pages | AVAILABLE | Manual; recorded as EventSignals |
+| Careers pages (public job postings) | AVAILABLE (manual) | Aggregator APIs: LEGAL/TERMS REVIEW REQUIRED |
+| Platform ad-transparency libraries | LEGAL/TERMS REVIEW REQUIRED | Access rules and API availability differ per platform; qualitative `activity_level` only unless an authoritative spend figure is published |
+| LinkedIn official APIs | CREDENTIAL REQUIRED + LEGAL/TERMS REVIEW | OAuth app, granted permissions, per-action audit; no scraping |
+| CRM (e.g. self-hosted or SaaS) | DEFERRED | The `marketing/` workspace is the CRM until volume justifies one |
+| Event APIs | DEFERRED | Manual official-page research suffices at current volume |
+| Email sending (transactional) | AVAILABLE — live | Verified Workspace; operational notifications only |
+| Newsletter/bulk email | DEFERRED + LEGAL/TERMS REVIEW | Requires consent management design first |
+| Calendar | DEFERRED | — |
+| Financial/market datasets | RESEARCH REQUIRED | Official/institutional sources only |
+
 ## Rules for every activation
 
 1. Credentials live only in server-side environment/secret storage —

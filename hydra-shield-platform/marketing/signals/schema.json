@@ -1,0 +1,30 @@
+{
+  "$schema_note": "CommercialSignal schema for marketing/signals/*.json — one file per observed signal. BINDING: a signal is recorded only from a real, publicly accessible source. No inferred advertising spend, no invented activity, no invented people. If evidence is qualitative, activity_level is used and it is explicitly an evidence-based classification, never measured expenditure.",
+  "signal_types": ["climate_risk_publication", "sustainability_report", "resilience_programme", "insurance_climate_activity", "infrastructure_project", "real_estate_development", "coastal_project", "flood_project", "wildfire_activity", "drought_water_programme", "climate_conference", "exhibition", "sponsorship", "public_procurement", "technology_programme", "job_posting", "public_investment", "public_announcement", "advertising_activity"],
+  "evidence_types": ["official_document", "official_website", "public_registry", "procurement_portal", "event_page", "job_board", "press_release", "reputable_media_secondary"],
+  "activity_levels": ["LOW", "MEDIUM", "HIGH"],
+  "schema": {
+    "id": {"type": "string", "required": true, "note": "sig_<slug> — stable identifier"},
+    "organization": {"type": "string", "required": true},
+    "sector": {"type": "enum", "values_from": "../segments/segments.json", "required": true},
+    "country": {"type": "string", "required": true},
+    "region": {"type": "string", "required": false},
+    "hazards": {"type": "list", "values": ["wildfire", "flood", "drought", "heat", "wind", "coastal"], "required": true},
+    "signal_type": {"type": "enum", "values_from": "signal_types", "required": true},
+    "signal_strength": {"type": "enum", "values": ["weak", "moderate", "strong"], "required": true, "note": "assessor judgement tied to the evidence, not a metric"},
+    "activity_level": {"type": "enum", "values_from": "activity_levels", "required": false, "note": "only for advertising_activity; evidence-based classification — NEVER a spend figure"},
+    "source": {"type": "string", "required": true, "note": "institution/site name"},
+    "source_url": {"type": "url", "required": true},
+    "date_observed": {"type": "date", "required": true},
+    "date_checked": {"type": "date", "required": true},
+    "evidence_type": {"type": "enum", "values_from": "evidence_types", "required": true},
+    "confidence": {"type": "enum", "values": ["high", "medium", "low"], "required": true},
+    "notes": {"type": "string"},
+    "recommended_action": {"type": "string"}
+  },
+  "prohibited": [
+    "any field claiming advertising spend or budget without an authoritative published figure (and then: value+currency+year+source+method)",
+    "personal contact data not from a legitimate public/business source",
+    "signals copied from memory without a live-checked URL"
+  ]
+}
