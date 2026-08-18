@@ -1,0 +1,23 @@
+{
+  "$schema_note": "Lead record schema for marketing/leads/*.json — one file per organization. BINDING: a lead exists only from a real, checkable source (official site, registry, public professional profile). No invented organizations, no invented people, no invented interactions. Every record carries source + date_checked.",
+  "schema": {
+    "organization": {"type": "string", "required": true, "note": "legal or public name"},
+    "segment": {"type": "enum", "values_from": "../segments/segments.json", "required": true},
+    "country": {"type": "string", "required": true},
+    "region": {"type": "string", "required": false},
+    "website": {"type": "url", "required": true},
+    "decision_maker_role": {"type": "enum", "values_from": "segments.decision_maker_roles_vocabulary", "note": "a ROLE, never an invented name; a named person only from a public professional source"},
+    "climate_exposure": {"type": "string", "note": "why this organization plausibly faces climate exposure — from public information"},
+    "potential_pain": {"type": "string"},
+    "relevant_hazards": {"type": "list", "values": ["wildfire", "flood", "drought", "heat", "wind", "coastal"]},
+    "relevant_capability": {"type": "string", "note": "must name a real platform capability"},
+    "potential_product": {"type": "enum", "values": ["free_analysis", "professional_report", "monitoring", "alerts_sms", "api", "enterprise_dashboard", "organization_account", "custom_analysis", "climate_risk_intelligence", "historical_event_intelligence", "solutions_intelligence"]},
+    "evidence_to_show": {"type": "string"},
+    "priority": {"type": "enum", "values": ["low", "medium", "high"]},
+    "estimated_fit": {"type": "string", "note": "reasoning, not a fabricated score"},
+    "outreach_status": {"type": "enum", "values": ["researched", "qualified", "draft_prepared", "contacted", "responded", "opportunity", "closed_lost"], "default": "researched"},
+    "source": {"type": "url", "required": true},
+    "date_checked": {"type": "date", "required": true},
+    "interactions": {"type": "list", "items": {"date": "date", "channel": "email|linkedin|event|web", "summary": "string"}, "note": "real interactions only"}
+  }
+}

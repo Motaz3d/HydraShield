@@ -1,0 +1,10 @@
+{
+  "description": "Outreach queue — prepared drafts awaiting HUMAN execution. Nothing here is sent automatically. Each entry references a lead record (or a segment for segment-level content), the drafted message, the channel, and the review state.",
+  "rules": [
+    "Every entry references marketing/leads/<org>.json or a segment id.",
+    "Drafts follow the segment's outreach_style and evidence_requirements.",
+    "Status flow: drafted → reviewed (by the human operator) → executed (by the human operator) → outcome recorded.",
+    "No bulk unsolicited messages; first contact is always individually reviewed."
+  ],
+  "queue": []
+}
