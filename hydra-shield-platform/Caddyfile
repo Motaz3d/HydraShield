@@ -22,6 +22,7 @@ hydrashield.earth {
 		# Clean URL for the human-facing source registry (the API stays
 		# JSON at /api/sources).
 		rewrite /sources /sources.html
+		rewrite /sources/ /sources.html
 		file_server
 	}
 }
