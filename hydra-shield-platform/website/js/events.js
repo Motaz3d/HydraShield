@@ -168,6 +168,14 @@
 
         area.innerHTML = events.map(eventCardHTML).join('');
 
+        if (window.HS && HS.track) HS.track('historical_year_selected',
+            { hazard: query.hazard, lat: loc.lat, lon: loc.lon });
+        if (window.HSConvert) HSConvert.show({
+            mount: 'statusArea', context: 'monitor_area',
+            text: 'Track this area — get an alert when conditions change meaningfully.',
+            cta: 'Monitor this area', href: 'account.html#sms'
+        });
+
         // Wire the per-event daily-table expanders lazily (they are plain
         // <details> elements — no JS needed, but keep the hook minimal).
     }

@@ -46,6 +46,11 @@
                     { feature: TYPES[i].id });
             });
         });
+        if (window.HSConvert) HSConvert.show({
+            mount: 'reportStatus', context: 'report_account',
+            text: 'Reports are free — with an account you keep the full history and can monitor the location.',
+            cta: 'Keep my reports', href: 'account.html'
+        });
         status.textContent = 'Links open the live report endpoint in a new tab. ' +
             'Generation runs the real analysis and can take a minute on a first request; ' +
             'when data is unavailable the endpoint says so instead of rendering invented content.';

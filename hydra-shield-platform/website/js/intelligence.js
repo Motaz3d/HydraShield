@@ -157,6 +157,11 @@
         if (window.HS && HS.track) HS.track('location_analyzed', {
             hazard: a.hazard || currentHazard, lat: loc.lat, lon: loc.lon
         });
+        if (window.HSConvert) HSConvert.show({
+            mount: 'statusArea', context: 'save_analysis',
+            text: 'This analysis is real but temporary — save it and monitor this place with a free account.',
+            cta: 'Save this analysis', href: 'account.html'
+        });
 
         // ---- Level banner ------------------------------------------------
         var lvl = a.level;
