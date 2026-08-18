@@ -26,6 +26,12 @@ claims no validated prevention capability (see `docs/PRODUCT_STORY.md`).
 `docs/SOLUTIONS_INTELLIGENCE.md` · `docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md` ·
 `docs/IMPLEMENTATION_ROADMAP.md` · `docs/QGIS_INTEGRATION_ARCHITECTURE.md`
 
+**Business/operations docs:**
+`docs/SOLUTIONS_INTELLIGENCE.md` · `docs/PRODUCT_ANALYTICS.md` ·
+`docs/MARKETING_INTELLIGENCE.md` · `docs/CUSTOMER_SEGMENTATION.md` ·
+`docs/LINKEDIN_STRATEGY.md` · `docs/CONTENT_STRATEGY.md` ·
+`docs/CONVERSION_STRATEGY.md` · `docs/EXTERNAL_INTEGRATIONS.md`
+
 ## Project Structure
 
 ```

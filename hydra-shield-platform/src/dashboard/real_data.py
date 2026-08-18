@@ -35,7 +35,7 @@ from typing import Dict, List, Optional
 
 from .cache import cached, TTL_GEOCODE, TTL_TERRAIN, TTL_WEATHER_CURRENT, TTL_WEATHER_DAILY, TTL_FIRES
 
-_UA = "HydraShield/1.0 (Earth Observation Decision Support; contact motaz3d@gmail.com)"
+_UA = "HydraShield/1.0 (Climate Extreme Intelligence; contact info@hydrashield.earth)"
 _TIMEOUT = 15.0
 _RETRIES = 2
 

@@ -13,3 +13,6 @@ data
 *.ipynb
 .gitkeep
 docs
+# Business workspace — not runtime code (operator/AI tooling only).
+marketing
+scripts/marketing_status.py

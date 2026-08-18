@@ -169,7 +169,7 @@
         area.innerHTML = events.map(eventCardHTML).join('');
 
         if (window.HS && HS.track) HS.track('historical_year_selected',
-            { hazard: query.hazard, lat: loc.lat, lon: loc.lon });
+            { hazard: body.hazard, lat: loc.lat, lon: loc.lon });
         if (window.HSConvert) HSConvert.show({
             mount: 'statusArea', context: 'monitor_area',
             text: 'Track this area — get an alert when conditions change meaningfully.',

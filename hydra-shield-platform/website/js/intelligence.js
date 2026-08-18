@@ -154,6 +154,10 @@
 
         el('statusArea').innerHTML = '';
         var html = '';
+
+        // ---- Level banner ------------------------------------------------
+        var lvl = a.level;
+        var loc = a.location || {};
         if (window.HS && HS.track) HS.track('location_analyzed', {
             hazard: a.hazard || currentHazard, lat: loc.lat, lon: loc.lon
         });
@@ -162,10 +166,6 @@
             text: 'This analysis is real but temporary — save it and monitor this place with a free account.',
             cta: 'Save this analysis', href: 'account.html'
         });
-
-        // ---- Level banner ------------------------------------------------
-        var lvl = a.level;
-        var loc = a.location || {};
         html += '<div class="panel">';
         html += '<h2>' + esc(loc.name || (loc.lat + ', ' + loc.lon)) + ' — ' +
             esc(a.hazard) + ' ' + chip(a.status || 'ok', (a.status || 'ok').toUpperCase()) + '</h2>';

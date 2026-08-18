@@ -23,23 +23,25 @@ first-class answers.
 
 ## 2. The evidence vocabulary (part of the brand)
 
-Every statement carries a **temporal class**:
+Every statement carries a **temporal class** (the platform's
+`TemporalClass` ontology — `src/climate/ontology.py`):
 
 | Class | Meaning |
 |---|---|
 | OBSERVED | Measured now/recently by a real instrument or official feed |
 | HISTORICAL | Documented past events or past conditions from archives |
 | FORECAST | Short-horizon model forecast from a real forecasting system |
-| MODELLED | Computed from a model (incl. reanalysis), not directly measured |
 | PROJECTED | Long-horizon scenario-conditional projection (e.g. IPCC AR6) |
 | SCENARIO | A declared what-if computation, explicitly not a prediction |
-| INFERRED | Derived indirectly from other evidence |
-| UNKNOWN | Not knowable from available authoritative data |
 
-…and a **claim status**: OBSERVED · DOCUMENTED · REPORTED · MODELLED ·
-INFERRED · UNKNOWN. Historical evidence stays structurally separate from
-modelled interpretation. Projections are never mixed with current
-observations. Causes are DOCUMENTED or UNKNOWN — never invented.
+…and a **claim status** (the platform's `ClaimStatus` ontology):
+OBSERVED · DOCUMENTED · REPORTED · MODELLED · INFERRED · UNKNOWN —
+where MODELLED means "computed from a declared model (incl. reanalysis),
+not directly measured", INFERRED means "derived indirectly from other
+evidence", and UNKNOWN means "not knowable from available authoritative
+data". Historical evidence stays structurally separate from modelled
+interpretation. Projections are never mixed with current observations.
+Causes are DOCUMENTED or UNKNOWN — never invented.
 
 ## 3. Six hazards, one architecture
 

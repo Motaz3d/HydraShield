@@ -98,7 +98,7 @@
             '<div class="footer-bottom">' +
             '<p>© 2026 HydraShield Earth Systems. All rights reserved.</p>' +
             '<p>Evidence: OBSERVED · DOCUMENTED · REPORTED · MODELLED · INFERRED · UNKNOWN<br>' +
-            'Time: OBSERVED · HISTORICAL · FORECAST · MODELLED · PROJECTED · SCENARIO</p>' +
+            'Time: OBSERVED · HISTORICAL · FORECAST · PROJECTED · SCENARIO</p>' +
             '</div>' +
             '</div></footer>';
     }
