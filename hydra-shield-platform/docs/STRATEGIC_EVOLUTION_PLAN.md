@@ -1,8 +1,77 @@
 # HydraShield — Strategic Evolution Plan
 
 **Status:** active plan, executed in controlled phases. Phase 1 (audit) and
-Phase 2 (product story) are implemented in this change set. Phases 3–10 are
-scoped here and executed in later, separately verified changes.
+Phase 2 (product story) shipped in `6a419bd`. The business-evolution
+Phases A–H below shipped in `cde9aea` (A), `066c8fc` (B+E backend),
+`cc6f1c0` (E docs), `74e446f` (C), `11e2300` (D), `c87d96a` (F) and the
+G/H commit. All LOCAL ONLY — nothing pushed, nothing deployed.
+
+## Execution status board
+
+### ALREADY IMPLEMENTED
+
+- Six-hazard evidence platform, accounts/subscriptions, SMS/email alerts,
+  webhooks, API keys, provenance + registries, reports (pre-existing).
+- **Phase 1–2** — audit + product story (`docs/PRODUCT_STORY.md`,
+  homepage ten-question narrative, legacy pages reframed, official
+  mailbox, contact form wired to the real endpoint).
+- **Phase A — Solutions Intelligence** (`cde9aea`): extended KB (economic
+  sectors, confidence, quantification status, accessed dates), six
+  solution packages with why_together, fit bands, inferred site sectors,
+  resilience-economics block (all not_quantified), UI rendering.
+- **Phase B — product analytics** (`066c8fc`): first-party event store +
+  beacon, privacy by construction (hashed pseudonyms, ~11 km coordinates,
+  no IPs, DNT, whitelist), 12-month retention, session erasure,
+  `privacy.html`.
+- **Phase E — admin analytics** (`066c8fc` + `cc6f1c0`): admin-only
+  aggregate endpoints (summary/top/daily) + API docs. Visual dashboard
+  page remains NEXT.
+- **Phase C — marketing workspace + segmentation** (`74e446f`):
+  `marketing/` knowledge base, 19 segments, lead schema + empty ledger,
+  human-gated outreach queue.
+- **Phase D — LinkedIn architecture** (`11e2300`): pillars, campaigns A–G,
+  calendar, drafts, compliance rules.
+- **Phase F — conversion UX** (`c87d96a`): contextual dismissible CTAs on
+  intelligence/events/map/solutions/reports; CONVERSION_STRATEGY.md.
+- **Phase G — AI copilot** (this phase): copilot protocol in
+  `marketing/README.md`, `scripts/marketing_status.py` (workspace status
+  + integrity check), CONTENT_STRATEGY.md (demand-driven backlog loop).
+- **Phase H — integration readiness** (this phase):
+  `docs/EXTERNAL_INTEGRATIONS.md` activation matrix.
+
+### NEXT (highest first)
+
+1. **Annual Climate Extreme Intelligence Report** (strategic Phase 3) —
+   requires a real research pass with dated institutional sources.
+2. Visual admin dashboard page over the analytics aggregates.
+3. Server-side events for remaining funnel steps (subscription_started,
+   sms_enabled, alert_created are declared; wire at the real moments).
+4. Lead research pass for 2–3 pilot segments (municipalities, insurance)
+   — real organizations, public sources, schema-checked.
+5. QGIS Phase 0 spike (strategic Phase 9).
+
+### RESEARCH REQUIRED
+
+- Annual-report source capture (WMO/IPCC/UNDRR/Copernicus/JRC/NASA/NOAA/
+  ESA/World Bank/national agencies), dated and archived.
+- Regional market verification (Luxembourg/EU, Gulf, China, North America)
+  from official programme sources before any market claim.
+- LinkedIn official API capabilities/permissions — only if API posting is
+  ever considered.
+
+### CREDENTIAL REQUIRED (unchanged)
+
+- `FIRMS_MAP_KEY` (wildfire events), `SMTP_*` (production email),
+  `HYDRASHIELD_SECRET_KEY`, `SMS_*` (real SMS delivery) — server env only.
+
+### DEFERRED
+
+- Platform-side polygon analysis endpoint; API-key public rate budgets;
+  Gmail mailbox reading (OAuth design first); payment provider;
+  X/YouTube/newsletter channels (architecture mirrors LinkedIn when a real
+  cadence exists).
+
+---
 
 **Direction (authoritative):** HydraShield evolves from a climate-risk
 analysis website into **Climate Extreme Intelligence**: Earth observation +
