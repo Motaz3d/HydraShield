@@ -451,6 +451,8 @@ def admin_intelligence():
         "funding_radar": funding_radar,
         "funnel_stages": {
             "visitor": funnel.get("page_view", 0),
+            "cta_viewed": funnel.get("cta_viewed", 0),
+            "cta_clicked": funnel.get("cta_clicked", 0),
             "analysis": funnel.get("location_analyzed", 0),
             "repeat_analysis": repeat_analysis,
             "account": funnel.get("account_created", 0),

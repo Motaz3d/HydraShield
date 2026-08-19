@@ -28,12 +28,13 @@ def test_conversion_thresholds_escalate_in_order():
     assert result.returncode == 0, result.stderr
     out = json.loads(result.stdout)
     assert out["thresholds"] == {"account_nudge": 2, "monitor_nudge": 3,
-                                 "strong_nudge": 5}
+                                 "strong_nudge": 5, "business_nudge": 8}
     assert out["tier_at_zero"] is None
     assert out["tier_after_1"] is None
     assert out["tier_after_2"] == "tier_account"
     assert out["tier_after_3"] == "tier_monitor"
     assert out["tier_after_5"] == "tier_professional"
+    assert out["tier_after_8"] == "tier_business"
 
 
 @pytest.fixture()
@@ -76,3 +77,15 @@ def test_alert_deep_links_carry_location_and_hazard():
     acct = open(os.path.join(ROOT, "..", "website", "js",
                              "account.js"), encoding="utf-8").read()
     assert "prefillRuleFromUrl" in acct and "pendingRuleHazard" in acct
+
+
+def test_all_high_value_surfaces_run_tier_escalation():
+    """Every high-value surface must call HSConvert.evaluate — regression
+    guard for conversion coverage."""
+    import re
+    for page in ("intelligence", "events", "map", "solutions", "economy",
+                 "reports", "funding"):
+        src = open(os.path.join(ROOT, "..", "website", "js",
+                                f"{page}.js"), encoding="utf-8").read()
+        assert "HSConvert.evaluate" in src, page
+        assert "HSConvert.show" in src, page

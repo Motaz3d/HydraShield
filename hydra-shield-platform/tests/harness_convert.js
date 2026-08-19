@@ -58,5 +58,10 @@ HC.trackAction('funding_viewed');
 HC.trackAction('location_analyzed');
 HC.evaluate('statusArea');
 out.tier_after_5 = tierShown();   // 5 → tier_professional
+HC.trackAction('location_analyzed');
+HC.trackAction('report_generated');
+HC.trackAction('solution_viewed');
+HC.evaluate('statusArea');
+out.tier_after_8 = tierShown();   // 8 → tier_business
 out.events = [...new Set(tracked.map((t) => t[0]))];
 console.log(JSON.stringify(out));

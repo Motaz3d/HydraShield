@@ -117,6 +117,7 @@
             text: 'This exposure profile is computed live — save it and monitor this place with a free account.',
             cta: 'Save this exposure profile', href: 'account.html'
         });
+        if (window.HSConvert) HSConvert.evaluate('statusArea');
 
         var html = '';
 

@@ -19,7 +19,8 @@
         thresholds: {
             account_nudge: 2,   // 2nd high-value analysis → account CTA
             monitor_nudge: 3,   // 3rd+ → save & monitor CTA
-            strong_nudge: 5     // 5th+ → professional capabilities CTA
+            strong_nudge: 5,    // 5th+ → professional capabilities CTA
+            business_nudge: 8   // 8th+ → business/organization CTA
         },
         // high-value actions counted toward the thresholds
         high_value_actions: ['location_analyzed', 'solution_viewed',
@@ -27,7 +28,8 @@
         messages: {
             account: 'You are getting real value from HydraShield. Create a free account to save analyses, monitor locations and receive updates.',
             monitor: 'Save this and monitor it — HydraShield watches so you don\'t have to.',
-            professional: 'Heavy use detected — professional capabilities (more monitoring, SMS alerts, API) may fit you. Subscription required; contact us for business.'
+            professional: 'Heavy use detected — professional capabilities (more monitoring, SMS alerts, API) may fit you. Subscription required; contact us for business.',
+            business: 'This looks like organizational use — business/government arrangements offer many monitored locations, teams, API and support. Contact us.'
         }
     };
 
@@ -71,6 +73,7 @@
     function currentTier() {
         var n = highValueCount();
         var t = CONVERSION_CONFIG.thresholds;
+        if (n >= t.business_nudge) return 'business';
         if (n >= t.strong_nudge) return 'professional';
         if (n >= t.monitor_nudge) return 'monitor';
         if (n >= t.account_nudge) return 'account';
@@ -124,9 +127,10 @@
             mount: mountId,
             context: 'tier_' + tier,
             text: CONVERSION_CONFIG.messages[tier],
-            cta: tier === 'professional' ? 'Explore professional capabilities'
-                : (tier === 'monitor' ? 'Save and monitor' : 'Create a free account'),
-            href: 'account.html'
+            cta: tier === 'business' ? 'Contact us'
+                : (tier === 'professional' ? 'Explore professional capabilities'
+                : (tier === 'monitor' ? 'Save and monitor' : 'Create a free account')),
+            href: tier === 'business' ? 'contact.html' : 'account.html'
         });
     }
 

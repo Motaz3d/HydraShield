@@ -66,6 +66,7 @@
             text: 'See a place worth watching? Create a monitoring alert with a free account.',
             cta: 'Create a monitoring alert', href: 'account.html#sms'
         });
+        if (window.HSConvert) HSConvert.evaluate('mapSidebar');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

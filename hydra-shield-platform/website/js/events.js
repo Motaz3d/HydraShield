@@ -177,6 +177,7 @@
             href: 'account.html?location=' + encodeURIComponent(loc.name || '') +
                   (body.hazard ? '&hazard=' + encodeURIComponent(body.hazard) : '') + '#sms'
         });
+        if (window.HSConvert) HSConvert.evaluate('statusArea');
 
         // Wire the per-event daily-table expanders lazily (they are plain
         // <details> elements — no JS needed, but keep the hook minimal).
