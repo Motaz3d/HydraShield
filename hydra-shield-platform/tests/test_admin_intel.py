@@ -171,5 +171,18 @@ def test_intel_daily_workspace_fields(client, env):
         for field in ("organization", "why", "hazards", "service",
                       "message", "next_action"):
             assert field in c, field
+        # The daily workspace must be actionable: a high-priority lead
+        # carries its hazard context, product fit and message — never
+        # nulls from a normalization drop.
+        assert c["hazards"], "contact_now hazards must not be empty"
+        assert c["service"], "contact_now service must not be empty"
+        assert c["message"], "contact_now message must not be empty"
     assert body["hazard_areas"] is not None
     assert body["hazard_opportunities"] is not None
+    for opp in body["hazard_opportunities"]:
+        assert opp["organization"] and opp["area"]
+        assert opp["product_fit"], "opportunity must carry a product fit"
+        assert opp["message"], "opportunity must carry the lead's message"
+        ev = opp["evidence"]
+        assert ev["lead_source"] and ev["date_checked"], \
+            "opportunity evidence chain must cite the lead source"

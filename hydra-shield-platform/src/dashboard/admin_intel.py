@@ -131,6 +131,16 @@ def _workspace_section() -> Dict[str, Any]:
              "segment": l.get("segment"), "country": l.get("country"),
              "identified_problem": l.get("identified_problem"),
              "hazards": l.get("relevant_hazards"),
+             # Raw field names carried through for the copilot, priority
+             # markets and the hazard radar, which all read the lead-record
+             # schema (relevant_hazards / recommended_product /
+             # recommended_message / source / date_checked).
+             "relevant_hazards": l.get("relevant_hazards"),
+             "recommended_product": l.get("recommended_product"),
+             "recommended_message": l.get("recommended_message"),
+             "decision_maker_role": l.get("decision_maker_role"),
+             "source": l.get("source"),
+             "date_checked": l.get("date_checked"),
              "priority": l.get("priority"), "urgency": l.get("urgency"),
              "outreach_status": l.get("outreach_status", "researched"),
              "relationship_type": l.get("relationship_type", "customer"),
