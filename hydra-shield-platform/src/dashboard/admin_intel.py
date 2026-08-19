@@ -295,9 +295,14 @@ def admin_intelligence():
         hot.sort(key=lambda l: l.get("organization") or "")
         copilot["contact_now"] = [
             {"organization": l.get("organization"),
+             "segment": l.get("segment"),
+             "country": l.get("country"),
              "why": l.get("identified_problem"),
+             "hazards": l.get("relevant_hazards"),
              "service": (l.get("recommended_product") or "").replace("_", " "),
-             "next_action": l.get("next_action")}
+             "message": l.get("recommended_message"),
+             "next_action": l.get("next_action"),
+             "next_followup": l.get("next_followup")}
             for l in hot[:8]
         ]
         copilot["followups_due"] = (ws.get("prospects") or {}).get(
@@ -306,6 +311,32 @@ def admin_intelligence():
         if os.path.isdir(drafts_dir):
             copilot["publish_queue"] = sorted(
                 f for f in os.listdir(drafts_dir) if f.endswith(".md"))
+        # Today's workspace activity (new leads + interactions dated today).
+        copilot["new_leads_today"] = [
+            l.get("organization") for l in leads_all
+            if (l.get("interactions") or [{}])[0].get("date") == today
+            and (l.get("interactions") or [{}])[0].get("type") == "discovered"
+        ]
+        copilot["interactions_today"] = [
+            {"organization": l.get("organization"),
+             "type": i.get("type"), "summary": i.get("summary")}
+            for l in leads_all for i in (l.get("interactions") or [])
+            if i.get("date") == today
+        ]
+        # Campaign summary for the workspace view.
+        camp_path = os.path.join(_WORKSPACE, "campaigns",
+                                 "linkedin_campaigns.json")
+        copilot["campaigns"] = []
+        if os.path.exists(camp_path):
+            try:
+                with open(camp_path, encoding="utf-8") as fh:
+                    for c in json.load(fh).get("campaigns") or []:
+                        copilot["campaigns"].append({
+                            "id": c.get("id"), "name": c.get("name"),
+                            "cta": c.get("cta"),
+                            "conversion_goal": c.get("conversion_goal")})
+            except (OSError, ValueError):
+                copilot["campaigns"] = []
         alerts_block["high_priority_prospects"] = [
             l.get("organization") for l in hot[:10]]
         # The six priority commercial markets, with hazard context (first

@@ -154,3 +154,22 @@ def test_intel_funding_radar_provenance(client, env):
     names = {p["name"] for p in fr["programmes"]}
     assert any("Asian Development Bank" in n for n in names)
     assert any("Asian Infrastructure Investment Bank" in n for n in names)
+
+
+def test_intel_daily_workspace_fields(client, env):
+    """The daily-workspace payload: contact-now carries the full context
+    (why/hazards/product/message/next action), plus campaigns and today's
+    activity."""
+    headers = _make_admin(client, env)
+    body = client.get("/api/v2/admin/intel", headers=headers).get_json()
+    cp = body["copilot"]
+    for key in ("contact_now", "followups_due", "publish_queue",
+                "campaigns", "new_leads_today", "interactions_today"):
+        assert key in cp, key
+    if cp["contact_now"]:
+        c = cp["contact_now"][0]
+        for field in ("organization", "why", "hazards", "service",
+                      "message", "next_action"):
+            assert field in c, field
+    assert body["hazard_areas"] is not None
+    assert body["hazard_opportunities"] is not None
