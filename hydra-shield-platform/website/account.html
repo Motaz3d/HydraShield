@@ -54,11 +54,11 @@
                         <form id="loginForm">
                             <div class="form-group">
                                 <label for="loginEmail">Email</label>
-                                <input type="email" id="loginEmail" required autocomplete="email">
+                                <input type="email" id="loginEmail" required placeholder="you@example.com" autocomplete="email">
                             </div>
                             <div class="form-group">
                                 <label for="loginPassword">Password</label>
-                                <input type="password" id="loginPassword" required autocomplete="current-password">
+                                <input type="password" id="loginPassword" required placeholder="Your password" autocomplete="current-password">
                             </div>
                             <button class="btn-action" type="submit">Sign in</button>
                             <p class="muted small" style="margin-top:10px;">
@@ -85,20 +85,20 @@
                         <h2>Create an account</h2>
                         <form id="registerForm">
                             <div class="form-group">
-                                <label for="regName">Display name (optional)</label>
-                                <input type="text" id="regName" autocomplete="name">
+                                <label for="regName">Display name <span class="muted small">(optional)</span></label>
+                                <input type="text" id="regName" placeholder="Your name" autocomplete="name">
                             </div>
                             <div class="form-group">
-                                <label for="regEmail">Email</label>
-                                <input type="email" id="regEmail" required autocomplete="email">
+                                <label for="regEmail">Email <span style="color:#dc2626;">*</span></label>
+                                <input type="email" id="regEmail" required placeholder="you@example.com" autocomplete="email">
                             </div>
                             <div class="form-group">
-                                <label for="regPassword">Password</label>
-                                <input type="password" id="regPassword" required autocomplete="new-password">
+                                <label for="regPassword">Password <span style="color:#dc2626;">*</span> <span class="muted small">(min 10 characters)</span></label>
+                                <input type="password" id="regPassword" required minlength="10" placeholder="At least 10 characters" autocomplete="new-password">
                             </div>
                             <div class="form-group" style="display:flex;gap:8px;align-items:flex-start;">
-                                <input type="checkbox" id="regConsent" style="margin-top:4px;">
-                                <label for="regConsent" style="font-weight:normal;">I consent to HydraShield storing my email address and account data to provide the service (required). No marketing email is sent without separate permission.</label>
+                                <input type="checkbox" id="regConsent" style="margin-top:4px;" required>
+                                <label for="regConsent" style="font-weight:normal;">I consent to HydraShield storing my email address and account data to provide the service <span style="color:#dc2626;">*</span></label>
                             </div>
                             <button class="btn-action" type="submit">Register</button>
                             <p class="muted small" style="margin-top:10px;">

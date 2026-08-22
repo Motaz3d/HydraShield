@@ -824,8 +824,9 @@ body {
     border-radius: var(--radius-sm);
     font-family: var(--font-main);
     font-size: 0.95rem;
+    color: var(--dark);
     transition: border-color 0.3s ease;
-    background: var(--light);
+    background: var(--white);
 }
 
 .form-group input:focus,
@@ -834,6 +835,7 @@ body {
     outline: none;
     border-color: var(--primary);
     background: var(--white);
+    color: var(--dark);
 }
 
 .form-group textarea {
