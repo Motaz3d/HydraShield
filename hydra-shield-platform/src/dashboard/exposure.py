@@ -32,6 +32,15 @@ from .real_data import _UA
 TTL_EXPOSURE = 7 * 24 * 3600.0  # mapped features change slowly
 _OHSOME_URL = "https://api.ohsome.org/v1/elements/count"
 _OVERPASS_URLS = [
+    # Order matters: the first reachable instance with GLOBAL data wins.
+    # maps.mail.ru (VK) answers from the Vultr deployment with full global
+    # data; overpass-api.de refuses the server IP (connection refused,
+    # live-checked 2026-08-22) and kumi/private.coffee are unreachable from
+    # there — they stay as fallbacks for other networks (e.g. local dev).
+    # overpass.osm.ch is deliberately NOT listed: it serves a Switzerland-
+    # only extract while answering HTTP 200, which would silently truncate
+    # global results (live-checked 2026-08-22).
+    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
     "https://overpass.private.coffee/api/interpreter",
