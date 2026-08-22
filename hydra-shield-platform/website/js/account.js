@@ -184,6 +184,17 @@
                 showView(false);
             });
         });
+
+        // Show/hide password toggles (login, register, reset forms)
+        Array.prototype.forEach.call(document.querySelectorAll('.pw-toggle'), function (btn) {
+            btn.addEventListener('click', function () {
+                var input = el(btn.getAttribute('data-target'));
+                var show = input.type === 'password';
+                input.type = show ? 'text' : 'password';
+                btn.textContent = show ? 'Hide' : 'Show';
+                btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+            });
+        });
     }
 
     // ------------------------------------------------------------------
