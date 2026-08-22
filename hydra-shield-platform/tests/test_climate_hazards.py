@@ -648,14 +648,105 @@ def test_coastal_analyze_unavailable(monkeypatch):
 
 
 # ---------------------------------------------------------------------------
+# Tropical cyclones (GDACS)
+# ---------------------------------------------------------------------------
+
+
+def _tc_feature(eventid=1001305, episodeid=17, name="Tropical Cyclone TEST-26",
+                alert="Red", lat=15.0, lon=145.0, source="JTWC"):
+    return {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [lon, lat]},
+        "properties": {
+            "eventtype": "TC", "eventid": eventid, "episodeid": episodeid,
+            "eventname": name, "name": name,
+            "alertlevel": alert, "alertscore": 3,
+            "episodealertlevel": alert, "episodealertscore": 3.0,
+            "country": "Testland", "fromdate": "2026-08-18T12:00:00",
+            "todate": "2026-08-22T12:00:00", "source": source,
+            "url": {"report": "https://www.gdacs.org/report.aspx?eventid=1001305"},
+        },
+    }
+
+
+def _cyclone_feed(*features):
+    return {
+        "features": list(features),
+        "source": "GDACS — Global Disaster Alert and Coordination System (UN-OCHA / EU JRC)",
+        "request_url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventtypes=TC",
+    }
+
+
+def test_cyclone_analyze_nearest_storm_and_level(monkeypatch):
+    from src.climate.hazards.cyclone import CycloneModule
+    monkeypatch.setattr(real_data, "fetch_active_cyclones", lambda: _cyclone_feed(
+        _tc_feature(name="Tropical Cyclone NEAR-26", alert="Red", lat=37.5, lon=15.5),
+        _tc_feature(eventid=2, episodeid=1, name="Tropical Cyclone FAR-26",
+                    alert="Orange", lat=25.0, lon=25.0),
+    ))
+    result = CycloneModule().analyze(37.0, 15.0)
+    assert result.status == "ok"
+    nearest = result.blocks["active_monitoring"]["nearest"]
+    assert nearest["name"] == "Tropical Cyclone NEAR-26"
+    assert nearest["distance_km"] < 100
+    assert "Extreme" in result.level.label  # Red alert within 300 km
+    assert result.blocks["historical_tracks"]["status"] == "unavailable"
+    assert result.evidence and result.provenance
+
+
+def test_cyclone_analyze_no_active_storms(monkeypatch):
+    from src.climate.hazards.cyclone import CycloneModule
+    monkeypatch.setattr(real_data, "fetch_active_cyclones", lambda: _cyclone_feed())
+    result = CycloneModule().analyze(37.0, 15.0)
+    assert result.status == "ok"
+    assert "No active" in result.level.label
+
+
+def test_cyclone_analyze_honest_unavailable(monkeypatch):
+    from src.climate.hazards.cyclone import CycloneModule
+    monkeypatch.setattr(real_data, "fetch_active_cyclones",
+                        lambda: {"error": "GDACS unreachable"})
+    result = CycloneModule().analyze(37.0, 15.0)
+    assert result.status == "unavailable"
+    assert result.unavailable_reason
+
+
+def test_cyclone_events_year_query_is_honestly_unavailable(monkeypatch):
+    from src.climate.hazards.cyclone import CycloneModule
+    monkeypatch.setattr(real_data, "fetch_active_cyclones",
+                        lambda: _cyclone_feed(_tc_feature(lat=37.2, lon=15.2)))
+    module = CycloneModule()
+    hist = module.events(37.0, 15.0, radius_km=500, year=2024)
+    assert hist["status"] == "unavailable"
+    assert "IBTrACS" in hist["reason"]
+    cur = module.events(37.0, 15.0, radius_km=500)
+    assert cur["status"] == "ok"
+    assert len(cur["events"]) == 1
+    far = module.events(0.0, 0.0, radius_km=100)
+    assert far["events"] == []
+
+
+def test_cyclone_feed_filters_non_tc_eventtypes(monkeypatch):
+    """The GDACS SEARCH feed can carry other event types (wildfires etc.) —
+    only genuine tropical-cyclone entries are admitted."""
+    from src.climate.hazards.cyclone import CycloneModule
+    wf = _tc_feature(name="Forest fires in Testland", lat=37.3, lon=15.3)
+    wf["properties"]["eventtype"] = "WF"
+    monkeypatch.setattr(real_data, "fetch_active_cyclones",
+                        lambda: _cyclone_feed(wf, _tc_feature(lat=37.2, lon=15.2)))
+    cur = CycloneModule().events(37.0, 15.0, radius_km=500)
+    assert [e["name"] for e in cur["events"]] == ["Tropical Cyclone TEST-26"]
+
+
+# ---------------------------------------------------------------------------
 # Registry + /api/v2
 # ---------------------------------------------------------------------------
 
 
-def test_registry_lists_all_eight_hazards():
+def test_registry_lists_all_nine_hazards():
     ids = registry.ids()
     assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind",
-                        "coastal", "dust", "volcanic"}
+                        "coastal", "dust", "volcanic", "cyclone"}
     for module in registry.all_modules():
         d = module.descriptor()
         assert d["temporal_coverage"], module.id
@@ -730,17 +821,17 @@ def client(tmp_path, monkeypatch):
     return app.test_client()
 
 
-def test_v2_hazards_lists_all_eight(client):
+def test_v2_hazards_lists_all_nine(client):
     resp = client.get("/api/v2/hazards")
     assert resp.status_code == 200
     ids = [h["id"] for h in resp.get_json()["hazards"]]
     assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind",
-                        "coastal", "dust", "volcanic"}
+                        "coastal", "dust", "volcanic", "cyclone"}
 
 
 def test_v2_hazards_descriptor_contract(client):
     """Endpoint-level descriptor contract (Section: hazard registry):
-    HTTP 200 JSON, eight hazards (six active + dust/volcanic honestly
+    HTTP 200 JSON, nine hazards (seven active + dust/volcanic honestly
     unavailable), and per hazard: id, name, enabled state, analysis/events
     availability, temporal coverage, official sources with URLs, and
     provenance."""
@@ -748,7 +839,7 @@ def test_v2_hazards_descriptor_contract(client):
     assert resp.status_code == 200
     assert resp.content_type.startswith("application/json")
     hazards = resp.get_json()["hazards"]
-    assert len(hazards) == 8
+    assert len(hazards) == 9
     for h in hazards:
         assert h["id"] and h["name"] and h["tagline"]
         assert h["enabled"] is True

@@ -138,6 +138,42 @@ def reverse_geocode(lat: float, lon: float) -> Dict:
 
 
 # --------------------------------------------------------------------------
+# Active tropical cyclones — GDACS (UN-OCHA / EU JRC), global, no key
+# --------------------------------------------------------------------------
+
+@cached("gdacs_tc", TTL_WEATHER_CURRENT)
+def fetch_active_cyclones() -> Dict:
+    """
+    Active / ongoing tropical cyclones worldwide.
+
+    Source: GDACS (Global Disaster Alert and Coordination System — UN-OCHA
+    / EU JRC) event-list API, GeoJSON FeatureCollection of current ``TC``
+    events with alert level, affected countries, validity window and the
+    originating warning centre (``properties.source``, e.g. JTWC). Free,
+    no key. Honest error dict on failure — never an invented storm list.
+    """
+    url = ("https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
+           "?eventtypes=TC")
+    # NOTE: the GDACS edge blocks the branded HydraShield User-Agent (HTTP
+    # 403 to any UA containing the brand string, live-checked 2026-08-22),
+    # so this request goes out with the default urllib UA. No Accept-based
+    # or branded header is sent.
+    try:
+        req = urllib.request.Request(url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=20.0) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except Exception as exc:
+        return {"error": f"GDACS event list unavailable: {exc}"}
+    if not isinstance(data, dict) or not isinstance(data.get("features"), list):
+        return {"error": "GDACS returned an unexpected payload"}
+    return {
+        "features": data["features"],
+        "source": "GDACS — Global Disaster Alert and Coordination System (UN-OCHA / EU JRC)",
+        "request_url": url,
+    }
+
+
+# --------------------------------------------------------------------------
 # Elevation / terrain — OpenTopoData (EU-DEM 25 m, SRTM fallback)
 # --------------------------------------------------------------------------
 

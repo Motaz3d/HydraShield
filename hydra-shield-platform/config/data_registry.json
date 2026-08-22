@@ -2152,6 +2152,46 @@
       "commercial_use": "unknown",
       "status": "candidate",
       "status_note": "Candidate — catalog record only; nothing wired to it."
+    },
+    {
+      "id": "gdacs-tc",
+      "name": "GDACS tropical-cyclone event monitoring (UN-OCHA / EU JRC)",
+      "provider": "UN-OCHA / EU Joint Research Centre — GDACS",
+      "provider_class": "un_agency",
+      "url": "https://www.gdacs.org/",
+      "license": "GDACS open access (UN/EU disaster-information service)",
+      "geographic_coverage": "Global (all tropical-cyclone basins)",
+      "temporal_coverage": "Current/ongoing events (live monitoring); historical seasons via NOAA IBTrACS (candidate, not wired)",
+      "spatial_resolution": "Latest official storm positions (warning-centre fixes)",
+      "temporal_resolution": "updated as warning centres issue fixes (minutes to hours)",
+      "update_frequency": "continuous during active events",
+      "variables": [
+        "storm position (latest fix)",
+        "GDACS alert level (Green/Orange/Red)",
+        "affected countries",
+        "event validity window",
+        "originating warning centre (e.g. JTWC, NHC)"
+      ],
+      "hazard_relevance": [
+        "cyclone"
+      ],
+      "provenance": "Wired 2026-08-22 for the tropical-cyclone hazard module (analyze + active-storms layer); geteventlist SEARCH API live-checked 2026-08-22.",
+      "quality": "Monitoring positions and impact-oriented alert levels from the official warning centres via GDACS — not a forecast, not historical tracks.",
+      "access_method": "api",
+      "api_or_download_url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventtypes=TC",
+      "commercial_use": "allowed_with_attribution",
+      "status": "integrated",
+      "status_note": "Integrated (no key required): cyclone analyze + active-storms map layer via src/dashboard/real_data.py::fetch_active_cyclones (cached 1 h).",
+      "data_quality_profile": {
+        "freshness": "continuous during active events",
+        "completeness": "Current/ongoing events only; historical seasons are NOT covered (IBTrACS candidate).",
+        "spatial_resolution_note": "Latest official storm positions (warning-centre fixes)",
+        "temporal_resolution_note": "minutes to hours during active events",
+        "provenance_note": "Wired 2026-08-22; API live-checked 2026-08-22 (active TC SAUDEL-26 returned).",
+        "validation": "API contract covered by offline tests (mocked feed); live path checked 2026-08-22.",
+        "coverage_note": "Global — all tropical-cyclone basins.",
+        "licensing_note": "GDACS open access; attribution shown on the layer."
+      }
     }
   ]
 }

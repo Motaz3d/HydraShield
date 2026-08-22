@@ -14,6 +14,8 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Transactional email (verification, reset, alerts) | ✅ | Gmail SMTP live on Vultr (`/opt/hydrashield/.env`, never in Git) |
 | SMS alerts | 🔶 | Code complete, 33 tests green, three honest backends; production runs the dev outbox — **no real SMS until a provider is configured** (`SMS_PROVIDER=http` + `SMS_HTTP_URL` + key/secret in server `.env`) |
 | Show/hide password on auth forms | ✅ | Live on `account.html` |
+| Tropical cyclones — 7th hazard | ✅ | GDACS (UN-OCHA/EU JRC) live global monitoring: analyze + active-storms map layer; historical tracks via IBTrACS declared candidate (not wired, honestly stated) |
+| International trade movement on the map | 🔶 | Ports/harbours layer live (OSM, 50 km, `/api/trade-infrastructure`); live vessel tracking (AIS) needs a shipping-data provider — declared, not wired |
 
 ## Geographic coverage — "we cover the entire Earth"
 

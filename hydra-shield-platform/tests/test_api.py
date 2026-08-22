@@ -227,6 +227,27 @@ def test_reverse_endpoint_contract(client, monkeypatch):
     assert client.get("/api/reverse?lat=50&lon=6").status_code == 502
 
 
+def test_trade_infrastructure_endpoint_contract(client, monkeypatch):
+    """Trade-infrastructure endpoint: mapped ports/harbours, validated
+    params, honest 502 on upstream failure."""
+    from src.dashboard import exposure
+    monkeypatch.setattr(exposure, "fetch_trade_infrastructure",
+                        lambda lat, lon, radius: {
+                            "features": [{"kind": "harbour", "lat": lat,
+                                          "lon": lon, "name": "Port of Test"}],
+                            "radius_m": radius,
+                            "source": "OpenStreetMap (Overpass API)",
+                            "note": "Mapped ports/harbours; lower bound."})
+    resp = client.get("/api/trade-infrastructure?lat=35.0&lon=14.5")
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["features"][0]["name"] == "Port of Test"
+    assert client.get("/api/trade-infrastructure").status_code == 400
+    monkeypatch.setattr(exposure, "fetch_trade_infrastructure",
+                        lambda lat, lon, radius: {"error": "Overpass down"})
+    assert client.get("/api/trade-infrastructure?lat=35&lon=14").status_code == 502
+
+
 def test_government_page_has_public_sector_journey():
     """for-government.html carries the full public-sector journey and the
     subscription path — territorial risk → exposure → economy → solutions

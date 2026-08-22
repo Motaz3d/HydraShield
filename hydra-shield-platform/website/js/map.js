@@ -183,6 +183,8 @@
             if (!rec.active) return;
             if (rec.spec.layer_id === 'wildfire.danger_grid' ||
                 rec.spec.layer_id === 'wildfire.events' ||
+                rec.spec.layer_id === 'cyclone.active' ||
+                rec.spec.layer_id === 'platform.trade_ports' ||
                 rec.spec.layer_id === 'platform.exposure_features' ||
                 rec.spec.layer_id === 'platform.active_fires') {
                 loadLayer(rec, true);
@@ -320,6 +322,18 @@
             status: 'available',
             temporal: 'MODELLED',
             provenance: { note: 'Gridded reference-year estimates — never exact counts; overlaid on the FWI hazard grid for population-by-hazard-class.' }
+        }, {
+            layer_id: 'platform.trade_ports',
+            label: 'Trade infrastructure — ports & harbours (OSM)',
+            group: 'EXPOSURE',
+            kind: 'points',
+            legend: { 'Harbour / port': '#0e7490', 'Port facility': '#155e75' },
+            source: 'OpenStreetMap (Overpass API)',
+            url: 'https://www.openstreetmap.org/',
+            resolution: 'Mapped port/harbour features within 50 km of the map centre',
+            status: 'available',
+            temporal: 'OBSERVED',
+            provenance: { note: 'The mapped backbone of international trade movement; a lower bound (OSM completeness varies). Live vessel movements (AIS) are not wired — they require a shipping-data provider.' }
         }];
         if (hazardId === 'wildfire') {
             out.push({
@@ -541,6 +555,8 @@
         if (id === 'wildfire.danger_grid') return loadDangerGrid(rec);
         if (id === 'wildfire.events') return loadEventsLayer(rec);
         if (id === 'wildfire.ndmi') return loadNdmiLayer(rec, isRefresh);
+        if (id === 'cyclone.active') return loadCycloneLayer(rec);
+        if (id === 'platform.trade_ports') return loadTradePorts(rec);
         if (id === 'platform.exposure_features') return loadExposureFeatures(rec);
         if (id === 'platform.active_fires') return loadActiveFires(rec);
         if (id === 'platform.population_exposure') return loadPopulationExposure(rec);
@@ -619,6 +635,98 @@
             return div;
         };
         legendControl.addTo(map);
+    }
+
+    /* ---- Active tropical cyclones: /api/v2/events?hazard=cyclone ------- */
+    function loadCycloneLayer(rec) {
+        var c = currentCenter();
+        var url = API + '/v2/events?hazard=cyclone&lat=' + c.lat.toFixed(4) +
+            '&lon=' + c.lon.toFixed(4) + '&radius_km=3000';
+        fetchJSON(url).then(function (res) {
+            if (!rec.active) return;
+            var body = res.body || {};
+            if (!res.ok || body.status !== 'ok') {
+                rec.loaded = false;
+                setState(rec, esc(body.reason || 'Cyclone monitoring unavailable.'));
+                return;
+            }
+            rec.leafletLayer.clearLayers();
+            var colors = { red: '#ef4444', orange: '#f97316', green: '#22c55e' };
+            (body.events || []).forEach(function (ev) {
+                var color = colors[String(ev.alert_level || '').toLowerCase()] || '#eab308';
+                L.circleMarker([ev.lat, ev.lon], {
+                    radius: 9, color: color, weight: 3, fillColor: color, fillOpacity: 0.25
+                }).bindPopup(
+                    '<div class="loc-pop">' +
+                    '<div class="loc-pop-title">' + esc(ev.name) + '</div>' +
+                    '<table class="loc-pop-table">' +
+                    '<tr><th>Alert level</th><td>' + esc(ev.alert_level || 'n/a') + '</td></tr>' +
+                    '<tr><th>Window</th><td>' + esc(String(ev.from_date || '').slice(0, 10)) +
+                    ' &rarr; ' + esc(String(ev.to_date || '').slice(0, 10)) + '</td></tr>' +
+                    '<tr><th>Affected</th><td>' + esc(ev.countries || '—') + '</td></tr>' +
+                    '<tr><th>Distance</th><td>' + esc(String(Math.round(ev.distance_km))) + ' km</td></tr>' +
+                    '<tr><th>Source</th><td>' + esc(ev.warning_centre || 'GDACS') + ' via GDACS</td></tr>' +
+                    '</table>' +
+                    (ev.report_url
+                        ? '<a class="text-link" href="' + esc(ev.report_url) +
+                          '" target="_blank" rel="noopener">Official GDACS report &rarr;</a><br>'
+                        : '') +
+                    '<span style="color:#94a3b8">Monitoring position — not a forecast.</span>' +
+                    '</div>'
+                ).addTo(rec.leafletLayer);
+            });
+            rec.loaded = true;
+            var n = (body.events || []).length;
+            setState(rec, n
+                ? n + ' active/ongoing tropical cyclone(s) within 3,000 km — GDACS monitoring (cached 1 h).'
+                : 'No active tropical cyclone within 3,000 km — GDACS monitoring (cached 1 h).');
+        }).catch(function () {
+            if (rec.active) setState(rec, 'Cyclone monitoring request failed.');
+        });
+    }
+
+    /* ---- Trade infrastructure: /api/trade-infrastructure (OSM) --------- */
+    function loadTradePorts(rec) {
+        var c = currentCenter();
+        var url = API + '/trade-infrastructure?lat=' + c.lat.toFixed(4) +
+            '&lon=' + c.lon.toFixed(4) + '&radius_m=50000';
+        fetchJSON(url).then(function (res) {
+            if (!rec.active) return;
+            if (!res.ok || res.body.error) {
+                rec.loaded = false;
+                setState(rec, 'Trade infrastructure unavailable: ' +
+                    esc((res.body && res.body.error) || 'request failed'));
+                return;
+            }
+            rec.leafletLayer.clearLayers();
+            var colors = { harbour: '#0e7490', port_facility: '#155e75' };
+            (res.body.features || []).forEach(function (f) {
+                var color = colors[f.kind] || '#0e7490';
+                L.circleMarker([f.lat, f.lon], {
+                    radius: 6, color: color, weight: 2, fillColor: color, fillOpacity: 0.35
+                }).bindPopup(
+                    '<div class="loc-pop">' +
+                    '<div class="loc-pop-title">' +
+                    esc(f.name || (f.kind === 'port_facility' ? 'Port facility' : 'Harbour / port')) +
+                    '</div>' +
+                    '<table class="loc-pop-table">' +
+                    '<tr><th>Type</th><td>' +
+                    (f.kind === 'port_facility' ? 'Port facility' : 'Harbour / port') + '</td></tr>' +
+                    '<tr><th>Coordinates</th><td>' + f.lat.toFixed(4) + ', ' + f.lon.toFixed(4) +
+                    '</td></tr>' +
+                    '<tr><th>Source</th><td>OpenStreetMap (Overpass)</td></tr>' +
+                    '</table>' +
+                    '<span style="color:#94a3b8">Mapped trade infrastructure — a lower bound, ' +
+                    'not a port census. Live vessel tracking (AIS) is not wired.</span>' +
+                    '</div>'
+                ).addTo(rec.leafletLayer);
+            });
+            rec.loaded = true;
+            setState(rec, (res.body.features || []).length +
+                ' mapped port/harbour feature(s) within 50 km (OSM, cached).');
+        }).catch(function () {
+            if (rec.active) setState(rec, 'Trade infrastructure request failed.');
+        });
     }
 
     /* ---- Historical fire events: /api/v2/events ------------------------ */

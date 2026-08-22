@@ -557,6 +557,28 @@ def create_app() -> Flask:
         return jsonify(result)
 
     # ------------------------------------------------------------------
+    @app.route("/api/trade-infrastructure", methods=["GET"])
+    def trade_infrastructure():
+        """Mapped ports & harbours (the trade-movement backbone) around a
+        point — wider radius than the local exposure fetch. Live vessel
+        tracking (AIS) is not wired; the response says so honestly."""
+        if not _rate_limiter.allow(f"trade:{_client_key()}", 20, 60.0):
+            return _error("Rate limit exceeded (20 requests/minute)", 429)
+        lat, lon, err = _parse_point(request.args)
+        if err:
+            return _error("Provide ?lat=...&lon=...", 400)
+        from .exposure import fetch_trade_infrastructure
+
+        try:
+            radius = int(request.args.get("radius_m", "50000"))
+        except ValueError:
+            return _error("radius_m must be an integer", 400)
+        result = fetch_trade_infrastructure(round(lat, 4), round(lon, 4), radius)
+        if "error" in result:
+            return _error(result["error"], 502)
+        return jsonify(result)
+
+    # ------------------------------------------------------------------
     @app.route("/api/fires", methods=["GET"])
     def fires():
         """Multi-source fire evidence for the map (NASA FIRMS VIIRS+MODIS)

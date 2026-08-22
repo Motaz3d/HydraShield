@@ -221,6 +221,67 @@ def fetch_osm_features(lat: float, lon: float, radius_m: int = 2000) -> Dict:
 
 
 # --------------------------------------------------------------------------
+# Trade infrastructure — ports & harbours (the mapped backbone of
+# international trade movement). Wider radius than the local exposure
+# fetch. Live vessel positions (AIS) require a shipping-data provider and
+# are NOT wired — the layer declares that honestly.
+# --------------------------------------------------------------------------
+
+@cached("osm_trade", TTL_EXPOSURE)
+def fetch_trade_infrastructure(lat: float, lon: float, radius_m: int = 50000) -> Dict:
+    """
+    Fetch mapped ports/harbours around a location (Overpass, ``out center``).
+
+    Covers ``harbour=*`` features and ``industrial=port`` facilities (nodes
+    and ways, centroids, capped at 200 results). Honest error on failure —
+    the map then omits the layer and says so. Counts/positions are *mapped*
+    features: a lower bound, never a port census.
+    """
+    lat, lon = float(lat), float(lon)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        return {"error": "Coordinates out of range"}
+    radius_m = max(5000, min(int(radius_m), 100000))
+
+    query = (
+        f"[out:json][timeout:25];("
+        f'node["harbour"](around:{radius_m},{lat},{lon});'
+        f'way["harbour"](around:{radius_m},{lat},{lon});'
+        f'node["industrial"="port"](around:{radius_m},{lat},{lon});'
+        f'way["industrial"="port"](around:{radius_m},{lat},{lon});'
+        f");out center tags 200;"
+    )
+    try:
+        data = _post_overpass(query, timeout=30.0)
+    except Exception as exc:
+        return {"error": f"Trade infrastructure unavailable: {exc}"}
+
+    features = []
+    for el in data.get("elements") or []:
+        tags = el.get("tags") or {}
+        center = el.get("center") or {}
+        elat = el.get("lat", center.get("lat"))
+        elon = el.get("lon", center.get("lon"))
+        if elat is None or elon is None:
+            continue
+        kind = "port_facility" if tags.get("industrial") == "port" else "harbour"
+        features.append({
+            "kind": kind,
+            "lat": float(elat),
+            "lon": float(elon),
+            "name": tags.get("name") or tags.get("seamark:name"),
+        })
+
+    return {
+        "features": features,
+        "radius_m": radius_m,
+        "source": "OpenStreetMap (Overpass API)",
+        "note": ("Mapped ports/harbours; OSM completeness varies by region — a "
+                 "lower bound, not a port census. Live vessel movements (AIS) "
+                 "are not wired; they require a shipping-data provider."),
+    }
+
+
+# --------------------------------------------------------------------------
 # Derived assessment (transparent, declared thresholds, not in the score)
 # --------------------------------------------------------------------------
 

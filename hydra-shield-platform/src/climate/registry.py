@@ -41,6 +41,7 @@ def _build() -> Dict[str, HazardModule]:
         (".hazards.coastal", "CoastalModule"),
         (".hazards.dust", "DustModule"),
         (".hazards.volcanic", "VolcanicModule"),
+        (".hazards.cyclone", "CycloneModule"),
     ):
         try:
             mod = __import__(f"src.climate{import_path}", fromlist=[cls_name])
