@@ -33,6 +33,7 @@
     var layers = [];                  // layer records (see buildLayerPanel)
     var analysisCache = {};           // key → v1 or v2 analysis payload
     var locationMarker = null;
+    var targetBox = null;
     var moveTimer = null;
 
     function el(id) { return document.getElementById(id); }

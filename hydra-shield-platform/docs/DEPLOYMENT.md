@@ -23,15 +23,21 @@ Create `/opt/hydrashield/.env` (never commit it) to enable optional layers:
 
 ```bash
 FIRMS_MAP_KEY=...        # free NASA FIRMS key -> real active-fire layer
-SMTP_HOST=...            # alert email delivery for watches
+SMTP_HOST=...            # alert email delivery for watches + verification emails
 SMTP_PORT=587
 SMTP_USER=...
 SMTP_PASS=...
 SMTP_FROM=...
+HYDRASHIELD_SECRET_KEY=...   # `openssl rand -hex 32` — keeps session and
+                             # email-verification tokens valid across deploys
 ```
 
 Without these, everything still runs; the affected layers are reported as
-unavailable in the analysis provenance instead of being simulated.
+unavailable in the analysis provenance instead of being simulated. Until
+`SMTP_HOST` is set, transactional emails (verification, reset, alerts) are
+NOT sent — they land as `.eml` files in `/data/outbox` on the
+`hydrashield_data` volume (retrievable via
+`docker exec hydrashield-api-1 ls /data/outbox`).
 
 ### Operator (Commercial Center) access
 

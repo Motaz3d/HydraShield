@@ -67,6 +67,9 @@ services:
     environment:
       - PORT=8051
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+      # Dev-backend emails (verification etc.) persist on the data volume so
+      # they survive rebuilds and stay retrievable until SMTP is configured.
+      - HYDRASHIELD_OUTBOX_DIR=/data/outbox
       - HYDRASHIELD_POPULATION_DIR=${HYDRASHIELD_POPULATION_DIR:-/data/population}
       - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}
       - SMTP_HOST=${SMTP_HOST:-}
@@ -108,6 +111,7 @@ services:
       sh -c "while true; do python scripts/check_watches.py; python scripts/check_alert_rules.py; python scripts/check_source_health.py; python scripts/build_risk_snapshot.py; sleep 1800; done"
     environment:
       - HYDRASHIELD_CACHE_DB=/data/hydrashield_cache.sqlite3
+      - HYDRASHIELD_OUTBOX_DIR=/data/outbox
       - HYDRASHIELD_POPULATION_DIR=${HYDRASHIELD_POPULATION_DIR:-/data/population}
       - FIRMS_MAP_KEY=${FIRMS_MAP_KEY:-}
       - SMTP_HOST=${SMTP_HOST:-}

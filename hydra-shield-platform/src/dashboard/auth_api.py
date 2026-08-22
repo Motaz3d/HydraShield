@@ -7,6 +7,11 @@ docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md §6:
 
     POST /api/v2/auth/register · POST /api/v2/auth/login · POST /api/v2/auth/logout
     GET  /api/v2/auth/verify · POST /api/v2/auth/resend-verification
+
+``GET /auth/verify`` answers browsers (Accept: text/html) with a redirect to
+``/account.html?verified=1`` (or ``?verify_error=1`` for an invalid/expired
+token) and sets the session cookie on the redirect; API clients keep the
+JSON contract.
     GET  /api/v2/account · PATCH /api/v2/account
     GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
     GET  /api/v2/account/history
@@ -37,7 +42,7 @@ from __future__ import annotations
 import functools
 import os
 
-from flask import Blueprint, g, jsonify, request
+from flask import Blueprint, g, jsonify, redirect, request
 
 from .accounts import (
     EMAIL_TOKEN_TTL_SECONDS,
@@ -175,6 +180,14 @@ def _hello_name(display_name) -> str:
     return f" {display_name}" if display_name else ""
 
 
+def _prefers_html() -> bool:
+    """True when the client asks for HTML over JSON — a browser following
+    the email link. API clients (no Accept header, ``*/*``, or an explicit
+    ``application/json``) keep the JSON contract."""
+    return (request.accept_mimetypes["text/html"]
+            > request.accept_mimetypes["application/json"])
+
+
 def _send_verification_email(user: dict) -> None:
     """Create a fresh verification token and email the link (dev: outbox)."""
     store = UserStore()
@@ -243,6 +256,10 @@ def verify():
     store = UserStore()
     user_id = store.consume_email_token(token, "verify_email")
     if user_id is None:
+        # Browsers land back on the account page with an error notice;
+        # API clients keep the JSON 400.
+        if _prefers_html():
+            return redirect("/account.html?verify_error=1")
         return _err("Invalid or expired verification token", 400)
     store.mark_email_verified(user_id)
     user = store.get_user(user_id)
@@ -269,11 +286,16 @@ def verify():
     mailer.send_mail(
         user["email"], "welcome",
         {"display_name": _hello_name(user.get("display_name"))})
-    resp = jsonify({
-        "status": "verified",
-        "session_token": session_token,
-        "user": user,
-    })
+    if _prefers_html():
+        # Browser following the email link: land on the account page,
+        # already signed in via the session cookie set below.
+        resp = redirect("/account.html?verified=1")
+    else:
+        resp = jsonify({
+            "status": "verified",
+            "session_token": session_token,
+            "user": user,
+        })
     _set_session_cookie(resp, session_token)
     return resp
 

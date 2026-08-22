@@ -46,10 +46,26 @@
     // Session bootstrap
     // ------------------------------------------------------------------
 
+    // After the email-verification link redirects back here
+    // (/account.html?verified=1 / ?verify_error=1), surface the outcome,
+    // then strip the parameter from the URL.
+    function notifyVerifyResult() {
+        var params = new URLSearchParams(location.search);
+        if (params.get('verified') === '1') {
+            status('info', 'Your email address is verified — welcome to HydraShield.');
+        } else if (params.get('verify_error') === '1') {
+            status('error', 'This verification link is invalid or has expired.');
+        } else {
+            return;
+        }
+        history.replaceState(null, '', location.pathname);
+    }
+
     function boot() {
         fetchJSON(API + '/v2/account').then(function (res) {
             if (res.status === 401) {
                 showView(false);
+                notifyVerifyResult();
                 return;
             }
             if (!res.ok) {
@@ -59,6 +75,7 @@
             }
             status('', '');
             showView(true);
+            notifyVerifyResult();
             renderProfile(res.body);
             loadLocations();
             loadAlerts();

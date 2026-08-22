@@ -29,8 +29,12 @@ def env(tmp_path, monkeypatch):
     monkeypatch.delenv("SMTP_HOST", raising=False)
     monkeypatch.delenv("SMTP_USER", raising=False)
     import src.dashboard.cache as cache_mod
+    import src.dashboard.api as api_module
 
     monkeypatch.setattr(cache_mod, "_default_cache", None)
+    # Fresh rate-limiter buckets per test — registration-heavy tests share
+    # one client key and would otherwise exhaust the 20/hour register cap.
+    api_module._rate_limiter._hits.clear()
     return {"db": db_path, "outbox": tmp_path / "outbox"}
 
 
@@ -146,6 +150,40 @@ def test_full_register_verify_login_flow(client, env):
     resp = client.post("/api/v2/auth/logout", headers=_auth(session2))
     assert resp.status_code == 200
     assert client.get("/api/v2/account", headers=_auth(session2)).status_code == 401
+
+
+_BROWSER_ACCEPT = {"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}
+
+
+def test_verify_redirects_browser_to_account_page(client, env):
+    """A browser following the email link lands on the account page,
+    signed in via the session cookie on the redirect — no raw JSON."""
+    _register(client, email="browser@example.org")
+    token = _verification_token(env["outbox"])
+    resp = client.get(f"/api/v2/auth/verify?token={token}",
+                      headers=_BROWSER_ACCEPT)
+    assert resp.status_code == 302
+    assert resp.headers["Location"] == "/account.html?verified=1"
+    assert "hydrashield_session=" in resp.headers.get("Set-Cookie", "")
+    # The account is active behind the redirect and the cookie session works.
+    assert client.get("/api/v2/account").status_code == 200
+
+
+def test_verify_invalid_token_redirects_browser(client):
+    resp = client.get("/api/v2/auth/verify?token=no-such-token",
+                      headers=_BROWSER_ACCEPT)
+    assert resp.status_code == 302
+    assert resp.headers["Location"] == "/account.html?verify_error=1"
+
+
+def test_verify_keeps_json_contract_for_api_clients(client, env):
+    """No Accept header / */* (curl, SDK): JSON, not a redirect."""
+    _register(client, email="api-client@example.org")
+    token = _verification_token(env["outbox"])
+    resp = client.get(f"/api/v2/auth/verify?token={token}",
+                      headers={"Accept": "*/*"})
+    assert resp.status_code == 200
+    assert resp.get_json()["status"] == "verified"
 
 
 def test_unauthenticated_account_endpoints_401(client):
