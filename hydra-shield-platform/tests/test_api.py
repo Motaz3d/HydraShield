@@ -265,3 +265,19 @@ def test_government_page_has_public_sector_journey():
     # Government roles are named; no pricing is invented.
     assert "Municipal resilience officers" in html
     assert "€" not in html
+
+
+def test_audience_pages_have_interactive_hub():
+    """Each for-* audience page mounts the interactive hub (live analyze
+    bar, live risk signals, account-benefit panel) via audience.js +
+    convert.js, and its closing CTA leads with free registration."""
+    import os as _os
+    root = _os.path.join(_os.path.dirname(__file__), "..", "website")
+    for page in ("for-investors.html", "for-government.html",
+                 "for-real-estate.html", "for-insurance.html",
+                 "for-consulting.html"):
+        html = open(_os.path.join(root, page), encoding="utf-8").read()
+        assert 'id="audienceHub"' in html, page
+        assert "js/audience.js" in html, page
+        assert "js/convert.js" in html, page
+        assert "Create a free account" in html, page
