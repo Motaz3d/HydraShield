@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
+from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
@@ -514,4 +515,124 @@ def admin_intelligence():
         },
         "targets": targets,
         "workspace": ws,
+    })
+
+
+# ---------------------------------------------------------------------------
+# Campaign performance endpoint
+# ---------------------------------------------------------------------------
+
+@admin_intel_bp.get("/admin/campaigns")
+@require_role("admin")
+def admin_campaigns():
+    """Campaign performance dashboard data.
+
+    Aggregates per-campaign metrics from the marketing workspace:
+    - leads targeted per campaign
+    - outreach status distribution
+    - engagement rate
+    - top countries
+    - conversion funnel
+    - recommendations
+    """
+    campaigns_file = os.path.join(_WORKSPACE, "campaigns", "linkedin_campaigns.json")
+    segments_file = os.path.join(_WORKSPACE, "segments", "segments.json")
+
+    campaigns = []
+    if os.path.isfile(campaigns_file):
+        try:
+            with open(campaigns_file, encoding="utf-8") as fh:
+                campaigns = json.load(fh).get("campaigns", [])
+        except (OSError, ValueError):
+            pass
+
+    segments = {}
+    if os.path.isfile(segments_file):
+        try:
+            with open(segments_file, encoding="utf-8") as fh:
+                segments = json.load(fh).get("segments", {})
+        except (OSError, ValueError):
+            pass
+
+    leads = _records_ws("leads")
+
+    results = []
+    all_engaged = 0
+    all_targeted = 0
+
+    for c in campaigns:
+        target_segs = set(c.get("audience", {}).get("segments", []))
+        c_leads = [l for l in leads if l.get("segment") in target_segs]
+
+        # Funnel
+        funnel = Counter(l.get("outreach_status", "unknown") for l in c_leads)
+
+        # Engagement
+        engaged = sum(
+            1 for l in c_leads
+            if l.get("outreach_status") in ("contacted", "responded", "opportunity")
+        )
+        all_engaged += engaged
+        all_targeted += len(c_leads)
+
+        # Countries
+        countries = Counter(l.get("country", "?") for l in c_leads).most_common(5)
+
+        # Priorities
+        priorities = Counter(l.get("priority", "unknown") for l in c_leads)
+
+        # Recent interactions (last 30 days)
+        month_ago = (datetime.utcnow() - timedelta(days=30)).strftime("%Y-%m-%d")
+        recent = 0
+        for l in c_leads:
+            for ix in l.get("interactions", []):
+                if ix.get("date", "") >= month_ago:
+                    recent += 1
+
+        results.append({
+            "id": c.get("id", "?"),
+            "name": c.get("name", "?"),
+            "target_segments": list(target_segs),
+            "total_target_leads": len(c_leads),
+            "funnel": dict(funnel),
+            "engaged_count": engaged,
+            "engagement_rate": round(engaged / max(len(c_leads), 1), 3),
+            "recent_interactions": recent,
+            "priority_distribution": dict(priorities),
+            "top_countries": [{"country": co, "count": ct} for co, ct in countries],
+            "conversion_goal": c.get("conversion_goal", []),
+            "landing_page": c.get("landing_page", ""),
+        })
+
+    results.sort(key=lambda x: x["engagement_rate"], reverse=True)
+
+    # Recommendations
+    recommendations = []
+    for r in results:
+        if r["engagement_rate"] > 0.3:
+            recommendations.append({
+                "campaign_id": r["id"],
+                "campaign_name": r["name"],
+                "type": "boost",
+                "reason": f"High engagement ({r['engagement_rate']:.0%}) — consider increasing output",
+            })
+        elif r["total_target_leads"] > 0 and r["engagement_rate"] < 0.05:
+            recommendations.append({
+                "campaign_id": r["id"],
+                "campaign_name": r["name"],
+                "type": "review",
+                "reason": f"Low engagement ({r['engagement_rate']:.0%}) — review messaging or targeting",
+            })
+
+    # Overall engagement rate
+    overall_rate = all_engaged / max(all_targeted, 1)
+
+    return jsonify({
+        "generated_at": datetime.utcnow().isoformat(),
+        "total_campaigns": len(campaigns),
+        "overall_engagement_rate": round(overall_rate, 3),
+        "total_targeted_leads": all_targeted,
+        "total_engaged_leads": all_engaged,
+        "campaigns": results,
+        "recommendations": recommendations,
     })

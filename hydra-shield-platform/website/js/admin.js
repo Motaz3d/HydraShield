@@ -46,6 +46,53 @@
             }).join('') + '</tbody></table></div>';
     }
 
+    function renderCampaignPerf(d) {
+        if (!d || !d.campaigns || !d.campaigns.length) {
+            el('campaignPerfBlock').innerHTML = '<div class="notice notice-empty">No campaign data yet.</div>';
+            return;
+        }
+        var html = '<p class="muted small">Overall engagement: ' +
+            Math.round((d.overall_engagement_rate || 0) * 100) + '% · ' +
+            d.total_engaged_leads + ' engaged / ' + d.total_targeted_leads + ' targeted across ' +
+            d.total_campaigns + ' campaigns</p>';
+
+        // Recommendations first
+        if (d.recommendations && d.recommendations.length) {
+            html += '<div class="badge-row" style="margin-bottom:12px;">';
+            d.recommendations.forEach(function (rec) {
+                var cls = rec.type === 'boost' ? 'chip-champion' : 'chip-observed';
+                html += '<span class="chip ' + cls + '">' + esc(rec.campaign_name) +
+                    ': ' + esc(rec.reason) + '</span>';
+            });
+            html += '</div>';
+        }
+
+        // Campaign table
+        html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Campaign</th><th>Target leads</th><th>Engaged</th><th>Rate</th>' +
+            '<th>Funnel</th><th>30d activity</th><th>Top countries</th></tr></thead><tbody>';
+
+        d.campaigns.forEach(function (c) {
+            var funnelStr = Object.keys(c.funnel || {})
+                .map(function (k) { return esc(k.replace(/_/g, ' ')) + ': ' + c.funnel[k]; })
+                .join(' · ');
+            var countriesStr = (c.top_countries || []).slice(0, 3)
+                .map(function (co) { return esc(co.country) + ' (' + co.count + ')'; })
+                .join(', ');
+            html += '<tr>' +
+                '<td><strong>' + esc(c.id) + '</strong> ' + esc(c.name) + '</td>' +
+                '<td>' + c.total_target_leads + '</td>' +
+                '<td>' + c.engaged_count + '</td>' +
+                '<td>' + Math.round(c.engagement_rate * 100) + '%</td>' +
+                '<td style="font-size:0.85rem;">' + funnelStr + '</td>' +
+                '<td>' + c.recent_interactions + '</td>' +
+                '<td style="font-size:0.85rem;">' + countriesStr + '</td>' +
+                '</tr>';
+        });
+        html += '</tbody></table></div>';
+        el('campaignPerfBlock').innerHTML = html;
+    }
+
     function render(d) {
         el('adminView').classList.remove('hidden');
         var t = d.today || {};
@@ -221,5 +268,15 @@
         render(res.body);
     }).catch(function () {
         status('error', 'Commercial Center could not be reached.');
+    });
+
+    // Load campaign performance separately
+    fetchJSON(API + '/v2/admin/campaigns').then(function (res) {
+        if (res.ok && res.body) {
+            renderCampaignPerf(res.body);
+        }
+    }).catch(function () {
+        el('campaignPerfBlock').innerHTML =
+            '<div class="notice notice-empty">Campaign performance unavailable.</div>';
     });
 })();
