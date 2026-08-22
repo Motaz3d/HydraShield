@@ -32,9 +32,13 @@
     var hazardDetail = null;          // descriptor + map_layers of selected hazard
     var layers = [];                  // layer records (see buildLayerPanel)
     var analysisCache = {};           // key → v1 or v2 analysis payload
-    var locationMarker = null;
-    var targetBox = null;
+    var targetBox = null;              // target marker of the selected place
     var moveTimer = null;
+    var reverseTimer = null;
+    var reverseCache = {};             // "lat,lon" → place name (client cache)
+    var lastCentreName = null;
+    var centreChip = null;
+    var cursorChip = null;
 
     function el(id) { return document.getElementById(id); }
 
@@ -59,6 +63,96 @@
     // Map init
     // ------------------------------------------------------------------
 
+    // Free base-map sources (no API key); the user picks the backdrop.
+    // Every entry carries its required attribution.
+    function baseMaps() {
+        var osmAttr = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+        return {
+            'OpenStreetMap': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: osmAttr
+            }),
+            'Topographic (OpenTopoMap)': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                maxZoom: 17,
+                attribution: osmAttr + ' &middot; style &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
+            }),
+            'Light (CARTO)': L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 20, subdomains: 'abcd',
+                attribution: osmAttr + ' &middot; &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            }),
+            'Dark (CARTO)': L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 20, subdomains: 'abcd',
+                attribution: osmAttr + ' &middot; &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            }),
+            'Satellite (Esri)': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 19,
+                attribution: 'Imagery &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+            })
+        };
+    }
+
+    // Target reticle fixed at the map centre: it frames the place being
+    // viewed; the chip beneath it shows the place name + coordinates,
+    // updated live while the map moves.
+    function initCentreTarget() {
+        var container = map.getContainer();
+        var reticle = L.DomUtil.create('div', 'map-reticle', container);
+        reticle.innerHTML = '<div class="map-reticle-ring"></div><div class="map-reticle-dot"></div>';
+        centreChip = L.DomUtil.create('div', 'map-centre-chip', container);
+        L.DomEvent.disableClickPropagation(reticle);
+        L.DomEvent.disableClickPropagation(centreChip);
+
+        // Cursor readout (bottom-right): the exact number on the ground.
+        cursorChip = L.DomUtil.create('div', 'map-cursor-coords hidden', container);
+        L.DomEvent.disableClickPropagation(cursorChip);
+        map.on('mousemove', function (e) {
+            cursorChip.classList.remove('hidden');
+            cursorChip.textContent = e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
+        });
+        map.on('mouseout', function () { cursorChip.classList.add('hidden'); });
+
+        map.on('move', updateCentreChip);
+        map.on('moveend', function () {
+            updateCentreChip();
+            if (reverseTimer) clearTimeout(reverseTimer);
+            reverseTimer = setTimeout(updateCentrePlace, 600);
+        });
+        updateCentreChip();
+        updateCentrePlace();
+    }
+
+    function updateCentreChip() {
+        var c = map.getCenter();
+        var name = lastCentreName || 'Resolving place…';
+        centreChip.innerHTML =
+            '<div class="mcc-name">' + esc(name) + '</div>' +
+            '<div class="mcc-coords">' + c.lat.toFixed(4) + ', ' + c.lng.toFixed(4) + '</div>';
+    }
+
+    /* Reverse-geocode the map centre (debounced after moveend; cached
+     * client-side per rounded coordinate). Honest fallback: coordinates. */
+    function updateCentrePlace() {
+        var c = map.getCenter();
+        var key = c.lat.toFixed(3) + ',' + c.lng.toFixed(3);
+        if (reverseCache[key] !== undefined) {
+            lastCentreName = reverseCache[key];
+            updateCentreChip();
+            return;
+        }
+        fetchJSON(API + '/reverse?lat=' + c.lat.toFixed(4) + '&lon=' + c.lng.toFixed(4))
+            .then(function (res) {
+                var name = (res.ok && res.body.location && res.body.location.name) ||
+                    (c.lat.toFixed(4) + ', ' + c.lng.toFixed(4));
+                reverseCache[key] = name;
+                lastCentreName = name;
+                updateCentreChip();
+            })
+            .catch(function () {
+                lastCentreName = c.lat.toFixed(4) + ', ' + c.lng.toFixed(4);
+                updateCentreChip();
+            });
+    }
+
     function initMap() {
         map = L.map('map').setView([50.45, 7.0], 7);
         if (window.HS && HS.track) HS.track('map_opened');
@@ -68,10 +162,10 @@
             cta: 'Create a monitoring alert', href: 'account.html#sms'
         });
         if (window.HSConvert) HSConvert.evaluate('mapSidebar');
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        var bases = baseMaps();
+        bases['OpenStreetMap'].addTo(map);
+        L.control.layers(bases, null, { position: 'topright' }).addTo(map);
+        initCentreTarget();
 
         map.on('moveend', function () {
             if (moveTimer) clearTimeout(moveTimer);
@@ -195,7 +289,7 @@
         });
         layers = [];
         if (legendControl) { legendControl.remove(); legendControl = null; }
-        if (locationMarker) { /* keep the location marker across hazards */ }
+        if (targetBox) { /* keep the target marker across hazards */ }
     }
 
     /* Platform-wide layers appended to the hazard's declared map_layers. */
@@ -898,6 +992,34 @@
     // Location search
     // ------------------------------------------------------------------
 
+    /* Target-style marker for the selected place: concentric rings + dot
+     * (a "frame" on the exact spot); the popup opens beneath it. */
+    function targetIcon() {
+        return L.divIcon({
+            className: 'target-marker',
+            html: '<div class="target-marker-ring"></div>' +
+                  '<div class="target-marker-ring target-marker-inner"></div>' +
+                  '<div class="target-marker-dot"></div>',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20],
+            popupAnchor: [0, 26]
+        });
+    }
+
+    /* Organized popup: title + labelled rows instead of a bare name. */
+    function locationPopupHTML(res) {
+        return '<div class="loc-pop">' +
+            '<div class="loc-pop-title">' + esc(res.name) + '</div>' +
+            '<table class="loc-pop-table">' +
+            '<tr><th>Latitude</th><td>' + res.lat.toFixed(5) + '</td></tr>' +
+            '<tr><th>Longitude</th><td>' + res.lon.toFixed(5) + '</td></tr>' +
+            '<tr><th>Source</th><td>' + esc(res.source || 'Nominatim (OpenStreetMap)') + '</td></tr>' +
+            '</table>' +
+            '<a class="text-link" href="intelligence.html?location=' +
+            encodeURIComponent(res.lat.toFixed(5) + ',' + res.lon.toFixed(5)) +
+            '">Analyze this place &rarr;</a></div>';
+    }
+
     function goToLocation(query) {
         var status = el('locStatus');
         status.textContent = 'Resolving location…';
@@ -909,9 +1031,9 @@
                 return;
             }
             map.setView([res.lat, res.lon], 11);
-            if (locationMarker) map.removeLayer(locationMarker);
-            locationMarker = L.marker([res.lat, res.lon]).addTo(map)
-                .bindPopup('<b>' + esc(res.name) + '</b>').openPopup();
+            if (targetBox) map.removeLayer(targetBox);
+            targetBox = L.marker([res.lat, res.lon], { icon: targetIcon() }).addTo(map)
+                .bindPopup(locationPopupHTML(res)).openPopup();
             HS.rememberLocation({ name: res.name, lat: res.lat, lon: res.lon });
             status.innerHTML = 'Location: <b>' + esc(res.name) + '</b> (' +
                 res.lat.toFixed(4) + ', ' + res.lon.toFixed(4) + ').';

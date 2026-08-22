@@ -265,6 +265,27 @@ def create_app() -> Flask:
             return _error(result["error"], 404)
         return jsonify({"location": result})
 
+    @app.route("/api/reverse", methods=["GET"])
+    def reverse_geocode_endpoint():
+        """Lightweight coordinates → place name (Nominatim reverse), for the
+        map's live "what place is under the cursor/centre" readout. Cached;
+        runs no hazard analysis."""
+        if not _rate_limiter.allow(f"reverse:{_client_key()}", 60, 60.0):
+            return _error("Rate limit exceeded (60 requests/minute)", 429)
+        try:
+            lat = float(request.args.get("lat", ""))
+            lon = float(request.args.get("lon", ""))
+        except ValueError:
+            return _error("lat and lon parameters are required numbers", 400)
+        if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+            return _error("lat/lon out of range", 400)
+        from .real_data import reverse_geocode
+
+        result = reverse_geocode(round(lat, 4), round(lon, 4))
+        if "error" in result:
+            return _error(result["error"], 502)
+        return jsonify({"location": result})
+
     # ------------------------------------------------------------------
     @app.route("/api/analyze", methods=["GET"])
     def analyze():

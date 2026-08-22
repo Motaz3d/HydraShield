@@ -107,6 +107,36 @@ def geocode_location(query: str) -> Dict:
     }
 
 
+@cached("geocode_rev", TTL_GEOCODE)
+def reverse_geocode(lat: float, lon: float) -> Dict:
+    """
+    Resolve a point to its place name.
+
+    Uses Nominatim (OpenStreetMap) reverse geocoding at settlement zoom.
+    Returns ``{"name", "lat", "lon", "source"}`` or ``{"error": ...}`` —
+    failures are returned, never raised, and a point with no named place
+    nearby honestly falls back to its formatted coordinates as the name.
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "lat/lon out of range"}
+    params = urllib.parse.urlencode(
+        {"lat": f"{lat:.4f}", "lon": f"{lon:.4f}", "format": "jsonv2", "zoom": 14})
+    try:
+        data = _get_json(f"https://nominatim.openstreetmap.org/reverse?{params}")
+    except RuntimeError as exc:
+        return {"error": f"Reverse geocoding unavailable: {exc}"}
+    name = (data or {}).get("display_name")
+    if not name:
+        # Ocean / unnamed terrain: the honest label is the coordinate itself.
+        name = f"{lat:.4f}, {lon:.4f}"
+    return {
+        "name": name,
+        "lat": round(lat, 4),
+        "lon": round(lon, 4),
+        "source": "Nominatim (OpenStreetMap) reverse",
+    }
+
+
 # --------------------------------------------------------------------------
 # Elevation / terrain — OpenTopoData (EU-DEM 25 m, SRTM fallback)
 # --------------------------------------------------------------------------

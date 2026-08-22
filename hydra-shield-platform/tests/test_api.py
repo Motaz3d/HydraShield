@@ -206,6 +206,27 @@ def test_geocode_endpoint_contract(client, monkeypatch):
     assert client.get("/api/geocode?location=zzz").status_code == 404
 
 
+def test_reverse_endpoint_contract(client, monkeypatch):
+    """The reverse-geocode endpoint resolves coordinates to a place name,
+    validates its parameters and reports upstream failure honestly."""
+    from src.dashboard import real_data
+    monkeypatch.setattr(real_data, "reverse_geocode",
+                        lambda lat, lon: {"name": "Clervaux, Lëtzebuerg",
+                                          "lat": 50.05, "lon": 6.03,
+                                          "source": "Nominatim (OpenStreetMap) reverse"})
+    resp = client.get("/api/reverse?lat=50.05&lon=6.03")
+    assert resp.status_code == 200
+    assert resp.get_json()["location"]["name"].startswith("Clervaux")
+    # missing / invalid / out-of-range params → 400
+    assert client.get("/api/reverse").status_code == 400
+    assert client.get("/api/reverse?lat=abc&lon=6").status_code == 400
+    assert client.get("/api/reverse?lat=95&lon=6").status_code == 400
+    # upstream failure → honest 502
+    monkeypatch.setattr(real_data, "reverse_geocode",
+                        lambda lat, lon: {"error": "service unavailable"})
+    assert client.get("/api/reverse?lat=50&lon=6").status_code == 502
+
+
 def test_government_page_has_public_sector_journey():
     """for-government.html carries the full public-sector journey and the
     subscription path — territorial risk → exposure → economy → solutions

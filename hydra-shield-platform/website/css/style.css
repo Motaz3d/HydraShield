@@ -847,7 +847,6 @@ body {
 .password-wrap {
     position: relative;
 }
-
 .password-wrap input {
     padding-right: 64px;
 }
@@ -1917,4 +1916,165 @@ details.expander summary {
     .analyze-bar {
         flex-direction: column;
     }
+}
+
+
+/* ============================================
+   Map — centre target reticle, readouts, target marker
+   ============================================ */
+
+/* Target reticle fixed at the map centre: frames the place being viewed. */
+.map-reticle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 46px;
+    height: 46px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 800;
+}
+
+.map-reticle::before,
+.map-reticle::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(to bottom, #ef4444 0 9px, transparent 9px calc(50% - 7px), transparent calc(50% + 7px) calc(100% - 9px), #ef4444 calc(100% - 9px));
+}
+
+.map-reticle::before {
+    left: 50%;
+    top: -4px;
+    bottom: -4px;
+    width: 2px;
+    transform: translateX(-50%);
+}
+
+.map-reticle::after {
+    top: 50%;
+    left: -4px;
+    right: -4px;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(to right, #ef4444 0 9px, transparent 9px calc(50% - 7px), transparent calc(50% + 7px) calc(100% - 9px), #ef4444 calc(100% - 9px));
+}
+
+.map-reticle-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid #ef4444;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.65);
+}
+
+.map-reticle-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: #ef4444;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+}
+
+/* Place name + coordinates chip beneath the centre reticle. */
+.map-centre-chip {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 34px);
+    transform: translateX(-50%);
+    z-index: 800;
+    background: rgba(15, 23, 42, 0.82);
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.45;
+    padding: 6px 12px;
+    border-radius: 8px;
+    pointer-events: none;
+    text-align: center;
+    max-width: min(430px, 72%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.map-centre-chip .mcc-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-centre-chip .mcc-coords {
+    color: #7dd3fc;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Live cursor coordinates (bottom-right). */
+.map-cursor-coords {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 800;
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f172a;
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 6px;
+    pointer-events: none;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Target marker for the selected place (rings + dot). */
+.target-marker-ring {
+    position: absolute;
+    inset: 0;
+    border: 3px solid #ef4444;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.08);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.target-marker-inner {
+    inset: 10px;
+    border-width: 2px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.target-marker-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    background: #ef4444;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+/* Organized location popup. */
+.loc-pop-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.loc-pop-table {
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.loc-pop-table th {
+    text-align: left;
+    color: #64748b;
+    font-weight: 600;
+    padding: 2px 12px 2px 0;
+}
+
+.loc-pop-table td {
+    font-variant-numeric: tabular-nums;
+    padding: 2px 0;
 }

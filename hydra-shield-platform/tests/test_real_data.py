@@ -54,6 +54,33 @@ def test_geocode_not_found(monkeypatch):
     assert "error" in out
 
 
+def test_reverse_geocode(monkeypatch):
+    payload = {"display_name": "Clervaux, Luxembourg"}
+    monkeypatch.setattr(
+        real_data.urllib.request, "urlopen", lambda req, timeout=0: _FakeResponse(payload)
+    )
+    default_cache().delete(default_cache().make_key("geocode_rev", 50.05, 6.03))
+    out = real_data.reverse_geocode(50.05, 6.03)
+    assert out["name"] == "Clervaux, Luxembourg"
+    assert "OpenStreetMap" in out["source"]
+
+
+def test_reverse_geocode_unnamed_falls_back_to_coordinates(monkeypatch):
+    """A point with no named place (ocean / unnamed terrain) is labelled by
+    its coordinates — never an invented name."""
+    monkeypatch.setattr(
+        real_data.urllib.request, "urlopen", lambda req, timeout=0: _FakeResponse({})
+    )
+    default_cache().delete(default_cache().make_key("geocode_rev", 0.0, -30.0))
+    out = real_data.reverse_geocode(0.0, -30.0)
+    assert "error" not in out
+    assert out["name"] == "0.0000, -30.0000"
+
+
+def test_reverse_geocode_out_of_range():
+    assert "error" in real_data.reverse_geocode(91.0, 0.0)
+
+
 # --------------------------------------------------------------------------
 # Terrain (OpenTopoData)
 # --------------------------------------------------------------------------
