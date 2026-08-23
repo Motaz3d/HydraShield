@@ -50,9 +50,21 @@
 
                 <h2 style="margin-bottom:10px;">Prospect map — who is where</h2>
                 <div class="panel" style="margin-bottom:26px;">
+                    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
+                        <label for="mapSegmentFilter" class="muted small"><strong>Sector:</strong></label>
+                        <select id="mapSegmentFilter" style="max-width:260px;">
+                            <option value="">All sectors</option>
+                        </select>
+                    </div>
                     <div id="leadsMap"></div>
                     <p class="muted small lead-map-note" id="leadsMapNote"></p>
                 </div>
+
+                <h2 style="margin-bottom:10px;">Target sectors × countries</h2>
+                <div class="panel" id="segmentationBlock" style="margin-bottom:26px;"></div>
+
+                <h2 style="margin-bottom:10px;">Campaign correspondence plans</h2>
+                <div class="panel" id="campaignPlansBlock" style="margin-bottom:26px;"></div>
 
                 <h2 style="margin-bottom:10px;">Inbound leads — contact form</h2>
                 <div class="panel" id="contactsBlock" style="margin-bottom:26px;"></div>

@@ -159,3 +159,84 @@ def test_intel_reflects_operator_working_state(client, env):
         raw = _json.load(fh)
     assert raw.get("outreach_status", "researched") != "opportunity" or \
         raw.get("status", "open") != "won"
+
+
+# ---------------------------------------------------------------------------
+# Segmentation (sector × country)
+# ---------------------------------------------------------------------------
+
+def test_segmentation_covers_six_target_sectors(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.get("/api/v2/admin/intel", headers=admin)
+    seg = resp.get_json()["segmentation"]
+    labels = [s["label"] for s in seg]
+    assert labels == ["Banks & lenders", "Consultants", "Investors",
+                      "Insurance", "Real estate", "Government"]
+    insurance = next(s for s in seg if s["key"] == "insurance")
+    assert insurance["count"] > 0
+    assert sum(c["count"] for c in insurance["countries"]) == insurance["count"]
+    # Municipal leads roll up into the Government sector.
+    gov = next(s for s in seg if s["key"] == "governments")
+    assert gov["count"] >= 10
+
+
+def test_campaign_plans_match_active_leads_only(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    # Exclude one insurer and win another — neither may appear in plans.
+    client.patch("/api/v2/admin/leads/axa-xl-axa-group-p-c-and-specialty-division",
+                 headers=admin,
+                 json={"excluded": True, "exclude_reason": "competitor"})
+    resp = client.get("/api/v2/admin/intel", headers=admin)
+    body = resp.get_json()
+    plans = body["campaign_plans"]
+    assert len(plans) >= 1
+    insurer_plan = next(p for p in plans
+                        if "insurance" in str(p.get("audience") or "")
+                        or "insur" in (p.get("name") or "").lower())
+    ids = [l["id"] for l in insurer_plan["leads"]]
+    assert "axa-xl-axa-group-p-c-and-specialty-division" not in ids
+    for l in insurer_plan["leads"]:
+        assert l["outreach_status"] in (
+            "researched", "qualified", "draft_prepared",
+            "contacted", "responded", "opportunity")
+        assert "decision_maker_role" in l and "activity" in l
+    # The excluded lead is also off the map and out of contact_now.
+    map_ids = [m["organization"] for m in body["leads_map"]]
+    assert "AXA XL (AXA Group P&C and Specialty division)" not in map_ids
+
+
+def test_excluded_lead_badged_and_restorable(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    slug = "aecom"
+    resp = client.patch(f"/api/v2/admin/leads/{slug}", headers=admin,
+                        json={"excluded": True, "exclude_reason": "competitor"})
+    assert resp.status_code == 200
+    assert resp.get_json()["lead"]["excluded"] is True
+
+    body = client.get("/api/v2/admin/intel", headers=admin).get_json()
+    lead = next(l for l in body["workspace"]["leads"] if l["id"] == slug)
+    assert lead["excluded"] is True
+    assert lead["exclude_reason"] == "competitor"
+
+    client.patch(f"/api/v2/admin/leads/{slug}", headers=admin,
+                 json={"excluded": False})
+    body = client.get("/api/v2/admin/intel", headers=admin).get_json()
+    lead = next(l for l in body["workspace"]["leads"] if l["id"] == slug)
+    assert lead["excluded"] is False
+
+
+def test_activity_signals_carry_honest_staleness():
+    from src.dashboard.admin_intel import _latest_signals
+
+    signals = [
+        {"organization": "Acme", "signal_type": "funding_signal",
+         "date_observed": "2020-01-01", "date_checked": "2020-01-02"},
+        {"organization": "Acme", "signal_type": "hiring",
+         "date_observed": "2026-08-01", "date_checked": "2026-08-02"},
+        {"organization": "OldCo", "signal_type": "funding_signal",
+         "date_observed": "2020-05-01", "date_checked": "2020-05-02"},
+    ]
+    latest = _latest_signals(signals)
+    assert latest["Acme"]["signal_type"] == "hiring"  # newest wins
+    assert latest["Acme"]["stale"] is False
+    assert latest["OldCo"]["stale"] is True

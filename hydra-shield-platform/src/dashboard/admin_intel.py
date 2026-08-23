@@ -86,6 +86,8 @@ def _overlay_ops(leads: List[Dict]) -> List[Dict]:
                           "next_action", "next_followup"):
                 if st.get(field) is not None:
                     lead[field] = st[field]
+            lead["excluded"] = bool(st.get("excluded"))
+            lead["exclude_reason"] = st.get("exclude_reason")
             lead["ops_updated_at"] = st.get("updated_at")
         extra = [{"date": i["date"], "type": i["type"], "summary": i["summary"]}
                  for i in by_slug.get(slug, [])]
@@ -171,8 +173,12 @@ def _workspace_section() -> Dict[str, Any]:
              "outreach_status": l.get("outreach_status", "researched"),
              "relationship_type": l.get("relationship_type", "customer"),
              "status": l.get("status", "open"),
+             "excluded": bool(l.get("excluded")),
+             "exclude_reason": l.get("exclude_reason"),
              "last_contact": l.get("last_contact"),
              "next_action": l.get("next_action"),
+             "next_followup": l.get("next_followup"),
+             "website": l.get("website"),
              "interactions": l.get("interactions") or []}
             for l in leads
         ],
@@ -221,7 +227,7 @@ def _leads_map(leads: List[Dict]) -> List[Dict]:
     """Country-level map markers for the Commercial Center prospect map."""
     out = []
     for l in leads:
-        if l.get("status", "open") in ("won", "lost"):
+        if l.get("status", "open") in ("won", "lost") or l.get("excluded"):
             continue
         cc = str(l.get("country") or "").strip().upper()
         if cc not in COUNTRY_CENTROIDS:
@@ -240,6 +246,155 @@ def _leads_map(leads: List[Dict]) -> List[Dict]:
         })
     out.sort(key=lambda m: -(m["score"] or 0))
     return out
+
+
+# ---------------------------------------------------------------------------
+# Segmentation (sector × country) and campaign correspondence plans
+# ---------------------------------------------------------------------------
+
+# The operator's six target sectors (the for-* pages). Segment keys come
+# from marketing/segments/segments.json; labels are the public page names.
+_TARGET_SECTORS = [
+    ("banking", "Banks & lenders"),
+    ("environmental_consulting", "Consultants"),
+    ("investment", "Investors"),
+    ("insurance", "Insurance"),
+    ("real_estate", "Real estate"),
+    ("governments", "Government"),
+]
+# Municipal leads belong to the Government target sector.
+_SECTOR_ALIAS = {"municipalities": "governments",
+                 "municipal_climate_adaptation": "governments"}
+
+_STALE_DAYS = 30
+
+
+def _segment_doc() -> Dict:
+    path = os.path.join(_WORKSPACE, "segments", "segments.json")
+    if not os.path.isfile(path):
+        return {}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {}
+
+
+def _target_sector(segment_key: str) -> Optional[str]:
+    if segment_key in dict(_TARGET_SECTORS):
+        return segment_key
+    return _SECTOR_ALIAS.get(segment_key)
+
+
+def _segmentation(leads: List[Dict]) -> List[Dict]:
+    """Sector × country matrix over the operator's six target sectors."""
+    doc = _segment_doc().get("segments") or {}
+    out = []
+    for key, label in _TARGET_SECTORS:
+        seg_leads = [l for l in leads
+                     if _target_sector(l.get("segment") or "") == key]
+        countries: Dict[str, List[str]] = {}
+        for l in seg_leads:
+            cc = (l.get("country") or "?").upper()
+            countries.setdefault(cc, []).append(l.get("id") or "")
+        seg_doc = doc.get(key) or {}
+        out.append({
+            "key": key,
+            "label": label,
+            "count": len(seg_leads),
+            "active_count": sum(1 for l in seg_leads
+                                if not l.get("excluded")
+                                and l.get("status", "open") not in ("won", "lost")),
+            "countries": [{"country": cc, "count": len(ids), "leads": sorted(ids)}
+                          for cc, ids in sorted(countries.items(),
+                                                key=lambda kv: -len(kv[1]))],
+            "offer": seg_doc.get("offer"),
+            "cta": seg_doc.get("cta"),
+            "outreach_style": seg_doc.get("outreach_style"),
+            "decision_maker_roles": seg_doc.get("decision_maker_roles"),
+        })
+    return out
+
+
+def _latest_signals(signals: List[Dict]) -> Dict[str, Dict]:
+    """Latest signal per organization + an honest staleness flag (the
+    record was last checked more than _STALE_DAYS ago)."""
+    today = _today()
+    latest: Dict[str, Dict] = {}
+    for s in signals:
+        org = s.get("organization")
+        if not org:
+            continue
+        cur = latest.get(org)
+        if cur is None or (s.get("date_observed") or "") > (cur.get("date_observed") or ""):
+            checked = s.get("date_checked") or ""
+            stale = bool(checked) and checked < (
+                datetime.utcnow() - timedelta(days=_STALE_DAYS)).strftime("%Y-%m-%d")
+            latest[org] = {
+                "signal_type": s.get("signal_type"),
+                "signal_strength": s.get("signal_strength"),
+                "activity_level": s.get("activity_level"),
+                "date_observed": s.get("date_observed"),
+                "date_checked": checked,
+                "stale": stale,
+                "source_url": s.get("source_url"),
+                "recommended_action": s.get("recommended_action"),
+            }
+    return latest
+
+
+def _campaign_plans(leads: List[Dict], signals: List[Dict]) -> List[Dict]:
+    """Per campaign: the goal, the matched leads (sector-matched, active,
+    never competitors/excluded), and the correspondence plan per lead —
+    who to contact (decision-maker role), how (channel/website), with what
+    message, and when (next action / follow-up)."""
+    camp_path = os.path.join(_WORKSPACE, "campaigns", "linkedin_campaigns.json")
+    campaigns = []
+    if os.path.isfile(camp_path):
+        try:
+            with open(camp_path, encoding="utf-8") as fh:
+                campaigns = json.load(fh).get("campaigns") or []
+        except (OSError, ValueError):
+            campaigns = []
+
+    latest_sig = _latest_signals(signals)
+    active = [l for l in leads
+              if not l.get("excluded")
+              and l.get("status", "open") not in ("won", "lost")]
+
+    plans = []
+    for c in campaigns:
+        aud_segments = set((c.get("audience") or {}).get("segments") or [])
+        matched = [l for l in active
+                   if (l.get("segment") in aud_segments
+                       or _target_sector(l.get("segment") or "") in aud_segments)]
+        matched.sort(key=lambda l: (
+            {"high": 0, "medium": 1, "low": 2}.get(l.get("priority"), 3),
+            l.get("organization") or ""))
+        plans.append({
+            "id": c.get("id"),
+            "name": c.get("name"),
+            "objective": c.get("objective"),
+            "cta": c.get("cta"),
+            "landing_page": c.get("landing_page"),
+            "follow_up": c.get("follow_up"),
+            "conversion_goal": c.get("conversion_goal"),
+            "matched_count": len(matched),
+            "leads": [{
+                "id": l.get("id"),
+                "organization": l.get("organization"),
+                "country": l.get("country"),
+                "priority": l.get("priority"),
+                "outreach_status": l.get("outreach_status", "researched"),
+                "decision_maker_role": l.get("decision_maker_role"),
+                "contact_url": l.get("website"),
+                "recommended_message": l.get("recommended_message"),
+                "next_action": l.get("next_action"),
+                "next_followup": l.get("next_followup"),
+                "activity": latest_sig.get(l.get("organization")),
+            } for l in matched],
+        })
+    return plans
 
 
 @admin_intel_bp.get("/admin/intel")
@@ -389,7 +544,8 @@ def admin_intelligence():
     if ws.get("available"):
         leads_all = ws.get("leads") or []
         hot = [l for l in leads_all if l.get("priority") == "high"
-               and l.get("status", "open") not in ("won", "lost")]
+               and l.get("status", "open") not in ("won", "lost")
+               and not l.get("excluded")]
         hot.sort(key=lambda l: l.get("organization") or "")
         copilot["contact_now"] = [
             {"organization": l.get("organization"),
@@ -606,6 +762,11 @@ def admin_intelligence():
         "leads_map_note": "Country-level positions (capital/centroid) — "
                           "never exact addresses. Score is rule-based "
                           "(priority + urgency + outreach progress).",
+        # Sector × country segmentation and per-campaign correspondence
+        # plans (competitors/excluded never enter a plan).
+        "segmentation": _segmentation(ws.get("leads") or []) if ws.get("available") else [],
+        "campaign_plans": _campaign_plans(ws.get("leads") or [],
+                                          _records_ws("signals")) if ws.get("available") else [],
     })
 
 
@@ -763,22 +924,32 @@ def admin_campaigns():
 # workspace mount; every change is audited.
 # ---------------------------------------------------------------------------
 
+def _lead_slugs() -> set:
+    """The slugs of existing workspace leads — the addressable set for the
+    marketing-ops endpoints (unknown slugs are honest 404s, never silently
+    created orphan state)."""
+    return {r.get("_slug") for r in _records_ws("leads") if r.get("_slug")}
+
+
 @admin_intel_bp.patch("/admin/leads/<lead_slug>")
 @require_role("admin")
 def admin_lead_update(lead_slug: str):
     """Update pipeline fields of a lead (outreach_status / status /
-    priority / next_action / next_followup). Sparse overlay — only the
-    changed fields are stored."""
+    priority / next_action / next_followup / excluded). Sparse overlay —
+    only the changed fields are stored. 404 for unknown lead slugs."""
     from .marketing_store import MarketingStore
 
+    if lead_slug not in _lead_slugs():
+        return jsonify({"error": f"Unknown lead '{lead_slug}'",
+                        "status": 404}), 404
     data = request.get_json(silent=True) or {}
     fields = {k: data[k] for k in
               ("outreach_status", "status", "priority",
-               "next_action", "next_followup")
+               "next_action", "next_followup", "excluded", "exclude_reason")
               if k in data}
     result = MarketingStore().update_state(lead_slug, **fields)
     if result is None:
-        return jsonify({"error": "Unknown lead or invalid field value",
+        return jsonify({"error": "Invalid field value",
                         "status": 400}), 400
     from .accounts import UserStore
 
@@ -794,6 +965,9 @@ def admin_lead_interaction(lead_slug: str):
     The entry joins the lead's relationship history immediately."""
     from .marketing_store import MarketingStore
 
+    if lead_slug not in _lead_slugs():
+        return jsonify({"error": f"Unknown lead '{lead_slug}'",
+                        "status": 404}), 404
     data = request.get_json(silent=True) or {}
     result = MarketingStore().add_interaction(
         lead_slug,
@@ -802,8 +976,8 @@ def admin_lead_interaction(lead_slug: str):
         date=data.get("date"),
     )
     if result is None:
-        return jsonify({"error": "Unknown lead, invalid type, bad date or "
-                        "empty summary", "status": 400}), 400
+        return jsonify({"error": "Invalid type, bad date or empty summary",
+                        "status": 400}), 400
     from .accounts import UserStore
 
     UserStore().audit(g.current_user["id"], "lead_interaction",

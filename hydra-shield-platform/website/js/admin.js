@@ -155,31 +155,28 @@
     }
 
     // ------------------------------------------------------------------
-    // Prospect map — country-level lead positions, priority-coloured
+    // Prospect map — country-level lead positions, priority-coloured,
+    // sector-filterable
     // ------------------------------------------------------------------
 
     var leadsMap = null;
+    var leadsMapLayer = null;
+    var leadsMapPoints = [];
 
     function priorityColor(p) {
         return { high: '#ef4444', medium: '#f59e0b', low: '#64748b' }[p] || '#64748b';
     }
 
-    function renderLeadsMap(d) {
-        var points = d.leads_map || [];
-        el('leadsMapNote').textContent = d.leads_map_note ||
-            'Country-level positions; rule-based score (priority + urgency + outreach progress).';
-        if (!window.L) {
-            el('leadsMap').innerHTML =
-                '<div class="notice notice-error">Map library could not be loaded.</div>';
-            return;
-        }
-        if (!leadsMap) {
-            leadsMap = L.map('leadsMap', { scrollWheelZoom: false }).setView([38, 12], 2);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors', maxZoom: 8
-            }).addTo(leadsMap);
-        }
-        points.forEach(function (p) {
+    function drawLeadsMapMarkers() {
+        if (!leadsMap) return;
+        if (leadsMapLayer) leadsMap.removeLayer(leadsMapLayer);
+        leadsMapLayer = L.layerGroup();
+        var filterSel = el('mapSegmentFilter');
+        var filter = filterSel ? filterSel.value : '';
+        var shown = 0;
+        leadsMapPoints.forEach(function (p) {
+            if (filter && p.segment !== filter) return;
+            shown++;
             var marker = L.circleMarker([p.lat, p.lon], {
                 radius: 7 + Math.min(6, (p.score || 0) / 20),
                 color: '#fff', weight: 1.5,
@@ -194,12 +191,46 @@
                 '<tr><th>Product</th><td>' + esc((p.recommended_product || '—').replace(/_/g, ' ')) + '</td></tr>' +
                 '<tr><th>Next</th><td>' + esc(p.next_action || '—') + '</td></tr>' +
                 '</table></div>');
-            marker.addTo(leadsMap);
+            marker.addTo(leadsMapLayer);
         });
-        if (!points.length) {
+        leadsMapLayer.addTo(leadsMap);
+        var note = 'Country-level positions; rule-based score (priority + urgency + outreach progress).';
+        if (filter) note += ' Showing ' + shown + ' in "' + filter.replace(/_/g, ' ') + '".';
+        el('leadsMapNote').textContent = note;
+    }
+
+    function renderLeadsMap(d) {
+        leadsMapPoints = d.leads_map || [];
+        if (!window.L) {
+            el('leadsMap').innerHTML =
+                '<div class="notice notice-error">Map library could not be loaded.</div>';
+            return;
+        }
+        if (!leadsMap) {
+            leadsMap = L.map('leadsMap', { scrollWheelZoom: false }).setView([38, 12], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors', maxZoom: 8
+            }).addTo(leadsMap);
+        }
+        // Populate the sector filter once, from the actual marker set.
+        var sel = el('mapSegmentFilter');
+        if (sel && sel.options.length <= 1) {
+            var segs = {};
+            leadsMapPoints.forEach(function (p) { if (p.segment) segs[p.segment] = 1; });
+            Object.keys(segs).sort().forEach(function (s) {
+                var o = document.createElement('option');
+                o.value = s;
+                o.textContent = s.replace(/_/g, ' ');
+                sel.appendChild(o);
+            });
+            sel.addEventListener('change', drawLeadsMapMarkers);
+        }
+        if (!leadsMapPoints.length) {
             el('leadsMapNote').textContent =
                 'No mappable prospects yet (workspace unavailable or no known countries).';
+            return;
         }
+        drawLeadsMapMarkers();
     }
 
     // ------------------------------------------------------------------
@@ -264,6 +295,14 @@
             });
     }
 
+    function renderAll(d) {
+        render(d);
+        renderBoard(d);
+        renderLeadsMap(d);
+        renderSegmentation(d);
+        renderCampaignPlans(d);
+    }
+
     // ------------------------------------------------------------------
     // Prospects — the working pipeline table (marketing operations)
     // ------------------------------------------------------------------
@@ -288,22 +327,36 @@
         }
         el('prospectsBlock').innerHTML =
             '<p class="muted small">Work the pipeline directly: change a stage, ' +
-            'mark won/lost, or log an interaction — every change is audited.</p>' +
+            'mark won/lost, log an interaction, or exclude a competitor — every change is audited.</p>' +
             '<div class="table-scroll"><table class="data-table"><thead><tr>' +
             '<th>Organization</th><th>Segment</th><th>Country</th><th>Priority</th>' +
             '<th>Outreach</th><th>Deal</th><th>Next action</th><th></th>' +
             '</tr></thead><tbody>' +
             leads.map(function (l) {
-                return '<tr>' +
-                    '<td><strong>' + esc(l.organization) + '</strong></td>' +
+                var excluded = !!l.excluded;
+                return '<tr' + (excluded ? ' style="opacity:.45;"' : '') + '>' +
+                    '<td><strong>' + esc(l.organization) + '</strong>' +
+                    (l.decision_maker_role
+                        ? '<br><span class="muted small">🎯 ' + esc(l.decision_maker_role) + '</span>'
+                        : '') +
+                    (excluded
+                        ? '<br><span class="chip chip-unknown">excluded' +
+                          (l.exclude_reason ? ': ' + esc(l.exclude_reason) : '') + '</span>'
+                        : '') +
+                    '</td>' +
                     '<td>' + esc((l.segment || '').replace(/_/g, ' ')) + '</td>' +
                     '<td>' + esc(l.country || '—') + '</td>' +
                     '<td>' + esc(l.priority || '—') + '</td>' +
                     '<td>' + statusSelect('outreach', l.id, l.outreach_status || 'researched', OUTREACH_STATUSES) + '</td>' +
                     '<td>' + statusSelect('deal', l.id, l.status || 'open', LEAD_STATUSES) + '</td>' +
                     '<td class="muted small">' + esc(l.next_action || '—') + '</td>' +
-                    '<td><button class="btn-action btn-quiet" data-lead-note="' + esc(l.id) + '" ' +
-                        'data-org="' + esc(l.organization) + '">+ Note</button></td>' +
+                    '<td style="white-space:nowrap;">' +
+                    '<button class="btn-action btn-quiet" data-lead-note="' + esc(l.id) + '" ' +
+                        'data-org="' + esc(l.organization) + '">+ Note</button> ' +
+                    '<button class="btn-action btn-quiet" data-lead-exclude="' + esc(l.id) + '" ' +
+                        'data-excluded="' + (excluded ? '1' : '0') + '">' +
+                        (excluded ? 'Include' : 'Exclude') + '</button>' +
+                    '</td>' +
                     '</tr>';
             }).join('') + '</tbody></table></div>';
 
@@ -342,6 +395,23 @@
                         });
                 });
             });
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-lead-exclude]'), function (btn) {
+                btn.addEventListener('click', function () {
+                    var isExcluded = btn.getAttribute('data-excluded') === '1';
+                    var fields;
+                    if (isExcluded) {
+                        fields = { excluded: false };
+                    } else {
+                        var reason = window.prompt(
+                            'Exclude this organization from all outreach plans ' +
+                            '(e.g. "competitor — sells the same product"). Reason:');
+                        if (reason === null) return;
+                        fields = { excluded: true, exclude_reason: reason.trim() };
+                    }
+                    patchLead(btn.getAttribute('data-lead-exclude'), fields);
+                });
+            });
     }
 
     function patchLead(slug, fields) {
@@ -361,8 +431,95 @@
 
     function refreshIntel() {
         fetchJSON(API + '/v2/admin/intel').then(function (res) {
-            if (res.ok) { render(res.body); renderBoard(res.body); renderLeadsMap(res.body); }
+            if (res.ok) { renderAll(res.body); }
         });
+    }
+
+    // ------------------------------------------------------------------
+    // Target sectors × countries (segmentation board)
+    // ------------------------------------------------------------------
+
+    function renderSegmentation(d) {
+        var segs = d.segmentation || [];
+        if (!segs.length) {
+            el('segmentationBlock').innerHTML =
+                '<div class="notice notice-empty">No segmentation data.</div>';
+            return;
+        }
+        el('segmentationBlock').innerHTML = segs.map(function (s) {
+            var chips = (s.countries || []).map(function (c) {
+                return '<span class="chip chip-modelled">' + esc(c.country) +
+                    ' ×' + c.count + '</span>';
+            }).join(' ');
+            return '<div class="board-item" style="margin-bottom:12px;">' +
+                '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+                '<strong>' + esc(s.label) + '</strong>' +
+                '<span class="muted small">' + s.active_count + ' active / ' + s.count + ' total</span></div>' +
+                '<div class="badge-row" style="margin:6px 0;">' + (chips || '<span class="muted small">No leads yet</span>') + '</div>' +
+                (s.offer ? '<div class="muted small"><strong>Offer:</strong> ' + esc(s.offer) + '</div>' : '') +
+                (s.cta ? '<div class="muted small"><strong>CTA:</strong> ' + esc(s.cta) + '</div>' : '') +
+                (s.decision_maker_roles && s.decision_maker_roles.length
+                    ? '<div class="muted small"><strong>Who to reach:</strong> ' +
+                      esc(s.decision_maker_roles.slice(0, 4).join(' · ')) + '</div>'
+                    : '') +
+                '</div>';
+        }).join('');
+    }
+
+    // ------------------------------------------------------------------
+    // Campaign correspondence plans
+    // ------------------------------------------------------------------
+
+    function activityChip(a) {
+        if (!a) return '<span class="muted small">no signals yet</span>';
+        var fresh = !a.stale;
+        var txt = (a.signal_type || 'signal').replace(/_/g, ' ') +
+            (a.date_observed ? ' · ' + a.date_observed : '');
+        return '<span class="chip ' + (fresh ? 'chip-observed' : 'chip-unknown') + '" ' +
+            'title="checked ' + esc(a.date_checked || '—') + (a.stale ? ' — stale, re-check' : '') + '">' +
+            esc(txt) + (a.stale ? ' (stale)' : '') + '</span>';
+    }
+
+    function renderCampaignPlans(d) {
+        var plans = d.campaign_plans || [];
+        if (!plans.length) {
+            el('campaignPlansBlock').innerHTML =
+                '<div class="notice notice-empty">No campaigns defined yet.</div>';
+            return;
+        }
+        el('campaignPlansBlock').innerHTML = plans.map(function (p) {
+            var rows = (p.leads || []).map(function (l) {
+                return '<tr>' +
+                    '<td><strong>' + esc(l.organization) + '</strong><br>' +
+                    '<span class="muted small">' + esc(l.decision_maker_role || '—') + '</span></td>' +
+                    '<td>' + esc(l.country || '—') + '</td>' +
+                    '<td>' + esc(l.priority || '—') + '</td>' +
+                    '<td>' + esc((l.outreach_status || '').replace(/_/g, ' ')) + '</td>' +
+                    '<td>' + activityChip(l.activity) + '</td>' +
+                    '<td class="muted small">' + esc((l.recommended_message || '').slice(0, 110)) +
+                        ((l.recommended_message || '').length > 110 ? '…' : '') + '</td>' +
+                    '<td class="muted small">' + esc(l.next_action || '—') +
+                        (l.next_followup ? '<br>due ' + esc(l.next_followup) : '') + '</td>' +
+                    '<td>' + (l.contact_url
+                        ? '<a class="text-link" href="' + esc(l.contact_url) + '" target="_blank" rel="noopener">site ↗</a>'
+                        : '—') + '</td>' +
+                    '</tr>';
+            }).join('');
+            return '<div class="board-item" style="margin-bottom:14px;">' +
+                '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+                '<strong>' + esc(p.name || p.id) + '</strong>' +
+                '<span class="chip chip-observed">' + p.matched_count + ' companies</span></div>' +
+                (p.objective ? '<div class="muted small" style="margin:4px 0;"><strong>Goal:</strong> ' + esc(p.objective) + '</div>' : '') +
+                (p.cta ? '<div class="muted small"><strong>CTA:</strong> ' + esc(p.cta) + '</div>' : '') +
+                (p.follow_up ? '<div class="muted small"><strong>Follow-up:</strong> ' + esc(p.follow_up) + '</div>' : '') +
+                (p.leads && p.leads.length
+                    ? '<div class="table-scroll" style="margin-top:8px;"><table class="data-table">' +
+                      '<thead><tr><th>Company / who</th><th>Country</th><th>Prio</th><th>Stage</th>' +
+                      '<th>Activity</th><th>Prepared message</th><th>Plan</th><th></th></tr></thead>' +
+                      '<tbody>' + rows + '</tbody></table></div>'
+                    : '<div class="notice notice-empty" style="margin-top:8px;">No active companies matched — review segment targeting.</div>') +
+                '</div>';
+        }).join('');
     }
 
     function render(d) {
@@ -534,9 +691,7 @@
             return;
         }
         status('', '');
-        render(res.body);
-        renderBoard(res.body);
-        renderLeadsMap(res.body);
+        renderAll(res.body);
         loadContacts();
     }).catch(function () {
         status('error', 'Commercial Center could not be reached.');

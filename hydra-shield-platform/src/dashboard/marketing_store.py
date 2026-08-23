@@ -77,6 +77,25 @@ class MarketingStore:
                 );
                 """
             )
+            # Additive migrations for existing databases (never destructive).
+            cols = {r[1] for r in conn.execute(
+                "PRAGMA table_info(lead_state)").fetchall()}
+            if "excluded" not in cols:
+                conn.execute(
+                    "ALTER TABLE lead_state ADD COLUMN excluded INTEGER")
+            if "exclude_reason" not in cols:
+                conn.execute(
+                    "ALTER TABLE lead_state ADD COLUMN exclude_reason TEXT")
+
+    _STATE_COLS = ("lead_slug, outreach_status, status, priority, next_action,"
+                   " next_followup, COALESCE(excluded, 0), exclude_reason, updated_at")
+
+    @staticmethod
+    def _state_row(row) -> Dict:
+        return {"lead_slug": row[0], "outreach_status": row[1], "status": row[2],
+                "priority": row[3], "next_action": row[4],
+                "next_followup": row[5], "excluded": bool(row[6]),
+                "exclude_reason": row[7], "updated_at": row[8]}
 
     # ------------------------------------------------------------------
     # Validation
@@ -101,12 +120,19 @@ class MarketingStore:
             "priority": lambda v: v in LEAD_PRIORITIES,
             "next_action": lambda v: isinstance(v, str) and len(v) <= 300,
             "next_followup": lambda v: v is None or bool(_DATE_RE.match(v or "")),
+            # Competitor/irrelevant exclusion: excluded leads stay in the
+            # research base but leave every outreach plan and the map.
+            "excluded": lambda v: v in (True, False, 0, 1),
+            "exclude_reason": lambda v: isinstance(v, str) and len(v) <= 200,
         }
         clean = {}
         for key, value in fields.items():
             if key not in allowed or not allowed[key](value):
                 return None
-            clean[key] = (value or None) if isinstance(value, str) else value
+            if key == "excluded":
+                clean[key] = 1 if value in (True, 1) else 0
+            else:
+                clean[key] = (value or None) if isinstance(value, str) else value
         if not clean:
             return None
         with self._lock, self._connect() as conn:
@@ -125,26 +151,17 @@ class MarketingStore:
     def get_state(self, lead_slug: str) -> Optional[Dict]:
         with self._lock, self._connect() as conn:
             row = conn.execute(
-                "SELECT lead_slug, outreach_status, status, priority,"
-                " next_action, next_followup, updated_at FROM lead_state"
-                " WHERE lead_slug = ?",
+                f"SELECT {self._STATE_COLS} FROM lead_state WHERE lead_slug = ?",
                 (lead_slug,),
             ).fetchone()
-        if not row:
-            return None
-        return {"lead_slug": row[0], "outreach_status": row[1], "status": row[2],
-                "priority": row[3], "next_action": row[4],
-                "next_followup": row[5], "updated_at": row[6]}
+        return self._state_row(row) if row else None
 
     def list_states(self) -> List[Dict]:
         with self._lock, self._connect() as conn:
             rows = conn.execute(
-                "SELECT lead_slug, outreach_status, status, priority,"
-                " next_action, next_followup, updated_at FROM lead_state"
+                f"SELECT {self._STATE_COLS} FROM lead_state"
             ).fetchall()
-        return [{"lead_slug": r[0], "outreach_status": r[1], "status": r[2],
-                 "priority": r[3], "next_action": r[4], "next_followup": r[5],
-                 "updated_at": r[6]} for r in rows]
+        return [self._state_row(r) for r in rows]
 
     # ------------------------------------------------------------------
     # Interaction log
