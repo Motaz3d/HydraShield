@@ -24,7 +24,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from typing import Callable, Dict, List, Optional
 
-from .cache import cached, default_cache, TTL_ANALYSIS, TTL_SNAPSHOT
+from .cache import cached, default_cache, TTL_SNAPSHOT
 from .snapshot import load_monitored_areas
 
 _CACHE_KEY = "hazard_snapshot:current"
@@ -39,10 +39,10 @@ _SKIP_HAZARDS = ("wildfire",)
 _TOP_PER_HAZARD = 3
 
 
-@cached("analysis", TTL_ANALYSIS)
+@cached("hazard_snapshot_analysis", 3600.0)
 def cached_hazard_analysis(hazard_id: str, lat: float, lon: float, name: str) -> Dict:
-    """Cached per-hazard analysis for a point (15 min TTL), shared with
-    /api/v2/analyze."""
+    """Cached per-hazard analysis for a point (1 h TTL — the board rebuilds
+    every 30 min, so a longer TTL keeps rebuilds fast and upstreams calm)."""
     from ..climate import registry
 
     module = registry.get(hazard_id)
@@ -112,10 +112,11 @@ def compute_hazard_snapshot(
 
     jobs = [(h, a) for h in hazards for a in cfg.areas]
     per_hazard: Dict[str, List[Dict]] = {h["id"]: [] for h in hazards}
-    # 2 workers: real upstream analyses (Overpass/OSM, terrain, climate
-    # APIs) are memory-heavy — a wider pool OOM-killed the gunicorn worker
-    # in production.
-    with ThreadPoolExecutor(max_workers=2) as pool:
+    # Sequential: real analyses can each load heavy context (OSM/Overpass,
+    # exposure rasters); two concurrent floods peaked >3.5 GB and the kernel
+    # OOM-killed the builder in production. One-at-a-time keeps the peak to
+    # a single analysis; the 1 h per-analysis cache keeps rebuilds fast.
+    with ThreadPoolExecutor(max_workers=1) as pool:
         for hazard_id, entry in pool.map(_run, jobs):
             if entry is not None:
                 per_hazard.setdefault(hazard_id, []).append(entry)
