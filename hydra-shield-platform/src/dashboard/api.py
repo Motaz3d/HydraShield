@@ -810,6 +810,9 @@ def create_app() -> Flask:
         coverage, resolution, freshness, license, kind, limitations and its
         actual HydraShield integration status (integrated / candidate /
         rejected). Nothing here is claimed as used unless it is integrated.
+
+        Content negotiation: browsers (Accept: text/html) receive a branded
+        human-readable page; API clients receive the JSON contract.
         """
         import json as _json
         import os as _os
@@ -822,7 +825,16 @@ def create_app() -> Flask:
                 registry = _json.load(fh)
         except (OSError, _json.JSONDecodeError) as exc:
             return _error(f"Source registry unavailable: {exc}", 503)
-        return jsonify(registry)
+        from .registry_pages import prefers_html, render_sources_page
+
+        if prefers_html():
+            resp = app.make_response(render_sources_page(registry))
+            resp.mimetype = "text/html"
+            resp.headers["Vary"] = "Accept"
+            return resp
+        resp = jsonify(registry)
+        resp.headers["Vary"] = "Accept"
+        return resp
 
     # ------------------------------------------------------------------
     @app.route("/api/analysis-jobs", methods=["POST"])

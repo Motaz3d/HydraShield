@@ -77,6 +77,8 @@
             showView(true);
             notifyVerifyResult();
             renderProfile(res.body);
+            loadSubscription();
+            loadApiKeys();
             loadLocations();
             loadAlerts();
             loadHistory();
@@ -212,6 +214,165 @@
             '<tr><th>Saved locations</th><td>' + esc(body.locations != null ? body.locations : '—') + '</td></tr>' +
             '<tr><th>Alerts</th><td>' + esc(body.alerts != null ? body.alerts : '—') + '</td></tr>' +
             '</table></div>';
+    }
+
+    // ------------------------------------------------------------------
+    // Subscription (self-service; recorded, never charged)
+    // ------------------------------------------------------------------
+
+    function loadSubscription() {
+        fetchJSON(API + '/v2/account/subscription').then(function (res) {
+            if (res.status === 401) { showView(false); return; }
+            if (!res.ok) {
+                el('subscriptionBlock').innerHTML =
+                    '<div class="notice notice-error">Subscription state unavailable: ' +
+                    esc(res.body.error || '') + '</div>';
+                return;
+            }
+            renderSubscription(res.body || {});
+        }).catch(function () {
+            el('subscriptionBlock').innerHTML =
+                '<div class="notice notice-error">Subscription state could not be loaded.</div>';
+        });
+    }
+
+    function renderSubscription(body) {
+        var sub = body.subscription;
+        var rows = '<tr><th>Your tier</th><td>' + esc(body.role || 'registered') + '</td></tr>';
+        if (sub) {
+            rows += '<tr><th>Subscription</th><td>' + chip('OBSERVED', 'ACTIVE') + '</td></tr>' +
+                '<tr><th>Tier</th><td>' + esc(sub.tier) + '</td></tr>' +
+                '<tr><th>Started</th><td>' + esc((sub.started_at || '').slice(0, 10)) + '</td></tr>';
+        } else {
+            rows += '<tr><th>Subscription</th><td>' + chip('UNAVAILABLE', 'NOT SUBSCRIBED') + '</td></tr>';
+        }
+        var unlocks = (body.subscriber_unlocks || []).map(function (u) {
+            return '<li>' + esc(u) + '</li>';
+        }).join('');
+        el('subscriptionBlock').innerHTML =
+            '<div class="table-scroll"><table class="kv-table">' + rows + '</table></div>' +
+            (sub
+                ? ''
+                : '<p class="muted small" style="margin-top:10px;">Subscribing unlocks:</p>' +
+                  '<ul class="muted small" style="margin:4px 0 0 18px;">' + unlocks + '</ul>');
+        el('subscribeBtn').classList.toggle('hidden', !!sub);
+        el('unsubscribeBtn').classList.toggle('hidden', !sub);
+    }
+
+    function wireSubscription() {
+        el('subscribeBtn').addEventListener('click', function () {
+            status('info', 'Activating your subscription…');
+            postJSON(API + '/v2/account/subscribe', {}).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    status('error', (res.body && res.body.error) || 'Subscription failed.');
+                    return;
+                }
+                status('info', (res.body && res.body.already_active)
+                    ? 'Your subscription is already active.'
+                    : 'Subscription active — a confirmation email is on its way.');
+                boot();
+            }).catch(function () { status('error', 'Subscription request failed.'); });
+        });
+
+        el('unsubscribeBtn').addEventListener('click', function () {
+            if (!window.confirm('Cancel your subscription? Your account, saved locations ' +
+                    'and alert rules are kept; the tier returns to the free level.')) return;
+            postJSON(API + '/v2/account/unsubscribe', {}).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (!res.ok) {
+                    status('error', (res.body && res.body.error) || 'Cancellation failed.');
+                    return;
+                }
+                status('info', 'Subscription cancelled.');
+                boot();
+            }).catch(function () { status('error', 'Cancellation request failed.'); });
+        });
+    }
+
+    // ------------------------------------------------------------------
+    // API keys (subscriber tier; read-only programmatic access)
+    // ------------------------------------------------------------------
+
+    function loadApiKeys() {
+        fetchJSON(API + '/v2/account/api-keys').then(function (res) {
+            if (res.status === 401) { showView(false); return; }
+            if (!res.ok) {
+                el('apiKeysBlock').innerHTML =
+                    '<div class="notice notice-error">API keys unavailable: ' +
+                    esc(res.body.error || '') + '</div>';
+                return;
+            }
+            renderApiKeys(res.body.api_keys || []);
+        }).catch(function () {
+            el('apiKeysBlock').innerHTML =
+                '<div class="notice notice-error">API keys could not be loaded.</div>';
+        });
+    }
+
+    function renderApiKeys(list) {
+        if (!list.length) {
+            el('apiKeysBlock').innerHTML =
+                '<div class="notice notice-empty">No API keys yet.</div>';
+            return;
+        }
+        el('apiKeysBlock').innerHTML =
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Label</th><th>Created</th><th>State</th><th></th></tr></thead><tbody>' +
+            list.map(function (k) {
+                return '<tr><td>' + esc(k.label || '—') + '</td>' +
+                    '<td>' + esc((k.created_at || '').slice(0, 10)) + '</td>' +
+                    '<td>' + (k.revoked ? chip('UNAVAILABLE', 'REVOKED') : chip('OBSERVED', 'ACTIVE')) + '</td>' +
+                    '<td>' + (k.revoked ? '' :
+                        '<button class="btn-action btn-quiet" data-revoke-key="' + k.id + '">Revoke</button>') +
+                    '</td></tr>';
+            }).join('') + '</tbody></table></div>';
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-revoke-key]'), function (btn) {
+                btn.addEventListener('click', function () {
+                    fetchJSON(API + '/v2/account/api-keys/' + btn.getAttribute('data-revoke-key'),
+                        { method: 'DELETE' }).then(function (res) {
+                            if (res.status === 401) { showView(false); return; }
+                            loadApiKeys();
+                        });
+                });
+            });
+    }
+
+    function wireApiKeys() {
+        el('apiKeyCreateBtn').addEventListener('click', function () {
+            el('apiKeyNewBlock').innerHTML = '';
+            postJSON(API + '/v2/account/api-keys', {
+                label: el('apiKeyLabel').value || undefined
+            }).then(function (res) {
+                if (res.status === 401) { showView(false); return; }
+                if (res.status === 403 && res.body && res.body.upgrade) {
+                    el('apiKeyNewBlock').innerHTML =
+                        '<div class="notice notice-warn" style="margin-top:12px;">' +
+                        esc(res.body.error || 'API keys require a subscription.') +
+                        ' Use the Subscribe button in the Subscription panel above.</div>';
+                    return;
+                }
+                if (!res.ok) {
+                    el('apiKeyNewBlock').innerHTML =
+                        '<div class="notice notice-error" style="margin-top:12px;">' +
+                        esc((res.body && res.body.error) || 'Could not create the key.') + '</div>';
+                    return;
+                }
+                var key = res.body.api_key || {};
+                el('apiKeyNewBlock').innerHTML =
+                    '<div class="notice notice-info" style="margin-top:12px;">' +
+                    '<strong>Your new API key (shown once — store it now):</strong><br>' +
+                    '<code style="word-break:break-all;">' + esc(key.key || '') + '</code><br>' +
+                    '<span class="muted small">Send it as the X-API-Key header on GET ' +
+                    'requests; keys are read-only.</span></div>';
+                el('apiKeyLabel').value = '';
+                loadApiKeys();
+            }).catch(function () {
+                el('apiKeyNewBlock').innerHTML =
+                    '<div class="notice notice-error" style="margin-top:12px;">Key creation request failed.</div>';
+            });
+        });
     }
 
     // ------------------------------------------------------------------
@@ -857,6 +1018,8 @@
 
     function init() {
         wireAuth();
+        wireSubscription();
+        wireApiKeys();
         wireLocations();
         wireAlerts();
         wireSms();

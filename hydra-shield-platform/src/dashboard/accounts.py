@@ -614,6 +614,100 @@ class UserStore:
         return user
 
     # ------------------------------------------------------------------
+    # Subscriptions (self-service; recorded, never charged — docs
+    # USER_AND_SUBSCRIPTION_ARCHITECTURE.md §7: ``external_ref`` awaits a
+    # payment provider). Activating promotes the account to the
+    # ``subscriber`` tier; cancelling returns it to ``registered``.
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _subscription_row(row) -> Dict:
+        return {
+            "id": row[0], "tier": row[1], "status": row[2],
+            "started_at": row[3], "ends_at": row[4],
+        }
+
+    def get_active_subscription(self, user_id: int) -> Optional[Dict]:
+        """The user's active self-service subscription, else None."""
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, tier, status, started_at, ends_at FROM subscriptions"
+                " WHERE owner_user_id = ? AND status = 'active'"
+                " ORDER BY id DESC LIMIT 1",
+                (user_id,),
+            ).fetchone()
+        return self._subscription_row(row) if row else None
+
+    def activate_subscription(self, user_id: int, tier: str = "subscriber") -> Dict:
+        """
+        Activate a subscription for the user. Idempotent: an already-active
+        subscription is returned unchanged. Promotes the role only when the
+        current role ranks below the tier (operator/admin roles are never
+        touched). Audited as ``subscribe``.
+        """
+        started = _utcnow()
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, tier, status, started_at, ends_at FROM subscriptions"
+                " WHERE owner_user_id = ? AND status = 'active'"
+                " ORDER BY id DESC LIMIT 1",
+                (user_id,),
+            ).fetchone()
+            if row is not None:
+                return self._subscription_row(row)
+            cur = conn.execute(
+                "INSERT INTO subscriptions"
+                " (owner_user_id, tier, status, started_at)"
+                " VALUES (?, ?, 'active', ?)",
+                (user_id, (tier or "subscriber")[:40], started),
+            )
+            sub_id = cur.lastrowid
+        user = self.get_user(user_id)
+        if user and ROLE_RANK.get(user["role"], 0) < ROLE_RANK.get(tier, 3):
+            with self._lock, self._connect() as conn:
+                conn.execute("UPDATE users SET role = ? WHERE id = ?",
+                             ((tier or "subscriber")[:40], user_id))
+        self.audit(user_id, "subscribe", target=tier,
+                   meta={"subscription_id": sub_id})
+        return {"id": sub_id, "tier": tier, "status": "active",
+                "started_at": started, "ends_at": None}
+
+    def cancel_subscription(self, user_id: int) -> Optional[Dict]:
+        """
+        Cancel the user's active subscription (idempotent — returns None
+        when none is active). The role is demoted only when it is exactly
+        the self-service ``subscriber`` tier; higher/operator roles are
+        never demoted here. Audited as ``unsubscribe``.
+        """
+        ended = _utcnow()
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, tier, status, started_at, ends_at FROM subscriptions"
+                " WHERE owner_user_id = ? AND status = 'active'"
+                " ORDER BY id DESC LIMIT 1",
+                (user_id,),
+            ).fetchone()
+            if row is None:
+                return None
+            active = self._subscription_row(row)
+            conn.execute(
+                "UPDATE subscriptions SET status = 'cancelled', ends_at = ?"
+                " WHERE id = ?",
+                (ended, active["id"]),
+            )
+        user = self.get_user(user_id)
+        if user and user["role"] == active["tier"] == "subscriber":
+            with self._lock, self._connect() as conn:
+                conn.execute(
+                    "UPDATE users SET role = ? WHERE id = ?",
+                    (DEFAULT_ROLE, user_id))
+        self.audit(user_id, "unsubscribe", target=active["tier"],
+                   meta={"subscription_id": active["id"]})
+        active["status"] = "cancelled"
+        active["ends_at"] = ended
+        return active
+
+    # ------------------------------------------------------------------
     # Saved locations (per-user isolation enforced in every query)
     # ------------------------------------------------------------------
 

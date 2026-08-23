@@ -31,6 +31,11 @@ measurements).
 - Analysis responses carry provenance per component and, where applicable,
   `generated_at` / content hashes so integrators can cache and verify.
 - PDF: `GET /api/report` returns `application/pdf` (not JSON).
+- Content negotiation on the two public registries (`/api/v2/hazards`,
+  `/api/sources`): a browser (`Accept: text/html`) receives a branded
+  human-readable page; API clients (no Accept preference, or an explicit
+  `application/json`) always receive the JSON contract below. `?format=json`
+  forces JSON from a browser. Responses carry `Vary: Accept`.
 
 ### Errors
 

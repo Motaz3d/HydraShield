@@ -120,9 +120,20 @@ GET  /api/v2/account · PATCH /api/v2/account
 GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
 GET  /api/v2/account/history (analyses + reports)
 GET/POST /api/v2/account/alerts · DELETE /api/v2/account/alerts/<id>
+GET  /api/v2/account/subscription · POST /api/v2/account/subscribe
+POST /api/v2/account/unsubscribe
 GET  /api/v2/account/usage
 POST /api/v2/contact  (public; sends acknowledgement via mailer)
 ```
+
+Self-service subscription: `POST /account/subscribe` records an active
+`subscriptions` row (never charged — §7) and promotes the account to
+`subscriber`, unlocking API-key creation and the higher per-tier rate
+limits; a `subscription_confirmation` email is sent on activation. Both
+endpoints are idempotent; `POST /account/unsubscribe` returns the tier to
+`registered` and never demotes operator-assigned roles. Role promotion
+happens only through this recorded flow or the server-side operator list —
+there is still no endpoint that accepts a role from the client.
 
 Gated existing endpoints keep anonymous access with reduced depth; the
 `upgrade` descriptor in responses tells the UI what a tier unlocks.

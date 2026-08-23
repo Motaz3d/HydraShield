@@ -16,6 +16,8 @@ JSON contract.
     GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
     GET  /api/v2/account/history
     GET/POST /api/v2/account/alerts · DELETE /api/v2/account/alerts/<id>
+    GET  /api/v2/account/subscription · POST /api/v2/account/subscribe
+    POST /api/v2/account/unsubscribe
     POST /api/v2/account/api-keys (subscriber) · GET /api/v2/account/api-keys
     DELETE /api/v2/account/api-keys/<id>
     GET/POST /api/v2/account/webhooks · DELETE /api/v2/account/webhooks/<id>
@@ -538,6 +540,88 @@ def delete_alert(alert_id: int):
     if UserStore().delete_alert(g.current_user["id"], alert_id):
         return jsonify({"deleted": True})
     return _err("Alert not found", 404)
+
+
+# ---------------------------------------------------------------------------
+# Subscription (self-service; recorded, never charged — docs §7)
+# ---------------------------------------------------------------------------
+
+# What the self-service subscriber tier actually unlocks in the live API —
+# stated honestly from the real gating, never marketing copy.
+_SUBSCRIBER_UNLOCKS = [
+    "API keys — programmatic read access to the GET endpoints (X-API-Key header)",
+    "Higher rate limits (600 requests/minute instead of 120)",
+    "Higher saved-location limits",
+]
+
+
+@auth_bp.get("/account/subscription")
+@require_role("registered")
+def get_subscription():
+    """Current tier + active subscription state (None when unsubscribed)."""
+    user = g.current_user
+    return jsonify({
+        "role": user["role"],
+        "subscription": UserStore().get_active_subscription(user["id"]),
+        "subscriber_unlocks": _SUBSCRIBER_UNLOCKS,
+        "billing_note": "Subscriptions are recorded, never charged on this "
+                        "platform; no payment data is collected.",
+    })
+
+
+@auth_bp.post("/account/subscribe")
+@require_role("registered")
+def subscribe():
+    """Activate the self-service subscriber tier. Idempotent: an already
+    active subscription returns 200 with the current state. A confirmation
+    email is sent on activation (dev outbox when SMTP is unconfigured)."""
+    user = g.current_user
+    if not _tier_rate(user, "v2_subscribe"):
+        return _err("Rate limit exceeded for your tier", 429)
+    store = UserStore()
+    already = store.get_active_subscription(user["id"]) is not None
+    subscription = store.activate_subscription(user["id"])
+    if not already:
+        from . import mailer
+
+        mailer.send_mail(
+            user["email"],
+            "subscription_confirmation",
+            {
+                "display_name": _hello_name(user.get("display_name")),
+                "tier": subscription["tier"],
+                "status": subscription["status"],
+                "started_at": subscription["started_at"],
+            },
+        )
+    return jsonify({
+        "subscription": subscription,
+        "already_active": already,
+        "unlocks": _SUBSCRIBER_UNLOCKS,
+        "note": "Your subscription is recorded — HydraShield never charges "
+                "cards on this platform; no payment data is stored.",
+    }), 200 if already else 201
+
+
+@auth_bp.post("/account/unsubscribe")
+@require_role("registered")
+def unsubscribe():
+    """Cancel the active subscription. Idempotent (200 either way); saved
+    locations, alerts and history are kept — only the tier returns to the
+    free 'registered' level. Existing API keys keep identifying the account
+    but lose subscriber-tier access until re-subscription."""
+    user = g.current_user
+    if not _tier_rate(user, "v2_subscribe"):
+        return _err("Rate limit exceeded for your tier", 429)
+    cancelled = UserStore().cancel_subscription(user["id"])
+    return jsonify({
+        "subscription": cancelled,
+        "active": False,
+        "note": "Subscription cancelled. Your account, saved locations and "
+                "alert rules are unchanged; you can re-subscribe at any time."
+                if cancelled else
+                "No active subscription — nothing to cancel.",
+    })
 
 
 # ---------------------------------------------------------------------------

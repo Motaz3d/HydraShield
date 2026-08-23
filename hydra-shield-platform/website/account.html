@@ -39,9 +39,10 @@
                     <tr><th>Many monitored locations, organizations, teams</th><td>—</td><td>—</td><td>✓ business/government</td></tr>
                 </tbody></table></div>
                 <p class="muted small" style="margin-top:10px;">
-                    Registration is free. Where a capability requires a subscription, the
-                    platform says so at the moment you reach it — with
-                    <a href="contact.html">contact us</a> for business/government arrangements.
+                    Registration is free. You can activate the subscription yourself
+                    from your account page (it is recorded, never charged — no payment
+                    data is collected); <a href="contact.html">contact us</a> for
+                    business/government arrangements.
                     No pricing is shown because no public pricing is published yet.
                 </p>
             </div>
@@ -127,6 +128,37 @@
                     <div class="card-actions" style="margin-top:14px;">
                         <button class="btn-action btn-quiet" id="logoutBtn">Sign out</button>
                     </div>
+                </div>
+
+                <div class="panel" id="subscription">
+                    <h2>Subscription</h2>
+                    <p class="muted small">
+                        The subscription unlocks API keys and higher limits. It is
+                        recorded on the platform and never charged — no payment data
+                        is collected, and you can cancel at any time.
+                    </p>
+                    <div id="subscriptionBlock"></div>
+                    <div class="card-actions" style="margin-top:14px;">
+                        <button class="btn-action hidden" id="subscribeBtn" type="button">Subscribe</button>
+                        <button class="btn-action btn-quiet hidden" id="unsubscribeBtn" type="button">Cancel subscription</button>
+                    </div>
+                </div>
+
+                <div class="panel" id="apiKeys">
+                    <h2>API keys</h2>
+                    <p class="muted small">
+                        API keys authenticate programmatic read access (header
+                        <code>X-API-Key</code>) to the GET endpoints — the registries,
+                        analyses, events and reports. A key is shown once at creation;
+                        store it somewhere safe.
+                    </p>
+                    <div id="apiKeysBlock"></div>
+                    <div class="toolbar" id="apiKeyCreateRow">
+                        <div class="form-group"><label for="apiKeyLabel">Key label</label>
+                            <input type="text" id="apiKeyLabel" placeholder="e.g. gis-integration"></div>
+                        <button class="btn-action" id="apiKeyCreateBtn" type="button">Create API key</button>
+                    </div>
+                    <div id="apiKeyNewBlock"></div>
                 </div>
 
                 <div class="panel">

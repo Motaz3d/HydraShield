@@ -186,6 +186,78 @@ def test_human_sources_page_renders_from_api():
     assert "data-table" in html
 
 
+# --------------------------------------------------------------------------
+# Content negotiation: the registry URLs are linked from the site footer —
+# a browser (Accept: text/html) gets a branded human page; API clients keep
+# the JSON contract byte-for-byte.
+# --------------------------------------------------------------------------
+
+_BROWSER_ACCEPT = ("text/html,application/xhtml+xml,application/xml;q=0.9,"
+                   "*/*;q=0.8")
+
+
+def test_sources_html_for_browsers(client):
+    resp = client.get("/api/sources", headers={"Accept": _BROWSER_ACCEPT})
+    assert resp.status_code == 200
+    assert resp.content_type.startswith("text/html")
+    assert resp.headers.get("Vary") == "Accept"
+    page = resp.get_data(as_text=True)
+    assert "Data-source registry" in page
+    assert "/account.html" in page        # the subscribe path is visible
+    assert "INTEGRATED" in page
+
+
+def test_hazards_html_for_browsers(client):
+    resp = client.get("/api/v2/hazards", headers={"Accept": _BROWSER_ACCEPT})
+    assert resp.status_code == 200
+    assert resp.content_type.startswith("text/html")
+    assert resp.headers.get("Vary") == "Accept"
+    page = resp.get_data(as_text=True)
+    assert "Hazard registry" in page
+    assert "Wildfire" in page
+    assert "/account.html" in page
+
+
+def test_registries_keep_json_contract_for_api_clients(client):
+    for path in ("/api/sources", "/api/v2/hazards"):
+        resp = client.get(path)  # no Accept preference → JSON
+        assert resp.status_code == 200, path
+        assert resp.content_type.startswith("application/json"), path
+        # Explicit JSON preference wins over HTML as well.
+        resp = client.get(path, headers={"Accept": "application/json"})
+        assert resp.content_type.startswith("application/json"), path
+
+
+def test_registries_format_json_override(client):
+    """?format=json lets a human inspect the JSON contract from a browser."""
+    for path in ("/api/sources?format=json", "/api/v2/hazards?format=json"):
+        resp = client.get(path, headers={"Accept": _BROWSER_ACCEPT})
+        assert resp.status_code == 200, path
+        assert resp.content_type.startswith("application/json"), path
+
+
+def test_registry_pages_escape_content():
+    """The HTML renderers must never inject unescaped payload content."""
+    from src.dashboard.registry_pages import render_hazards_page, render_sources_page
+
+    payload = {"hazards": [{
+        "id": "x<script>", "name": "<b>Evil</b>", "enabled": True,
+        "analysis": {"available": True, "reason": None},
+        "events": {"available": False, "reason": "<img src=x>"},
+        "temporal_coverage": {}, "sources": [{"name": "<i>s</i>", "url": "https://e.org"}],
+    }]}
+    page = render_hazards_page(payload)
+    assert "<b>Evil</b>" not in page and "&lt;b&gt;Evil&lt;/b&gt;" in page
+
+    registry = {"sources": [{
+        "name": "<script>alert(1)</script>", "status": "rejected",
+        "rejection_reason": "<b>no</b>", "url": "https://e.org",
+    }]}
+    page = render_sources_page(registry)
+    assert "<script>alert(1)</script>" not in page
+    assert "&lt;script&gt;alert(1)&lt;/script&gt;" in page
+
+
 def test_geocode_endpoint_contract(client, monkeypatch):
     """The light geocode endpoint returns name/lat/lon/source and honest
     errors — without running the heavy analysis pipeline."""

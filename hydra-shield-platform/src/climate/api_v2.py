@@ -48,15 +48,30 @@ def _rate(key: str, max_requests: int, window: float) -> bool:
 @v2.get("/hazards")
 def hazards():
     """The registered hazards. A hazard appears here only when wired to at
-    least one real, documented data source — no placeholders."""
+    least one real, documented data source — no placeholders.
+
+    Content negotiation: browsers (Accept: text/html) receive a branded
+    human-readable page; API clients receive the JSON contract."""
     from . import registry
 
-    return jsonify({
+    payload = {
         "hazards": registry.descriptors(),
         "note": "A hazard is registered only when backed by a real, documented "
                 "data source. Temporal coverage is reported per dataset — the "
                 "year selector is built from it, never hardcoded.",
-    })
+    }
+    from ..dashboard.registry_pages import prefers_html, render_hazards_page
+
+    if prefers_html():
+        from flask import current_app
+
+        resp = current_app.make_response(render_hazards_page(payload))
+        resp.mimetype = "text/html"
+        resp.headers["Vary"] = "Accept"
+        return resp
+    resp = jsonify(payload)
+    resp.headers["Vary"] = "Accept"
+    return resp
 
 
 @v2.get("/hazards/<hazard_id>")
