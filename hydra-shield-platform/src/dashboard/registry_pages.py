@@ -125,7 +125,7 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
     <a href="/sources">Data sources</a>
     <a href="/account.html">Account</a>
   </span>
-  <a class="brand" href="/">Hydra<span>Shield</span></a>
+  <a class="brand" href="/">Tal<span>aix</span></a>
 </div></div>
 <main><div class="container">
   <h1>{_esc(title)}</h1>

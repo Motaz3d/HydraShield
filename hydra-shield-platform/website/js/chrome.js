@@ -60,7 +60,7 @@
             '<nav class="navbar" id="navbar">' +
             '<div class="container nav-container">' +
             '<a href="index.html" class="logo">' + LOGO_SVG +
-            '<span class="logo-text">Hydra<span class="logo-accent">Shield</span></span></a>' +
+            '<span class="logo-text">Tal<span class="logo-accent">aix</span></span></a>' +
             '<button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">' +
             '<span></span><span></span><span></span></button>' +
             '<ul class="nav-links" id="navLinks">' +
@@ -77,7 +77,7 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG +
-            '<span class="logo-text">Hydra<span class="logo-accent">Shield</span></span></a>' +
+            '<span class="logo-text">Tal<span class="logo-accent">aix</span></span></a>' +
             '<p>Climate Extreme Intelligence: the best available evidence on environmental ' +
             'extremes, their consequences, their economic meaning, and the actions that ' +
             'reduce exposure. Real data only — unavailable is stated, never filled in.</p>' +

@@ -564,7 +564,7 @@ def create_app() -> Flask:
             pdf,
             mimetype="application/pdf",
             headers={
-                "Content-Disposition": f'inline; filename="hydrashield_{report_type}_report_{safe}.pdf"',
+                "Content-Disposition": f'inline; filename="talaix_{report_type}_report_{safe}.pdf"',
                 "Cache-Control": "no-store",
             },
         )
