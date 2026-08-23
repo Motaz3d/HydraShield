@@ -33,6 +33,12 @@ app.talaix.com {
 	reverse_proxy dash:8050
 }
 
+# www alias: one canonical home (SEO) — redirect to the apex.
+www.talaix.com {
+	encode zstd gzip
+	redir https://talaix.com{uri} permanent
+}
+
 # Legacy domain (rebrand 2026-08): permanently redirect every URL to the
 # new home so old links, emails and bookmarks keep working.
 hydrashield.earth, www.hydrashield.earth {
