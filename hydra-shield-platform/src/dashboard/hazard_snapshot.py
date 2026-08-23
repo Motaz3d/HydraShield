@@ -112,7 +112,10 @@ def compute_hazard_snapshot(
 
     jobs = [(h, a) for h in hazards for a in cfg.areas]
     per_hazard: Dict[str, List[Dict]] = {h["id"]: [] for h in hazards}
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    # 2 workers: real upstream analyses (Overpass/OSM, terrain, climate
+    # APIs) are memory-heavy — a wider pool OOM-killed the gunicorn worker
+    # in production.
+    with ThreadPoolExecutor(max_workers=2) as pool:
         for hazard_id, entry in pool.map(_run, jobs):
             if entry is not None:
                 per_hazard.setdefault(hazard_id, []).append(entry)
@@ -163,13 +166,29 @@ def compute_hazard_snapshot(
 def get_hazard_snapshot(
     config_path: Optional[str] = None,
     analyse_fn: Optional[Callable[[str, float, float, str], Dict]] = None,
+    build: bool = False,
 ) -> Dict:
-    """Return the cached multi-hazard snapshot, rebuilding it when expired
-    (single builder thread; failed snapshots pinned for only 60 s)."""
+    """
+    Return the cached multi-hazard snapshot.
+
+    Cold builds are deliberately NOT run on the request path: 8 hazards ×
+    10 monitored areas of real upstream analyses can OOM/hang a gunicorn
+    worker (observed in production — SIGKILL, 502). The board is built
+    periodically by the watch_checker (``scripts/build_risk_snapshot.py``
+    passes ``build=True``); on a cache miss the request path reports an
+    honest "warming" state and /api/risk-snapshot simply omits the key.
+    """
     cache = default_cache()
     hit = cache.get(_CACHE_KEY)
     if hit is not None:
         return hit
+    if not build:
+        return {
+            "status": "unavailable",
+            "message": "Multi-hazard snapshot is warming — it is rebuilt "
+                       "periodically by the platform (every 30 minutes).",
+            "hazards": [],
+        }
 
     with _build_lock:
         hit = cache.get(_CACHE_KEY)

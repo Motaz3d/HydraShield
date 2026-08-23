@@ -32,10 +32,12 @@ def main() -> int:
         print(f"  note: {snap.get('message')}")
 
     # Multi-hazard board (every other registered hazard at the same areas).
+    # Built here, in the periodic worker — never on the request path (the
+    # cold 80-analysis build OOM-killed a gunicorn worker; see the module).
     from src.dashboard import hazard_snapshot as hazard_snapshot_module
 
     default_cache().delete(hazard_snapshot_module._CACHE_KEY)
-    multi = hazard_snapshot_module.get_hazard_snapshot()
+    multi = hazard_snapshot_module.get_hazard_snapshot(build=True)
     mstatus = multi.get("status")
     boards = sum(1 for h in multi.get("hazards") or [] if h.get("entries"))
     print(f"Multi-hazard snapshot: {mstatus} ({boards} hazard boards)")

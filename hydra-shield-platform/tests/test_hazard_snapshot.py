@@ -149,6 +149,40 @@ def test_multi_hazard_failure_never_breaks_wildfire_snapshot(client, monkeypatch
 
 
 # ---------------------------------------------------------------------------
+# get_hazard_snapshot: request path never builds inline (production OOM)
+# ---------------------------------------------------------------------------
+
+def test_request_path_never_builds_inline(monkeypatch):
+    calls = []
+
+    def spy(hazard_id, lat, lon, name):
+        calls.append(hazard_id)
+        return _fake_ok(hazard_id, lat, lon, name)
+
+    monkeypatch.setattr(hs.default_cache(), "get", lambda key: None)
+    snap = hs.get_hazard_snapshot(analyse_fn=spy, build=False)
+    assert snap["status"] == "unavailable"
+    assert "warming" in snap["message"]
+    assert calls == [], "no analysis may run on the request path"
+
+
+def test_explicit_build_runs_and_caches(monkeypatch, tmp_path):
+    cfg = _write_config(tmp_path)
+    monkeypatch.setattr(hs.default_cache(), "get", lambda key: None)
+    snap = hs.get_hazard_snapshot(config_path=cfg, analyse_fn=_fake_ok, build=True)
+    assert snap["status"] == "ok"
+    assert any(h["entries"] for h in snap["hazards"])
+
+
+def test_warming_state_is_omitted_from_risk_snapshot(client, monkeypatch):
+    monkeypatch.setattr(hs, "get_hazard_snapshot", lambda: {
+        "status": "unavailable", "message": "warming", "hazards": []})
+    resp = client.get("/api/risk-snapshot")
+    assert resp.status_code == 200
+    assert "multi_hazard" not in resp.get_json()
+
+
+# ---------------------------------------------------------------------------
 # Homepage wiring
 # ---------------------------------------------------------------------------
 
