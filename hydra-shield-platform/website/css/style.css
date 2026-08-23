@@ -1617,28 +1617,62 @@ details.expander summary {
 }
 
 @media (max-width: 900px) {
+    /* Stack map over controls so the sidebar never overlays the map. */
     .map-shell {
         position: relative;
-        height: calc(100vh - 72px);
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 72px);
+    }
+
+    .map-canvas {
+        flex: none;
+        height: 58vh;
+        min-height: 320px;
+        position: relative;
     }
 
     .map-sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: min(86vw, 350px);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        box-shadow: var(--shadow-lg);
+        position: relative;
+        top: auto;
+        left: auto;
+        bottom: auto;
+        width: 100%;
+        max-width: none;
+        transform: none;
+        transition: none;
+        box-shadow: none;
+        border-right: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        z-index: auto;
+        max-height: none;
+        overflow-y: visible;
     }
 
     .map-sidebar.open {
-        transform: translateX(0);
+        transform: none;
     }
 
     .map-sidebar-toggle {
-        display: block;
+        display: none;
+    }
+
+    /* Cursor readout is mouse-only; hide it on small/touch viewports. */
+    .map-cursor-coords {
+        display: none;
+    }
+
+    /* Keep the centre chip clear of the zoom/layers controls. */
+    .map-centre-chip {
+        top: calc(50% + 44px);
+        max-width: min(220px, 56%);
+    }
+
+    /* Lift the legend above Leaflet's attribution bar. */
+    .map-legend {
+        margin-bottom: 28px;
+        padding: 8px 10px;
+        font-size: 0.72rem;
     }
 }
 
@@ -1881,6 +1915,65 @@ details.expander summary {
     margin-top: 4px;
     font-size: 0.78rem;
     color: rgba(255,255,255,0.4);
+    font-style: italic;
+}
+
+/* Multi-hazard board (homepage): one row per hazard, chips per area. */
+.hazard-board {
+    margin-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 16px;
+}
+
+.hazard-board-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 10px;
+}
+
+.hazard-board-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.07);
+    flex-wrap: wrap;
+}
+
+.hazard-board-name {
+    min-width: 150px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.hazard-board-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hazard-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(14,165,233,0.14);
+    border: 1px solid rgba(14,165,233,0.35);
+    color: #e2f3fd;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.hazard-chip:hover { background: rgba(14,165,233,0.28); }
+
+.hazard-chip-level { font-weight: 700; color: #7dd3fc; }
+
+.hazard-board-empty {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.82rem;
     font-style: italic;
 }
 

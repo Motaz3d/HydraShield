@@ -30,6 +30,22 @@ def main() -> int:
         print(f"  {e['rank']}. {e['name']}: {e['risk']} ({e['risk_class']}), FWI {e['fwi']}")
     if status != "ok":
         print(f"  note: {snap.get('message')}")
+
+    # Multi-hazard board (every other registered hazard at the same areas).
+    from src.dashboard import hazard_snapshot as hazard_snapshot_module
+
+    default_cache().delete(hazard_snapshot_module._CACHE_KEY)
+    multi = hazard_snapshot_module.get_hazard_snapshot()
+    mstatus = multi.get("status")
+    boards = sum(1 for h in multi.get("hazards") or [] if h.get("entries"))
+    print(f"Multi-hazard snapshot: {mstatus} ({boards} hazard boards)")
+    for h in multi.get("hazards") or []:
+        for e in h.get("entries") or []:
+            score = e.get("level_score")
+            print(f"  {h['hazard']}: {e['name']} — {e.get('level_label')}"
+                  + (f" ({score}/{e.get('level_score_max')})" if score is not None else ""))
+    if mstatus != "ok":
+        print(f"  note: {multi.get('message')}")
     return 0 if status == "ok" else 1
 
 

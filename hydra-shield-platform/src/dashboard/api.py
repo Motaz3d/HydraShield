@@ -403,6 +403,18 @@ def create_app() -> Flask:
             snapshot = snapshot_module.get_snapshot()
         except Exception as exc:
             return _error(f"Risk snapshot unavailable: {exc}", 503)
+        # Additive: the multi-hazard board (flood/heat/drought/wind/coastal/
+        # cyclone levels at the same monitored areas). Its failure must never
+        # break the wildfire snapshot — the key is simply omitted then.
+        try:
+            from . import hazard_snapshot as hazard_snapshot_module
+
+            multi = hazard_snapshot_module.get_hazard_snapshot()
+            if multi.get("status") == "ok":
+                snapshot = dict(snapshot)
+                snapshot["multi_hazard"] = multi
+        except Exception:
+            pass
         if snapshot.get("status") != "ok":
             return jsonify(snapshot), 503
         return jsonify(snapshot)

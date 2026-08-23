@@ -48,6 +48,47 @@
         el('riskIntelSources').textContent = '';
     }
 
+    /* Multi-hazard board: one row per hazard with its top monitored areas,
+     * each linked to the live map. Levels stay labelled as screening
+     * indicators — the basis text comes from the hazard module itself. */
+    function renderHazardBoard(multi) {
+        var board = el('hazardBoard');
+        if (!board) return;
+        var hazards = (multi && multi.hazards) || [];
+        if (!multi || multi.status !== 'ok' || !hazards.length) {
+            board.innerHTML = '';
+            return;
+        }
+        var rows = hazards.map(function (h) {
+            if (!h.entries || !h.entries.length) {
+                return '<div class="hazard-board-row">' +
+                    '<span class="hazard-board-name">' + esc(h.name) + '</span>' +
+                    '<span class="hazard-board-empty">No elevated reading at the monitored areas right now.</span>' +
+                    '</div>';
+            }
+            var chips = h.entries.map(function (e) {
+                var score = (e.level_score === null || e.level_score === undefined)
+                    ? ''
+                    : ' <b>' + esc(Number(e.level_score).toFixed(0)) +
+                      (e.level_score_max ? '/' + esc(Number(e.level_score_max).toFixed(0)) : '') + '</b>';
+                return '<a class="hazard-chip" href="map.html?hazard=' + encodeURIComponent(h.hazard) +
+                    '&location=' + encodeURIComponent(e.latitude + ',' + e.longitude) + '">' +
+                    '<span class="hazard-chip-level">' + esc(e.level_label || '—') + '</span> ' +
+                    esc(e.name) + score + '</a>';
+            }).join('');
+            return '<div class="hazard-board-row">' +
+                '<span class="hazard-board-name">' + esc(h.name) + '</span>' +
+                '<span class="hazard-board-chips">' + chips + '</span></div>';
+        }).join('');
+        board.innerHTML =
+            '<div class="hazard-board-title">All hazards at the monitored areas — live levels</div>' +
+            rows +
+            '<div class="risk-intel-disclaimer">' +
+            esc((multi.model && multi.model.note) ||
+                'Levels are screening indicators from real analyses, not validated local ratings.') +
+            '</div>';
+    }
+
     function render(snap) {
         var scopeEl = el('riskIntelScope');
         if (snap.scope) scopeEl.textContent = snap.scope;
@@ -138,8 +179,10 @@
                 var snap = res.body || {};
                 if (res.ok && snap.status === 'ok') {
                     render(snap);
+                    renderHazardBoard(snap.multi_hazard);
                 } else {
                     renderUnavailable(snap.message);
+                    renderHazardBoard(snap.multi_hazard);
                     if (!retried) { retried = true; setTimeout(load, RETRY_MS); }
                 }
             })
