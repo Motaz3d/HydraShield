@@ -20,6 +20,18 @@ from src.dashboard.cache import default_cache  # noqa: E402
 
 
 def main() -> int:
+    # Memory guard: a runaway allocation inside one analysis (a multi-GB
+    # satellite/raster read) must NOT let the kernel OOM-kill the whole
+    # builder on the 4 GB host — RLIMIT_AS turns it into a catchable
+    # MemoryError, the offending area is skipped honestly (compute_snapshot
+    # already swallows per-area exceptions) and the build still completes.
+    try:
+        import resource
+
+        resource.setrlimit(resource.RLIMIT_AS, (3 * 1024**3, 3 * 1024**3))
+    except (ImportError, ValueError, OSError):
+        pass  # non-Linux or restricted environment — no guard
+
     # Drop the current entry so this run always rebuilds from fresh analyses.
     # This script is the ONLY builder (watch_checker loop): the request path
     # never builds inline (production OOM lesson — see snapshot.py).
