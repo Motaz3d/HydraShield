@@ -37,6 +37,7 @@
     var reverseTimer = null;
     var reverseCache = {};             // "lat,lon" → place name (client cache)
     var lastCentreName = null;
+    var centreStatusAutoSet = false;   // true when locStatus shows the auto-updated centre place
     var centreChip = null;
     var cursorChip = null;
 
@@ -97,7 +98,12 @@
     function initCentreTarget() {
         var container = map.getContainer();
         var reticle = L.DomUtil.create('div', 'map-reticle', container);
-        reticle.innerHTML = '<div class="map-reticle-ring"></div><div class="map-reticle-dot"></div>';
+        reticle.innerHTML =
+            '<div class="map-reticle-corner tl"></div>' +
+            '<div class="map-reticle-corner tr"></div>' +
+            '<div class="map-reticle-corner bl"></div>' +
+            '<div class="map-reticle-corner br"></div>' +
+            '<div class="map-reticle-dot"></div>';
         centreChip = L.DomUtil.create('div', 'map-centre-chip', container);
         L.DomEvent.disableClickPropagation(reticle);
         L.DomEvent.disableClickPropagation(centreChip);
@@ -130,12 +136,27 @@
     }
 
     /* Reverse-geocode the map centre (debounced after moveend; cached
-     * client-side per rounded coordinate). Honest fallback: coordinates. */
+     * client-side per rounded coordinate). Honest fallback: coordinates.
+     * The resolved place name is reflected into the Location input and
+     * status unless the user has explicitly searched for a location. */
+    function reflectCentrePlace(name, lat, lon) {
+        var input = el('locInput');
+        if (document.activeElement !== input) {
+            input.value = name;
+        }
+        var status = el('locStatus');
+        if (centreStatusAutoSet || !status.textContent) {
+            status.textContent = 'Map centre: ' + name + ' (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')';
+            centreStatusAutoSet = true;
+        }
+    }
+
     function updateCentrePlace() {
         var c = map.getCenter();
         var key = c.lat.toFixed(3) + ',' + c.lng.toFixed(3);
         if (reverseCache[key] !== undefined) {
             lastCentreName = reverseCache[key];
+            reflectCentrePlace(lastCentreName, c.lat, c.lng);
             updateCentreChip();
             return;
         }
@@ -145,10 +166,12 @@
                     (c.lat.toFixed(4) + ', ' + c.lng.toFixed(4));
                 reverseCache[key] = name;
                 lastCentreName = name;
+                reflectCentrePlace(name, c.lat, c.lng);
                 updateCentreChip();
             })
             .catch(function () {
                 lastCentreName = c.lat.toFixed(4) + ', ' + c.lng.toFixed(4);
+                reflectCentrePlace(lastCentreName, c.lat, c.lng);
                 updateCentreChip();
             });
     }
@@ -403,7 +426,8 @@
             groups[g].forEach(function (spec) { panel.appendChild(layerRow(spec)); });
         });
 
-        // Default-on layers (e.g. the fire-danger grid for wildfire).
+        // Default-on layers (per each hazard's layer spec; the fire-danger
+        // grid is opt-in — its spec sets default_on: false).
         layers.forEach(function (rec) {
             if (rec.spec.default_on && !rec.checkbox.disabled) {
                 rec.checkbox.checked = true;
@@ -1100,13 +1124,15 @@
     // Location search
     // ------------------------------------------------------------------
 
-    /* Target-style marker for the selected place: concentric rings + dot
-     * (a "frame" on the exact spot); the popup opens beneath it. */
+    /* Target-style marker for the selected place: corner-bracket frame +
+     * centre dot (a "gun target" on the exact spot); the popup opens beneath it. */
     function targetIcon() {
         return L.divIcon({
             className: 'target-marker',
-            html: '<div class="target-marker-ring"></div>' +
-                  '<div class="target-marker-ring target-marker-inner"></div>' +
+            html: '<div class="target-marker-corner tl"></div>' +
+                  '<div class="target-marker-corner tr"></div>' +
+                  '<div class="target-marker-corner bl"></div>' +
+                  '<div class="target-marker-corner br"></div>' +
                   '<div class="target-marker-dot"></div>',
             iconSize: [40, 40],
             iconAnchor: [20, 20],
@@ -1131,6 +1157,7 @@
     function goToLocation(query) {
         var status = el('locStatus');
         status.textContent = 'Resolving location…';
+        centreStatusAutoSet = false;
         el('locBtn').disabled = true;
         HS.resolveLocation(query).then(function (res) {
             el('locBtn').disabled = false;

@@ -34,6 +34,23 @@
         el('accountView').classList.toggle('hidden', !loggedIn);
     }
 
+    /* Safe post-login destination: local absolute paths only (no "//…",
+     * no scheme) — open-redirect guard. */
+    function nextTarget() {
+        var next = new URLSearchParams(location.search).get('next') || '';
+        return (/^\/(?!\/)[\w\-./?=&%#]*$/.test(next)) ? next : null;
+    }
+
+    /* Surface why the visitor landed here (e.g. the /admin.html gate). */
+    function notifyEntryReason() {
+        var reason = new URLSearchParams(location.search).get('reason');
+        if (reason === 'signin') {
+            status('info', 'Sign in to continue to the requested area.');
+        } else if (reason === 'forbidden') {
+            status('warn', 'That area requires the operator account.');
+        }
+    }
+
     function postJSON(url, payload) {
         return fetchJSON(url, {
             method: 'POST',
@@ -65,6 +82,7 @@
         fetchJSON(API + '/v2/account').then(function (res) {
             if (res.status === 401) {
                 showView(false);
+                notifyEntryReason();
                 notifyVerifyResult();
                 return;
             }
@@ -73,6 +91,9 @@
                 status('error', res.body.error || 'Account service unavailable.');
                 return;
             }
+            // Already signed in with a pending destination → go there.
+            var next = nextTarget();
+            if (next) { location.href = next; return; }
             status('', '');
             showView(true);
             notifyVerifyResult();

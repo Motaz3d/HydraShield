@@ -1,9 +1,10 @@
 /* HydraShield — Commercial Center (admin.html).
  *
  * Admin-only: GET /api/v2/admin/intel (cookie session; 401 shows a plain
- * sign-in hint, 403 the tier message). Sections: TODAY / CUSTOMERS /
- * MARKETING / AI COPILOT / ATTENTION / FUNNEL / targets / prospects /
- * relationships. Aggregate counts only — never individual visitors.
+ * sign-in hint, 403 the tier message). Sections: TODAY / progress board /
+ * prospect map / inbound leads / AI COPILOT / hazard opportunities /
+ * funding / campaigns / funnel / targets / prospects / relationships /
+ * ATTENTION. Aggregate counts only — never individual visitors.
  */
 (function () {
     'use strict';
@@ -91,6 +92,168 @@
         });
         html += '</tbody></table></div>';
         el('campaignPerfBlock').innerHTML = html;
+    }
+
+    // ------------------------------------------------------------------
+    // Progress board — what is done vs what must happen next
+    // ------------------------------------------------------------------
+
+    function boardItem(title, sub) {
+        return '<div class="board-item"><strong>' + esc(title) + '</strong>' +
+            (sub ? '<div class="muted">' + esc(sub) + '</div>' : '') + '</div>';
+    }
+
+    function renderBoard(d) {
+        var cp = d.copilot || {};
+        var m = d.marketing || {};
+        var t = d.today || {};
+
+        var done = [];
+        (cp.interactions_today || []).forEach(function (i) {
+            done.push(boardItem(i.organization + ' — ' + (i.type || 'interaction'),
+                i.summary || ''));
+        });
+        if ((t.reports || 0) > 0) {
+            done.push(boardItem(t.reports + ' report(s) generated today', ''));
+        }
+        if ((t.new_users || 0) > 0) {
+            done.push(boardItem(t.new_users + ' new account(s) today', ''));
+        }
+        if ((m.campaigns || 0) > 0) {
+            done.push(boardItem(m.campaigns + ' campaign(s) defined and running',
+                m.email_queued + ' outreach draft(s) queued for human review'));
+        }
+        if (!done.length) done.push(boardItem('No completed actions recorded yet today', ''));
+
+        var next = [];
+        (cp.followups_due || []).forEach(function (f) {
+            next.push(boardItem('Follow up: ' + f.organization,
+                'due ' + (f.next_followup || '—') + ' · ' + (f.next_action || '')));
+        });
+        (cp.publish_queue || []).forEach(function (p) {
+            next.push(boardItem('Publish: ' + p, 'content draft awaiting review'));
+        });
+        if ((m.email_queued || 0) > 0) {
+            next.push(boardItem('Review ' + m.email_queued + ' queued outreach draft(s)',
+                'nothing sends automatically — human gate'));
+        }
+        if (!next.length) next.push(boardItem('Nothing pending — the queue is clear', ''));
+
+        el('boardBlock').innerHTML =
+            '<div class="board-2col">' +
+            '<div class="board-col"><h3>✅ Done</h3>' + done.join('') + '</div>' +
+            '<div class="board-col"><h3>⏭ Next</h3>' + next.join('') + '</div>' +
+            '</div>';
+    }
+
+    // ------------------------------------------------------------------
+    // Prospect map — country-level lead positions, priority-coloured
+    // ------------------------------------------------------------------
+
+    var leadsMap = null;
+
+    function priorityColor(p) {
+        return { high: '#ef4444', medium: '#f59e0b', low: '#64748b' }[p] || '#64748b';
+    }
+
+    function renderLeadsMap(d) {
+        var points = d.leads_map || [];
+        el('leadsMapNote').textContent = d.leads_map_note ||
+            'Country-level positions; rule-based score (priority + urgency + outreach progress).';
+        if (!window.L) {
+            el('leadsMap').innerHTML =
+                '<div class="notice notice-error">Map library could not be loaded.</div>';
+            return;
+        }
+        if (!leadsMap) {
+            leadsMap = L.map('leadsMap', { scrollWheelZoom: false }).setView([38, 12], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors', maxZoom: 8
+            }).addTo(leadsMap);
+        }
+        points.forEach(function (p) {
+            var marker = L.circleMarker([p.lat, p.lon], {
+                radius: 7 + Math.min(6, (p.score || 0) / 20),
+                color: '#fff', weight: 1.5,
+                fillColor: priorityColor(p.priority), fillOpacity: 0.85
+            });
+            marker.bindPopup(
+                '<div class="lead-pop"><strong>' + esc(p.organization) + '</strong>' +
+                '<table>' +
+                '<tr><th>Segment</th><td>' + esc((p.segment || '').replace(/_/g, ' ')) + '</td></tr>' +
+                '<tr><th>Priority</th><td>' + esc(p.priority || '—') + ' · score ' + esc(p.score) + '/100</td></tr>' +
+                '<tr><th>Status</th><td>' + esc((p.outreach_status || '').replace(/_/g, ' ')) + '</td></tr>' +
+                '<tr><th>Product</th><td>' + esc((p.recommended_product || '—').replace(/_/g, ' ')) + '</td></tr>' +
+                '<tr><th>Next</th><td>' + esc(p.next_action || '—') + '</td></tr>' +
+                '</table></div>');
+            marker.addTo(leadsMap);
+        });
+        if (!points.length) {
+            el('leadsMapNote').textContent =
+                'No mappable prospects yet (workspace unavailable or no known countries).';
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Inbound leads — contact-form messages with a pipeline status
+    // ------------------------------------------------------------------
+
+    function loadContacts() {
+        fetchJSON(API + '/v2/admin/contacts').then(function (res) {
+            if (!res.ok) {
+                el('contactsBlock').innerHTML =
+                    '<div class="notice notice-empty">No inbound messages yet.</div>';
+                return;
+            }
+            renderContacts(res.body.contacts || []);
+        }).catch(function () {
+            el('contactsBlock').innerHTML =
+                '<div class="notice notice-error">Inbound leads could not be loaded.</div>';
+        });
+    }
+
+    function renderContacts(list) {
+        if (!list.length) {
+            el('contactsBlock').innerHTML =
+                '<div class="notice notice-empty">No inbound messages yet — the contact ' +
+                'form feeds this inbox automatically.</div>';
+            return;
+        }
+        el('contactsBlock').innerHTML =
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>When</th><th>Name</th><th>Organization</th><th>Email</th>' +
+            '<th>Interest</th><th>Message</th><th>Status</th><th></th>' +
+            '</tr></thead><tbody>' +
+            list.map(function (c) {
+                return '<tr>' +
+                    '<td>' + esc((c.created_at || '').slice(0, 10)) + '</td>' +
+                    '<td>' + esc(c.name || '—') + '</td>' +
+                    '<td>' + esc(c.organization || '—') + '</td>' +
+                    '<td><a class="text-link" href="mailto:' + esc(c.email) + '">' +
+                        esc(c.email) + '</a></td>' +
+                    '<td>' + esc(c.interest || '—') + '</td>' +
+                    '<td class="muted small">' + esc((c.message || '').slice(0, 120)) +
+                        ((c.message || '').length > 120 ? '…' : '') + '</td>' +
+                    '<td>' + esc(c.status) + '</td>' +
+                    '<td><select data-contact-status="' + c.id + '">' +
+                    ['new', 'contacted', 'qualified', 'closed'].map(function (s) {
+                        return '<option value="' + s + '"' +
+                            (s === c.status ? ' selected' : '') + '>' + s + '</option>';
+                    }).join('') + '</select></td>' +
+                    '</tr>';
+            }).join('') + '</tbody></table></div>';
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-contact-status]'), function (sel) {
+                sel.addEventListener('change', function () {
+                    fetchJSON(API + '/v2/admin/contacts/' + sel.getAttribute('data-contact-status'), {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: sel.value })
+                    }).then(function (res) {
+                        if (!res.ok) status('error', 'Status update failed.');
+                    });
+                });
+            });
     }
 
     function render(d) {
@@ -266,6 +429,9 @@
         }
         status('', '');
         render(res.body);
+        renderBoard(res.body);
+        renderLeadsMap(res.body);
+        loadContacts();
     }).catch(function () {
         status('error', 'Commercial Center could not be reached.');
     });

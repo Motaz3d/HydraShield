@@ -746,6 +746,12 @@ def contact():
     if len(message) > 5000:
         return _err("message is too long (max 5000 characters)", 400)
     from . import mailer
+    from .contact_store import ContactStore
+
+    # Persist the submission so the operator sees inbound prospects in the
+    # Commercial Center (previously messages existed only as emails).
+    ContactStore().add_message(
+        email, message, name=name, organization=organization, interest=interest)
 
     # The message itself goes to the platform inbox — contact submissions
     # must actually reach HydraShield (previously they did not).

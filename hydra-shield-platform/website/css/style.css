@@ -1923,48 +1923,49 @@ details.expander summary {
    Map — centre target reticle, readouts, target marker
    ============================================ */
 
-/* Target reticle fixed at the map centre: frames the place being viewed. */
+/* Target reticle fixed at the map centre: corner-bracket frame + centre dot. */
 .map-reticle {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 800;
 }
 
-.map-reticle::before,
-.map-reticle::after {
-    content: '';
+.map-reticle-corner {
     position: absolute;
-    background: linear-gradient(to bottom, #ef4444 0 9px, transparent 9px calc(50% - 7px), transparent calc(50% + 7px) calc(100% - 9px), #ef4444 calc(100% - 9px));
-}
-
-.map-reticle::before {
-    left: 50%;
-    top: -4px;
-    bottom: -4px;
-    width: 2px;
-    transform: translateX(-50%);
-}
-
-.map-reticle::after {
-    top: 50%;
-    left: -4px;
-    right: -4px;
-    height: 2px;
-    transform: translateY(-50%);
-    background: linear-gradient(to right, #ef4444 0 9px, transparent 9px calc(50% - 7px), transparent calc(50% + 7px) calc(100% - 9px), #ef4444 calc(100% - 9px));
-}
-
-.map-reticle-ring {
-    position: absolute;
-    inset: 0;
-    border: 2px solid #ef4444;
-    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    border-color: #ef4444;
+    border-style: solid;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.65);
+}
+
+.map-reticle-corner.tl {
+    top: 0;
+    left: 0;
+    border-width: 3px 0 0 3px;
+}
+
+.map-reticle-corner.tr {
+    top: 0;
+    right: 0;
+    border-width: 3px 3px 0 0;
+}
+
+.map-reticle-corner.bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 3px 3px;
+}
+
+.map-reticle-corner.br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 3px 3px 0;
 }
 
 .map-reticle-dot {
@@ -1977,6 +1978,7 @@ details.expander summary {
     background: #ef4444;
     border: 1.5px solid #fff;
     border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.65);
 }
 
 /* Place name + coordinates chip beneath the centre reticle. */
@@ -2026,21 +2028,44 @@ details.expander summary {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Target marker for the selected place (rings + dot). */
-.target-marker-ring {
+.target-marker {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+/* Target marker for the selected place: corner-bracket frame + centre dot. */
+.target-marker-corner {
     position: absolute;
-    inset: 0;
-    border: 3px solid #ef4444;
-    border-radius: 50%;
-    background: rgba(239, 68, 68, 0.08);
+    width: 12px;
+    height: 12px;
+    border-color: #ef4444;
+    border-style: solid;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.target-marker-inner {
-    inset: 10px;
-    border-width: 2px;
-    background: transparent;
-    box-shadow: none;
+.target-marker-corner.tl {
+    top: 0;
+    left: 0;
+    border-width: 3px 0 0 3px;
+}
+
+.target-marker-corner.tr {
+    top: 0;
+    right: 0;
+    border-width: 3px 3px 0 0;
+}
+
+.target-marker-corner.bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 3px 3px;
+}
+
+.target-marker-corner.br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 3px 3px 0;
 }
 
 .target-marker-dot {
@@ -2053,6 +2078,7 @@ details.expander summary {
     background: #ef4444;
     border: 2px solid #fff;
     border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
 /* Organized location popup. */

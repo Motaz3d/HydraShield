@@ -221,15 +221,48 @@ def create_app() -> Flask:
     def admin_page():
         """The Commercial Center shell is served ONLY after server-side
         authorization (Caddy routes /admin.html here — it is not a public
-        static file). Anonymous → 401; authenticated non-admin → 403 with
-        the upgrade descriptor. The page itself carries no data; all data
-        comes from the auth-gated /api/v2/admin/* endpoints."""
+        static file). API clients keep the JSON contracts (401 anonymous /
+        403 non-admin with the upgrade descriptor). Browsers (Accept:
+        text/html) are humans: anonymous visitors are redirected to the
+        sign-in page with a return path, and authenticated non-admins get a
+        branded 403 page — never a bare JSON wall. The page itself carries
+        no data; all data comes from the auth-gated /api/v2/admin/*
+        endpoints."""
         from .auth_api import current_user, ROLE_RANK  # lazy: avoid circulars
+        from .registry_pages import prefers_html
 
         user = current_user()
+        wants_html = prefers_html()
         if user is None:
+            if wants_html:
+                from flask import redirect
+
+                return redirect("/account.html?next=/admin.html&reason=signin")
             return jsonify({"error": "Authentication required", "status": 401}), 401
         if ROLE_RANK.get(user["role"], 0) < ROLE_RANK["admin"]:
+            if wants_html:
+                content = (
+                    "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>"
+                    "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                    "<meta name='robots' content='noindex, nofollow'>"
+                    "<title>Restricted area — HydraShield</title>"
+                    "<style>body{font-family:Inter,-apple-system,sans-serif;background:#F8FAFC;"
+                    "color:#1E293B;display:flex;align-items:center;justify-content:center;"
+                    "min-height:100vh;margin:0}.card{background:#fff;border:1px solid #E2E8F0;"
+                    "border-radius:14px;padding:34px 38px;max-width:520px;box-shadow:0 2px 8px rgba(0,0,0,.06)}"
+                    "h1{font-size:22px;margin:0 0 10px}p{color:#64748B;font-size:14px;line-height:1.6}"
+                    "a{color:#0369A1;font-weight:600}</style></head><body><div class='card'>"
+                    "<h1>Restricted area</h1>"
+                    "<p>This is the HydraShield operator area. Your account "
+                    f"({user.get('email', '')}) does not have operator access. "
+                    "Sign in with the operator account or "
+                    "<a href='/contact.html'>contact the team</a>.</p>"
+                    "<p><a href='/account.html'>&larr; Back to your account</a></p>"
+                    "</div></body></html>")
+                resp = app.response_class(content, mimetype="text/html", status=403)
+                resp.headers["X-Robots-Tag"] = "noindex, nofollow"
+                resp.headers["Cache-Control"] = "no-store"
+                return resp
             return jsonify({"error": "This area requires the 'admin' tier",
                             "status": 403,
                             "upgrade": {"required_role": "admin",

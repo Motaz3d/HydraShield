@@ -1,6 +1,6 @@
 /* HydraShield — audience portals (for-* pages).
  *
- * Turns each audience page (investors, government, real estate, insurance,
+ * Turns each audience page (banks, investors, government, real estate, insurance,
  * consulting) into an interactive mini-portal:
  *
  *   1. A live "try it now" analyze bar → routes into the real analysis
@@ -21,6 +21,19 @@
     var esc = HS.esc, fetchJSON = HS.fetchJSON, API = HS.API;
 
     var CONFIGS = {
+        'for-banks': {
+            tryTitle: 'Screen collateral live — right here',
+            trySubtitle: 'Enter a financed asset or collateral location and get the evidence-labelled multi-hazard context for the credit file.',
+            placeholder: 'Enter a collateral location…',
+            benefitsTitle: 'What a free account unlocks for banks & lenders',
+            benefits: [
+                ['📌', 'Saved collateral locations', 'Keep financed assets saved and re-screened against fresh data as conditions change.'],
+                ['🔔', 'Event alerts', 'Email alerts when monitored collateral enters hazardous conditions — inputs to watchlist reviews.'],
+                ['🧾', 'Evidence trail', 'OBSERVED / MODELLED labels and named sources on every figure — documentation for the credit file.'],
+                ['📊', 'Portfolio reports', 'Per-location PDF reports that can feed disclosure and risk-committee packs.']
+            ],
+            note: 'Climate-risk evidence for credit workflows — screening indicators, not credit decisions or compliance guarantees.'
+        },
         'for-investors': {
             tryTitle: 'Screen an asset live — right here',
             trySubtitle: 'Enter any asset location or region and get the real multi-hazard picture before you commit capital.',

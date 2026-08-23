@@ -89,6 +89,10 @@ services:
       - SMS_HTTP_AUTH_HEADER=${SMS_HTTP_AUTH_HEADER:-}
     volumes:
       - hydrashield_data:/data
+      # Marketing workspace (leads, campaigns, funding radar) — bind-mounted
+      # read-only so the Commercial Center sees live data without rebuilding
+      # the image (the workspace stays out of the image itself).
+      - ./marketing:/code/marketing:ro
     expose:
       - "8051"
     healthcheck:

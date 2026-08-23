@@ -25,7 +25,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 from .analytics import AnalyticsStore
 from .auth_api import require_role
@@ -153,6 +153,68 @@ def _workspace_section() -> Dict[str, Any]:
         ],
         "relationships": interactions,
     }
+
+
+# ---------------------------------------------------------------------------
+# Contact map (خارطة التواصل): country-level positions for workspace leads.
+# Positions are honest country centroids/capitals — the UI labels them as
+# country-level, never as exact addresses.
+# ---------------------------------------------------------------------------
+
+COUNTRY_CENTROIDS = {
+    "LU": (49.61, 6.13), "BE": (50.85, 4.35), "NL": (52.37, 4.90),
+    "DE": (52.52, 13.40), "FR": (48.86, 2.35), "CH": (46.95, 7.45),
+    "IT": (41.90, 12.50), "ES": (40.42, -3.70), "PT": (38.72, -9.14),
+    "GB": (51.51, -0.13), "IE": (53.35, -6.26), "DK": (55.68, 12.57),
+    "SE": (59.33, 18.07), "NO": (59.91, 10.75), "FI": (60.17, 24.94),
+    "AT": (48.21, 16.37), "CZ": (50.08, 14.44), "PL": (52.23, 21.01),
+    "GR": (37.98, 23.73), "HR": (45.81, 15.98), "RO": (44.43, 26.10),
+    "BG": (42.70, 23.32), "US": (38.90, -77.04), "CA": (45.42, -75.70),
+    "JP": (35.68, 139.69), "KR": (37.57, 126.98), "CN": (39.90, 116.40),
+    "SG": (1.35, 103.82), "MY": (3.14, 101.69), "ID": (-6.21, 106.85),
+    "PH": (14.60, 120.98), "IN": (28.61, 77.21), "AE": (25.20, 55.27),
+    "AU": (-33.87, 151.21), "BR": (-15.79, -47.88), "ZA": (-25.75, 28.19),
+}
+
+_PRIORITY_W = {"high": 50, "medium": 25, "low": 10}
+_URGENCY_W = {"high": 35, "medium": 20, "low": 5}
+_OUTREACH_W = {"opportunity": 15, "responded": 12, "contacted": 8,
+               "qualified": 5, "draft_prepared": 5, "researched": 0}
+
+
+def _lead_score(lead: Dict) -> int:
+    """Transparent rule-based prospect score (0–100): priority + urgency +
+    outreach progress. No personal data, no opaque model — the components
+    are visible in the UI next to the score."""
+    score = (_PRIORITY_W.get(str(lead.get("priority") or "").lower(), 10)
+             + _URGENCY_W.get(str(lead.get("urgency") or "").lower(), 5)
+             + _OUTREACH_W.get(str(lead.get("outreach_status") or "researched").lower(), 0))
+    return min(100, score)
+
+
+def _leads_map(leads: List[Dict]) -> List[Dict]:
+    """Country-level map markers for the Commercial Center prospect map."""
+    out = []
+    for l in leads:
+        if l.get("status", "open") in ("won", "lost"):
+            continue
+        cc = str(l.get("country") or "").strip().upper()
+        if cc not in COUNTRY_CENTROIDS:
+            continue
+        lat, lon = COUNTRY_CENTROIDS[cc]
+        out.append({
+            "organization": l.get("organization"),
+            "segment": l.get("segment"),
+            "country": cc,
+            "lat": lat, "lon": lon,
+            "priority": l.get("priority"),
+            "outreach_status": l.get("outreach_status", "researched"),
+            "score": _lead_score(l),
+            "recommended_product": l.get("recommended_product"),
+            "next_action": l.get("next_action"),
+        })
+    out.sort(key=lambda m: -(m["score"] or 0))
+    return out
 
 
 @admin_intel_bp.get("/admin/intel")
@@ -515,7 +577,39 @@ def admin_intelligence():
         },
         "targets": targets,
         "workspace": ws,
+        "leads_map": _leads_map(ws.get("leads") or []) if ws.get("available") else [],
+        "leads_map_note": "Country-level positions (capital/centroid) — "
+                          "never exact addresses. Score is rule-based "
+                          "(priority + urgency + outreach progress).",
     })
+
+
+# ---------------------------------------------------------------------------
+# Inbound contact messages (Commercial Center leads inbox)
+# ---------------------------------------------------------------------------
+
+@admin_intel_bp.get("/admin/contacts")
+@require_role("admin")
+def admin_contacts():
+    """Inbound contact-form messages, newest first (operator-only)."""
+    from .contact_store import ContactStore
+
+    return jsonify({"contacts": ContactStore().list_messages()})
+
+
+@admin_intel_bp.patch("/admin/contacts/<int:message_id>")
+@require_role("admin")
+def admin_contact_status(message_id: int):
+    """Move an inbound message through the pipeline (new → contacted →
+    qualified → closed)."""
+    from .contact_store import ContactStore
+
+    data = request.get_json(silent=True) or {}
+    status = str(data.get("status") or "").strip()
+    if not ContactStore().set_status(message_id, status):
+        return jsonify({"error": "Unknown message or invalid status",
+                        "status": 404}), 404
+    return jsonify({"id": message_id, "status": status})
 
 
 # ---------------------------------------------------------------------------

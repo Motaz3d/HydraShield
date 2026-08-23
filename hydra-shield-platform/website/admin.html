@@ -9,7 +9,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Prospect map (Commercial Center): country-level lead positions. */
+        #leadsMap { height: 420px; border-radius: 12px; border: 1px solid #E2E8F0; }
+        .lead-map-note { margin-top: 8px; }
+        .lead-pop strong { font-size: 14px; }
+        .lead-pop table { font-size: 12px; margin-top: 6px; }
+        .lead-pop th { color: #64748B; text-align: left; padding: 2px 10px 2px 0; }
+        .board-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 800px) { .board-2col { grid-template-columns: 1fr; } }
+        .board-col h3 { margin: 0 0 8px; font-size: 15px; }
+        .board-item { padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 10px;
+                      margin-bottom: 8px; background: #fff; font-size: 13px; }
+        .board-item .muted { font-size: 12px; }
+    </style>
 </head>
 <body data-page="admin">
     <div id="site-header"></div>
@@ -28,6 +44,18 @@
             <div id="adminView" class="hidden">
                 <h2 style="margin-bottom:10px;">Today</h2>
                 <div class="story-grid" id="todayCards" style="margin-bottom:26px;"></div>
+
+                <h2 style="margin-bottom:10px;">Progress board — done vs next</h2>
+                <div class="panel" id="boardBlock" style="margin-bottom:26px;"></div>
+
+                <h2 style="margin-bottom:10px;">Prospect map — who is where</h2>
+                <div class="panel" style="margin-bottom:26px;">
+                    <div id="leadsMap"></div>
+                    <p class="muted small lead-map-note" id="leadsMapNote"></p>
+                </div>
+
+                <h2 style="margin-bottom:10px;">Inbound leads — contact form</h2>
+                <div class="panel" id="contactsBlock" style="margin-bottom:26px;"></div>
 
                 <h2 style="margin-bottom:10px;">Who to contact now</h2>
                 <div class="panel" id="contactNowBlock" style="margin-bottom:26px;"></div>
@@ -74,6 +102,8 @@
 
     <div id="site-footer"></div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/api.js"></script>
     <script src="js/chrome.js"></script>
     <script src="js/admin.js" defer></script>

@@ -132,7 +132,10 @@ class WildfireModule(HazardModule):
                 url="https://open-meteo.com/",
                 resolution="~4–8 km cells (grid n=6)",
                 temporal=TemporalClass.OBSERVED.value,
-                default_on=True,
+                # Opt-in: the coloured square cells no longer switch on
+                # automatically (operator feedback: the grid squares were
+                # visually noisy around a selected place).
+                default_on=False,
             ).to_dict(),
             LayerSpec(
                 layer_id="wildfire.events",

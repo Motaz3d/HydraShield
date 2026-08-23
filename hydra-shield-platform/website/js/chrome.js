@@ -91,6 +91,7 @@
             LEGACY.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
             '</ul></div>' +
             '<div class="footer-links"><h4>Solutions for</h4><ul>' +
+            '<li><a href="for-banks.html">Banks &amp; lenders</a></li>' +
             '<li><a href="for-consulting.html">Consultants</a></li>' +
             '<li><a href="for-investors.html">Investors</a></li>' +
             '<li><a href="for-insurance.html">Insurance</a></li>' +
