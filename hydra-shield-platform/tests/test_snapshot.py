@@ -217,7 +217,7 @@ def test_get_snapshot_caches_result(monkeypatch):
                 "sources": [], "valid_for_seconds": 1800}
 
     monkeypatch.setattr(snapshot_module, "compute_snapshot", fake_compute)
-    first = snapshot_module.get_snapshot()
+    first = snapshot_module.get_snapshot(build=True)
     second = snapshot_module.get_snapshot()
     assert first == second
     assert len(calls) == 1
@@ -233,10 +233,28 @@ def test_get_snapshot_caches_unavailable_briefly(monkeypatch):
         return {"status": "unavailable", "message": "m", "entries": []}
 
     monkeypatch.setattr(snapshot_module, "compute_snapshot", fake_compute)
-    snap = snapshot_module.get_snapshot()
+    snap = snapshot_module.get_snapshot(build=True)
     assert snap["status"] == "unavailable"
     snapshot_module.get_snapshot()
     assert len(calls) == 1  # pinned for the short failure TTL, not recomputed
+
+
+def test_request_path_never_builds_inline(monkeypatch):
+    """The homepage/API path must never trigger the heavy rebuild — an
+    honest warming state is returned instead (production OOM lesson)."""
+    cache = default_cache()
+    cache.delete(snapshot_module._CACHE_KEY)
+    calls = []
+
+    def fake_compute(config_path=None, analyse_fn=None):
+        calls.append(1)
+        return {"status": "ok", "entries": []}
+
+    monkeypatch.setattr(snapshot_module, "compute_snapshot", fake_compute)
+    snap = snapshot_module.get_snapshot()
+    assert snap["status"] == "unavailable"
+    assert "warming" in snap["message"]
+    assert calls == []
 
 
 # --------------------------------------------------------------------------

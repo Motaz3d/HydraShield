@@ -244,7 +244,10 @@ def compute_snapshot(
         return _entry_from_analysis(area, result)
 
     entries: List[Dict] = []
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    # 2 workers: each real analysis loads heavy context (satellite scenes,
+    # terrain, landcover); four concurrent analyses peaked >3.5 GB and the
+    # kernel OOM-killed the builder on the 4 GB production host.
+    with ThreadPoolExecutor(max_workers=2) as pool:
         for entry in pool.map(_run, cfg.areas):
             if entry is not None:
                 entries.append(entry)
@@ -288,12 +291,19 @@ def compute_snapshot(
 def get_snapshot(
     config_path: Optional[str] = None,
     analyse_fn: Optional[Callable[[float, float, str], Dict]] = None,
+    build: bool = False,
 ) -> Dict:
     """
-    Return the cached snapshot, rebuilding it when expired.
+    Return the cached snapshot.
 
-    A module-level lock ensures only one thread rebuilds at a time; other
-    requests wait on the lock and then read the fresh cache entry. Failed
+    Cold rebuilds are NOT run on the request path: ten real analyses can
+    peak several GB and OOM-kill the gunicorn worker on the 4 GB host
+    (observed in production — SIGKILL, 502). The snapshot is rebuilt
+    periodically by the watch_checker (``scripts/build_risk_snapshot.py``
+    passes ``build=True``); a cache miss on the request path reports an
+    honest warming state (503) and the homepage retries.
+
+    A module-level lock ensures only one thread rebuilds at a time; failed
     snapshots are pinned for only 60 s so a transient upstream outage does
     not disable the bar for half an hour.
     """
@@ -301,6 +311,13 @@ def get_snapshot(
     hit = cache.get(_CACHE_KEY)
     if hit is not None:
         return hit
+    if not build:
+        return {
+            "status": "unavailable",
+            "message": "Risk snapshot is warming — it is rebuilt periodically "
+                       "by the platform (every 30 minutes).",
+            "entries": [],
+        }
 
     with _build_lock:
         # Re-check: another thread may have built it while we waited.

@@ -21,8 +21,10 @@ from src.dashboard.cache import default_cache  # noqa: E402
 
 def main() -> int:
     # Drop the current entry so this run always rebuilds from fresh analyses.
+    # This script is the ONLY builder (watch_checker loop): the request path
+    # never builds inline (production OOM lesson — see snapshot.py).
     default_cache().delete(snapshot_module._CACHE_KEY)
-    snap = snapshot_module.get_snapshot()
+    snap = snapshot_module.get_snapshot(build=True)
     status = snap.get("status")
     n = len(snap.get("entries") or [])
     print(f"Risk snapshot: {status} ({n} entries, scope: {snap.get('scope', 'n/a')})")
