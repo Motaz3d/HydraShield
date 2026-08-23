@@ -19,6 +19,14 @@
             : '';
     }
 
+    function postJSON(url, payload) {
+        return fetchJSON(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    }
+
     function card(title, value, note) {
         return '<div class="story-card"><h3>' + esc(title) + '</h3>' +
             '<p style="font-size:1.6rem;font-weight:700;margin:4px 0;">' + esc(value) + '</p>' +
@@ -256,6 +264,107 @@
             });
     }
 
+    // ------------------------------------------------------------------
+    // Prospects — the working pipeline table (marketing operations)
+    // ------------------------------------------------------------------
+
+    var OUTREACH_STATUSES = ['researched', 'qualified', 'draft_prepared',
+                             'contacted', 'responded', 'opportunity'];
+    var LEAD_STATUSES = ['open', 'won', 'lost'];
+
+    function statusSelect(kind, slug, current, options) {
+        return '<select data-lead-' + kind + '="' + esc(slug) + '">' +
+            options.map(function (s) {
+                return '<option value="' + s + '"' + (s === current ? ' selected' : '') +
+                    '>' + s.replace(/_/g, ' ') + '</option>';
+            }).join('') + '</select>';
+    }
+
+    function renderProspects(leads) {
+        if (!leads.length) {
+            el('prospectsBlock').innerHTML =
+                '<div class="notice notice-empty">No prospects yet.</div>';
+            return;
+        }
+        el('prospectsBlock').innerHTML =
+            '<p class="muted small">Work the pipeline directly: change a stage, ' +
+            'mark won/lost, or log an interaction — every change is audited.</p>' +
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Organization</th><th>Segment</th><th>Country</th><th>Priority</th>' +
+            '<th>Outreach</th><th>Deal</th><th>Next action</th><th></th>' +
+            '</tr></thead><tbody>' +
+            leads.map(function (l) {
+                return '<tr>' +
+                    '<td><strong>' + esc(l.organization) + '</strong></td>' +
+                    '<td>' + esc((l.segment || '').replace(/_/g, ' ')) + '</td>' +
+                    '<td>' + esc(l.country || '—') + '</td>' +
+                    '<td>' + esc(l.priority || '—') + '</td>' +
+                    '<td>' + statusSelect('outreach', l.id, l.outreach_status || 'researched', OUTREACH_STATUSES) + '</td>' +
+                    '<td>' + statusSelect('deal', l.id, l.status || 'open', LEAD_STATUSES) + '</td>' +
+                    '<td class="muted small">' + esc(l.next_action || '—') + '</td>' +
+                    '<td><button class="btn-action btn-quiet" data-lead-note="' + esc(l.id) + '" ' +
+                        'data-org="' + esc(l.organization) + '">+ Note</button></td>' +
+                    '</tr>';
+            }).join('') + '</tbody></table></div>';
+
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-lead-outreach]'), function (sel) {
+                sel.addEventListener('change', function () {
+                    patchLead(sel.getAttribute('data-lead-outreach'),
+                              { outreach_status: sel.value });
+                });
+            });
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-lead-deal]'), function (sel) {
+                sel.addEventListener('change', function () {
+                    patchLead(sel.getAttribute('data-lead-deal'),
+                              { status: sel.value });
+                });
+            });
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-lead-note]'), function (btn) {
+                btn.addEventListener('click', function () {
+                    var summary = window.prompt(
+                        'Log an interaction with ' + btn.getAttribute('data-org') +
+                        ' (e.g. "sent the wildfire screening proposal")');
+                    if (!summary || !summary.trim()) return;
+                    postJSON(API + '/v2/admin/leads/' +
+                             encodeURIComponent(btn.getAttribute('data-lead-note')) +
+                             '/interactions',
+                             { type: 'note', summary: summary.trim() })
+                        .then(function (res) {
+                            if (!res.ok) {
+                                status('error', (res.body && res.body.error) || 'Could not log the interaction.');
+                                return;
+                            }
+                            status('info', 'Interaction logged.');
+                            refreshIntel();
+                        });
+                });
+            });
+    }
+
+    function patchLead(slug, fields) {
+        fetchJSON(API + '/v2/admin/leads/' + encodeURIComponent(slug), {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fields)
+        }).then(function (res) {
+            if (!res.ok) {
+                status('error', (res.body && res.body.error) || 'Update failed.');
+                return;
+            }
+            status('info', 'Pipeline updated.');
+            refreshIntel();
+        });
+    }
+
+    function refreshIntel() {
+        fetchJSON(API + '/v2/admin/intel').then(function (res) {
+            if (res.ok) { render(res.body); renderBoard(res.body); renderLeadsMap(res.body); }
+        });
+    }
+
     function render(d) {
         el('adminView').classList.remove('hidden');
         var t = d.today || {};
@@ -385,16 +494,13 @@
                 ]);
         }).join('') || '<div class="notice notice-empty">No priority-market leads yet.</div>';
 
-        el('prospectsBlock').innerHTML = ws.available
-            ? tableRows(ws.leads || [], [
-                { label: 'Organization', get: function (l) { return l.organization; } },
-                { label: 'Segment', get: function (l) { return l.segment; } },
-                { label: 'Country', get: function (l) { return l.country; } },
-                { label: 'Priority', get: function (l) { return l.priority; } },
-                { label: 'Status', get: function (l) { return l.outreach_status; } },
-                { label: 'Next action', get: function (l) { return l.next_action; } },
-            ])
-            : '<div class="notice notice-empty">' + esc(ws.note || 'Workspace unavailable.') + '</div>';
+        // Prospects — the working table: pipeline selects + interaction log
+        if (ws.available) {
+            renderProspects(ws.leads || []);
+        } else {
+            el('prospectsBlock').innerHTML =
+                '<div class="notice notice-empty">' + esc(ws.note || 'Workspace unavailable.') + '</div>';
+        }
 
         el('relationshipsBlock').innerHTML = ws.available
             ? tableRows(ws.relationships || [], [

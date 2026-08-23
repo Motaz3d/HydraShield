@@ -25,7 +25,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, g, jsonify, request
 
 from .analytics import AnalyticsStore
 from .auth_api import require_role
@@ -42,7 +42,9 @@ def _today() -> str:
 
 
 def _records_ws(subdir: str) -> List[Dict]:
-    """Workspace records from marketing/<subdir> (empty list when absent)."""
+    """Workspace records from marketing/<subdir> (empty list when absent).
+    Each record carries ``_slug`` — the file stem that addresses it in the
+    marketing-ops endpoints."""
     d = os.path.join(_WORKSPACE, subdir)
     out: List[Dict] = []
     if not os.path.isdir(d):
@@ -51,10 +53,46 @@ def _records_ws(subdir: str) -> List[Dict]:
         if name.endswith(".json") and name != "schema.json":
             try:
                 with open(os.path.join(d, name), encoding="utf-8") as fh:
-                    out.append(json.load(fh))
+                    rec = json.load(fh)
+                    if isinstance(rec, dict):
+                        rec["_slug"] = name[:-5]
+                    out.append(rec)
             except (OSError, ValueError):
                 continue
     return out
+
+
+def _overlay_ops(leads: List[Dict]) -> List[Dict]:
+    """Overlay the operator's working state (marketing_store, platform DB)
+    onto the file-based lead records: pipeline fields + logged interactions.
+    The workspace files are the research base; the DB is the working state —
+    deploys never overwrite it."""
+    from .marketing_store import MarketingStore
+
+    store = MarketingStore()
+    states = {s["lead_slug"]: s for s in store.list_states()}
+    db_interactions = store.list_interactions()
+    by_slug: Dict[str, List[Dict]] = {}
+    for i in db_interactions:
+        by_slug.setdefault(i["lead_slug"], []).append(i)
+
+    merged = []
+    for lead in leads:
+        slug = lead.get("_slug")
+        lead["id"] = slug
+        st = states.get(slug)
+        if st:
+            for field in ("outreach_status", "status", "priority",
+                          "next_action", "next_followup"):
+                if st.get(field) is not None:
+                    lead[field] = st[field]
+            lead["ops_updated_at"] = st.get("updated_at")
+        extra = [{"date": i["date"], "type": i["type"], "summary": i["summary"]}
+                 for i in by_slug.get(slug, [])]
+        if extra:
+            lead["interactions"] = extra + (lead.get("interactions") or [])
+        merged.append(lead)
+    return merged
 
 
 def _workspace_section() -> Dict[str, Any]:
@@ -64,24 +102,10 @@ def _workspace_section() -> Dict[str, Any]:
                 "note": "The marketing workspace is not part of this "
                         "deployment (operator-local by design)."}
 
-    def _records(subdir: str) -> List[Dict]:
-        d = os.path.join(_WORKSPACE, subdir)
-        out = []
-        if not os.path.isdir(d):
-            return out
-        for name in sorted(os.listdir(d)):
-            if name.endswith(".json") and name != "schema.json":
-                try:
-                    with open(os.path.join(d, name), encoding="utf-8") as fh:
-                        out.append(json.load(fh))
-                except (OSError, ValueError):
-                    continue
-        return out
-
-    leads = _records("leads")
-    signals = _records("signals")
-    events = _records("events")
-    eu_funding = _records("eu_funding")
+    leads = _overlay_ops(_records_ws("leads"))
+    signals = _records_ws("signals")
+    events = _records_ws("events")
+    eu_funding = _records_ws("eu_funding")
     today = _today()
     followups_due = [
         {"organization": l.get("organization"),
@@ -128,7 +152,8 @@ def _workspace_section() -> Dict[str, Any]:
             "events_tracked": len(events),
         },
         "leads": [
-            {"organization": l.get("organization"),
+            {"id": l.get("id"),
+             "organization": l.get("organization"),
              "segment": l.get("segment"), "country": l.get("country"),
              "identified_problem": l.get("identified_problem"),
              "hazards": l.get("relevant_hazards"),
@@ -730,3 +755,58 @@ def admin_campaigns():
         "campaigns": results,
         "recommendations": recommendations,
     })
+
+
+# ---------------------------------------------------------------------------
+# Marketing operations — the operator works the pipeline from the UI.
+# Writes live in the platform DB (marketing_store), never in the read-only
+# workspace mount; every change is audited.
+# ---------------------------------------------------------------------------
+
+@admin_intel_bp.patch("/admin/leads/<lead_slug>")
+@require_role("admin")
+def admin_lead_update(lead_slug: str):
+    """Update pipeline fields of a lead (outreach_status / status /
+    priority / next_action / next_followup). Sparse overlay — only the
+    changed fields are stored."""
+    from .marketing_store import MarketingStore
+
+    data = request.get_json(silent=True) or {}
+    fields = {k: data[k] for k in
+              ("outreach_status", "status", "priority",
+               "next_action", "next_followup")
+              if k in data}
+    result = MarketingStore().update_state(lead_slug, **fields)
+    if result is None:
+        return jsonify({"error": "Unknown lead or invalid field value",
+                        "status": 400}), 400
+    from .accounts import UserStore
+
+    UserStore().audit(g.current_user["id"], "lead_update",
+                      target=lead_slug, meta=fields)
+    return jsonify({"lead": result})
+
+
+@admin_intel_bp.post("/admin/leads/<lead_slug>/interactions")
+@require_role("admin")
+def admin_lead_interaction(lead_slug: str):
+    """Log an interaction on a lead (email/call/meeting/demo/note/…).
+    The entry joins the lead's relationship history immediately."""
+    from .marketing_store import MarketingStore
+
+    data = request.get_json(silent=True) or {}
+    result = MarketingStore().add_interaction(
+        lead_slug,
+        summary=data.get("summary"),
+        type=data.get("type") or "note",
+        date=data.get("date"),
+    )
+    if result is None:
+        return jsonify({"error": "Unknown lead, invalid type, bad date or "
+                        "empty summary", "status": 400}), 400
+    from .accounts import UserStore
+
+    UserStore().audit(g.current_user["id"], "lead_interaction",
+                      target=lead_slug,
+                      meta={"type": result["type"], "date": result["date"]})
+    return jsonify({"interaction": result}), 201
