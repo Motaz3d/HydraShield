@@ -79,6 +79,17 @@
     }
 
     function boot() {
+        // ?switch=1 — sign the current session out first, then show the
+        // sign-in form keeping the destination (?next=) for after re-login.
+        var params = new URLSearchParams(location.search);
+        if (params.get('switch') === '1') {
+            params.delete('switch');
+            var kept = params.toString();
+            history.replaceState(null, '', location.pathname + (kept ? '?' + kept : ''));
+            postJSON(API + '/v2/auth/logout', {}).then(function () { boot(); })
+                .catch(function () { boot(); });
+            return;
+        }
         fetchJSON(API + '/v2/account').then(function (res) {
             if (res.status === 401) {
                 showView(false);

@@ -257,6 +257,8 @@ def create_app() -> Flask:
                     f"({user.get('email', '')}) does not have operator access. "
                     "Sign in with the operator account or "
                     "<a href='/contact.html'>contact the team</a>.</p>"
+                    "<p><a href='/account.html?switch=1&next=/admin.html&reason=signin'>"
+                    "Sign in with a different account</a></p>"
                     "<p><a href='/account.html'>&larr; Back to your account</a></p>"
                     "</div></body></html>")
                 resp = app.response_class(content, mimetype="text/html", status=403)

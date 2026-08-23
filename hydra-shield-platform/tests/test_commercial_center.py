@@ -91,6 +91,8 @@ def test_admin_gate_branded_403_page_for_non_admin_browsers(client, env):
     assert resp.content_type.startswith("text/html")
     page = resp.get_data(as_text=True)
     assert "Restricted area" in page and "plain@example.org" in page
+    # A signed-in non-admin can switch accounts straight from the 403 page.
+    assert "/account.html?switch=1&next=/admin.html&reason=signin" in page
     # The JSON contract is untouched for API clients.
     resp = client.get("/admin.html", headers=headers)
     assert resp.status_code == 403 and resp.get_json()["upgrade"]["required_role"] == "admin"
