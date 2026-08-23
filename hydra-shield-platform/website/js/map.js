@@ -1,4 +1,4 @@
-/* HydraShield — the Map (map.html).
+/* Talaix — the Map (map.html).
  *
  * The map is the core product: full-viewport Leaflet + a control sidebar.
  * Hazard selector from GET /api/v2/hazards (availability honoured), year
@@ -625,7 +625,7 @@
                 },
                 onEachFeature: function (f, l) {
                     var p = f.properties;
-                    l.bindPopup('<b>RISK CELL</b><br>HydraShield: ' +
+                    l.bindPopup('<b>RISK CELL</b><br>Talaix: ' +
                         (p.risk === null ? 'n/a' : p.risk + '/100 (' + esc(p.risk_class) + ')') +
                         '<br>FWI: ' + (p.fwi === null ? 'n/a' : p.fwi) +
                         ' · slope ' + esc(p.slope_deg) + '°' +

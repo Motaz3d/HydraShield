@@ -3,14 +3,14 @@ segment: insurance
 pillar: insurance_intelligence
 campaign: A
 cta: "Analyze a portfolio location free"
-landing: https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=A
+landing: https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=A
 status: draft
 ---
 
 A question we hear from underwriters: "What actually happened at this
 location — and how do you know?"
 
-HydraShield's answer separates three things that are usually blurred:
+Talaix's answer separates three things that are usually blurred:
 - OBSERVED — measured by an instrument or official feed
 - HISTORICAL — documented past events from authoritative archives
 - MODELLED / PROJECTED — computed, with the method and baseline named
@@ -22,4 +22,4 @@ a missing data key is shown, not worked around.
 
 If you want to see the evidence model on one of your own portfolio
 locations, the analysis is free and runs on real data:
-https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=A
+https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=A

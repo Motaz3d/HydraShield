@@ -1,4 +1,4 @@
-/* HydraShield — Economic Intelligence (economy.html).
+/* Talaix — Economic Intelligence (economy.html).
  *
  * Location (+ optional radius + hazard context) →
  *   GET /api/v2/economy?lat&lon&radius_km&hazard=
@@ -121,12 +121,12 @@
 
         var html = '';
 
-        // ---- HydraShield analytical models (the interpretation layer) -----
+        // ---- Talaix analytical models (the interpretation layer) -----
         var models = body.analytical_models || {};
         var modelKeys = Object.keys(models);
         if (modelKeys.length) {
             html += '<div class="panel" style="border-left:4px solid var(--primary);">' +
-                '<h2>HydraShield analytical models</h2>' +
+                '<h2>Talaix analytical models</h2>' +
                 '<p class="muted small">The platform\'s structured interpretation — ' +
                 'declared screening heuristics over the real inputs, never invented ' +
                 'values.</p>' +
@@ -180,7 +180,7 @@
                 '<p style="font-size:1.05rem;margin:6px 0;"><strong>' + esc(mon.statement || '') + '</strong></p>' +
                 (mon.note ? '<p class="muted" style="margin:0;">' + esc(mon.note) + '</p>' : '') +
                 '<p class="muted small" style="margin-top:8px;">This is a declared answer, not a missing ' +
-                'value: HydraShield does not fabricate losses, premiums or valuations.</p>' +
+                'value: Talaix does not fabricate losses, premiums or valuations.</p>' +
                 '</div>';
         }
 

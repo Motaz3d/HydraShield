@@ -1,4 +1,4 @@
-/* HydraShield — Reports (reports.html).
+/* Talaix — Reports (reports.html).
  *
  * Builds generate-links for the existing report flow:
  *   GET /api/report?lat&lon&type=simple|decision|scientific&history=1

@@ -1,13 +1,13 @@
-# HydraShield Python SDK
+# Talaix Python SDK
 
-Stdlib-only Python client for the [HydraShield](https://hydrashield.earth)
+Stdlib-only Python client for the [Talaix](https://talaix.com)
 public REST API. No dependencies; Python 3.9+.
 
 ```python
-from hydrashield import HydraShieldClient, HydraShieldError
+from hydrashield import TalaixClient, TalaixError
 
-client = HydraShieldClient()                     # defaults to https://hydrashield.earth
-# client = HydraShieldClient(api_key="hs_…")     # X-API-Key header (read-only)
+client = TalaixClient()                     # defaults to https://talaix.com
+# client = TalaixClient(api_key="hs_…")     # X-API-Key header (read-only)
 
 hazards = client.hazards()
 analysis = client.analyze("wildfire", lat=37.6, lon=-6.5)
@@ -24,7 +24,7 @@ pdf = client.report_url(37.6, -6.5)              # URL string; the response is a
 
 try:
     client.analyze("not-a-hazard", 0, 0)
-except HydraShieldError as exc:
+except TalaixError as exc:
     print(exc.status, exc.message)               # 404 Unknown hazard …
 ```
 
@@ -51,7 +51,7 @@ except HydraShieldError as exc:
 ## Error semantics
 
 - Non-2xx responses with the stable error shape `{"error", "status"}` raise
-  `HydraShieldError(status, message)`.
+  `TalaixError(status, message)`.
 - Honest unavailability (`{"status": "unavailable", "unavailable_reason": …}`,
   also on HTTP 503) is returned as **data** — render it, don't catch it.
 

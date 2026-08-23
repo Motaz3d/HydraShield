@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydraShield — Wildfire Risk Analysis</title>
+    <title>Talaix — Wildfire Risk Analysis</title>
     <meta name="description" content="Real-data wildfire risk analysis: satellite, weather, terrain and fire danger for any location.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -186,8 +186,8 @@
 
         <!-- Progressive analysis panel -->
         <div id="progressPanel" class="progress-card hidden">
-            <div class="progress-title"><span class="pulse-dot"></span> HydraShield is analyzing your area</div>
-            <div class="evidence-flow">Satellite + Weather + Terrain + Vegetation + Fire danger + Exposure → HydraShield intelligence</div>
+            <div class="progress-title"><span class="pulse-dot"></span> Talaix is analyzing your area</div>
+            <div class="evidence-flow">Satellite + Weather + Terrain + Vegetation + Fire danger + Exposure → Talaix intelligence</div>
             <ul class="stage-list" id="stageList"></ul>
             <div class="progress-foot">
                 <span id="progressNote">Building your risk assessment…</span>
@@ -197,7 +197,7 @@
 
         <!-- What we found + report selection -->
         <div id="foundPanel" class="hidden">
-            <div class="ready-banner">✅ <b>Your HydraShield assessment is ready.</b>
+            <div class="ready-banner">✅ <b>Your Talaix assessment is ready.</b>
                 <span id="cacheNote" class="cached-note"></span></div>
             <div class="card">
                 <h3>What we found</h3>
@@ -289,11 +289,11 @@
             </div>
 
             <div class="card">
-                <h3>Baseline vs HydraShield intervention</h3>
+                <h3>Baseline vs Talaix intervention</h3>
                 <div class="modelled-label">MODELLED INTERVENTION SCENARIO — not an observed result</div>
                 <div class="compare-row"><div class="lbl">Baseline risk</div>
                     <div class="compare-bar" id="barBaseline" style="background:var(--extreme);"></div></div>
-                <div class="compare-row"><div class="lbl">With HydraShield hydration</div>
+                <div class="compare-row"><div class="lbl">With Talaix hydration</div>
                     <div class="compare-bar" id="barIntervention" style="background:var(--low);"></div></div>
                 <div style="margin-top:.7rem;font-size:1rem;">
                     Expected risk reduction: <b id="riskReduction">—</b>
@@ -343,7 +343,7 @@
                 <p style="color:var(--muted);font-size:.88rem;margin-top:0;">
                     Recent high-risk periods reconstructed from ERA5 reanalysis and the
                     Canadian FWI System, with observed fire events (NASA FIRMS, when
-                    configured) and what HydraShield would have recommended.
+                    configured) and what Talaix would have recommended.
                 </p>
                 <button class="hist-btn" id="historyBtn">Load history for this location</button>
                 <div id="historyBlock" style="margin-top:.8rem;"></div>

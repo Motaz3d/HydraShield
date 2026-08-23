@@ -5,20 +5,20 @@ Reconstructs recent fire-danger history from REAL data:
 
     ERA5 reanalysis (Open-Meteo archive, real)
         -> Canadian FWI per day (real computation)
-        -> HydraShield risk per day (FWI-anchored, static terrain)
+        -> Talaix risk per day (FWI-anchored, static terrain)
         -> high-risk periods (consecutive days >= High threshold)
         -> observed fire events per period (NASA FIRMS, when configured)
-        -> what HydraShield would have recommended (rules engine, labelled)
+        -> what Talaix would have recommended (rules engine, labelled)
 
 Labels used throughout:
     OBSERVED    — a real measurement / detection (FIRMS, ERA5 values)
-    MODELLED    — computed by HydraShield / the FWI system from real inputs
+    MODELLED    — computed by Talaix / the FWI system from real inputs
     RECOMMENDED — generated advice (never an observed intervention)
     UNKNOWN     — no real record exists (e.g. actual interventions taken)
 
 Nothing is invented: without a FIRMS key the fire-observation layer is
 reported as unavailable, and actual past interventions are always UNKNOWN
-(HydraShield has no record of them).
+(Talaix has no record of them).
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ from typing import Dict, List, Optional
 
 from . import real_data
 from .cache import cached
-from .real_analysis import HydraShieldRealAnalyser
+from .real_analysis import TalaixRealAnalyser
 from .recommendations import build_recommendations
 
 TTL_HISTORY = 6 * 3600.0
@@ -84,7 +84,7 @@ def _fwi_series_from_archive(archive: Dict) -> List[Dict]:
 def _high_risk_periods(series: List[Dict], slope: float,
                        threshold: float = HIGH_RISK_THRESHOLD) -> List[Dict]:
     """Find consecutive-day periods with risk >= threshold (real scores)."""
-    analyser = HydraShieldRealAnalyser()
+    analyser = TalaixRealAnalyser()
     scored = []
     for d in series:
         risk = analyser._risk_score(fwi=d["fwi"], slope=slope, fmc=None, wind_kmh=0.0)
@@ -159,7 +159,7 @@ def _lesson_for_period(period: Dict, fires: Dict) -> Dict:
         outcome = "no fire detected during the period (NASA FIRMS)"
         outcome_kind = "OBSERVED"
 
-    # What HydraShield would have recommended under these modelled conditions.
+    # What Talaix would have recommended under these modelled conditions.
     pseudo_analysis = {
         "fire_danger": {"available": True, "fwi": period["max_fwi"], "class": "High"},
         "analysis": {"fuel_moisture_baseline_pct": None,
@@ -200,7 +200,7 @@ def _lesson_for_period(period: Dict, fires: Dict) -> Dict:
         "interventions_recorded": {
             "status": "unknown",
             "label": "UNKNOWN",
-            "note": "HydraShield has no record of interventions actually taken "
+            "note": "Talaix has no record of interventions actually taken "
                     "during this period; none are claimed.",
         },
     }

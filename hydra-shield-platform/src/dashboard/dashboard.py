@@ -1,5 +1,5 @@
 """
-Interactive Dashboard for HydraShield Wildfire Protection System.
+Interactive Dashboard for Talaix Wildfire Protection System.
 
 Advanced user interface and decision support system with real-time monitoring,
 interactive scenario modeling, and explainable AI recommendations.
@@ -19,7 +19,7 @@ from ..prediction.fire_spread import FireSpreadModel
 from ..gis_mapping.data_fusion import DataFusionPipeline
 from ..hydration_control.water_optimiser import WaterOptimiser
 from ..hydration_control.intervention import InterventionPlanner
-from .real_analysis import HydraShieldRealAnalyser
+from .real_analysis import TalaixRealAnalyser
 from .components import (
     InteractiveMap,
     RealTimeMonitor,
@@ -44,14 +44,14 @@ def _analyse_once(location_query: str) -> Dict:
     hit = _ANALYSIS_CACHE.get(location_query)
     if hit and now - hit[0] < _ANALYSIS_TTL_S:
         return hit[1]
-    result = HydraShieldRealAnalyser().analyse(location_query)
+    result = TalaixRealAnalyser().analyse(location_query)
     _ANALYSIS_CACHE[location_query] = (now, result)
     return result
 
 
-class HydraShieldDashboard:
+class TalaixDashboard:
     """
-    Main dashboard class for HydraShield wildfire protection system.
+    Main dashboard class for Talaix wildfire protection system.
     
     Provides an interactive interface for monitoring, decision support,
     scenario modeling, and real-time wildfire risk assessment.
@@ -59,7 +59,7 @@ class HydraShieldDashboard:
     
     def __init__(
         self,
-        title: str = "HydraShield Command Center",
+        title: str = "Talaix Command Center",
         port: int = 8050,
         host: str = "0.0.0.0",
         debug: bool = True
@@ -69,7 +69,7 @@ class HydraShieldDashboard:
         self.host = host
         self.debug = debug
         
-        # Initialize core HydraShield components
+        # Initialize core Talaix components
         self.risk_model = AdvancedWildfireRiskModel()
         self.spread_model = FireSpreadModel()
         self.fusion_pipeline = DataFusionPipeline()
@@ -192,7 +192,7 @@ class HydraShieldDashboard:
                                 id='scenario-dropdown',
                                 options=[
                                     {'label': 'Baseline Conditions', 'value': 'baseline'},
-                                    {'label': 'With HydraShield Intervention', 'value': 'intervention'}
+                                    {'label': 'With Talaix Intervention', 'value': 'intervention'}
                                 ],
                                 value='baseline'
                             ),
@@ -480,7 +480,7 @@ class HydraShieldDashboard:
                 scenario_display = html.Div([
                     html.H6("Scenario Analysis"),
                     html.P(f"Baseline Risk: {risk_data['risk']['baseline']:.1f}%"),
-                    html.P(f"With HydraShield: {risk_data['risk']['intervention']:.1f}%" if risk_data['risk']['intervention'] else "Not calculated"),
+                    html.P(f"With Talaix: {risk_data['risk']['intervention']:.1f}%" if risk_data['risk']['intervention'] else "Not calculated"),
                     html.P(f"Risk Reduction: {risk_data['risk']['reduction_percent']:.1f}%" if risk_data['risk']['reduction_percent'] else "Not calculated"),
                     html.P(f"Water Savings: {risk_data['water_savings_pct']:.1f}%")
                 ])
@@ -743,7 +743,7 @@ class HydraShieldDashboard:
     
     def run(self):
         """Start the dashboard server."""
-        print(f"Starting HydraShield Dashboard on http://{self.host}:{self.port}")
+        print(f"Starting Talaix Dashboard on http://{self.host}:{self.port}")
         print("Press Ctrl+C to stop the server")
         self.app.run(host=self.host, port=self.port, debug=self.debug)
 

@@ -1,5 +1,5 @@
 {
-  "description": "HydraShield customer segmentation \u2014 curated marketing knowledge (not leads). Each segment declares its pain points, relevant hazards, HydraShield capabilities, decision-maker roles, content topics, offer, CTA, outreach style and evidence requirements. Capabilities referenced must exist in the platform; claims must follow docs/PRODUCT_STORY.md \u00a78.",
+  "description": "Talaix customer segmentation \u2014 curated marketing knowledge (not leads). Each segment declares its pain points, relevant hazards, Talaix capabilities, decision-maker roles, content topics, offer, CTA, outreach style and evidence requirements. Capabilities referenced must exist in the platform; claims must follow docs/PRODUCT_STORY.md \u00a78.",
   "decision_maker_roles_vocabulary": [
     "CEO",
     "CFO",

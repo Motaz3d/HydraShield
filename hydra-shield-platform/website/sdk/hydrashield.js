@@ -1,31 +1,31 @@
-/* HydraShield — JavaScript SDK + <hydrashield-risk> web component.
+/* Talaix — JavaScript SDK + <hydrashield-risk> web component.
  *
- * UMD-lite: attaches `window.HydraShield` in browsers, exports via
+ * UMD-lite: attaches `window.Talaix` in browsers, exports via
  * `module.exports` under Node, and works as a plain <script>. Zero
  * dependencies (fetch-based). The custom element registers only when
  * `customElements` exists (guard for non-browser environments).
  *
  * Contract: docs/API_V2.md. Error semantics mirror the Python SDK:
- * non-2xx responses carrying {"error", "status"} throw HydraShieldError;
+ * non-2xx responses carrying {"error", "status"} throw TalaixError;
  * honest unavailability ({"status": "unavailable", …}, even on HTTP 503)
  * is returned as data — callers render it, never catch it.
  */
 (function (global) {
     'use strict';
 
-    var DEFAULT_BASE_URL = 'https://hydrashield.earth';
+    var DEFAULT_BASE_URL = 'https://talaix.com';
     var USER_AGENT = 'hydrashield-js-sdk/0.1.0';
 
-    function HydraShieldError(status, message) {
-        this.name = 'HydraShieldError';
+    function TalaixError(status, message) {
+        this.name = 'TalaixError';
         this.status = status;
         this.message = message;
-        if (Error.captureStackTrace) Error.captureStackTrace(this, HydraShieldError);
+        if (Error.captureStackTrace) Error.captureStackTrace(this, TalaixError);
     }
-    HydraShieldError.prototype = Object.create(Error.prototype);
-    HydraShieldError.prototype.constructor = HydraShieldError;
-    HydraShieldError.prototype.toString = function () {
-        return 'HydraShieldError: HTTP ' + this.status + ': ' + this.message;
+    TalaixError.prototype = Object.create(Error.prototype);
+    TalaixError.prototype.constructor = TalaixError;
+    TalaixError.prototype.toString = function () {
+        return 'TalaixError: HTTP ' + this.status + ': ' + this.message;
     };
 
     /* Query string: insertion order preserved, values percent-encoded
@@ -59,7 +59,7 @@
                         try { body = text ? JSON.parse(text) : {}; } catch (e) { body = {}; }
                         if (!resp.ok) {
                             if (body && typeof body === 'object' && 'error' in body) {
-                                throw new HydraShieldError(resp.status, String(body.error));
+                                throw new TalaixError(resp.status, String(body.error));
                             }
                             /* Honest unavailable/key-required states are data. */
                             return body;
@@ -149,7 +149,7 @@
      * everything untrusted goes through textContent, never innerHTML).
      *
      * Attributes: lat, lon, hazard (default wildfire),
-     *             base-url (default https://hydrashield.earth)
+     *             base-url (default https://talaix.com)
      * ------------------------------------------------------------------ */
     var RiskElement = null;
 
@@ -243,10 +243,10 @@
             _renderAttribution(data) {
                 var attr = el('div', 'hs-attr');
                 var link = document.createElement('a');
-                link.href = 'https://hydrashield.earth';
+                link.href = 'https://talaix.com';
                 link.rel = 'noopener';
                 link.target = '_blank';
-                link.textContent = 'Data: hydrashield.earth';
+                link.textContent = 'Data: talaix.com';
                 attr.appendChild(link);
                 var chips = el('span');
                 renderChips(chips, data);
@@ -311,7 +311,7 @@
 
     var api = {
         createClient: createClient,
-        HydraShieldError: HydraShieldError,
+        TalaixError: TalaixError,
         DEFAULT_BASE_URL: DEFAULT_BASE_URL,
         USER_AGENT: USER_AGENT,
         /* Defined only when customElements exists (non-browser guard). */
@@ -322,6 +322,6 @@
         module.exports = api;
     }
     if (global) {
-        global.HydraShield = api;
+        global.Talaix = api;
     }
 })(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null));

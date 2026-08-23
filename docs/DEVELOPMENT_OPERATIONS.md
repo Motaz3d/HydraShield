@@ -1,13 +1,13 @@
-# HydraShield — Development & Operations
+# Talaix — Development & Operations
 
-This document describes how the HydraShield project is developed, tested,
+This document describes how the Talaix project is developed, tested,
 operated, and recovered. It contains **no secrets**. Credentials live only in
 `~/.config/hydrashield/` on the operations machine (chmod 700/600), never in
 this repository.
 
 ## Purpose
 
-HydraShield is an AI-driven Digital Twin for preemptive wildfire protection
+Talaix is an AI-driven Digital Twin for preemptive wildfire protection
 via subsurface hydration barriers. It turns real Copernicus/EO data into
 water-optimized protection blueprints. See `README.md` for the module map.
 
@@ -15,18 +15,18 @@ water-optimized protection blueprints. See `README.md` for the module map.
 
 ```
 MacBook Pro  ──Tailscale SSH──▶  mtz (Linux Mint, home server)
-                                      │  ~/projects/HydraShield  (working clone)
+                                      │  ~/projects/Talaix  (working clone)
                                       ▼
                               GitHub origin/main  (canonical source of truth)
                                       │  GitHub Actions (.github/workflows/deploy-vultr.yml)
                                       ▼
-                              Vultr production  (hydrashield.earth)
+                              Vultr production  (talaix.com)
 ```
 
 - **GitHub `origin/main`** is the canonical code history. Nothing exists only
   on a laptop.
 - **mtz** is the permanent development/operations machine. It stays powered on
-  and holds the complete working clone at `~/projects/HydraShield`.
+  and holds the complete working clone at `~/projects/Talaix`.
 - **Mac** is a remote control/development interface (SSH or VS Code
   Remote-SSH to host `mtz`).
 - **Vultr** is production. It is only touched by the GitHub Actions deploy
@@ -35,7 +35,7 @@ MacBook Pro  ──Tailscale SSH──▶  mtz (Linux Mint, home server)
 ## Local development (on mtz)
 
 ```bash
-cd ~/projects/HydraShield/hydra-shield-platform
+cd ~/projects/Talaix/hydra-shield-platform
 source .venv/bin/activate
 
 # Run the full test suite
@@ -72,7 +72,7 @@ Rules:
 ## Docker / operations
 
 ```bash
-cd ~/projects/HydraShield/hydra-shield-platform
+cd ~/projects/Talaix/hydra-shield-platform
 docker compose config          # validate
 docker compose build           # build the platform image
 docker compose up -d           # run: caddy(80/443) + dash(8050) + api(8051) + watch_checker
@@ -144,7 +144,7 @@ Recovery if mtz's disk fails:
 
 1. New machine: install Docker (+Compose), Python 3.12 + venv, git, tmux,
    Tailscale; join the tailnet.
-2. `git clone git@github.com:Motaz3d/HydraShield.git ~/projects/HydraShield`
+2. `git clone git@github.com:Motaz3d/HydraShield.git ~/projects/Talaix`
 3. Restore the latest `hydrashield-backup-*.tar.gz` (secrets + `data/`).
 4. `python3 -m venv .venv && pip install -r requirements-dev.txt && pip install -e .`
 5. `pytest tests/ && python test_real_integration.py` to verify.

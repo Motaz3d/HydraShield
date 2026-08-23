@@ -1,4 +1,4 @@
-/* HydraShield — shared site chrome (no build step).
+/* Talaix — shared site chrome (no build step).
  *
  * Every page carries:
  *     <body data-page="<page-id>">
@@ -102,12 +102,12 @@
             '<p><a href="/sources">Data sources</a></p>' +
             '<p><a href="/api/sources" target="_blank" rel="noopener">Data-source registry (API)</a></p>' +
             '<p><a href="/api/v2/hazards" target="_blank" rel="noopener">Hazard registry (API)</a></p>' +
-            '<p><a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a></p>' +
+            '<p><a href="mailto:info@talaix.com">info@talaix.com</a></p>' +
             '</div>' +
             '</div>' +
             '<div class="footer-bottom">' +
-            '<p>© 2026 HydraShield Earth Systems. All rights reserved.<br>' +
-            'Founder &amp; CEO: Motaz Omarien · <a href="mailto:info@hydrashield.earth" style="color:inherit;">info@hydrashield.earth</a></p>' +
+            '<p>© 2026 Talaix Earth Systems. All rights reserved.<br>' +
+            'Founder &amp; CEO: Motaz Omarien · <a href="mailto:info@talaix.com" style="color:inherit;">info@talaix.com</a></p>' +
             '<p>Evidence: OBSERVED · DOCUMENTED · REPORTED · MODELLED · INFERRED · UNKNOWN<br>' +
             'Time: OBSERVED · HISTORICAL · FORECAST · PROJECTED · SCENARIO</p>' +
             '</div>' +

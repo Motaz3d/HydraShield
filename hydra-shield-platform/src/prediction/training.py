@@ -1,5 +1,5 @@
 """
-Train HydraShield risk models on REAL wildfire history (Phase 6).
+Train Talaix risk models on REAL wildfire history (Phase 6).
 
 Data strategy (all real, all declared):
     - Positive samples: real active-fire detections from NASA FIRMS

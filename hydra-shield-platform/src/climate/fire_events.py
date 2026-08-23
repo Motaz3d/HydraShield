@@ -197,7 +197,7 @@ def _build_event(
                 limitations="Reanalysis, not a station measurement.",
             ).to_dict())
             evidence.append(EvidenceRecord.modelled(
-                "HydraShield / Canadian FWI System",
+                "Talaix / Canadian FWI System",
                 method="FWI on ERA5 daily inputs (Van Wagner 1987)",
             ).to_dict())
 

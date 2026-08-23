@@ -1,7 +1,7 @@
 """
-Validation foundation for HydraShield risk products (scientific layer).
+Validation foundation for Talaix risk products (scientific layer).
 
-This module provides the metric machinery needed to validate HydraShield
+This module provides the metric machinery needed to validate Talaix
 risk scores against *observed* fire events (NASA FIRMS detections):
 
     real scores + real labels
@@ -15,7 +15,7 @@ risk scores against *observed* fire events (NASA FIRMS detections):
 It contains no data fabrication: it only computes statistics over samples
 supplied by the caller. The real-data orchestration lives in
 ``scripts/run_validation.py``. Until that pipeline has been executed on
-real historical data, no HydraShield product may be described as validated.
+real historical data, no Talaix product may be described as validated.
 """
 
 from __future__ import annotations
@@ -405,7 +405,7 @@ def evaluate_scores(
 # --------------------------------------------------------------------------
 
 DANGER_VS_OCCURRENCE_NOTE = (
-    "HydraShield predicts fire DANGER, not fire OCCURRENCE: high danger "
+    "Talaix predicts fire DANGER, not fire OCCURRENCE: high danger "
     "means conditions favour spread IF an ignition happens. A false "
     "positive is therefore not automatically a model failure — it can be a "
     "correct danger assessment on a day without ignition."
@@ -462,7 +462,7 @@ def _classification_confidence(score: float, threshold: float) -> str:
 
 
 def _lesson_for(error_type: str) -> str:
-    """The recorded lesson per outcome type (feeds 'where does HydraShield fail?')."""
+    """The recorded lesson per outcome type (feeds 'where does Talaix fail?')."""
     return {
         "fp": "High-danger day without ignition: the danger assessment may be "
               "correct while the occurrence label is negative — pair danger with "

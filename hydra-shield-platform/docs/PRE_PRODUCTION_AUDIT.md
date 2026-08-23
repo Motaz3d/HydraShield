@@ -31,7 +31,7 @@
 - Tracked sensitive files: only `.env.example` (names, no values). No
   `.env`, keys, or PEMs tracked. No hardcoded password/token/API-key
   patterns in tracked source. Git history of the range scanned: clean.
-- `info@hydrashield.earth` appears only as an address (SMTP_FROM default,
+- `info@talaix.com` appears only as an address (SMTP_FROM default,
   templates, docs, tests). **No credentials for it anywhere** — tracked
   files, history, Dockerfile, frontend, logs, docs all clean.
 
@@ -73,7 +73,7 @@
 
 1. **Contact submissions never reached the platform** — the endpoint only
    mailed the acknowledgement to the submitter. Fixed: message now goes to
-   the platform inbox (`CONTACT_INBOX`, default info@hydrashield.earth)
+   the platform inbox (`CONTACT_INBOX`, default info@talaix.com)
    via a new `contact_message` template.
 2. **Contact-form spam-relay vector** — the acknowledgement echoed the
    submitter's full message to any address. Fixed: acknowledgement no

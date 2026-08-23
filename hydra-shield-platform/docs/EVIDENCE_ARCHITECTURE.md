@@ -1,4 +1,4 @@
-# HydraShield — Evidence Architecture
+# Talaix — Evidence Architecture
 
 **Status:** normative. Every module that makes a claim follows this document.
 Implements the evidence philosophy of `PRODUCT_VISION.md` ("show me the
@@ -8,7 +8,7 @@ evidence").
 
 ## 1. Evidence classes
 
-HydraShield recognises exactly five evidence classes:
+Talaix recognises exactly five evidence classes:
 
 | Class | Meaning | Examples |
 |---|---|---|
@@ -87,7 +87,7 @@ ClimateEvent
  ├── official/open-data   (agency records, reanalysis conditions)
  ├── scientific           (methods used in interpretation)
  ├── media                (reports — context only)
- └── modelled             (HydraShield reconstruction, declared inputs)
+ └── modelled             (Talaix reconstruction, declared inputs)
 ```
 
 - Observed evidence is stored **verbatim** (source payload subset +
@@ -122,7 +122,7 @@ Every analysis payload, event, report and map layer exposes its evidence:
 
 ## 7. Validation status
 
-HydraShield's screening score is **not a validated predictor** until the
+Talaix's screening score is **not a validated predictor** until the
 validation pipeline (`scripts/run_validation.py`) has produced a passing
 `ValidationReport` on real historical data. This status is printed in
 every report (existing behaviour) and surfaced by the API. New hazard

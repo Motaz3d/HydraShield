@@ -1,4 +1,4 @@
-/* HydraShield — Account (account.html).
+/* Talaix — Account (account.html).
  *
  * Cookie-session auth against the Stage 6 API:
  *   POST /api/v2/auth/register · POST /api/v2/auth/login · POST /api/v2/auth/logout
@@ -69,7 +69,7 @@
     function notifyVerifyResult() {
         var params = new URLSearchParams(location.search);
         if (params.get('verified') === '1') {
-            status('info', 'Your email address is verified — welcome to HydraShield.');
+            status('info', 'Your email address is verified — welcome to Talaix.');
         } else if (params.get('verify_error') === '1') {
             status('error', 'This verification link is invalid or has expired.');
         } else {

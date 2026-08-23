@@ -7,12 +7,12 @@
 import os
 
 from src.dashboard.api import create_app
-from src.dashboard.dashboard import HydraShieldDashboard
+from src.dashboard.dashboard import TalaixDashboard
 
 api_app = create_app()
 
-_dash = HydraShieldDashboard(
-    title="HydraShield Command Center",
+_dash = TalaixDashboard(
+    title="Talaix Command Center",
     port=int(os.environ.get("PORT", "8050")),
     host="0.0.0.0",
     debug=False,

@@ -17,7 +17,7 @@ Documented candidate (not wired — heavy archive ETL):
   tracks (1842 → present). Integrated later as a prepared dataset; until
   then historical-track queries answer honestly unavailable.
 
-Discipline: HydraShield does not predict cyclone tracks or landfall.
+Discipline: Talaix does not predict cyclone tracks or landfall.
 This module reports official monitoring context (where active storms are,
 how far, at which alert level) — never an invented forecast.
 """

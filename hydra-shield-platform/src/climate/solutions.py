@@ -1,5 +1,5 @@
 """
-HydraShield Solutions Intelligence engine (docs/SOLUTIONS_INTELLIGENCE.md).
+Talaix Solutions Intelligence engine (docs/SOLUTIONS_INTELLIGENCE.md).
 
 Matches REAL site conditions (hazards, climate, terrain, land cover, water,
 mapped infrastructure, historical events) against the curated, sourced
@@ -476,7 +476,7 @@ def recommend_solutions(
             "guarantee_disclaimer": GUARANTEE_DISCLAIMER,
             "provenance": {
                 "kind": "unavailable",
-                "source": "HydraShield solutions engine",
+                "source": "Talaix solutions engine",
                 "quality": "missing",
                 "limitations": "No active hazard levels were provided; "
                                "solution matching is hazard-gated.",
@@ -528,7 +528,7 @@ def recommend_solutions(
         "guarantee_disclaimer": GUARANTEE_DISCLAIMER,
         "provenance": {
             "kind": "derived",
-            "source": "HydraShield solutions engine: real site conditions + "
+            "source": "Talaix solutions engine: real site conditions + "
                       "curated solutions knowledge base "
                       "(config/solutions_knowledge.json)",
             "quality": "reference-level solution classes; local expert "

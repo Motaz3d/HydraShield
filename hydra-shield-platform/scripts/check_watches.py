@@ -22,7 +22,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.dashboard.monitoring import WatchStore, send_email_alert  # noqa: E402
-from src.dashboard.real_analysis import HydraShieldRealAnalyser  # noqa: E402
+from src.dashboard.real_analysis import TalaixRealAnalyser  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("check_watches")
@@ -35,7 +35,7 @@ def main() -> int:
         log.info("No watches registered.")
         return 0
 
-    analyser = HydraShieldRealAnalyser()
+    analyser = TalaixRealAnalyser()
     log.info("Checking %d watch(es)...", len(watches))
 
     for watch in watches:
@@ -60,16 +60,16 @@ def main() -> int:
                          wid[:8], watch["location"], risk or -1, watch["threshold_risk"])
                 continue
 
-            subject = f"HydraShield alert: {risk_class} wildfire risk at {watch['location']}"
+            subject = f"Talaix alert: {risk_class} wildfire risk at {watch['location']}"
             body = (
-                f"HydraShield watch alert\n\n"
+                f"Talaix watch alert\n\n"
                 f"Location:  {watch['location']}\n"
                 f"Risk:      {risk}/100 ({risk_class})\n"
                 f"Threshold: {watch['threshold_risk']}/100\n"
                 f"FWI:       {result.get('fire_danger', {}).get('fwi')} "
                 f"({result.get('fire_danger', {}).get('class')})\n"
                 f"Checked:   {result.get('generated_at')}\n\n"
-                f"Details: https://hydrashield.earth/dashboard.html?location="
+                f"Details: https://talaix.com/dashboard.html?location="
                 f"{watch['lat']},{watch['lon']}\n"
             )
             sent = False

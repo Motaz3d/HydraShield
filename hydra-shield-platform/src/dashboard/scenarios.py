@@ -2,7 +2,7 @@
 Intervention scenario framework.
 
 Compares CURRENT CONDITION vs INTERVENTION — but only where an actual
-HydraShield model can compute the effect. Everything else is explicitly
+Talaix model can compute the effect. Everything else is explicitly
 reported as "not_quantified" (no invented percentage improvements).
 
 Model-supported scenarios:
@@ -38,9 +38,9 @@ def _ros(fuel_model: str, fmc: float, wind: float, slope: float) -> Optional[flo
 
 
 def _risk(fwi, slope, fmc, burnable) -> Optional[float]:
-    from .real_analysis import HydraShieldRealAnalyser  # deferred: avoids circular import
+    from .real_analysis import TalaixRealAnalyser  # deferred: avoids circular import
 
-    return HydraShieldRealAnalyser._risk_score(
+    return TalaixRealAnalyser._risk_score(
         fwi=fwi, slope=slope, fmc=fmc, wind_kmh=0.0, burnable=burnable
     )
 
@@ -77,7 +77,7 @@ def _modelled_scenario(
             "ros_delta_m_min": (round(new_ros - base_ros, 3)
                                 if new_ros is not None and base_ros is not None else None),
         },
-        "model": "HydraShield FireSpreadModel + FWI-anchored composite risk score",
+        "model": "Talaix FireSpreadModel + FWI-anchored composite risk score",
         "assumptions": assumptions,
         "uncertainty": "Screening-level point estimate; no formal uncertainty "
                        "bounds are computed. Treat deltas as directional, not exact.",
@@ -109,7 +109,7 @@ def build_scenarios(analysis: Dict) -> List[Dict]:
         hydration_fmc = min(fmc + 20.0, 100.0)
         scenarios.append(_modelled_scenario(
             "hydration",
-            "Subsurface hydration (HydraShield barrier)",
+            "Subsurface hydration (Talaix barrier)",
             "Raise fuel moisture content by 20 percentage points via "
             "subsurface hydration of protection zones.",
             {"fuel_moisture_pct": [fmc, hydration_fmc]},
@@ -164,7 +164,7 @@ def build_scenarios(analysis: Dict) -> List[Dict]:
     else:
         scenarios.append({
             "id": "hydration",
-            "name": "Subsurface hydration (HydraShield barrier)",
+            "name": "Subsurface hydration (Talaix barrier)",
             "status": "not_quantified",
             "reason": "No real fuel-moisture baseline available — the effect "
                       "cannot be computed without fabricating inputs.",

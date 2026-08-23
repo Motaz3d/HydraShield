@@ -1,4 +1,4 @@
-/* HydraShield — Funding Intelligence (funding.html).
+/* Talaix — Funding Intelligence (funding.html).
  *
  * Hazard/sector/beneficiary/country context → GET /api/v2/funding →
  * matched programmes rendered with why_it_matches, funding type, what is

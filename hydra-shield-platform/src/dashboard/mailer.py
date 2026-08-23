@@ -1,5 +1,5 @@
 """
-HydraShield transactional email.
+Talaix transactional email.
 
 One entry point — :func:`send_mail` — renders a branded plain-text template
 (plus a trivial HTML alternative) from ``email_templates/`` and delivers it:
@@ -7,7 +7,7 @@ One entry point — :func:`send_mail` — renders a branded plain-text template
 - **SMTP backend** — when ``SMTP_HOST`` is configured the message is sent via
   STARTTLS SMTP. Env: ``SMTP_HOST``, ``SMTP_PORT`` (default 587),
   ``SMTP_USER``, ``SMTP_PASSWORD`` (legacy ``SMTP_PASS`` also accepted),
-  ``SMTP_FROM`` (default ``info@hydrashield.earth``). Credentials come from
+  ``SMTP_FROM`` (default ``info@talaix.com``). Credentials come from
   the environment only; none are ever assumed or invented.
 - **Outbox (dev) backend** — when ``SMTP_HOST`` is unset the message is
   written to ``data/outbox/<timestamp>_<template>_<hash>.eml`` (created on
@@ -34,14 +34,14 @@ log = logging.getLogger("hydrashield.mailer")
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "email_templates")
 
-DEFAULT_FROM = "info@hydrashield.earth"
+DEFAULT_FROM = "info@talaix.com"
 
 
 def contact_inbox() -> str:
     """Address that receives contact-form submissions (platform inbox).
 
     ``CONTACT_INBOX`` env; defaults to ``SMTP_FROM`` (itself defaulting to
-    info@hydrashield.earth).
+    info@talaix.com).
     """
     return os.environ.get("CONTACT_INBOX") or os.environ.get("SMTP_FROM") or DEFAULT_FROM
 
@@ -109,11 +109,11 @@ def _minimal_html(text: str) -> str:
     return (
         "<html><body style=\"font-family:Helvetica,Arial,sans-serif;color:#0f172a;"
         "font-size:14px;line-height:1.5\">"
-        "<p style=\"color:#0ea5e9;font-weight:bold\">HydraShield</p>"
+        "<p style=\"color:#0ea5e9;font-weight:bold\">Talaix</p>"
         f"{paragraphs}"
         "<hr style=\"border:none;border-top:1px solid #cbd5e1\"/>"
-        "<p style=\"color:#64748b;font-size:11px\">HydraShield — real-data "
-        "environmental risk intelligence · info@hydrashield.earth</p>"
+        "<p style=\"color:#64748b;font-size:11px\">Talaix — real-data "
+        "environmental risk intelligence · info@talaix.com</p>"
         "</body></html>"
     )
 
@@ -130,7 +130,7 @@ def _build_message(to: str, subject: str, text: str, template: str = "") -> Emai
 
 def from_for_template(template: str) -> str:
     """From address for a template: per-template alias override via
-    ``SMTP_FROM_<TEMPLATE>`` (e.g. ``SMTP_FROM_ALERT=alerts@hydrashield.earth``),
+    ``SMTP_FROM_<TEMPLATE>`` (e.g. ``SMTP_FROM_ALERT=alerts@talaix.com``),
     falling back to ``SMTP_FROM`` then the default info@ address.
 
     Alias send-as must be configured in Google Workspace by the operator —
@@ -198,7 +198,7 @@ def send_mail(
 
 
 # ---------------------------------------------------------------------------
-# Operator notifications (platform → info@hydrashield.earth)
+# Operator notifications (platform → info@talaix.com)
 # ---------------------------------------------------------------------------
 
 # Anti-flood bucket: at most this many operator emails per kind per hour
@@ -210,7 +210,7 @@ _operator_bucket: Dict[str, list] = {}
 
 def operator_notify(subject: str, message: str, kind: str = "general") -> Dict:
     """
-    Notify the platform operator (info@hydrashield.earth via
+    Notify the platform operator (info@talaix.com via
     :func:`contact_inbox`) of a platform event: registration, contact
     message, report generated, alert condition, subscription, material
     change at a monitored location.

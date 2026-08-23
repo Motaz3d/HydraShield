@@ -1,9 +1,9 @@
-# HydraShield — API-First Strategy
+# Talaix — API-First Strategy
 
-**Status:** normative direction. HydraShield is a climate/hazard
+**Status:** normative direction. Talaix is a climate/hazard
 intelligence **infrastructure** with a website on top — not a website with
 an API bolted on. Every analytical capability ships as a stable, versioned,
-documented API first; the HydraShield frontend is merely the reference
+documented API first; the Talaix frontend is merely the reference
 consumer.
 
 ---
@@ -17,15 +17,15 @@ consumer.
 2. **Versioned contracts.** `/api/v2/…` is a stable contract: additive
    changes only; breaking changes require `/api/v3`. Deprecations are
    announced in responses (`sunset` header) two minor versions ahead.
-3. **External-first.** A company must be able to integrate HydraShield
+3. **External-first.** A company must be able to integrate Talaix
    into its own SaaS, GIS, property, insurance, banking or government
-   system **without ever loading the HydraShield frontend**: REST + SDKs +
+   system **without ever loading the Talaix frontend**: REST + SDKs +
    embeddable web component + webhooks.
 4. **Real data only — everywhere.** The same honesty rules apply to every
    interface: explicit `unavailable` states, provenance, claim/temporal
    labels, honest confidence, no fabricated values.
 5. **Build vs partner.** We do not rebuild what a reliable external
-   provider does better (see `PRODUCTS_AND_PARTNERSHIPS.md`). HydraShield's
+   provider does better (see `PRODUCTS_AND_PARTNERSHIPS.md`). Talaix's
    value is the analytical core + evidence discipline + integration surface.
 
 ## 2. Interface surface
@@ -52,7 +52,7 @@ consumer.
 - **CORS**: read-only public GET endpoints may be exposed to configured
   origins via `HYDRASHIELD_CORS_ORIGINS` (exact origins, never `*` with
   credentials; default: same-origin only).
-- **Webhooks**: outbound only, HMAC-SHA256 signed (`X-HydraShield-Signature`),
+- **Webhooks**: outbound only, HMAC-SHA256 signed (`X-Talaix-Signature`),
   HTTPS-only, SSRF-guarded (no private/loopback targets), at-least-once
   with recorded delivery status.
 

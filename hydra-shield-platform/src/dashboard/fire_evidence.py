@@ -1,7 +1,7 @@
 """
 Multi-source fire-evidence layer.
 
-HydraShield does not depend on one fire source. Every contributor keeps its
+Talaix does not depend on one fire source. Every contributor keeps its
 identity; detections from different sensors/products are NEVER merged into
 one unexplained number. When sources disagree, the disagreement is shown
 with a declared interpretation note.

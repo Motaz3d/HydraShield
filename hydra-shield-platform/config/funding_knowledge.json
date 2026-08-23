@@ -1,5 +1,5 @@
 {
-  "description": "HydraShield funding knowledge base (docs/SUSTAINABILITY_INTELLIGENCE.md). Curated REFERENCE records about real, official funding programmes \u2014 not calls, not awards, not advice. Every record carries an official URL, evidence_type and date_checked. Volatile facts (amounts, rates, deadlines, call status) are 'not stated' / 'not currently verified' unless an official publication states them \u2014 never estimated. Funding types are declared (grant/loan/equity/guarantee/blended/technical_assistance/\u2026) \u2014 funding is not free money. Eligibility summaries are indicative; the official programme text governs.",
+  "description": "Talaix funding knowledge base (docs/SUSTAINABILITY_INTELLIGENCE.md). Curated REFERENCE records about real, official funding programmes \u2014 not calls, not awards, not advice. Every record carries an official URL, evidence_type and date_checked. Volatile facts (amounts, rates, deadlines, call status) are 'not stated' / 'not currently verified' unless an official publication states them \u2014 never estimated. Funding types are declared (grant/loan/equity/guarantee/blended/technical_assistance/\u2026) \u2014 funding is not free money. Eligibility summaries are indicative; the official programme text governs.",
   "curation": {
     "curated": "2026-08-18",
     "source_verification": "All official URLs resolve-checked 2026-08-18 (HTTP 200). ADB/AIIB added and checked 2026-08-18.",
@@ -93,7 +93,7 @@
       "confidence": "high",
       "limitations": "Call-specific rules govern; competition-based; application effort significant",
       "hydrashield_relevance": "Climate adaptation and resilience projects \u2014 the platform's hazard/exposure/evidence outputs can support project evidence and monitoring components",
-      "recommended_action": "Monitor call calendar; identify a consortium role where HydraShield evidence/monitoring strengthens an application"
+      "recommended_action": "Monitor call calendar; identify a consortium role where Talaix evidence/monitoring strengthens an application"
     },
     {
       "id": "horizon_europe",

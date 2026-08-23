@@ -1,4 +1,4 @@
-# HydraShield runtime dependencies.
+# Talaix runtime dependencies.
 # Versions pinned to those verified against the current test suite.
 # For development/testing, also install requirements-dev.txt.
 

@@ -1,5 +1,5 @@
 """
-HydraShield outbound webhooks (event-driven intelligence).
+Talaix outbound webhooks (event-driven intelligence).
 
 Implements the webhook contract of docs/API_FIRST_STRATEGY.md §3/§5:
 
@@ -17,7 +17,7 @@ Implements the webhook contract of docs/API_FIRST_STRATEGY.md §3/§5:
   logged or returned. The secret must never appear in logs or audit rows.
 - **Signature** — every delivery POSTs JSON
   ``{"event", "data", "sent_at"}`` with header
-  ``X-HydraShield-Signature: sha256=<hmac-sha256 hex of the raw body with
+  ``X-Talaix-Signature: sha256=<hmac-sha256 hex of the raw body with
   the subscription secret>``.
 - **SSRF guard** — :func:`target_allowed` allows HTTPS targets only whose
   hostname resolves to a public IP (loopback / private / link-local /
@@ -64,7 +64,7 @@ def generate_secret() -> str:
     New webhook signing secret: ``accounts.hash_token`` of one-time
     internal entropy. The derived value is stored in ``secret_hash``,
     returned to the subscriber exactly once at creation, and used as the
-    HMAC key for ``X-HydraShield-Signature``. Never logged.
+    HMAC key for ``X-Talaix-Signature``. Never logged.
     """
     return hash_token("whsec_" + secrets.token_urlsafe(24))
 
@@ -133,7 +133,7 @@ def deliver_webhook(
         {"status": "disabled"}                — target fails the SSRF guard
 
     The body is ``{"event", "data", "sent_at"}`` (compact JSON) and carries
-    ``X-HydraShield-Signature`` (see :func:`signature_header`). Errors are
+    ``X-Talaix-Signature`` (see :func:`signature_header`). Errors are
     reported, never raised. The error string is the exception TYPE only —
     URLs and secrets are never echoed into logs.
     """
@@ -153,8 +153,8 @@ def deliver_webhook(
         headers={
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "User-Agent": "HydraShield-Webhook/1.0",
-            "X-HydraShield-Signature": signature_header(secret, body),
+            "User-Agent": "Talaix-Webhook/1.0",
+            "X-Talaix-Signature": signature_header(secret, body),
         },
         method="POST",
     )

@@ -1,5 +1,5 @@
 """
-HydraShield Funding Intelligence engine (docs/SUSTAINABILITY_INTELLIGENCE.md).
+Talaix Funding Intelligence engine (docs/SUSTAINABILITY_INTELLIGENCE.md).
 
 Matches real caller context (hazards, sector, beneficiary type, country,
 solution characteristics) against the curated funding knowledge base
@@ -223,7 +223,7 @@ def match_funding(query: Dict, knowledge_path: Optional[str] = None) -> Dict[str
         "disclaimer": DISCLAIMER,
         "provenance": {
             "kind": "derived",
-            "source": "HydraShield funding engine: caller context + curated "
+            "source": "Talaix funding engine: caller context + curated "
                       "funding knowledge base (config/funding_knowledge.json)",
             "limitations": "Declared screening over curated programme "
                            "records; volatile facts (amounts, rates, "

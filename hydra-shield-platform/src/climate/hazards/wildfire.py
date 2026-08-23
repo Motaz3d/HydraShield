@@ -1,5 +1,5 @@
 """
-Wildfire hazard plugin — adapts the proven HydraShield wildfire engine
+Wildfire hazard plugin — adapts the proven Talaix wildfire engine
 (`src/dashboard/real_analysis.py`) to the multi-hazard contract.
 
 This is a *wrapper*, not a rewrite: the working pipeline keeps producing
@@ -44,9 +44,9 @@ class WildfireModule(HazardModule):
     # -- analysis --------------------------------------------------------
 
     def analyze(self, lat: float, lon: float, name: Optional[str] = None, **kw: Any) -> HazardAnalysis:
-        from ...dashboard.real_analysis import HydraShieldRealAnalyser  # lazy: heavy engine
+        from ...dashboard.real_analysis import TalaixRealAnalyser  # lazy: heavy engine
 
-        raw = HydraShieldRealAnalyser().analyse_point(lat, lon, name=name)
+        raw = TalaixRealAnalyser().analyse_point(lat, lon, name=name)
         if raw.get("error"):
             return HazardAnalysis(
                 hazard=self.id,

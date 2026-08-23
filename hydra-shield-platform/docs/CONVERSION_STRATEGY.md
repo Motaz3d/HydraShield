@@ -1,4 +1,4 @@
-# HydraShield — Conversion Strategy
+# Talaix — Conversion Strategy
 
 **Status:** implemented (Phase F). How free value becomes accounts,
 monitoring and subscriptions — without dark patterns.

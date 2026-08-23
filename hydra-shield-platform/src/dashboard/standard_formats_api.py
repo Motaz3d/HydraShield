@@ -1,5 +1,5 @@
 """
-Standard Formats API for HydraShield Dashboard.
+Standard Formats API for Talaix Dashboard.
 
 Provides standardized API endpoints for integration with civil protection
 systems, early warning systems, and standard data formats (GeoJSON, GML, CSV).
@@ -150,7 +150,7 @@ class StandardFormatsAPI:
             # Format alert according to emergency management standards
             alert = {
                 'identifier': f"HS-{timestamp.replace(':', '-').replace('.', '-')}",
-                'sender': 'HydraShield.earth',
+                'sender': 'Talaix.earth',
                 'sent': timestamp,
                 'status': 'Actual',
                 'msgType': 'Alert',
@@ -166,7 +166,7 @@ class StandardFormatsAPI:
                         'eventCode': [{'valueName': 'SAME', 'value': 'FLW'}],  # Fire Warning
                         'effective': timestamp,
                         'expires': data.get('expires', ''),
-                        'senderName': 'HydraShield Earth Systems',
+                        'senderName': 'Talaix Earth Systems',
                         'headline': message,
                         'description': data.get('description', message),
                         'instruction': data.get('instruction', 'Monitor updates'),

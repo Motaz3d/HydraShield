@@ -1,5 +1,5 @@
 """
-HydraShield climate-intelligence core.
+Talaix climate-intelligence core.
 
 Multi-hazard ontology, evidence architecture, historical event model,
 hazard plugin registry, economic exposure and solutions intelligence.

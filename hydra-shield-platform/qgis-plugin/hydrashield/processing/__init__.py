@@ -1,1 +1,1 @@
-"""HydraShield Processing provider package."""
+"""Talaix Processing provider package."""

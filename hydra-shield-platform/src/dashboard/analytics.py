@@ -1,5 +1,5 @@
 """
-HydraShield product analytics — first-party, privacy-conscious event store.
+Talaix product analytics — first-party, privacy-conscious event store.
 
 Why first-party: no third-party analytics dependency, no data leaves the
 platform, no cross-site tracking. The event stream answers product

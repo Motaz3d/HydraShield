@@ -1,4 +1,4 @@
-Subject: Your HydraShield report is ready — {{location}}
+Subject: Your Talaix report is ready — {{location}}
 Hello{{display_name}},
 
 your {{report_type}} report for {{location}} is ready.
@@ -11,5 +11,5 @@ or modelled) and its data source. The screening score is not yet validated
 against historical fire observations — treat values as screening-level
 indicators.
 
-— The HydraShield team
-info@hydrashield.earth
+— The Talaix team
+info@talaix.com

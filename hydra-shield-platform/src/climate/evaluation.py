@@ -1,5 +1,5 @@
 """
-HydraShield Model Evaluation Framework.
+Talaix Model Evaluation Framework.
 
 Two pillars:
 

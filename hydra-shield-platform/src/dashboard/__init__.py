@@ -1,5 +1,5 @@
 """
-HydraShield Interactive Dashboard Module.
+Talaix Interactive Dashboard Module.
 
 Advanced user interface and decision support system with real-time monitoring,
 interactive scenario modeling, and explainable AI recommendations.
@@ -13,7 +13,7 @@ that only have ``numpy``/``pandas`` installed.
 __version__ = "0.1.0"
 
 __all__ = [
-    "HydraShieldDashboard",
+    "TalaixDashboard",
     "InteractiveMap",
     "RealTimeMonitor",
     "ScenarioSimulator",
@@ -23,7 +23,7 @@ __all__ = [
     "VisualizationEngine",
     "DashboardAPI",
     "StandardFormatsAPI",
-    "HydraShieldRealAnalyser",
+    "TalaixRealAnalyser",
     "TTLCache",
     "WatchStore",
 ]
@@ -31,7 +31,7 @@ __all__ = [
 # Mapping of public name -> (module, attribute). ``attribute`` is None when the
 # symbol equals the module name (not used here, kept for clarity).
 _LAZY_IMPORTS = {
-    "HydraShieldDashboard": (".dashboard", "HydraShieldDashboard"),
+    "TalaixDashboard": (".dashboard", "TalaixDashboard"),
     "InteractiveMap": (".components", "InteractiveMap"),
     "RealTimeMonitor": (".components", "RealTimeMonitor"),
     "ScenarioSimulator": (".components", "ScenarioSimulator"),
@@ -41,7 +41,7 @@ _LAZY_IMPORTS = {
     "VisualizationEngine": (".components", "VisualizationEngine"),
     "DashboardAPI": (".api", "DashboardAPI"),
     "StandardFormatsAPI": (".standard_formats_api", "StandardFormatsAPI"),
-    "HydraShieldRealAnalyser": (".real_analysis", "HydraShieldRealAnalyser"),
+    "TalaixRealAnalyser": (".real_analysis", "TalaixRealAnalyser"),
     "TTLCache": (".cache", "TTLCache"),
     "WatchStore": (".monitoring", "WatchStore"),
 }

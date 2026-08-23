@@ -57,19 +57,19 @@ def _eml_text(outbox_dir, template):
 
 
 def test_from_for_template_defaults_to_info(env):
-    assert mailer.from_for_template("alert") == "info@hydrashield.earth"
-    assert mailer.from_for_template("") == "info@hydrashield.earth"
+    assert mailer.from_for_template("alert") == "info@talaix.com"
+    assert mailer.from_for_template("") == "info@talaix.com"
 
 
 def test_from_for_template_alias_override(env, monkeypatch):
-    monkeypatch.setenv("SMTP_FROM_ALERT", "alerts@hydrashield.earth")
-    assert mailer.from_for_template("alert") == "alerts@hydrashield.earth"
+    monkeypatch.setenv("SMTP_FROM_ALERT", "alerts@talaix.com")
+    assert mailer.from_for_template("alert") == "alerts@talaix.com"
     # Other templates keep the default.
-    assert mailer.from_for_template("welcome") == "info@hydrashield.earth"
+    assert mailer.from_for_template("welcome") == "info@talaix.com"
     result = mailer.send_mail("u@example.org", "alert", {"message": "m"},
                               subject_override="s")
     content = open(result["path"], encoding="utf-8").read()
-    assert "From: alerts@hydrashield.earth" in content
+    assert "From: alerts@talaix.com" in content
 
 
 # ---------------------------------------------------------------------------
@@ -83,7 +83,7 @@ def test_operator_notify_writes_outbox(env):
         "Report generated", "Report type: decision\nLocation: X", kind="test")
     assert result["backend"] == "outbox"
     eml = _eml_text(env["outbox"], "operator_notification")
-    assert "To: info@hydrashield.earth" in eml
+    assert "To: info@talaix.com" in eml
     assert "Report generated" in eml
     assert "Location: X" in eml
 
@@ -168,7 +168,7 @@ def test_watch_alert_notifies_operator(env, monkeypatch):
             }
 
     monkeypatch.setattr(cw, "WatchStore", FakeStore)
-    monkeypatch.setattr(cw, "HydraShieldRealAnalyser", FakeAnalyser)
+    monkeypatch.setattr(cw, "TalaixRealAnalyser", FakeAnalyser)
     monkeypatch.setattr(cw, "send_email_alert", lambda *a: False)
     mailer._operator_bucket.clear()
 

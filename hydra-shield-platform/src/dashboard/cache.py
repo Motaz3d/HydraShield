@@ -1,5 +1,5 @@
 """
-SQLite-backed TTL cache for HydraShield external data.
+SQLite-backed TTL cache for Talaix external data.
 
 External data sources (geocoding, weather, terrain, satellite, FIRMS) are
 rate-limited and comparatively slow. This cache gives the platform:

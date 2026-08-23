@@ -1,4 +1,4 @@
-# HydraShield — Solutions Intelligence
+# Talaix — Solutions Intelligence
 
 **Status:** engine design + knowledge-base schema + technology discovery
 framework. Norms: **no invented products, no invented benefits, no
@@ -8,7 +8,7 @@ guarantee claims.**
 
 ## 1. Purpose
 
-HydraShield must not merely identify problems — it recommends solutions
+Talaix must not merely identify problems — it recommends solutions
 **fitted to the exact place**. The Solutions Intelligence engine answers:
 
 > "Given this location, its hazards, climate, terrain, land cover, water,

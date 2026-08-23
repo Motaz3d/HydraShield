@@ -18,7 +18,7 @@
   "evidence": "NADMA official portal lists the NDCC, disaster relief trust fund (KWABBN), DRR policy oversight and live hazard information feeds (flood, strong winds & rough seas, continuous heavy rain).",
   "relevant_capability": "NADMA official portal lists the NDCC, disaster relief trust fund (KWABBN), DRR policy oversight and live hazard informat",
   "recommended_product": "monitoring",
-  "recommended_message": "HydraShield can fuse satellite hazard intelligence with NADMA's existing departmental feeds into a single multi-hazard monitoring and SMS alert layer for state and district officers ahead of the northeast monsoon.",
+  "recommended_message": "Talaix can fuse satellite hazard intelligence with NADMA's existing departmental feeds into a single multi-hazard monitoring and SMS alert layer for state and district officers ahead of the northeast monsoon.",
   "priority": "high",
   "fit_score": "NADMA coordinates national disaster operations, runs the National Disaster Control Centre and aggregates flood, strong wind/rough sea and heavy rain warnings from multiple departments, needing integra",
   "urgency": "medium",

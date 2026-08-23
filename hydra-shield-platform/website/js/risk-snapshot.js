@@ -1,4 +1,4 @@
-/* HydraShield — public wildfire risk intelligence bar.
+/* Talaix — public wildfire risk intelligence bar.
  *
  * Fetches GET /api/risk-snapshot (real, cached analyses of the configured
  * monitored areas) and renders a compact ranking on the homepage. When the
@@ -51,7 +51,7 @@
     function render(snap) {
         var scopeEl = el('riskIntelScope');
         if (snap.scope) scopeEl.textContent = snap.scope;
-        scopeEl.title = 'The ranking covers only the areas HydraShield is configured to monitor.';
+        scopeEl.title = 'The ranking covers only the areas Talaix is configured to monitor.';
 
         el('riskIntelFreshness').textContent = fmtAgo(snap.generated_at);
 

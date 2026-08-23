@@ -15,7 +15,7 @@ Real-data analyses only (ERA5 / ERA5-Land via the Open-Meteo archive):
 - **Agricultural exposure** — ESA WorldCover cropland fraction (observed
   land cover) around the point.
 
-Everything computed by HydraShield is labelled MODELLED with its method.
+Everything computed by Talaix is labelled MODELLED with its method.
 """
 
 from __future__ import annotations

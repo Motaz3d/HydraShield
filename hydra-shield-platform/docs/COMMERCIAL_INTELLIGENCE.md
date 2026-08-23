@@ -1,4 +1,4 @@
-# HydraShield — Commercial Intelligence & Marketing Radar
+# Talaix — Commercial Intelligence & Marketing Radar
 
 **Status:** implemented (this phase). The architecture that turns
 `marketing/` from a static workspace into a persistent commercial
@@ -8,7 +8,7 @@ events, advertising data or interactions.**
 
 ## 1. The commercial principle
 
-HydraShield does not market itself broadly. It discovers:
+Talaix does not market itself broadly. It discovers:
 
 ```
 WHO has a problem → WHAT problem → WHERE → WHICH hazard

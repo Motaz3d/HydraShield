@@ -1,5 +1,5 @@
 """
-HydraShield alerting API (Stage 7) — Flask blueprint ``sms_bp``.
+Talaix alerting API (Stage 7) — Flask blueprint ``sms_bp``.
 
 Mounted at ``/api/v2`` (registered in ``src/dashboard/api.py::create_app()``
 right after ``auth_bp``). Implements the SMS/alerting endpoints:
@@ -82,8 +82,8 @@ def add_phone():
     # API response.
     delivery = sms_module.send_sms(
         phone,
-        f"HydraShield verification code: {result['code']}\n"
-        "It expires in 10 minutes.\nhydrashield.earth",
+        f"Talaix verification code: {result['code']}\n"
+        "It expires in 10 minutes.\ntalaix.com",
     )
     return jsonify({
         "status": "verification_sent",

@@ -1,5 +1,5 @@
 // ============================================
-// HydraShield Earth Systems - Main JavaScript
+// Talaix Earth Systems - Main JavaScript
 // ============================================
 
 // Navigation scroll effect + mobile hamburger menu.
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Contact form handling
 // Contact form → POST /api/v2/contact (the real delivery path: the message
-// reaches info@hydrashield.earth and the submitter gets an acknowledgement).
+// reaches info@talaix.com and the submitter gets an acknowledgement).
 // Only when the API cannot be reached do we fall back to a mailto draft.
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
@@ -102,7 +102,7 @@ if (contactForm) {
                     showStatus('success', body.message || 'Thank you — your message has been received. We reply by email.');
                     contactForm.reset();
                 } else {
-                    showStatus('error', body.error || 'Your message could not be sent. Please email info@hydrashield.earth directly.');
+                    showStatus('error', body.error || 'Your message could not be sent. Please email info@talaix.com directly.');
                 }
             })
             .catch(() => {
@@ -110,8 +110,8 @@ if (contactForm) {
                 // Network-level failure: honest fallback — open a mail draft.
                 const subject = encodeURIComponent(`Contact from ${name} - ${organization}`);
                 const bodyText = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nOrganization: ${organization}\nInterest: ${interest}\n\nMessage:\n${message}`);
-                window.location.href = `mailto:info@hydrashield.earth?subject=${subject}&body=${bodyText}`;
-                showStatus('error', 'The contact service could not be reached — a mail draft to info@hydrashield.earth was opened instead.');
+                window.location.href = `mailto:info@talaix.com?subject=${subject}&body=${bodyText}`;
+                showStatus('error', 'The contact service could not be reached — a mail draft to info@talaix.com was opened instead.');
             });
     });
 }

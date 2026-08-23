@@ -1,4 +1,4 @@
-# HydraShield PostGIS Data Model (design target)
+# Talaix PostGIS Data Model (design target)
 
 **Status: DESIGN ONLY.** The live store is the shared SQLite database
 (`data/cache/hydrashield_cache.sqlite3`, path via `HYDRASHIELD_CACHE_DB`).

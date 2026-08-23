@@ -45,9 +45,9 @@ def _risk_basis(fwi: Optional[float], slope: float) -> Optional[float]:
     """FWI-anchored comparison score (same basis for every reference day)."""
     if fwi is None:
         return None
-    from ..dashboard.real_analysis import HydraShieldRealAnalyser
+    from ..dashboard.real_analysis import TalaixRealAnalyser
 
-    return HydraShieldRealAnalyser._risk_score(
+    return TalaixRealAnalyser._risk_score(
         fwi=fwi, slope=slope, fmc=None, wind_kmh=0.0
     )
 

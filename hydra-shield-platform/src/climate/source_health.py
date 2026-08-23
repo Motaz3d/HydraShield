@@ -43,7 +43,7 @@ from typing import Dict, List, Optional, Tuple
 from ..dashboard.cache import default_cache
 
 #: Platform UA for health probes (identifiable, honest).
-USER_AGENT = "HydraShield-SourceHealth/1.0 (+https://hydrashield.earth)"
+USER_AGENT = "Talaix-SourceHealth/1.0 (+https://talaix.com)"
 
 #: Per-request timeout for a probe.
 TIMEOUT_SECONDS = 10.0

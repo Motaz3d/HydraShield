@@ -1,15 +1,15 @@
-Subject: HydraShield subscription confirmed — {{tier}}
+Subject: Talaix subscription confirmed — {{tier}}
 Hello{{display_name}},
 
-your HydraShield subscription is now recorded.
+your Talaix subscription is now recorded.
 
 Tier: {{tier}}
 Status: {{status}}
 Started: {{started_at}}
 
 Your subscription unlocks the tier's features as described at
-hydrashield.earth. HydraShield records subscriptions but never charges
+talaix.com. Talaix records subscriptions but never charges
 cards on this platform; no payment data is stored.
 
-— The HydraShield team
-info@hydrashield.earth
+— The Talaix team
+info@talaix.com

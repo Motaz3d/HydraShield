@@ -1,5 +1,5 @@
 {
-  "description": "HydraShield Model Registry — immutable records of proprietary indicators/methodologies. Every entry: version, methodology, scientific basis (research_registry ids), inputs, outputs, validation datasets, geographic applicability, uncertainty, limitations, validation status. A model version is never edited in place — a new version id is added. Validation status vocabulary: not_validated | validation_in_progress | validated_screening | validated_operational | deprecated.",
+  "description": "Talaix Model Registry — immutable records of proprietary indicators/methodologies. Every entry: version, methodology, scientific basis (research_registry ids), inputs, outputs, validation datasets, geographic applicability, uncertainty, limitations, validation status. A model version is never edited in place — a new version id is added. Validation status vocabulary: not_validated | validation_in_progress | validated_screening | validated_operational | deprecated.",
   "lifecycle_states": [
     {"state": "experimental", "order": 0, "meaning": "Concept/framework stage; no executable verification expected."},
     {"state": "screening", "order": 1, "meaning": "Declared method producing screening indicators on real data; NOT validated; may have declared benchmark cases (config/benchmark_suite.json)."},
@@ -32,7 +32,7 @@
       "version": "1.0.0",
       "lifecycle": "screening",
       "lifecycle_note": "Screening composite; validation pipeline exists (scripts/run_validation.py) but requires FIRMS_MAP_KEY and a real executed run; never auto-promoted.",
-      "name": "HydraShield composite wildfire screening score (0–100)",
+      "name": "Talaix composite wildfire screening score (0–100)",
       "type": "proprietary composite indicator",
       "methodology": "FWI-anchored static composite: real FWI + slope (DEM) + fuel moisture (Sentinel-2 NDMI or soil-moisture model) + wind; declared thresholds and factor decomposition (explain.py); NOT a probability",
       "research_ids": ["vanwagner1987", "hersbach2020era5"],
@@ -189,7 +189,7 @@
       "type": "proprietary overlay method",
       "methodology": "WorldPop 100 m gridded estimates (reference-year labelled) overlaid on the FWI-derived risk grid → estimated population by hazard class; corridor-polygon estimates for smoke",
       "research_ids": ["tatem2017worldpop"],
-      "inputs": ["WorldPop country raster", "HydraShield risk grid"],
+      "inputs": ["WorldPop country raster", "Talaix risk grid"],
       "outputs": ["estimated population", "population by hazard class", "population grid cells"],
       "validation": {"status": "not_validated", "datasets": [], "note": "Gridded estimates, never exact counts"},
       "geographic_applicability": "Countries with WorldPop rasters (downloaded on demand)",
@@ -219,7 +219,7 @@
       "version": "1.0.0",
       "lifecycle": "experimental",
       "lifecycle_note": "Conceptual framework (IPCC AR6 framing, ISO 14091 organizational reference); individual indicators carry their own lifecycle states.",
-      "name": "HydraShield analytical chain (Observation→Baseline→Anomaly→Extreme→Hazard→Exposure→Vulnerability→Impact→Risk→Compound→Cascading→Economic→Decision→Action)",
+      "name": "Talaix analytical chain (Observation→Baseline→Anomaly→Extreme→Hazard→Exposure→Vulnerability→Impact→Risk→Compound→Cascading→Economic→Decision→Action)",
       "type": "conceptual framework (IPCC AR6 risk framing + ISO 14091 organizational reference — NOT ISO-certified)",
       "methodology": "Formal chain implemented across the platform: observed inputs are never rewritten; baselines come from the location's own series; anomalies/extremes are declared percentile/deficit methods; hazard×exposure×vulnerability compose risk; compound/cascading layers add interaction structure; economic meaning is exposure-bounded with not-quantified discipline",
       "research_ids": ["ipccar6wg2", "iso14091", "zscheischler2020typology"],
@@ -228,7 +228,7 @@
       "validation": {"status": "not_validated", "datasets": [], "note": "Framework; individual indicators carry their own statuses"},
       "geographic_applicability": "Global",
       "uncertainty": "Per-layer uncertainties propagate; see per-model records",
-      "limitations": "ISO 14091 is an organizational reference, NOT HydraShield methodology; IPCC framing is operationalized as a declared subset",
+      "limitations": "ISO 14091 is an organizational reference, NOT Talaix methodology; IPCC framing is operationalized as a declared subset",
       "integrated_in": "src/climate/*"
     }
   ]

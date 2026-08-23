@@ -1,5 +1,5 @@
-Subject: HydraShield — new account registration
-A new account was registered on HydraShield.
+Subject: Talaix — new account registration
+A new account was registered on Talaix.
 
 Email: {{email}}
 Display name: {{display_name}}

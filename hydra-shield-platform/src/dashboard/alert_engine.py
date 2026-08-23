@@ -1,12 +1,12 @@
 """
-HydraShield unified alert engine.
+Talaix unified alert engine.
 
 Turns REAL analysis results into high-value intelligence notifications
 (SMS + email + webhooks) for alert rules. Core semantics:
 
 - Severity is classified from the real composite risk score onto
   ``SEVERITY_ORDER`` using the same thresholds as
-  ``HydraShieldRealAnalyser.RISK_CLASSES`` (Low < 25, Moderate < 45,
+  ``TalaixRealAnalyser.RISK_CLASSES`` (Low < 25, Moderate < 45,
   High < 65, Extreme >= 65 → NORMAL | MODERATE | HIGH | EXTREME).
 - Notifications fire only on MEANINGFUL transitions
   (:func:`evaluate_transition`): an upward crossing of the rule's
@@ -40,14 +40,14 @@ SEVERITY_ORDER = ["NORMAL", "MODERATE", "HIGH", "EXTREME"]
 
 DEDUPE_COOLDOWN_SECONDS = 6 * 3600.0
 
-SITE_URL = "hydrashield.earth"
+SITE_URL = "talaix.com"
 
 
 def classify_severity(risk: Optional[float]) -> Optional[str]:
     """
     Map a composite risk score (0-100, real analysis baseline) onto the
     severity ladder, using the same thresholds as
-    ``HydraShieldRealAnalyser.RISK_CLASSES``: Low < 25 → NORMAL,
+    ``TalaixRealAnalyser.RISK_CLASSES``: Low < 25 → NORMAL,
     Moderate < 45 → MODERATE, High < 65 → HIGH, Extreme >= 65 → EXTREME.
     ``None`` (no computable score) maps to None — never invented.
     """
@@ -392,7 +392,7 @@ def dispatch_alert(
 
     # -- Email channel ---------------------------------------------------
     if prefs["email_enabled"] and user.get("email"):
-        subject = f"HydraShield alert: {severity} {rule['hazard']} at {location}"
+        subject = f"Talaix alert: {severity} {rule['hazard']} at {location}"
         try:
             outcome = mailer.send_mail(
                 user["email"], "alert",

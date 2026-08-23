@@ -10,7 +10,7 @@ Authoritative source (documented, live-checked 2026-08-18):
   check time); a manual/exported dataset path is required before
   integration, so no live fetch is wired in.
 
-Discipline: HydraShield does not predict eruptions. Any future volcanic
+Discipline: Talaix does not predict eruptions. Any future volcanic
 intelligence is monitoring / historical evidence / exposure / scenario —
 never a probability of eruption invented from nothing.
 """

@@ -1,4 +1,4 @@
-/* HydraShield — Location Intelligence component (platform-level).
+/* Talaix — Location Intelligence component (platform-level).
  *
  * One reusable location workflow for every surface (Intelligence, Map,
  * Events, Solutions, Economy, Funding, Reports, Monitoring):

@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from src.gis_mapping.copernicus_data import CopernicusDataAccess
-from src.dashboard.real_analysis import HydraShieldRealAnalyser
+from src.dashboard.real_analysis import TalaixRealAnalyser
 
 
 def test_copernicus_integration() -> bool:
@@ -49,7 +49,7 @@ def test_copernicus_integration() -> bool:
 def test_full_analysis_integration() -> bool:
     """Full pipeline on real data."""
     print("\nTesting full analysis pipeline...")
-    result = HydraShieldRealAnalyser().analyse("Clervaux, Luxembourg")
+    result = TalaixRealAnalyser().analyse("Clervaux, Luxembourg")
     if "error" in result:
         print(f"✗ Analysis error: {result['error']}"); return False
 
@@ -126,7 +126,7 @@ def test_intelligence_blocks(result) -> bool:
 
 def main() -> int:
     print("=" * 60)
-    print("HydraShield real-data integration test")
+    print("Talaix real-data integration test")
     print("=" * 60)
     s2_ok = test_copernicus_integration()
     analysis_result = test_full_analysis_integration()

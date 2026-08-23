@@ -1,6 +1,6 @@
-# HydraShield — Deployment Guide (Vultr + Docker)
+# Talaix — Deployment Guide (Vultr + Docker)
 
-This guide explains how to run the full HydraShield product — static marketing
+This guide explains how to run the full Talaix product — static marketing
 site, live Dash dashboard, and REST API — on a single Vultr server with
 automatic deploys from your local machine.
 
@@ -8,9 +8,9 @@ automatic deploys from your local machine.
 
 | URL | Service | Tech | Internal port |
 |-----|---------|------|---------------|
-| `https://hydrashield.earth/` | Marketing site + real-data public dashboard | Caddy file server | — |
-| `https://hydrashield.earth/api/*` | REST API (real data, cached) | Flask via **gunicorn** | 8051 |
-| `https://app.hydrashield.earth/` | Live dashboard | Dash via **gunicorn** | 8050 |
+| `https://talaix.com/` | Marketing site + real-data public dashboard | Caddy file server | — |
+| `https://talaix.com/api/*` | REST API (real data, cached) | Flask via **gunicorn** | 8051 |
+| `https://app.talaix.com/` | Live dashboard | Dash via **gunicorn** | 8050 |
 | (internal) | `watch_checker` | periodic alert evaluation every 30 min | — |
 
 Caddy terminates HTTPS for both domains automatically via Let's Encrypt.
@@ -45,10 +45,10 @@ The Commercial Center (`/admin.html` + `/api/v2/admin/*`) is served only
 after server-side authorization. To activate the operator account:
 
 ```bash
-HYDRASHIELD_OPERATOR_EMAILS=info@hydrashield.earth   # in /opt/hydrashield/.env
+HYDRASHIELD_OPERATOR_EMAILS=info@talaix.com   # in /opt/hydrashield/.env
 ```
 
-Then register `info@hydrashield.earth` via the normal account flow
+Then register `info@talaix.com` via the normal account flow
 (verification email lands in the official mailbox) and sign in — the
 account is promoted to the admin role at session resolution, audited as
 `operator_promotion`. There is no endpoint or client path to set a role;
@@ -57,7 +57,7 @@ anonymous visitors get 401 and normal users 403 on every admin surface.
 ## Prerequisites
 
 - A Vultr server running **Ubuntu 24.04 LTS** (1 vCPU / 4GB / 30GB is enough).
-- Domain `hydrashield.earth` managed at your DNS provider.
+- Domain `talaix.com` managed at your DNS provider.
 - Docker + Docker Compose installed on the server.
 
 ---
@@ -131,7 +131,7 @@ Option A — push to GitHub and let Actions deploy (recommended):
 
 ```bash
 git add .
-git commit -m "Deploy HydraShield to Vultr"
+git commit -m "Deploy Talaix to Vultr"
 git push origin main
 ```
 
@@ -150,10 +150,10 @@ The first build takes a few minutes (installing `geopandas`, `xgboost`, etc.).
 ## Step 6 — Verify
 
 ```bash
-curl -I https://hydrashield.earth
-curl -I https://app.hydrashield.earth
-curl https://hydrashield.earth/api/health
-curl "https://hydrashield.earth/api/analyze?location=Clervaux,%20Luxembourg"
+curl -I https://talaix.com
+curl -I https://app.talaix.com
+curl https://talaix.com/api/health
+curl "https://talaix.com/api/analyze?location=Clervaux,%20Luxembourg"
 ```
 
 Expected for the API: `{"status":"ok", ...}`; the analysis endpoint returns a

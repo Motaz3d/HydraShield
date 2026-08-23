@@ -1,18 +1,18 @@
-# HydraShield: Deep Global Analysis of Grants, Incubators, and Funding
+# Talaix: Deep Global Analysis of Grants, Incubators, and Funding
 
-Since HydraShield operates at the intersection of **SpaceTech (Earth Observation), ClimateTech (Wildfires/Resilience), and DeepTech (AI/Digital Twins)**, generic commercial software accelerators (like 500 Startups) are often the wrong fit for Stage 1. 
+Since Talaix operates at the intersection of **SpaceTech (Earth Observation), ClimateTech (Wildfires/Resilience), and DeepTech (AI/Digital Twins)**, generic commercial software accelerators (like 500 Startups) are often the wrong fit for Stage 1. 
 
 To build this project globally, you need programs that understand **scientific validation, massive data processing (HPC), B2G (Business-to-Government) sales cycles, and Earth Observation.**
 
-Here is a deeply researched, global mapping of the absolute best ecosystems, grants, and incubators for HydraShield, outside of the ones you have already explored (Taiwan, Luxembourg, Slovenia, Eindhoven, Greece).
+Here is a deeply researched, global mapping of the absolute best ecosystems, grants, and incubators for Talaix, outside of the ones you have already explored (Taiwan, Luxembourg, Slovenia, Eindhoven, Greece).
 
 ---
 
-## 1. The Ultimate Global "Holy Grails" (Highly Specific to HydraShield)
+## 1. The Ultimate Global "Holy Grails" (Highly Specific to Talaix)
 
 ### 🏆 XPRIZE Wildfire (Global)
 * **What it is:** An $11 million global competition to innovate space-based and autonomous wildfire detection, prediction, and extinction technologies.
-* **Why it’s perfect:** It is literally designed for projects exactly like HydraShield. Even if you don't win the grand prize, participating gives you access to a global network of civil protection agencies, massive non-dilutive milestone grants, and unparalleled scientific validation. 
+* **Why it’s perfect:** It is literally designed for projects exactly like Talaix. Even if you don't win the grand prize, participating gives you access to a global network of civil protection agencies, massive non-dilutive milestone grants, and unparalleled scientific validation. 
 * **Action:** Monitor XPRIZE tracks specifically for Space-Based Wildfire Detection & Intelligence.
 
 ### 🏆 Creative Destruction Lab (CDL) – Space & Climate Streams (Canada / Global)
@@ -27,7 +27,7 @@ Here is a deeply researched, global mapping of the absolute best ecosystems, gra
 
 ### 🇺🇸 Elemental Excelerator (California / Hawaii, USA)
 * **What it is:** A non-profit incubator that funds ClimateTech startups (up to $1M per company) to deploy commercial pilots.
-* **Why it fits:** They focus heavily on climate resilience, water optimization, and nature-based solutions. California is the epicenter of the global wildfire crisis. Having a pilot in California (funded by Elemental) would immediately validate HydraShield globally.
+* **Why it fits:** They focus heavily on climate resilience, water optimization, and nature-based solutions. California is the epicenter of the global wildfire crisis. Having a pilot in California (funded by Elemental) would immediately validate Talaix globally.
 * **Condition:** Requires a U.S. presence or a strong U.S. pilot partner.
 
 ### 🇺🇸 Techstars Space Accelerator (Los Angeles, USA) / Techstars Sustainability (Boulder, USA)
@@ -37,7 +37,7 @@ Here is a deeply researched, global mapping of the absolute best ecosystems, gra
 
 ### 🇺🇸 Alchemist Accelerator (San Francisco, USA)
 * **What it is:** The world's top accelerator for **B2B / B2G Enterprise DeepTech**. 
-* **Why it fits:** HydraShield's customers are governments (civil protection) and large enterprise (infrastructure/insurance). Alchemist specializes in teaching founders how to sell complex technical products to massive, slow-moving organizations.
+* **Why it fits:** Talaix's customers are governments (civil protection) and large enterprise (infrastructure/insurance). Alchemist specializes in teaching founders how to sell complex technical products to massive, slow-moving organizations.
 
 ---
 
@@ -48,7 +48,7 @@ Here is a deeply researched, global mapping of the absolute best ecosystems, gra
 ### 🇪🇺 CASSINI Space Entrepreneurship Initiative (EU-Wide)
 * **What it is:** The European Commission’s massive fund (€1 Billion scale) dedicated to supporting space startups (specifically those using Copernicus data).
 * **Funding:** Offers Hackathons (small grants), Matchmaking, and a dedicated Seed and Growth Fund.
-* **Why it fits:** This is the mothership for European Earth Observation funding. HydraShield must integrate deeply with CASSINI.
+* **Why it fits:** This is the mothership for European Earth Observation funding. Talaix must integrate deeply with CASSINI.
 
 ### 🇩🇪 / 🇳🇱 ESA BIC Network (Bavaria, Germany or Noordwijk, Netherlands)
 * **What it is:** While you looked at Slovenia, the ESA BICs in Germany (Munich/Bavaria) and the Netherlands (near ESTEC) are the most powerful in Europe. 
@@ -64,7 +64,7 @@ Here is a deeply researched, global mapping of the absolute best ecosystems, gra
 
 ### 🇦🇺 Startmate / CSIRO Kick-Start (Australia)
 * **What it is:** Australia is the other global epicenter for catastrophic wildfires (bushfires). The Commonwealth Scientific and Industrial Research Organisation (CSIRO) runs a Kick-Start program offering matched funding for R&D. Startmate is the region's top accelerator, heavily pivoting into ClimateTech.
-* **Why it fits:** Deploying a pilot in Australia proves that HydraShield's algorithms work in different biomes (Eucalyptus forests) outside of Europe. 
+* **Why it fits:** Deploying a pilot in Australia proves that Talaix's algorithms work in different biomes (Eucalyptus forests) outside of Europe. 
 
 ### 🇸🇬 Singapore Space and Technology Ltd (SSTL) / Space Accelerator
 * **What it is:** Singapore is positioning itself as the SpaceTech hub of Southeast Asia, focusing heavily on utilizing space data for regional climate monitoring (especially forest fires in Indonesia/Malaysia).
@@ -72,9 +72,9 @@ Here is a deeply researched, global mapping of the absolute best ecosystems, gra
 
 ---
 
-## Strategic Summary & Next Steps for HydraShield
+## Strategic Summary & Next Steps for Talaix
 
-If we map these global opportunities to the **phases of building HydraShield**, the strategy becomes clear:
+If we map these global opportunities to the **phases of building Talaix**, the strategy becomes clear:
 
 | Stage | Goal | Global Target | Type of Funding |
 | :--- | :--- | :--- | :--- |
@@ -84,7 +84,7 @@ If we map these global opportunities to the **phases of building HydraShield**, 
 | **4. Global Recognition** | Become the industry standard | **XPRIZE Wildfire** | Mega Prize ($1M+) & Prestige |
 
 ### My Recommendation:
-Since HydraShield is fundamentally an **Earth Observation (Copernicus) & Climate** project:
+Since Talaix is fundamentally an **Earth Observation (Copernicus) & Climate** project:
 1. **Look immediately at Creative Destruction Lab (CDL) Space/Climate streams.** It requires no equity upfront, is globally respected, and connects you with top scientists.
 2. **Review CASSINI (EU) and ESA BICs.** These are the most reliable sources of €50k-€100k non-dilutive cash for Copernicus-based startups.
 3. **Keep XPRIZE Wildfire on your radar.**

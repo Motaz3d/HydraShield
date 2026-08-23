@@ -1,5 +1,5 @@
 """
-HydraShield notification store (Stage 7) — SQLite, shared platform DB.
+Talaix notification store (Stage 7) — SQLite, shared platform DB.
 
 Stores everything the alerting engine needs in the same shared SQLite
 database as the cache / watches / accounts (``HYDRASHIELD_CACHE_DB``). All
@@ -505,7 +505,7 @@ class NotifyStore:
         Create a webhook subscription. Returns
         ``{"webhook": …, "secret": <signing secret>}`` — the secret is
         returned ONLY here (it is the HMAC key for
-        ``X-HydraShield-Signature``; see ``webhooks.generate_secret``) and
+        ``X-Talaix-Signature``; see ``webhooks.generate_secret``) and
         must never be logged or included in later API responses. URL
         validation (HTTPS + SSRF guard) happens in the API layer
         (``webhooks.target_allowed``) before this is called.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Train the HydraShield wildfire risk model on real fire history (Phase 6).
+Train the Talaix wildfire risk model on real fire history (Phase 6).
 
 Requires:
     FIRMS_MAP_KEY  — free NASA FIRMS API key

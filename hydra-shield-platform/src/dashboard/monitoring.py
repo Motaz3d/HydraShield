@@ -157,7 +157,7 @@ def send_email_alert(to_addr: str, subject: str, body: str) -> bool:
     Send an alert email through the central mailer (``src/dashboard/mailer.py``).
 
     Alert content semantics are unchanged: ``subject``/``body`` are delivered
-    verbatim (wrapped in the HydraShield ``alert`` template shell). When SMTP
+    verbatim (wrapped in the Talaix ``alert`` template shell). When SMTP
     is configured the message is sent via STARTTLS SMTP and True is returned.
     When SMTP is not configured the mailer's dev backend records the message
     as an outbox ``.eml`` file (never sent) and False is returned, so the

@@ -1,5 +1,5 @@
 {
-  "description": "Curated ecological species knowledge base for HydraShield environmental restoration recommendations. This is REFERENCE KNOWLEDGE (literature-level ecological characteristics), not an observation. Every species entry carries sources and a confidence flag. Suitability for a concrete site is always flagged for local expert verification.",
+  "description": "Curated ecological species knowledge base for Talaix environmental restoration recommendations. This is REFERENCE KNOWLEDGE (literature-level ecological characteristics), not an observation. Every species entry carries sources and a confidence flag. Suitability for a concrete site is always flagged for local expert verification.",
   "regions": {
     "mediterranean": "Mediterranean-like conditions: hot, dry summers; mild winters; summer drought",
     "temperate": "Temperate/Atlantic/Continental European conditions: no strong summer drought",

@@ -6,7 +6,7 @@ of monitored areas* (``config/monitored_areas.json``), using the same real
 analysis engine and the same SQLite cache that power ``/api/analyze``:
 
     monitored areas (config, coordinates — no geocoding at snapshot time)
-        -> HydraShieldRealAnalyser (real Sentinel-2 / Open-Meteo / DEM /
+        -> TalaixRealAnalyser (real Sentinel-2 / Open-Meteo / DEM /
            WorldCover / FIRMS data, per-analysis 15-min cache)
         -> top-k ranking by the real composite risk score
         -> aggregate snapshot (30-min cache)
@@ -31,7 +31,7 @@ from typing import Callable, Dict, List, Optional
 
 from .cache import cached, default_cache, TTL_ANALYSIS, TTL_SNAPSHOT
 from .explain import compact_factors
-from .real_analysis import HydraShieldRealAnalyser
+from .real_analysis import TalaixRealAnalyser
 
 _DEFAULT_CONFIG = os.path.join(
     os.path.dirname(__file__), "..", "..", "config", "monitored_areas.json"
@@ -47,7 +47,7 @@ _build_lock = threading.Lock()
 @cached("analysis", TTL_ANALYSIS)
 def cached_analysis(lat: float, lon: float, name: str) -> Dict:
     """Cached full analysis for a point (15 min TTL), shared with /api/analyze."""
-    analyser = HydraShieldRealAnalyser()
+    analyser = TalaixRealAnalyser()
     return analyser.analyse_point(lat, lon, name=name or None)
 
 
@@ -274,7 +274,7 @@ def compute_snapshot(
         "entries": top,
         "sources": _collect_sources(top),
         "model": {
-            "risk_score": "HydraShield composite screening score (FWI-anchored, 0-100)",
+            "risk_score": "Talaix composite screening score (FWI-anchored, 0-100)",
             "note": "Screening-level score from real Earth Observation and weather "
                     "data; not a validated local fire-danger rating.",
             "disclaimer": "Composite wildfire-risk indicator (0-100) — not a "

@@ -1,4 +1,4 @@
-# HydraShield Earth Observation Source Audit
+# Talaix Earth Observation Source Audit
 
 **Date:** 2026-08-17 · **Registry:** `config/source_registry.json` (served at `GET /api/sources`)
 

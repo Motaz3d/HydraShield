@@ -1,4 +1,4 @@
-"""hydrashield:analyze_point — point analysis against the HydraShield API.
+"""hydrashield:analyze_point — point analysis against the Talaix API.
 
 Input: a point (any CRS — transformed to EPSG:4326), a hazard id, an
 optional place name. Output: a one-feature memory layer whose attributes
@@ -44,7 +44,7 @@ class AnalyzePointAlgorithm(QgsProcessingAlgorithm):
         return "analyze_point"
 
     def displayName(self):
-        return "Analyze point (HydraShield)"
+        return "Analyze point (Talaix)"
 
     def group(self):
         return "Analysis"
@@ -53,7 +53,7 @@ class AnalyzePointAlgorithm(QgsProcessingAlgorithm):
         return "analysis"
 
     def shortHelpString(self):
-        return ("Analyze a point against the HydraShield API "
+        return ("Analyze a point against the Talaix API "
                 "(GET /api/v2/analyze). Results are screening indicators "
                 "with provenance — not validated predictions. Unavailable "
                 "data is reported, never invented.")
@@ -70,7 +70,7 @@ class AnalyzePointAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(QgsProcessingParameterString(
             self.INPUT_NAME, "Place name (optional)", optional=True))
         self.addParameter(QgsProcessingParameterFeatureSink(
-            self.OUTPUT, "HydraShield analysis"))
+            self.OUTPUT, "Talaix analysis"))
 
     def processAlgorithm(self, parameters, context, feedback):
         point = self.parameterAsPoint(
@@ -97,11 +97,11 @@ class AnalyzePointAlgorithm(QgsProcessingAlgorithm):
             QgsCoordinateReferenceSystem("EPSG:4326"))
 
         url = analyze_url(hazard, point.y(), point.x(), name)
-        feedback.pushInfo(f"HydraShield request: {url}")
+        feedback.pushInfo(f"Talaix request: {url}")
         payload, error = http_get_json(url)
         if error:
             raise Exception(
-                f"HydraShield analysis failed: {error}. The API reports "
+                f"Talaix analysis failed: {error}. The API reports "
                 "unavailable data honestly — check the message and retry.")
 
         norm = normalize_analysis(payload)
@@ -124,6 +124,6 @@ class AnalyzePointAlgorithm(QgsProcessingAlgorithm):
             "Provenance components: " + ", ".join(sorted(provenance)[:12])
             if provenance else "No provenance block returned.")
         feedback.pushInfo(
-            "HydraShield levels are screening indicators, not validated "
+            "Talaix levels are screening indicators, not validated "
             "predictions (see basis/validated attributes).")
         return {self.OUTPUT: dest_id}

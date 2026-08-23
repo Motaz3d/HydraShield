@@ -90,7 +90,7 @@ def compound():
     if "error" in payload:
         return _err(payload["error"], 400)
     payload["uncertainty_envelope"] = _uncertainty_envelope(
-        source="HydraShield Compound Risk Engine v1 (ERA5/ERA5-Land via "
+        source="Talaix Compound Risk Engine v1 (ERA5/ERA5-Land via "
                "Open-Meteo archive; GloFAS discharge; Canadian FWI)",
         method="Declared qualitative detector on the zscheischler2020typology "
                "four-class typology over light per-hazard screening signals; "
@@ -128,7 +128,7 @@ def cascading():
     if "error" in payload:
         return _err(payload["error"], 400)
     payload["uncertainty_envelope"] = _uncertainty_envelope(
-        source="HydraShield Cascading Risk Graph v1 "
+        source="Talaix Cascading Risk Graph v1 "
                "(config/cascading_graph.json; OSM/ohsome exposure anchors)",
         method="Structural relevance screening: curated hazard->system->system "
                "paths filtered by real elevated hazards and real mapped "
@@ -166,7 +166,7 @@ def economic_impact():
     if "error" in payload:
         return _err(payload["error"], 400)
     payload["uncertainty_envelope"] = _uncertainty_envelope(
-        source="HydraShield Economic Impact Engine v1 "
+        source="Talaix Economic Impact Engine v1 "
                "(src/climate/exposure_econ.py: OSM/ohsome + Overpass counts, "
                "ESA WorldCover)",
         method="Exposure-bounded qualitative profile only; no monetary loss "

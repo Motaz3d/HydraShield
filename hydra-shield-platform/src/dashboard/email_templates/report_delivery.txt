@@ -1,7 +1,7 @@
-Subject: HydraShield report delivery — {{location}}
+Subject: Talaix report delivery — {{location}}
 Hello{{display_name}},
 
-attached is your requested HydraShield {{report_type}} report for
+attached is your requested Talaix {{report_type}} report for
 {{location}}.
 
 Report ID: {{report_id}}
@@ -11,5 +11,5 @@ This report is screening-level decision support: not a fire-danger rating,
 not a probability of fire, and not a substitute for official
 civil-protection information.
 
-— The HydraShield team
-info@hydrashield.earth
+— The Talaix team
+info@talaix.com

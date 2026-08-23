@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HydraShield marketing reports generator.
+"""Talaix marketing reports generator.
 
 Generates periodic marketing reports from the file-based workspace.
 
@@ -388,7 +388,7 @@ def to_markdown(data: dict) -> str:
     """Convert report dict to readable Markdown."""
     lines = []
     rpt = data.get("report_type", "report")
-    lines.append(f"# HydraShield Marketing Report — {rpt.upper()}")
+    lines.append(f"# Talaix Marketing Report — {rpt.upper()}")
     lines.append(f"\nGenerated: {data.get('generated_at', 'N/A')}\n")
 
     if rpt == "summary":

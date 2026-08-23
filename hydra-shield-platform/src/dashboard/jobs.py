@@ -10,7 +10,7 @@ UI — no fake streaming, no fake progress:
 
 Design:
     - One pipeline implementation: the job runs
-      ``HydraShieldRealAnalyser.analyse_point(..., on_stage=...)`` — the
+      ``TalaixRealAnalyser.analyse_point(..., on_stage=...)`` — the
       same real analysis that backs /api/analyze, with identical output.
     - Stage states are only ever PENDING -> RUNNING -> COMPLETE or
       UNAVAILABLE, driven by the real pipeline's stage callbacks.
@@ -35,7 +35,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 from .cache import default_cache, TTL_ANALYSIS
-from .real_analysis import HydraShieldRealAnalyser
+from .real_analysis import TalaixRealAnalyser
 
 _JOB_TTL_SECONDS = 6 * 3600.0
 
@@ -75,7 +75,7 @@ class AnalysisJobStore:
         return [
             {"id": sid, "label": label, "source": source,
              "status": "pending", "detail": {}}
-            for sid, label, source in HydraShieldRealAnalyser.STAGES
+            for sid, label, source in TalaixRealAnalyser.STAGES
         ]
 
     def create(self, coord_key: str, from_cache: bool = False) -> Dict:
@@ -200,7 +200,7 @@ def _run_job(store: AnalysisJobStore, job_id: str,
         store.update_stage(job_id, stage_id, status, detail)
 
     try:
-        result = HydraShieldRealAnalyser().analyse_point(lat, lon, name=name,
+        result = TalaixRealAnalyser().analyse_point(lat, lon, name=name,
                                                          on_stage=on_stage)
     except Exception as exc:
         store.fail(job_id, f"Analysis failed: {exc}")

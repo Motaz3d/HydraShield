@@ -5,7 +5,7 @@ Implements the Water-Use Efficiency Ratio (WUER) and water-scarce resource
 allocation logic.
 
 Key equation:
-    WUER = (Risk_baseline - Risk_HydraShield) / Volume of water applied
+    WUER = (Risk_baseline - Risk_Talaix) / Volume of water applied
 """
 
 from __future__ import annotations
@@ -57,14 +57,14 @@ class WaterOptimiser:
         """
         Compute the Water-Use Efficiency Ratio.
 
-            WUER = (Risk_baseline - Risk_HydraShield) / Volume of water applied
+            WUER = (Risk_baseline - Risk_Talaix) / Volume of water applied
 
         Parameters
         ----------
         risk_baseline : float
             Baseline risk (e.g., expected burned area or probability).
         risk_hydrashield : float
-            Risk after HydraShield intervention.
+            Risk after Talaix intervention.
         water_volume_m3 : float
             Volume of water applied (m^3).
 
@@ -143,7 +143,7 @@ class WaterOptimiser:
         conventional_volume_m3 : float
             Water volume used by conventional aerial firefighting (m^3).
         hydrashield_volume_m3 : float
-            Water volume used by HydraShield subsurface hydration (m^3).
+            Water volume used by Talaix subsurface hydration (m^3).
 
         Returns
         -------

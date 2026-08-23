@@ -1,7 +1,7 @@
 """
 Relative Ignition-Likelihood Indicator (RILI) — screening-level, unvalidated.
 
-HydraShield keeps three concepts strictly separate:
+Talaix keeps three concepts strictly separate:
 
     A. WILDFIRE HAZARD ........ the composite fire-danger/risk products
                                 (FWI, danger classes, 0-100 risk score) —
@@ -322,7 +322,7 @@ def build_ignition_block(analysis: Dict) -> Dict:
             "validation_status": VALIDATION_STATUS,
             "provenance": {
                 "kind": "unavailable",
-                "source": "HydraShield ignition layer (FFI/FFMC + WorldPop + OSM)",
+                "source": "Talaix ignition layer (FFI/FFMC + WorldPop + OSM)",
                 "quality": "missing",
                 "limitations": result["coverage_note"],
             },
@@ -353,7 +353,7 @@ def build_ignition_block(analysis: Dict) -> Dict:
         "provenance": {
             "kind": "derived",
             "source": (
-                "HydraShield ignition layer (declared thresholds: FWI-System FFMC + "
+                "Talaix ignition layer (declared thresholds: FWI-System FFMC + "
                 "WorldPop density + OSM roads + fuel dryness)"
             ),
             "resolution": "analysis-area screening (population 100 m; weather ~11 km)",

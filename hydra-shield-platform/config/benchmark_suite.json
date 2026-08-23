@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "description": "HydraShield Benchmark Suite v1 — one case per ground-truth event (config/ground_truth_events.json). A case executes the model's OWN declared detector on the case window over real data (network at execution time, platform cache) and reports detection booleans + real values. 'passed' means the detector reproduced the expected REAL signal (defined from the dataset itself) inside the declared window — it is detection reproduction, NOT a skill score, and NOT a validation claim. key_required cases are never executed and never counted as failures.",
+  "description": "Talaix Benchmark Suite v1 — one case per ground-truth event (config/ground_truth_events.json). A case executes the model's OWN declared detector on the case window over real data (network at execution time, platform cache) and reports detection booleans + real values. 'passed' means the detector reproduced the expected REAL signal (defined from the dataset itself) inside the declared window — it is detection reproduction, NOT a skill score, and NOT a validation claim. key_required cases are never executed and never counted as failures.",
   "pass_meaning": "passed = the model's own detector found the expected real signal in the declared window on real fetched data. failed = the detector ran on real data and did not find the signal. key_required/error cases are neither.",
   "cases": [
     {

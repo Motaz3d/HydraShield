@@ -1,7 +1,7 @@
-# HydraShield — QGIS Integration Architecture
+# Talaix — QGIS Integration Architecture
 
 **Status:** design only — no implementation yet. This document evaluates a
-HydraShield QGIS plugin / Processing provider as a strategic distribution
+Talaix QGIS plugin / Processing provider as a strategic distribution
 channel, based on a full inventory of the deployed platform API
 (`src/dashboard/api.py`, `src/climate/api_v2.py`, `src/dashboard/auth_api.py`,
 `src/dashboard/sms_api.py`) and on official QGIS sources, fact-checked
@@ -18,19 +18,19 @@ no credentials in project files, Git, or logs.
 
 ## 1. Why QGIS is a strategic channel
 
-QGIS is the default desktop GIS for exactly the audiences HydraShield serves:
+QGIS is the default desktop GIS for exactly the audiences Talaix serves:
 municipal GIS officers, civil-protection analysts, environmental consultants,
 insurers, researchers, and utility/land-asset teams. These users already work
 in QGIS all day; they will not open a website to re-check a place they have
-as a layer. A QGIS plugin puts HydraShield's evidence *inside* their existing
+as a layer. A QGIS plugin puts Talaix's evidence *inside* their existing
 workflow, on their own assets:
 
 ```
 QGIS
   ↓
-HydraShield Plugin
+Talaix Plugin
   ↓
-HydraShield API  (https://hydrashield.earth/api)
+Talaix API  (https://talaix.com/api)
   ↓
 Climate Intelligence
   ↓
@@ -51,7 +51,7 @@ subscriptions begin (§10).
 ## 2. What the platform already offers a QGIS client
 
 Verified against the deployed code (production-verified 2026-08-18). Base URL
-`https://hydrashield.earth`. All public endpoints are GET, JSON, per-IP
+`https://talaix.com`. All public endpoints are GET, JSON, per-IP
 rate-limited; all carry honest `unavailable` / `key_required` states instead
 of fabricated data.
 
@@ -123,7 +123,7 @@ Searched plugins.qgis.org (2026-08): climate (39 hits), flood (62), hazard
 (22), fire (21), heat (20), weather (17), drought (7), wildfire (5),
 Open-Meteo (3).
 
-**Closest neighbours — neither duplicates HydraShield:**
+**Closest neighbours — neither duplicates Talaix:**
 
 - *"Physical climate risk assessment for GIS features"* (2026-06, 0 votes) —
   aggregates ThinkHazard/WRI Aqueduct/NASA public indices for ESG reporting.
@@ -145,7 +145,7 @@ Commercial-SaaS precedents in the official repo (relevant for §12):
 Planet Explorer, Sentinel Hub, Google Earth Engine, MapTiler — all require
 external accounts and are published without issue.
 
-Conclusion: a HydraShield plugin fills an empty niche. Per repo rules, the
+Conclusion: a Talaix plugin fills an empty niche. Per repo rules, the
 submission should proactively name the two closest neighbours above and
 state the difference.
 
@@ -163,7 +163,7 @@ Every requested capability maps to an existing, deployed endpoint:
 | Select hazards | `/api/v2/hazards` registry (never hardcoded) | anonymous |
 | Current hazard intelligence | `/api/v2/analyze`, `/api/risk-grid`, `/api/risk-snapshot` | anonymous |
 | Historical events | `/api/v2/events` (year selector from `temporal_coverage`) | anonymous |
-| Add HydraShield map layers | LayerSpec endpoints: risk-grid GeoJSON, events points, fires, exposure features, population cells, smoke corridors, NDMI grid | anonymous |
+| Add Talaix map layers | LayerSpec endpoints: risk-grid GeoJSON, events points, fires, exposure features, population cells, smoke corridors, NDMI grid | anonymous |
 | Inspect provenance | provenance/evidence blocks rendered in the dock + layer metadata | anonymous |
 | Population / exposure | `/api/population-exposure`, `/api/exposure-features`, `/api/exposure-summary` | anonymous |
 | Economic exposure | `/api/v2/economy` | anonymous |
@@ -248,12 +248,12 @@ must say so instead of implying area statistics exist.
   (`QgsCoordinateTransform`) before any API call; outputs created in the
   calling layer's CRS.
 - **Client identity:** `User-Agent: hydrashield-qgis/<version>
-  (+https://hydrashield.earth)` — mirrors the Python SDK convention.
+  (+https://talaix.com)` — mirrors the Python SDK convention.
 - **Error model:** platform `{"error","status"}` bodies, honest
   `unavailable`/`key_required` payloads, and 403 `upgrade` descriptors map
   to distinct plugin UI states — never generic failure dialogs.
 - **Configuration:** `QgsSettings` for base URL (default
-  `https://hydrashield.earth`), last-used hazard, and the **authcfg ID** —
+  `https://talaix.com`), last-used hazard, and the **authcfg ID** —
   nothing else sensitive.
 
 ## 7. Authentication & token security
@@ -261,14 +261,14 @@ must say so instead of implying area statistics exist.
 Requirement: *the plugin never stores passwords or API secrets in project
 files.* Design:
 
-- **QgsAuthManager is the only credential store.** The HydraShield token
+- **QgsAuthManager is the only credential store.** The Talaix token
   (API key, or session token for account operations) lives as an
   authentication configuration (APIHeader/Basic method) in the encrypted
   `qgis-auth.db`, protected by the user's QGIS master password (optionally
   OS keychain-integrated). The plugin and `.qgz` projects reference only the
   7-character **authcfg ID** — designed by QGIS exactly for this.
 - **Credential entry:** the dock embeds `QgsAuthConfigSelect` (the official
-  selector). A "Create key" button deep-links to the HydraShield account
+  selector). A "Create key" button deep-links to the Talaix account
   page; the user pastes the `hs_…` key once into the auth config. The
   plugin never sees or stores a password; registration happens on the
   website (GDPR-cleaner, §13).
@@ -331,7 +331,7 @@ Progressive value; no aggressive blocking. The canonical funnel:
    *Value first, no account wall.*
 2. **The save moment.** "Save & monitor this area" on any result →
    explains: free account keeps locations, history, and 2 alert rules →
-   register on hydrashield.earth → paste API token into the QGIS auth
+   register on talaix.com → paste API token into the QGIS auth
    config (once). *Account created at the moment of intent.*
 3. **The monitoring moment.** A saved area shows "Enable SMS alerts" →
    phone verification flow → rule created. Hitting the 2-rule cap shows the
@@ -362,7 +362,7 @@ roadmap item).
 ## 12. Licensing implications
 
 - **QGIS is GPLv2+; the official repository requires plugin code to be
-  GPL-compatible and source-available.** The HydraShield plugin will be
+  GPL-compatible and source-available.** The Talaix plugin will be
   **GPLv2+**, developed in a public repo (a `qgis-plugin/` directory in the
   main repo or a sibling repo), with a plain-text LICENSE file in the
   package.
@@ -373,11 +373,11 @@ roadmap item).
   Engine, MapTiler. Repo rules only require that account/subscription needs are
   **disclosed in the plugin description** — ours will state: *"Core analysis
   works without an account; saving locations, monitoring and SMS alerts
-  require a free HydraShield account; higher limits require a
+  require a free Talaix account; higher limits require a
   subscription."*
 - **Dependency policy:** stdlib + PyQGIS only → no third-party license
   conflicts, no binaries, package far under the 20 MB limit.
-- HydraShield *data* provenance includes per-dataset licenses (e.g.
+- Talaix *data* provenance includes per-dataset licenses (e.g.
   Copernicus, ESA WorldCover, OSM/ODbL) — the provenance inspector surfaces
   them; the plugin adds no data of its own.
 

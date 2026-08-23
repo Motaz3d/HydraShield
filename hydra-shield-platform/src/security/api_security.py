@@ -1,5 +1,5 @@
 """
-API security utilities for HydraShield.
+API security utilities for Talaix.
 
 Implements lightweight, dependency-free authentication, authorization, and
 rate-limiting primitives suitable for integrating with the dashboard's Flask
@@ -38,7 +38,7 @@ class ApiSecurityManager:
 
     secret_key: str
     token_ttl_seconds: int = 3600
-    realm: str = "HydraShieldAPI"
+    realm: str = "TalaixAPI"
 
     _tokens: Dict[str, Dict] = field(default_factory=dict)
     _roles: Dict[str, Set[str]] = field(default_factory=dict)

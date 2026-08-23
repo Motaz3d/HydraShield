@@ -1,5 +1,5 @@
 {
-  "$schema_note": "EventSignal schema for marketing/events/*.json — one file per public event relevant to HydraShield. BINDING: events are recorded only from the official event/organizer page, live-checked at date_checked. No invented attendance, no invented exhibitors, no invented dates.",
+  "$schema_note": "EventSignal schema for marketing/events/*.json — one file per public event relevant to Talaix. BINDING: events are recorded only from the official event/organizer page, live-checked at date_checked. No invented attendance, no invented exhibitors, no invented dates.",
   "schema": {
     "event": {"type": "string", "required": true},
     "organizer": {"type": "string", "required": true},
@@ -10,7 +10,7 @@
     "sectors": {"type": "list", "values_from": "../segments/segments.json", "required": true},
     "hazards": {"type": "list", "values": ["wildfire", "flood", "drought", "heat", "wind", "coastal"], "required": false},
     "relevance": {"type": "enum", "values": ["low", "medium", "high"], "required": true},
-    "relevance_reason": {"type": "string", "required": true, "note": "why this event matters for HydraShield, tied to the event's published scope"},
+    "relevance_reason": {"type": "string", "required": true, "note": "why this event matters for Talaix, tied to the event's published scope"},
     "date_checked": {"type": "date", "required": true},
     "status": {"type": "enum", "values": ["watching", "attending", "skipped", "past"], "default": "watching"}
   }

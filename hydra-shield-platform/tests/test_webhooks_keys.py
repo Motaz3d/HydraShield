@@ -263,7 +263,7 @@ def test_deliver_webhook_signature_over_exact_body(fake_dns, capture_urlopen):
     body = req.data
     # The signature is HMAC-SHA256 over the exact raw body with the secret.
     expected = hmac.new(secret.encode("utf-8"), body, hashlib.sha256).hexdigest()
-    assert req.get_header("X-hydrashield-signature") == f"sha256={expected}"
+    assert req.get_header("X-talaix-signature") == f"sha256={expected}"
     parsed = json.loads(body.decode("utf-8"))
     assert parsed["event"] == "alert_fired"
     assert parsed["data"] == payload
@@ -374,7 +374,7 @@ def test_dispatch_alert_fires_webhook_alongside_sms_email(
     req = capture_urlopen[0]["req"]
     expected = hmac.new(
         created["secret"].encode("utf-8"), req.data, hashlib.sha256).hexdigest()
-    assert req.get_header("X-hydrashield-signature") == f"sha256={expected}"
+    assert req.get_header("X-talaix-signature") == f"sha256={expected}"
     body = json.loads(req.data.decode("utf-8"))
     assert body["event"] == "alert_fired"
     assert body["data"]["hazard"] == "wildfire"

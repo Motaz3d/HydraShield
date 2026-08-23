@@ -1,4 +1,4 @@
-# HydraShield production image.
+# Talaix production image.
 # Both the Dash dashboard (wsgi:dash_server) and the REST API (wsgi:api_app)
 # run from this single image under gunicorn; the entrypoint is chosen in
 # docker-compose.

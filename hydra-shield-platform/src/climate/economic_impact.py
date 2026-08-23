@@ -13,7 +13,7 @@ Formalises the three strictly separated economic blocks for a location:
 - ``projections`` — always ``not_available``: economic projections require
   scenario-labelled datasets that are not integrated.
 
-Absolute norm: HydraShield does not output euro/dollar loss figures unless a
+Absolute norm: Talaix does not output euro/dollar loss figures unless a
 documented valuation dataset with a stated method is integrated. Everything
 economic here carries ``confidence: low``.
 """
@@ -68,7 +68,7 @@ def assess_economic_impact(lat: float, lon: float) -> Dict[str, Any]:
         "confidence": Confidence.LOW.value,
     }
     evidence.append(EvidenceRecord.unknown(
-        "HydraShield economic impact engine",
+        "Talaix economic impact engine",
         why=OBSERVED_LOSSES_STATEMENT + " Documented loss datasets "
             "(EM-DAT, insurance loss databases) are research candidates, "
             "not integrated.",

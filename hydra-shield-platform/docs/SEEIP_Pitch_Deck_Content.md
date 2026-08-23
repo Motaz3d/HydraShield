@@ -1,11 +1,11 @@
-# SEEIP Pitch Deck Content – HydraShield
+# SEEIP Pitch Deck Content – Talaix
 
 *This document provides slide-by-slide content for you to copy and paste into the SEEIP example pitch deck template.*
 
 ---
 
 ## Slide 1: Title Slide
-* **Company Name:** HydraShield Earth Systems
+* **Company Name:** Talaix Earth Systems
 * **Tagline:** Predicting Wildfire Dynamics through Earth Observation & Soil Physics
 * **Presenter:** [Your Name/Title]
 * **Date:** August 2026
@@ -15,7 +15,7 @@
 * **The Gap:** Current wildfire risk models are often static, rely on outdated vegetation maps, and fail to account for dynamic soil-to-fuel moisture transfer.
 * **The Consequence:** Civil protection agencies and municipalities lack real-time, predictive intelligence to optimize water-constrained interventions and dynamically plan protection zones.
 
-## Slide 3: The Solution (HydraShield)
+## Slide 3: The Solution (Talaix)
 * **What it is:** An AI-driven Digital Twin for wildfire risk mitigation.
 * **How it works:** We integrate Copernicus satellite data (Sentinel-1/2/3) with climate models and soil physics to predict dynamic moisture transfer.
 * **The Result:** Transitioning from static risk mapping to real-time, predictive fire-spread modelling and actionable decision support.

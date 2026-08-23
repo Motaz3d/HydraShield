@@ -48,10 +48,10 @@ def test_outbox_backend_writes_eml(outbox):
     assert os.path.exists(result["path"])
     assert result["path"].startswith(str(outbox))
     raw, plain = _read_eml(result["path"])
-    assert "Subject: Welcome to HydraShield" in raw
+    assert "Subject: Welcome to Talaix" in raw
     assert "To: user@example.org" in raw
-    assert "From: info@hydrashield.earth" in raw
-    assert "welcome to HydraShield" in plain
+    assert "From: info@talaix.com" in raw
+    assert "welcome to Talaix" in plain
     assert "Hello Ria," in plain
 
 
@@ -179,17 +179,17 @@ def test_monitoring_alert_flows_through_mailer(outbox, monkeypatch):
 
     monkeypatch.setattr(mailer, "send_mail", _fake_send)
     sent = monitoring.send_email_alert(
-        "watch@example.org", "HydraShield alert: High risk at X", "Risk: 80/100")
+        "watch@example.org", "Talaix alert: High risk at X", "Risk: 80/100")
     assert sent is True  # smtp backend => delivered
     assert captured["to"] == "watch@example.org"
     assert captured["template"] == "alert"
-    assert captured["subject_override"] == "HydraShield alert: High risk at X"
+    assert captured["subject_override"] == "Talaix alert: High risk at X"
     assert captured["context"]["message"] == "Risk: 80/100"
 
 
 def test_monitoring_alert_dev_backend_records_outbox(outbox):
     sent = monitoring.send_email_alert(
-        "watch@example.org", "HydraShield alert: High risk at X",
+        "watch@example.org", "Talaix alert: High risk at X",
         "Location: X\nRisk: 80/100")
     # Dev backend: recorded in the outbox, never sent; False keeps the
     # caller's db_only channel semantics unchanged.
@@ -197,5 +197,5 @@ def test_monitoring_alert_dev_backend_records_outbox(outbox):
     files = _eml_files(outbox, "alert")
     assert len(files) == 1
     raw, plain = _read_eml(files[0])
-    assert "Subject: HydraShield alert: High risk at X" in raw
+    assert "Subject: Talaix alert: High risk at X" in raw
     assert "Risk: 80/100" in plain

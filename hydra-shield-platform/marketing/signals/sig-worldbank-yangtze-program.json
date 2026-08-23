@@ -17,5 +17,5 @@
   "evidence_type": "public_registry",
   "confidence": "high",
   "notes": "World Bank Projects API confirms: Yangtze River Protection and Ecological Restoration Program, China, board approval 2021-12-17, current commitment USD 400 million, status Active, main sector 'Other Water Supply, Sanitation and Waste Management' (56%). The fetched data does not state specific hazard targets; flood/drought tags reflect the programme's water-security and ecological scope and are analyst classification.",
-  "recommended_action": "Position HydraShield as a data/verification layer for large MDB-financed basin resilience programmes in China; offer basin-level hazard exposure and drought/flood intelligence for results frameworks."
+  "recommended_action": "Position Talaix as a data/verification layer for large MDB-financed basin resilience programmes in China; offer basin-level hazard exposure and drought/flood intelligence for results frameworks."
 }

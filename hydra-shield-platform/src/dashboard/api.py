@@ -1,5 +1,5 @@
 """
-HydraShield REST API.
+Talaix REST API.
 
 Public, honest, real-data endpoints:
 
@@ -10,7 +10,7 @@ Public, honest, real-data endpoints:
     GET  /api/risk-snapshot     Public top-risk ranking over the configured
                                 monitored areas (real data, cached)
     GET  /api/history           "Lessons from the Past": recent fire-danger
-                                history + observed fires + what HydraShield
+                                history + observed fires + what Talaix
                                 would have recommended (real ERA5 + FIRMS)
     GET  /api/report            Professional PDF report for a location,
                                 built from the same real cached analysis
@@ -245,7 +245,7 @@ def create_app() -> Flask:
                     "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>"
                     "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
                     "<meta name='robots' content='noindex, nofollow'>"
-                    "<title>Restricted area — HydraShield</title>"
+                    "<title>Restricted area — Talaix</title>"
                     "<style>body{font-family:Inter,-apple-system,sans-serif;background:#F8FAFC;"
                     "color:#1E293B;display:flex;align-items:center;justify-content:center;"
                     "min-height:100vh;margin:0}.card{background:#fff;border:1px solid #E2E8F0;"
@@ -253,7 +253,7 @@ def create_app() -> Flask:
                     "h1{font-size:22px;margin:0 0 10px}p{color:#64748B;font-size:14px;line-height:1.6}"
                     "a{color:#0369A1;font-weight:600}</style></head><body><div class='card'>"
                     "<h1>Restricted area</h1>"
-                    "<p>This is the HydraShield operator area. Your account "
+                    "<p>This is the Talaix operator area. Your account "
                     f"({user.get('email', '')}) does not have operator access. "
                     "Sign in with the operator account or "
                     "<a href='/contact.html'>contact the team</a>.</p>"
@@ -413,7 +413,7 @@ def create_app() -> Flask:
         """
         "Lessons from the Past" for a location: recent fire-danger history
         reconstructed from real ERA5 reanalysis + FWI, observed fire events
-        (FIRMS, when configured) and what HydraShield would have recommended.
+        (FIRMS, when configured) and what Talaix would have recommended.
         """
         if not _rate_limiter.allow(f"history:{_client_key()}", 20, 60.0):
             return _error("Rate limit exceeded (20 requests/minute)", 429)
@@ -843,7 +843,7 @@ def create_app() -> Flask:
         """
         The data-source audit registry: every evaluated source with purpose,
         coverage, resolution, freshness, license, kind, limitations and its
-        actual HydraShield integration status (integrated / candidate /
+        actual Talaix integration status (integrated / candidate /
         rejected). Nothing here is claimed as used unless it is integrated.
 
         Content negotiation: browsers (Accept: text/html) receive a branded
@@ -981,7 +981,7 @@ def create_app() -> Flask:
                 "fuel_model": fuel_model,
                 "provenance": {
                     "kind": "modeled",
-                    "source": "HydraShield FireSpreadModel (simplified ROS)",
+                    "source": "Talaix FireSpreadModel (simplified ROS)",
                     "limitations": "Screening model; inputs supplied by the caller.",
                 },
                 "timestamp": datetime.utcnow().isoformat() + "Z",
@@ -1012,7 +1012,7 @@ def create_app() -> Flask:
             "water_available": water_available,
             "provenance": {
                 "kind": "modeled",
-                "source": "HydraShield WaterOptimiser (priority allocation)",
+                "source": "Talaix WaterOptimiser (priority allocation)",
                 "limitations": "Zones and priorities supplied by the caller.",
             },
             "timestamp": datetime.utcnow().isoformat() + "Z",

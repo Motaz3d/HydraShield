@@ -6,7 +6,7 @@
 ## Step 01: Title and Industry
 
 **Business plan title:** 
-HydraShield Earth Systems: AI-driven Digital Twin for Wildfire Resilience
+Talaix Earth Systems: AI-driven Digital Twin for Wildfire Resilience
 
 **Subject area:**
 *(Select the most relevant option from their dropdown menu. Recommended options if available:)*
@@ -32,13 +32,13 @@ Below is the drafted content to help you fill in the **Business plan template**.
 ### Business Plan Template - Drafted Content
 
 **1. Executive Summary**
-HydraShield is a ClimateTech and Earth Observation venture developing an AI-driven Digital Twin to mitigate wildfire risk. We integrate Copernicus satellite data (Sentinel-1/2/3), climate models, and soil physics to predict dynamic soil-to-fuel moisture transfer. By moving beyond static risk mapping, we provide civil protection agencies and municipalities with real-time, predictive fire-spread modelling and water-constrained intervention planning. We aim to leverage the EGG Acceleration Platform to refine our business model, establish strategic partnerships in the Mediterranean (Greece is highly relevant for wildfire pilots), and access early-stage financing.
+Talaix is a ClimateTech and Earth Observation venture developing an AI-driven Digital Twin to mitigate wildfire risk. We integrate Copernicus satellite data (Sentinel-1/2/3), climate models, and soil physics to predict dynamic soil-to-fuel moisture transfer. By moving beyond static risk mapping, we provide civil protection agencies and municipalities with real-time, predictive fire-spread modelling and water-constrained intervention planning. We aim to leverage the EGG Acceleration Platform to refine our business model, establish strategic partnerships in the Mediterranean (Greece is highly relevant for wildfire pilots), and access early-stage financing.
 
 **2. The Problem**
 Wildfires in Southern Europe, particularly in Greece and the Mediterranean, are becoming more severe due to climate change. Current wildfire risk models are often static and rely on outdated vegetation maps. Crucially, they fail to account for dynamic soil-to-fuel moisture transfer. This leaves civil protection agencies lacking the real-time, predictive intelligence needed to optimize water-constrained interventions and dynamically plan protection zones.
 
 **3. The Solution / Innovation**
-HydraShield provides an AI-driven Digital Twin that simulates environmental conditions. Our innovation lies in our scientific modelling: combining soil physics, hydrology, and fire-spread algorithms with real-time Copernicus Earth Observation data (SAR and multispectral). This allows for dynamic scenario testing, enabling municipalities to make evidence-based decisions before and during critical wildfire events.
+Talaix provides an AI-driven Digital Twin that simulates environmental conditions. Our innovation lies in our scientific modelling: combining soil physics, hydrology, and fire-spread algorithms with real-time Copernicus Earth Observation data (SAR and multispectral). This allows for dynamic scenario testing, enabling municipalities to make evidence-based decisions before and during critical wildfire events.
 
 **4. Market Opportunity & Target Audience**
 Our primary market operates on a B2G and B2B SaaS model. Target customers include:
@@ -48,10 +48,10 @@ Our primary market operates on a B2G and B2B SaaS model. Target customers includ
 * Future expansion: Insurance and large real-estate operators.
 
 **5. Competitive Advantage**
-Unlike standard SaaS risk maps, HydraShield is deeply rooted in scientific validation. Our focus on dynamic moisture transfer is a critical missing link in existing models. Furthermore, by building on EU assets (Copernicus) and designing for interoperability with European civil protection workflows, we offer a specialized DeepTech platform rather than a generic analytics tool.
+Unlike standard SaaS risk maps, Talaix is deeply rooted in scientific validation. Our focus on dynamic moisture transfer is a critical missing link in existing models. Furthermore, by building on EU assets (Copernicus) and designing for interoperability with European civil protection workflows, we offer a specialized DeepTech platform rather than a generic analytics tool.
 
 **6. Revenue & Business Model**
-HydraShield will operate as a Software-as-a-Service (SaaS) platform. Revenue streams will include:
+Talaix will operate as a Software-as-a-Service (SaaS) platform. Revenue streams will include:
 * Subscription access to the AI-driven wildfire-risk intelligence dashboard.
 * Tiered API data services for integration into existing civil protection systems.
 * Scenario modelling modules for urban planning and disaster resilience preparation.

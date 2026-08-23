@@ -1,5 +1,5 @@
 """
-HydraShield benchmark executor (docs/BENCHMARKS.md).
+Talaix benchmark executor (docs/BENCHMARKS.md).
 
 Executes the Benchmark Suite (``config/benchmark_suite.json``): one case per
 ground-truth event (``config/ground_truth_events.json``). Each case runs the

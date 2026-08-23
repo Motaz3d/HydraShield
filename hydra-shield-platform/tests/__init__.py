@@ -1,1 +1,1 @@
-"""Test suite for the HydraShield Platform."""
+"""Test suite for the Talaix Platform."""

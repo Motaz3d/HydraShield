@@ -1,6 +1,6 @@
-# HydraShield Public API — v2 Contract
+# Talaix Public API — v2 Contract
 
-**Base URL:** `https://hydrashield.earth`
+**Base URL:** `https://talaix.com`
 **Status:** stable contract. Additive changes only; a breaking change ships
 as `/api/v3`. Deprecations are announced in responses (`sunset` header) two
 minor versions ahead.
@@ -292,7 +292,7 @@ response). 60/min.
 ### `GET /api/v2/models` · `GET /api/v2/models/<model_id>`
 
 The **Model Registry** (`config/model_registry.json`): immutable records
-of HydraShield proprietary indicators — version, methodology, scientific
+of Talaix proprietary indicators — version, methodology, scientific
 basis (`research_ids`), inputs, outputs, validation datasets + status
 (`not_validated | validation_in_progress | validated_screening |
 validated_operational | deprecated`), geographic applicability,
@@ -354,7 +354,7 @@ Wildfire event family: `key_required` (FIRMS). `?hazard=` filter. 20/min.
 
 ### `GET /api/v2/benchmarks` · `POST /api/v2/benchmarks/run`
 
-The **HydraShield Benchmark Suite** — the suite definition (reproducible
+The **Talaix Benchmark Suite** — the suite definition (reproducible
 cases, one per ground-truth event) plus the latest execution summary when
 present. `passed` means the detector reproduced the expected REAL signal
 in the declared window — detection reproduction, **not** a skill score or
@@ -407,7 +407,7 @@ These contracts predate v2 and are kept stable. All GET.
 | `/api/analyze` | 30/min | Full wildfire analysis. `?location=…` (Nominatim geocoding, recorded in provenance) **or** `?lat=&lon=`. Cached, provenance-annotated |
 | `/api/risk-grid` | 10/min | n×n fire-danger grid over a bbox — `south, west, north, east` (required), `n` (default 5). GeoJSON |
 | `/api/risk-snapshot` | 60/min | Top-risk ranking over the configured monitored areas (real cached analyses). 503 `{"status": "unavailable"}` when no real snapshot exists |
-| `/api/history` | 20/min | "Lessons from the Past": `?location=` or `?lat=&lon=`, `days` (default 90). Real ERA5 + FWI history, observed fires (FIRMS when configured), what HydraShield would have recommended — labelled OBSERVED / MODELLED / RECOMMENDED / UNKNOWN |
+| `/api/history` | 20/min | "Lessons from the Past": `?location=` or `?lat=&lon=`, `days` (default 90). Real ERA5 + FWI history, observed fires (FIRMS when configured), what Talaix would have recommended — labelled OBSERVED / MODELLED / RECOMMENDED / UNKNOWN |
 | `/api/report` | 10/min | Professional **PDF**. `?location=` or `?lat=&lon=`, `type=simple\|decision\|scientific` (default `decision`), `history=1` to include the past-lessons section. `application/pdf`, `inline` disposition |
 | `/api/fires` | 20/min | Multi-source fire evidence (NASA FIRMS VIIRS+MODIS): `lat, lon`, `days` (default 5, clamped 1–10), `radius_km` (default 50, clamped 1–200). Honest unavailable without a key |
 | `/api/exposure-features` | 20/min | Mapped OSM features (hospitals, schools, fire stations, water): `lat, lon`, `radius_m` (default 2000) |
@@ -493,7 +493,7 @@ enforced in every query (IDOR-safe).
 | `DELETE /api/v2/account/webhooks/<id>` | delete own subscription |
 
 - **Signing:** every delivery carries
-  `X-HydraShield-Signature: sha256=<hex>` — HMAC-SHA256 of the raw request
+  `X-Talaix-Signature: sha256=<hex>` — HMAC-SHA256 of the raw request
   body with the webhook's secret. Verify before processing.
 - **Payload envelope:**
 

@@ -106,7 +106,7 @@ _TYPOLOGY_BASIS = (
     "compounding, preconditioned, spatially compounding "
     "(research_registry: zscheischler2020typology). The typology is a "
     "classification framework, not an operational algorithm; thresholds and "
-    "windows used here are declared HydraShield screening choices, not "
+    "windows used here are declared Talaix screening choices, not "
     "parameters from the paper."
 )
 

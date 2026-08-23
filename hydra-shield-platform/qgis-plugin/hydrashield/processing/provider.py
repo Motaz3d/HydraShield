@@ -1,4 +1,4 @@
-"""HydraShield Processing provider — registers the analysis algorithms."""
+"""Talaix Processing provider — registers the analysis algorithms."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from qgis.core import QgsProcessingProvider
 from .analyze_point import AnalyzePointAlgorithm
 
 
-class HydraShieldProcessingProvider(QgsProcessingProvider):
+class TalaixProcessingProvider(QgsProcessingProvider):
     def loadAlgorithms(self):
         self.addAlgorithm(AnalyzePointAlgorithm())
 
@@ -15,7 +15,7 @@ class HydraShieldProcessingProvider(QgsProcessingProvider):
         return "hydrashield"
 
     def name(self):
-        return "HydraShield Climate Intelligence"
+        return "Talaix Climate Intelligence"
 
     def longName(self):
-        return "HydraShield Climate Intelligence (hydrashield.earth)"
+        return "Talaix Climate Intelligence (talaix.com)"

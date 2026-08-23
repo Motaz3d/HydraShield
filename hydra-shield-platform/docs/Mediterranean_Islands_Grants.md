@@ -1,10 +1,10 @@
-# HydraShield: Mediterranean Islands Funding & Pilot Strategy
+# Talaix: Mediterranean Islands Funding & Pilot Strategy
 
-Focusing on the major Mediterranean islands (Sicily, Crete, Canary Islands, Balearic Islands, Sardinia, Corsica) is a **brilliant strategic move** for HydraShield. 
+Focusing on the major Mediterranean islands (Sicily, Crete, Canary Islands, Balearic Islands, Sardinia, Corsica) is a **brilliant strategic move** for Talaix. 
 
 These islands represent "ground zero" for catastrophic wildfires in Europe. Because they are isolated landmasses, local governments are desperate for predictive, water-optimised disaster resilience tools. Furthermore, the European Union heavily subsidizes these regions through specific structural funds (Smart Specialisation Strategies).
 
-Here is a breakdown of the specific grants, incubators, and HPC/Research centers on these islands that perfectly suit HydraShield.
+Here is a breakdown of the specific grants, incubators, and HPC/Research centers on these islands that perfectly suit Talaix.
 
 ---
 
@@ -25,7 +25,7 @@ Here is a breakdown of the specific grants, incubators, and HPC/Research centers
 *Crete is highly exposed to wildfires and is Greece's primary research hub for remote sensing.*
 
 * **FORTH (Foundation for Research and Technology - Hellas):** Based in Heraklion, FORTH is the premier research institute in Greece. Their institute for computing and remote sensing is world-class.
-* **STEP-C (Science and Technology Park of Crete):** Located next to FORTH, it acts as a startup incubator. By joining STEP-C, HydraShield can tap into Greek national grants (ESPA funds) dedicated to "Climate Change & Civil Protection" while utilizing FORTH’s researchers to validate your soil physics models.
+* **STEP-C (Science and Technology Park of Crete):** Located next to FORTH, it acts as a startup incubator. By joining STEP-C, Talaix can tap into Greek national grants (ESPA funds) dedicated to "Climate Change & Civil Protection" while utilizing FORTH’s researchers to validate your soil physics models.
 
 ## 🇫🇷 Corsica (France)
 *Corsica faces severe fire risks every summer and is supported by "La French Tech".*
@@ -49,10 +49,10 @@ Here is a breakdown of the specific grants, incubators, and HPC/Research centers
 
 ## 🌍 The Ultimate Funding Route for these Islands: INTERREG
 
-Instead of applying to just one island incubator, the **best strategic financial move for HydraShield** is the EU's **INTERREG** funding program.
+Instead of applying to just one island incubator, the **best strategic financial move for Talaix** is the EU's **INTERREG** funding program.
 
 * **Interreg NEXT MED:** A €253 million EU fund specifically designed for cross-border cooperation in the Mediterranean. 
-* **How it fits:** HydraShield can form a consortium (e.g., Luxembourg HQ + CRS4 in Sardinia + FORTH in Crete). 
+* **How it fits:** Talaix can form a consortium (e.g., Luxembourg HQ + CRS4 in Sardinia + FORTH in Crete). 
 * **The Pitch:** "A unified AI-driven Digital Twin utilizing Copernicus data to predict soil-to-fuel moisture transfer and optimize firefighting resources across Mediterranean islands."
 * **The Result:** Interreg grants regularly fund **€1M to €3M** per project. It covers up to 90% of R&D and pilot deployment costs.
 

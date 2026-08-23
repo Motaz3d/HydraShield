@@ -1,4 +1,4 @@
-# HydraShield — Product Analytics
+# Talaix — Product Analytics
 
 **Status:** implemented (Phase B). First-party, privacy-conscious product
 analytics. Normative reference for what is collected, why, and the controls.

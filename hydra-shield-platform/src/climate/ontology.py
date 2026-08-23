@@ -1,5 +1,5 @@
 """
-HydraShield climate ontology — the shared vocabulary of the platform.
+Talaix climate ontology — the shared vocabulary of the platform.
 
 This module defines the typed concepts every hazard module, event record,
 exposure analysis and report builds on (see ``docs/CLIMATE_HAZARDS.md`` and

@@ -1,18 +1,18 @@
-# HydraShield — Product Vision
+# Talaix — Product Vision
 
-**Status:** foundational product document. Defines *what* HydraShield is becoming and *why*.
+**Status:** foundational product document. Defines *what* Talaix is becoming and *why*.
 Companion documents: `PLATFORM_ARCHITECTURE.md` (how), `IMPLEMENTATION_ROADMAP.md` (when).
 
 ---
 
 ## 1. From wildfire app to Climate Extreme Intelligence
 
-HydraShield began as a wildfire-risk application: real-time fire danger, fuel
+Talaix began as a wildfire-risk application: real-time fire danger, fuel
 moisture, spread modelling and hydration-barrier decision support. That
 capability remains — and remains fully operational — but it becomes **one
 hazard module** inside a broader platform:
 
-> **HydraShield — Climate Extreme Intelligence + Economic Decision Support.**
+> **Talaix — Climate Extreme Intelligence + Economic Decision Support.**
 
 The central philosophy:
 
@@ -113,18 +113,18 @@ questions answered — on top of one shared evidence base.
 
 ## 5. Positioning statement
 
-> HydraShield helps society understand extreme environmental events and
+> Talaix helps society understand extreme environmental events and
 > convert scientific evidence into practical decisions.
 >
 > Science + Technology + Finance + Government + Business + Sustainable solutions.
 
-HydraShield does **not** replace professional scientific, financial,
+Talaix does **not** replace professional scientific, financial,
 insurance, or governmental decision-making. It makes the underlying
 evidence accessible, traceable, and decision-ready.
 
 ## 6. Market foundation
 
-HydraShield is not built for a single country. **Luxembourg** is
+Talaix is not built for a single country. **Luxembourg** is
 investigated as an initial strategic market because of its concentration
 of: sustainable-finance institutions, investment funds, insurance and
 reinsurance activity, EU institutions, climate-policy activity, data
@@ -140,7 +140,7 @@ evidence discipline as the climate data.
 
 ## 7. Data-infrastructure evolution (strategic direction, not current build)
 
-HydraShield may evolve from an application into **climate data
+Talaix may evolve from an application into **climate data
 infrastructure**:
 
 ```
@@ -157,7 +157,7 @@ build data-center infrastructure now. The current platform is designed
 (plugin hazards, typed evidence, versioned API) so that this evolution
 remains possible without a rewrite.
 
-## 8. What HydraShield must never do
+## 8. What Talaix must never do
 
 - Invent data where none exists — say "unavailable" instead.
 - Present modelled output as observation.

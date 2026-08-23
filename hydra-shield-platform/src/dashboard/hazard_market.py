@@ -1,5 +1,5 @@
 """
-HydraShield hazard-first commercial radar
+Talaix hazard-first commercial radar
 (docs/COMMERCIAL_INTELLIGENCE.md).
 
 Builds commercial opportunities FROM real hazard intelligence — never
@@ -127,7 +127,7 @@ def build_opportunities(
                 "message": lead.get("recommended_message"),
                 "next_action": lead.get("next_action"),
                 "evidence": {
-                    "signal": "HydraShield live risk snapshot",
+                    "signal": "Talaix live risk snapshot",
                     "lead_source": lead.get("source"),
                     "date_checked": lead.get("date_checked"),
                 },

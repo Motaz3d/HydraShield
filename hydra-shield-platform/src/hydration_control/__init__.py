@@ -1,5 +1,5 @@
 """
-HydraShield Hydration Control Module.
+Talaix Hydration Control Module.
 
 Protection optimisation and adaptive water intervention planning.
 

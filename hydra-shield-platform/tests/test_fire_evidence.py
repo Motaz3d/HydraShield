@@ -225,7 +225,7 @@ def test_pdf_contains_footer_page_numbers():
     text = "\n".join(page.extract_text() or ""
                      for page in pypdf.PdfReader(io.BytesIO(pdf)).pages)
     assert "Page 1" in text
-    assert "HydraShield — real-data wildfire decision support" in text
+    assert "Talaix — real-data wildfire decision support" in text
 
 
 def test_pdf_map_section_present_with_grid():

@@ -1,4 +1,4 @@
-/* HydraShield — per-hazard Climate Intelligence (intelligence.html).
+/* Talaix — per-hazard Climate Intelligence (intelligence.html).
  *
  * Tab strip of the registered hazards (GET /api/v2/hazards — names,
  * availability and official source links are rendered from the descriptor);

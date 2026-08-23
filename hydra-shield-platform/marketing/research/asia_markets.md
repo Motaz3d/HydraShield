@@ -15,13 +15,13 @@ Philippines, Vietnam, Thailand, Malaysia)
   across the region by WMO/national agencies — the commercial entry point
   is the hazard, not the market size (no market-size claims are made).
 - Dense infrastructure, ports, energy and agriculture create the exposure
-  contexts HydraShield analyzes.
+  contexts Talaix analyzes.
 
 ## The connection model (per country)
 
 ```
 hazards (documented) → regions → exposed sectors → organizations →
-projects → investment/funding → procurement → HydraShield relevance
+projects → investment/funding → procurement → Talaix relevance
 ```
 
 ## Rules

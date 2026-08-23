@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Run a real-data validation of the HydraShield screening risk score against
+Run a real-data validation of the Talaix screening risk score against
 observed fire events (NASA FIRMS).
 
 Pipeline (all real, all declared):
@@ -8,7 +8,7 @@ Pipeline (all real, all declared):
     NASA FIRMS fire detections (bbox x period)      — observed positives
     points/dates in the same bbox without detection — declared negatives
     ERA5 archive weather + FWI spin-up per sample   — real features
-    HydraShield screening risk score (FWI-anchored) — model under test
+    Talaix screening risk score (FWI-anchored) — model under test
     temporal split (train | evaluation)             — no leakage
     confusion matrix / precision / recall / F1 /
     calibration / Brier score                       — evidence
@@ -40,9 +40,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.prediction import training, validation  # noqa: E402
 from src.prediction.validation import ValidationReport  # noqa: E402
-from src.dashboard.real_analysis import HydraShieldRealAnalyser  # noqa: E402
+from src.dashboard.real_analysis import TalaixRealAnalyser  # noqa: E402
 
-MODEL_NAME = "HydraShield screening risk score (FWI-anchored composite)"
+MODEL_NAME = "Talaix screening risk score (FWI-anchored composite)"
 MODEL_VERSION = "1.0.0"
 
 ASSUMPTIONS = [
@@ -88,10 +88,10 @@ def _parse_args():
 
 
 def _score_from_features(features):
-    """HydraShield screening score from real ERA5/FWI features."""
+    """Talaix screening score from real ERA5/FWI features."""
     fwi = features[4]
     wind = features[2]
-    return HydraShieldRealAnalyser._risk_score(
+    return TalaixRealAnalyser._risk_score(
         fwi=fwi, slope=0.0, fmc=None, wind_kmh=wind
     )
 

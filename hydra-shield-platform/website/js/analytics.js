@@ -1,4 +1,4 @@
-/* HydraShield — first-party product analytics beacon (privacy-conscious).
+/* Talaix — first-party product analytics beacon (privacy-conscious).
  *
  * What this is: a tiny first-party event sender for product questions
  * (which pages/hazards/solutions are used, where the funnel converts).

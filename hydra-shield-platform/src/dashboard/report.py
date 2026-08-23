@@ -1,5 +1,5 @@
 """
-Professional PDF reporting for HydraShield analyses.
+Professional PDF reporting for Talaix analyses.
 
 Generates a real report from the same cached real analysis (and optional
 history) that backs the API — every number in the PDF comes from those
@@ -39,7 +39,7 @@ MODEL_VERSION = "1.0.0"
 # of the risk-model version above.
 REPORT_ENGINE_VERSION = "2.0.0"
 VALIDATION_STATUS = (
-    "NOT VALIDATED — the HydraShield screening score has not yet completed "
+    "NOT VALIDATED — the Talaix screening score has not yet completed "
     "validation against real historical fire observations (see "
     "docs/VALIDATION.md). Treat all values as screening-level indicators."
 )
@@ -88,7 +88,7 @@ def _footer(canvas, doc):
     canvas.setFillColor(_MUTED)
     canvas.drawString(
         18 * mm, 8 * mm,
-        f"HydraShield — real-data wildfire decision support · model v{MODEL_VERSION} · "
+        f"Talaix — real-data wildfire decision support · model v{MODEL_VERSION} · "
         f"{doc._report_meta.get('generated', '')} · "
         f"report {doc._report_meta.get('report_id', '')}",
     )
@@ -400,7 +400,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     story: List = []
 
     # ---- Header ---------------------------------------------------------
-    story.append(Paragraph("HydraShield Wildfire Risk Report", _TITLE))
+    story.append(Paragraph("Talaix Wildfire Risk Report", _TITLE))
     story.append(Paragraph(
         f"{type_info['title']} — {type_info['audience']}", _SUBTITLE))
     story.append(Paragraph(
@@ -1013,8 +1013,8 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         buf, pagesize=A4,
         leftMargin=18 * mm, rightMargin=18 * mm,
         topMargin=16 * mm, bottomMargin=18 * mm,
-        title=f"HydraShield {type_info['title']} — {loc.get('name', '')}",
-        author="HydraShield (real-data decision support)",
+        title=f"Talaix {type_info['title']} — {loc.get('name', '')}",
+        author="Talaix (real-data decision support)",
         subject=f"Wildfire risk report ({report_type}) — real Earth Observation data",
     )
     doc._report_meta = {

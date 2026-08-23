@@ -1,4 +1,4 @@
-# HydraShield — Annual Climate Extreme Intelligence Report
+# Talaix — Annual Climate Extreme Intelligence Report
 
 **Status:** architecture only. **No edition has been generated** — a real
 edition requires a dedicated research pass over authoritative annual
@@ -8,7 +8,7 @@ are produced consistently and honestly.
 
 ## 1. Concept
 
-The *HydraShield Annual Climate Extreme Intelligence Report* documents a
+The *Talaix Annual Climate Extreme Intelligence Report* documents a
 year of environmental extremes from authoritative datasets — major
 wildfire events, floods, droughts, heat extremes, extreme wind and
 coastal events — with population and infrastructure exposure, documented

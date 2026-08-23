@@ -1,8 +1,8 @@
-# HydraShield Platform
+# Talaix Platform
 
-**HydraShield — Climate Extreme Intelligence + Economic Decision Support.**
+**Talaix — Climate Extreme Intelligence + Economic Decision Support.**
 
-HydraShield brings together science, earth observation, open data and
+Talaix brings together science, earth observation, open data and
 historical evidence to understand climate extremes — wildfire, flood,
 drought, extreme heat, extreme wind and coastal exposure — who and what
 they affect, what they mean economically, and which sustainable solutions
@@ -129,7 +129,7 @@ hydra-shield-platform/
 - **`scenarios.py`** — Intervention scenario framework: model-supported scenarios (hydration, fuel management, combined) computed by the real models; everything else explicitly "not quantified".
 - **`report.py`** — Professional PDF reports (`GET /api/report?type=simple|decision|scientific`) rendered from the same real analysis object for three audiences, with provenance, limitations and validation status.
 - **`recommendations.py`** — Proactive protection: evidence-linked preventive recommendations (rules fire only on real detected conditions) plus the automation framework's action-plan generation (recommended vs automated actions; nothing external without `config/operations.json`) with a SQLite audit trail of every generated plan.
-- **`history.py`** — "Lessons from the Past": recent high-risk periods reconstructed from real ERA5 + FWI, observed fires (FIRMS when configured), and what HydraShield would have recommended — strictly labelled OBSERVED / MODELLED / RECOMMENDED / UNKNOWN.
+- **`history.py`** — "Lessons from the Past": recent high-risk periods reconstructed from real ERA5 + FWI, observed fires (FIRMS when configured), and what Talaix would have recommended — strictly labelled OBSERVED / MODELLED / RECOMMENDED / UNKNOWN.
 - **`monitoring.py`** — Alert watches (Phase 5): threshold checks via `scripts/check_watches.py`.
 
 ## Installation (macOS / Linux)
@@ -274,7 +274,7 @@ curl -X POST "http://localhost:8051/api/v2/auth/register" \
 
 ### Developer interfaces
 
-HydraShield is API-first: the same real-data engine serves every interface
+Talaix is API-first: the same real-data engine serves every interface
 (see `docs/API_FIRST_STRATEGY.md`). The stable public contract is documented
 in **`docs/API_V2.md`** (additive-only `/api/v2`; breaking changes ship as v3).
 
@@ -282,14 +282,14 @@ in **`docs/API_V2.md`** (additive-only `/api/v2`; breaking changes ship as v3).
   sources, risk grid/snapshot, PDF reports) plus authenticated
   account/alert endpoints. Errors are stable JSON: `{"error", "status"}`.
 - **Python SDK** — `sdk/python/hydrashield/` (stdlib-only, no dependencies):
-  `HydraShieldClient(base_url, api_key, timeout)` covering all public GETs.
+  `TalaixClient(base_url, api_key, timeout)` covering all public GETs.
 - **JavaScript SDK** — `sdk/js/hydrashield.js` (fetch-based, zero deps,
   UMD-lite) with the same method set and error semantics.
 - **`<hydrashield-risk>` web component** — embeddable shadow-DOM risk card
   (attribution + provenance chips, honest loading/error/unavailable
   states); demo page: `website/embed.html`.
 - **Webhooks** — outbound-only, HMAC-SHA256 signed
-  (`X-HydraShield-Signature`), at-least-once with recorded delivery status
+  (`X-Talaix-Signature`), at-least-once with recorded delivery status
   (contract in `docs/API_V2.md` §6; delivery engine in progress).
 
 ### Model validation (scientific layer)
@@ -315,7 +315,7 @@ unavailable layer, never replaced with invented data.
 - `FIRMS_MAP_KEY` — free NASA FIRMS key, enables the real active-fire layer,
   the historical fire-events endpoint and observed-fire smoke transport.
 - `SMTP_HOST/PORT/USER/PASSWORD/FROM` — enable email delivery (accounts,
-  alerts, reports). `SMTP_FROM=info@hydrashield.earth`. Without SMTP config,
+  alerts, reports). `SMTP_FROM=info@talaix.com`. Without SMTP config,
   emails go to the safe dev outbox (`data/outbox/`) and are never sent.
   Legacy `SMTP_PASS` is still honoured.
 - `HYDRASHIELD_SECRET_KEY` — HMAC key for session/verification tokens
@@ -358,7 +358,7 @@ print('Fused moisture (adaptive weights):', fused_result)
 
 ## Key Scientific Equations
 
-- **Water-Use Efficiency Ratio:** `WUER = (Risk_baseline - Risk_HydraShield) / Volume of water applied`
+- **Water-Use Efficiency Ratio:** `WUER = (Risk_baseline - Risk_Talaix) / Volume of water applied`
 - **Minimum Effective FMC Increase:** `MEFMI = FMC_target - FMC_baseline`
 - **Reduced Rate of Spread:** `ROS_reduced = ROS_baseline × R_FMC(MEFMI, fuel type, weather, slope)`
 - **Evacuation Safety Margin:** `ESM = t_evacuation_window - t_fire_arrival - t_operational_margin - t_uncertainty`
@@ -407,5 +407,5 @@ The FireSpreadModel now includes:
 
 ## License
 
-© 2026 HydraShield Earth Systems. All rights reserved.
+© 2026 Talaix Earth Systems. All rights reserved.
 Built on Copernicus Data · Aligned with EU Climate Goals

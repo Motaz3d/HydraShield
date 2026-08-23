@@ -1,7 +1,7 @@
 """
 Real Earth Observation / weather / terrain / fire data fetchers.
 
-Verified integrations used by HydraShield:
+Verified integrations used by Talaix:
 
     - Geocoding ............ Nominatim (OpenStreetMap)            — free, no key
     - Weather (current) .... Open-Meteo forecast API              — free tier
@@ -13,7 +13,7 @@ Verified integrations used by HydraShield:
 
 Every returned field carries an explicit ``source`` label so the UI never
 confuses an observation, a reanalysis product, a DEM value, or a value that
-was derived by a HydraShield model. There is no simulated data here: when a
+was derived by a Talaix model. There is no simulated data here: when a
 source cannot answer, the field is reported as unavailable instead of being
 invented.
 
@@ -35,7 +35,7 @@ from typing import Dict, List, Optional
 
 from .cache import cached, TTL_GEOCODE, TTL_TERRAIN, TTL_WEATHER_CURRENT, TTL_WEATHER_DAILY, TTL_FIRES
 
-_UA = "HydraShield/1.0 (Climate Extreme Intelligence; contact info@hydrashield.earth)"
+_UA = "Talaix/1.0 (Climate Extreme Intelligence; contact info@talaix.com)"
 _TIMEOUT = 15.0
 _RETRIES = 2
 
@@ -154,7 +154,7 @@ def fetch_active_cyclones() -> Dict:
     """
     url = ("https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
            "?eventtypes=TC")
-    # NOTE: the GDACS edge blocks the branded HydraShield User-Agent (HTTP
+    # NOTE: the GDACS edge blocks the branded Talaix User-Agent (HTTP
     # 403 to any UA containing the brand string, live-checked 2026-08-22),
     # so this request goes out with the default urllib UA. No Accept-based
     # or branded header is sent.
@@ -421,7 +421,7 @@ def fetch_wind_profile(lat: float, lon: float, hours: int = 24) -> Dict:
     a standard smoke-transport level) for the next ``hours`` hours. All
     values are numerical-weather-model output (labelled accordingly).
 
-    ``transport_*`` is the wind level HydraShield uses for transport
+    ``transport_*`` is the wind level Talaix uses for transport
     screening: 850 hPa when available, else the 10 m wind with an explicit
     note that surface wind poorly represents a buoyant plume.
     """

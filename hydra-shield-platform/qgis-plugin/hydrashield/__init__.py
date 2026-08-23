@@ -1,7 +1,7 @@
-"""HydraShield Climate Intelligence — QGIS plugin entry point."""
+"""Talaix Climate Intelligence — QGIS plugin entry point."""
 
 
 def classFactory(iface):  # noqa: N802 — QGIS-required name
-    from .hydrashield_plugin import HydraShieldPlugin
+    from .hydrashield_plugin import TalaixPlugin
 
-    return HydraShieldPlugin(iface)
+    return TalaixPlugin(iface)

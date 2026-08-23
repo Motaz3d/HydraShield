@@ -72,8 +72,8 @@ def test_admin_html_registered_user_rejected(client, env):
 
 
 def test_admin_html_operator_succeeds(client, env, monkeypatch):
-    monkeypatch.setenv("HYDRASHIELD_OPERATOR_EMAILS", "info@hydrashield.earth")
-    headers = _register_login(client, env, "info@hydrashield.earth")
+    monkeypatch.setenv("HYDRASHIELD_OPERATOR_EMAILS", "info@talaix.com")
+    headers = _register_login(client, env, "info@talaix.com")
     resp = client.get("/admin.html", headers=headers)
     assert resp.status_code == 200
     assert "Commercial Center" in resp.get_data(as_text=True)
@@ -81,14 +81,14 @@ def test_admin_html_operator_succeeds(client, env, monkeypatch):
 
 
 def test_operator_promotion_is_env_driven_and_audited(client, env, monkeypatch):
-    monkeypatch.setenv("HYDRASHIELD_OPERATOR_EMAILS", "info@hydrashield.earth")
-    headers = _register_login(client, env, "info@hydrashield.earth")
+    monkeypatch.setenv("HYDRASHIELD_OPERATOR_EMAILS", "info@talaix.com")
+    headers = _register_login(client, env, "info@talaix.com")
     # Promotion happens when the session is resolved (an authenticated call).
     assert client.get("/api/v2/account", headers=headers).status_code == 200
     from src.dashboard.accounts import UserStore
 
     store = UserStore(str(env["db"]))
-    user = store.get_user_by_email("info@hydrashield.earth")
+    user = store.get_user_by_email("info@talaix.com")
     assert user["role"] == "admin"
     audit = store.list_audit(user["id"])
     assert any(a["action"] == "operator_promotion" for a in audit)

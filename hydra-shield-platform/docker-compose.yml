@@ -1,14 +1,14 @@
-# HydraShield production stack.
+# Talaix production stack.
 # One server, one deploy command, three faces of the product:
-#   - hydrashield.earth        -> static marketing site (website/)
-#   - hydrashield.earth/api/*  -> REST API (Flask via gunicorn)
-#   - app.hydrashield.earth    -> live interactive Dash dashboard (gunicorn)
+#   - talaix.com        -> static marketing site (website/)
+#   - talaix.com/api/*  -> REST API (Flask via gunicorn)
+#   - app.talaix.com    -> live interactive Dash dashboard (gunicorn)
 #
 # Caddy terminates HTTPS automatically (Let's Encrypt) and routes traffic.
 #
 # Optional environment (set in .env next to this file — never commit it):
 #   FIRMS_MAP_KEY   NASA FIRMS API key for the active-fire layer (free)
-#   SMTP_HOST/PORT/USER/PASSWORD/FROM   transactional email (info@hydrashield.earth)
+#   SMTP_HOST/PORT/USER/PASSWORD/FROM   transactional email (info@talaix.com)
 #   CONTACT_INBOX                     platform inbox (contact/operator messages)
 #   HYDRASHIELD_SECRET_KEY            HMAC key for session/verification tokens
 #   SMS_PROVIDER/HTTP_URL/FROM/API_KEY/API_SECRET/AUTH_HEADER  SMS alert provider

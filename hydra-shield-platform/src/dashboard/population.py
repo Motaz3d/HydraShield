@@ -9,7 +9,7 @@ presented as exact counts.
 Access path (probed 2026-08-16): ``data.worldpop.org`` serves per-country
 GeoTIFFs over HTTPS. The server advertises ``Accept-Ranges: bytes`` but in
 practice ignores HTTP Range requests (returns 200 with the whole file), so
-true windowed remote reads are not possible. HydraShield therefore
+true windowed remote reads are not possible. Talaix therefore
 downloads a country raster **once** into a local disk cache
 (``data/population/``) and performs all subsequent reads locally and
 cheaply. No global download is ever triggered by a user request — only the

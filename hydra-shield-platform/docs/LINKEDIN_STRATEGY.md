@@ -1,4 +1,4 @@
-# HydraShield — LinkedIn Strategy
+# Talaix — LinkedIn Strategy
 
 **Status:** implemented (Phase D) — architecture, campaigns and draft
 queues. **Nothing is published or sent automatically.** Posting is
@@ -11,7 +11,7 @@ LinkedIn is the primary B2B distribution channel: the segments
 (docs/CUSTOMER_SEGMENTATION.md) — insurers, investors, municipalities,
 infrastructure operators, researchers — are addressable there with
 evidence-dense professional content. The goal is not virality; it is
-qualified discovery of HydraShield by people with a climate-exposure
+qualified discovery of Talaix by people with a climate-exposure
 problem.
 
 ## 2. Content pillars
@@ -33,7 +33,7 @@ problem.
 
 Every post follows docs/PRODUCT_STORY.md §8: no "predicts disasters", no
 "prevents", no invented numbers. Posts cite the underlying source or the
-live HydraShield page where the claim can be checked.
+live Talaix page where the claim can be checked.
 
 ## 3. Cadence and calendar
 
@@ -64,7 +64,7 @@ segment: insurance
 pillar: insurance_intelligence
 campaign: A
 cta: "Analyze a portfolio location free"
-landing: https://hydrashield.earth/intelligence.html
+landing: https://talaix.com/intelligence.html
 status: draft | reviewed | queued | published | retired
 ---
 ```

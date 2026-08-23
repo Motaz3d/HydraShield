@@ -1,8 +1,8 @@
 """
-Real-data analysis engine for HydraShield.
+Real-data analysis engine for Talaix.
 
 Ties verified external data (geocoding, weather model, daily fire-weather
-series, DEM, real Sentinel-2, ESA WorldCover, NASA FIRMS) to the HydraShield
+series, DEM, real Sentinel-2, ESA WorldCover, NASA FIRMS) to the Talaix
 scientific models:
 
     real data -> FWI fire danger -> fuel moisture -> fire spread
@@ -12,7 +12,7 @@ Headline outputs:
     - Fire danger (Canadian FWI System, EFFIS classes) with 7-day trend
     - Composite wildfire risk score (0-100) and Low/Moderate/High/Extreme class
     - Rate of spread and screening spread-ellipse estimates
-    - Baseline vs HydraShield intervention comparison
+    - Baseline vs Talaix intervention comparison
     - Water-use efficiency ratio (WUER), evacuation safety margin
 
 Every component carries a structured ``provenance`` entry:
@@ -86,13 +86,13 @@ def _prov(
     }
 
 
-class HydraShieldRealAnalyser:
+class TalaixRealAnalyser:
     """
-    Run a full HydraShield analysis for a location using real data.
+    Run a full Talaix analysis for a location using real data.
 
     Usage::
 
-        analyser = HydraShieldRealAnalyser()
+        analyser = TalaixRealAnalyser()
         result = analyser.analyse("Clervaux, Luxembourg")
         result = analyser.analyse_point(49.9, 6.03, name="Clervaux")
     """
@@ -109,10 +109,10 @@ class HydraShieldRealAnalyser:
         ("fuel", "Fuel moisture", "Sentinel-2 NDMI + soil moisture"),
         ("landcover", "Vegetation & fuel model", "ESA WorldCover"),
         ("fires", "Active fire observations", "NASA FIRMS"),
-        ("risk", "Risk calculation", "HydraShield models"),
+        ("risk", "Risk calculation", "Talaix models"),
         ("context", "Context & exposure", "OpenStreetMap + scene grid"),
-        ("solutions", "Solutions & recommendations", "HydraShield engines"),
-        ("assembly", "Final assembly", "HydraShield"),
+        ("solutions", "Solutions & recommendations", "Talaix engines"),
+        ("assembly", "Final assembly", "Talaix"),
     ]
 
     def __init__(
@@ -352,11 +352,11 @@ class HydraShieldRealAnalyser:
         risk_class = self._risk_class(risk_baseline)
 
         provenance["risk_score"] = _prov(
-            "derived", "HydraShield composite (FWI + fuel moisture + slope + land cover)",
+            "derived", "Talaix composite (FWI + fuel moisture + slope + land cover)",
             limitations="Screening-level score, not a validated local fire-danger rating.",
         )
         provenance["fire_spread"] = _prov(
-            "modeled", f"HydraShield FireSpreadModel (fuel {fuel_model})",
+            "modeled", f"Talaix FireSpreadModel (fuel {fuel_model})",
             limitations="Simplified ROS model; ellipse is a screening estimate without "
                         "spotting, fuel breaks or fire-suppression effects.",
         )
@@ -402,7 +402,7 @@ class HydraShieldRealAnalyser:
             fmc_source=fmc_source,
         )
         provenance["risk_explanation"] = _prov(
-            "derived", "HydraShield risk-score decomposition (declared thresholds)",
+            "derived", "Talaix risk-score decomposition (declared thresholds)",
             limitations="Levels are qualitative summaries of the real inputs, "
                         "not additional measurements.",
         )
@@ -543,7 +543,7 @@ class HydraShieldRealAnalyser:
         provenance["ignition"] = _prov(
             (result["ignition"].get("provenance") or {}).get("kind", "unavailable"),
             (result["ignition"].get("provenance") or {}).get(
-                "source", "HydraShield ignition layer"),
+                "source", "Talaix ignition layer"),
             quality=(result["ignition"].get("provenance") or {}).get("quality", "ok"),
             limitations=(result["ignition"].get("provenance") or {}).get("limitations"),
         )
@@ -579,14 +579,14 @@ class HydraShieldRealAnalyser:
         result["ecology"] = build_ecology_block(result)
         provenance["ecology"] = _prov(
             "derived", (result["ecology"].get("provenance") or {}).get(
-                "source", "HydraShield ecology engine"),
+                "source", "Talaix ecology engine"),
             quality=(result["ecology"].get("provenance") or {}).get("quality", "ok"),
             limitations=(result["ecology"].get("provenance") or {}).get("limitations"),
         )
 
         result["scenarios"] = build_scenarios(result)
         provenance["scenarios"] = _prov(
-            "modeled", "HydraShield FireSpreadModel + composite risk score",
+            "modeled", "Talaix FireSpreadModel + composite risk score",
             limitations="Screening-level scenario estimates; effects beyond the "
                         "models are reported as not quantified.",
         )
@@ -594,7 +594,7 @@ class HydraShieldRealAnalyser:
         result["recommendations"] = build_recommendations(result)
         result["action_plan"] = build_action_plan(result, result["recommendations"])
         provenance["recommendations"] = _prov(
-            "derived", "HydraShield evidence-linked rule engine",
+            "derived", "Talaix evidence-linked rule engine",
             limitations="Recommendations are generated from the detected "
                         "conditions; they do not guarantee prevention.",
         )

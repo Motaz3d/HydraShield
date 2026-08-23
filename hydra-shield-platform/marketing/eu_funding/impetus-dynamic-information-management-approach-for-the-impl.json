@@ -1,7 +1,7 @@
 {
   "programme": "Horizon 2020 (H2020-EU.3.5 Climate action), Innovation Action, grant 101037084",
   "call": "IMPETUS \u2014 Dynamic information management approach for the implementation of climate resilient adaptation packages in European regions",
-  "topic": "CORDIS states IMPETUS deploys Resilience Knowledge Boosters combining reliable data and assessment methods for decision-making across all 7 EU biogeographical regions \u2014 its digital dimension needs dependable multi-hazard data, EO-derived exposure and monitoring, matching HydraShield's stack.",
+  "topic": "CORDIS states IMPETUS deploys Resilience Knowledge Boosters combining reliable data and assessment methods for decision-making across all 7 EU biogeographical regions \u2014 its digital dimension needs dependable multi-hazard data, EO-derived exposure and monitoring, matching Talaix's stack.",
   "institution": "Fundaci\u00f3 Eurecat",
   "official_source": "https://cordis.europa.eu/project/id/101037084",
   "deadline": "not currently verified",
@@ -12,9 +12,9 @@
     "flood",
     "wildfire"
   ],
-  "hydrashield_relevance": "Offer HydraShield's EO-derived, evidence-labelled hazard data and API as a data component for IMPETUS Resilience Knowledge Boosters across the seven biogeographical regions.",
+  "hydrashield_relevance": "Offer Talaix's EO-derived, evidence-labelled hazard data and API as a data component for IMPETUS Resilience Knowledge Boosters across the seven biogeographical regions.",
   "evidence": "EO-based, evidence-labelled hazard exposure and monitoring data feeds for IMPETUS Resilience Knowledge Boosters, with API access for regional decision-support integration.",
-  "recommended_strategy": "Offer HydraShield's EO-derived, evidence-labelled hazard data and API as a data component for IMPETUS Resilience Knowledge Boosters across the seven biogeographical regions.",
+  "recommended_strategy": "Offer Talaix's EO-derived, evidence-labelled hazard data and API as a data component for IMPETUS Resilience Knowledge Boosters across the seven biogeographical regions.",
   "date_checked": "2026-08-18",
   "status": "watching"
 }

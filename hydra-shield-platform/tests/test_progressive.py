@@ -14,7 +14,7 @@ from src.dashboard import jobs as jobs_module  # noqa: E402
 from src.dashboard import report as report_module  # noqa: E402
 from src.dashboard.api import create_app  # noqa: E402
 from src.dashboard.cache import default_cache  # noqa: E402
-from src.dashboard.real_analysis import HydraShieldRealAnalyser  # noqa: E402
+from src.dashboard.real_analysis import TalaixRealAnalyser  # noqa: E402
 
 
 def _fake_result(risk=55.0):
@@ -45,7 +45,7 @@ def test_job_creation_initial_state(tmp_path):
     store = jobs_module.AnalysisJobStore(str(tmp_path / "jobs.sqlite3"))
     job = store.create("40.0,-3.0")
     assert job["status"] == "running"
-    assert len(job["stages"]) == len(HydraShieldRealAnalyser.STAGES)
+    assert len(job["stages"]) == len(TalaixRealAnalyser.STAGES)
     assert all(s["status"] == "pending" for s in job["stages"])
 
 
@@ -67,7 +67,7 @@ def test_stage_transitions_are_recorded(tmp_path):
 def test_run_job_completes_and_populates_analysis_cache(tmp_path, monkeypatch):
     store = jobs_module.AnalysisJobStore(str(tmp_path / "jobs.sqlite3"))
     monkeypatch.setattr(
-        HydraShieldRealAnalyser, "analyse_point",
+        TalaixRealAnalyser, "analyse_point",
         lambda self, lat, lon, name=None, on_stage=None: (
             on_stage("location", "complete", {"name": name}),
             on_stage("risk", "complete", {"risk": 55.0}),
@@ -90,7 +90,7 @@ def test_run_job_failure_is_honest(tmp_path, monkeypatch):
     store = jobs_module.AnalysisJobStore(str(tmp_path / "jobs.sqlite3"))
     def boom(self, lat, lon, name=None, on_stage=None):
         raise RuntimeError("pipeline exploded")
-    monkeypatch.setattr(HydraShieldRealAnalyser, "analyse_point", boom)
+    monkeypatch.setattr(TalaixRealAnalyser, "analyse_point", boom)
     job = store.create("41.0,-4.0")
     jobs_module._run_job(store, job["id"], 41.0, -4.0, "X")
     out = store.get(job["id"])
@@ -159,7 +159,7 @@ def test_create_job_requires_input(client):
 
 def test_create_and_poll_job(client, monkeypatch, tmp_path):
     monkeypatch.setattr(
-        HydraShieldRealAnalyser, "analyse_point",
+        TalaixRealAnalyser, "analyse_point",
         lambda self, lat, lon, name=None, on_stage=None: (
             on_stage("location", "complete", {"name": name}),
             _fake_result(48.0),
@@ -169,7 +169,7 @@ def test_create_and_poll_job(client, monkeypatch, tmp_path):
     assert resp.status_code == 202
     body = resp.get_json()
     assert body["status"] in ("running", "complete")
-    assert len(body["stages"]) == len(HydraShieldRealAnalyser.STAGES)
+    assert len(body["stages"]) == len(TalaixRealAnalyser.STAGES)
     job_id = body["id"]
     # poll until complete
     for _ in range(200):

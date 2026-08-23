@@ -1,5 +1,5 @@
 """
-HydraShield SMS delivery — replaceable provider abstraction.
+Talaix SMS delivery — replaceable provider abstraction.
 
 One entry point — :func:`send_sms` — delivers a short text message to an
 E.164 phone number through one of three honest backends:

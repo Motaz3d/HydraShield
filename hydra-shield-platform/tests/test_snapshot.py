@@ -193,7 +193,7 @@ def test_snapshot_never_touches_geocoder(tmp_path, monkeypatch):
 
     monkeypatch.setattr(real_data, "geocode_location", boom)
     monkeypatch.setattr(
-        snapshot_module.HydraShieldRealAnalyser, "analyse_point",
+        snapshot_module.TalaixRealAnalyser, "analyse_point",
         lambda self, lat, lon, name=None: _analysis(42.0, "Moderate"),
     )
     path = _write_config(tmp_path, [{"name": "Unique Place ZZ", "lat": 12.3456, "lon": 45.6789}])

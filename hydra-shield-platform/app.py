@@ -1,12 +1,12 @@
-"""Production entrypoint for the HydraShield interactive dashboard (Dash)."""
+"""Production entrypoint for the Talaix interactive dashboard (Dash)."""
 import os
 
-from src.dashboard.dashboard import HydraShieldDashboard
+from src.dashboard.dashboard import TalaixDashboard
 
 PORT = int(os.environ.get("PORT", "8050"))
 
-dash = HydraShieldDashboard(
-    title="HydraShield Command Center",
+dash = TalaixDashboard(
+    title="Talaix Command Center",
     port=PORT,
     host="0.0.0.0",
     debug=False,

@@ -1,5 +1,5 @@
-Subject: HydraShield contact form — message from {{email}}
-A message was submitted via the HydraShield contact form.
+Subject: Talaix contact form — message from {{email}}
+A message was submitted via the Talaix contact form.
 
 From: {{name}} <{{email}}>
 Organization: {{organization}}
@@ -8,4 +8,4 @@ Interest: {{interest}}
 Message:
 {{message}}
 
-— HydraShield contact form (automated)
+— Talaix contact form (automated)

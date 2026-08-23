@@ -378,7 +378,7 @@ def build_economic_exposure(
         },
         "provenance": {
             "kind": "observed",
-            "source": "HydraShield economic exposure layer: OSM/ohsome + "
+            "source": "Talaix economic exposure layer: OSM/ohsome + "
                       "Overpass feature counts, ESA WorldCover land cover",
             "quality": "mapped features; completeness varies by region",
             "limitations": OSM_COMPLETENESS_CAVEAT,
@@ -421,7 +421,7 @@ def build_analytical_models(
     hazard_context: Optional[Dict[str, Any]],
     radius_m: int,
 ) -> Dict[str, Any]:
-    """HydraShield's structured interpretation of the exposure profile —
+    """Talaix's structured interpretation of the exposure profile —
     the product. Each model: inputs, methodology, output, confidence,
     limitations. All declared screening heuristics over real mapped data;
     no monetary values, no invented precision."""

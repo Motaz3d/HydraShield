@@ -18,7 +18,7 @@
   "evidence": "BMKG official site shows active monitoring and public advisory operations (18 August 2026 news items); ASMC reports widespread Kalimantan hotspots and dry-weather outlook for southern ASEAN on the same date.",
   "relevant_capability": "BMKG official site shows active monitoring and public advisory operations (18 August 2026 news items); ASMC reports wide",
   "recommended_product": "api",
-  "recommended_message": "HydraShield's hazard API and wildfire/drought monitoring layers can complement BMKG's observation network with satellite-derived fire, dry-condition and flood exposure intelligence for integration into national and district-level warning products.",
+  "recommended_message": "Talaix's hazard API and wildfire/drought monitoring layers can complement BMKG's observation network with satellite-derived fire, dry-condition and flood exposure intelligence for integration into national and district-level warning products.",
   "priority": "medium",
   "fit_score": "BMKG operates Indonesia's weather/climate monitoring and public warning services while the country faces active fire/hotspot seasons in Kalimantan and Sumatra and prolonged dry conditions flagged by A",
   "urgency": "medium",

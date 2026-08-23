@@ -1,4 +1,4 @@
-# HydraShield — Content Strategy
+# Talaix — Content Strategy
 
 **Status:** implemented (Phase G). How content is chosen, produced and
 improved — driven by real demand signals, not generic SEO volume.
@@ -20,7 +20,7 @@ Each cluster = a hub page + supporting pages, all internally linked and
 all pointing into the product (analysis, map, events, solutions, account):
 
 1. **Hazard hubs** — one per hazard (wildfire/flood/drought/heat/wind/
-   coastal): what it is, how HydraShield measures it (sources, methods),
+   coastal): what it is, how Talaix measures it (sources, methods),
    historical intelligence, solutions.
 2. **Exposure** — population, settlements, infrastructure, business
    exposure; who-is-exposed explainers.
@@ -53,7 +53,7 @@ re-ranked from these signals in `marketing/analytics/` notes.
 
 ## 4. Article requirements
 
-- at least one link into a live HydraShield surface (map/analysis/events/
+- at least one link into a live Talaix surface (map/analysis/events/
   solutions) so the reader can verify
 - sources cited inline (institution + dataset + date)
 - evidence vocabulary used correctly (observed/historical/modelled/

@@ -21,7 +21,7 @@ from typing import Dict, List, Optional, Tuple
 
 from . import real_data
 from .cache import cached
-from .real_analysis import HydraShieldRealAnalyser, _clamp
+from .real_analysis import TalaixRealAnalyser, _clamp
 from ..prediction.fwi import compute_fwi_series
 
 TTL_GRID = 3600.0
@@ -101,7 +101,7 @@ def compute_risk_grid(south: float, west: float, north: float, east: float, n: i
         return {"error": "Grid data sources unavailable"}
 
     today = date.today().isoformat()
-    analyser = HydraShieldRealAnalyser()
+    analyser = TalaixRealAnalyser()
 
     cells: List[Dict] = []
     fwi_by_idx: Dict[int, Optional[float]] = {}

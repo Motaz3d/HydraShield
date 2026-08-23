@@ -1,5 +1,5 @@
 {
-  "description": "HydraShield Research Registry — peer-reviewed and authoritative scientific foundations. A paper never becomes production logic directly: it moves through Paper → Method → Prototype → Benchmark → Validation → Production. Production methodologies (config/model_registry.json) reference these entries via research_ids.",
+  "description": "Talaix Research Registry — peer-reviewed and authoritative scientific foundations. A paper never becomes production logic directly: it moves through Paper → Method → Prototype → Benchmark → Validation → Production. Production methodologies (config/model_registry.json) reference these entries via research_ids.",
   "pipeline_stages": ["paper", "method", "prototype", "benchmark", "validation", "production"],
   "references": [
     {
@@ -88,7 +88,7 @@
       "topics": ["drought", "SPI", "precipitation"],
       "method": "Standardized Precipitation Index: gamma-fitted precipitation probabilities standardized per accumulation window",
       "region": "Global applicability",
-      "limitations": "Precipitation-only; gamma fit needs long records; HydraShield currently implements a declared standardized anomaly, NOT full SPI",
+      "limitations": "Precipitation-only; gamma fit needs long records; Talaix currently implements a declared standardized anomaly, NOT full SPI",
       "pipeline_stage": "method",
       "used_by": ["drought_anomaly_v1"]
     },
@@ -103,7 +103,7 @@
       "topics": ["drought", "SPEI", "evapotranspiration"],
       "method": "Standardized Precipitation-Evapotranspiration Index: climatic water balance standardized per window",
       "region": "Global applicability",
-      "limitations": "ET estimation method affects results; not yet implemented in HydraShield",
+      "limitations": "ET estimation method affects results; not yet implemented in Talaix",
       "pipeline_stage": "paper",
       "used_by": []
     },
@@ -133,7 +133,7 @@
       "topics": ["compound events", "typology", "multivariate", "temporally compounding", "spatially compounding", "preconditioned"],
       "method": "Four-class typology: preconditioned, multivariate, temporally compounding, spatially compounding",
       "region": "Global",
-      "limitations": "Typology, not an operational algorithm; HydraShield implements a declared qualitative detector on top",
+      "limitations": "Typology, not an operational algorithm; Talaix implements a declared qualitative detector on top",
       "pipeline_stage": "method",
       "used_by": ["compound_risk_v1"]
     },
@@ -193,7 +193,7 @@
       "topics": ["risk framework", "vulnerability", "exposure", "adaptation", "cascading risk"],
       "method": "Risk conceptual framework: risk arises from dynamic interactions of hazard, exposure and vulnerability",
       "region": "Global",
-      "limitations": "Framework, not an operational model; HydraShield operationalizes a declared subset",
+      "limitations": "Framework, not an operational model; Talaix operationalizes a declared subset",
       "pipeline_stage": "method",
       "used_by": ["risk_framework_v1", "compound_risk_v1", "cascading_graph_v1"]
     },
@@ -208,7 +208,7 @@
       "topics": ["standard", "climate risk assessment", "vulnerability", "impact"],
       "method": "International organizational guideline for climate-risk assessment processes",
       "region": "Global",
-      "limitations": "International STANDARD, not HydraShield proprietary methodology; used as organizational reference only — clearly distinguished from HydraShield indicators",
+      "limitations": "International STANDARD, not Talaix proprietary methodology; used as organizational reference only — clearly distinguished from Talaix indicators",
       "pipeline_stage": "method",
       "used_by": ["risk_framework_v1"]
     }

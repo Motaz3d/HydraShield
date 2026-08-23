@@ -1,5 +1,5 @@
 """
-Hazard plugin contract for the HydraShield climate platform.
+Hazard plugin contract for the Talaix climate platform.
 
 Every hazard (wildfire, flood, drought, heat, wind, coastal, …) implements
 :class:`HazardModule`. The registry (`src/climate/registry.py`) only ever

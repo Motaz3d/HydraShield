@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HydraShield — embed integration demo</title>
-<meta name="description" content="Developer demo for embedding HydraShield risk cards in external pages via the hydrashield-risk web component.">
+<title>Talaix — embed integration demo</title>
+<meta name="description" content="Developer demo for embedding Talaix risk cards in external pages via the hydrashield-risk web component.">
 <!--
-  Minimal public example of embedding HydraShield risk intelligence in an
+  Minimal public example of embedding Talaix risk intelligence in an
   external page (SaaS, GIS, property, insurance…). This page is the
   integration demo for the &lt;hydrashield-risk&gt; web component.
 
   The component calls GET /api/v2/analyze on the API origin; cross-origin
   embedding requires your origin in the server's HYDRASHIELD_CORS_ORIGINS
   (exact origins, GET-only — see docs/API_V2.md §1). Served from
-  hydrashield.earth itself it works same-origin with no configuration.
+  talaix.com itself it works same-origin with no configuration.
 -->
 <style>
   body { font-family: system-ui, sans-serif; margin: 2rem; color: #0f172a; }
@@ -25,12 +25,12 @@
 </head>
 <body>
 <main>
-  <h1>HydraShield risk card — embed demo</h1>
+  <h1>Talaix risk card — embed demo</h1>
   <p>
     Each card below is a single
     <code>&lt;hydrashield-risk lat="…" lon="…" hazard="…"&gt;</code>
     element. No framework, no build step; the card fetches the public API,
-    shows the level with its basis, and links back to hydrashield.earth.
+    shows the level with its basis, and links back to talaix.com.
     Integration recipes: <code>sdk/js/README.md</code>.
   </p>
 
@@ -44,7 +44,7 @@
 </main>
 
 <!-- Local SDK copy (in this repo). In production use the hosted file:
-     <script src="https://hydrashield.earth/sdk/hydrashield.js"></script> -->
+     <script src="https://talaix.com/sdk/hydrashield.js"></script> -->
 <script src="./sdk/hydrashield.js"></script>
 </body>
 </html>

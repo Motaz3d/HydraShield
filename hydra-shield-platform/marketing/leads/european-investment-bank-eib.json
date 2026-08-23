@@ -21,7 +21,7 @@
   "evidence": "Asset-level multi-hazard exposure mapping of financed projects, historical event losses for counterparties' regions, and evidence-labelled climate risk screening suitable for EIB Climate Bank Roadmap alignment.",
   "relevant_capability": "Asset-level multi-hazard exposure mapping of financed projects, historical event losses for counterparties' regions, and",
   "recommended_product": "api",
-  "recommended_message": "Position HydraShield's API as an evidence-labelled physical-risk screening layer for the EIB's climate finance due diligence and Climate Bank Roadmap reporting.",
+  "recommended_message": "Position Talaix's API as an evidence-labelled physical-risk screening layer for the EIB's climate finance due diligence and Climate Bank Roadmap reporting.",
   "priority": "high",
   "fit_score": "The EIB describes itself as one of the largest providers of climate finance in the world; its lending portfolio to infrastructure, cohesion and green-transition projects across the EU is directly expo",
   "urgency": "medium",

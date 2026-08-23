@@ -62,7 +62,7 @@ jobs:
             # official mailbox. Idempotent; the file itself stays out of Git.
             touch .env && chmod 600 .env
             if ! grep -q '^HYDRASHIELD_OPERATOR_EMAILS=' .env; then
-              echo 'HYDRASHIELD_OPERATOR_EMAILS=info@hydrashield.earth' >> .env
+              echo 'HYDRASHIELD_OPERATOR_EMAILS=info@talaix.com' >> .env
             fi
             docker compose pull
             docker compose build
@@ -76,7 +76,7 @@ jobs:
             echo "Waiting for stack to settle..."
             sleep 20
             for i in 1 2 3 4 5; do
-              if curl -fsS https://hydrashield.earth/api/health > /tmp/hs_health.json; then
+              if curl -fsS https://talaix.com/api/health > /tmp/hs_health.json; then
                 echo "Production health check OK:" && cat /tmp/hs_health.json && exit 0
               fi
               echo "Health check attempt $i failed; retrying in 15s..."

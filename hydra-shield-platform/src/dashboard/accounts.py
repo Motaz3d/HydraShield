@@ -1,5 +1,5 @@
 """
-HydraShield user accounts (Stage 6) — SQLite store.
+Talaix user accounts (Stage 6) — SQLite store.
 
 Implements the data model of docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md §3
 in the shared platform SQLite database (same file as the cache / watches;

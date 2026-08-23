@@ -1,4 +1,4 @@
-# HydraShield production deployment dependencies.
+# Talaix production deployment dependencies.
 # Only the packages required to run the website + dash + API services.
 # Heavy/optional extras (eolearn, notebook, jupyterlab, geopandas stack) are
 # intentionally excluded: the serving path (api.py, dashboard.py) does not

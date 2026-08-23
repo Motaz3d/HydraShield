@@ -1,5 +1,5 @@
 """
-HydraShield Platform - Core Source Package.
+Talaix Platform - Core Source Package.
 
 An integrated 3-layer system combining DeepTech, AI/satellite data, and
 environmental protection to prevent wildfires via subsurface hydration barriers.

@@ -1,7 +1,7 @@
 {
   "registry_id": "loss_data_registry_v1",
   "version": "1.0.0",
-  "description": "Registry of documented disaster-loss data sources (candidates and integrations) for HydraShield. Tracks which loss datasets are reviewed, their access conditions and their integration status. No loss figures are stored here unless a source is integrated with a stated method and licence.",
+  "description": "Registry of documented disaster-loss data sources (candidates and integrations) for Talaix. Tracks which loss datasets are reviewed, their access conditions and their integration status. No loss figures are stored here unless a source is integrated with a stated method and licence.",
   "separation_note": "Observed, estimated, modelled and projected loss figures are strictly separated categories. A figure may appear only in the category its source documents, with the source's method stated; categories are never merged into a single number.",
   "no_figures_note": "No documented loss figures exist in integrated sources as of this registry version; observed_events is deliberately empty.",
   "sources": [

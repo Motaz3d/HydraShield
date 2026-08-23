@@ -1,4 +1,4 @@
-"""HydraShield API client for the QGIS plugin.
+"""Talaix API client for the QGIS plugin.
 
 Two layers, deliberately separated:
 
@@ -18,8 +18,8 @@ from __future__ import annotations
 import json
 from typing import Any, Dict, List, Optional, Tuple
 
-BASE_URL = "https://hydrashield.earth"
-USER_AGENT = "hydrashield-qgis/0.1.0 (+https://hydrashield.earth)"
+BASE_URL = "https://talaix.com"
+USER_AGENT = "hydrashield-qgis/0.1.0 (+https://talaix.com)"
 TIMEOUT_MS = 30000
 
 

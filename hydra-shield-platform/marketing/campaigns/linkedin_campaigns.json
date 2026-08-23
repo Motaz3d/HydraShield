@@ -1,5 +1,5 @@
 {
-  "description": "HydraShield LinkedIn campaigns A\u2013G (docs/LINKEDIN_STRATEGY.md). Drafts live in marketing/content/drafts/; publishing is human-executed. No fabricated metrics: the metrics fields name what will be measured, not invented values.",
+  "description": "Talaix LinkedIn campaigns A\u2013G (docs/LINKEDIN_STRATEGY.md). Drafts live in marketing/content/drafts/; publishing is human-executed. No fabricated metrics: the metrics fields name what will be measured, not invented values.",
   "campaigns": [
     {
       "id": "A",
@@ -23,7 +23,7 @@
         "current_climate_extremes"
       ],
       "cta": "Analyze a portfolio location free",
-      "landing_page": "https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=A",
+      "landing_page": "https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=A",
       "follow_up": "For responders: offer a monitoring pilot on a small book of locations",
       "conversion_goal": "account_created (then alert_created)",
       "metrics": [
@@ -52,7 +52,7 @@
         "map_discoveries"
       ],
       "cta": "Run your site through the analysis",
-      "landing_page": "https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=B",
+      "landing_page": "https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=B",
       "follow_up": "For responders: full report + monitoring of owned assets",
       "conversion_goal": "report_generated",
       "metrics": [
@@ -84,7 +84,7 @@
         "annual_reports"
       ],
       "cta": "Screen three portfolio locations",
-      "landing_page": "https://hydrashield.earth/economy.html?utm_source=linkedin&utm_campaign=C",
+      "landing_page": "https://talaix.com/economy.html?utm_source=linkedin&utm_campaign=C",
       "follow_up": "For responders: multi-location screening pilot + API discussion",
       "conversion_goal": "contact_started",
       "metrics": [
@@ -114,7 +114,7 @@
         "sustainable_solutions"
       ],
       "cta": "Monitor your municipality",
-      "landing_page": "https://hydrashield.earth/account.html?utm_source=linkedin&utm_campaign=D#sms",
+      "landing_page": "https://talaix.com/account.html?utm_source=linkedin&utm_campaign=D#sms",
       "follow_up": "For responders: municipal monitoring pilot walkthrough",
       "conversion_goal": "account_created (then alert_created / sms_enabled)",
       "metrics": [
@@ -145,7 +145,7 @@
         "technology_discoveries"
       ],
       "cta": "Reproduce an analysis",
-      "landing_page": "https://hydrashield.earth/intelligence.html?utm_source=linkedin&utm_campaign=E",
+      "landing_page": "https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=E",
       "follow_up": "For responders: research collaboration conversation",
       "conversion_goal": "API/SDK usage and contact_started",
       "metrics": [
@@ -179,7 +179,7 @@
         "map_discoveries"
       ],
       "cta": "Screen an asset location",
-      "landing_page": "https://hydrashield.earth/map.html?utm_source=linkedin&utm_campaign=F",
+      "landing_page": "https://talaix.com/map.html?utm_source=linkedin&utm_campaign=F",
       "follow_up": "For responders: multi-asset monitoring pilot",
       "conversion_goal": "alert_created",
       "metrics": [
@@ -212,7 +212,7 @@
         "map_discoveries"
       ],
       "cta": "Match solutions to your place",
-      "landing_page": "https://hydrashield.earth/solutions.html?utm_source=linkedin&utm_campaign=G",
+      "landing_page": "https://talaix.com/solutions.html?utm_source=linkedin&utm_campaign=G",
       "follow_up": "For responders: solutions deep-dive on their site",
       "conversion_goal": "solution_viewed (then account_created)",
       "metrics": [
@@ -224,7 +224,7 @@
     {
       "id": "H",
       "name": "EU funding & climate programmes",
-      "objective": "Position HydraShield for EU climate-adaptation, resilience, EO and innovation programmes",
+      "objective": "Position Talaix for EU climate-adaptation, resilience, EO and innovation programmes",
       "audience": {
         "segments": [
           "governments",
@@ -236,7 +236,7 @@
           "Research Director"
         ]
       },
-      "pain": "Programmes fund exactly what HydraShield does \u2014 but require credible, evidence-labelled capability",
+      "pain": "Programmes fund exactly what Talaix does \u2014 but require credible, evidence-labelled capability",
       "evidence": "Real-data pipeline, public source registry, validation discipline, QGIS/API-first architecture",
       "content_pillars": [
         "research",
@@ -244,7 +244,7 @@
         "annual_reports"
       ],
       "cta": "See the evidence architecture",
-      "landing_page": "https://hydrashield.earth/technology.html?utm_source=linkedin&utm_campaign=H",
+      "landing_page": "https://talaix.com/technology.html?utm_source=linkedin&utm_campaign=H",
       "follow_up": "For responders: programme-fit conversation; record opportunities in marketing/eu_funding/",
       "conversion_goal": "contact_started",
       "metrics": [
@@ -273,7 +273,7 @@
         "sustainable_solutions"
       ],
       "cta": "Screen a project site",
-      "landing_page": "https://hydrashield.earth/solutions.html?utm_source=linkedin&utm_campaign=I",
+      "landing_page": "https://talaix.com/solutions.html?utm_source=linkedin&utm_campaign=I",
       "follow_up": "For responders: project-site analysis pilot",
       "conversion_goal": "solution_viewed",
       "metrics": [
@@ -304,7 +304,7 @@
         "annual_reports"
       ],
       "cta": "Explore economic exposure",
-      "landing_page": "https://hydrashield.earth/economy.html?utm_source=linkedin&utm_campaign=J",
+      "landing_page": "https://talaix.com/economy.html?utm_source=linkedin&utm_campaign=J",
       "follow_up": "For responders: portfolio-location screening pilot",
       "conversion_goal": "contact_started",
       "metrics": [
@@ -335,7 +335,7 @@
         "satellite_observations"
       ],
       "cta": "Try the analysis API / QGIS plugin",
-      "landing_page": "https://hydrashield.earth/map.html?utm_source=linkedin&utm_campaign=K",
+      "landing_page": "https://talaix.com/map.html?utm_source=linkedin&utm_campaign=K",
       "follow_up": "For responders: early-access plugin build + feedback loop",
       "conversion_goal": "qgis_interest / account_created",
       "metrics": [

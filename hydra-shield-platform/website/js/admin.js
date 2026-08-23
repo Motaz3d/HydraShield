@@ -1,4 +1,4 @@
-/* HydraShield — Commercial Center (admin.html).
+/* Talaix — Commercial Center (admin.html).
  *
  * Admin-only: GET /api/v2/admin/intel (cookie session; 401 shows a plain
  * sign-in hint, 403 the tier message). Sections: TODAY / progress board /

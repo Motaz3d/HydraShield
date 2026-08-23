@@ -1,4 +1,4 @@
-# HydraShield — Marketing Intelligence
+# Talaix — Marketing Intelligence
 
 **Status:** implemented (Phase C), extended by the Commercial Intelligence
 & Marketing Radar (docs/COMMERCIAL_INTELLIGENCE.md — signals, events,
@@ -8,7 +8,7 @@ data lives in `marketing/`.
 
 ## 1. Purpose and loop
 
-HydraShield's marketing is a continuous intelligence loop, not one-off
+Talaix's marketing is a continuous intelligence loop, not one-off
 campaigns:
 
 ```
@@ -54,7 +54,7 @@ follows that segment's pain points, tone and evidence bar from
 
 For each prospect the copilot fills the lead schema from public sources:
 what climate exposure matters to them, what assets, what problem
-HydraShield could solve, which capability and product fits, what evidence
+Talaix could solve, which capability and product fits, what evidence
 to show, and an honest fit assessment. Unknowns stay unknown — a lead with
 thin public information is marked low-confidence, not padded.
 

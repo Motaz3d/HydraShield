@@ -1,5 +1,5 @@
 """
-HydraShield account & auth API (Stage 6) — Flask blueprint ``auth_bp``.
+Talaix account & auth API (Stage 6) — Flask blueprint ``auth_bp``.
 
 Mounted at ``/api/v2`` alongside the multi-hazard v2 blueprint (registered
 from ``src/dashboard/api.py::create_app()``). Implements the endpoints of
@@ -58,7 +58,7 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/api/v2")
 
 SESSION_COOKIE = "hydrashield_session"
 
-_BASE_URL = lambda: os.environ.get("HYDRASHIELD_BASE_URL", "https://hydrashield.earth").rstrip("/")  # noqa: E731
+_BASE_URL = lambda: os.environ.get("HYDRASHIELD_BASE_URL", "https://talaix.com").rstrip("/")  # noqa: E731
 
 
 def _err(message: str, status: int, **extra):
@@ -598,7 +598,7 @@ def subscribe():
         "subscription": subscription,
         "already_active": already,
         "unlocks": _SUBSCRIBER_UNLOCKS,
-        "note": "Your subscription is recorded — HydraShield never charges "
+        "note": "Your subscription is recorded — Talaix never charges "
                 "cards on this platform; no payment data is stored.",
     }), 200 if already else 201
 
@@ -704,7 +704,7 @@ def add_webhook():
         "webhook": result["webhook"],
         "secret": result["secret"],
         "note": "Store the secret now — it is shown only once. Deliveries "
-                "are POSTs signed with X-HydraShield-Signature: "
+                "are POSTs signed with X-Talaix-Signature: "
                 "sha256=<hmac-sha256 of the raw body with this secret>.",
     }), 201
 
@@ -754,7 +754,7 @@ def contact():
         email, message, name=name, organization=organization, interest=interest)
 
     # The message itself goes to the platform inbox — contact submissions
-    # must actually reach HydraShield (previously they did not).
+    # must actually reach Talaix (previously they did not).
     mailer.send_mail(
         mailer.contact_inbox(),
         "contact_message",

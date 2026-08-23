@@ -2,7 +2,7 @@
 
 ## Overview
 
-Establishing HydraShield in a strategic location selected based on clear criteria including regulatory environment, tax incentives, access to funding markets, and digital infrastructure. There is no pre-commitment to a specific country; rather, available options are evaluated and the most suitable one is chosen to achieve growth and funding objectives.
+Establishing Talaix in a strategic location selected based on clear criteria including regulatory environment, tax incentives, access to funding markets, and digital infrastructure. There is no pre-commitment to a specific country; rather, available options are evaluated and the most suitable one is chosen to achieve growth and funding objectives.
 
 ---
 
@@ -113,4 +113,4 @@ Build a Digital Twin model that simulates historical wildfire behavior using **H
 
 ## Conclusion
 
-HydraShield is flexible in choosing its country of incorporation, focusing on achieving the core objectives: securing funding, building a strong team, and proving technology reliability through a validated Digital Twin model. The final country selection will be based on an objective analysis of the criteria outlined above, serving the company's long-term interests.
+Talaix is flexible in choosing its country of incorporation, focusing on achieving the core objectives: securing funding, building a strong team, and proving technology reliability through a validated Digital Twin model. The final country selection will be based on an objective analysis of the criteria outlined above, serving the company's long-term interests.

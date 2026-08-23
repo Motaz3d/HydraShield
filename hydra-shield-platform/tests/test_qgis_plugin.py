@@ -34,9 +34,9 @@ def metadata():
 def test_metadata_required_keys(metadata):
     for key in ("name=", "version=", "qgisMinimumVersion=3.40",
                 "hasProcessingProvider=yes", "license=GPLv2+",
-                "homepage=https://hydrashield.earth",
+                "homepage=https://talaix.com",
                 "repository=https://github.com/", "tracker=",
-                "email=info@hydrashield.earth"):
+                "email=info@talaix.com"):
         assert key in metadata, key
 
 
@@ -70,9 +70,9 @@ def test_all_plugin_files_compile():
 
 
 def test_urls():
-    assert api_client.hazards_url() == "https://hydrashield.earth/api/v2/hazards"
+    assert api_client.hazards_url() == "https://talaix.com/api/v2/hazards"
     url = api_client.analyze_url("flood", 37.389213, -5.984512, "Sevilla")
-    assert url.startswith("https://hydrashield.earth/api/v2/analyze?hazard=flood")
+    assert url.startswith("https://talaix.com/api/v2/analyze?hazard=flood")
     assert "lat=37.38921" in url and "lon=-5.98451" in url
     assert "name=Sevilla" in url
 

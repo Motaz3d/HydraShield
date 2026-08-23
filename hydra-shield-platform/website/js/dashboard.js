@@ -1,6 +1,6 @@
-/* HydraShield public dashboard — real-data client.
+/* Talaix public dashboard — real-data client.
  *
- * Calls the HydraShield REST API (/api/analyze, /api/risk-grid, /api/watch)
+ * Calls the Talaix REST API (/api/analyze, /api/risk-grid, /api/watch)
  * and renders the report + interactive map. No simulated data: when the API
  * reports a component unavailable, the UI says so.
  */
@@ -709,7 +709,7 @@
             }).join('');
             return '<div class="lesson-item">' +
                 '<div class="what">' + p.start + ' → ' + p.end + ' (' + p.days + ' days)</div>' +
-                '<div class="why">HydraShield risk (modelled): <b>' + s.value + '/100</b> on ' + s.peak_date +
+                '<div class="why">Talaix risk (modelled): <b>' + s.value + '/100</b> on ' + s.peak_date +
                 ' · FWI max ' + c.max_fwi + ' · mean wind ' + c.mean_wind_kmh + ' km/h · rain ' +
                 c.total_rain_mm + ' mm <i>(' + c.label + ')</i></div>' +
                 '<div class="why">Observed fire: ' + o.status + ' <i>(' + o.label + ')</i></div>' +
@@ -761,7 +761,7 @@
             bb.textContent = 'Baseline ' + fmt(base, '', 0) + '/100';
             if (inter !== null && inter !== undefined) {
                 bi.style.width = Math.max(inter, 8) + '%';
-                bi.textContent = 'HydraShield ' + fmt(inter, '', 0) + '/100';
+                bi.textContent = 'Talaix ' + fmt(inter, '', 0) + '/100';
                 el('riskReduction').textContent = fmt(risk.reduction_percent, ' %', 1);
             } else {
                 bi.style.width = '60px'; bi.textContent = 'n/a';
@@ -822,7 +822,7 @@
             text = 'Extreme fire danger. Activate all protection zones, pre-hydrate fuel corridors, brief crews and prepare evacuation communications.';
         } else if (score >= 65) {
             title = 'HIGH RISK — ACTIVATE PROTECTION';
-            text = 'High fire danger. Activate HydraShield protection zones around critical assets and pre-position water resources.';
+            text = 'High fire danger. Activate Talaix protection zones around critical assets and pre-position water resources.';
         } else if (score >= 45) {
             title = 'MODERATE RISK — PREPARE';
             text = 'Moderate fire danger. Prepare intervention teams, verify water availability and monitor the fire-danger trend.';
@@ -1019,7 +1019,7 @@
                 },
                 onEachFeature: function (f, l) {
                     var p = f.properties;
-                    l.bindPopup('<b>RISK CELL</b><br>HydraShield: ' +
+                    l.bindPopup('<b>RISK CELL</b><br>Talaix: ' +
                         (p.risk === null ? 'n/a' : p.risk + '/100 (' + p.risk_class + ')') +
                         '<br>FWI: ' + (p.fwi === null ? 'n/a' : p.fwi) +
                         ' · slope ' + p.slope_deg + '°' +

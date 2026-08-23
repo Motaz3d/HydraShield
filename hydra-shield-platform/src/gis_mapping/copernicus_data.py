@@ -1,5 +1,5 @@
 """
-Copernicus / Sentinel-2 data access for HydraShield — REAL data.
+Copernicus / Sentinel-2 data access for Talaix — REAL data.
 
 Queries the Element84 Earth Search public STAC catalog (Sentinel-2 Level-2A
 surface reflectance, hosted on AWS Open Data, sponsored by the Copernicus
@@ -103,7 +103,7 @@ class CopernicusDataAccess:
     def __init__(self, stac_url: str = STAC_API_URL, collection: str = COLLECTION):
         self.stac_url = stac_url
         self.collection = collection
-        self.user_agent = "HydraShield/1.0 (Earth Observation Decision Support)"
+        self.user_agent = "Talaix/1.0 (Earth Observation Decision Support)"
         if not _HAS_STAC:
             # Defer the error to call sites so the module still imports in
             # minimal environments (e.g. unit tests without raster extras).

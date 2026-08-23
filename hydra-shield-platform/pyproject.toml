@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Proprietary" }
 authors = [
-    { name = "HydraShield Earth Systems" },
+    { name = "Talaix Earth Systems" },
 ]
 keywords = ["wildfire", "earth-observation", "copernicus", "digital-twin", "climate-adaptation"]
 classifiers = [

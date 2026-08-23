@@ -1,16 +1,16 @@
-"""HydraShield API client (stdlib only — no dependencies).
+"""Talaix API client (stdlib only — no dependencies).
 
 Usage::
 
-    from hydrashield import HydraShieldClient
+    from hydrashield import TalaixClient
 
-    client = HydraShieldClient()                      # https://hydrashield.earth
+    client = TalaixClient()                      # https://talaix.com
     analysis = client.analyze("wildfire", 37.6, -6.5)
 
 Error semantics (docs/API_V2.md §1):
 
 - Non-2xx responses carrying the stable error shape ``{"error", "status"}``
-  raise :class:`HydraShieldError`.
+  raise :class:`TalaixError`.
 - Honest unavailability (e.g. HTTP 503 with
   ``{"status": "unavailable", "unavailable_reason": …}``) is **data**, not an
   exception — callers render it as-is.
@@ -23,11 +23,11 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-_DEFAULT_BASE_URL = "https://hydrashield.earth"
-_USER_AGENT = "hydrashield-python-sdk/0.1.0 (+https://hydrashield.earth)"
+_DEFAULT_BASE_URL = "https://talaix.com"
+_USER_AGENT = "hydrashield-python-sdk/0.1.0 (+https://talaix.com)"
 
 
-class HydraShieldError(Exception):
+class TalaixError(Exception):
     """Raised on non-2xx API responses that carry the {"error"} shape."""
 
     def __init__(self, status: int, message: str):
@@ -36,8 +36,8 @@ class HydraShieldError(Exception):
         super().__init__(f"HTTP {status}: {message}")
 
 
-class HydraShieldClient:
-    """Client for the public HydraShield REST API.
+class TalaixClient:
+    """Client for the public Talaix REST API.
 
     ``api_key`` is sent as the ``X-API-Key`` header (read-only metering key;
     see docs/API_V2.md §7). Public GET endpoints work without it.
@@ -79,7 +79,7 @@ class HydraShieldClient:
             except json.JSONDecodeError:
                 payload = {}
             if isinstance(payload, dict) and "error" in payload:
-                raise HydraShieldError(exc.code, str(payload["error"])) from exc
+                raise TalaixError(exc.code, str(payload["error"])) from exc
             # Honest unavailable/key-required states are data, not errors.
             return payload
 

@@ -1,5 +1,5 @@
 """
-HydraShield Security Module.
+Talaix Security Module.
 
 Provides security and privacy utilities for the platform:
     - encryption:    Encryption of sensitive data at rest and in transit.

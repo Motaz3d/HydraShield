@@ -1,4 +1,4 @@
-# HydraShield — Platform Architecture
+# Talaix — Platform Architecture
 
 **Status:** target architecture for the Climate Extreme Intelligence evolution,
 grounded in the audited current system. Read together with
@@ -14,7 +14,7 @@ grounded in the audited current system. Read together with
         browsers ──────▶│ Caddy (TLS)  │
                         └──────┬───────┘
               ┌────────────────┼─────────────────────┐
-              │ /api/*         │ /*                  │ app.hydrashield.earth
+              │ /api/*         │ /*                  │ app.talaix.com
               ▼                ▼                     ▼
       ┌──────────────┐ ┌───────────────┐   ┌──────────────────┐
       │ Flask API    │ │ Static website│   │ Dash "Command    │
@@ -119,7 +119,7 @@ class HazardModule:
     def report_sections(analysis) -> list[ReportSection]
 ```
 
-- The **wildfire plugin wraps** `HydraShieldRealAnalyser` — no rewrite of
+- The **wildfire plugin wraps** `TalaixRealAnalyser` — no rewrite of
   the working engine; the plugin adapts its dict into the shared
   `HazardAnalysis` shape.
 - New hazards (flood, drought, heat, wind, coastal) are **foundations built

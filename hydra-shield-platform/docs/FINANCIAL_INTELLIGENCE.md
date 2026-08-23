@@ -1,13 +1,13 @@
-# HydraShield — Financial & Insurance Intelligence
+# Talaix — Financial & Insurance Intelligence
 
-**Status:** framework + disclaimers. **HydraShield provides evidence and
+**Status:** framework + disclaimers. **Talaix provides evidence and
 exposure intelligence — never regulated financial or insurance advice.**
 
 ---
 
 ## 1. Disclaimer (shown wherever this layer appears)
 
-> HydraShield financial/insurance intelligence is an evidence and exposure
+> Talaix financial/insurance intelligence is an evidence and exposure
 > summary built from open data. It is **not** financial advice, **not** an
 > insurance quotation, **not** an actuarial product, and **not** a
 > substitute for professional assessment. No premium, price, or expected
@@ -16,7 +16,7 @@ exposure intelligence — never regulated financial or insurance advice.**
 
 ## 2. Audiences and their questions
 
-| Actor | Questions HydraShield helps answer (evidence stage) |
+| Actor | Questions Talaix helps answer (evidence stage) |
 |---|---|
 | Investor | How exposed is this asset/region? Which hazards, how frequent historically? What adaptation investment might reduce exposure? What evidence supports the assessment? |
 | Insurer | Historical hazard profile at the location; asset exposure; resilience measures present; evidence quality; uncertainty. |
@@ -58,7 +58,7 @@ These exist in the data model as declared, empty-until-real slots:
 - **Avoided-loss analysis** — requires both a documented valuation basis
   and scenario modelling; stated as unavailable until then.
 - **Risk pricing context** — hazard behaviour summaries an actuary can
-  consume; HydraShield never outputs a price.
+  consume; Talaix never outputs a price.
 
 ## 5. Insurance intelligence (implemented scope)
 
@@ -68,7 +68,7 @@ These exist in the data model as declared, empty-until-real slots:
   dataset completeness, OSM completeness caveat).
 - **Explicitly not done:** premium calculation, loss-cost estimation,
   eligibility decisions. Statement shown: *"Premium calculation requires
-  actuarial data that HydraShield does not provide."*
+  actuarial data that Talaix does not provide."*
 
 ## 6. Luxembourg / EU finance relevance (market context)
 

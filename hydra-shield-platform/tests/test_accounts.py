@@ -112,7 +112,7 @@ def test_full_register_verify_login_flow(client, env):
     # Verification email arrived in the dev outbox (never sent).
     eml = _eml_text(env["outbox"], "email_verification")
     assert "To: ria@example.org" in eml
-    assert "Verify your HydraShield email address" in eml
+    assert "Verify your Talaix email address" in eml
 
     token = _verification_token(env["outbox"])
     resp = client.get(f"/api/v2/auth/verify?token={token}")
@@ -406,7 +406,7 @@ def test_registration_notifies_platform_inbox(client, env):
                              "display_name": "Newbie"})
     assert resp.status_code == 201
     eml = _eml_text(env["outbox"], "admin_notification")
-    assert "To: info@hydrashield.earth" in eml
+    assert "To: info@talaix.com" in eml
     assert "newbie@example.org" in eml
     assert "new account registration" in eml.lower()
     # Never the password, never a token.
@@ -461,7 +461,7 @@ def test_contact_message_reaches_platform_inbox(client, env):
     assert resp.status_code == 201
     eml = _eml_text(env["outbox"], "contact_message")
     # The submission itself must reach the platform (default: SMTP_FROM).
-    assert "To: info@hydrashield.earth" in eml
+    assert "To: info@talaix.com" in eml
     assert "Platform inbox delivery check." in eml
     assert "visitor2@example.org" in eml
 

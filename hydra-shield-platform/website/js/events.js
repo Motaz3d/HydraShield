@@ -1,4 +1,4 @@
-/* HydraShield — Historical Event Intelligence (events.html).
+/* Talaix — Historical Event Intelligence (events.html).
  *
  * Location + year + radius controls → GET /api/v2/events. Event cards show
  * dates/duration, classification chip, severity, observed conditions vs

@@ -1,5 +1,5 @@
 """
-Dashboard Components for HydraShield Wildfire Protection System.
+Dashboard Components for Talaix Wildfire Protection System.
 
 Interactive components for the dashboard including maps, monitors, simulators,
 and explainable AI elements.

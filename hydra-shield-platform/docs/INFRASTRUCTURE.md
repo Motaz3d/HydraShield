@@ -1,4 +1,4 @@
-# HydraShield — Backend Infrastructure
+# Talaix — Backend Infrastructure
 
 **Status:** current state + target design for the data-intensive backend.
 Rule: infrastructure follows demonstrated need — nothing here licenses

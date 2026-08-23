@@ -1,8 +1,8 @@
-# HydraShield JavaScript SDK + `<hydrashield-risk>` Web Component
+# Talaix JavaScript SDK + `<hydrashield-risk>` Web Component
 
 Zero-dependency, fetch-based client for the
-[HydraShield](https://hydrashield.earth) public REST API, plus an
-embeddable risk card. UMD-lite: attaches `window.HydraShield` in browsers,
+[Talaix](https://talaix.com) public REST API, plus an
+embeddable risk card. UMD-lite: attaches `window.Talaix` in browsers,
 `require()`-able under Node.
 
 ```html
@@ -12,8 +12,8 @@ embeddable risk card. UMD-lite: attaches `window.HydraShield` in browsers,
 ## Client
 
 ```js
-const client = HydraShield.createClient({
-    // baseUrl: 'https://hydrashield.earth',   // default
+const client = Talaix.createClient({
+    // baseUrl: 'https://talaix.com',   // default
     // apiKey: 'hs_…',                         // optional; sent as X-API-Key (read-only)
 });
 
@@ -38,7 +38,7 @@ the response is a PDF), `populationExposure(lat, lon, radiusKm=3)`,
 `smokeScenario(lat, lon, hours=24)`.
 
 **Error semantics:** non-2xx responses with the stable `{"error", "status"}`
-shape throw `HydraShieldError` (`.status`, `.message`). Honest
+shape throw `TalaixError` (`.status`, `.message`). Honest
 unavailability (`{"status": "unavailable", …}`, also on HTTP 503) is
 returned as **data** — render it, don't catch it.
 
@@ -46,18 +46,18 @@ returned as **data** — render it, don't catch it.
 
 Shadow-DOM card that fetches `/api/v2/analyze` and renders the hazard name,
 level label/score, basis line, provenance chips and a
-"Data: hydrashield.earth" attribution. Sanitized (untrusted content only
+"Data: talaix.com" attribution. Sanitized (untrusted content only
 ever goes through `textContent`), with honest loading / error /
 unavailable states. Requires the origin to be allowed by the server's CORS
 policy (`HYDRASHIELD_CORS_ORIGINS`, exact origins, GET-only).
 
 Attributes: `lat`, `lon`, `hazard` (default `wildfire`),
-`base-url` (default `https://hydrashield.earth`).
+`base-url` (default `https://talaix.com`).
 
 ### SaaS dashboard page
 
 ```html
-<script src="https://hydrashield.earth/sdk/hydrashield.js"></script>
+<script src="https://talaix.com/sdk/hydrashield.js"></script>
 
 <hydrashield-risk lat="37.6" lon="-6.5" hazard="wildfire"></hydrashield-risk>
 ```
@@ -86,7 +86,7 @@ map.on('click', (e) => {
 <a id="report-link">Full risk report (PDF)</a>
 <script>
     document.getElementById('report-link').href =
-        HydraShield.createClient({})
+        Talaix.createClient({})
             .reportUrl({{ property.lat }}, {{ property.lon }}, 'decision');
 </script>
 ```
@@ -105,4 +105,4 @@ Full API contract: `docs/API_V2.md`.
 ## Deployed mirror
 
 `website/sdk/hydrashield.js` is the deployed mirror served at
-`https://hydrashield.earth/sdk/hydrashield.js` (Caddy serves `website/`). Edit `sdk/js/hydrashield.js` (this file) and re-copy to the mirror on release.
+`https://talaix.com/sdk/hydrashield.js` (Caddy serves `website/`). Edit `sdk/js/hydrashield.js` (this file) and re-copy to the mirror on release.

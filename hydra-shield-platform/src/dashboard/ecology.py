@@ -172,7 +172,7 @@ def build_ecology_block(
             "message": INSUFFICIENT_DATA_MESSAGE,
             "provenance": {
                 "kind": "unavailable",
-                "source": "HydraShield ecology engine",
+                "source": "Talaix ecology engine",
                 "quality": "missing",
                 "limitations": "No terrain, moisture, climate or land-cover "
                                "inputs were available.",
@@ -251,7 +251,7 @@ def build_ecology_block(
         "verification_note": VERIFICATION_NOTE,
         "provenance": {
             "kind": "derived",
-            "source": "HydraShield ecology engine: real site conditions + curated "
+            "source": "Talaix ecology engine: real site conditions + curated "
                       "species knowledge base (config/species_knowledge.json)",
             "quality": "literature-level suitability; local verification required",
             "limitations": "Climate zone is a screening classification from the "

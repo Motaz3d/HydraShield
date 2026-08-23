@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HydraShield marketing copilot — the operator-facing entry point to the
+"""Talaix marketing copilot — the operator-facing entry point to the
 commercial-intelligence workspace (marketing/).
 
 Reads only the repository (and, for `demand`, the local product-analytics
@@ -495,7 +495,7 @@ def cmd_morning() -> int:
     print("## 7 · Recommended outreach")
     print("Human decision: pick from the opportunities above; draft with "
           "scripts/outreach_composer.py (evidence required); queue; review; "
-          "send from info@hydrashield.earth only after human approval.")
+          "send from info@talaix.com only after human approval.")
     return 0
 
 
@@ -689,7 +689,7 @@ def cmd_hazards() -> int:
     areas = _snapshot_areas()
     if areas is None:
         print("Snapshot unreachable — current hazard state is unknown "
-              "(not zero). Fetch https://hydrashield.earth/api/risk-snapshot "
+              "(not zero). Fetch https://talaix.com/api/risk-snapshot "
               "manually or run on the server.")
         return 0
     if not areas:

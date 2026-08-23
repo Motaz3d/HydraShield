@@ -457,7 +457,7 @@ def test_sms_message_format():
     assert "Main driver: FWI 52.3 (Extreme)" in message
     assert "Action: Increase monitoring" in message
     assert "2026-08-17 12:00 UTC" in message
-    assert "hydrashield.earth" in message
+    assert "talaix.com" in message
     assert len(message) <= 320
 
 
@@ -709,7 +709,7 @@ def test_check_alert_rules_fires_exactly_one_alert(env, monkeypatch):
         def analyse_point(self, lat, lon, name=None):
             return _wildfire_analysis(risk=72.0, risk_class="Extreme")
 
-    monkeypatch.setattr(car, "HydraShieldRealAnalyser", FakeAnalyser)
+    monkeypatch.setattr(car, "TalaixRealAnalyser", FakeAnalyser)
 
     store = NotifyStore(str(env["db"]))
     user = _verified_user(store, env, email="checker@example.org")
@@ -780,7 +780,7 @@ def mock_sms_provider(monkeypatch):
     url = f"http://127.0.0.1:{server.server_port}/sms"
     monkeypatch.setenv("SMS_PROVIDER", "http")
     monkeypatch.setenv("SMS_HTTP_URL", url)
-    monkeypatch.setenv("SMS_FROM", "HydraShield")
+    monkeypatch.setenv("SMS_FROM", "Talaix")
     yield {"url": url, "received": received}
     server.shutdown()
 

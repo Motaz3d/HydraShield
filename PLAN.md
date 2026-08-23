@@ -1,4 +1,4 @@
-# HydraShield — Working Plan
+# Talaix — Working Plan
 
 Living plan between the operator and the AI copilot. Statuses are kept
 honest: an item is "done" only when it is verified in production.
@@ -10,7 +10,7 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Item | Status | Notes |
 |---|---|---|
 | User registration end-to-end (register → email verify → login) | ✅ | Verified live 2026-08-22: 201 on register, real verification email via Gmail SMTP, browser redirect to `account.html?verified=1`, session persists across deploys (`HYDRASHIELD_SECRET_KEY` set) |
-| Operator account `info@hydrashield.earth` = admin | ✅ | Activated + promotion chain verified server-side; Commercial Center at `admin.html` |
+| Operator account `info@talaix.com` = admin | ✅ | Activated + promotion chain verified server-side; Commercial Center at `admin.html` |
 | Transactional email (verification, reset, alerts) | ✅ | Gmail SMTP live on Vultr (`/opt/hydrashield/.env`, never in Git) |
 | SMS alerts | 🔶 | Code complete, 33 tests green, three honest backends; production runs the dev outbox — **no real SMS until a provider is configured** (`SMS_PROVIDER=http` + `SMS_HTTP_URL` + key/secret in server `.env`) |
 | Show/hide password on auth forms | ✅ | Live on `account.html` |

@@ -1,14 +1,14 @@
 [general]
-name=HydraShield Climate Intelligence
-description=Climate-extreme intelligence from real data: analyze a point against the HydraShield API (wildfire, flood, drought, extreme heat, extreme wind, coastal) and browse the hazard registry with official sources and provenance. Core analysis works without an account; saving locations, monitoring and SMS alerts require a free HydraShield account; higher limits require a subscription (hydrashield.earth).
-about=HydraShield brings together scientific evidence, Earth observation, official open data and historical events to understand environmental extremes, who and what is exposed, the economic implications, and practical resilience actions. This plugin is a client of the public HydraShield API: all computation happens server-side, every result carries its evidence class and provenance, and unavailable data is shown as unavailable — never filled in. Levels are screening indicators, not validated predictions. No credentials are required for the free analysis endpoints; an optional API key (subscriber feature) is stored only via the QGIS Authentication System (authcfg), never in project files.
+name=Talaix Climate Intelligence
+description=Climate-extreme intelligence from real data: analyze a point against the Talaix API (wildfire, flood, drought, extreme heat, extreme wind, coastal) and browse the hazard registry with official sources and provenance. Core analysis works without an account; saving locations, monitoring and SMS alerts require a free Talaix account; higher limits require a subscription (talaix.com).
+about=Talaix brings together scientific evidence, Earth observation, official open data and historical events to understand environmental extremes, who and what is exposed, the economic implications, and practical resilience actions. This plugin is a client of the public Talaix API: all computation happens server-side, every result carries its evidence class and provenance, and unavailable data is shown as unavailable — never filled in. Levels are screening indicators, not validated predictions. No credentials are required for the free analysis endpoints; an optional API key (subscriber feature) is stored only via the QGIS Authentication System (authcfg), never in project files.
 version=0.1.0
 qgisMinimumVersion=3.40
 qgisMaximumVersion=4.99
 hasProcessingProvider=yes
-author=HydraShield Earth Systems
-email=info@hydrashield.earth
-homepage=https://hydrashield.earth
+author=Talaix Earth Systems
+email=info@talaix.com
+homepage=https://talaix.com
 tracker=https://github.com/Motaz3d/HydraShield/issues
 repository=https://github.com/Motaz3d/HydraShield
 experimental=True

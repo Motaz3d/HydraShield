@@ -1,4 +1,4 @@
-# HydraShield Benchmarks & Model Evaluation
+# Talaix Benchmarks & Model Evaluation
 
 **Status: framework implemented. Benchmark runs are produced only by actually
 executing the suite — never by editing a JSON file.**
@@ -19,7 +19,7 @@ and hydrological services, WMO, Copernicus). Each event keeps two things
 strictly separate (`signal_basis` field):
 
 - **Occurrence — `DOCUMENTED`**: established by the cited authorities (e.g.
-  the UK Met Office verified the 40 °C record of 19 July 2022). HydraShield
+  the UK Met Office verified the 40 °C record of 19 July 2022). Talaix
   does not re-prove the event; the sources stand for it.
 - **Expected signal — OBSERVED/MODELLED from our own datasets**: what the
   ERA5 reanalysis or GloFAS modelled discharge *should show* for that event

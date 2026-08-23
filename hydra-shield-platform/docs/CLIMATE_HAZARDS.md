@@ -1,4 +1,4 @@
-# HydraShield — Climate Hazards
+# Talaix — Climate Hazards
 
 **Status:** hazard ontology + per-hazard data foundations.
 Implements the "common hazard architecture" of `PRODUCT_VISION.md`.
@@ -180,7 +180,7 @@ stated, never as working features:
   the source's own terminology.
 - **volcanic** — candidate source: Smithsonian/USGS Global Volcanism
   Program (bot-protected for automated access; needs a dataset export
-  path). HydraShield never predicts eruptions; future capability is
+  path). Talaix never predicts eruptions; future capability is
   monitoring / historical evidence / exposure only.
 
 Enabling either requires a real, tested fetch path first.

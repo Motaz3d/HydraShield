@@ -12,7 +12,7 @@ python scripts/marketing_status.py morning
 1. **New commercial signals** — who showed climate-relevant activity
 2. **Events to monitor** — ranked by relevance and date
 3. **High-priority prospects** — who to contact today, why, with which
-   HydraShield service and which evidence
+   Talaix service and which evidence
 4. **Follow-ups due** — leads past their `next_followup` date
 5. **Product demand signals** — what users actually analyzed/viewed
    (aggregate counts only)

@@ -1,6 +1,6 @@
-# HydraShield Marketing Workspace
+# Talaix Marketing Workspace
 
-This directory is HydraShield's **persistent marketing knowledge base** —
+This directory is Talaix's **persistent marketing knowledge base** —
 the shared memory between the operator and the AI copilot. It exists so
 marketing does not depend on conversation memory: every decision, campaign,
 lead and outcome is a file in this repository with history.

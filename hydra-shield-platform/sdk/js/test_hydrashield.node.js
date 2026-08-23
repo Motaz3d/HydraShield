@@ -28,7 +28,7 @@ global.fetch = (url, options) => {
 
 const HS = require('./hydrashield.js');
 
-const BASE = 'https://hydrashield.earth';
+const BASE = 'https://talaix.com';
 let passed = 0;
 let chain = Promise.resolve();
 
@@ -135,23 +135,23 @@ test('custom baseUrl (trailing slash trimmed)', () => {
 
 /* --- Error semantics --------------------------------------------------- */
 
-test('{"error"} body on 4xx throws HydraShieldError', () => {
+test('{"error"} body on 4xx throws TalaixError', () => {
     queue = [{ __status: 404, body: { error: "Unknown hazard 'xyz'.", status: 404 } }];
     return HS.createClient({}).analyze('xyz', 0, 0)
         .then(() => { throw new Error('should have thrown'); })
         .catch((err) => {
-            assert.ok(err instanceof HS.HydraShieldError);
+            assert.ok(err instanceof HS.TalaixError);
             assert.strictEqual(err.status, 404);
             assert.ok(err.message.includes('Unknown hazard'));
         });
 });
 
-test('{"error"} body on 5xx throws HydraShieldError', () => {
+test('{"error"} body on 5xx throws TalaixError', () => {
     queue = [{ __status: 502, body: { error: 'Analysis failed', status: 502 } }];
     return HS.createClient({}).riskSnapshot()
         .then(() => { throw new Error('should have thrown'); })
         .catch((err) => {
-            assert.ok(err instanceof HS.HydraShieldError);
+            assert.ok(err instanceof HS.TalaixError);
             assert.strictEqual(err.status, 502);
         });
 });
@@ -192,8 +192,8 @@ test('custom element defined only when customElements exists', () => {
         'the SDK client still works without a DOM');
 });
 
-test('window.HydraShield attached (globalThis under Node)', () => {
-    assert.strictEqual(globalThis.HydraShield, HS);
+test('window.Talaix attached (globalThis under Node)', () => {
+    assert.strictEqual(globalThis.Talaix, HS);
 });
 
 /* --- Summary ------------------------------------------------------------ */

@@ -1,5 +1,5 @@
 """
-HydraShield GIS Mapping Module.
+Talaix GIS Mapping Module.
 
 Earth Observation ingestion, GIS processing, and mapping.
 

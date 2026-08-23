@@ -1,4 +1,4 @@
-# HydraShield — Email Architecture
+# Talaix — Email Architecture
 
 **Status:** verified production architecture (2026-08-17). Describes the
 real, confirmed configuration. **No credentials live in Git.**
@@ -12,9 +12,9 @@ automation**.
 
 | Component | State |
 |---|---|
-| Domain | `hydrashield.earth` |
+| Domain | `talaix.com` |
 | Mail provider | **Google Workspace — Business Starter** |
-| Primary mailbox | `info@hydrashield.earth` — **fully operational** |
+| Primary mailbox | `info@talaix.com` — **fully operational** |
 | Domain ownership | PASS |
 | Gmail | READY |
 | Sending | PASS · Receiving | PASS |
@@ -25,7 +25,7 @@ automation**.
 ```
 A      @    → 45.77.54.166
 A      app  → 45.77.54.166
-CNAME  www  → hydrashield.earth
+CNAME  www  → talaix.com
 MX     @    → smtp.google.com (priority 1)
 TXT    @    → v=spf1 include:_spf.google.com ~all
 DKIM   google._domainkey → Google Workspace key (configured, verified)
@@ -38,7 +38,7 @@ DMARC  _dmarc → v=DMARC1; p=none   (intentionally monitoring mode —
 
 | Address | Role | Rules |
 |---|---|---|
-| `info@hydrashield.earth` | **Official HydraShield organizational address** — all public/platform communication, transactional email, operator notifications | preferred public address |
+| `info@talaix.com` | **Official Talaix organizational address** — all public/platform communication, transactional email, operator notifications | preferred public address |
 | `motazomarien@gmail.com` | Founder / professional personal contact (long-term identity) | never modified by the platform |
 | `motaz3d@gmail.com` | Existing personal account — recovery / historical identity | **must remain active; never deleted, replaced, migrated or modified** |
 
@@ -48,7 +48,7 @@ Aliases attached to the existing `info@` user (no additional paid seats):
 
 ```
 contact@ · hello@ · support@ · sales@ · partners@ · reports@ · alerts@
-        @hydrashield.earth  →  all route to info@hydrashield.earth
+        @talaix.com  →  all route to info@talaix.com
 ```
 
 - Aliases are created in the Google Workspace admin console by the
@@ -57,8 +57,8 @@ contact@ · hello@ · support@ · sales@ · partners@ · reports@ · alerts@
   Gmail → Settings → "Send mail as", the platform can send with that
   alias in the `From` header through the same `info@` SMTP credentials.
   Per-template alias overrides are supported via env vars
-  (`SMTP_FROM_<TEMPLATE>`, e.g. `SMTP_FROM_ALERT=alerts@hydrashield.earth`,
-  `SMTP_FROM_REPORT_DELIVERY=reports@hydrashield.earth`) — see
+  (`SMTP_FROM_<TEMPLATE>`, e.g. `SMTP_FROM_ALERT=alerts@talaix.com`,
+  `SMTP_FROM_REPORT_DELIVERY=reports@talaix.com`) — see
   `.env.example`. The platform **never invents sender identities**: an
   alias is used only when explicitly set via env.
 
@@ -83,7 +83,7 @@ mailbox receiving capability lives in Google Workspace (operator reads it
 in Gmail); the application only *sends* transactional email and *delivers
 messages to* the platform inbox via its send path.
 
-## 5. Operator notification matrix (info@hydrashield.earth)
+## 5. Operator notification matrix (info@talaix.com)
 
 | Event | Mechanism | Content |
 |---|---|---|
@@ -144,5 +144,5 @@ automatically.
 `contact_message` · `admin_notification` · `operator_notification` ·
 `subscription_confirmation`
 
-Sender defaults to `SMTP_FROM` (info@hydrashield.earth); per-template
+Sender defaults to `SMTP_FROM` (info@talaix.com); per-template
 alias overrides via `SMTP_FROM_<TEMPLATE>` env (§3).

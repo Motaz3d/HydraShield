@@ -672,7 +672,7 @@ def ground_truth():
 
     REAL, authoritatively documented hazard events used as benchmark
     anchors. Occurrence DOCUMENTED (sources per event); the expected signal
-    is OBSERVED/MODELLED from HydraShield datasets — never fabricated.
+    is OBSERVED/MODELLED from Talaix datasets — never fabricated.
     """
     if not _rate("v2groundtruth", 20, 60.0):
         return _err("Rate limit exceeded", 429)

@@ -1,5 +1,5 @@
 """
-Encryption utilities for HydraShield sensitive data.
+Encryption utilities for Talaix sensitive data.
 
 Provides symmetric encryption at rest using the `cryptography` library when
 available, with a graceful fallback to one-way hashing for environments where

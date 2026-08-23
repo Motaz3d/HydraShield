@@ -1,4 +1,4 @@
-# HydraShield — Economic Intelligence
+# Talaix — Economic Intelligence
 
 **Status:** framework + first implementation stage.
 Norm: **no invented monetary losses.** Where valuation has no documented
@@ -43,7 +43,7 @@ the analysis window (hazard event window or current conditions).
 
 ## 3. The no-fake-money rule
 
-- HydraShield **does not output euro/dollar loss figures** unless a
+- Talaix **does not output euro/dollar loss figures** unless a
   documented valuation dataset with a stated method is integrated.
 - Where monetary quantification is unavailable, outputs state:
   *"Economic exposure cannot currently be quantified from available
@@ -102,7 +102,7 @@ distinctions used by climate-finance practice:
 
 ## 7. Analytical models (interpretation layer)
 
-`/api/v2/economy` responses carry `analytical_models` — HydraShield's
+`/api/v2/economy` responses carry `analytical_models` — Talaix's
 structured interpretation of the exposure profile, not a data dump.
 Each model is a declared screening heuristic over the real inputs with
 inputs/methodology/output/confidence/limitations:

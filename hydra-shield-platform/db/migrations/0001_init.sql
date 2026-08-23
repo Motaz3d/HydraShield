@@ -1,4 +1,4 @@
--- HydraShield PostGIS target schema — DESIGN ONLY.
+-- Talaix PostGIS target schema — DESIGN ONLY.
 --
 -- This DDL is the migration target documented in docs/DATA_MODEL_POSTGIS.md.
 -- It is NEVER executed by the application: SQLite (data/cache/hydrashield_cache.sqlite3)

@@ -1,4 +1,4 @@
-# HydraShield — Products & Partnerships
+# Talaix — Products & Partnerships
 
 **Status:** commercial strategy on top of the analytical core.
 Rule: every product below is assembled from the SAME real-data engine and
@@ -39,7 +39,7 @@ numbers.
 
 Evaluation criteria for any partner: data/license legality, EU/GDPR
 compatibility, scientific quality, coverage/resolution/latency, pricing,
-lock-in risk, and whether the partner's evidence can carry HydraShield
+lock-in risk, and whether the partner's evidence can carry Talaix
 provenance labels.
 
 ## 3. Continuous conversion pipeline

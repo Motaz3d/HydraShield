@@ -1,7 +1,7 @@
 {
   "programme": "Horizon 2020, Research and Innovation Action, grant 101003598",
   "call": "CoCliCo \u2014 Coastal Climate Core Services",
-  "topic": "CORDIS states CoCliCo delivers an open web-platform for decision-making on coastal risk and adaptation, combining high-quality geospatial information layers \u2014 a direct adjacency to HydraShield's coastal hazard, exposure and historical event layers and API.",
+  "topic": "CORDIS states CoCliCo delivers an open web-platform for decision-making on coastal risk and adaptation, combining high-quality geospatial information layers \u2014 a direct adjacency to Talaix's coastal hazard, exposure and historical event layers and API.",
   "institution": "Bureau de Recherches G\u00e9ologiques et Mini\u00e8res (BRGM)",
   "official_source": "https://cordis.europa.eu/project/id/101003598",
   "deadline": "not currently verified",
@@ -10,9 +10,9 @@
     "coastal",
     "flood"
   ],
-  "hydrashield_relevance": "Position HydraShield's coastal hazard, exposure and historical event API as a complementary evidence layer for CoCliCo's decision-oriented coastal risk platform.",
+  "hydrashield_relevance": "Position Talaix's coastal hazard, exposure and historical event API as a complementary evidence layer for CoCliCo's decision-oriented coastal risk platform.",
   "evidence": "Evidence-labelled coastal flood exposure, storm-surge historical event records and infrastructure exposure layers consumable via API alongside CoCliCo's platform layers.",
-  "recommended_strategy": "Position HydraShield's coastal hazard, exposure and historical event API as a complementary evidence layer for CoCliCo's decision-oriented coastal risk platform.",
+  "recommended_strategy": "Position Talaix's coastal hazard, exposure and historical event API as a complementary evidence layer for CoCliCo's decision-oriented coastal risk platform.",
   "date_checked": "2026-08-18",
   "status": "watching"
 }

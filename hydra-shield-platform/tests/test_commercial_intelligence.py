@@ -275,7 +275,7 @@ def test_composer_draft_personalized_official_sender():
             "recommended_product": "monitoring"}
     draft = oc.compose_draft(lead, {"outreach_style": "technical"},
                              "monitoring pilot", "2026-09-01")
-    assert draft["from"] == "info@hydrashield.earth"
+    assert draft["from"] == "info@talaix.com"
     assert "Stadtwerke Example" in draft["body"]
     assert "flood exposure of insured assets" in draft["body"]
     assert "per-location flood screening" in draft["body"]
@@ -296,7 +296,7 @@ def test_composer_queue_and_audit(tmp_path, monkeypatch):
     oc.queue_draft("org.json", draft)
     queue = json.loads((base / "outreach" / "queue.json").read_text())
     assert queue["queue"][0]["status"] == "drafted"  # human gate
-    assert queue["queue"][0]["from"] == "info@hydrashield.earth"
+    assert queue["queue"][0]["from"] == "info@talaix.com"
     audit = (base / "outreach" / "audit.jsonl").read_text().strip()
     assert "draft_created" in audit
 
@@ -310,7 +310,7 @@ def test_composer_never_sends():
 
 
 def test_no_personal_gmail_as_sender_anywhere():
-    """No HydraShield sender path or public surface may use the personal
+    """No Talaix sender path or public surface may use the personal
     mailboxes. The only legitimate occurrences are the FORBIDDEN_SENDERS
     guard list and the private operational reference inside
     docs/EMAIL_ARCHITECTURE.md (never rendered publicly)."""
@@ -370,7 +370,7 @@ def test_hazard_feed_is_read_only():
         pass  # urlopen(req) is the allowed GET path; checked below
     assert "smtplib" not in src and "sendmail" not in src
     assert "method=\"POST\"" not in src and "method='POST'" not in src
-    assert "hydrashield.earth/api/risk-snapshot" in src
+    assert "talaix.com/api/risk-snapshot" in src
 
 
 def test_hazard_market_command_runs_and_is_honest():

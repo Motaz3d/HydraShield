@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydraShield — How Wildfire Risk Works (Interactive Story)</title>
+    <title>Talaix — How Wildfire Risk Works (Interactive Story)</title>
     <meta name="description" content="An interactive visual explanation of wildfire risk: conditions, drivers, spread, protection and recovery — with optional live real data.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -68,7 +68,7 @@
 <body data-page="about">
 <div id="site-header"></div>
 <div class="story-wrap">
-    <div class="story-nav" style="margin-bottom:8px;"><a href="index.html">← HydraShield home</a></div>
+    <div class="story-nav" style="margin-bottom:8px;"><a href="index.html">← Talaix home</a></div>
     <div class="story-head">
         <h1>🔥 How Wildfire Risk Works</h1>
         <p>An interactive story — from conditions to recovery. Optionally load a real location to see live values.</p>
@@ -78,7 +78,7 @@
         <input id="locInput" type="text" placeholder="Optional: enter a real place (e.g. Faro, Portugal)">
         <button id="locBtn">Load real data</button>
     </div>
-    <div class="src-note" id="liveNote">Educational mode — no values shown. Loading a place fetches real data from the HydraShield API.</div>
+    <div class="src-note" id="liveNote">Educational mode — no values shown. Loading a place fetches real data from the Talaix API.</div>
 
     <div class="stage" id="stage" data-step="1">
         <svg viewBox="0 0 960 420" role="img" aria-label="Animated landscape">
@@ -138,7 +138,7 @@
     </div>
     <div class="src-note">
         Story mode is educational. When a real place is loaded, values shown are the current real
-        HydraShield analysis (Sentinel-2 · Open-Meteo/ERA5 · DEM · WorldCover · FWI) with provenance —
+        Talaix analysis (Sentinel-2 · Open-Meteo/ERA5 · DEM · WorldCover · FWI) with provenance —
         a composite indicator, not a probability of fire.
     </div>
 </div>
@@ -175,19 +175,19 @@
     var steps = [
         { t: '1 · This place', x: 'A landscape like many in Europe: vegetation, slopes, and homes near the wildland. Whether it is at risk depends on real, measurable conditions — not guesswork.',
           live: null },
-        { t: '2 · The conditions', x: 'Heat, low humidity, little rain and wind dry out grasses, shrubs and trees. HydraShield measures this with real weather data, soil-moisture models and satellite observations.',
+        { t: '2 · The conditions', x: 'Heat, low humidity, little rain and wind dry out grasses, shrubs and trees. Talaix measures this with real weather data, soil-moisture models and satellite observations.',
           live: function (d) { return 'Now in ' + d.name + ': ' + d.temp + ' °C, humidity ' + d.rh + '%, soil moisture ' + d.sm + ' m³/m³ (weather model, ~11 km).'; } },
-        { t: '3 · Why the risk rises', x: 'Fire danger combines how dry the fuel is, how hot and windy it is, how steep the land is and whether the vegetation can burn. That is what the HydraShield score summarises — it is an indicator, not a probability.',
+        { t: '3 · Why the risk rises', x: 'Fire danger combines how dry the fuel is, how hot and windy it is, how steep the land is and whether the vegetation can burn. That is what the Talaix score summarises — it is an indicator, not a probability.',
           live: function (d) { return 'Real analysis for ' + d.name + ': risk ' + d.risk + '/100 (' + d.cls + '), FWI ' + d.fwi + ', fuel moisture ' + d.fmc + '%.'; } },
-        { t: '4 · What could happen', x: 'If an ignition happens under high danger, fire spreads — faster uphill and downwind. HydraShield models the likely rate and direction of spread from the real conditions.',
+        { t: '4 · What could happen', x: 'If an ignition happens under high danger, fire spreads — faster uphill and downwind. Talaix models the likely rate and direction of spread from the real conditions.',
           live: function (d) { return d.ros ? 'Modelled rate of spread here now: ' + d.ros + ' m/min (screening model).' : null; } },
-        { t: '5 · What is at stake', x: 'Homes, schools, hospitals, roads and power lines near burnable vegetation form the wildland-urban interface. HydraShield maps them from real OpenStreetMap data.',
+        { t: '5 · What is at stake', x: 'Homes, schools, hospitals, roads and power lines near burnable vegetation form the wildland-urban interface. Talaix maps them from real OpenStreetMap data.',
           live: function (d) { return d.assets !== null ? 'Mapped critical facilities within 2 km: ' + d.assets + ' (OpenStreetMap).' : 'OpenStreetMap context unavailable for this place.'; } },
         { t: '6 · What we can do', x: 'Risk can be reduced before fire starts: manage hazardous dry fuel, create fuel breaks, prepare water, increase monitoring, and protect critical sites first.',
           live: function (d) { return d.topRec ? 'Top evidence-based recommendation now: ' + d.topRec : null; } },
-        { t: '7 · If we intervene', x: 'With managed fuel breaks and hydrated protection zones, the modelled fire spread slows and the risk score drops. HydraShield shows this as a modelled scenario — never as an observed result.',
+        { t: '7 · If we intervene', x: 'With managed fuel breaks and hydrated protection zones, the modelled fire spread slows and the risk score drops. Talaix shows this as a modelled scenario — never as an observed result.',
           live: function (d) { return d.scenario ? 'Modelled hydration scenario: risk ' + d.scenario[0] + ' → ' + d.scenario[1] + ' (modelled, not observed).' : null; } },
-        { t: '8 · Recovery', x: 'After fire, ecosystems can recover: many native species resprout, and restoration with site-appropriate, less-flammable native vegetation reduces future risk. HydraShield recommends species from the real site conditions.',
+        { t: '8 · Recovery', x: 'After fire, ecosystems can recover: many native species resprout, and restoration with site-appropriate, less-flammable native vegetation reduces future risk. Talaix recommends species from the real site conditions.',
           live: function (d) { return d.species ? 'Site-fitted example: ' + d.species + ' (verify locally).' : null; } }
     ];
 
@@ -252,7 +252,7 @@
                     species: ecoRec ? ecoRec.common_name + ' (' + ecoRec.scientific_name + ')' : null
                 };
                 note.textContent = 'Live real data loaded for ' + liveData.name +
-                    ' — values shown in the steps come from the current HydraShield analysis.';
+                    ' — values shown in the steps come from the current Talaix analysis.';
                 go(step);
             })
             .catch(function (err) { note.textContent = 'Request failed: ' + err; });

@@ -1,21 +1,21 @@
 """
-Module to run the HydraShield Dashboard.
+Module to run the Talaix Dashboard.
 
 This module provides a simple way to start the interactive dashboard
 with all its components and integrations.
 """
 
-from .dashboard import HydraShieldDashboard
+from .dashboard import TalaixDashboard
 
 
 def run_dashboard(
-    title: str = "HydraShield Command Center",
+    title: str = "Talaix Command Center",
     port: int = 8050,
     host: str = "0.0.0.0",
     debug: bool = True
 ):
     """
-    Run the HydraShield Dashboard.
+    Run the Talaix Dashboard.
     
     Parameters
     ----------
@@ -28,7 +28,7 @@ def run_dashboard(
     debug : bool
         Enable debug mode
     """
-    dashboard = HydraShieldDashboard(title=title, port=port, host=host, debug=debug)
+    dashboard = TalaixDashboard(title=title, port=port, host=host, debug=debug)
     dashboard.run()
 
 

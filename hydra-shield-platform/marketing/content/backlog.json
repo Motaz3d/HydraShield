@@ -11,7 +11,7 @@
       "status": "idea",
       "source_requirements": [
         "NASA FIRMS documentation",
-        "HydraShield events endpoint"
+        "Talaix events endpoint"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "status": "idea",
       "source_requirements": [
         "GloFAS via Open-Meteo",
-        "HydraShield flood analysis"
+        "Talaix flood analysis"
       ]
     },
     {
@@ -41,7 +41,7 @@
       "segment": "real_estate",
       "status": "idea",
       "source_requirements": [
-        "HydraShield per-hazard analyses"
+        "Talaix per-hazard analyses"
       ]
     },
     {
@@ -65,7 +65,7 @@
       "status": "idea",
       "source_requirements": [
         "Copernicus Sentinel-2 docs",
-        "HydraShield provenance model"
+        "Talaix provenance model"
       ]
     },
     {

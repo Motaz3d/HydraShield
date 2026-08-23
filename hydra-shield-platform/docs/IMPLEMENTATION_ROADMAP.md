@@ -1,4 +1,4 @@
-# HydraShield — Implementation Roadmap
+# Talaix — Implementation Roadmap
 
 **Status:** living plan for the Climate Extreme Intelligence evolution.
 Order follows the agreed priorities; each stage ships with tests and a
@@ -109,7 +109,7 @@ on an external key/account.
 - [DONE] `mailer.py` + 7 templates (welcome, verification, report
   ready/delivery, alert, contact ack, subscription confirmation);
   SMTP when configured, safe `.eml` outbox backend otherwise;
-  `SMTP_FROM=info@hydrashield.earth`; legacy `SMTP_PASS` honoured;
+  `SMTP_FROM=info@talaix.com`; legacy `SMTP_PASS` honoured;
   watch alerts migrated with behaviour preserved. 10 offline tests.
 - [DONE] Report metadata block in all three PDF types (report ID, engine
   version, data sources, evidence-status counts, validation status).
@@ -189,7 +189,7 @@ on an external key/account.
 | Credential | Unlocks | Status |
 |---|---|---|
 | `FIRMS_MAP_KEY` (free) | historical fire events layer | already supported |
-| SMTP_* (hydrashield.earth mailbox) | production email | configured at deploy time |
+| SMTP_* (talaix.com mailbox) | production email | configured at deploy time |
 | `HYDRASHIELD_SECRET_KEY` | production token security | configured at deploy time |
 | CDSE / Copernicus account | Sentinel-1 flood extent, CLMS | research stage |
 | Copernicus Marine / CDS account | sea-level/ocean products | research stage |

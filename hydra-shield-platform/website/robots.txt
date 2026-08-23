@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin.html
 Allow: /
 
-Sitemap: https://hydrashield.earth/sitemap.xml
+Sitemap: https://talaix.com/sitemap.xml

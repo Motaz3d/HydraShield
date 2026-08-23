@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HydraShield automated follow-up engine.
+"""Talaix automated follow-up engine.
 
 Reads leads, calculates follow-up dates, generates follow-up actions,
 and integrates with outreach_composer.py for draft emails.

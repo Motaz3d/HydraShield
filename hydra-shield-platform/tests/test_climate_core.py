@@ -161,7 +161,7 @@ def test_unknown_record_carries_why():
 
 
 def test_modelled_record_requires_method():
-    rec = EvidenceRecord.modelled("HydraShield", method="SPI-style anomaly, declared window")
+    rec = EvidenceRecord.modelled("Talaix", method="SPI-style anomaly, declared window")
     assert rec.evidence_class == "MODELLED"
     assert rec.claim_status == "MODELLED"
     assert "SPI" in rec.method
@@ -195,7 +195,7 @@ def test_legacy_kind_alias_mapping():
 
 
 def test_legacy_modeled_spelling_is_normalised():
-    out = upgrade_legacy_provenance({"kind": "modeled", "source": "HydraShield models"})
+    out = upgrade_legacy_provenance({"kind": "modeled", "source": "Talaix models"})
     assert out["kind"] == "modelled"
     assert out["evidence_class"] == "MODELLED"
 
@@ -217,7 +217,7 @@ def test_evidence_class_inference_from_source_label():
 def test_upgrade_provenance_block_preserves_shape_and_original_keys():
     block = {
         "weather": {"kind": "observed", "source": "Open-Meteo", "quality": "ok"},
-        "risk_score": {"kind": "modeled", "source": "HydraShield models"},
+        "risk_score": {"kind": "modeled", "source": "Talaix models"},
         "custom_note": "not-a-provenance-record",
     }
     out = upgrade_provenance_block(block)

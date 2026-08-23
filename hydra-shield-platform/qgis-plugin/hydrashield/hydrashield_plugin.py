@@ -1,4 +1,4 @@
-"""HydraShield Climate Intelligence — plugin class.
+"""Talaix Climate Intelligence — plugin class.
 
 Registers the Processing provider (the engine) and the hazard-browser
 dock (the interactive surface). All API traffic goes through
@@ -14,7 +14,7 @@ from qgis.PyQt.QtWidgets import QAction
 from qgis.core import QgsApplication
 
 
-class HydraShieldPlugin:
+class TalaixPlugin:
     def __init__(self, iface):
         self.iface = iface
         self.provider = None
@@ -22,23 +22,23 @@ class HydraShieldPlugin:
         self.action = None
 
     def initProcessing(self):
-        from .processing.provider import HydraShieldProcessingProvider
+        from .processing.provider import TalaixProcessingProvider
 
-        self.provider = HydraShieldProcessingProvider()
+        self.provider = TalaixProcessingProvider()
         QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
         self.initProcessing()
-        self.action = QAction("HydraShield — hazard browser", self.iface.mainWindow())
+        self.action = QAction("Talaix — hazard browser", self.iface.mainWindow())
         self.action.triggered.connect(self.toggle_dock)
-        self.iface.addPluginToMenu("HydraShield", self.action)
+        self.iface.addPluginToMenu("Talaix", self.action)
         self.iface.addToolBarIcon(self.action)
 
     def toggle_dock(self):
         if self.dock is None:
-            from .dock import HydraShieldDock
+            from .dock import TalaixDock
 
-            self.dock = HydraShieldDock(self.iface)
+            self.dock = TalaixDock(self.iface)
             self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dock)
         self.dock.setVisible(not self.dock.isVisible())
 
@@ -47,7 +47,7 @@ class HydraShieldPlugin:
             QgsApplication.processingRegistry().removeProvider(self.provider)
             self.provider = None
         if self.action is not None:
-            self.iface.removePluginMenu("HydraShield", self.action)
+            self.iface.removePluginMenu("Talaix", self.action)
             self.iface.removeToolBarIcon(self.action)
             self.action = None
         if self.dock is not None:

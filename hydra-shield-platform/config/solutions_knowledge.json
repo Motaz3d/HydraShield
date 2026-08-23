@@ -1,5 +1,5 @@
 {
-  "description": "Curated solutions knowledge base for the HydraShield Solutions Intelligence engine (docs/SOLUTIONS_INTELLIGENCE.md). This is REFERENCE KNOWLEDGE about generic solution CLASSES — not products, not vendors, not observations. Every entry carries applicability conditions the engine checks against real site values, stated limitations, and real citable sources (organisation + URL). No entry quantifies benefits or costs unless a documented public figure exists; cost_basis is 'not quantified' by default. Species-level vegetation detail lives in config/species_knowledge.json and is referenced, not duplicated.",
+  "description": "Curated solutions knowledge base for the Talaix Solutions Intelligence engine (docs/SOLUTIONS_INTELLIGENCE.md). This is REFERENCE KNOWLEDGE about generic solution CLASSES — not products, not vendors, not observations. Every entry carries applicability conditions the engine checks against real site values, stated limitations, and real citable sources (organisation + URL). No entry quantifies benefits or costs unless a documented public figure exists; cost_basis is 'not quantified' by default. Species-level vegetation detail lives in config/species_knowledge.json and is referenced, not duplicated.",
   "solution_classes": {
     "nature_based": "Ecosystem restoration / green infrastructure approaches",
     "engineering": "Built structures and resilient-infrastructure approaches",
@@ -1411,7 +1411,7 @@
   "knowledge_curation": {
     "curated": "2026-08-18",
     "source_verification": "All source URLs were resolve-checked on 2026-08-18: 18/20 returned HTTP 200 to automated clients; ramsar.org and the UNEP report deep-link return 403 to automated clients (bot protection) — both are canonical institutional addresses that load in normal browsers.",
-    "source_license_note": "Each source is governed by its provider's terms; consult the linked page. HydraShield stores no source content, only references.",
+    "source_license_note": "Each source is governed by its provider's terms; consult the linked page. Talaix stores no source content, only references.",
     "quantification_note": "No entry quantifies benefits or costs today; quantification_status is 'not_quantified' on every entry by deliberate policy until a documented public figure with method and context exists."
   },
   "solution_packages": [

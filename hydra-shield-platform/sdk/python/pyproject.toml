@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hydrashield"
 version = "0.1.0"
-description = "Stdlib-only client for the HydraShield public REST API (hydrashield.earth)"
+description = "Stdlib-only client for the Talaix public REST API (talaix.com)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "Proprietary" }
-authors = [{ name = "HydraShield Earth Systems" }]
+authors = [{ name = "Talaix Earth Systems" }]
 keywords = ["climate", "wildfire", "risk", "api", "client"]
 dependencies = []
 

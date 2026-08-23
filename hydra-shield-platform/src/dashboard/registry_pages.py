@@ -74,7 +74,7 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{_esc(title)} — HydraShield</title>
+<title>{_esc(title)} — Talaix</title>
 <meta name="description" content="{_esc(lead)}">
 <style>
   :root {{ color-scheme: light; }}
@@ -145,8 +145,8 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
 <footer><div class="container">
   <a href="/">Home</a><a href="/technology.html">Technology</a>
   <a href="/privacy.html">Privacy</a><a href="/contact.html">Contact</a>
-  <a href="mailto:info@hydrashield.earth">info@hydrashield.earth</a>
-  <p style="margin-top:10px;">HydraShield — real-data environmental risk intelligence.
+  <a href="mailto:info@talaix.com">info@talaix.com</a>
+  <p style="margin-top:10px;">Talaix — real-data environmental risk intelligence.
      Nothing is claimed as used unless it is integrated.</p>
 </div></footer>
 </body>
@@ -202,7 +202,7 @@ def render_sources_page(registry: Dict) -> str:
     body = f'<p class="meta" style="margin-bottom:18px;">{summary}</p>{"".join(cards)}'
     return _page(
         "Data-source registry",
-        "Every data source HydraShield has evaluated — integrated, candidate or "
+        "Every data source Talaix has evaluated — integrated, candidate or "
         "rejected, with provider, resolution, license and limitations. Nothing is "
         "claimed as used unless it is integrated.",
         body,
@@ -265,7 +265,7 @@ def render_hazards_page(payload: Dict) -> str:
         + "".join(cards))
     return _page(
         "Hazard registry",
-        "The hazards HydraShield analyses. Each entry carries its availability, "
+        "The hazards Talaix analyses. Each entry carries its availability, "
         "temporal coverage per dataset and the real sources behind it — screening "
         "indicators are labelled as such.",
         body,

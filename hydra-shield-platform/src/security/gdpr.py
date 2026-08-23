@@ -1,5 +1,5 @@
 """
-GDPR compliance helpers for HydraShield.
+GDPR compliance helpers for Talaix.
 
 Provides utilities for consent management, data minimisation, anonymisation,
 and data subject request handling, aligned with the EU General Data Protection

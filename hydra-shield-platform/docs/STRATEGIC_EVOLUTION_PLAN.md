@@ -1,4 +1,4 @@
-# HydraShield — Strategic Evolution Plan
+# Talaix — Strategic Evolution Plan
 
 **Status:** active plan, executed in controlled phases. Phase 1 (audit) and
 Phase 2 (product story) shipped in `6a419bd`. The business-evolution
@@ -89,7 +89,7 @@ G/H commit. All LOCAL ONLY — nothing pushed, nothing deployed.
 
 ---
 
-**Direction (authoritative):** HydraShield evolves from a climate-risk
+**Direction (authoritative):** Talaix evolves from a climate-risk
 analysis website into **Climate Extreme Intelligence**: Earth observation +
 official open data + historical evidence → hazard intelligence → population /
 settlement / business / infrastructure exposure → economic → finance &
@@ -150,7 +150,7 @@ Verified by reading the deployed code and pages (2026-08-18).
    presented an R&D programme as the product.
 5. `applications.html` — wildfire testbed scenarios only; no sector view.
 6. Footer contact pointed to a personal Gmail instead of the official
-   `info@hydrashield.earth` mailbox.
+   `info@talaix.com` mailbox.
 
 **Deferred findings (later phases):** QGIS plugin (architecture done —
 `docs/QGIS_INTEGRATION_ARCHITECTURE.md`, Phase 0 pending); no polygon

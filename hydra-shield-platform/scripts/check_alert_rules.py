@@ -14,7 +14,7 @@ to be run on the same cycle as the watch checker (docker-compose
 
     */30 * * * * cd /code && python scripts/check_alert_rules.py >> /var/log/alerts.log 2>&1
 
-Wildfire rules use the full ``HydraShieldRealAnalyser`` pipeline. Other
+Wildfire rules use the full ``TalaixRealAnalyser`` pipeline. Other
 registered hazards use their registry module's ``analyze`` and classify
 severity from ``level.score``; a hazard that yields no score is skipped
 honestly ("no computable severity") — nothing is ever invented.
@@ -37,7 +37,7 @@ from src.dashboard.alert_engine import (  # noqa: E402
     process_rule,
 )
 from src.dashboard.notify_store import NotifyStore  # noqa: E402
-from src.dashboard.real_analysis import HydraShieldRealAnalyser  # noqa: E402
+from src.dashboard.real_analysis import TalaixRealAnalyser  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("check_alert_rules")
@@ -70,7 +70,7 @@ def main() -> int:
         log.info("No active alert rules.")
         return 0
 
-    analyser = HydraShieldRealAnalyser()
+    analyser = TalaixRealAnalyser()
     user_store = UserStore(store.db_path)
     log.info("Checking %d alert rule(s)...", len(rules))
 

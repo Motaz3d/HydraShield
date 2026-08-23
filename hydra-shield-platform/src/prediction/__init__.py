@@ -1,5 +1,5 @@
 """
-HydraShield Prediction Module.
+Talaix Prediction Module.
 
 Fire risk & spread prediction combining Machine Learning with established
 landscape-scale physics-based wildfire spread models.

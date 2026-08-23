@@ -1,4 +1,4 @@
-# HydraShield — External Integrations & Activation Readiness
+# Talaix — External Integrations & Activation Readiness
 
 **Status:** architecture (Phase H). What each external channel needs to
 move from prepared/draft to live — and the audit trail each requires.
@@ -9,7 +9,7 @@ operator decision per channel.
 
 | Channel | State today | Activation requires | Audit trail |
 |---|---|---|---|
-| **Transactional email** (registration, contact, alerts) | LIVE — verified Google Workspace (`info@hydrashield.earth`, SPF/DKIM/DMARC pass) via `SMTP_*` env | already active in production | per-message outbox/SMTP logs; alert deliveries recorded per channel |
+| **Transactional email** (registration, contact, alerts) | LIVE — verified Google Workspace (`info@talaix.com`, SPF/DKIM/DMARC pass) via `SMTP_*` env | already active in production | per-message outbox/SMTP logs; alert deliveries recorded per channel |
 | **SMS alerts** | ARCHITECTURE live; delivery pending provider credentials | `SMS_PROVIDER=http`, `SMS_HTTP_URL`, `SMS_API_KEY`/`SMS_API_SECRET`, `SMS_FROM` in the server env (chmod 600, untracked) | alert_deliveries rows with provider message id |
 | **LinkedIn organic** | drafts + calendar + campaign queues ready | human publishing from reviewed drafts; OR official LinkedIn API with OAuth + documented permissions (docs/LINKEDIN_STRATEGY.md §7) | per-post status transitions in `marketing/content/drafts/` |
 | **LinkedIn API integration** | not integrated | official API access, OAuth app review, scope grant; per-action logging | new integration doc + delivery log before first use |

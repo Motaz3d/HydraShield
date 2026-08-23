@@ -1,4 +1,4 @@
-# HydraShield — Product Story
+# Talaix — Product Story
 
 **Status:** canonical positioning reference. Every page, report, pitch and
 message must be consistent with this document. If a claim cannot be traced
@@ -9,7 +9,7 @@ not ship.
 
 ## 1. The promise
 
-> **HydraShield is Climate Extreme Intelligence.**
+> **Talaix is Climate Extreme Intelligence.**
 >
 > We bring together scientific evidence, Earth observation, official open
 > data and historical events to understand environmental extremes, identify
@@ -75,7 +75,7 @@ exposure claim without evidence, no solution without stated limitations.
 
 ## 5. Who and what is exposed
 
-HydraShield explains **who is exposed**, not only what the hazard is:
+Talaix explains **who is exposed**, not only what the hazard is:
 
 - **Population & settlements** — counts and concentration from WorldPop
   gridded estimates; urban areas and population centres
@@ -93,11 +93,11 @@ data permits the distinction.
 
 ## 6. Two identities, one evidence base
 
-**Scientific HydraShield** — evidence, data, satellite, historical events,
+**Scientific Talaix** — evidence, data, satellite, historical events,
 methodology, validation, provenance. Speaks to researchers, analysts,
 agencies, and anyone who audits us.
 
-**Commercial HydraShield** — risk, exposure, business, finance, insurance,
+**Commercial Talaix** — risk, exposure, business, finance, insurance,
 solutions, monitoring, alerts, resilience investment. Speaks to insurers,
 real estate, construction, banking, investors, asset managers, energy,
 logistics, ports, agriculture, manufacturing, tourism, telecoms, data
@@ -139,12 +139,12 @@ screening indicators labelled as not validated.
 
 ## 9. One-paragraph versions
 
-**Homepage hero (short):** HydraShield brings together the best available
+**Homepage hero (short):** Talaix brings together the best available
 evidence — Earth observation, official open data and historical events — to
 understand environmental extremes, who and what they affect, what they mean
 economically, and the actions that reduce exposure.
 
-**Investor/partner (medium):** HydraShield is a Climate Extreme
+**Investor/partner (medium):** Talaix is a Climate Extreme
 Intelligence platform: six hazards (wildfire, flood, drought, heat, wind,
 coastal), real data only, evidence-labelled end to end. It answers what is
 happening, what happened historically, who and what is exposed, what it

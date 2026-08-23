@@ -1,5 +1,5 @@
 """
-"Why this score?" — transparent explanation of the HydraShield risk score.
+"Why this score?" — transparent explanation of the Talaix risk score.
 
 The composite score (0-100) is NOT a probability of fire. This module
 breaks it down into the main contributing factors, each computed from the

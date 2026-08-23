@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HydraShield outreach composer — draft personalized commercial email.
+"""Talaix outreach composer — draft personalized commercial email.
 
 Reads a lead record from the marketing workspace, applies the segment's
 outreach style and evidence requirements, and produces a structured draft
@@ -9,7 +9,7 @@ append-only audit line is written to marketing/outreach/audit.jsonl.
 
 HARD RULES (test-enforced):
 
-- The sender identity is always info@hydrashield.earth — never a personal
+- The sender identity is always info@talaix.com — never a personal
   mailbox.
 - This script never sends anything (no network, no SMTP). Sending is a
   separate, explicit, human-approved step.
@@ -32,7 +32,7 @@ from datetime import date, timedelta
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 MARKETING = os.path.join(ROOT, "marketing")
-OFFICIAL_SENDER = "info@hydrashield.earth"
+OFFICIAL_SENDER = "info@talaix.com"
 FORBIDDEN_SENDERS = ("motaz3d@gmail.com", "motazomarien@gmail.com")
 
 QUEUE = os.path.join(MARKETING, "outreach", "queue.json")
@@ -70,21 +70,21 @@ def compose_draft(lead: dict, segment: dict, purpose: str,
     subject = f"{org} — {hazards} exposure: evidence and a concrete next step"
     body = (
         f"Hello {org} {role},\n\n"
-        f"HydraShield is a Climate Extreme Intelligence platform — real "
+        f"Talaix is a Climate Extreme Intelligence platform — real "
         f"data, official sources, and evidence labels on every figure.\n\n"
         f"Why this message: {problem}.\n\n"
         f"What we can show you today, from real analysis:\n"
         f"  - {evidence}\n\n"
-        f"The relevant HydraShield capability: {product}. You can run a "
-        f"free analysis at https://hydrashield.earth/intelligence.html — "
+        f"The relevant Talaix capability: {product}. You can run a "
+        f"free analysis at https://talaix.com/intelligence.html — "
         f"no account needed — and we are happy to walk you through the "
         f"evidence for your specific locations.\n\n"
-        f"Every HydraShield result carries its source, method and "
+        f"Every Talaix result carries its source, method and "
         f"limitations; unavailable data is stated, never filled in.\n\n"
         f"Would a short call make sense? I will follow up around "
         f"{followup or _default_followup()} if I don't hear back.\n\n"
-        f"Best regards,\nHydraShield\n{OFFICIAL_SENDER}\n"
-        f"https://hydrashield.earth"
+        f"Best regards,\nTalaix\n{OFFICIAL_SENDER}\n"
+        f"https://talaix.com"
     )
     return {
         "to": {"organization": org, "role": role,

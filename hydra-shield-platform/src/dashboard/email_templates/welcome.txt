@@ -1,14 +1,14 @@
-Subject: Welcome to HydraShield
+Subject: Welcome to Talaix
 Hello{{display_name}},
 
-welcome to HydraShield — real-data environmental risk intelligence.
+welcome to Talaix — real-data environmental risk intelligence.
 
 Your email address is now verified and your account is active. You can run
 analyses, generate all three report types, save locations and subscribe to
 threshold alerts.
 
-Every value HydraShield reports is observed, derived or modelled with full
+Every value Talaix reports is observed, derived or modelled with full
 provenance; unavailable data is stated, never invented.
 
-— The HydraShield team
-info@hydrashield.earth
+— The Talaix team
+info@talaix.com

@@ -1,11 +1,11 @@
 {
-  "description": "HydraShield Ground Truth Event Registry — REAL, authoritatively documented hazard events used as benchmark anchors. An event enters this registry only with official sources (meteorological/hydrological services, WMO, Copernicus). The event's occurrence is DOCUMENTED (ClaimStatus vocabulary, src/climate/ontology.py); the expected_signal is what our own datasets (ERA5 reanalysis, GloFAS modelled discharge) should show for that event — it is OBSERVED/MODELLED from the data itself, never restated from the documentation and never fabricated. Events with status key_required declare their missing prerequisite; placeholder events carry no fabricated dates or signals.",
+  "description": "Talaix Ground Truth Event Registry — REAL, authoritatively documented hazard events used as benchmark anchors. An event enters this registry only with official sources (meteorological/hydrological services, WMO, Copernicus). The event's occurrence is DOCUMENTED (ClaimStatus vocabulary, src/climate/ontology.py); the expected_signal is what our own datasets (ERA5 reanalysis, GloFAS modelled discharge) should show for that event — it is OBSERVED/MODELLED from the data itself, never restated from the documentation and never fabricated. Events with status key_required declare their missing prerequisite; placeholder events carry no fabricated dates or signals.",
   "status_vocabulary": {
     "DOCUMENTED": "Event occurrence established in an authoritative report/record (sources cited per event).",
     "OBSERVED": "Event directly measured by an instrument/authority at the time/place (reserved for instrument-anchored entries).",
     "key_required": "Event family defined but not executable: a prerequisite (API key) is missing. No fabricated events."
   },
-  "signal_basis_note": "Each DOCUMENTED event distinguishes occurrence (DOCUMENTED, from the cited authorities) from signal (OBSERVED/MODELLED, computed from HydraShield datasets). A benchmark never proves the event happened — the sources do. It checks that our detectors reproduce the real signal our own datasets contain for that documented event.",
+  "signal_basis_note": "Each DOCUMENTED event distinguishes occurrence (DOCUMENTED, from the cited authorities) from signal (OBSERVED/MODELLED, computed from Talaix datasets). A benchmark never proves the event happened — the sources do. It checks that our detectors reproduce the real signal our own datasets contain for that documented event.",
   "events": [
     {
       "id": "eu-heatwave-2022-07",
@@ -15,7 +15,7 @@
       "start": "2022-07-15",
       "end": "2022-07-25",
       "status": "DOCUMENTED",
-      "signal_basis": "Occurrence DOCUMENTED by the UK Met Office (first verified 40°C in the UK, 19 July 2022) and WMO. Expected signal is MODELLED from the ERA5 reanalysis series at the location's own grid point (HydraShield dataset), not restated from the documentation.",
+      "signal_basis": "Occurrence DOCUMENTED by the UK Met Office (first verified 40°C in the UK, 19 July 2022) and WMO. Expected signal is MODELLED from the ERA5 reanalysis series at the location's own grid point (Talaix dataset), not restated from the documentation.",
       "evidence_class": "OPEN_DATA_OFFICIAL",
       "sources": [
         {
@@ -43,7 +43,7 @@
       "start": "2021-07-12",
       "end": "2021-07-20",
       "status": "DOCUMENTED",
-      "signal_basis": "Occurrence DOCUMENTED by DWD (event report on the low-pressure system 'Bernd', 12-15 July 2021) and Copernicus EMS rapid mapping activation EMSR517 (13 July 2021). Expected signal is MODELLED from ERA5 precipitation and GloFAS modelled discharge (HydraShield datasets), not restated from the documentation.",
+      "signal_basis": "Occurrence DOCUMENTED by DWD (event report on the low-pressure system 'Bernd', 12-15 July 2021) and Copernicus EMS rapid mapping activation EMSR517 (13 July 2021). Expected signal is MODELLED from ERA5 precipitation and GloFAS modelled discharge (Talaix datasets), not restated from the documentation.",
       "evidence_class": "OPEN_DATA_OFFICIAL",
       "sources": [
         {
@@ -117,7 +117,7 @@
         "definition": "Negative 90-day precipitation standardized anomaly: z <= -0.8 for the 90-day window ending 2022-08-31 against same-calendar 90-day windows of the prior ~10 years (drought_anomaly_v1 method, src/climate/hazards/drought.py), AND presence of a dry spell (<1 mm days, >=10 consecutive days) within the window."
       },
       "region": "Iberian Peninsula (SW Spain / Portugal)",
-      "limitations": "Standardized anomaly on a ~10-year same-calendar baseline is a declared screening method, NOT full SPI (no distribution fitting); reanalysis vs station differences; baseline length limits z-score robustness; the drought definition used by AEMET/IPMA (SPI-based) differs from the HydraShield screening method."
+      "limitations": "Standardized anomaly on a ~10-year same-calendar baseline is a declared screening method, NOT full SPI (no distribution fitting); reanalysis vs station differences; baseline length limits z-score robustness; the drought definition used by AEMET/IPMA (SPI-based) differs from the Talaix screening method."
     },
     {
       "id": "wildfire-firms-benchmark-placeholder",

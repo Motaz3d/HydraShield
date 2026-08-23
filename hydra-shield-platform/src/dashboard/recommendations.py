@@ -187,7 +187,7 @@ def build_recommendations(analysis: Dict) -> List[Dict]:
             "high" if risk < 80.0 else "critical",
             {"driver": "risk_score", "value": risk, "threshold": 65.0},
             "Reduced exposure of people and critical infrastructure.",
-            ["HydraShield composite risk score"],
+            ["Talaix composite risk score"],
         )
 
     # ---- Environmental / ecological rules ------------------------------
@@ -211,7 +211,7 @@ def build_recommendations(analysis: Dict) -> List[Dict]:
              "threshold": {"dominant_fraction": 0.6, "risk": 65.0}},
             "Interrupted fuel continuity slows or stops surface-fire spread "
             "at treated lines.",
-            ["ESA WorldCover", "HydraShield composite risk score"],
+            ["ESA WorldCover", "Talaix composite risk score"],
         )
 
     if moisture_regime == "dry" and burnable:
@@ -233,7 +233,7 @@ def build_recommendations(analysis: Dict) -> List[Dict]:
              "threshold": "dry"},
             "Long-term shift to a less fire-prone, drought-adapted fuel "
             "structure and improved landscape moisture retention.",
-            ["HydraShield ecology engine", "Sentinel-2 NDMI / soil moisture"],
+            ["Talaix ecology engine", "Sentinel-2 NDMI / soil moisture"],
         )
         _add(
             "drought-preparedness",
@@ -271,7 +271,7 @@ def build_recommendations(analysis: Dict) -> List[Dict]:
             "moderate",
             {"driver": "active_fires", "value": fires["count"], "threshold": 1},
             "Faster ecosystem recovery and reduced erosion/invasion after fire.",
-            ["NASA FIRMS (VIIRS)", "HydraShield ecology engine"],
+            ["NASA FIRMS (VIIRS)", "Talaix ecology engine"],
         )
 
     # ---- Exposure-driven rules (real OSM context) ----------------------
@@ -293,7 +293,7 @@ def build_recommendations(analysis: Dict) -> List[Dict]:
                  "value": {"assets": va.get("total"), "risk": risk},
                  "threshold": {"assets": 1, "risk": 65.0}},
                 "Reduced risk to the most vulnerable mapped assets first.",
-                ["OpenStreetMap (Overpass)", "HydraShield composite risk score"],
+                ["OpenStreetMap (Overpass)", "Talaix composite risk score"],
             )
         access = exposure.get("access") or {}
         if access.get("limited") and (risk or 0) >= 65.0:

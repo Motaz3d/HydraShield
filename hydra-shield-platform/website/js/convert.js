@@ -1,4 +1,4 @@
-/* HydraShield — conversion engine (privacy-conscious, first-party).
+/* Talaix — conversion engine (privacy-conscious, first-party).
  *
  * One central conversion policy (CONVERSION_CONFIG) — thresholds and
  * messages are NOT scattered across pages. Usage counters live only in
@@ -26,8 +26,8 @@
         high_value_actions: ['location_analyzed', 'solution_viewed',
                              'report_generated', 'funding_viewed'],
         messages: {
-            account: 'You are getting real value from HydraShield. Create a free account to save analyses, monitor locations and receive updates.',
-            monitor: 'Save this and monitor it — HydraShield watches so you don\'t have to.',
+            account: 'You are getting real value from Talaix. Create a free account to save analyses, monitor locations and receive updates.',
+            monitor: 'Save this and monitor it — Talaix watches so you don\'t have to.',
             professional: 'Heavy use detected — professional capabilities (more monitoring, SMS alerts, API) may fit you. Subscription required; contact us for business.',
             business: 'This looks like organizational use — business/government arrangements offer many monitored locations, teams, API and support. Contact us.'
         }

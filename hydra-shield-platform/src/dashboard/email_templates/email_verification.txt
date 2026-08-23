@@ -1,7 +1,7 @@
-Subject: Verify your HydraShield email address
+Subject: Verify your Talaix email address
 Hello{{display_name}},
 
-thank you for registering with HydraShield. Please confirm your email
+thank you for registering with Talaix. Please confirm your email
 address to activate your account:
 
 {{verify_url}}
@@ -9,5 +9,5 @@ address to activate your account:
 This link expires in {{expires_hours}} hours. If you did not create an
 account, you can ignore this message — no account will be activated.
 
-— The HydraShield team
-info@hydrashield.earth
+— The Talaix team
+info@talaix.com

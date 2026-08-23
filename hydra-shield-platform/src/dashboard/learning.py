@@ -1,7 +1,7 @@
 """
 Learning from history — prediction-vs-observation record store.
 
-Every comparison of a HydraShield prediction/indicator against a real
+Every comparison of a Talaix prediction/indicator against a real
 observation is recorded here with full context:
 
     model version, prediction time, observation time, predicted condition,

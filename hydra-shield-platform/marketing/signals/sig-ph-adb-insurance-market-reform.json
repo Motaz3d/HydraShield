@@ -18,5 +18,5 @@
   "evidence_type": "official_website",
   "confidence": "medium",
   "notes": "ADB Philippines page states that among policy-based loans committed in 2025 was one supporting reforms to 'create a more vibrant insurance market'. The page does not specify climate/parametric insurance detail or named insurers; hazard linkage inferred from the country's disaster resilience agenda.",
-  "recommended_action": "Track the insurance-market policy loan's reform matrix for climate/parametric insurance components and approach the Philippine Insurance Commission and domestic insurers with HydraShield hazard and exposure APIs for underwriting and parametric triggers."
+  "recommended_action": "Track the insurance-market policy loan's reform matrix for climate/parametric insurance components and approach the Philippine Insurance Commission and domestic insurers with Talaix hazard and exposure APIs for underwriting and parametric triggers."
 }

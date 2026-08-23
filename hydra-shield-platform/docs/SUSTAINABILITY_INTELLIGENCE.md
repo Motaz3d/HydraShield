@@ -1,4 +1,4 @@
-# HydraShield — Sustainability & Funding Intelligence
+# Talaix — Sustainability & Funding Intelligence
 
 **Status:** implemented core (taxonomy, funding knowledge base, match
 engine, `/api/v2/funding`, funding page, marketing integration); research
@@ -115,13 +115,13 @@ statements require documented values with assumptions — the same rule as
   platform KB state; the `radar` command ranks leads including their
   funding/programme signals.
 - EU funding marketing logic: FUNDING SIGNAL → project/organization →
-  problem → hazard → HydraShield capability → relevance → contact
+  problem → hazard → Talaix capability → relevance → contact
   strategy — all from official programme/project sources, no scraping,
   no auto-contact.
 
 ## 8. Monthly intelligence (design, NOT sending)
 
-*Monthly HydraShield Climate & Sustainability Intelligence* — a future
+*Monthly Talaix Climate & Sustainability Intelligence* — a future
 subscriber product: new documented events, new funding opportunities,
 new solutions/technology, policy developments, personalized by country/
 sector/hazards/saved locations. Architecture: subscriber preference

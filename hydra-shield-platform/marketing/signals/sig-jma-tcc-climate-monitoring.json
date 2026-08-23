@@ -18,5 +18,5 @@
   "evidence_type": "official_website",
   "confidence": "high",
   "notes": "TCC operates as a WMO Regional Climate Centre with operational climate monitoring, long-range forecasting, El Ni\u00f1o monitoring, global warming monitoring, 'Climate in Japan' products, ClimatView data tool, and seasonal tropical cyclone forecasts for national met/hydro services in Asia-Pacific.",
-  "recommended_action": "Use TCC/JMA products as authoritative baseline data for HydraShield's Japan hazard models (heat, typhoon/wind, heavy-rain flood); explore partnership or data-integration for downscaled municipal alerts."
+  "recommended_action": "Use TCC/JMA products as authoritative baseline data for Talaix's Japan hazard models (heat, typhoon/wind, heavy-rain flood); explore partnership or data-integration for downscaled municipal alerts."
 }

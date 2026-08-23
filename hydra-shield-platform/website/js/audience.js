@@ -1,4 +1,4 @@
-/* HydraShield — audience portals (for-* pages).
+/* Talaix — audience portals (for-* pages).
  *
  * Turns each audience page (banks, investors, government, real estate, insurance,
  * consulting) into an interactive mini-portal:

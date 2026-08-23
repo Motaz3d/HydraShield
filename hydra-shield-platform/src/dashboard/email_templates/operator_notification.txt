@@ -1,4 +1,4 @@
-Subject: HydraShield platform — {{subject}}
+Subject: Talaix platform — {{subject}}
 {{message}}
 
-— HydraShield platform notification (automated)
+— Talaix platform notification (automated)

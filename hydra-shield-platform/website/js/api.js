@@ -1,4 +1,4 @@
-/* HydraShield — shared API helpers for the v2 platform pages.
+/* Talaix — shared API helpers for the v2 platform pages.
  *
  * Single place for the API base sniffing (local dev vs production), HTML
  * escaping, evidence/status chips and fetch wrappers. New pages use this;

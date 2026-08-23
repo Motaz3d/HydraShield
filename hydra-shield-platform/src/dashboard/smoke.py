@@ -1,7 +1,7 @@
 """
 Smoke Intelligence — atmospheric transport guidance, NOT certainty.
 
-HydraShield answers two strictly separated questions:
+Talaix answers two strictly separated questions:
 
     OBSERVED mode ....... "An observed fire is burning (NASA FIRMS
                            detection). Under current/forecast winds, where

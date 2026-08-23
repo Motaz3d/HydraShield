@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Run the HydraShield Benchmark Suite (config/benchmark_suite.json) against
+Run the Talaix Benchmark Suite (config/benchmark_suite.json) against
 the Ground Truth Event Registry (config/ground_truth_events.json).
 
 Every executable case runs the model's OWN declared detector on real
@@ -37,7 +37,7 @@ def main() -> int:
     run = benchmark.run_suite()
     summary = run["summary"]
 
-    print("HydraShield Benchmark Suite v%s — %s" % (run["suite_version"], run["executed_at"]))
+    print("Talaix Benchmark Suite v%s — %s" % (run["suite_version"], run["executed_at"]))
     print("=" * 78)
     for r in run["results"]:
         line = "%-34s %-30s %s" % (r["case_id"], r["model_id"], r["status"].upper())

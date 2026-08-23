@@ -1,4 +1,4 @@
-"""Production entrypoint for the HydraShield REST API (Flask)."""
+"""Production entrypoint for the Talaix REST API (Flask)."""
 import os
 
 from src.dashboard.api import DashboardAPI

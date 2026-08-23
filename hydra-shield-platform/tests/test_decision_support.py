@@ -483,7 +483,7 @@ def _report_payload():
                                    "evaluation requires a multi-day historical sample."),
             },
             "provenance": {"kind": "derived",
-                           "source": "HydraShield ignition layer (declared thresholds)",
+                           "source": "Talaix ignition layer (declared thresholds)",
                            "resolution": "analysis-area screening (population 100 m; weather ~11 km)",
                            "temporal": "current conditions", "quality": "ok",
                            "limitations": "Unvalidated relative indicator; not a probability."},

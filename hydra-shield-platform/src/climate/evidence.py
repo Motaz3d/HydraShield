@@ -1,5 +1,5 @@
 """
-HydraShield evidence core — one typed evidence record for every claim.
+Talaix evidence core — one typed evidence record for every claim.
 
 Replaces the ad-hoc provenance-dict convention with a single
 :class:`EvidenceRecord` used by all new modules, plus a documented alias

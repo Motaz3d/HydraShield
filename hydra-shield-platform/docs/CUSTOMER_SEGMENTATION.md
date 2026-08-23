@@ -1,4 +1,4 @@
-# HydraShield — Customer Segmentation
+# Talaix — Customer Segmentation
 
 **Status:** implemented (Phase C). The data source of record is
 `marketing/segments/segments.json`; this document is the model and

@@ -1,4 +1,4 @@
-/* HydraShield — Solutions Intelligence (solutions.html).
+/* Talaix — Solutions Intelligence (solutions.html).
  *
  * Location + caller-selected hazards of interest →
  *   GET /api/v2/solutions?lat&lon&hazards=wildfire,drought

@@ -1,5 +1,5 @@
 """
-HydraShield operator intelligence — admin-only aggregate dashboard API.
+Talaix operator intelligence — admin-only aggregate dashboard API.
 
 ``GET /api/v2/admin/intel`` answers the operator's daily questions from
 aggregate counts (never row-level personal data):

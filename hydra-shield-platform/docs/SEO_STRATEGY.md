@@ -1,4 +1,4 @@
-# HydraShield — SEO Strategy
+# Talaix — SEO Strategy
 
 **Status:** implemented (architecture + editorial backlog). Evidence-based
 search presence around real search intent — no SEO spam, no thin
@@ -6,7 +6,7 @@ programmatic pages.
 
 ## 1. Intent clusters
 
-| Cluster | Example intents | HydraShield surface |
+| Cluster | Example intents | Talaix surface |
 |---|---|---|
 | Hazard analysis | "wildfire risk assessment", "flood risk assessment" | intelligence.html per-hazard |
 | Sector risk | "climate risk for infrastructure / real estate / investors / insurance" | for-* landing pages |
@@ -31,7 +31,7 @@ programmatic pages.
   searches) + segment needs — see `marketing/content/backlog.json`.
 - Every numerical claim in an article requires source + date. No invented
   statistics, no engagement bait, no fabricated rankings.
-- Each article links to at least one live HydraShield surface so the
+- Each article links to at least one live Talaix surface so the
   reader can verify.
 
 ## 4. Measurement

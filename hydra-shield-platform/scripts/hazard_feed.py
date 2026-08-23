@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""HydraShield hazard feed — read-only fetch of the public risk snapshot.
+"""Talaix hazard feed — read-only fetch of the public risk snapshot.
 
 Used by the marketing copilot's hazard-driven commands. READ-ONLY: this
-module performs GET requests against HydraShield's own public API and
+module performs GET requests against Talaix's own public API and
 nothing else. No sending, no scraping, no third-party calls.
 
 Offline behaviour: when the snapshot cannot be fetched (no network, API
@@ -16,9 +16,9 @@ import json
 import urllib.request
 from typing import Any, Dict, Optional
 
-SNAPSHOT_URL = "https://hydrashield.earth/api/risk-snapshot"
+SNAPSHOT_URL = "https://talaix.com/api/risk-snapshot"
 _TIMEOUT = 20.0
-_UA = "hydrashield-marketing-copilot/1.0 (+https://hydrashield.earth)"
+_UA = "hydrashield-marketing-copilot/1.0 (+https://talaix.com)"
 
 
 def fetch_risk_snapshot(url: str = SNAPSHOT_URL) -> Optional[Dict[str, Any]]:

@@ -1,4 +1,4 @@
-# HydraShield — User & Subscription Architecture
+# Talaix — User & Subscription Architecture
 
 **Status:** account system design + progressive gating model + email system.
 Norms: least-privilege defaults; conversion through value, not obstruction;
@@ -85,13 +85,13 @@ audit_log(id, actor_user_id, action, target, meta_json, created_at)
 
 ## 5. Email system
 
-Address in service: **info@hydrashield.earth**.
+Address in service: **info@talaix.com**.
 
 Environment variables (never committed; `.env.example` documents names
 only):
 
 ```
-SMTP_HOST · SMTP_PORT · SMTP_USER · SMTP_PASSWORD · SMTP_FROM=info@hydrashield.earth
+SMTP_HOST · SMTP_PORT · SMTP_USER · SMTP_PASSWORD · SMTP_FROM=info@talaix.com
 ```
 
 (The existing code reads `SMTP_PASS`; the new mailer accepts both
@@ -141,6 +141,6 @@ Gated existing endpoints keep anonymous access with reduced depth; the
 ## 7. Non-goals (this stage)
 
 - Payments/billing integration (subscriptions are recorded, not charged;
-  `external_ref` awaits a provider). Card data never touches HydraShield.
+  `external_ref` awaits a provider). Card data never touches Talaix.
 - SSO/OAuth, SAML. Multi-region data residency.
 - Admin UI beyond minimal admin API calls.

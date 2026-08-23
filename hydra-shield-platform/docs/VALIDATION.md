@@ -1,13 +1,13 @@
-# HydraShield Validation Architecture
+# Talaix Validation Architecture
 
 **Status: foundation implemented — the model is NOT yet validated.**
-No HydraShield product may be described as validated until the pipeline below
+No Talaix product may be described as validated until the pipeline below
 has been executed on real historical data and the resulting report has been
 reviewed.
 
 ## Goal
 
-Quantify how well the HydraShield screening risk score discriminates days and
+Quantify how well the Talaix screening risk score discriminates days and
 places where fires were actually observed from those where they were not,
 using only real data and with no temporal leakage.
 
@@ -18,7 +18,7 @@ Sentinel-2 / ERA5 (Open-Meteo archive) / FWI / Terrain / WorldCover
         +
 NASA FIRMS historical fire detections   (observed labels)
         ↓
-HydraShield risk model (FWI-anchored screening score)
+Talaix risk model (FWI-anchored screening score)
         ↓
 Temporal split: train partition (tuning) | evaluation partition (metrics)
         ↓

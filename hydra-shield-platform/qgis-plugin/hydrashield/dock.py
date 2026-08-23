@@ -1,4 +1,4 @@
-"""HydraShield dock — hazard registry browser + analyze-clicked-point.
+"""Talaix dock — hazard registry browser + analyze-clicked-point.
 
 Loads GET /api/v2/hazards in a QgsTask (never the GUI thread) and shows
 per hazard: enabled, analysis availability, events availability, official
@@ -40,7 +40,7 @@ class _RegistryTask(QgsTask):
     """Fetch + normalize the hazard registry off the GUI thread."""
 
     def __init__(self, authcfg=""):
-        super().__init__("HydraShield: load hazard registry")
+        super().__init__("Talaix: load hazard registry")
         self.authcfg = authcfg
         self.hazards = []
         self.error = None
@@ -64,11 +64,11 @@ class _PointTool(QgsMapToolEmitPoint):
         self._callback(self.toMapCoordinates(event.pos()))
 
 
-class HydraShieldDock(QDockWidget):
+class TalaixDock(QDockWidget):
     def __init__(self, iface):
-        super().__init__("HydraShield — Climate Extreme Intelligence")
+        super().__init__("Talaix — Climate Extreme Intelligence")
         self.iface = iface
-        self.setObjectName("HydraShieldDock")
+        self.setObjectName("TalaixDock")
         self._tool = None
 
         body = QWidget(self)
@@ -111,7 +111,7 @@ class HydraShieldDock(QDockWidget):
             self.status.setText(f"Registry unavailable: {task.error}")
             return
         self.status.setText(
-            f"{len(task.hazards)} hazards — hydrashield.earth registry. "
+            f"{len(task.hazards)} hazards — talaix.com registry. "
             "Levels are screening indicators, not validated predictions.")
         for h in task.hazards:
             item = QTreeWidgetItem([

@@ -1,4 +1,4 @@
-# HydraShield Climate Intelligence — QGIS plugin (Phase 0 spike)
+# Talaix Climate Intelligence — QGIS plugin (Phase 0 spike)
 
 Minimal, honest spike per `docs/QGIS_INTEGRATION_ARCHITECTURE.md` §16
 Phase 0. **Not yet submitted to the QGIS plugin repository.**
@@ -41,5 +41,5 @@ Phase 0. **Not yet submitted to the QGIS plugin repository.**
 ## Local install (development)
 
 Symlink or copy `qgis-plugin/hydrashield/` into the QGIS profile's
-`python/plugins/` directory, restart QGIS, enable "HydraShield Climate
+`python/plugins/` directory, restart QGIS, enable "Talaix Climate
 Intelligence" in the Plugin Manager.
