@@ -1,0 +1,16 @@
+Subject: Portfolio climate-risk intelligence for {{organization}}
+Hi {{contact_name}},
+
+Investors and infrastructure funds active in {{country}} are under increasing pressure to quantify physical climate risk across their holdings.
+
+{{identified_problem}}
+
+Talaix offers {{relevant_capability}}. We can run a free analysis at talaix.com on a sample of assets so you can see the level of detail we provide.
+
+{{custom_message}}
+
+Would a 20-minute call this week be useful to discuss how {{organization}} could apply this?
+
+Best,
+The Talaix team
+talaix.com

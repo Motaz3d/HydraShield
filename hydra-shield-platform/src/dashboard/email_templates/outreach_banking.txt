@@ -1,0 +1,16 @@
+Subject: Climate risk screening for {{organization}}
+Hi {{contact_name}},
+
+Banks and lenders in {{country}} are facing sharper questions about how physical climate hazards affect loan portfolios and borrower creditworthiness.
+
+{{identified_problem}}
+
+Talaix provides {{relevant_capability}}. We can run a free portfolio screening at talaix.com so you can see asset-level exposure without a procurement step.
+
+{{custom_message}}
+
+Would a 20-minute call this week be useful to explore how {{organization}} could use this?
+
+Best,
+The Talaix team
+talaix.com

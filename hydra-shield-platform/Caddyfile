@@ -10,9 +10,13 @@ talaix.com {
 		reverse_proxy api:8051
 	}
 
-	# Commercial Center shell: served by the API only after server-side
-	# authorization (never a public static file).
+	# Operator shells: served by the API only after server-side
+	# authorization (never public static files). /marketing.html is a
+	# legacy alias that redirects into the /admin.html tabs.
 	handle /admin.html {
+		reverse_proxy api:8051
+	}
+	handle /marketing.html {
 		reverse_proxy api:8051
 	}
 

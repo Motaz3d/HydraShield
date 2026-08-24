@@ -1,0 +1,16 @@
+Subject: Climate resilience data for {{organization}}
+Hi {{contact_name}},
+
+Government and municipal teams in {{country}} need reliable, spatial climate-risk data to inform resilience planning, civil protection and infrastructure decisions.
+
+{{identified_problem}}
+
+Talaix provides {{relevant_capability}}. We can run a free analysis at talaix.com for your area of interest so you can see the data and provenance.
+
+{{custom_message}}
+
+Would a short call this week be useful to explore how {{organization}} could use this?
+
+Best,
+The Talaix team
+talaix.com

@@ -1,0 +1,16 @@
+Subject: Risk data partnership for {{organization}}
+Hi {{contact_name}},
+
+Environmental and ESG consultants in {{country}} are being asked to deliver climate-risk analysis that is traceable, evidence-labelled and reproducible.
+
+{{identified_problem}}
+
+Talaix offers {{relevant_capability}}. We can set up a free evaluation at talaix.com so you can see whether the data layer fits your client work.
+
+{{custom_message}}
+
+Would a 20-minute call this week be useful to discuss a partnership for {{organization}}?
+
+Best,
+The Talaix team
+talaix.com

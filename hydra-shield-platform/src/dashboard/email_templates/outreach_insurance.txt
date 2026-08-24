@@ -1,0 +1,16 @@
+Subject: Physical risk data for {{organization}}
+Hi {{contact_name}},
+
+Insurers operating in {{country}} need consistent, asset-level views of flood, wildfire, wind and heat risk to support underwriting and pricing.
+
+{{identified_problem}}
+
+Talaix delivers {{relevant_capability}}. We can provide a free risk snapshot at talaix.com for a sample set of locations so you can judge the data quality.
+
+{{custom_message}}
+
+Would a short call this week be useful to see how this could fit {{organization}}?
+
+Best,
+The Talaix team
+talaix.com

@@ -25,6 +25,94 @@
         .board-item { padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 10px;
                       margin-bottom: 8px; background: #fff; font-size: 13px; }
         .board-item .muted { font-size: 12px; }
+
+        /* Operator tabs */
+        .mkt-tabbar { display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--light-2); margin-bottom: 22px; padding-bottom: 10px; flex-wrap: wrap; }
+        .mkt-tab { background: transparent; border: none; cursor: pointer; padding: 8px 16px; font-family: var(--font-main); font-size: 0.92rem; font-weight: 600; color: var(--text-light); border-radius: var(--radius-sm); }
+        .mkt-tab:hover { color: var(--dark); background: var(--light-2); }
+        .mkt-tab[aria-selected="true"] { color: var(--white); background: var(--dark); }
+        .mkt-tab:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .mkt-tabpanel { display: none; }
+        .mkt-tabpanel.active { display: block; }
+
+        /* Targets / Stats shared (marketing.js creates these elements) */
+        .mkt-statgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; margin-bottom: 18px; }
+        .mkt-statcard { background: var(--light); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-sm); padding: 14px 16px; text-align: center; }
+        .mkt-statcard .value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--dark); line-height: 1.2; }
+        .mkt-statcard .label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 4px; }
+        .mkt-details { border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-sm); margin-bottom: 10px; background: var(--white); }
+        .mkt-details summary { list-style: none; cursor: pointer; padding: 12px 16px; font-weight: 600; font-size: 0.92rem; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+        .mkt-details summary::-webkit-details-marker { display: none; }
+        .mkt-details summary::before { content: '▸'; font-size: 0.8rem; color: var(--text-light); }
+        .mkt-details[open] summary::before { content: '▾'; }
+        .mkt-details-inner { padding: 0 16px 16px; }
+        .mkt-tree { border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-md); background: var(--white); padding: 10px 0; }
+        .mkt-node { border-bottom: 1px solid var(--light-2); }
+        .mkt-node:last-child { border-bottom: none; }
+        .mkt-row { display: flex; align-items: center; gap: 8px; padding: 8px 16px; min-height: 42px; }
+        .mkt-row:hover { background: var(--light-2); }
+        .mkt-toggle { background: none; border: none; cursor: pointer; font-size: 0.85rem; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-light); }
+        .mkt-toggle:focus-visible { outline: 2px solid var(--primary); border-radius: 4px; }
+        .mkt-label { font-weight: 600; font-size: 0.92rem; color: var(--dark); }
+        .mkt-count { font-size: 0.75rem; color: var(--text-light); background: var(--light-2); padding: 1px 8px; border-radius: 999px; margin-left: 4px; }
+        .mkt-countries { padding: 4px 16px 12px 48px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .mkt-country { background: var(--white); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); padding: 6px 12px; cursor: pointer; font-size: 0.85rem; font-weight: 500; color: var(--dark); }
+        .mkt-country:hover { border-color: var(--primary); background: rgba(14,165,233,0.04); }
+        .mkt-country:focus-visible { outline: 2px solid var(--primary); }
+        .mkt-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(15,23,42,0.6); backdrop-filter: blur(3px); align-items: flex-start; justify-content: center; padding: 60px 20px 40px; }
+        .mkt-modal.open { display: flex; }
+        .mkt-modal-panel { background: var(--white); border-radius: var(--radius-md); width: 100%; max-width: 900px; max-height: calc(100vh - 100px); overflow: auto; box-shadow: var(--shadow-lg); }
+        .mkt-modal-header { position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--light-2); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; z-index: 1; }
+        .mkt-modal-header h2 { margin: 0; font-size: 1.15rem; color: var(--dark); }
+        .mkt-close { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text-light); width: 32px; height: 32px; border-radius: var(--radius-sm); }
+        .mkt-close:hover { background: var(--light-2); color: var(--dark); }
+        .mkt-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .mkt-filter { background: var(--light-2); border: none; border-radius: var(--radius-sm); padding: 6px 12px; font-size: 0.8rem; font-weight: 600; color: var(--text-light); cursor: pointer; }
+        .mkt-filter:hover { background: rgba(14,165,233,0.12); color: var(--primary-dark); }
+        .mkt-filter.active { background: var(--primary); color: var(--white); }
+        .mkt-target { border-bottom: 1px solid var(--light-2); padding: 12px 0; }
+        .mkt-target:last-child { border-bottom: none; }
+        .mkt-target-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+        .mkt-target-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .mkt-detail, .mkt-sendform { padding: 14px 16px 16px; background: #f8fafc; border: 1px solid var(--light-2); border-radius: var(--radius-sm); margin-top: 10px; }
+        .mkt-detail h4, .mkt-sendform h4 { margin: 0 0 10px; font-size: 0.92rem; color: var(--dark); }
+        .mkt-stepbar { display: flex; gap: 4px; flex-wrap: wrap; margin: 10px 0 14px; }
+        .mkt-step { flex: 1 1 auto; min-width: 80px; text-align: center; padding: 7px 6px; border-radius: var(--radius-sm); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; background: var(--light-2); color: var(--text-light); }
+        .mkt-step.current { background: var(--primary); color: var(--white); }
+        .mkt-step.past { background: rgba(14,165,233,.16); color: var(--primary-dark); }
+        .mkt-sub { border-left: 3px solid var(--primary); background: var(--white); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 14px; margin: 10px 0; }
+        .mkt-sub-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-dark); margin-bottom: 8px; }
+        .mkt-kv { display: grid; grid-template-columns: 120px 1fr; gap: 4px 10px; font-size: 0.85rem; }
+        .mkt-kv dt { color: var(--text-light); font-weight: 500; }
+        .mkt-kv dd { margin: 0; color: var(--dark); }
+        .chip-high { background: rgba(239,68,68,.12); color: #b91c1c; }
+        .chip-medium { background: rgba(245,158,11,.18); color: #b45309; }
+        .chip-low { background: rgba(148,163,184,.2); color: #475569; }
+        .chip-scheduled { background: rgba(14,165,233,.16); color: #0369a1; }
+        .chip-sent { background: rgba(34,197,94,.16); color: #15803d; }
+        .chip-failed { background: rgba(239,68,68,.14); color: #b91c1c; }
+        .chip-cancelled { background: rgba(148,163,184,.2); color: #475569; }
+        .mkt-overdue { background: rgba(239,68,68,.14); color: #b91c1c; }
+        .mkt-sendresult { margin-top: 10px; }
+        .mkt-outbox { color: #92400e; background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.35); padding: 8px 10px; border-radius: var(--radius-sm); font-size: 0.85rem; }
+        .mkt-err { color: #991b1b; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.3); padding: 8px 10px; border-radius: var(--radius-sm); font-size: 0.85rem; }
+        .mkt-ok { color: #15803d; background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.3); padding: 8px 10px; border-radius: var(--radius-sm); font-size: 0.85rem; }
+        .mkt-field { margin-bottom: 12px; }
+        .mkt-field label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: var(--dark); }
+        .mkt-field input, .mkt-field textarea { width: 100%; padding: 9px 12px; border: 2px solid var(--light-2); border-radius: var(--radius-sm); font-family: var(--font-main); font-size: 0.9rem; }
+        .mkt-field input:focus, .mkt-field textarea:focus { outline: none; border-color: var(--primary); }
+        .mkt-field textarea { min-height: 90px; resize: vertical; }
+        .mkt-template-note { font-size: 0.8rem; color: var(--text-light); margin: -4px 0 10px; }
+        .mkt-sendactions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .mkt-schedulewrap { display: none; margin-top: 10px; }
+        .mkt-schedulewrap.visible { display: block; }
+
+        @media (max-width: 640px) {
+            .mkt-modal { padding: 20px 12px; }
+            .mkt-modal-panel { max-height: calc(100vh - 40px); }
+            .mkt-kv { grid-template-columns: 1fr; }
+            .mkt-step { min-width: 60px; }
+        }
     </style>
 </head>
 <body data-page="admin">
@@ -41,74 +129,85 @@
 
             <div id="statusArea"></div>
 
-            <div id="adminView" class="hidden">
-                <h2 style="margin-bottom:10px;">Today</h2>
-                <div class="story-grid" id="todayCards" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Progress board — done vs next</h2>
-                <div class="panel" id="boardBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Prospect map — who is where</h2>
-                <div class="panel" style="margin-bottom:26px;">
-                    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
-                        <label for="mapSegmentFilter" class="muted small"><strong>Sector:</strong></label>
-                        <select id="mapSegmentFilter" style="max-width:260px;">
-                            <option value="">All sectors</option>
-                        </select>
-                    </div>
-                    <div id="leadsMap"></div>
-                    <p class="muted small lead-map-note" id="leadsMapNote"></p>
-                </div>
-
-                <h2 style="margin-bottom:10px;">Target sectors × countries</h2>
-                <div class="panel" id="segmentationBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Campaign correspondence plans</h2>
-                <div class="panel" id="campaignPlansBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Inbound leads — contact form</h2>
-                <div class="panel" id="contactsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Who to contact now</h2>
-                <div class="panel" id="contactNowBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Follow-ups due</h2>
-                <div class="panel" id="followupsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Hazard opportunities</h2>
-                <div class="panel" id="hazardBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Funding &amp; procurement</h2>
-                <div class="panel" id="fundingBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Campaigns</h2>
-                <div class="panel" id="campaignsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Campaign performance</h2>
-                <div class="panel" id="campaignPerfBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Funnel</h2>
-                <div class="panel" id="funnelBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">30-day experiment — targets vs actual</h2>
-                <div class="panel" id="targetsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Customers &amp; marketing</h2>
-                <div class="panel" id="customersBlock" style="margin-bottom:26px;"></div>
-                <div class="panel" id="marketingBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Priority markets</h2>
-                <div class="panel" id="marketsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Prospects</h2>
-                <div class="panel" id="prospectsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Relationships</h2>
-                <div class="panel" id="relationshipsBlock" style="margin-bottom:26px;"></div>
-
-                <h2 style="margin-bottom:10px;">Attention</h2>
-                <div class="panel" id="attentionBlock"></div>
+            <div class="mkt-tabbar" role="tablist" aria-label="Operator sections">
+                <button class="mkt-tab" role="tab" id="tab-overview" aria-selected="true" aria-controls="overview" tabindex="0">Commercial Center</button>
+                <button class="mkt-tab" role="tab" id="tab-targets" aria-selected="false" aria-controls="targets" tabindex="-1">Targets</button>
+                <button class="mkt-tab" role="tab" id="tab-stats" aria-selected="false" aria-controls="stats" tabindex="-1">Site statistics</button>
             </div>
+
+            <div class="mkt-tabpanel active" role="tabpanel" id="overview" aria-labelledby="tab-overview">
+                <div id="adminView" class="hidden">
+                    <h2 style="margin-bottom:10px;">Today</h2>
+                    <div class="story-grid" id="todayCards" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Progress board — done vs next</h2>
+                    <div class="panel" id="boardBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Prospect map — who is where</h2>
+                    <div class="panel" style="margin-bottom:26px;">
+                        <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
+                            <label for="mapSegmentFilter" class="muted small"><strong>Sector:</strong></label>
+                            <select id="mapSegmentFilter" style="max-width:260px;">
+                                <option value="">All sectors</option>
+                            </select>
+                        </div>
+                        <div id="leadsMap"></div>
+                        <p class="muted small lead-map-note" id="leadsMapNote"></p>
+                    </div>
+
+                    <h2 style="margin-bottom:10px;">Target sectors × countries</h2>
+                    <div class="panel" id="segmentationBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Campaign correspondence plans</h2>
+                    <div class="panel" id="campaignPlansBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Inbound leads — contact form</h2>
+                    <div class="panel" id="contactsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Who to contact now</h2>
+                    <div class="panel" id="contactNowBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Follow-ups due</h2>
+                    <div class="panel" id="followupsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Hazard opportunities</h2>
+                    <div class="panel" id="hazardBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Funding &amp; procurement</h2>
+                    <div class="panel" id="fundingBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Campaigns</h2>
+                    <div class="panel" id="campaignsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Campaign performance</h2>
+                    <div class="panel" id="campaignPerfBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Funnel</h2>
+                    <div class="panel" id="funnelBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">30-day experiment — targets vs actual</h2>
+                    <div class="panel" id="targetsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Customers &amp; marketing</h2>
+                    <div class="panel" id="customersBlock" style="margin-bottom:26px;"></div>
+                    <div class="panel" id="marketingBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Priority markets</h2>
+                    <div class="panel" id="marketsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Prospects</h2>
+                    <div class="panel" id="prospectsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Relationships</h2>
+                    <div class="panel" id="relationshipsBlock" style="margin-bottom:26px;"></div>
+
+                    <h2 style="margin-bottom:10px;">Attention</h2>
+                    <div class="panel" id="attentionBlock"></div>
+                </div>
+            </div>
+
+            <div class="mkt-tabpanel" role="tabpanel" id="targets" aria-labelledby="tab-targets"></div>
+            <div class="mkt-tabpanel" role="tabpanel" id="stats" aria-labelledby="tab-stats"></div>
         </div>
     </main>
 
@@ -119,5 +218,7 @@
     <script src="js/api.js"></script>
     <script src="js/chrome.js"></script>
     <script src="js/admin.js" defer></script>
+    <script src="js/marketing.js" defer></script>
+    <script src="js/operator_tabs.js" defer></script>
 </body>
 </html>

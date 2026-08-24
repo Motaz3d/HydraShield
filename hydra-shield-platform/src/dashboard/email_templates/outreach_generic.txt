@@ -1,0 +1,16 @@
+Subject: Climate-risk intelligence for {{organization}}
+Hi {{contact_name}},
+
+Organizations like {{organization}} in {{country}} are working with growing climate-risk exposure across their operations and assets.
+
+{{identified_problem}}
+
+Talaix offers {{relevant_capability}}. A good first step is a free analysis at talaix.com so you can see the risk picture for your locations.
+
+{{custom_message}}
+
+Would a short call this week be useful to explore how this fits {{organization}}?
+
+Best,
+The Talaix team
+talaix.com

@@ -42,3 +42,43 @@ python scripts/marketing_status.py evening
 - Unknown stays "unknown" — never pad a lead.
 - The integrity check runs inside every copilot call; fix problems before
   acting on the data.
+
+## Marketing CRM tabs
+
+The Marketing CRM lives in `/admin.html` as two tabs — **Targets** and
+**Site statistics** — next to the Commercial Center tab. `/marketing.html`
+is a legacy alias: operator-gated like `/admin.html`, it redirects to
+`/admin.html#targets`.
+
+**Targets** is a lazy drill-down: **sector → country → all targets in the
+intersection**. `GET /api/v2/admin/marketing/tree` returns every segment
+present in the lead base (we target all sectors) with counts; adding
+`?segment=` returns countries; `?segment=&country=` returns the status
+counts plus the full lead list (each lead carries its `outreach_status`);
+adding `&status=` filters that list. The intersection opens as a modal
+listing every targeted organisation with Auto-send / Follow-up buttons.
+Lead detail (`/api/v2/admin/marketing/lead/<slug>`) shows the merged
+record, score, interaction log, follow-up file and scheduled outreach.
+
+**Site statistics** (`/api/v2/admin/marketing/stats`) shows visitor cards
+(today / 7d / 30d unique sessions, page views), subscribers and accounts,
+then collapsible detail sections: most visited pages, daily visitors,
+traffic sources, devices & languages and risk interests. Aggregate counts
+only — analytics sessions are pseudonymous hashes.
+
+**Auto-send.** The operator clicks send; nothing self-sends. The message is
+rendered from the sector templates in
+`src/dashboard/email_templates/outreach_*.txt` (falling back to
+`outreach_generic.txt`), merged with the lead's country, identified problem,
+capability and any custom note. Without `SMTP_HOST` configured, email goes to
+the dev outbox (`HYDRASHIELD_OUTBOX_DIR`) and the UI says so; with SMTP env
+set, delivery uses STARTTLS.
+
+**Scheduled sending.** Queue future emails with `send_at` (ISO, must be
+future). A cron job sends due rows, logs an `email` interaction, and advances
+`outreach_status` to `contacted` when it was `researched`, `qualified` or
+`draft_prepared`:
+
+```
+*/5 * * * * cd <repo>/hydra-shield-platform && .venv/bin/python scripts/process_scheduled_outreach.py
+```

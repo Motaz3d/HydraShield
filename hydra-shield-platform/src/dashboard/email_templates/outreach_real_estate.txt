@@ -1,0 +1,16 @@
+Subject: Asset-level climate risk for {{organization}}
+Hi {{contact_name}},
+
+Real estate and engineering teams in {{country}} are seeing climate hazards directly affect asset performance, insurance terms and planning timelines.
+
+{{identified_problem}}
+
+Talaix provides {{relevant_capability}}. We can run a free site-level analysis at talaix.com so you can see the risk profile for one of your assets.
+
+{{custom_message}}
+
+Would a short call this week be useful to explore how this fits {{organization}}?
+
+Best,
+The Talaix team
+talaix.com

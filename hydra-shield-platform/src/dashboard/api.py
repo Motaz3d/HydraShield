@@ -217,17 +217,10 @@ def create_app() -> Flask:
         )
 
     # ------------------------------------------------------------------
-    @app.route("/admin.html", methods=["GET"])
-    def admin_page():
-        """The Commercial Center shell is served ONLY after server-side
-        authorization (Caddy routes /admin.html here — it is not a public
-        static file). API clients keep the JSON contracts (401 anonymous /
-        403 non-admin with the upgrade descriptor). Browsers (Accept:
-        text/html) are humans: anonymous visitors are redirected to the
-        sign-in page with a return path, and authenticated non-admins get a
-        branded 403 page — never a bare JSON wall. The page itself carries
-        no data; all data comes from the auth-gated /api/v2/admin/*
-        endpoints."""
+    def _operator_gate(page_name: str):
+        """Auth gate for operator pages. Returns a response (sign-in
+        redirect / 401 / branded 403) when access is denied, or None when
+        the caller is an admin and may proceed."""
         from .auth_api import current_user, ROLE_RANK  # lazy: avoid circulars
         from .registry_pages import prefers_html
 
@@ -237,7 +230,7 @@ def create_app() -> Flask:
             if wants_html:
                 from flask import redirect
 
-                return redirect("/account.html?next=/admin.html&reason=signin")
+                return redirect(f"/account.html?next=/{page_name}&reason=signin")
             return jsonify({"error": "Authentication required", "status": 401}), 401
         if ROLE_RANK.get(user["role"], 0) < ROLE_RANK["admin"]:
             if wants_html:
@@ -257,7 +250,7 @@ def create_app() -> Flask:
                     f"({user.get('email', '')}) does not have operator access. "
                     "Sign in with the operator account or "
                     "<a href='/contact.html'>contact the team</a>.</p>"
-                    "<p><a href='/account.html?switch=1&next=/admin.html&reason=signin'>"
+                    f"<p><a href='/account.html?switch=1&next=/{page_name}&reason=signin'>"
                     "Sign in with a different account</a></p>"
                     "<p><a href='/account.html'>&larr; Back to your account</a></p>"
                     "</div></body></html>")
@@ -270,17 +263,41 @@ def create_app() -> Flask:
                             "upgrade": {"required_role": "admin",
                                         "your_role": user["role"],
                                         "unlocks": "Operator access."}}), 403
+        return None
+
+    def _serve_operator_page(page_name: str):
+        """Serve a protected operator HTML page from website/<page_name>.
+        The page itself carries no data; all data comes from the auth-gated
+        /api/v2/admin/* endpoints."""
+        denied = _operator_gate(page_name)
+        if denied is not None:
+            return denied
         html_path = os.path.join(os.path.dirname(__file__), "..", "..",
-                                 "website", "admin.html")
+                                 "website", page_name)
         try:
             with open(html_path, encoding="utf-8") as fh:
                 content = fh.read()
         except OSError:
-            return jsonify({"error": "Admin page unavailable", "status": 503}), 503
+            return jsonify({"error": "Page unavailable", "status": 503}), 503
         resp = app.response_class(content, mimetype="text/html")
         resp.headers["X-Robots-Tag"] = "noindex, nofollow"
         resp.headers["Cache-Control"] = "no-store"
         return resp
+
+    @app.route("/admin.html", methods=["GET"])
+    def admin_page():
+        """The operator shell: Commercial Center + Marketing CRM tabs."""
+        return _serve_operator_page("admin.html")
+
+    @app.route("/marketing.html", methods=["GET"])
+    def marketing_page():
+        """Legacy alias — the Marketing CRM lives in /admin.html tabs."""
+        denied = _operator_gate("marketing.html")
+        if denied is not None:
+            return denied
+        from flask import redirect
+
+        return redirect("/admin.html#targets")
 
     # ------------------------------------------------------------------
     @app.route("/api/geocode", methods=["GET"])
@@ -1116,6 +1133,11 @@ def create_app() -> Flask:
     from .admin_intel import admin_intel_bp
 
     app.register_blueprint(admin_intel_bp)
+
+    # Marketing CRM API (/api/v2/admin/marketing…).
+    from .marketing_crm import marketing_crm_bp
+
+    app.register_blueprint(marketing_crm_bp)
 
     return app
 

@@ -20,6 +20,7 @@ priority:        high | medium | low
 
 from __future__ import annotations
 
+import json
 import re
 import sqlite3
 import threading
@@ -34,9 +35,12 @@ LEAD_STATUSES = ("open", "won", "lost")
 LEAD_PRIORITIES = ("high", "medium", "low")
 INTERACTION_TYPES = ("email", "call", "meeting", "demo", "note", "linkedin",
                      "followup", "proposal", "subscription", "trial", "renewal")
+SCHEDULED_STATUSES = ("scheduled", "sent", "failed", "cancelled")
 
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,120}$")
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+_SEND_AT_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}")
 
 
 def _utcnow() -> str:
@@ -74,6 +78,19 @@ class MarketingStore:
                     type TEXT NOT NULL,
                     summary TEXT NOT NULL,
                     created_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS scheduled_outreach (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    lead_slug TEXT NOT NULL,
+                    to_email TEXT NOT NULL,
+                    contact_name TEXT,
+                    template TEXT NOT NULL,
+                    context_json TEXT NOT NULL,
+                    send_at TEXT NOT NULL,
+                    status TEXT NOT NULL DEFAULT 'scheduled',
+                    error TEXT,
+                    created_at TEXT NOT NULL,
+                    sent_at TEXT
                 );
                 """
             )
@@ -209,3 +226,134 @@ class MarketingStore:
                 ).fetchall()
         return [{"id": r[0], "lead_slug": r[1], "date": r[2],
                  "type": r[3], "summary": r[4]} for r in rows]
+
+    # ------------------------------------------------------------------
+    # Scheduled outreach
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _scheduled_row(row) -> Dict:
+        return {
+            "id": row[0],
+            "lead_slug": row[1],
+            "to_email": row[2],
+            "contact_name": row[3],
+            "template": row[4],
+            "context": json.loads(row[5] or "{}"),
+            "send_at": row[6],
+            "status": row[7],
+            "error": row[8],
+            "created_at": row[9],
+            "sent_at": row[10],
+        }
+
+    def schedule_send(
+        self,
+        lead_slug: str,
+        to_email: str,
+        contact_name: Optional[str],
+        template: str,
+        context: Dict,
+        send_at: str,
+    ) -> Optional[Dict]:
+        """Queue an outreach email for future delivery. Returns the row or
+        None on invalid input."""
+        if not self.valid_slug(lead_slug):
+            return None
+        if not to_email or not _EMAIL_RE.match(to_email):
+            return None
+        if not template or not isinstance(template, str) or len(template) > 60:
+            return None
+        if contact_name is not None and (
+            not isinstance(contact_name, str) or len(contact_name) > 200
+        ):
+            return None
+        if not send_at or not _SEND_AT_RE.match(send_at):
+            return None
+        if not isinstance(context, dict):
+            return None
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "INSERT INTO scheduled_outreach"
+                " (lead_slug, to_email, contact_name, template, context_json,"
+                " send_at, status, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (lead_slug, to_email, contact_name, template,
+                 json.dumps(context), send_at, "scheduled", _utcnow()),
+            )
+            iid = cur.lastrowid
+        return self.get_scheduled(iid)
+
+    def list_scheduled(
+        self,
+        lead_slug: Optional[str] = None,
+        status: Optional[str] = None,
+        due_before: Optional[str] = None,
+    ) -> List[Dict]:
+        """Scheduled outreach rows, ordered by send_at ASC."""
+        clauses: List[str] = []
+        params: List = []
+        if lead_slug is not None:
+            clauses.append("lead_slug = ?")
+            params.append(lead_slug)
+        if status is not None:
+            clauses.append("status = ?")
+            params.append(status)
+        if due_before is not None:
+            clauses.append("status = ? AND send_at <= ?")
+            params.extend(["scheduled", due_before])
+        where = " WHERE " + " AND ".join(clauses) if clauses else ""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT id, lead_slug, to_email, contact_name, template,"
+                " context_json, send_at, status, error, created_at, sent_at"
+                f" FROM scheduled_outreach{where} ORDER BY send_at ASC, id ASC",
+                params,
+            ).fetchall()
+        return [self._scheduled_row(r) for r in rows]
+
+    def get_scheduled(self, scheduled_id: int) -> Optional[Dict]:
+        if not isinstance(scheduled_id, int):
+            return None
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, lead_slug, to_email, contact_name, template,"
+                " context_json, send_at, status, error, created_at, sent_at"
+                " FROM scheduled_outreach WHERE id = ?",
+                (scheduled_id,),
+            ).fetchone()
+        return self._scheduled_row(row) if row else None
+
+    def mark_scheduled(
+        self,
+        scheduled_id: int,
+        status: str,
+        error: Optional[str] = None,
+    ) -> Optional[Dict]:
+        """Mark a scheduled row as sent or failed. Returns the row or None."""
+        if status not in ("sent", "failed"):
+            return None
+        row = self.get_scheduled(scheduled_id)
+        if row is None:
+            return None
+        sent_at = _utcnow() if status == "sent" else row.get("sent_at")
+        error = (error or "")[:500]
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE scheduled_outreach SET status = ?, error = ?, sent_at = ?"
+                " WHERE id = ?",
+                (status, error, sent_at, scheduled_id),
+            )
+        return self.get_scheduled(scheduled_id)
+
+    def cancel_scheduled(self, scheduled_id: int) -> Optional[Dict]:
+        """Cancel a scheduled row. Only rows still scheduled may be cancelled."""
+        row = self.get_scheduled(scheduled_id)
+        if row is None or row.get("status") != "scheduled":
+            return None
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE scheduled_outreach SET status = ? WHERE id = ?",
+                ("cancelled", scheduled_id),
+            )
+        return self.get_scheduled(scheduled_id)

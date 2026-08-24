@@ -57,6 +57,13 @@ _TEMPLATE_NAMES = {
     "admin_notification",
     "operator_notification",
     "subscription_confirmation",
+    "outreach_generic",
+    "outreach_banking",
+    "outreach_insurance",
+    "outreach_investment",
+    "outreach_real_estate",
+    "outreach_environmental_consulting",
+    "outreach_governments",
 }
 
 _VAR_RE = re.compile(r"\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}")

@@ -706,4 +706,16 @@
         el('campaignPerfBlock').innerHTML =
             '<div class="notice notice-empty">Campaign performance unavailable.</div>';
     });
+
+    // Hook for the unified operator-tabs shell to notify admin.js when the
+    // Commercial Center tab becomes visible again (Leaflet needs a size recalc
+    // after being hidden).
+    window.HSAdmin = {
+        onShow: function (tabId) {
+            if (tabId === 'overview' && leadsMap) {
+                // Defer so the browser has finished revealing the panel.
+                setTimeout(function () { leadsMap.invalidateSize(); }, 0);
+            }
+        }
+    };
 })();
