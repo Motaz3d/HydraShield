@@ -1,0 +1,36 @@
+{
+  "organization": "Banca Transilvania S.A.",
+  "segment": "banking",
+  "country": "RO",
+  "region": "Cluj-Napoca",
+  "website": "https://www.bancatransilvania.ro/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "Banca Transilvania is the largest bank in Romania and markets itself as the 'Bank of Entrepreneurs', serving millions of retail clients and businesses. The bank's mortgage and SME loan books are exposed to climate shocks such as the 2024 Galați floods and recurring Danube flooding, which can impair collateral values and borrower repayment capacity.",
+  "climate_exposure": "Its lending base spans households, real estate and corporate borrowers across Romania's floodplains, drought-hit agricultural regions and wildfire-prone areas, creating physical climate risk concentration in the loan portfolio.",
+  "potential_pain": "Unpriced physical climate risk in mortgages and SME loans could lead to higher non-performing loans, collateral value losses and regulatory scrutiny under ECB/ESG expectations.",
+  "relevant_hazards": ["flood", "drought", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers and historical event intelligence for Romania's high-impact 2024 Galați and Danube floods.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Demonstrate how Talaix climate risk data can screen mortgage and SME exposures for flood and drought hotspots to support ESG risk management.",
+  "priority": "medium",
+  "fit_score": "Large national bank with retail and SME lending across all hazard zones; likely buyer of portfolio-level climate risk screening.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: bank describes itself as Romania's largest bank and supports households and entrepreneurs nationwide.",
+      "source": "https://www.bancatransilvania.ro/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bancatransilvania.ro/",
+  "date_checked": "2026-08-24"
+}

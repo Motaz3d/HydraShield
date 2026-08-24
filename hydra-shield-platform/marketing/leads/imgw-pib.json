@@ -1,0 +1,36 @@
+{
+  "organization": "IMGW-PIB (Instytut Meteorologii i Gospodarki Wodnej – Państwowy Instytut Badawczy)",
+  "segment": "research_centers",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.imgw.pl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "IMGW-PIB is Poland's national meteorological and hydrological research institute. It produces forecasts and warnings for floods, droughts, and other hazards, and its mandate has been stressed by the 2024 Oder-basin floods and growing demand for climate-change attribution.",
+  "climate_exposure": "The institute monitors and models weather and hydrology for the entire country, including the Oder and Vistula river systems, and provides authoritative data to government and business.",
+  "potential_pain": "Need for higher-resolution exposure and historical-event datasets to validate hydrological models and improve public warnings.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Historical flood event intelligence and exposure-layer validation datasets for Polish river basins.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Offer historical flood-event validation data and exposure layers to enhance IMGW-PIB's hydrological models and public communications.",
+  "priority": "medium",
+  "fit_score": "IMGW-PIB is the authoritative national provider of meteorological and hydrological data, so its workflows are a natural integration point for historical-event and exposure analytics.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: IMGW-PIB is the Polish national meteorological and hydrological research institute producing forecasts and warnings since 1919.",
+      "source": "https://www.imgw.pl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.imgw.pl",
+  "date_checked": "2026-08-24"
+}

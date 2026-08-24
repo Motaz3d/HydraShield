@@ -1,0 +1,36 @@
+{
+  "organization": "Instituto Português do Mar e da Atmosfera",
+  "segment": "emergency_management",
+  "country": "PT",
+  "region": "Lisbon",
+  "website": "https://www.ipma.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "IPMA operates the national Rural Fire Danger (Perigo de Incêndio Rural) information system for mainland Portugal, publishing daily fire-danger classes and activity restrictions. This mandate sits at the core of Portugal's response to annual rural wildfire seasons and to disasters such as the 2017 Pedrógão Grande wildfires.",
+  "climate_exposure": "IPMA is responsible for meteorological monitoring, warnings and climate products that inform civil protection, forestry services and public safety across Portugal.",
+  "potential_pain": "Operational pressure to improve spatial precision and lead times for wildfire and extreme-weather warnings is growing as heat and drought intensify.",
+  "relevant_hazards": ["wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence on Portugal's major wildfires and real-time monitoring feeds that can enrich public risk-communication products.",
+  "relevant_capability": "monitoring, historical event intelligence, API",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose integrating Talaix historical fire-event layers and hazard-monitoring feeds to enrich IPMA's public warning and risk-communication products.",
+  "priority": "high",
+  "fit_score": "IPMA's operational mandate for fire-danger forecasting and public warnings aligns directly with Talaix monitoring and historical event intelligence.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: IPMA's Perigo de Incêndio Rural page publishes daily rural fire-danger classes and restrictions for mainland Portugal.",
+      "source": "https://www.ipma.pt/pt/riscoincendio/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ipma.pt/pt/riscoincendio/",
+  "date_checked": "2026-08-24"
+}

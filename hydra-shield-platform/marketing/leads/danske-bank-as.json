@@ -1,0 +1,36 @@
+{
+  "organization": "Danske Bank A/S",
+  "segment": "banking",
+  "country": "DK",
+  "region": "",
+  "website": "https://www.danskebank.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Denmark has experienced repeated cloudburst flooding in Copenhagen, Aarhus and other cities, while its long, low-lying coastline faces storm-surge and sea-level-rise exposure. Danske Bank is Denmark's largest bank with a national mortgage and corporate lending footprint.",
+  "climate_exposure": "Urban pluvial and cloudburst flood exposure is concentrated in Copenhagen and Aarhus, while coastal flood and storm-surge risk extends along Denmark's North Sea and Baltic coastlines.",
+  "potential_pain": "Mortgage default risk in cloudburst-prone urban districts; collateral devaluation along exposed coastlines; portfolio-level screening needs for both risk management and emerging regulatory climate disclosure.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood and coastal exposure layers plus historical event intelligence for Danish collateral locations, including documented cloudburst and coastal surge events.",
+  "relevant_capability": "Location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of Danish mortgage and corporate collateral locations for cloudburst, riverine and coastal flood exposure.",
+  "priority": "high",
+  "fit_score": "High fit: Denmark's largest bank with a national mortgage and corporate loan book in a country with documented cloudburst and coastal flood risk.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Danske Bank's homepage confirms it is a major Nordic bank headquartered in Denmark, reporting Danish kroner results and serving retail, commercial and institutional clients.",
+      "source": "https://www.danskebank.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.danskebank.com",
+  "date_checked": "2026-08-24"
+}

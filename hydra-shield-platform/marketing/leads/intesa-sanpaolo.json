@@ -1,0 +1,36 @@
+{
+  "organization": "Intesa Sanpaolo S.p.A.",
+  "segment": "banking",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://www.intesasanpaolo.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Intesa Sanpaolo is Italy's largest banking group, with a nationwide retail mortgage and corporate loan book concentrated in Italian regions that have suffered major climate shocks. The May 2023 Emilia-Romagna floods caused billions of euros of damage across one of Italy's most productive regions, while Sicily and southern Italy face recurring summer wildfires that threaten residential and commercial collateral.",
+  "climate_exposure": "Its retail and SME loan portfolios are exposed to riverine and pluvial flooding in the Po Valley and northern Italy, and to wildfire-driven collateral devaluation in Sicily, Calabria and other southern regions.",
+  "potential_pain": "Without location-level climate screening, mortgage defaults and collateral recoveries in disaster-affected provinces may be mispriced, and portfolio concentrations in high-hazard zones can build unnoticed.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Emilia-Romagna, Sicily and other key collateral geographies.",
+  "relevant_capability": "Climate risk intelligence and collateral-location screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose an API pilot screening a sample of residential and SME collateral locations against flood and wildfire hazard layers.",
+  "priority": "high",
+  "fit_score": "Excellent fit: Italy's largest bank with a national retail and corporate footprint directly exposed to the documented 2023 Emilia-Romagna floods and recurring Sicilian wildfires.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Intesa Sanpaolo corporate homepage confirms it is Italy's largest banking group with nationwide retail and corporate banking operations.",
+      "source": "https://www.intesasanpaolo.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.intesasanpaolo.com",
+  "date_checked": "2026-08-24"
+}

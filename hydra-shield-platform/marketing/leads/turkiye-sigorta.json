@@ -1,0 +1,36 @@
+{
+  "organization": "Türkiye Sigorta A.Ş.",
+  "segment": "insurance",
+  "country": "TR",
+  "region": "Istanbul",
+  "website": "https://www.turkiyesigorta.com.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Türkiye Sigorta is Turkey's largest state-owned insurer and its official English homepage prominently displays customer claims stories tied to fire, flood and heavy-rain damage, signalling that climate-related perils are a core part of its claims portfolio. Against Turkey's documented 2021 Mediterranean wildfires and 2021 Black Sea floods, the insurer faces concentrated nat-cat exposure across its home, commercial and auto lines.",
+  "climate_exposure": "The insurer's book spans property, motor and commercial policies nationwide, including regions repeatedly hit by wildfires (Muğla, Antalya, Izmir, Çanakkale) and flash floods (Black Sea provinces such as Kastamonu/Bozkurt).",
+  "potential_pain": "Earnings volatility from rising wildfire and flood claims; need for higher-resolution hazard data to improve pricing, accumulation control and post-event loss estimation in Turkey's most disaster-prone provinces.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers plus historical event intelligence for Turkey's 2021 and 2024 wildfire seasons and 2021 Bozkurt floods, formatted as evidence-labelled underwriting and claims reports.",
+  "relevant_capability": "wildfire/flood exposure layers, historical event intelligence, evidence-labelled reports",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer an exposure-based portfolio risk report that helps Türkiye Sigorta refine accumulation limits and claims triage for wildfire- and flood-prone provinces using Talaix historical event intelligence.",
+  "priority": "high",
+  "fit_score": "High fit: a national insurer with a public mandate and published claims experience of fire/flood losses is a natural buyer of exposure-layer analytics, especially where country-wide nat-cat events are intensifying.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Türkiye Sigorta's official site publishes customer testimonials describing fire, flood and heavy-rain insurance claims, confirming climate-peril exposure in its portfolio.",
+      "source": "https://www.turkiyesigorta.com.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.turkiyesigorta.com.tr",
+  "date_checked": "2026-08-24"
+}

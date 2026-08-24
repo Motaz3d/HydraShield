@@ -1,0 +1,36 @@
+{
+  "organization": "Ravnateljstvo civilne zaštite Republike Hrvatske",
+  "segment": "emergency_management",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://civilna-zastita.gov.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Directorate of Civil Protection is the national body for protection and rescue under the Ministry of the Interior of the Republic of Croatia, headquartered in Zagreb. Recurring Dalmatian wildfires and the 2023 central-Croatia floods repeatedly test its command, coordination and public-alert capacity.",
+  "climate_exposure": "Its mandate covers the whole country, including coastal counties exposed to wildfire and storm surge and continental basins exposed to riverine flooding, requiring continuous situational awareness.",
+  "potential_pain": "Limited real-time, evidence-labelled hazard intelligence across multiple counties can slow pre-positioning of resources, delay warnings to affected populations and complicate post-event reporting.",
+  "relevant_hazards": ["wildfire", "flood", "coastal", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Live wildfire and flood monitoring, SMS alert targeting and historical event intelligence for Croatia's recent fire seasons and 2023 floods.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Offer county-level hazard monitoring and SMS alerting to strengthen Croatia's civil-protection early-warning and response workflows.",
+  "priority": "high",
+  "fit_score": "National civil-protection mandate and recurring multi-hazard emergencies make this a natural fit for real-time monitoring and alerting.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: civilna-zastita.gov.hr identifies the Directorate of Civil Protection as part of the Ministry of the Interior of the Republic of Croatia.",
+      "source": "https://civilna-zastita.gov.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://civilna-zastita.gov.hr",
+  "date_checked": "2026-08-24"
+}

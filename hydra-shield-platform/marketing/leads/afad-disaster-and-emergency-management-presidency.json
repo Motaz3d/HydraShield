@@ -1,0 +1,36 @@
+{
+  "organization": "Afet ve Acil Durum Yönetimi Başkanlığı (AFAD)",
+  "segment": "emergency_management",
+  "country": "TR",
+  "region": "Ankara",
+  "website": "https://www.afad.gov.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "AFAD is Turkey's national Disaster and Emergency Management Presidency under the Ministry of Interior, making it the lead authority for the country's documented catastrophic wildfires and floods. Its official site frames the institution as the coordinator of all disaster and emergency response, which in Turkey has recently included the 2021 Mediterranean wildfires (Muğla/Antalya), the 2024 Izmir and Çanakkale wildfires, and the 2021 Black Sea floods in Bozkurt.",
+  "climate_exposure": "AFAD's mandate covers the entire Turkish territory, including Mediterranean and Aegean coastlines that are recurrently exposed to extreme wildfire seasons and the Black Sea region that is prone to deadly flash floods.",
+  "potential_pain": "Operational strain from reactive response to repeated, large-scale wildfire and flood events; need for granular, real-time exposure intelligence and historical event validation to pre-position resources and coordinate faster inter-agency response.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers, historical event intelligence for the 2021 and 2024 fire seasons and 2021 Bozkurt flooding, plus monitoring and evidence-labelled reports aligned to AFAD's national coordination mandate.",
+  "relevant_capability": "wildfire/flood exposure layers, historical event intelligence, monitoring, evidence-labelled reports",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose a national climate-risk situational awareness layer that helps AFAD pre-position response assets ahead of wildfire and flash-flood seasons using Talaix exposure data and historical event intelligence.",
+  "priority": "high",
+  "fit_score": "Very high fit: AFAD is the single national authority whose mandate directly matches Talaix's wildfire/flood capabilities, and Turkey's recent disaster history creates an immediate operational use case for exposure-based preparedness.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: AFAD's official site identifies it as the national Disaster and Emergency Management Presidency under the Turkish Ministry of Interior.",
+      "source": "https://www.afad.gov.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.afad.gov.tr",
+  "date_checked": "2026-08-24"
+}

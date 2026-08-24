@@ -17,7 +17,7 @@ from typing import Dict, List, Optional
 
 from flask import Blueprint, jsonify, request
 
-from . import mailer
+from . import hunter, mailer
 from .admin_intel import (
     _TARGET_SECTORS,
     _WORKSPACE,
@@ -262,8 +262,8 @@ def marketing_stats():
 @marketing_crm_bp.get("/admin/marketing/lead/<lead_slug>")
 @require_role("admin")
 def marketing_lead_detail(lead_slug: str):
-    """Full merged lead, score, interactions, follow-up file and scheduled
-    outreach for a single lead."""
+    """Full merged lead, score, interactions, follow-up file, scheduled
+    outreach and discovered contacts for a single lead."""
     lead = _leads_by_slug().get(lead_slug)
     if lead is None:
         return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
@@ -285,12 +285,14 @@ def marketing_lead_detail(lead_slug: str):
                 followup = None
             break
 
+    store = MarketingStore()
     return jsonify({
         "lead": lead,
         "score": _lead_score(lead),
         "interactions": lead.get("interactions") or [],
         "followup": followup,
-        "scheduled": MarketingStore().list_scheduled(lead_slug=lead_slug),
+        "scheduled": store.list_scheduled(lead_slug=lead_slug),
+        "contacts": store.list_contacts(lead_slug),
     })
 
 
@@ -394,3 +396,63 @@ def marketing_scheduled_cancel(sid: int):
     if cancelled is None:
         return jsonify({"error": "Scheduled outreach is not cancellable", "status": 409}), 409
     return jsonify({"ok": True, "scheduled": cancelled})
+
+
+# ---------------------------------------------------------------------------
+# Lead contact discovery (Hunter.io)
+# ---------------------------------------------------------------------------
+
+@marketing_crm_bp.get("/admin/marketing/lead/<lead_slug>/contacts")
+@require_role("admin")
+def marketing_lead_contacts(lead_slug: str):
+    """Stored discovered contacts for a lead."""
+    if lead_slug not in _leads_by_slug():
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+    return jsonify({
+        "configured": hunter.configured(),
+        "contacts": MarketingStore().list_contacts(lead_slug),
+    })
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/contacts/discover")
+@require_role("admin")
+def marketing_lead_contacts_discover(lead_slug: str):
+    """Discover and store contacts for a lead's domain via Hunter.io."""
+    lead = _leads_by_slug().get(lead_slug)
+    if lead is None:
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+
+    store = MarketingStore()
+    if not hunter.configured():
+        return jsonify({
+            "configured": False,
+            "note": "Hunter.io is not configured on this server — set HUNTER_API_KEY and redeploy.",
+            "contacts": store.list_contacts(lead_slug),
+        }), 200
+
+    domain = hunter.domain_from_url(lead.get("website"))
+    if domain is None:
+        return jsonify({"error": "no usable domain on this lead", "status": 422}), 422
+
+    try:
+        contacts = hunter.domain_search(domain)
+    except hunter.HunterError as exc:
+        return jsonify({"error": str(exc), "status": 502}), 502
+
+    added = store.add_contacts(lead_slug, contacts, source="hunter")
+    return jsonify({
+        "configured": True,
+        "domain": domain,
+        "added": added,
+        "contacts": store.list_contacts(lead_slug),
+    })
+
+
+@marketing_crm_bp.post("/admin/marketing/contacts/<int:cid>/delete")
+@require_role("admin")
+def marketing_contact_delete(cid: int):
+    """Delete a stored discovered contact."""
+    deleted = MarketingStore().delete_contact(cid)
+    if deleted is None:
+        return jsonify({"error": "Unknown contact", "status": 404}), 404
+    return jsonify({"ok": True})

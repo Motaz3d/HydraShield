@@ -1,0 +1,36 @@
+{
+  "organization": "Mitsubishi UFJ Financial Group, Inc.",
+  "segment": "banking",
+  "country": "JP",
+  "region": "East Asia",
+  "website": "https://www.mufg.jp/english/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Japan faces recurring typhoon and torrential-rain flooding, with recent examples including Typhoon Hagibis (2019) and the July 2020 Kumamoto floods. As Japan's largest banking group and parent of MUFG Bank, the group holds a nationwide mortgage and corporate loan book that is physically exposed to flood and wind-driven rainfall events.",
+  "climate_exposure": "Residential and commercial collateral is concentrated in densely populated coastal and riverine areas across Japan, including the Kanto, Kansai, Kyushu and Tohoku regions that are repeatedly affected by typhoon flooding and landslide rainfall.",
+  "potential_pain": "Portfolio concentrations in typhoon-exposed prefectures create collateral devaluation and potential default risk; risk teams need location-level screening and historical event context to support internal credit risk reviews and climate-risk disclosure.",
+  "relevant_hazards": ["flood", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wind exposure layers plus historical event intelligence for recent Japanese typhoon and flood events, mapped to MUFG collateral geographies.",
+  "relevant_capability": "location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot that screens a sample of mortgage and corporate collateral locations for flood and typhoon-driven rainfall exposure, using historical event intelligence from recent Japanese floods.",
+  "priority": "high",
+  "fit_score": "High fit: MUFG is Japan's largest banking group with a dominant national mortgage and corporate-lending footprint, and Japan's recurring typhoon floods provide concrete, recurring evidence of physical climate risk to collateral.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MUFG's English corporate site confirms it is a leading Japanese financial group with banking, trust and securities operations.",
+      "source": "https://www.mufg.jp/english/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mufg.jp/english/",
+  "date_checked": "2026-08-24"
+}

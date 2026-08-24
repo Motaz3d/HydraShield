@@ -1,0 +1,36 @@
+{
+  "organization": "ANA - Agência Nacional de Águas e Saneamento Básico",
+  "segment": "water_management",
+  "country": "BR",
+  "region": "Brasília, Distrito Federal",
+  "website": "https://www.ana.gov.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "ANA is Brazil's national water and basic sanitation agency. Its mandate covers water resource management, river basin planning and sanitation regulation across a country that experienced record 2024 floods in Rio Grande do Sul and recurring droughts in the Center-West and Northeast.",
+  "climate_exposure": "The agency regulates and plans for river basins, water utilities and infrastructure that face both flood and drought extremes.",
+  "potential_pain": "Basin-level planning and investment decisions need authoritative, spatially explicit flood and drought evidence that is consistent across Brazil's diverse hydrographic regions.",
+  "relevant_hazards": ["flood", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Drought and flood exposure layers with historical event intelligence for river basin and water-system planning.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose an enterprise dashboard for ANA to visualize flood and drought exposure across Brazilian river basins with evidence-labelled reporting.",
+  "priority": "high",
+  "fit_score": "National water agency with direct regulatory and planning responsibility for flood and drought management; high institutional alignment with Talaix.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ANA's official site identifies it as the Agência Nacional de Águas e Saneamento Básico, the national water and basic sanitation agency.",
+      "source": "https://www.ana.gov.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ana.gov.br",
+  "date_checked": "2026-08-24"
+}

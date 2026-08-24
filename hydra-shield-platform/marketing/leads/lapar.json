@@ -1,0 +1,36 @@
+{
+  "organization": "Liga Asociațiilor Producătorilor Agricoli din România",
+  "segment": "agriculture",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.lapar.ro/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "LAPAR is a professional, non-governmental organisation representing Romanian agricultural producers at national and European level for over 25 years. Romania's severe heat and drought have repeatedly cut crop yields, while spring floods in the Galați/Danube regions damage farmland and farm infrastructure.",
+  "climate_exposure": "Its members operate farms across Romania's major agricultural zones, which are exposed to drought, heatwaves and episodic flooding that directly affect yields, revenue and access to finance.",
+  "potential_pain": "Erratic weather reduces farm profitability and complicates crop planning, insurance uptake and EU/national subsidy claims for its producer membership.",
+  "relevant_hazards": ["drought", "heat", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix drought and heat exposure layers plus historical event intelligence for Romania's recent agricultural drought and 2024 Galați floods.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer LAPAR member-facing seasonal monitoring and historical evidence that supports risk dialogue with insurers, banks and the Ministry of Agriculture.",
+  "priority": "high",
+  "fit_score": "Umbrella body for Romanian farmers, highly exposed to drought/flood risks and positioned to distribute climate intelligence to members.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: LAPAR represents agricultural producers nationally, promotes profitability and sustainability, and is a COPA-COGECA member.",
+      "source": "https://www.lapar.ro/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.lapar.ro/",
+  "date_checked": "2026-08-24"
+}

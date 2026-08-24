@@ -1,0 +1,36 @@
+{
+  "organization": "Rządowe Centrum Bezpieczeństwa (Government Security Centre)",
+  "segment": "emergency_management",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.rcb.gov.pl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Rządowe Centrum Bezpieczeństwa coordinates national crisis management, public alerting, and inter-agency response for Poland. The September 2024 Oder floods required large-scale evacuations and civil-protection deployments, highlighting gaps in granular, real-time flood exposure intelligence for targeted warnings.",
+  "climate_exposure": "RCB is responsible for issuing alerts and coordinating response for the entire country, including the Oder and Vistula basins and fast-growing urban areas vulnerable to flash flooding.",
+  "potential_pain": "Reliance on coarse hydrological warnings without asset-level exposure data slows targeted evacuations and resource allocation during multi-province flood events.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Real-time flood monitoring, SMS-ready alert targeting, and historical event intelligence for the Oder and Vistula basins.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Provide monitoring and SMS-alert targeting layers that turn hydrological forecasts into population- and asset-specific warnings during Polish flood events.",
+  "priority": "high",
+  "fit_score": "RCB's mandate to warn and coordinate national emergency response makes it a direct buyer for real-time hazard monitoring and alert targeting tools.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: RCB is the Polish government's national crisis-management and public-alerting centre hosted on gov.pl.",
+      "source": "https://www.rcb.gov.pl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.rcb.gov.pl",
+  "date_checked": "2026-08-24"
+}

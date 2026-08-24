@@ -1,0 +1,36 @@
+{
+  "organization": "Caixa Geral de Depósitos",
+  "segment": "banking",
+  "country": "PT",
+  "region": "Lisbon",
+  "website": "https://www.cgd.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of ESG",
+  "identified_problem": "CGD's sustainability page states that its sustainability strategy represents the bank's commitment to sustainable development, the future of its assets, reduced environmental impacts and value creation for clients and employees. Portugal's recurring wildfires, flash floods and droughts threaten the real-estate and SME collateral that back its domestic lending book.",
+  "climate_exposure": "As Portugal's state-owned systemic bank, CGD holds mortgages, corporate loans and agricultural credit secured by assets spread across fire- and flood-prone regions of mainland Portugal.",
+  "potential_pain": "Climate-related credit losses and stranded-collateral risk are rising, while ECB and EU supervisory expectations require banks to evidence climate-risk analysis across portfolios.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Portuguese municipalities and collateral locations.",
+  "relevant_capability": "flood exposure layers, historical event intelligence, enterprise dashboard",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer a portfolio-level climate-risk scan to map wildfire and flood exposure across CGD's mortgage and SME loan books.",
+  "priority": "high",
+  "fit_score": "CGD's published sustainability strategy and role as a systemic domestic lender make it a natural fit for Talaix portfolio climate intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CGD sustainability page describes the bank's strategy for reducing environmental impacts and safeguarding the future of its assets.",
+      "source": "https://www.cgd.pt/sustentabilidade"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cgd.pt/sustentabilidade",
+  "date_checked": "2026-08-24"
+}

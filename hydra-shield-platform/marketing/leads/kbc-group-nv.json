@@ -1,0 +1,36 @@
+{
+  "organization": "KBC Group NV",
+  "segment": "banking",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.kbc.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The July 2021 Vesdre floods caused catastrophic damage in eastern Belgium, particularly around Liege, Verviers and Pepinster, killing dozens and destroying thousands of buildings. KBC is Belgium's largest bank-insurance group with a dominant retail, private banking and SME lending footprint across all Belgian regions.",
+  "climate_exposure": "The Meuse, Vesdre and Ourthe catchments in Wallonia and densely populated Flemish and Brussels areas face riverine flash-flood and pluvial flood exposure.",
+  "potential_pain": "Collateral devaluation in the Vesdre and Meuse catchments; SME loan defaults after repeat flooding; pressure to screen national collateral locations for regulatory risk disclosure and provisioning.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood exposure layers plus historical event intelligence for Belgian collateral geographies, including the July 2021 Vesdre flood footprint.",
+  "relevant_capability": "Location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of Belgian retail and SME collateral locations against the July 2021 Vesdre flood footprint and comparable riverine events.",
+  "priority": "high",
+  "fit_score": "High fit: Belgium's leading bank-insurance group with a national collateral base across Flanders, Brussels and Wallonia, including the documented 2021 Vesdre flood corridor.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: KBC's homepage confirms it is an integrated bank-insurance group catering mainly for retail, private banking, SME and mid-cap clients, with Belgium as its home market.",
+      "source": "https://www.kbc.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kbc.com",
+  "date_checked": "2026-08-24"
+}

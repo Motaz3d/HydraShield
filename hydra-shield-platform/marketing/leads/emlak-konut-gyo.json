@@ -1,0 +1,36 @@
+{
+  "organization": "Emlak Konut Gayrimenkul Yatırım Ortaklığı A.Ş.",
+  "segment": "real_estate",
+  "country": "TR",
+  "region": "Istanbul",
+  "website": "https://www.emlakkonut.com.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Emlak Konut is Turkey's largest real-estate investment trust and its official site identifies it as 'Emlak Konut Gayrimenkul Yatırım Ortaklığı A.Ş.' headquartered in Istanbul. With Turkey's documented 2021 Mediterranean wildfires, 2024 Izmir/Çanakkale wildfires and 2021 Black Sea floods, large-scale residential and commercial developments face increasing physical climate risk across the country.",
+  "climate_exposure": "The company develops and manages residential, commercial and mixed-use assets across Turkey, including Mediterranean, Aegean and Black Sea regions that are exposed to wildfire and flash-flood hazards.",
+  "potential_pain": "Asset devaluation, project delays and rising insurance costs for developments in wildfire- and flood-prone provinces; need to screen land banks and existing portfolios by hazard exposure for investor reporting and risk disclosure.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers, historical event intelligence for Turkey's recent fire and flood seasons, and evidence-labelled asset-level climate risk reports for Emlak Konut's development pipeline.",
+  "relevant_capability": "wildfire/flood exposure layers, historical event intelligence, evidence-labelled reports",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer a portfolio-level climate exposure report that helps Emlak Konut screen land banks and existing assets for wildfire and flood risk to support investor disclosures and resilience planning.",
+  "priority": "medium",
+  "fit_score": "Good fit: the leading Turkish REIT controls a nationwide development and asset portfolio; climate physical-risk screening is increasingly relevant for real-estate valuation and ESG disclosure in Turkey.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Emlak Konut's official site identifies the company as 'Emlak Konut Gayrimenkul Yatırım Ortaklığı A.Ş.' headquartered in Ataşehir, Istanbul.",
+      "source": "https://www.emlakkonut.com.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.emlakkonut.com.tr",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Institutul Național de Hidrologie și Gospodărire a Apelor",
+  "segment": "research_centers",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.inhga.ro/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "INHGA is Romania's National Institute of Hydrology and Water Management, mandated to produce flood hazard and risk maps and to implement the EU Floods Directive (2007/60/EC). The 2024 Galați floods and recurring Danube basin flooding make its hydrological forecasting and risk-mapping mission increasingly critical.",
+  "climate_exposure": "The institute manages national hydrological data, flood-risk mapping and water-management services that cover the entire Danube basin and all Romanian river basins.",
+  "potential_pain": "Growing demand for higher-resolution, evidence-based flood intelligence outpaces the capacity of legacy monitoring and static hazard maps to support decision-makers.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers, historical event intelligence for recent Danube/Galați events, and API/QGIS plugin delivery formats.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "api",
+  "recommended_message": "Propose Talaix flood exposure layers and historical event data as an enrichment source for INHGA's national flood-risk maps and hydrological services.",
+  "priority": "medium",
+  "fit_score": "National hydrology research institute directly responsible for flood risk mapping; natural partner for exposure-layer and historical-event data.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: INHGA implements the EU Floods Directive and produces flood hazard/risk maps for Romanian river basins.",
+      "source": "https://www.inhga.ro/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.inhga.ro/",
+  "date_checked": "2026-08-24"
+}

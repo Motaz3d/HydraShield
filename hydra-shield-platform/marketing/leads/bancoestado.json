@@ -1,0 +1,36 @@
+{
+  "organization": "BancoEstado",
+  "segment": "banking",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.bancoestado.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "BancoEstado's homepage highlights support measures for customers affected by rain (lluvias) and a channel for natural-disaster claims, showing the bank is actively responding to climate-driven shocks. Chile's recurring central/southern floods and the 2024 Valparaíso wildfires put its mortgage, SME, and consumer loan portfolios at risk.",
+  "climate_exposure": "Mortgage and SME lending concentrated across Chile, including regions exposed to floods, wildfires, and the long-running mega-drought.",
+  "potential_pain": "Loan defaults and collateral devaluation after floods and wildfires, plus operational disruption in disaster zones.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers and historical event intelligence for the central and southern macro-zones.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer portfolio-level flood and wildfire risk screening for mortgage and SME lending to anticipate losses and target relief measures.",
+  "priority": "high",
+  "fit_score": "BancoEstado is Chile's state-owned retail bank with massive mortgage/SME exposure; the homepage explicitly references natural-disaster support, confirming climate relevance.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage promotes help for clients affected by lluvias and a natural-disaster claims channel.",
+      "source": "https://www.bancoestado.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bancoestado.cl",
+  "date_checked": "2026-08-24"
+}

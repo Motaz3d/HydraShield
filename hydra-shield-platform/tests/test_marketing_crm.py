@@ -30,7 +30,7 @@ def env(tmp_path, monkeypatch):
 
     monkeypatch.setenv("HYDRASHIELD_CACHE_DB", str(db_path))
     monkeypatch.setenv("HYDRASHIELD_OUTBOX_DIR", str(outbox_dir))
-    for var in ("SMTP_HOST", "SMTP_USER"):
+    for var in ("SMTP_HOST", "SMTP_USER", "HUNTER_API_KEY"):
         monkeypatch.delenv(var, raising=False)
 
     import src.dashboard.cache as cache_mod
@@ -103,6 +103,7 @@ def sample_workspace(env):
             "organization": "Test Bank One",
             "segment": "banking",
             "country": "US",
+            "website": "https://www.testbankone.com",
             "priority": "high",
             "urgency": "high",
             "outreach_status": "researched",
@@ -686,3 +687,219 @@ def test_store_cancel_refuses_non_scheduled_rows(env):
     )
     store.mark_scheduled(row["id"], "sent")
     assert store.cancel_scheduled(row["id"]) is None
+
+
+# ---------------------------------------------------------------------------
+# Hunter.io contact discovery
+# ---------------------------------------------------------------------------
+
+def test_domain_from_url_normalizes_input():
+    from src.dashboard.hunter import domain_from_url
+
+    assert domain_from_url("https://www.example.com/path?x=1") == "example.com"
+    assert domain_from_url("http://example.com:8080/") == "example.com"
+    assert domain_from_url("www.example.com") == "example.com"
+    assert domain_from_url("example.com") == "example.com"
+    assert domain_from_url("https://sub.example.co.uk/a") == "sub.example.co.uk"
+    assert domain_from_url("") is None
+    assert domain_from_url("not a url") is None
+    assert domain_from_url("localhost") is None
+    assert domain_from_url(None) is None
+
+
+def test_store_add_contacts_validation_and_dedup(env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    # Bad emails are skipped.
+    added = store.add_contacts("test-bank-one", [
+        {"email": "bad-email", "name": "Bad", "confidence": 50},
+        {"email": "", "name": "Empty"},
+    ])
+    assert added == 0
+
+    added = store.add_contacts("test-bank-one", [
+        {"email": "good@example.com", "name": "Good", "confidence": 90},
+    ])
+    assert added == 1
+
+    # Duplicate (lead_slug, email) is ignored.
+    added = store.add_contacts("test-bank-one", [
+        {"email": "good@example.com", "name": "Duplicate", "confidence": 95},
+    ])
+    assert added == 0
+
+    # Invalid slug returns None.
+    assert store.add_contacts("bad slug!", [
+        {"email": "x@example.com"},
+    ]) is None
+
+
+def test_store_list_contacts_orders_by_confidence(env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "mid@example.com", "name": "Mid", "confidence": 50},
+        {"email": "high@example.com", "name": "High", "confidence": 90},
+        {"email": "none@example.com", "name": "None"},
+    ])
+    emails = [c["email"] for c in store.list_contacts("test-bank-one")]
+    assert emails == ["high@example.com", "mid@example.com", "none@example.com"]
+
+
+def test_store_delete_contact(env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "del@example.com", "name": "To Delete", "confidence": 70},
+    ])
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+    deleted = store.delete_contact(cid)
+    assert deleted["email"] == "del@example.com"
+    assert store.delete_contact(cid) is None
+    assert store.delete_contact("not-an-int") is None
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_lead_contacts_requires_auth(client):
+    assert client.get("/api/v2/admin/marketing/lead/test-bank-one/contacts").status_code == 401
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_lead_contacts_requires_admin_role(client, env):
+    plain = _make_user(client, env, "plain@example.org")
+    assert client.get("/api/v2/admin/marketing/lead/test-bank-one/contacts",
+                      headers=plain).status_code == 403
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_lead_contacts_unknown_slug_is_404(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    assert client.get("/api/v2/admin/marketing/lead/no-such-lead/contacts",
+                      headers=admin).status_code == 404
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_lead_contacts_not_configured_returns_empty(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.get("/api/v2/admin/marketing/lead/test-bank-one/contacts",
+                      headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["configured"] is False
+    assert body["contacts"] == []
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_without_key_is_honest_and_adds_nothing(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.post("/api/v2/admin/marketing/lead/test-bank-one/contacts/discover",
+                       headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["configured"] is False
+    assert "Hunter.io is not configured" in body["note"]
+    assert body["contacts"] == []
+
+    # Nothing was stored.
+    from src.dashboard.marketing_store import MarketingStore
+    assert MarketingStore(str(env["db"])).list_contacts("test-bank-one") == []
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_with_mocked_hunter_adds_and_merges_contacts(client, env, monkeypatch):
+    from src.dashboard import hunter
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "existing@example.com", "name": "Existing", "confidence": 60},
+    ])
+
+    def _fake_search(domain):
+        return [
+            {"email": "existing@example.com", "name": "Existing Updated", "confidence": 90},
+            {"email": "new@example.com", "name": "New Person", "confidence": 80,
+             "position": "CEO", "department": "Executive"},
+        ]
+
+    monkeypatch.setattr(hunter, "configured", lambda: True)
+    monkeypatch.setattr(hunter, "domain_search", _fake_search)
+
+    resp = client.post("/api/v2/admin/marketing/lead/test-bank-one/contacts/discover",
+                       headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["configured"] is True
+    assert body["domain"] == "testbankone.com"
+    assert body["added"] == 1
+
+    contacts = body["contacts"]
+    assert len(contacts) == 2
+    emails = {c["email"]: c for c in contacts}
+    assert "existing@example.com" in emails
+    assert "new@example.com" in emails
+    assert emails["new@example.com"]["position"] == "CEO"
+
+    # Lead detail also exposes contacts.
+    detail = client.get("/api/v2/admin/marketing/lead/test-bank-one",
+                        headers=admin).get_json()
+    assert len(detail["contacts"]) == 2
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_hunter_error_returns_502(client, env, monkeypatch):
+    from src.dashboard import hunter
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    monkeypatch.setattr(hunter, "configured", lambda: True)
+    monkeypatch.setattr(hunter, "domain_search",
+                        lambda domain, limit=10: (_ for _ in ()).throw(
+                            hunter.HunterError("Hunter.io quota exhausted")))
+
+    resp = client.post("/api/v2/admin/marketing/lead/test-bank-one/contacts/discover",
+                       headers=admin)
+    assert resp.status_code == 502
+    assert "quota exhausted" in resp.get_json()["error"]
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_contact_delete_endpoint(client, env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "tobedeleted@example.com", "name": "X", "confidence": 50},
+    ])
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+
+    resp = client.post(f"/api/v2/admin/marketing/contacts/{cid}/delete",
+                       headers=admin)
+    assert resp.status_code == 200
+    assert resp.get_json()["ok"] is True
+
+    assert client.post(f"/api/v2/admin/marketing/contacts/{cid}/delete",
+                       headers=admin).status_code == 404
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_no_usable_domain_returns_422(client, env, monkeypatch):
+    from src.dashboard import hunter
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    # Pretend Hunter is configured so the endpoint reaches domain validation.
+    monkeypatch.setattr(hunter, "configured", lambda: True)
+    monkeypatch.setattr(hunter, "domain_search",
+                        lambda domain, limit=10: (_ for _ in ()).throw(
+                            AssertionError("should not be called without usable domain")))
+    # Test Engineering Firm has no website in the fixture.
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-engineering-firm/contacts/discover",
+        headers=admin,
+    )
+    assert resp.status_code == 422
+    assert "no usable domain" in resp.get_json()["error"]

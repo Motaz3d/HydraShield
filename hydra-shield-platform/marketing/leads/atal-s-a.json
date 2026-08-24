@@ -1,0 +1,36 @@
+{
+  "organization": "ATAL S.A.",
+  "segment": "real_estate",
+  "country": "PL",
+  "region": "Cieszyn",
+  "website": "https://www.atal.pl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "ATAL S.A. is one of Poland's largest residential developers, with projects in Wrocław, Kraków, Gdańsk, and other cities. The September 2024 floods in Lower Silesia and recurring urban flash floods put its developments and buyers at risk if sites sit in exposed catchments.",
+  "climate_exposure": "The company has delivered more than 37,000 apartments across Poland's major cities, including several in the Oder basin and other flood-prone metropolitan catchments.",
+  "potential_pain": "Buyers and financiers increasingly demand flood-risk disclosure; undetected exposure can trigger project delays, reputational damage, and warranty claims.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Site-specific flood exposure maps and historical event intelligence for ATAL's Polish development pipeline.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer parcel-level flood exposure reports for ATAL's development sites to support ESG disclosures and buyer due diligence.",
+  "priority": "medium",
+  "fit_score": "ATAL is a major Polish developer with a large national pipeline, making flood screening relevant across many projects, though commercial urgency is lower than for insurers or emergency agencies.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ATAL S.A. is a Polish residential developer active in 8 major agglomerations with more than 37,000 apartments sold.",
+      "source": "https://www.atal.pl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.atal.pl",
+  "date_checked": "2026-08-24"
+}

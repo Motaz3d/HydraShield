@@ -1,0 +1,36 @@
+{
+  "organization": "Instituto da Conservação da Natureza e das Florestas",
+  "segment": "forestry",
+  "country": "PT",
+  "region": "Algés, Lisbon",
+  "website": "https://www.icnf.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "ICNF is Portugal's public institute for nature and forest conservation, headquartered in Algés. Its mandate covers forest management and fire prevention in a country where annual rural wildfire seasons and the 2017 Pedrógão Grande disaster demonstrated acute forest-fire risk.",
+  "climate_exposure": "ICNF manages and regulates Portugal's forested and protected areas, which are increasingly exposed to drought, heat and wildfire under a changing climate.",
+  "potential_pain": "Budget strain from fire suppression, ecosystem restoration and protected-area management is rising; better spatial risk prioritization is needed for prevention and fuel management.",
+  "relevant_hazards": ["wildfire", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire exposure layers and historical event intelligence for Portugal's 2017 fire season and recent burned-area patterns.",
+  "relevant_capability": "wildfire exposure layers, historical event intelligence, QGIS plugin",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer Talaix wildfire exposure data via QGIS plugin to support ICNF's forest-fire prevention and fuel-management planning.",
+  "priority": "high",
+  "fit_score": "ICNF's direct responsibility for forest conservation and fire prevention in wildfire-prone Portugal makes it a high-fit user of exposure layers and monitoring.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ICNF homepage identifies it as the national institute for nature and forest conservation, based in Algés, Portugal.",
+      "source": "https://www.icnf.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.icnf.pt",
+  "date_checked": "2026-08-24"
+}

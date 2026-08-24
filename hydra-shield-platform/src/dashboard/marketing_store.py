@@ -92,6 +92,18 @@ class MarketingStore:
                     created_at TEXT NOT NULL,
                     sent_at TEXT
                 );
+                CREATE TABLE IF NOT EXISTS lead_contacts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    lead_slug TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    name TEXT,
+                    position TEXT,
+                    department TEXT,
+                    confidence INTEGER,
+                    source TEXT NOT NULL DEFAULT 'hunter',
+                    created_at TEXT NOT NULL,
+                    UNIQUE(lead_slug, email)
+                );
                 """
             )
             # Additive migrations for existing databases (never destructive).
@@ -357,3 +369,96 @@ class MarketingStore:
                 ("cancelled", scheduled_id),
             )
         return self.get_scheduled(scheduled_id)
+
+    # ------------------------------------------------------------------
+    # Lead contacts (discovered via Hunter.io)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _contact_row(row) -> Dict:
+        return {
+            "id": row[0],
+            "lead_slug": row[1],
+            "email": row[2],
+            "name": row[3],
+            "position": row[4],
+            "department": row[5],
+            "confidence": row[6],
+            "source": row[7],
+            "created_at": row[8],
+        }
+
+    def add_contacts(
+        self,
+        lead_slug: str,
+        contacts: List[Dict],
+        source: str = "hunter",
+    ) -> Optional[int]:
+        """Insert discovered contacts for a lead, deduplicating by
+        (lead_slug, email). Returns the number of newly added contacts, or
+        None on invalid input."""
+        if not self.valid_slug(lead_slug):
+            return None
+        if not isinstance(contacts, list) or not isinstance(source, str):
+            return None
+        source = source.strip()[:50] or "hunter"
+
+        rows = []
+        for c in contacts:
+            email = str(c.get("email") or "").strip()
+            if not email or not _EMAIL_RE.match(email):
+                continue
+            name = str(c.get("name") or "").strip()[:200]
+            position = str(c.get("position") or "").strip()[:200]
+            department = str(c.get("department") or "").strip()[:200]
+            confidence = c.get("confidence")
+            if confidence is not None:
+                try:
+                    confidence = int(confidence)
+                    if not 0 <= confidence <= 100:
+                        confidence = None
+                except (TypeError, ValueError):
+                    confidence = None
+            rows.append(
+                (lead_slug, email, name or None, position or None,
+                 department or None, confidence, source, _utcnow())
+            )
+        if not rows:
+            return 0
+        with self._lock, self._connect() as conn:
+            changes_before = conn.total_changes
+            conn.executemany(
+                "INSERT OR IGNORE INTO lead_contacts"
+                " (lead_slug, email, name, position, department, confidence,"
+                " source, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                rows,
+            )
+            return conn.total_changes - changes_before
+
+    def list_contacts(self, lead_slug: str) -> List[Dict]:
+        """Stored contacts for a lead, highest-confidence first."""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT id, lead_slug, email, name, position, department,"
+                " confidence, source, created_at FROM lead_contacts"
+                " WHERE lead_slug = ?"
+                " ORDER BY (confidence IS NULL), confidence DESC, id",
+                (lead_slug,),
+            ).fetchall()
+        return [self._contact_row(r) for r in rows]
+
+    def delete_contact(self, contact_id: int) -> Optional[Dict]:
+        """Delete a stored contact by id. Returns the deleted row or None."""
+        if not isinstance(contact_id, int):
+            return None
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, lead_slug, email, name, position, department,"
+                " confidence, source, created_at FROM lead_contacts WHERE id = ?",
+                (contact_id,),
+            ).fetchone()
+            if row is None:
+                return None
+            conn.execute("DELETE FROM lead_contacts WHERE id = ?", (contact_id,))
+        return self._contact_row(row)

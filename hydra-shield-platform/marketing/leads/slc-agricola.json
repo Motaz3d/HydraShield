@@ -1,0 +1,36 @@
+{
+  "organization": "SLC Agrícola",
+  "segment": "agriculture",
+  "country": "BR",
+  "region": "Porto Alegre, Rio Grande do Sul",
+  "website": "https://ri.slcagricola.com.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "SLC Agrícola is a publicly traded Brazilian agricultural producer operating large-scale crop farms. Its investor relations site highlights ESG and climate-risk attention, and the April-May 2024 Rio Grande do Sul floods directly affected the state where the company is headquartered, while drought and heat routinely impact Brazil's crop regions.",
+  "climate_exposure": "The company owns and operates extensive farmland across Brazil, exposed to drought, heat, wildfire and flood risks that drive yield and asset variability.",
+  "potential_pain": "Field-level climate variability is hard to translate into operational and financial planning without localized drought, heat and flood intelligence.",
+  "relevant_hazards": ["drought", "flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Field-region drought, heat and flood exposure screening with historical conditions per growing season.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Show how Talaix monitoring can give SLC Agrícola field-level drought, heat and flood intelligence for operational and ESG planning.",
+  "priority": "medium",
+  "fit_score": "Large-scale Brazilian crop producer with ESG focus and headquarters in a 2024 flood-affected state; strong operational need for agronomic climate intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: SLC Agrícola's investor relations homepage presents the company as a publicly traded agricultural producer and publishes ESG/administration reports.",
+      "source": "https://ri.slcagricola.com.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://ri.slcagricola.com.br",
+  "date_checked": "2026-08-24"
+}

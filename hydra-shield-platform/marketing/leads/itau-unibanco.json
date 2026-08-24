@@ -1,0 +1,36 @@
+{
+  "organization": "Itaú Unibanco",
+  "segment": "banking",
+  "country": "BR",
+  "region": "São Paulo",
+  "website": "https://www.itau.com.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Itaú Unibanco is one of Brazil's largest banks, serving retail, corporate and agribusiness clients nationwide. The April-May 2024 Rio Grande do Sul floods damaged businesses and households across its loan book, while recurring urban flash floods and droughts affect collateral values and credit risk in multiple states.",
+  "climate_exposure": "Its lending book is exposed to corporate, mortgage and rural credit collateral located in floodplains, wildfire-prone biomes and drought-affected agricultural regions.",
+  "potential_pain": "Climate-related losses in the loan portfolio are hard to anticipate and document without per-location hazard intelligence, complicating risk-weighting and disclosure.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Traceable flood and wildfire exposure screening across a sample of corporate and mortgage collateral locations.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot to screen climate exposure in Itaú's collateral and loan-book locations using official-source hazard layers.",
+  "priority": "high",
+  "fit_score": "Large systemic Brazilian bank with nationwide lending exposure; regulatory and portfolio-risk pressure makes climate risk intelligence a natural fit.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Itaú's official homepage presents the bank as a nationwide retail and corporate financial solutions provider.",
+      "source": "https://www.itau.com.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.itau.com.br",
+  "date_checked": "2026-08-24"
+}

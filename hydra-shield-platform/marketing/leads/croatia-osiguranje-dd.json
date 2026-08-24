@@ -1,0 +1,36 @@
+{
+  "organization": "Croatia osiguranje d.d.",
+  "segment": "insurance",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://www.crosig.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CRO",
+  "identified_problem": "Croatia osiguranje is the leading insurer in Croatia and offers property, motor, travel and life coverage, according to its homepage. Recurring Dalmatian wildfires and the 2023 central-Croatia floods mean its non-life book is exposed to rising weather-related claims across both coastal and continental regions.",
+  "climate_exposure": "A large share of its policies cover homes, vehicles and businesses in fire-prone Adriatic counties and flood-exposed river basins, tying portfolio performance directly to wildfire, flood and storm activity.",
+  "potential_pain": "Accumulating nat-cat losses from repeated wildfire seasons and flash floods could erode combined ratios, increase reinsurance costs and force repricing in personal and commercial lines.",
+  "relevant_hazards": ["wildfire", "flood", "wind", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Wildfire and flood exposure layers for Croatian counties, plus historical event intelligence for the 2023 floods and recent Dalmatian fire seasons.",
+  "relevant_capability": "wildfire/flood exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show how Talaix hazard layers can map portfolio concentration against Croatian wildfire and flood zones to improve underwriting and reinsurance pricing.",
+  "priority": "high",
+  "fit_score": "Croatia's largest domestic P&C insurer with a nationwide property book makes a strong fit for Talaix exposure analytics and nat-cat monitoring.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Croatia osiguranje homepage describes itself as the leading insurer in Croatia with a 140-year track record and a broad property/casualty offering.",
+      "source": "https://www.crosig.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.crosig.hr",
+  "date_checked": "2026-08-24"
+}

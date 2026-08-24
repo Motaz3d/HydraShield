@@ -1,0 +1,35 @@
+{
+  "organization": "Spuerkeess",
+  "segment": "banking",
+  "country": "LU",
+  "website": "https://www.bcee.lu",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Spuerkeess (Banque et Caisse d'Épargne de l'État) is Luxembourg's state-owned savings bank and one of the country's largest lenders. Luxembourg suffered catastrophic July 2021 floods along the Sûre and Alzette river valleys, damaging homes, businesses and infrastructure.",
+  "climate_exposure": "Its retail and corporate mortgage book is concentrated in Luxembourg, including properties in the 2021 flood-affected river valleys and other areas exposed to fluvial flooding.",
+  "potential_pain": "Concentrated collateral exposure in flood zones revealed by the 2021 event, and a need for systematic location-level flood screening for risk management and regulatory disclosure.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers and historical event intelligence for Luxembourg river basins, including July 2021 flood context.",
+  "relevant_capability": "exposure profiles",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Flood exposure screening of mortgage collateral in Luxembourg river basins, starting with the 2021-affected areas.",
+  "priority": "high",
+  "fit_score": "Spuerkeess's dominant domestic retail and mortgage position, combined with documented 2021 flood losses, makes it a strong fit for collateral flood-risk screening.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: bcee.lu homepage presents Spuerkeess as Luxembourg's state savings bank offering retail, mortgage and business banking.",
+      "source": "https://www.bcee.lu"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bcee.lu",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Hrvatska turistička zajednica / Croatian National Tourist Board",
+  "segment": "tourism",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://croatia.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "The Croatian National Tourist Board promotes Croatia as a year-round destination. Recurring Dalmatian wildfires near Split and Dubrovnik and coastal storm-surge exposure threaten the image, access and safety of core tourism corridors.",
+  "climate_exposure": "Its mandate centres on the Adriatic coast and islands, where heat, wildfire and coastal hazards can disrupt access, force evacuations and damage the destination brand.",
+  "potential_pain": "A major fire or flood during peak season can trigger booking cancellations, destination switching and reputational losses without timely, evidence-based risk communications.",
+  "relevant_hazards": ["wildfire", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Wildfire exposure layers and historical event intelligence for Dalmatia, plus coastal hazard mapping for storm-surge exposure.",
+  "relevant_capability": "wildfire exposure layers",
+  "recommended_product": "monitoring",
+  "recommended_message": "Provide destination-level wildfire and coastal monitoring so the national tourist board can communicate timely, evidence-based safety guidance to visitors and operators.",
+  "priority": "high",
+  "fit_score": "Tourism is a strategically vital Croatian sector concentrated on the fire- and storm-exposed coast, making HTZ a high-value target for hazard intelligence.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: croatia.hr is the official destination site of the Croatian National Tourist Board and promotes Adriatic and inland tourism.",
+      "source": "https://croatia.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://croatia.hr",
+  "date_checked": "2026-08-24"
+}

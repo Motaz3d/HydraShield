@@ -1,0 +1,36 @@
+{
+  "organization": "National Observatory of Athens",
+  "segment": "research_centers",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.noa.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "NOA is Greece's first research center and operates across environment, energy, meteorology, and geodynamics, with publicly funded research programs in areas relevant to natural hazards and climate.",
+  "climate_exposure": "Research mandate spans meteorology, environment, seismology, and geodynamics, including observation and analysis of wildfire, flood, heat, and drought phenomena affecting Greece and Southeast Europe.",
+  "potential_pain": "Need for high-resolution, operational hazard data and historical event evidence to validate models, support public agencies, and secure competitive research funding.",
+  "relevant_hazards": ["wildfire", "flood", "heat", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence and evidence-labelled reports for the 2023 Thessaly floods and recent Greek wildfires, plus API access to hazard exposure layers.",
+  "relevant_capability": "api",
+  "recommended_product": "api",
+  "recommended_message": "Provide API-delivered hazard exposure and historical event data to enrich NOA's meteorological and climate research products for public and scientific users.",
+  "priority": "medium",
+  "fit_score": "A flagship Greek research institution with active programs in meteorology and environment; strong candidate as a research or data partner for Talaix layers and event intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage states NOA is Greece's first research center and works on environment, energy, meteorology, and geodynamics.",
+      "source": "https://www.noa.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.noa.gr/",
+  "date_checked": "2026-08-24"
+}

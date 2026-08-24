@@ -1,0 +1,36 @@
+{
+  "organization": "Institut Ruđer Bošković",
+  "segment": "research_centers",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://www.irb.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "The Ruđer Bošković Institute is Croatia's largest multidisciplinary research centre, with departments covering marine and environmental science. Croatia's repeated coastal wildfires, 2023 inland floods and Adriatic warming create demand for high-resolution climate and hazard data.",
+  "climate_exposure": "Its research portfolio spans the Adriatic basin, islands and continental river basins, requiring reliable exposure and event data to support climate-impact studies and EU-funded projects.",
+  "potential_pain": "Researchers often lack ready-made, evidence-labelled hazard layers and historical event footprints for Croatia, slowing project delivery and policy-relevant outputs.",
+  "relevant_hazards": ["wildfire", "flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Croatian wildfire and flood exposure layers, historical event intelligence for recent fire seasons and 2023 floods, and API access for research workflows.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "api",
+  "recommended_message": "Offer API access to Talaix Croatian hazard and historical-event datasets to accelerate IRB's environmental and climate research.",
+  "priority": "medium",
+  "fit_score": "Leading national research institute with active marine and environmental programmes is a natural research partner and downstream referrer for Talaix data.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: irb.hr describes the institute as Croatia's largest multidisciplinary research centre, including marine and environmental research divisions.",
+      "source": "https://www.irb.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.irb.hr",
+  "date_checked": "2026-08-24"
+}

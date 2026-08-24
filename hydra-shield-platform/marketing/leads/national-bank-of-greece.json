@@ -1,0 +1,36 @@
+{
+  "organization": "National Bank of Greece S.A.",
+  "segment": "banking",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.nbg.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Founded in 1841 and serving 6 million customers, NBG publicly states a vision for a sustainable future with responsibility for the environment and society, and is active in commercial real-estate financing and operations in Greece.",
+  "climate_exposure": "Greek mortgage and commercial real-estate loan book, plus infrastructure and corporate lending, is exposed to wildfire, flood, and heat risks across the country.",
+  "potential_pain": "Physical climate risk in the loan portfolio threatens asset quality, collateral valuations, and regulatory climate-risk disclosures.",
+  "relevant_hazards": ["wildfire", "flood", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers and historical event intelligence for the 2023 Thessaly floods and 2023–2024 Attica/Rhodes wildfires, mapped against NBG's Greek real-estate exposure.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Help the bank screen its Greek real-estate and infrastructure portfolios against current flood and wildfire hazard layers for climate-risk disclosure and credit risk.",
+  "priority": "medium",
+  "fit_score": "A systemic Greek bank with explicit sustainability commitments and commercial real estate activity; strong candidate for portfolio climate-risk analytics and ESG reporting.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage highlights 185-year history, sustainability vision, and recent commercial-real-estate strategic activity.",
+      "source": "https://www.nbg.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.nbg.gr/",
+  "date_checked": "2026-08-24"
+}

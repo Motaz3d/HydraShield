@@ -1,0 +1,36 @@
+{
+  "organization": "JPMorgan Chase & Co.",
+  "segment": "banking",
+  "country": "US",
+  "region": "North America",
+  "website": "https://www.jpmorganchase.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "JPMorgan Chase is the largest U.S. bank by assets and holds a nationwide mortgage and corporate loan book concentrated in coastal and wildland-urban-interface markets. Its collateral and borrowers are physically exposed to California wildfires, Gulf and Atlantic hurricane flooding, and inland riverine flood events.",
+  "climate_exposure": "The bank's U.S. retail and commercial real estate collateral spans high wildfire-risk counties in California and the Mountain West, as well as hurricane flood zones along the Gulf and Atlantic coasts and repetitive-loss floodplains across the Midwest and Southeast.",
+  "potential_pain": "Unpriced flood and wildfire risk in mortgage and CRE collateral can lead to sudden collateral devaluation, higher default rates in disaster-declared counties, and growing regulatory pressure to disclose forward-looking climate risk in loan portfolios.",
+  "relevant_hazards": ["flood", "wildfire", "wind", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix flood and wildfire exposure layers plus historical event intelligence for California wildfire perimeters, Gulf/Atlantic hurricane flood footprints, and repetitive-loss floodplain counties where Chase collateral is concentrated.",
+  "relevant_capability": "Climate risk intelligence platform with exposure layers, historical event intelligence, and portfolio-level hazard screening for collateral locations.",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of mortgage and CRE collateral locations against Talaix flood, wildfire, and wind hazard layers to identify concentrations of unpriced physical climate risk.",
+  "priority": "high",
+  "fit_score": "Very high fit: JPMorgan Chase's scale and national footprint create immediate value for collateral-level climate screening, and its risk-management infrastructure can absorb an API-first integration.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: JPMorganChase.com confirms the firm is a leading global financial-services company with a large U.S. consumer, community-banking, and commercial real estate footprint.",
+      "source": "https://www.jpmorganchase.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.jpmorganchase.com",
+  "date_checked": "2026-08-24"
+}

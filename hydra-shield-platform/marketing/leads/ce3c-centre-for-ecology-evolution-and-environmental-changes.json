@@ -1,0 +1,36 @@
+{
+  "organization": "CE3C - Centre for Ecology, Evolution and Environmental Changes",
+  "segment": "research_centers",
+  "country": "PT",
+  "region": "Lisbon",
+  "website": "https://ce3c.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "CE3C is a University of Lisbon research centre investigating global changes, biodiversity and ecosystem impacts. Its homepage states it designs models, builds scenarios and predicts changes, producing knowledge and tools to understand the impact of global changes on biodiversity and human health and well-being—in a country affected by wildfires, drought and floods.",
+  "climate_exposure": "Research programmes and projects address ecosystem impacts of global change, including fire regimes, drought and biodiversity shifts across Portugal and beyond.",
+  "potential_pain": "Research teams need high-resolution, evidence-labelled hazard data to ground models, validate climate-impact hypotheses and produce reproducible peer-reviewed outputs.",
+  "relevant_hazards": ["wildfire", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence and evidence-labelled exposure layers for Portuguese wildfire complexes and drought periods.",
+  "relevant_capability": "historical event intelligence, evidence-labelled reports, API",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Provide Talaix evidence-labelled historical event data as a research input for CE3C's climate-impact and biodiversity models.",
+  "priority": "medium",
+  "fit_score": "CE3C's focus on global-change impacts and scenario modelling creates a natural research use-case for Talaix historical event intelligence and evidence-labelled reports.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CE3C homepage describes its research on global-change impacts, scenario building and prediction of environmental change.",
+      "source": "https://ce3c.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://ce3c.pt",
+  "date_checked": "2026-08-24"
+}

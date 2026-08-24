@@ -1,0 +1,36 @@
+{
+  "organization": "PZU (Powszechny Zakład Ubezpieczeń Spółka Akcyjna)",
+  "segment": "insurance",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.pzu.pl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CRO",
+  "identified_problem": "As Poland's largest insurer, PZU faces mounting property and motor claims from extreme weather. The September 2024 Oder-basin floods in Lower Silesia and the earlier 1997/2010 Oder floods show that riverine and flash flooding are recurring, country-scale perils that directly hit PZU's non-life book.",
+  "climate_exposure": "PZU underwrites millions of Polish households, businesses, and vehicles spread across flood-prone river basins and dense urban catchments where flash-flood losses are rising.",
+  "potential_pain": "Under-pricing flood risk at postal-code level leads to concentrated losses after events and capital volatility in the non-life segment.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "High-resolution flood exposure maps and historical event intelligence for the Oder basin and Polish urban catchments.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer probabilistic flood exposure layers for portfolio pricing and accumulation control in Poland's most flood-prone provinces.",
+  "priority": "high",
+  "fit_score": "PZU is the dominant domestic insurer with a nationwide property book, making it the natural first buyer for peril-specific exposure analytics that can improve pricing and reinsurance discussions after recent flood events.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: PZU is Poland's largest insurer offering non-life coverage to households and businesses nationwide.",
+      "source": "https://www.pzu.pl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pzu.pl",
+  "date_checked": "2026-08-24"
+}

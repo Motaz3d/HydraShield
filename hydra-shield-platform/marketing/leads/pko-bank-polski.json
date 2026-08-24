@@ -1,0 +1,36 @@
+{
+  "organization": "PKO Bank Polski",
+  "segment": "banking",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.pkobp.pl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "PKO Bank Polski is Poland's largest commercial bank, with a large mortgage and SME loan book secured by real assets. The September 2024 Oder-basin floods and recurring urban flash floods threaten collateral values and borrowers' debt-service capacity in exposed regions.",
+  "climate_exposure": "Its mortgage and corporate loan portfolios are collateralized by properties and assets across Poland's floodplains and rapidly urbanizing catchments.",
+  "potential_pain": "Unpriced flood and heat risk in mortgage underwriting creates latent credit losses and collateral-value shocks after major events.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood hazard layers and historical event intelligence for Polish river basins and urban flash-flood hotspots.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Embed flood exposure screening into mortgage and SME credit origination to align with emerging climate risk-management expectations.",
+  "priority": "high",
+  "fit_score": "As the market-leading Polish bank, PKO BP has both the data appetite and regulatory incentive to adopt climate risk analytics for mortgage and commercial lending.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: PKO Bank Polski is Poland's largest commercial bank publishing mortgage and loan-product information.",
+      "source": "https://www.pkobp.pl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pkobp.pl",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Ministry of Climate Crisis and Civil Protection",
+  "segment": "emergency_management",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.civilprotection.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The ministry's official portal publishes daily wildfire-risk maps and civil-protection guidance, and recently announced compensation payments to Chios businesses for 2025 wildfires, demonstrating active, ongoing disaster-management responsibilities tied to Greece's wildfire and flood exposure.",
+  "climate_exposure": "National responsibility for coordinating Greek civil protection against wildfire, flood, heat, and other natural hazards across all regions including Thessaly, Attica, Rhodes, and Crete.",
+  "potential_pain": "Limited real-time situational awareness and cross-agency coordination during fast-evolving wildfire and flood events strain evacuation and resource-deployment decisions.",
+  "relevant_hazards": ["wildfire", "flood", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood monitoring layers, SMS alert integration, and evidence-labelled historical event reports for the 2023 Thessaly floods and 2023–2024 Greek wildfires.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Offer real-time hazard monitoring and evidence-labelled event intelligence to support national civil-protection coordination and public alerting.",
+  "priority": "high",
+  "fit_score": "The lead agency for Greek disaster response with an active public alerting mandate and documented recent fire events; high-value user for monitoring and alert capabilities.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: portal displays daily fire-risk map for 24 August 2026 and press releases on 2025 Chios wildfire business-compensation scheme.",
+      "source": "https://www.civilprotection.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.civilprotection.gr/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "CEMADEN - Centro Nacional de Monitoramento e Alertas de Desastres Naturais",
+  "segment": "emergency_management",
+  "country": "BR",
+  "region": "São José dos Campos, São Paulo",
+  "website": "https://www.cemaden.gov.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "CEMADEN is the national center for monitoring and alerting natural disasters in Brazil, linked to the Ministry of Science, Technology and Innovation. Its homepage reports daily geo-hydrological risk forecasts, drought monitoring, and recent bulletins on extremes affecting strategic sectors, reflecting the operational pressure from the 2024 Rio Grande do Sul floods and Pantanal wildfires.",
+  "climate_exposure": "The center is responsible for nationwide monitoring of floods, flash floods, droughts, landslides and related hydro-geoclimatic extremes.",
+  "potential_pain": "Operational forecasting and alerting depend on integrating authoritative exposure layers and historical event context, which are fragmented across institutions.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Historical flood and wildfire event intelligence and exposure layers that can validate and enrich CEMADEN's monitoring and public bulletins.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer Talaix exposure layers and historical event intelligence to complement CEMADEN's national disaster monitoring and alerting mission.",
+  "priority": "high",
+  "fit_score": "National disaster monitoring agency with explicit mandate for floods, droughts and hydro-geoclimatic extremes; direct alignment with Talaix capabilities.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CEMADEN's official site publishes daily geo-hydrological risk forecasts, drought bulletins and counts of issued alerts and registered occurrences.",
+      "source": "https://www.cemaden.gov.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cemaden.gov.br",
+  "date_checked": "2026-08-24"
+}

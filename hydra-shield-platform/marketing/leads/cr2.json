@@ -1,0 +1,36 @@
+{
+  "organization": "Centro de Ciencia del Clima y la Resiliencia (CR2)",
+  "segment": "research_centers",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.cr2.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "CR2 is a Chilean research center dedicated to climate science and resilience. Its site lists research on climate change, atmospheric processes, and impacts across Chile, including work tied to central Chile's drying trend and hydro-climatic variability.",
+  "climate_exposure": "Research mandate covering Chile's climate system, water resources, and socio-ecological resilience, including the mega-drought and wildfire regimes.",
+  "potential_pain": "Need for actionable, evidence-labelled hazard data and exposure layers to translate research into operational tools for public and private users.",
+  "relevant_hazards": ["wildfire", "drought", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire/flood exposure layers, historical event intelligence, and evidence-labelled reports for collaborative climate-risk projects.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "api",
+  "recommended_message": "Offer Talaix API and evidence-labelled data layers as an operational data source for CR2's applied climate-impact research and stakeholder services.",
+  "priority": "medium",
+  "fit_score": "CR2 is a national climate and resilience research center; its mandate to connect climate science with Chilean stakeholders fits Talaix data products.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage and research pages describe climate science and resilience research focused on Chile.",
+      "source": "https://www.cr2.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cr2.cl",
+  "date_checked": "2026-08-24"
+}

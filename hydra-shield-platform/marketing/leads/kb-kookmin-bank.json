@@ -1,0 +1,36 @@
+{
+  "organization": "KB Kookmin Bank",
+  "segment": "banking",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.kbstar.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "South Korea has suffered severe urban flooding in recent years, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. As one of South Korea's largest commercial banks with a nationwide branch network, KB Kookmin Bank's mortgage and SME loan collateral is exposed to these pluvial and flash-flood events in the Seoul metropolitan area and beyond.",
+  "climate_exposure": "Retail and commercial collateral is concentrated in Seoul, Gyeonggi-do and other major cities that have experienced record rainfall and urban inundation, with smaller-city exposure across the country.",
+  "potential_pain": "Mortgage and collateral values in flood-affected districts are at risk of devaluation; the bank needs a repeatable way to screen collateral locations against observed flood exposure and to build evidence for risk management and climate-risk reporting.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, applied to a sample of KB Kookmin collateral geographies.",
+  "relevant_capability": "location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot that screens a sample of mortgage collateral locations for flood exposure, using historical event intelligence from the 2022 Seoul and 2023 Osong floods.",
+  "priority": "high",
+  "fit_score": "High fit: KB Kookmin is one of South Korea's largest banks with a national retail and mortgage footprint, and the documented 2022/2023 flood events give concrete evidence of exposure in its core collateral markets.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: KB Kookmin Bank's official website confirms it is a major South Korean commercial bank offering retail, corporate and mortgage banking.",
+      "source": "https://www.kbstar.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kbstar.com/",
+  "date_checked": "2026-08-24"
+}

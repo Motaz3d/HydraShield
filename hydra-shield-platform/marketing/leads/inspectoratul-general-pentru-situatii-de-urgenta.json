@@ -1,0 +1,36 @@
+{
+  "organization": "Inspectoratul General pentru Situații de Urgență",
+  "segment": "emergency_management",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.igsu.ro/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "IGSU is Romania's national emergency and fire-rescue authority; its public mission feed reports ongoing wildfire and multi-hazard incidents, including recent deployments to Serbia for vegetation fires and thousands of national emergency interventions. The 2024 Galați floods and recurring Danube basin flooding place continuous demand on its coordination capacity.",
+  "climate_exposure": "As the lead agency for civil protection and emergency response, its operational footprint covers the entire country, requiring real-time awareness of wildfire, flood, drought and heat events.",
+  "potential_pain": "Coordinating rapid response across a large territory with limited situational awareness of evolving climate hazards strains resources and public-safety outcomes.",
+  "relevant_hazards": ["wildfire", "flood", "heat", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix real-time monitoring, SMS alerts and historical event intelligence for floods and wildfires in Romania and the Danube basin.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Position Talaix monitoring and alerts as a situational-awareness layer that supports IGSU's national emergency coordination and cross-border wildfire response.",
+  "priority": "high",
+  "fit_score": "National emergency authority with explicit wildfire/flood operational mandate; high relevance for real-time monitoring and event intelligence.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: current missions include vegetation-fire response and 5,750 emergency interventions in 72 hours.",
+      "source": "https://www.igsu.ro/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.igsu.ro/",
+  "date_checked": "2026-08-24"
+}

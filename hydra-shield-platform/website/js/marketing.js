@@ -18,6 +18,8 @@
     var cache = new Map();
     var openSlug = null;       // slug with follow-up detail open
     var sendFormSlug = null;   // slug with auto-send form open
+    var contactsSlug = null;   // slug with contacts panel open
+    var contactsCache = new Map();
     var currentIntersection = { segment: '', country: '', status: '' };
 
     function el(id) { return document.getElementById(id); }
@@ -64,6 +66,27 @@
         return false;
     }
 
+    function closeFollowUpPanel() {
+        if (!openSlug) return;
+        var p = el('mkt-detail-' + openSlug);
+        if (p) { p.classList.add('hidden'); p.innerHTML = ''; }
+        openSlug = null;
+    }
+
+    function closeSendForm() {
+        if (!sendFormSlug) return;
+        var p = el('mkt-send-' + sendFormSlug);
+        if (p) { p.classList.add('hidden'); p.innerHTML = ''; }
+        sendFormSlug = null;
+    }
+
+    function closeContactsPanel() {
+        if (!contactsSlug) return;
+        var p = el('mkt-contacts-' + contactsSlug);
+        if (p) { p.classList.add('hidden'); p.innerHTML = ''; }
+        contactsSlug = null;
+    }
+
     // ------------------------------------------------------------------
     // Mounting
     // ------------------------------------------------------------------
@@ -77,7 +100,10 @@
                 '<div class="mkt-modal" id="intersectionModal" role="dialog" aria-modal="true" aria-labelledby="intersectionTitle">' +
                 '<div class="mkt-modal-panel">' +
                 '<div class="mkt-modal-header">' +
+                '<div>' +
                 '<h2 id="intersectionTitle">Intersection</h2>' +
+                '<div class="mkt-filters" id="intersectionFilters"></div>' +
+                '</div>' +
                 '<button class="mkt-close" id="closeIntersection" aria-label="Close">✕</button>' +
                 '</div>' +
                 '<div class="mkt-modal-body" id="intersectionBody">' +
@@ -113,8 +139,10 @@
 
     function refresh() {
         clearTreeCache();
+        contactsCache.clear();
         openSlug = null;
         sendFormSlug = null;
+        contactsSlug = null;
         if (el('treeContainer')) {
             el('treeContainer').innerHTML = '<div class="notice notice-empty" style="margin:12px 16px;">Loading sectors…</div>';
             loadSectors();
@@ -383,6 +411,8 @@
     function openIntersection(segment, country) {
         currentIntersection = { segment: segment, country: country, status: '' };
         el('intersectionTitle').textContent = segment.replace(/_/g, ' ') + ' × ' + country;
+        var filters = el('intersectionFilters');
+        if (filters) filters.innerHTML = '';
         el('intersectionBody').innerHTML = '<div class="notice notice-empty">Loading targets…</div>';
         el('intersectionModal').classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -431,14 +461,15 @@
 
         var total = statuses.reduce(function (sum, s) { return sum + (s.count || 0); }, 0);
 
-        var html = '<div class="mkt-filters">' +
-            '<button class="mkt-filter' + (activeStatus ? '' : ' active') + '" data-filter="">All (' + esc(total) + ')</button>';
+        var filtersHtml = '<button class="mkt-filter' + (activeStatus ? '' : ' active') + '" data-filter="">All (' + esc(total) + ')</button>';
         statuses.forEach(function (s) {
-            html += '<button class="mkt-filter' + (activeStatus === s.status ? ' active' : '') + '" data-filter="' + esc(s.status) + '">' +
+            filtersHtml += '<button class="mkt-filter' + (activeStatus === s.status ? ' active' : '') + '" data-filter="' + esc(s.status) + '">' +
                 esc(s.status.replace(/_/g, ' ')) + ' (' + esc(String(s.count)) + ')</button>';
         });
-        html += '</div>';
+        var filters = el('intersectionFilters');
+        if (filters) filters.innerHTML = filtersHtml;
 
+        var html = '';
         if (leads.length) {
             html += '<div class="mkt-targets">';
             leads.forEach(function (l) {
@@ -451,7 +482,8 @@
 
         el('intersectionBody').innerHTML = html;
 
-        Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-filter]'), function (btn) {
+        var filterContainer = filters || el('intersectionBody');
+        Array.prototype.forEach.call(filterContainer.querySelectorAll('[data-filter]'), function (btn) {
             btn.addEventListener('click', function () {
                 currentIntersection.status = btn.getAttribute('data-filter');
                 loadIntersection();
@@ -468,6 +500,11 @@
             var sec = btn.getAttribute('data-sector') || '';
             var role = btn.getAttribute('data-role') || '';
             btn.addEventListener('click', function () { toggleSendForm(slug, sec, role); });
+        });
+
+        Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-contacts]'), function (btn) {
+            var slug = btn.getAttribute('data-contacts');
+            btn.addEventListener('click', function () { toggleContacts(slug); });
         });
     }
 
@@ -488,11 +525,15 @@
             '<div class="mkt-actions" style="display:flex;gap:8px;">' +
             '<button class="btn-action btn-quiet" data-send="' + esc(l.slug) + '" ' +
             'data-sector="' + esc(segment) + '" data-role="' + esc(l.decision_maker_role || '') + '">Auto-send</button> ' +
-            '<button class="btn-action btn-quiet" data-follow="' + esc(l.slug) + '">Follow-up</button>' +
+            '<button class="btn-action btn-quiet" data-follow="' + esc(l.slug) + '" ' +
+            'data-sector="' + esc(segment) + '" data-role="' + esc(l.decision_maker_role || '') + '">Follow-up</button> ' +
+            '<button class="btn-action btn-quiet" data-contacts="' + esc(l.slug) + '" ' +
+            'data-sector="' + esc(segment) + '" data-role="' + esc(l.decision_maker_role || '') + '">Contacts</button>' +
             '</div>' +
             '</div>' +
             '<div id="mkt-detail-' + esc(l.slug) + '" class="mkt-detail hidden"></div>' +
             '<div id="mkt-send-' + esc(l.slug) + '" class="mkt-sendform hidden"></div>' +
+            '<div id="mkt-contacts-' + esc(l.slug) + '" class="mkt-detail hidden"></div>' +
             '</div>';
     }
 
@@ -518,6 +559,7 @@
                 prev.innerHTML = '';
             }
         }
+        closeContactsPanel();
         if (openSlug === slug && !detail.classList.contains('hidden')) {
             detail.classList.add('hidden');
             detail.innerHTML = '';
@@ -536,6 +578,9 @@
             if (!res.ok) {
                 detail.innerHTML = '<div class="notice notice-error">Could not load follow-up.</div>';
                 return;
+            }
+            if (res.body && res.body.contacts) {
+                contactsCache.set(slug, { configured: true, contacts: res.body.contacts });
             }
             detail.innerHTML = buildDetailHTML(slug, res.body);
             bindDetailActions(slug, detail);
@@ -673,10 +718,204 @@
     }
 
     // ------------------------------------------------------------------
+    // Contacts panel
+    // ------------------------------------------------------------------
+
+    function toggleContacts(slug) {
+        var panel = el('mkt-contacts-' + slug);
+        if (!panel) return;
+        if (contactsSlug && contactsSlug !== slug) {
+            var prev = el('mkt-contacts-' + contactsSlug);
+            if (prev) { prev.classList.add('hidden'); prev.innerHTML = ''; }
+        }
+        if (contactsSlug === slug && !panel.classList.contains('hidden')) {
+            panel.classList.add('hidden');
+            panel.innerHTML = '';
+            contactsSlug = null;
+            return;
+        }
+        closeFollowUpPanel();
+        closeSendForm();
+        contactsSlug = slug;
+        panel.classList.remove('hidden');
+        panel.innerHTML = '<div class="muted small">Loading contacts…</div>';
+        loadContacts(slug);
+    }
+
+    function loadContacts(slug) {
+        var cached = contactsCache.get(slug);
+        if (cached) {
+            renderContactsPanel(slug, cached);
+            return;
+        }
+        fetchJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/contacts').then(function (res) {
+            if (showAuthHint(res)) return;
+            if (res.status === 404) {
+                renderContactsError(slug, 'Lead not found.');
+                return;
+            }
+            if (!res.ok) {
+                renderContactsError(slug, 'Could not load contacts.');
+                return;
+            }
+            var data = res.body || { configured: true, contacts: [] };
+            contactsCache.set(slug, data);
+            renderContactsPanel(slug, data);
+        }).catch(function () {
+            renderContactsError(slug, 'Could not load contacts.');
+        });
+    }
+
+    function renderContactsError(slug, msg) {
+        var panel = el('mkt-contacts-' + slug);
+        if (panel) panel.innerHTML = '<div class="notice notice-error">' + esc(msg) + '</div>';
+    }
+
+    function renderContactsPanel(slug, data) {
+        var panel = el('mkt-contacts-' + slug);
+        if (!panel) return;
+        var configured = data.configured !== false;
+        var contacts = data.contacts || [];
+
+        var html = '<div class="mkt-contact-header">' +
+            '<h4>Contacts' +
+            (contacts.length ? ' <span class="mkt-count">' + esc(String(contacts.length)) + '</span>' : '') +
+            '</h4>' +
+            '<button class="btn-action btn-quiet" data-discover="' + esc(slug) + '"' +
+            (configured ? '' : ' disabled') + '>Discover via Hunter.io</button>' +
+            '</div>';
+
+        if (!configured && data.note) {
+            html += '<div class="disclaimer-box">' + esc(data.note) + '</div>';
+        }
+
+        html += '<div id="mkt-contacts-result-' + esc(slug) + '" class="mkt-sendresult"></div>';
+
+        if (contacts.length) {
+            html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>Email</th><th>Name</th><th>Position / Department</th><th>Confidence</th><th>Source</th><th></th>' +
+                '</tr></thead><tbody>';
+            contacts.forEach(function (c) {
+                var pos = (c.position || '') + (c.department ? (c.position ? ' · ' : '') + c.department : '');
+                html += '<tr>' +
+                    '<td><strong>' + esc(c.email || '—') + '</strong></td>' +
+                    '<td>' + esc(c.name || '—') + '</td>' +
+                    '<td>' + esc(pos || '—') + '</td>' +
+                    '<td>' + (c.confidence != null ? '<span class="chip chip-modelled">' + esc(c.confidence) + '%</span>' : '—') + '</td>' +
+                    '<td>' + esc(c.source || '—') + '</td>' +
+                    '<td class="mkt-contact-actions">' +
+                    '<button class="btn-action btn-quiet" data-use-contact="' + esc(slug) + '" ' +
+                    'data-email="' + esc(c.email || '') + '" data-name="' + esc(c.name || '') + '">Use</button>' +
+                    '<button class="btn-action btn-quiet" data-delete-contact="' + esc(c.id) + '" data-lead="' + esc(slug) + '">×</button>' +
+                    '</td>' +
+                    '</tr>';
+            });
+            html += '</tbody></table></div>';
+        } else {
+            html += '<div class="notice notice-empty">' +
+                (configured
+                    ? 'No contacts stored — run discovery to fetch them from Hunter.io (results are kept here; lookups are quota-limited).'
+                    : 'No contacts stored yet.') +
+                '</div>';
+        }
+
+        panel.innerHTML = html;
+
+        var discoverBtn = panel.querySelector('[data-discover]');
+        if (discoverBtn && configured) {
+            discoverBtn.addEventListener('click', function () { discoverContacts(slug); });
+        }
+
+        Array.prototype.forEach.call(panel.querySelectorAll('[data-use-contact]'), function (btn) {
+            btn.addEventListener('click', function () {
+                useContact(slug, btn.getAttribute('data-email'), btn.getAttribute('data-name'));
+            });
+        });
+
+        Array.prototype.forEach.call(panel.querySelectorAll('[data-delete-contact]'), function (btn) {
+            btn.addEventListener('click', function () {
+                var id = btn.getAttribute('data-delete-contact');
+                if (!window.confirm('Delete this contact?')) return;
+                deleteContact(id, slug);
+            });
+        });
+    }
+
+    function discoverContacts(slug) {
+        var panel = el('mkt-contacts-' + slug);
+        if (!panel) return;
+        var discoverBtn = panel.querySelector('[data-discover]');
+        if (discoverBtn) {
+            discoverBtn.disabled = true;
+            discoverBtn.textContent = 'Searching Hunter.io…';
+        }
+        var resultBox = el('mkt-contacts-result-' + slug);
+        if (resultBox) resultBox.innerHTML = '';
+
+        postJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/contacts/discover', {}).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (res.status === 422 || res.status === 502) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Discovery failed.') + '</div>';
+                resetDiscoverButton(discoverBtn);
+                return;
+            }
+            if (!res.ok) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Discovery failed.') + '</div>';
+                resetDiscoverButton(discoverBtn);
+                return;
+            }
+            var data = res.body || { configured: true, contacts: [] };
+            contactsCache.set(slug, data);
+            if (resultBox && data.added != null && data.domain) {
+                resultBox.innerHTML = '<div class="mkt-ok">Added ' + esc(data.added) + ' new contacts (' + esc(data.domain) + ').</div>';
+            }
+            renderContactsPanel(slug, data);
+        }).catch(function () {
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Discovery request could not be sent.</div>';
+            resetDiscoverButton(discoverBtn);
+        });
+    }
+
+    function resetDiscoverButton(btn) {
+        if (!btn) return;
+        btn.disabled = false;
+        btn.textContent = 'Discover via Hunter.io';
+    }
+
+    function deleteContact(id, slug) {
+        postJSON(BASE + '/contacts/' + encodeURIComponent(id) + '/delete', {}).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                status('error', esc((res.body && res.body.error) || 'Delete failed.'));
+                return;
+            }
+            status('info', 'Contact deleted.');
+            contactsCache.delete(slug);
+            loadContacts(slug);
+        }).catch(function () {
+            status('error', 'Delete request could not be sent.');
+        });
+    }
+
+    function useContact(slug, email, name) {
+        closeContactsPanel();
+        var wrap = el('mkt-leadwrap-' + slug);
+        var sector = '', role = '';
+        if (wrap) {
+            var sendBtn = wrap.querySelector('[data-send]');
+            if (sendBtn) {
+                sector = sendBtn.getAttribute('data-sector') || '';
+                role = sendBtn.getAttribute('data-role') || '';
+            }
+        }
+        toggleSendForm(slug, sector, role, { email: email || '', name: name || '' });
+    }
+
+    // ------------------------------------------------------------------
     // Auto-send form
     // ------------------------------------------------------------------
 
-    function toggleSendForm(slug, sector, role) {
+    function toggleSendForm(slug, sector, role, prefill) {
         var form = el('mkt-send-' + slug);
         if (!form) return;
         if (sendFormSlug && sendFormSlug !== slug) {
@@ -686,7 +925,9 @@
                 prev.innerHTML = '';
             }
         }
-        if (sendFormSlug === slug && !form.classList.contains('hidden')) {
+        closeContactsPanel();
+        closeFollowUpPanel();
+        if (sendFormSlug === slug && !form.classList.contains('hidden') && !prefill) {
             form.classList.add('hidden');
             form.innerHTML = '';
             sendFormSlug = null;
@@ -694,22 +935,73 @@
         }
         sendFormSlug = slug;
         form.classList.remove('hidden');
-        form.innerHTML = buildSendFormHTML(slug, sector, role);
-        bindSendFormActions(slug, form);
+
+        var cached = contactsCache.get(slug);
+        if (cached) {
+            form.innerHTML = buildSendFormHTML(slug, sector, role, cached, prefill);
+            bindSendFormActions(slug, form);
+            focusMessage(slug);
+            return;
+        }
+
+        form.innerHTML = '<div class="muted small">Loading contacts…</div>';
+        fetchJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/contacts').then(function (res) {
+            if (!form.classList.contains('hidden')) {
+                var data = (res.ok && res.body) ? res.body : { configured: true, contacts: [] };
+                contactsCache.set(slug, data);
+                form.innerHTML = buildSendFormHTML(slug, sector, role, data, prefill);
+                bindSendFormActions(slug, form);
+                focusMessage(slug);
+            }
+        }).catch(function () {
+            if (!form.classList.contains('hidden')) {
+                var data = { configured: true, contacts: [] };
+                contactsCache.set(slug, data);
+                form.innerHTML = buildSendFormHTML(slug, sector, role, data, prefill);
+                bindSendFormActions(slug, form);
+                focusMessage(slug);
+            }
+        });
     }
 
-    function buildSendFormHTML(slug, sector, role) {
-        return '<h4>Auto-send: ' + esc(slug) + '</h4>' +
+    function focusMessage(slug) {
+        var msg = el('mkt-send-msg-' + slug);
+        if (msg) msg.focus();
+    }
+
+    function buildSendFormHTML(slug, sector, role, contactsData, prefill) {
+        contactsData = contactsData || { configured: true, contacts: [] };
+        prefill = prefill || {};
+        var contacts = contactsData.contacts || [];
+
+        var html = '<h4>Auto-send: ' + esc(slug) + '</h4>' +
             '<p class="mkt-template-note">Message is generated from the pre-made ' +
             esc((sector || 'sector').replace(/_/g, ' ')) +
-            ' template merged with this lead\'s country and evidence.</p>' +
-            '<div class="mkt-field">' +
+            ' template merged with this lead\'s country and evidence.</p>';
+
+        if (contacts.length) {
+            html += '<div class="mkt-field">' +
+                '<label for="mkt-contact-select-' + esc(slug) + '">Stored contacts</label>' +
+                '<select id="mkt-contact-select-' + esc(slug) + '">' +
+                '<option value="">Manual entry</option>' +
+                contacts.map(function (c) {
+                    var val = esc(c.email || '') + ':' + esc(c.name || '');
+                    var label = esc(c.email || '') + (c.name ? ' — ' + esc(c.name) : '');
+                    return '<option value="' + val + '">' + label + '</option>';
+                }).join('') +
+                '</select>' +
+                '</div>';
+        }
+
+        html += '<div class="mkt-field">' +
             '<label for="mkt-send-to-' + esc(slug) + '">To email *</label>' +
-            '<input type="email" id="mkt-send-to-' + esc(slug) + '" required>' +
+            '<input type="email" id="mkt-send-to-' + esc(slug) + '" required' +
+            (prefill.email ? ' value="' + esc(prefill.email) + '"' : '') + '>' +
             '</div>' +
             '<div class="mkt-field">' +
             '<label for="mkt-send-name-' + esc(slug) + '">Contact name</label>' +
-            '<input type="text" id="mkt-send-name-' + esc(slug) + '" placeholder="' + esc(role || '') + '">' +
+            '<input type="text" id="mkt-send-name-' + esc(slug) + '" placeholder="' + esc(role || '') + '"' +
+            (prefill.name ? ' value="' + esc(prefill.name) + '"' : '') + '>' +
             '</div>' +
             '<div class="mkt-field">' +
             '<label for="mkt-send-msg-' + esc(slug) + '">Custom message</label>' +
@@ -727,12 +1019,14 @@
             '<button class="btn-action" data-send-schedule>Confirm schedule</button>' +
             '</div>' +
             '<div id="mkt-sendresult-' + esc(slug) + '" class="mkt-sendresult"></div>';
+        return html;
     }
 
     function bindSendFormActions(slug, form) {
         var nowBtn = form.querySelector('[data-send-now]');
         var scheduleToggle = form.querySelector('[data-schedule-toggle]');
         var scheduleBtn = form.querySelector('[data-send-schedule]');
+        var contactSelect = form.querySelector('[id^="mkt-contact-select-"]');
         if (nowBtn) {
             nowBtn.addEventListener('click', function () { doSend(slug, null); });
         }
@@ -756,6 +1050,18 @@
                     return;
                 }
                 doSend(slug, d.toISOString());
+            });
+        }
+        if (contactSelect) {
+            contactSelect.addEventListener('change', function () {
+                var raw = contactSelect.value;
+                var idx = raw.indexOf(':');
+                var email = idx >= 0 ? raw.slice(0, idx) : raw;
+                var name = idx >= 0 ? raw.slice(idx + 1) : '';
+                var toInput = el('mkt-send-to-' + slug);
+                var nameInput = el('mkt-send-name-' + slug);
+                if (toInput) toInput.value = email;
+                if (nameInput) nameInput.value = name;
             });
         }
     }

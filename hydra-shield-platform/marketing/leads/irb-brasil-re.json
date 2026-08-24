@@ -1,0 +1,36 @@
+{
+  "organization": "IRB Brasil Re",
+  "segment": "insurance",
+  "country": "BR",
+  "region": "Rio de Janeiro",
+  "website": "https://www.irbre.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "IRB Brasil Re is the Brazilian reinsurance leader with an 87-year legacy of supporting infrastructure, energy and development projects across the country. The April-May 2024 Rio Grande do Sul floods and the 2024 Pantanal/Amazon wildfires produced large insured losses, increasing demand for location-level climate risk evidence in reinsurance pricing and portfolio management.",
+  "climate_exposure": "Its book covers Brazilian infrastructure, energy, agribusiness and property risks concentrated in flood-prone river basins, wildfire-vulnerable biomes and drought-affected regions.",
+  "potential_pain": "Without traceable, per-location multi-hazard exposure data, the reinsurer faces uncertainty in pricing catastrophe covers and reporting aggregate climate exposure to cedents and regulators.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Per-location wildfire and flood exposure layers with historical event intelligence and source-labelled methodology for key insured regions.",
+  "relevant_capability": "wildfire/flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix can help IRB Brasil Re evidence catastrophe exposure per cedent location using historical flood and wildfire intelligence.",
+  "priority": "high",
+  "fit_score": "National reinsurer with explicit infrastructure, energy and agribusiness exposure; direct need for evidence-based pricing after Brazil's 2024 floods and wildfires.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: IRB Brasil Re homepage states it is the Brazilian reinsurance leader protecting infrastructure, energy and development projects.",
+      "source": "https://www.irbre.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.irbre.com",
+  "date_checked": "2026-08-24"
+}

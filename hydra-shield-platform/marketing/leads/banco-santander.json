@@ -1,0 +1,36 @@
+{
+  "organization": "Banco Santander, S.A.",
+  "segment": "banking",
+  "country": "ES",
+  "region": "Europe",
+  "website": "https://www.santander.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Banco Santander is Spain's largest bank and a major mortgage and corporate lender across the Iberian Peninsula. The October 2024 DANA floods in Valencia killed hundreds and caused severe damage across the country's third-largest metropolitan area, while Spain faces recurring summer wildfires that threaten rural and peri-urban collateral.",
+  "climate_exposure": "Its Spanish mortgage and corporate loan books are exposed to flash-flood and pluvial flood risk in Mediterranean coastal provinces, and to wildfire risk in Catalonia, Valencia, Andalusia and Galicia.",
+  "potential_pain": "Concentrated lending in flood- and wildfire-prone provinces can lead to unexpected collateral write-downs, higher provisioning and regulatory scrutiny of physical risk disclosures.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Valencia and other Spanish collateral geographies.",
+  "relevant_capability": "Climate risk intelligence and portfolio-level hazard screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer an API pilot screening a sample of Spanish mortgage and corporate collateral locations against flood and wildfire hazard layers.",
+  "priority": "high",
+  "fit_score": "Strong fit: Spain's largest banking group with a nationwide real-estate and SME lending footprint directly exposed to the 2024 Valencia DANA floods and recurring wildfires.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Santander corporate homepage confirms it is a global retail bank with 182 million customers and a leading position in Spain.",
+      "source": "https://www.santander.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.santander.com",
+  "date_checked": "2026-08-24"
+}

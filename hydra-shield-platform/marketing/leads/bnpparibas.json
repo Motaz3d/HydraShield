@@ -1,0 +1,35 @@
+{
+  "organization": "BNP Paribas",
+  "segment": "banking",
+  "country": "FR",
+  "website": "https://www.bnpparibas.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "BNP Paribas is one of France's largest banks, with a nationwide retail and corporate loan book backed by property collateral across metropolitan France. France has documented recurring river and coastal floods, and the 2022 Gironde wildfires destroyed substantial property and forest assets in the southwest.",
+  "climate_exposure": "Its mortgage and SME loan collateral is spread across Atlantic coastal zones, Mediterranean wildfire-prone departments, and major river floodplains, giving the bank concentrated physical exposure to flood and wildfire.",
+  "potential_pain": "Collateral devaluation in repeatedly flooded or burned areas, rising mortgage default risk in disaster-affected regions, and growing regulatory expectation to evidence physical climate risk in the loan portfolio.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the collateral geography, including Gironde 2022 wildfire context and recurrent flood zones.",
+  "relevant_capability": "portfolio-location screening via API",
+  "recommended_product": "api",
+  "recommended_message": "API pilot screening a sample of mortgage and corporate collateral locations against flood and wildfire exposure.",
+  "priority": "high",
+  "fit_score": "BNP Paribas's national footprint and large mortgage/corporate book make it a strong fit for portfolio-scale climate-risk screening and disclosure-aligned evidence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BNP Paribas corporate homepage confirms it is a major French banking group with retail, corporate and investment banking activities.",
+      "source": "https://www.bnpparibas.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bnpparibas.com",
+  "date_checked": "2026-08-24"
+}

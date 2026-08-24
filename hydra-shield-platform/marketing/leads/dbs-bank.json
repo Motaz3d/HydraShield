@@ -1,0 +1,36 @@
+{
+  "organization": "DBS Bank Ltd",
+  "segment": "banking",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.dbs.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "DBS Bank is Singapore's largest bank and a leading mortgage and corporate lender across Southeast Asia, with its home market concentrated on a low-lying tropical island. Singapore experiences localized flash floods during intense rainfall and faces long-term coastal inundation and urban heat exposure that can affect property collateral and commercial assets.",
+  "climate_exposure": "Its Singapore property finance and corporate loan books are exposed to pluvial flash flooding in low-lying districts, coastal inundation risk around the island's reclaimed and waterfront zones, and heat stress for commercial real estate and infrastructure collateral.",
+  "potential_pain": "Climate-linked devaluation of high-value Singapore real estate and infrastructure collateral could increase loan-to-value ratios and default risk in concentrated property portfolios.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, coastal and heat exposure layers plus historical event intelligence for Singapore's flash-flood and coastal-inundation hotspots.",
+  "relevant_capability": "Climate risk intelligence and location-level hazard screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose an API pilot screening a sample of Singapore property and corporate collateral locations against flood, coastal and heat hazard layers.",
+  "priority": "medium",
+  "fit_score": "Strong fit: Singapore's largest bank with a substantial local property finance book exposed to flash floods, coastal inundation and heat in a dense, low-lying market.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: DBS corporate homepage confirms it is headquartered in Singapore and operates in 19 markets, described as the world's best bank.",
+      "source": "https://www.dbs.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.dbs.com",
+  "date_checked": "2026-08-24"
+}

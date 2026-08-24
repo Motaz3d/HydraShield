@@ -1,0 +1,36 @@
+{
+  "organization": "CMPC",
+  "segment": "forestry",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.cmpc.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "CMPC's sustainability page states that its operations work directly with soil, water, and forests and that it uses science-based commitments to manage environmental impacts. Chile's mega-drought since 2010 and the 2024 wildfires threaten its forest assets, mills, and water supply.",
+  "climate_exposure": "Large forestland and pulp/paper manufacturing footprint in central-southern Chile, a zone subject to drought, wildfire, and flood.",
+  "potential_pain": "Wildfire damage to plantations, water scarcity at mills, and supply-chain disruption.",
+  "relevant_hazards": ["wildfire", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire exposure layers, drought monitoring, and historical event intelligence for CMPC's operating regions.",
+  "relevant_capability": "wildfire exposure layers",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose wildfire and drought monitoring for CMPC's forest assets and mill catchments to protect fiber supply and operations.",
+  "priority": "high",
+  "fit_score": "CMPC is one of Chile's largest forestry groups and publicly frames its business around forests and water, aligning directly with wildfire/drought risk.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: sustainability page describes direct dependence on soil, water, and forests and science-based environmental commitments.",
+      "source": "https://www.cmpc.com/sostenibilidad"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cmpc.com/sostenibilidad",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Česká spořitelna, a.s.",
+  "segment": "banking",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.csas.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Česká spořitelna is the largest Czech retail bank, with a nationwide branch network and mortgage book. The September 2024 floods affected large parts of Moravia and northern Bohemia, damaging thousands of homes and businesses and putting collateral values at risk.",
+  "climate_exposure": "Its Czech mortgage and SME portfolios are exposed to riverine and flash flooding along the Morava, Odra and Elbe basins and their tributaries.",
+  "potential_pain": "Without hazard-linked collateral screening, the bank can be caught by correlated defaults in flood-affected regions and by post-disaster drops in real-estate collateral values.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers and historical event intelligence for the Morava, Odra and Elbe basins and affected Czech municipalities.",
+  "relevant_capability": "Climate risk intelligence and flood exposure screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose an API pilot screening a sample of Czech mortgage collateral locations against September 2024 flood footprints and current flood hazard layers.",
+  "priority": "medium",
+  "fit_score": "Strong fit: the largest Czech bank with a national mortgage footprint in regions directly affected by the September 2024 floods.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Česká spořitelna homepage confirms it is a leading Czech retail bank with nationwide digital and branch reach.",
+      "source": "https://www.csas.cz"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.csas.cz",
+  "date_checked": "2026-08-24"
+}

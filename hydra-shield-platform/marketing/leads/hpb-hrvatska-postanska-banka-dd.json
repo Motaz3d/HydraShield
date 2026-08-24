@@ -1,0 +1,36 @@
+{
+  "organization": "HPB - Hrvatska poštanska banka d.d.",
+  "segment": "banking",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://www.hpb.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CRO",
+  "identified_problem": "HPB is a major Croatian universal bank offering retail, corporate and investment products, as shown on its homepage. With Croatia's documented wildfire seasons in the Split-Dubrovnik coastal belt and 2023 central-Croatia floods, its mortgage and SME loan books face growing physical climate risk.",
+  "climate_exposure": "Residential mortgages and commercial loans are secured on assets spread across wildfire-prone Dalmatia and flood-vulnerable continental counties, linking credit quality to regional hazard trends.",
+  "potential_pain": "Without asset-level hazard data, the bank may misprice climate risk in lending, underestimate provisions under emerging ESG stress tests and face heightened supervisory scrutiny.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Asset-level flood and wildfire exposure overlays for Croatia and historical event footprints from the 2023 floods and recent Adriatic fire seasons.",
+  "relevant_capability": "wildfire/flood exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Help HPB screen its Croatian loan book by physical climate exposure to support risk-weighting and ESG disclosures.",
+  "priority": "medium",
+  "fit_score": "As a systemically important Croatian retail and corporate lender, HPB needs granular physical-risk data for both credit risk and sustainability reporting.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: HPB homepage presents it as a Croatian universal bank with retail, corporate and investment services.",
+      "source": "https://www.hpb.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hpb.hr",
+  "date_checked": "2026-08-24"
+}

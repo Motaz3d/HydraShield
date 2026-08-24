@@ -1,0 +1,36 @@
+{
+  "organization": "OMNIASIG Vienna Insurance Group S.A.",
+  "segment": "insurance",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.omniasig.ro/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "OMNIASIG is a major Romanian insurer offering home, auto and travel policies, placing it directly in the path of the country's recurring flood, drought and wildfire losses. Romania's 2024 Galați floods and persistent Danube basin flooding increase property and motor claims volatility.",
+  "climate_exposure": "Its nationwide property (locuință) and motor portfolios cover households and vehicles across floodplains, drought-affected farmland corridors and wildfire-prone hills, so hazard frequency affects loss ratios and pricing adequacy.",
+  "potential_pain": "Rising claims from extreme weather events squeeze combined ratios and make risk-based underwriting harder without granular hazard exposure data.",
+  "relevant_hazards": ["flood", "wildfire", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the Galați and Danube regions.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix hazard layers can refine property underwriting and CAT pricing for Romanian home and motor portfolios.",
+  "priority": "medium",
+  "fit_score": "National insurer with a large property book; strong need for granular flood/wildfire exposure data to price and reserve in a disaster-prone market.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: insurer offers home/auto/travel products on omniasig.ro and operates nationwide.",
+      "source": "https://www.omniasig.ro/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.omniasig.ro/",
+  "date_checked": "2026-08-24"
+}

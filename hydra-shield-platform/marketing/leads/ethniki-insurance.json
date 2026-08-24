@@ -1,0 +1,36 @@
+{
+  "organization": "Ethniki Insurance S.A.",
+  "segment": "insurance",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.ethniki-asfalistiki.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Ethniki Insurance is one of Greece's largest insurers, with €9.4 billion in compensation paid over the last two decades and 1.9+ million insured. Its official site notes a recent donation of 12 special vehicles to the Thessaly Region to strengthen local-community resilience against natural disasters, signaling material exposure to the 2023 Thessaly floods and recurring wildfire seasons.",
+  "climate_exposure": "Large property, motor, and agricultural insurance book is concentrated across fire-prone and flood-exposed Greek regions, including Thessaly, Attica, Rhodes, and Crete.",
+  "potential_pain": "Catastrophic flood and wildfire claims erode combined ratios and require rapid loss-adjustment, while increasing reinsurance costs pressure pricing.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence for the 2023 Thessaly floods and 2023–2024 Greek wildfires, plus hazard exposure layers showing insured-area flood and wildfire risk.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show how portfolio-level flood and wildfire exposure layers can refine pricing and reserving for the Greek property book after Storm Daniel.",
+  "priority": "high",
+  "fit_score": "A national top-tier insurer with an explicit public focus on disaster resilience and a track record of large payouts; direct demand for peril-specific analytics and monitoring.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage cites €9.4bn in compensations over 20 years and a donation of 12 vehicles to the Thessaly Region for natural-disaster resilience.",
+      "source": "https://www.ethniki-asfalistiki.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ethniki-asfalistiki.gr/",
+  "date_checked": "2026-08-24"
+}

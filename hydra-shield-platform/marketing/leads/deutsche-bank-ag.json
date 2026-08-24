@@ -1,0 +1,36 @@
+{
+  "organization": "Deutsche Bank AG",
+  "segment": "banking",
+  "country": "DE",
+  "region": "",
+  "website": "https://www.db.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The July 2021 Ahr Valley floods caused more than EUR 33 billion in insured and uninsured losses across Rhineland-Palatinate and North Rhine-Westphalia, destroying thousands of homes and businesses. As Germany's largest bank with a nationwide mortgage and SME lending book, Deutsche Bank holds collateral across river catchments that are demonstrably exposed to severe pluvial and fluvial flooding.",
+  "climate_exposure": "Germany's western and southern river valleys face recurring summer flash floods, with the Ahr, Erft, Mosel and Danube catchments showing concentrated residential and commercial exposure.",
+  "potential_pain": "Collateral devaluation in recently flooded catchments, elevated mortgage default risk where properties lack flood resilience, and growing regulatory expectation that loan-book climate exposure be evidenced at the collateral-location level.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood exposure layers plus historical event intelligence for Deutsche Bank collateral geographies, including the 2021 Ahr Valley flood footprint and comparable German riverine events.",
+  "relevant_capability": "Location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of residential and SME collateral locations against 2021 Ahr Valley-type flood footprints, returning evidence-labelled exposure indicators.",
+  "priority": "high",
+  "fit_score": "High fit: Germany's largest bank with a national mortgage and corporate loan book, headquartered in a country with documented catastrophic flood exposure in its core lending regions.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Deutsche Bank's global homepage confirms it is a German-headquartered bank and Europe's leading bank, with corporate and private-banking activities across Germany.",
+      "source": "https://www.db.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.db.com",
+  "date_checked": "2026-08-24"
+}

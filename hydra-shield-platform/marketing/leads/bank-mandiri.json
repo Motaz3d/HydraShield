@@ -1,0 +1,36 @@
+{
+  "organization": "PT Bank Mandiri (Persero) Tbk",
+  "segment": "banking",
+  "country": "ID",
+  "region": "Southeast Asia",
+  "website": "https://www.bankmandiri.co.id/en",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Indonesia faces recurring Jakarta floods and widespread peatland and forest fires, especially during El Niño years. As Indonesia's largest bank by assets with a nationwide branch and lending network, Bank Mandiri's mortgage, SME and corporate loan collateral is physically exposed to both flood and wildfire hazards across the archipelago.",
+  "climate_exposure": "Collateral is distributed across flood-prone Greater Jakarta, other coastal cities, and fire-prone provinces in Sumatra and Kalimantan where peatland fires recur, affecting both urban assets and agricultural or plantation collateral.",
+  "potential_pain": "Collateral devaluation and credit-risk spikes in flood and fire-affected regions; the bank needs location-level screening of loan-book assets and ongoing monitoring to manage physical climate risk and support risk disclosures.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Jakarta floods and Indonesian peatland fires, applied to a sample of Bank Mandiri collateral geographies.",
+  "relevant_capability": "location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot that screens a sample of collateral locations for flood and wildfire exposure, backed by historical event intelligence from Jakarta floods and Indonesian peatland fires.",
+  "priority": "high",
+  "fit_score": "High fit: Bank Mandiri is Indonesia's largest bank with a national footprint, and the country's documented recurring Jakarta floods and peatland fires provide direct, recurring evidence of collateral exposure.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Bank Mandiri's official English website confirms it is Indonesia's largest bank, offering retail, corporate and wholesale banking nationwide.",
+      "source": "https://www.bankmandiri.co.id/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bankmandiri.co.id/en",
+  "date_checked": "2026-08-24"
+}

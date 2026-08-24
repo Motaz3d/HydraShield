@@ -1,0 +1,35 @@
+{
+  "organization": "Barclays",
+  "segment": "banking",
+  "country": "GB",
+  "website": "https://www.barclays.co.uk",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Barclays is a major UK bank with an extensive mortgage and commercial lending book across Great Britain. The UK faces recurring fluvial and coastal flood events and the 2022 heatwave stressed property, infrastructure and mortgage collateral.",
+  "climate_exposure": "Its collateral book covers floodplains and heat-vulnerable urban concentrations across England, Scotland and Wales, with postcodes repeatedly hit by surface-water and coastal flooding.",
+  "potential_pain": "Mortgage default risk and collateral value erosion in flood-prone postcodes, plus emerging disclosure requirements for physical climate risks in lending portfolios.",
+  "relevant_hazards": ["flood", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers and historical event intelligence for Great Britain, plus heat exposure context for the 2022 heatwave period.",
+  "relevant_capability": "portfolio-location screening via API",
+  "recommended_product": "api",
+  "recommended_message": "API pilot screening a sample of UK mortgage and corporate collateral locations against flood and heat exposure.",
+  "priority": "high",
+  "fit_score": "Barclays's large national mortgage and SME book, combined with documented UK flood and heat risk, makes it a strong fit for location-level climate-risk screening.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Barclays UK homepage confirms personal banking, mortgages, loans and insurance products serving UK customers.",
+      "source": "https://www.barclays.co.uk"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.barclays.co.uk",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "GEK TERNA S.A.",
+  "segment": "infrastructure",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.gekterna.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "GEK TERNA Group is one of the largest infrastructure, concessions, and energy investors in Greece, with strategically significant domestic investments that directly intersect with areas exposed to floods and wildfires.",
+  "climate_exposure": "Large portfolio of Greek infrastructure assets, concessions, and energy projects—roads, renewable energy, utilities—situated in regions vulnerable to wildfire, flood, wind, and heat.",
+  "potential_pain": "Climate-related damage and downtime to concession and energy assets reduce revenue, raise repair costs, and can breach service-level agreements.",
+  "relevant_hazards": ["wildfire", "flood", "heat", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix hazard exposure layers and historical event intelligence for Greek wildfire and flood events, showing asset-level risk across GEK TERNA's infrastructure and concessions footprint.",
+  "relevant_capability": "wildfire exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Map climate hazards across the group's Greek infrastructure and concessions portfolio to prioritize resilience investments and operational response plans.",
+  "priority": "medium",
+  "fit_score": "A major Greek infrastructure and concessions investor with asset-heavy exposure across the country; natural fit for enterprise hazard monitoring and asset-level risk analytics.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage describes GEK TERNA as one of Greece's largest infrastructure, concessions, and energy investors.",
+      "source": "https://www.gekterna.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gekterna.gr/",
+  "date_checked": "2026-08-24"
+}

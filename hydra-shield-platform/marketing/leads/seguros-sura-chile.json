@@ -1,0 +1,36 @@
+{
+  "organization": "Seguros SURA Chile",
+  "segment": "insurance",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.segurossura.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Seguros SURA Chile's public product pages list home insurance built on fire coverage with optional earthquake cover, plus SME policies covering fire. In a country where the February 2024 Valparaíso wildfires became the deadliest in Chile's history and central-southern floods recur, this property/casualty book is directly exposed to wildfire and flood claims volatility.",
+  "climate_exposure": "Residential and commercial property policies across Chile, especially in the central-southern zone affected by wildfires and winter storms.",
+  "potential_pain": "Unexpected surge in claims from wildfire and flood events strains loss ratios and reserving.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers plus historical event intelligence for the Valparaíso and central-southern regions.",
+  "relevant_capability": "wildfire/flood exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Position Talaix as a hazard-layer input for pricing and reserving residential and commercial property risks in wildfire- and flood-prone regions of Chile.",
+  "priority": "high",
+  "fit_score": "SURA is a major non-life insurer in Chile with visible property products; the country alignment is strong because wildfire and flood are the headline perils.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage advertises home insurance built on fire coverage and SME fire policies in Chile.",
+      "source": "https://www.segurossura.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.segurossura.cl",
+  "date_checked": "2026-08-24"
+}

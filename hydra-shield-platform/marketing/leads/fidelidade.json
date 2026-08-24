@@ -1,0 +1,36 @@
+{
+  "organization": "Fidelidade",
+  "segment": "insurance",
+  "country": "PT",
+  "region": "Lisbon",
+  "website": "https://www.fidelidade.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Fidelidade's homepage states it is Portugal's number-one insurer for auto, health, home and travel lines. Portugal's documented climate disasters—the 2017 Pedrógão Grande wildfires (64 deaths), the wider October 2017 fire season, recurring rural wildfire seasons and 2022–2025 Lisbon-area flash floods—directly translate into property, motor and travel claims across its domestic book.",
+  "climate_exposure": "As the leading Portuguese insurer in home, auto and travel, Fidelidade's portfolio is concentrated in domestic assets and liabilities exposed to wildfire, flood, drought and heat.",
+  "potential_pain": "Catastrophic wildfire and flood seasons drive combined losses, premium volatility and reinsurance pressure; the risk team needs granular, Portugal-specific hazard data to price and reserve more accurately.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire exposure layer and historical event intelligence for Portugal's 2017 fire complexes and recent Lisbon flash-flood events, with source-attached indicators.",
+  "relevant_capability": "wildfire exposure layers, historical event intelligence, evidence-labelled reports",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix exposure layers can refine property and motor pricing using Portugal-specific wildfire and flood footprints.",
+  "priority": "high",
+  "fit_score": "As the domestic market leader in lines directly hit by Portugal's recurring wildfires and floods, Fidelidade has clear exposure and a strong incentive to improve hazard-aware underwriting.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Fidelidade homepage describes the company as Portugal's number-one insurer for auto, health, home and travel.",
+      "source": "https://www.fidelidade.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.fidelidade.pt",
+  "date_checked": "2026-08-24"
+}

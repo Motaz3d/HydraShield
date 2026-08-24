@@ -1,0 +1,36 @@
+{
+  "organization": "Türkiye Cumhuriyeti Ziraat Bankası A.Ş.",
+  "segment": "banking",
+  "country": "TR",
+  "region": "Ankara",
+  "website": "https://www.ziraatbank.com.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Ziraat Bankası is Turkey's largest state-owned bank and its official English homepage references regulatory relief for depositors after the country's earthquake disaster, showing that natural catastrophes directly affect its operations and customer base. With Turkey's documented wildfire and flood losses damaging businesses, farms and real estate collateral across the Mediterranean, Aegean and Black Sea regions, the bank faces climate-driven credit and collateral risk.",
+  "climate_exposure": "The bank holds a nationwide agricultural, SME and mortgage portfolio concentrated in rural and coastal provinces that are exposed to recurring wildfires and flash floods.",
+  "potential_pain": "Loan defaults and impaired collateral values after wildfire and flood events; need to integrate hazard exposure into credit risk scoring, collateral valuation and sectoral lending limits for climate-vulnerable regions.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers, historical event intelligence for Turkey's 2021 Mediterranean wildfires, 2024 Izmir/Çanakkale wildfires and 2021 Bozkurt floods, plus evidence-labelled climate risk reports for loan-book screening.",
+  "relevant_capability": "wildfire/flood exposure layers, historical event intelligence, evidence-labelled reports",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose a climate risk screening dashboard that lets Ziraat Bankası overlay wildfire and flood exposure onto its agricultural and mortgage portfolios to inform collateral valuation and regional lending limits.",
+  "priority": "medium",
+  "fit_score": "Strong fit: Turkey's largest state bank with an agricultural and mortgage focus in disaster-prone provinces; climate risk integration into credit processes is a credible and scalable entry point.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Ziraat Bankası's official site references earthquake-disaster regulatory relief for depositors, confirming natural-catastrophe impact on its banking operations.",
+      "source": "https://www.ziraatbank.com.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ziraatbank.com.tr",
+  "date_checked": "2026-08-24"
+}

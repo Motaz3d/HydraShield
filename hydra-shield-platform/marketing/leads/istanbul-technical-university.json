@@ -1,0 +1,36 @@
+{
+  "organization": "İstanbul Teknik Üniversitesi (ITU)",
+  "segment": "universities",
+  "country": "TR",
+  "region": "Istanbul",
+  "website": "https://www.itu.edu.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Istanbul Technical University is a leading Turkish technical university whose official site highlights research in engineering, geological sciences and technology. With Turkey facing documented wildfire and flood disasters, ITU has a natural research interest in climate hazard modelling, disaster risk reduction and resilient infrastructure.",
+  "climate_exposure": "The university's campuses, research infrastructure and applied-engineering projects are located across Turkey, including Istanbul and regions vulnerable to earthquakes, floods, wildfires and heat stress.",
+  "potential_pain": "Need for high-resolution, evidence-labelled wildfire and flood datasets to support funded research, publishable case studies and policy-relevant climate-risk assessments for Turkey.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers, historical event intelligence for the 2021 Mediterranean wildfires, 2024 Izmir/Çanakkale wildfires and 2021 Bozkurt floods, available via API and QGIS plugin for research workflows.",
+  "relevant_capability": "wildfire/flood exposure layers, historical event intelligence, API, QGIS plugin",
+  "recommended_product": "api",
+  "recommended_message": "Offer ITU researchers API and QGIS-plugin access to Talaix wildfire and flood exposure layers and historical event intelligence to support climate-risk and disaster-resilience research in Turkey.",
+  "priority": "medium",
+  "fit_score": "Solid fit: a top-tier technical university with strong engineering and geoscience programmes is a credible research partner and future advocate for Talaix data in Turkish policy and infrastructure projects.",
+  "urgency": "low",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ITU's official site presents it as Istanbul Technical University, a major Turkish research university with engineering and geoscience strengths.",
+      "source": "https://www.itu.edu.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.itu.edu.tr",
+  "date_checked": "2026-08-24"
+}

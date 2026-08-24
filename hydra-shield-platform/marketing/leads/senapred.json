@@ -1,0 +1,36 @@
+{
+  "organization": "SENAPRED",
+  "segment": "emergency_management",
+  "country": "CL",
+  "region": "",
+  "website": "https://www.senapred.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "SENAPRED is Chile's national disaster prevention and response service. Its homepage features a Strategy for Strengthening Wildfire Management, winter preparedness, flood/landslide simulations in O'Higgins, and a Chile Preparado viewer for hazard zones, all tied to Chile's documented wildfire, flood, and drought disasters.",
+  "climate_exposure": "Nationwide mandate for disaster prevention, emergency response, and public risk communication across wildfire, flood, and drought-prone regions.",
+  "potential_pain": "Need for high-resolution hazard data, monitoring, and evidence-labelled reports to coordinate alerts and allocate response resources.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers, monitoring, SMS alerts, and historical event intelligence aligned with SENAPRED's hazard priorities.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose an enterprise hazard-monitoring and alerting layer that feeds SENAPRED's planning and public-emergency workflows.",
+  "priority": "high",
+  "fit_score": "SENAPRED is the national emergency-management authority and its public priorities directly match Talaix wildfire/flood capabilities.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage highlights wildfire strategy, winter/flood preparedness, and flood/landslide simulations.",
+      "source": "https://www.senapred.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.senapred.cl",
+  "date_checked": "2026-08-24"
+}

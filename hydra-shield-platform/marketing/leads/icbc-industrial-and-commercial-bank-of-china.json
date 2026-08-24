@@ -1,0 +1,36 @@
+{
+  "organization": "Industrial and Commercial Bank of China",
+  "segment": "banking",
+  "country": "CN",
+  "region": "East Asia",
+  "website": "https://www.icbc.com.cn/icbc/en/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "China has suffered severe recent floods, including the July 2021 Henan floods and the July-August 2023 Hai River basin floods. As the country's largest commercial bank by assets with a nationwide branch and mortgage network, ICBC's corporate and retail loan collateral is physically exposed to these riverine and urban flood events.",
+  "climate_exposure": "Mortgage and corporate collateral is spread across every province in China, including the North China Plain, Yangtze and Pearl River deltas, and other flood-prone basins where documented major inundations have occurred.",
+  "potential_pain": "Collateral devaluation and elevated mortgage default risk in repeatedly flooded areas; risk teams need a scalable way to screen loan-book locations against observed and potential flood exposure, and to document that screening for internal risk and disclosure purposes.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers plus historical event intelligence for the Henan 2021 and Hai River 2023 events, applied to a sample of ICBC collateral geographies.",
+  "relevant_capability": "location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot that screens a sample of collateral locations for flood exposure, backed by historical event intelligence from the 2021 Henan and 2023 Hai River floods.",
+  "priority": "high",
+  "fit_score": "High fit: ICBC is the world's largest bank by assets with a national footprint, and the documented 2021/2023 flood events provide concrete, recent evidence of the exposure its loan book faces.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ICBC's English-language corporate site confirms it is a nationwide commercial bank offering corporate, retail and mortgage banking across China.",
+      "source": "https://www.icbc.com.cn/icbc/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.icbc.com.cn/icbc/en/",
+  "date_checked": "2026-08-24"
+}

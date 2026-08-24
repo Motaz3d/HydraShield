@@ -1,0 +1,36 @@
+{
+  "organization": "ING Groep N.V.",
+  "segment": "banking",
+  "country": "NL",
+  "region": "",
+  "website": "https://www.ing.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The July 2021 Limburg floods forced thousands of evacuations and damaged homes and businesses in the Maas catchment, while the Netherlands as a whole faces persistent coastal and pluvial flood risk across its low-lying delta. ING is one of the Netherlands' largest banks with a major domestic retail and wholesale banking book.",
+  "climate_exposure": "Large parts of the Netherlands sit below sea level, with coastal surge, riverine and pluvial flood exposure concentrated in polders, Limburg river valleys and dense urban drainage systems.",
+  "potential_pain": "Mortgage collateral devaluation in flood-prone polders and Limburg catchments; corporate loan exposure to logistics, agriculture and industrial assets near coasts and rivers; need for systematic collateral-location screening.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Coastal and flood exposure layers plus historical event intelligence for Dutch collateral locations, including the July 2021 Limburg floods and North Sea coastal surge events.",
+  "relevant_capability": "Location screening API",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of Dutch mortgage and corporate collateral locations for coastal, riverine and pluvial flood exposure.",
+  "priority": "high",
+  "fit_score": "High fit: one of the Netherlands' largest banks with a substantial domestic mortgage and corporate loan book in one of Europe's most flood-exposed deltas.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ING's global homepage confirms it is a global bank with a strong European base, headquartered in Amsterdam and listed on Euronext Amsterdam.",
+      "source": "https://www.ing.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ing.com",
+  "date_checked": "2026-08-24"
+}
