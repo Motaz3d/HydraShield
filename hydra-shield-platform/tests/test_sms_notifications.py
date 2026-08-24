@@ -14,6 +14,7 @@ daily cap, message format, unsubscribe, per-user isolation, secret hygiene
 """
 
 import importlib.util
+import io
 import json
 import os
 import re
@@ -36,7 +37,8 @@ def env(tmp_path, monkeypatch):
     monkeypatch.setenv("HYDRASHIELD_OUTBOX_DIR", str(tmp_path / "outbox"))
     for var in ("SMTP_HOST", "SMTP_USER", "SMS_PROVIDER", "SMS_HTTP_URL",
                 "SMS_FROM", "SMS_API_KEY", "SMS_API_SECRET",
-                "SMS_HTTP_AUTH_HEADER"):
+                "SMS_HTTP_AUTH_HEADER", "TWILIO_ACCOUNT_SID",
+                "TWILIO_AUTH_TOKEN", "TWILIO_FROM_NUMBER"):
         monkeypatch.delenv(var, raising=False)
     import src.dashboard.cache as cache_mod
     import src.dashboard.api as api_module
@@ -194,6 +196,86 @@ def test_http_without_url_is_honestly_misconfigured(env, monkeypatch):
     assert result["backend"] == "misconfigured"
     assert "SMS_HTTP_URL" in result["error"]
     assert sms.sms_configured() is False
+
+
+# ---------------------------------------------------------------------------
+# sms.py — Twilio backend (offline: urllib mocked, no network)
+# ---------------------------------------------------------------------------
+
+def _twilio_env(monkeypatch):
+    monkeypatch.setenv("SMS_PROVIDER", "twilio")
+    monkeypatch.setenv("TWILIO_ACCOUNT_SID", "ACtest123")
+    monkeypatch.setenv("TWILIO_AUTH_TOKEN", "tok-test")
+    monkeypatch.setenv("TWILIO_FROM_NUMBER", "+15551234567")
+
+
+def test_twilio_without_credentials_is_honestly_misconfigured(env, monkeypatch):
+    monkeypatch.setenv("SMS_PROVIDER", "twilio")
+    result = sms.send_sms("+352661811680", "hello")
+    assert result["backend"] == "misconfigured"
+    assert "TWILIO_ACCOUNT_SID" in result["error"]
+    assert sms.sms_configured() is False
+
+
+def test_twilio_configured_requires_all_three(env, monkeypatch):
+    _twilio_env(monkeypatch)
+    assert sms.sms_configured() is True
+    monkeypatch.delenv("TWILIO_FROM_NUMBER")
+    assert sms.sms_configured() is False
+
+
+def test_twilio_posts_form_with_basic_auth(env, monkeypatch):
+    import base64
+    import urllib.parse
+
+    _twilio_env(monkeypatch)
+    captured = {}
+
+    class _Resp:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return json.dumps({"sid": "SMxyz"}).encode()
+
+    def fake_urlopen(req, timeout=None):
+        captured["url"] = req.full_url
+        captured["body"] = req.data.decode()
+        captured["auth"] = req.get_header("Authorization")
+        captured["content_type"] = req.get_header("Content-type")
+        return _Resp()
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    result = sms.send_sms("+352661811680", "Talaix test")
+    assert result == {"backend": "twilio", "provider_message_id": "SMxyz"}
+    assert captured["url"] == (
+        "https://api.twilio.com/2010-04-01/Accounts/ACtest123/Messages.json")
+    assert captured["content_type"] == "application/x-www-form-urlencoded"
+    fields = urllib.parse.parse_qs(captured["body"])
+    assert fields["To"] == ["+352661811680"]
+    assert fields["From"] == ["+15551234567"]
+    assert fields["Body"] == ["Talaix test"]
+    expected = "Basic " + base64.b64encode(b"ACtest123:tok-test").decode()
+    assert captured["auth"] == expected
+
+
+def test_twilio_http_error_reported_honestly(env, monkeypatch):
+    import urllib.error
+
+    _twilio_env(monkeypatch)
+
+    def fake_urlopen(req, timeout=None):
+        raise urllib.error.HTTPError(
+            req.full_url, 401, "Unauthorized", None,
+            io.BytesIO(json.dumps({"message": "Authenticate"}).encode()))
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    result = sms.send_sms("+352661811680", "hello")
+    assert result["backend"] == "twilio"
+    assert "Authenticate" in result["error"]
 
 
 def test_disabled_backend(env, monkeypatch):

@@ -17,6 +17,11 @@ E.164 phone number through one of three honest backends:
   id is captured defensively from the JSON response (``message_id`` | ``id``
   | ``sid``). No provider-specific capabilities are assumed beyond this
   contract; swapping providers is an env change, not a code change.
+- **Twilio backend** — ``SMS_PROVIDER=twilio``: POSTs the form-encoded
+  ``To``/``From``/``Body`` to Twilio's Messages endpoint with HTTP Basic
+  auth (``TWILIO_ACCOUNT_SID`` : ``TWILIO_AUTH_TOKEN``). Sender is
+  ``TWILIO_FROM_NUMBER`` (the Twilio-owned number). All three variables
+  are required; a missing one is reported as ``misconfigured``.
 - **Disabled** — ``SMS_PROVIDER=disabled``: nothing is sent or written.
 
 ``SMS_PROVIDER=http`` without ``SMS_HTTP_URL`` returns
@@ -75,8 +80,14 @@ def _provider() -> str:
 
 def sms_configured() -> bool:
     """True when a real delivery backend is configured (HTTP provider with
-    URL set). The outbox backend is a safe dev default, not real delivery."""
-    return _provider() == "http" and bool(os.environ.get("SMS_HTTP_URL"))
+    URL set, or Twilio with its three credentials). The outbox backend is a
+    safe dev default, not real delivery."""
+    if _provider() == "http":
+        return bool(os.environ.get("SMS_HTTP_URL"))
+    if _provider() == "twilio":
+        return all(os.environ.get(k) for k in
+                   ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_FROM_NUMBER"))
+    return False
 
 
 def _write_outbox(to_e164: str, message: str) -> str:
@@ -155,14 +166,71 @@ def _send_http(to_e164: str, message: str) -> Dict:
     return {"backend": "http", "provider_message_id": provider_id}
 
 
+def _send_twilio(to_e164: str, message: str) -> Dict:
+    """Deliver via Twilio's Messages endpoint (form-encoded + Basic auth)."""
+    import base64
+    import urllib.parse
+    import urllib.request
+
+    sid = os.environ.get("TWILIO_ACCOUNT_SID", "")
+    token = os.environ.get("TWILIO_AUTH_TOKEN", "")
+    from_number = os.environ.get("TWILIO_FROM_NUMBER", "")
+    if not (sid and token and from_number):
+        return {
+            "backend": "misconfigured",
+            "error": "SMS_PROVIDER=twilio requires TWILIO_ACCOUNT_SID,"
+                     " TWILIO_AUTH_TOKEN and TWILIO_FROM_NUMBER",
+        }
+    url = f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json"
+    payload = urllib.parse.urlencode(
+        {"To": to_e164, "From": from_number, "Body": message}).encode("utf-8")
+    req = urllib.request.Request(
+        url, data=payload,
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+            "Authorization": "Basic " + base64.b64encode(
+                f"{sid}:{token}".encode("utf-8")).decode("ascii"),
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=_HTTP_TIMEOUT_SECONDS) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+    except Exception as exc:  # network/HTTP errors reported, never raised
+        detail = ""
+        if isinstance(exc, urllib.error.HTTPError):
+            try:
+                err_data = json.loads(exc.read().decode("utf-8", errors="replace"))
+                detail = err_data.get("message") or ""
+            except Exception:
+                detail = ""
+        log.warning("SMS twilio delivery to %s failed: %s %s",
+                    to_e164, type(exc).__name__, detail)
+        return {"backend": "twilio",
+                "error": f"{type(exc).__name__}: {detail or exc}"}
+    provider_id = None
+    try:
+        data = json.loads(body) if body else {}
+        if isinstance(data, dict) and data.get("sid"):
+            provider_id = str(data["sid"])
+    except (ValueError, TypeError):
+        provider_id = None
+    log.info("Sent SMS to %s via Twilio (sid captured: %s)", to_e164, bool(provider_id))
+    return {"backend": "twilio", "provider_message_id": provider_id}
+
+
 def send_sms(to_e164: str, message: str) -> Dict:
     """
     Deliver an SMS. Returns a delivery descriptor::
 
         {"backend": "outbox", "path": "<sms.txt path>"}   — dev, never sent
         {"backend": "http", "provider_message_id": …}     — sent via provider
+        {"backend": "twilio", "provider_message_id": …}   — sent via Twilio
         {"backend": "disabled"}                           — SMS_PROVIDER=disabled
         {"backend": "misconfigured", "error": …}          — http without URL
+                                                          — or twilio missing
+                                                          — credentials
 
     Delivery errors are reported in the descriptor (``error`` key), never
     raised. Credentials are read from the environment only and are never
@@ -177,6 +245,8 @@ def send_sms(to_e164: str, message: str) -> Dict:
         return {"backend": "disabled"}
     if provider == "http":
         return _send_http(to_e164, message)
+    if provider == "twilio":
+        return _send_twilio(to_e164, message)
     # Unknown provider values fall through to the safe outbox (never sent).
     if provider and provider != "outbox":
         log.warning("Unknown SMS_PROVIDER %r — falling back to safe outbox", provider)
