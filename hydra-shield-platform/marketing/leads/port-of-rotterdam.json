@@ -1,0 +1,35 @@
+{
+  "organization": "Port of Rotterdam Authority",
+  "segment": "infrastructure",
+  "country": "NL",
+  "website": "https://www.portofrotterdam.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The 2021 Limburg floods highlighted how extreme river discharge can disrupt transport and logistics downstream, while sea-level rise and storm surge directly threaten the Rotterdam port complex. The Port of Rotterdam Authority manages, operates and develops the Port of Rotterdam, Europe's largest seaport and a critical node for Dutch and European supply chains.",
+  "climate_exposure": "Port terminals, industry and hinterland connections are concentrated in a low-lying delta directly exposed to riverine flood, coastal inundation, storm surge and wind damage.",
+  "potential_pain": "Flood or storm-surge damage to quays, terminals, roads and rail links can cause costly operational downtime, repair bills and reputational loss for the port and its users.",
+  "relevant_hazards": ["flood", "coastal", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, coastal and wind hazard analytics for the Rotterdam port area, including storm-surge and pluvial flood scenarios tied to historical events.",
+  "relevant_capability": "Talaix climate risk intelligence and monitoring for critical infrastructure.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Show the Port Authority a monitoring view of flood, coastal and wind risk across the Rotterdam port estate to embed resilience into operations and investment planning.",
+  "priority": "high",
+  "fit_score": "A strategic national infrastructure owner-operator located below sea level and at the mouth of Europe's busiest river is a high-priority target for hazard intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Port of Rotterdam homepage states it manages, operates and develops Europe's largest port and is responsible for safe and smooth shipping.",
+      "source": "https://www.portofrotterdam.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.portofrotterdam.com",
+  "date_checked": "2026-08-24"
+}

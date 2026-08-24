@@ -1,0 +1,36 @@
+{
+  "organization": "Adriatic Croatia International Club d.d. (ACI Marinas)",
+  "segment": "real_estate",
+  "country": "HR",
+  "region": "Rijeka",
+  "website": "https://www.aci-marinas.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "ACI d.d. operates the Mediterranean’s largest chain of marinas along the Croatian Adriatic. Its 22 marina properties, breakwaters, pontoons and access infrastructure are exposed to Dalmatian wildfires, flash floods and coastal storms.",
+  "climate_exposure": "ACI’s coastal real estate stretches from Istria and Kvarner to Split, Šibenik and Dubrovnik, placing the portfolio in fire-prone counties and low-lying marina sites vulnerable to flood and storm surge.",
+  "potential_pain": "A wildfire near a marina, a flash flood of access roads, or storm damage to pontoons can force seasonal closures, evacuations, repair costs and booking cancellations.",
+  "relevant_hazards": ["flood", "wildfire", "coastal", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire, flood and coastal hazard layers for each ACI marina location, plus historical event intelligence for recent Dalmatian fires and Adriatic storms.",
+  "relevant_capability": "Location-level hazard monitoring and early warning for coastal real estate portfolios",
+  "recommended_product": "monitoring",
+  "recommended_message": "Provide marina-level wildfire, flood and coastal monitoring so ACI can protect guests, assets and seasonal revenue across its Adriatic property portfolio.",
+  "priority": "high",
+  "fit_score": "ACI is the dominant national coastal marina property owner, with physical assets concentrated exactly in Croatia’s wildfire-, flood- and storm-exposed coastal corridor.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ACI’s homepage identifies it as the Mediterranean’s largest marinas chain and leading marina operator, and public records confirm it is headquartered in Rijeka, Croatia.",
+      "source": "https://www.aci-marinas.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aci-marinas.com",
+  "date_checked": "2026-08-24"
+}

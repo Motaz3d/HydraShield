@@ -1,0 +1,36 @@
+{
+  "organization": "Ministerstwo Klimatu i Środowiska",
+  "segment": "governments",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.gov.pl/web/klimat",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Ministry of Climate and Environment sets Poland's national climate and environmental policy and coordinates adaptation and water-management strategy. The September 2024 Oder-basin floods exposed gaps in granular, asset-level flood exposure intelligence needed for national adaptation planning and disaster preparedness.",
+  "climate_exposure": "It oversees policies affecting the entire country, including the Oder and Vistula basins, floodplains, and municipalities vulnerable to flash floods and wildfires.",
+  "potential_pain": "Without actionable, high-resolution hazard and exposure data, climate adaptation plans and infrastructure priorities can misallocate public resources and under-prepare high-risk regions.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "National flood and wildfire hazard exposure layers, historical event intelligence, and monitoring dashboards for the Oder and Vistula basins.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Use Talaix hazard monitoring and exposure analytics to prioritize national adaptation investments and strengthen civil-protection coordination after the 2024 Oder floods.",
+  "priority": "high",
+  "fit_score": "The ministry's mandate over climate adaptation and environmental policy makes it a natural buyer for authoritative, country-wide physical risk monitoring and intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Ministerstwo Klimatu i Środowiska is the Polish national ministry for climate and environment, headquartered in Warsaw.",
+      "source": "https://www.gov.pl/web/klimat/kontakt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gov.pl/web/klimat/kontakt",
+  "date_checked": "2026-08-24"
+}

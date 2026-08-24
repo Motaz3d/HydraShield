@@ -1,0 +1,36 @@
+{
+  "organization": "Tryg A/S",
+  "segment": "insurance",
+  "country": "DK",
+  "region": "Europe",
+  "website": "https://www.tryg.com/investor",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Denmark is repeatedly hit by cloudburst flooding in Copenhagen, Aarhus and other cities, and its long, low-lying coastline faces storm-surge and sea-level-rise exposure. Tryg A/S is the largest non-life insurer in Scandinavia and a top-three player in the Danish market, underwriting personal and commercial property, motor and liability lines. Its Danish book is therefore directly exposed to both cloudburst and coastal surge losses through homeowner, commercial and motor policies.",
+  "climate_exposure": "Tryg's Danish non-life portfolio is concentrated in populated urban corridors with high pluvial flood exposure and along North Sea and Baltic coastlines vulnerable to storm surge, increasing property and business-interruption claims.",
+  "potential_pain": "Cloudburst and coastal surge claims strain loss ratios, force reinsurance repricing, and create policy-availability pressure in the most exposed Danish postal codes where Tryg must balance growth with profitability.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Danish flood and coastal hazard layers, historical event intelligence for documented cloudburst and coastal surge events, and portfolio-level exposure analytics mapped to Tryg's insured geography.",
+  "relevant_capability": "Insurance-specific climate risk intelligence combining probabilistic flood and coastal hazard layers with historical event footprints and monitoring for active perils.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer an enterprise climate-risk dashboard that lets Tryg's underwriting and reinsurance teams screen Danish policies by cloudburst, riverine and coastal flood exposure at the address level.",
+  "priority": "high",
+  "fit_score": "Very high fit: as the dominant Scandinavian non-life insurer with a top-tier Danish market position, Tryg has the scale, catastrophe exposure and data appetite to make address-level flood and coastal analytics commercially relevant.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Tryg's investor page states it is the largest non-life insurer in Scandinavia with a top 3 market position in Denmark and is listed on Nasdaq OMX Copenhagen.",
+      "source": "https://www.tryg.com/investor"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.tryg.com/investor",
+  "date_checked": "2026-08-24"
+}

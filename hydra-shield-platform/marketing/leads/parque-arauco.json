@@ -1,0 +1,36 @@
+{
+  "organization": "Parque Arauco",
+  "segment": "real_estate",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.parquearauco.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Parque Arauco is one of Chile's largest listed real-estate companies, owning and operating shopping centers and mixed-use assets across the country. The February 2024 Valparaíso wildfires and recurring central floods threaten foot traffic, property damage, and asset values at its Chilean malls and developments.",
+  "climate_exposure": "Shopping-center portfolio spread across Chilean regions, including sites exposed to flood, wildfire smoke/ash, and heat.",
+  "potential_pain": "Revenue disruption and repair costs when malls are cut off by floods or threatened by wildfire, plus lender and tenant requests for climate disclosure.",
+  "relevant_hazards": ["flood", "wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix site-level flood and wildfire exposure screening plus historical event intelligence for Parque Arauco locations.",
+  "relevant_capability": "site screening across six hazards",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose site-level flood and wildfire monitoring for Parque Arauco's Chilean retail assets to protect operations and support tenant and lender conversations.",
+  "priority": "high",
+  "fit_score": "Parque Arauco is a leading national property owner with a portfolio of large physical assets in hazard-exposed regions, making climate risk directly material to its balance sheet.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage lists major Chilean shopping centers and mixed-use destinations operated by Parque Arauco.",
+      "source": "https://www.parquearauco.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.parquearauco.cl",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,39 @@
+{
+  "organization": "Majlis Keselamatan Negara (National Security Council)",
+  "segment": "emergency_management",
+  "country": "MY",
+  "region": "",
+  "website": "https://www.mkn.gov.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The 2021–22 Klang Valley floods and annual monsoon floods displace thousands and strain national response coordination. Majlis Keselamatan Negara is the federal agency that coordinates national security and disaster-response policy, including the National Operations Centre (Pusat Pengoperasian Operasi Negara).",
+  "climate_exposure": "MKN must coordinate cross-agency flood response, situational awareness and resource deployment across all states during major flood events.",
+  "potential_pain": "Limited real-time flood footprint intelligence slows evacuation, logistics and inter-agency coordination during monsoon disasters.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix real-time flood monitoring and historical event intelligence for Malaysia’s major river basins and urban centres.",
+  "relevant_capability": "climate risk intelligence",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Propose Talaix hazard alerts and event intelligence to feed MKN’s national operations centre with faster flood situational awareness.",
+  "priority": "high",
+  "fit_score": "High fit: the federal coordinating body for national security and disaster response, with a direct operational need for timely hazard information during floods.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MKN website states it is a lead agency coordinating national security policy since 1971 and operates the National Operations Centre.",
+      "source": "https://www.mkn.gov.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mkn.gov.my",
+  "date_checked": "2026-08-24"
+}

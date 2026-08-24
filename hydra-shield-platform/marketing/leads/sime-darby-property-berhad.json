@@ -1,0 +1,38 @@
+{
+  "organization": "Sime Darby Property Berhad",
+  "segment": "real_estate",
+  "country": "MY",
+  "region": "",
+  "website": "https://www.simedarbyproperty.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "The 2021–22 Klang Valley floods submerged residential and commercial precincts, while annual monsoon flooding affects townships in Johor, Pahang and Terengganu. Sime Darby Property is one of Malaysia’s largest property developers, with extensive township, commercial and industrial land banks across these same regions.",
+  "climate_exposure": "Large-scale residential and industrial developments, many in the Klang Valley and southern growth corridors, face pluvial and riverine flood risk.",
+  "potential_pain": "Flood events can delay construction, raise earthworks and drainage costs, and reduce buyer demand for affected locations.",
+  "relevant_hazards": [
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard layers and 2021–22 Klang Valley historical flood extent for Malaysian development sites.",
+  "relevant_capability": "climate risk intelligence",
+  "recommended_product": "monitoring",
+  "recommended_message": "Show Sime Darby Property how site-level flood monitoring can inform land-bank valuation and township resilience planning.",
+  "priority": "high",
+  "fit_score": "High fit: a leading national developer whose land bank and completed assets are directly exposed to the country’s primary climate hazard.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Sime Darby Property homepage lists residential, commercial, industrial, retail and leisure developments across Malaysia.",
+      "source": "https://www.simedarbyproperty.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.simedarbyproperty.com",
+  "date_checked": "2026-08-24"
+}

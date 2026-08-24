@@ -1,0 +1,36 @@
+{
+  "organization": "TEİAŞ (Türkiye Elektrik İletim A.Ş.)",
+  "segment": "infrastructure",
+  "country": "TR",
+  "region": "Ankara",
+  "website": "https://www.teias.gov.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "Turkey’s 2021 and 2024 wildfires and the 2021 Black Sea floods damaged physical assets and disrupted services. TEİAŞ owns and operates the national electricity transmission grid, whose towers, substations and lines cross wildfire-prone forests and flood-exposed river basins.",
+  "climate_exposure": "Transmission towers and substations in forested and riverine areas face direct damage from wildfire and flood, while heat and wind can compound line failure and outage risk.",
+  "potential_pain": "Unplanned outages, emergency repair costs, asset replacement and regulatory pressure to maintain grid reliability under intensifying climate extremes.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix asset-level flood and wildfire hazard layers for Turkey and historical event intelligence for recent wildfire and flood seasons.",
+  "relevant_capability": "Talaix infrastructure asset risk screening and continuous hazard monitoring for floods and wildfires.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Safeguard Turkey’s national power grid with continuous flood and wildfire risk monitoring across TEİAŞ transmission assets.",
+  "priority": "high",
+  "fit_score": "High fit: the national transmission system operator controls long-life critical infrastructure that is geographically exposed to Turkey’s key hazards; reliability and resilience are core mandates.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: TEİAŞ homepage presents itself as Turkey’s electricity transmission operator and publishes real-time generation data.",
+      "source": "https://www.teias.gov.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.teias.gov.tr",
+  "date_checked": "2026-08-24"
+}

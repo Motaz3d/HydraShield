@@ -1,0 +1,36 @@
+{
+  "organization": "Ambipar Participações e Empreendimentos",
+  "segment": "environmental_consulting",
+  "country": "BR",
+  "region": "São Paulo",
+  "website": "https://www.ambipar.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Ambipar is a Brazilian environmental services and consulting group operating in Brazil and over 40 countries, serving infrastructure, mining, oil and gas, and industrial clients. Its business model depends on responding to environmental incidents and managing client environmental risk, which is amplified by Brazil's 2024 floods and Pantanal wildfires.",
+  "climate_exposure": "The company operates emergency-response, environmental consulting and remediation bases across Brazil, often deployed to regions affected by floods, wildfires and industrial accidents linked to extreme weather.",
+  "potential_pain": "Demand for environmental consulting and emergency response rises with climate extremes, but Ambipar and its clients need better predictive location intelligence to pre-position resources and price services.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood and wildfire exposure layers with historical event intelligence to support client environmental risk assessments and emergency-response planning.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer Talaix flood and wildfire intelligence to support Ambipar's environmental consulting and emergency-response services for infrastructure and industrial clients.",
+  "priority": "medium",
+  "fit_score": "National environmental services group with broad industrial and infrastructure client base; climate-driven incidents directly affect both its service demand and operational footprint.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Ambipar's official site lists environmental consulting and analysis, remediation, emergency response and industrial services, with Brazil as its primary market.",
+      "source": "https://www.ambipar.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ambipar.com",
+  "date_checked": "2026-08-24"
+}

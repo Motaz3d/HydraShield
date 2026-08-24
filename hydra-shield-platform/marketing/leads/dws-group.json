@@ -1,0 +1,36 @@
+{
+  "organization": "DWS Group",
+  "segment": "investment",
+  "country": "DE",
+  "website": "https://www.dws.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Germany’s 2021 Ahr Valley floods caused more than 180 deaths and around EUR 40 billion in damage, exposing how quickly physical climate risk can hit long-dated asset portfolios. DWS Group, one of Germany’s largest asset managers, holds significant real-asset and infrastructure allocations across Europe, including German property, utilities and transport positions that sit in river corridors and wildland-urban interface zones.",
+  "climate_exposure": "Flood and severe-storm losses in Germany have risen over the past two decades, and DWS-managed funds face concentration risk in domestic real estate, listed infrastructure and corporate credit tied to flood-prone regions.",
+  "potential_pain": "Portfolio managers need traceable, location-level flood and wildfire exposure evidence to satisfy due-diligence questions from institutional clients and regulators, but current risk models often lack source-attached historical event context.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood footprint for the July 2021 Ahr Valley event and portfolio-location screening against current hazard layers, with source-attached indicators.",
+  "relevant_capability": "Multi-location climate risk screening and historical event intelligence with provenance.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how source-attached flood and wildfire exposure screening can harden due diligence for German and European real-asset portfolios.",
+  "priority": "medium",
+  "fit_score": "Strong fit: DWS is a major German asset manager with large real-asset books and a public need for evidenced climate risk data; the pitch aligns with investment due-diligence workflows rather than sustainability reporting.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "relationship_type": "customer",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: DWS Group is a leading German asset manager with significant real-asset and infrastructure holdings exposed to flood and wildfire risk.",
+      "source": "https://www.dws.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.dws.com",
+  "date_checked": "2026-08-24"
+}

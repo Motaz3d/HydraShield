@@ -1,0 +1,38 @@
+{
+  "organization": "Federal Office for Civil Protection (BABS)",
+  "segment": "emergency_management",
+  "country": "CH",
+  "website": "https://www.bevoelkerungsschutz.admin.ch",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The 2021 and 2024 Swiss summer floods triggered civil-protection responses across multiple cantons, testing warning systems and inter-cantonal coordination. The Federal Office for Civil Protection (BABS) is the national authority for civil protection and disaster management, operating the National Emergency Operations Centre (NEOC) and nationwide warning infrastructure.",
+  "climate_exposure": "BABS must maintain situational awareness, public alerting and crisis management for the entire country, including floodplains, alpine valleys and wildfire-prone southern/central regions.",
+  "potential_pain": "Faster, more precise flood and wildfire event detection and impact forecasting are needed to improve warning lead times and coordinate cantonal and federal response assets.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix real-time and historical flood and wildfire event intelligence, including impact footprints for the 2021 and 2024 Swiss floods.",
+  "relevant_capability": "Real-time hazard monitoring, event detection and alerting for civil-protection operations.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Enhance nationwide situational awareness with real-time flood and wildfire monitoring for civil protection.",
+  "priority": "high",
+  "fit_score": "BABS's national disaster-management mandate and its operation of the NEOC make it a strong fit for operational hazard monitoring and event intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BABS's official homepage confirms it is the Federal Office for Civil Protection and describes the National Emergency Operations Centre (NEOC) as responsible for early recognition, assessment and warning of civil-protection-relevant events.",
+      "source": "https://www.bevoelkerungsschutz.admin.ch"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bevoelkerungsschutz.admin.ch",
+  "date_checked": "2026-08-24"
+}

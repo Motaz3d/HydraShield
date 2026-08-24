@@ -1,0 +1,36 @@
+{
+  "organization": "LAMDA Development S.A.",
+  "segment": "real_estate",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.lamdadev.com/en/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "LAMDA Development is one of Greece's largest real-estate development and investment companies, with a €3.8 billion total investment portfolio, a €1.6 billion net asset value, and flagship assets including The Ellinikon, malls, and marinas across Greece. These properties are located in areas exposed to the 2023 Thessaly floods and recurring wildfire seasons.",
+  "climate_exposure": "Large Greek property portfolio comprising the Ellinikon mixed-use development, retail malls, and marinas situated in regions vulnerable to flood, wildfire, heat, and coastal hazards.",
+  "potential_pain": "Flooding, wildfire smoke, and heat-related disruptions at major retail, residential, and marina assets reduce tenant revenue, raise insurance premiums, and delay construction and lease-up schedules.",
+  "relevant_hazards": ["flood", "wildfire", "heat", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers and historical event intelligence for the 2023 Thessaly floods and 2023–2024 Greek wildfires, applied to LAMDA Development's major Greek assets.",
+  "relevant_capability": "wildfire exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Map flood and wildfire hazard exposure across the Ellinikon, mall, and marina portfolio to prioritize resilience investments, insurance reviews, and asset-level contingency plans.",
+  "priority": "high",
+  "fit_score": "A leading Greek real-estate developer and investor with a concentrated, high-value domestic asset base; natural fit for enterprise climate-risk analytics on its landmark projects.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: English homepage states €3.8B total investment portfolio, €1.6B NAV, and flagship projects including The Ellinikon, malls, and marinas.",
+      "source": "https://www.lamdadev.com/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.lamdadev.com/en/",
+  "date_checked": "2026-08-24"
+}

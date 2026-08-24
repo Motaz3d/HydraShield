@@ -1,0 +1,35 @@
+{
+  "organization": "Ambiente Italia Srl",
+  "segment": "environmental_consulting",
+  "country": "IT",
+  "website": "https://www.ambienteitalia.it/en/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Ambiente Italia Srl is one of Italy's leading environmental consultancy companies, active for thirty years in national and European green-economy and sustainability markets. The 2023 Emilia-Romagna floods and Sicily wildfires increase demand for flood and wildfire exposure intelligence in its advisory and European-project work.",
+  "climate_exposure": "Its Italian and European project portfolio spans regions exposed to riverine and pluvial flooding, wildfire and heat, including Emilia-Romagna and Sicily.",
+  "potential_pain": "Preparing EU-funded project proposals, EIAs and sustainability reports requires citable, location-specific hazard evidence; missing or outdated data weakens applications and client trust.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers and historical event intelligence for Emilia-Romagna and Sicily, source-attributed for proposals and reports.",
+  "relevant_capability": "Talaix evidence-labelled reports and historical event intelligence.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer a professional report package showing Talaix flood and wildfire exposure for an Italian project region to strengthen Ambiente Italia's EIA and EU-project proposals.",
+  "priority": "high",
+  "fit_score": "High fit: Ambiente Italia is an established Italian environmental consultancy with three decades of national and EU project experience; its advisory work directly intersects with the documented flood and wildfire events.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ambienteitalia.it/en describes Ambiente Italia Srl as one of the leading environmental consultancy companies in Italy, with thirty years of activity in green economy and sustainability markets and more than 140 European projects.",
+      "source": "https://www.ambienteitalia.it/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ambienteitalia.it/en/",
+  "date_checked": "2026-08-24"
+}

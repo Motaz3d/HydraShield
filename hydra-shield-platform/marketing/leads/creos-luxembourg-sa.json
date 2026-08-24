@@ -1,0 +1,36 @@
+{
+  "organization": "Creos Luxembourg S.A.",
+  "segment": "infrastructure",
+  "country": "LU",
+  "region": "",
+  "website": "https://www.creos.lu",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Creos Luxembourg S.A. operates Luxembourg's electricity (12,728 km) and natural-gas (2,216 km) distribution networks. The July 2021 floods threatened substations, underground cables and gas pipelines along the Alzette and Sûre valleys, while storms routinely stress overhead lines.",
+  "climate_exposure": "Its nationwide electricity and gas grid traverses floodplains, forests and built-up areas, exposing substations, lines and pipelines to flood, storm and wildfire risks.",
+  "potential_pain": "Network continuity depends on identifying vulnerable corridors and hardening critical assets against flood inundation and storm damage.",
+  "relevant_hazards": ["flood", "wildfire", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix infrastructure exposure layers, flood maps and historical event intelligence for Luxembourg's energy networks.",
+  "relevant_capability": "infrastructure exposure profiles",
+  "recommended_product": "monitoring",
+  "recommended_message": "Continuous monitoring of flood and storm risk across Creos's electricity and gas network corridors to prioritise resilience investments.",
+  "priority": "high",
+  "fit_score": "The national energy distribution operator owns long linear assets that cross the same river valleys devastated by the 2021 floods.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: creos.lu homepage confirms Creos Luxembourg S.A. manages the country's electricity and natural-gas distribution networks.",
+      "source": "https://www.creos.lu"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.creos.lu",
+  "date_checked": "2026-08-24"
+}

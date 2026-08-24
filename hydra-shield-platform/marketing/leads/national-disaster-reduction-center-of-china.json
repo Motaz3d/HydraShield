@@ -1,0 +1,36 @@
+{
+  "organization": "National Disaster Reduction Center of China",
+  "segment": "emergency_management",
+  "country": "CN",
+  "region": "",
+  "website": "https://www.ndrcc.org.cn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "The 2021 Henan floods and 2023 Hai River floods required nationwide disaster monitoring, satellite damage assessment and relief coordination across multiple provinces. The National Disaster Reduction Center of China is the Ministry of Emergency Management’s technical arm for disaster reduction, satellite application and risk assessment, giving it a direct mandate to improve multi-hazard situational awareness.",
+  "climate_exposure": "NDRCC supports flood, drought and other disaster monitoring nationwide, with operational responsibility rising sharply during events such as the 2021 Henan and 2023 Hai River floods.",
+  "potential_pain": "Limited independent high-resolution flood footprint and forecast validation data can slow damage mapping and post-event accountability.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical flood event footprints for 2021 Henan and 2023 Hai River, plus real-time monitoring and alerting capabilities for civil-protection operations.",
+  "relevant_capability": "Talaix multi-hazard monitoring, historical event intelligence and API delivery for disaster-reduction agencies.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer NDRCC independent flood monitoring and validated historical event layers to complement satellite-based disaster reduction workflows.",
+  "priority": "high",
+  "fit_score": "NDRCC’s mandate spans satellite disaster reduction and national risk assessment, making external flood intelligence highly complementary to its public-safety mission.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: NDRCC is the national disaster-reduction and satellite-application center under the Ministry of Emergency Management.",
+      "source": "https://www.ndrcc.org.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ndrcc.org.cn",
+  "date_checked": "2026-08-24"
+}

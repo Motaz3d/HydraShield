@@ -1,0 +1,36 @@
+{
+  "organization": "Ministry of Climate, Energy and Utilities",
+  "segment": "governments",
+  "country": "DK",
+  "region": "Europe",
+  "website": "https://kefm.dk",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Denmark has experienced repeated cloudburst flooding in Copenhagen, Aarhus and other cities, while its long, low-lying coastline faces storm-surge and sea-level-rise exposure. The Ministry of Climate, Energy and Utilities is the national ministry responsible for climate policy, energy, utilities and supply, giving it the mandate to set adaptation frameworks and oversee climate-resilient infrastructure regulation. The ministry therefore needs spatial hazard intelligence to align national climate adaptation with energy and supply security.",
+  "climate_exposure": "The ministry must characterise and communicate escalating flood and coastal risk across Danish municipalities, energy networks and water-supply systems to inform national adaptation policy and infrastructure regulation.",
+  "potential_pain": "Federated adaptation planning depends on consistent, high-resolution hazard intelligence; gaps between national climate projections and operational flood and coastal decision-making create coordination friction and slow resilience funding decisions.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Danish flood and coastal hazard layers, historical event intelligence for documented cloudburst and coastal surge events, and national-scale analytics that complement the ministry's climate and infrastructure data programmes.",
+  "relevant_capability": "National-scale climate risk intelligence and historical event analytics covering flood and coastal hazards across Denmark.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a collaboration that augments the ministry's climate and hazards data with Talaix flood and coastal exposure layers and historical event intelligence for national adaptation and infrastructure-resilience programmes.",
+  "priority": "high",
+  "fit_score": "High fit: the ministry has the national mandate for climate, energy and utilities policy in a country with documented cloudburst and coastal flood risk, making hazard intelligence directly relevant to its regulatory and adaptation work.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: kefm.dk is the official website of the Danish Ministry of Climate, Energy and Utilities (Klima-, Energi- og Forsyningsministeriet).",
+      "source": "https://kefm.dk"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://kefm.dk",
+  "date_checked": "2026-08-24"
+}

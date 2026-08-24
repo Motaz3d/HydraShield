@@ -1,0 +1,35 @@
+{
+  "organization": "Knight Piésold Chile",
+  "segment": "environmental_consulting",
+  "country": "CL",
+  "website": "https://www.knightpiesold.com/en/locations/chile/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Knight Piésold has operated in Chile since 1993, providing environmental assessment, hydraulic and geotechnical services for mining and infrastructure across the country. The 2024 Valparaíso wildfires and recurrent central-Chile floods increase demand for defensible climate and hydrology inputs in project approvals and risk reviews.",
+  "climate_exposure": "The Santiago office serves projects across Chile in catchments and landscapes exposed to wildfire-driven erosion, post-fire flood risk and pluvial/riverine flooding.",
+  "potential_pain": "Client proposals and environmental impact studies need traceable flood and wildfire hazard evidence; coarse or outdated inputs weaken approvals and delay permitting.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers plus historical event intelligence for Valparaíso and central Chile, demonstrated on a sample project geography.",
+  "relevant_capability": "Talaix climate risk intelligence and historical event intelligence.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer a professional hazard report for one of Knight Piésold's Chilean project sites to show how Talaix flood and wildfire exposure layers can strengthen environmental assessments.",
+  "priority": "high",
+  "fit_score": "High fit: Knight Piésold is an established Chilean consultancy with a long local track record in environmental and hydraulic assessments, and its mining/infrastructure clients are directly exposed to the documented wildfire and flood events.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Knight Piésold's country page confirms a Santiago office since 1993 and services spanning environmental assessment, hydraulics and geotechnical work in Chile.",
+      "source": "https://www.knightpiesold.com/en/locations/chile/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.knightpiesold.com/en/locations/chile/",
+  "date_checked": "2026-08-24"
+}

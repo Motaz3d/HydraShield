@@ -1,0 +1,36 @@
+{
+  "organization": "AFP Habitat",
+  "segment": "investment",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.afphabitat.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "AFP Habitat is one of Chile's largest pension-fund administrators (AFP), managing mandatory and voluntary pension assets across the country. Chile's documented climate disasters—the February 2024 Valparaíso wildfires, recurring central floods, and the multi-decade mega-drought—expose its real-estate, infrastructure, and domestic equity holdings to asset devaluation and operational disruption.",
+  "climate_exposure": "Pension-fund portfolios include real estate, infrastructure, and Chilean equities concentrated in the central-southern macro-zone affected by wildfire, flood, and drought.",
+  "potential_pain": "Unmodelled losses in property and infrastructure holdings after floods and wildfires, plus concentration risk in drought-exposed sectors.",
+  "relevant_hazards": ["wildfire", "flood", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix multi-hazard exposure screening for portfolio locations and historical event intelligence for the Valparaíso and central regions.",
+  "relevant_capability": "multi-location screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer portfolio-level wildfire, flood, and drought screening to surface concentration risk and loss scenarios across AFP Habitat's Chilean holdings.",
+  "priority": "high",
+  "fit_score": "As a major AFP with nationwide membership and diversified domestic assets, AFP Habitat has a book that is inherently exposed to Chile's headline climate perils and a fiduciary need for traceable risk evidence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage promotes pension fund products (Cuenta 2, APV, multifondos) and presents AFP Habitat as a major Chilean pension administrator.",
+      "source": "https://www.afphabitat.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.afphabitat.cl",
+  "date_checked": "2026-08-24"
+}

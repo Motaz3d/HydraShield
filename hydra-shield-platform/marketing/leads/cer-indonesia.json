@@ -1,0 +1,35 @@
+{
+  "organization": "Carbon and Environmental Research Indonesia (CER Indonesia)",
+  "segment": "environmental_consulting",
+  "country": "ID",
+  "website": "https://www.cerindonesia.org/en/who-we-are",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "CER Indonesia is an all-Indonesian environmental and climate-change consulting firm established in 2004, with expertise in carbon, peat, forestry, climate adaptation and environmental management. Annual Jakarta floods and recurring peatland fires make flood and wildfire exposure intelligence central to its client work.",
+  "climate_exposure": "Its project geography covers Sumatra, Kalimantan, Java and other islands exposed to peatland fire, urban pluvial flooding and monsoonal riverine flood.",
+  "potential_pain": "Designing and monitoring climate adaptation, peat restoration and flood-risk projects requires spatial hazard evidence that is consistent, traceable and citable for donors and government clients.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers plus historical event intelligence for Jakarta and Indonesia's peatland fire regions, with source attribution.",
+  "relevant_capability": "Talaix climate risk intelligence and historical event intelligence.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer a monitoring pilot for CER Indonesia's project locations so the firm can track flood and wildfire exposure across Indonesia's peatland and urban landscapes.",
+  "priority": "high",
+  "fit_score": "High fit: CER Indonesia is a national climate and environmental consultancy whose core expertise—peat, forestry, climate adaptation and environmental management—maps directly to Indonesia's documented flood and peatland-fire risks.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: cerindonesia.org/en/who-we-are identifies CER Indonesia as an all-Indonesian climate change and environmental consultancy established in 2004, with experts in peat, biomass, forestry, climate change law and GIS.",
+      "source": "https://www.cerindonesia.org/en/who-we-are"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cerindonesia.org/en/who-we-are",
+  "date_checked": "2026-08-24"
+}

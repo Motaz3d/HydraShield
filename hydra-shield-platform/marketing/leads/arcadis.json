@@ -1,0 +1,35 @@
+{
+  "organization": "Arcadis",
+  "segment": "environmental_consulting",
+  "country": "NL",
+  "website": "https://www.arcadis.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "The 2021 Limburg floods and ongoing coastal/sea-level rise are driving Dutch public and private clients to demand more precise climate risk and adaptation advice. Arcadis N.V. is a global design, engineering and management consultancy headquartered in Amsterdam, with a large water and environment practice advising on flood protection, infrastructure resilience and coastal adaptation.",
+  "climate_exposure": "Arcadis advises clients whose assets and projects in the Netherlands sit in a delta with rising riverine, pluvial and coastal flood risk plus heat and drought stress.",
+  "potential_pain": "Winning and delivering high-stakes Dutch resilience projects requires reliable, evidence-based hazard data; outdated or coarse inputs can weaken proposals and client trust.",
+  "relevant_hazards": ["flood", "coastal", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, coastal, drought and heat hazard layers and historical event catalogue for the Netherlands, which Arcadis can integrate into advisory and engineering workflows.",
+  "relevant_capability": "Talaix climate risk intelligence and historical event intelligence.",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API integration pilot so Arcadis can embed Talaix Netherlands hazard layers and historical event data directly into client resilience studies.",
+  "priority": "medium",
+  "fit_score": "Arcadis is a Dutch-headquartered global consultancy with deep water and climate-advisory work, making it both a potential client and a channel for Talaix data into Dutch infrastructure projects.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Arcadis homepage lists Amsterdam headquarters and global priorities including 'Navigating Climate Change' and water/infrastructure services.",
+      "source": "https://www.arcadis.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.arcadis.com",
+  "date_checked": "2026-08-24"
+}

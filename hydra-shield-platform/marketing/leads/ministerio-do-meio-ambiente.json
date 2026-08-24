@@ -1,0 +1,36 @@
+{
+  "organization": "Ministério do Meio Ambiente e Mudança do Clima",
+  "segment": "governments",
+  "country": "BR",
+  "region": "Brasília, Distrito Federal",
+  "website": "https://www.gov.br/mma",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Ministry of Environment and Climate Change is Brazil's federal ministry responsible for environmental protection, climate policy and natural resource management. Its mandate covers national climate adaptation, biome conservation and coordination around disasters such as the 2024 Rio Grande do Sul floods and Pantanal wildfires.",
+  "climate_exposure": "The ministry oversees national climate adaptation policy, biome conservation and responses to floods, wildfires, drought and land degradation across all Brazilian regions.",
+  "potential_pain": "Federal climate and disaster planning requires consistent, authoritative hazard exposure data across states and biomes, which is often fragmented across agencies.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Historical flood and wildfire event intelligence and exposure layers to support national climate adaptation and disaster-prevention planning.",
+  "relevant_capability": "historical event intelligence",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose an enterprise dashboard to help the Ministry visualize flood and wildfire exposure across Brazilian biomes and priority regions.",
+  "priority": "high",
+  "fit_score": "Federal ministry with direct mandate for environment and climate change; high institutional alignment with national flood and wildfire risk management.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: The Ministry's official site identifies it as the Ministério do Meio Ambiente and publishes climate and drought-related policy news.",
+      "source": "https://www.gov.br/mma"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gov.br/mma",
+  "date_checked": "2026-08-24"
+}

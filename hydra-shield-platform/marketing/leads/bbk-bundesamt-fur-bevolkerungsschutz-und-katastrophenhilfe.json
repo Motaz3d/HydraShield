@@ -1,0 +1,36 @@
+{
+  "organization": "Bundesamt für Bevölkerungsschutz und Katastrophenhilfe (BBK)",
+  "segment": "emergency_management",
+  "country": "DE",
+  "website": "https://www.bbk.bund.de",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The July 2021 Ahr Valley floods killed more than 180 people and overwhelmed local warning chains, prompting a national review of civil-protection readiness. BBK is Germany’s federal authority for civil protection and disaster assistance, coordinating warnings, federal-state response and international relief.",
+  "climate_exposure": "BBK operates nationwide and is increasingly challenged by flash floods, wildfires, heatwaves and drought that strain warning systems, volunteer capacity and cross-border response logistics.",
+  "potential_pain": "Duty officers need documented multi-hazard monitoring and historical event intelligence to calibrate warning thresholds, exercise scenarios and deploy resources before events escalate.",
+  "relevant_hazards": ["flood", "wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix monitoring feed and historical flood/wildfire event registry for Germany, including footprint and intensity data for the 2021 Ahr Valley event.",
+  "relevant_capability": "Monitoring + SMS/email alerts and a multi-hazard event registry.",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Equip BBK with source-attached flood and wildfire monitoring to support nationwide warning drills and real-time civil-protection decisions.",
+  "priority": "high",
+  "fit_score": "Strong fit: BBK’s mandate is precisely national disaster management; the 2021 floods are a live driver for improved hazard monitoring and cross-agency coordination.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "relationship_type": "customer",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BBK’s website lists nationwide warning-day exercises, flood coordination and international wildfire assistance, confirming a live multi-hazard civil-protection mandate.",
+      "source": "https://www.bbk.bund.de"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bbk.bund.de",
+  "date_checked": "2026-08-24"
+}

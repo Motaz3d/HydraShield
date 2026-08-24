@@ -1,0 +1,35 @@
+{
+  "organization": "PT Waskita Karya (Persero) Tbk",
+  "segment": "engineering_firms",
+  "country": "ID",
+  "website": "https://www.waskita.co.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Waskita Karya is a leading state-owned construction and engineering company that builds toll roads, bridges, dams and buildings across Indonesia; its projects are exposed to Jakarta floods and peatland fires during both construction and operation.",
+  "climate_exposure": "Nationwide project portfolio includes flood-prone lowlands and fire-prone peatlands in Sumatra and Kalimantan, where design and construction decisions must account for hazard risk.",
+  "potential_pain": "Designing and building in hazard zones without documented site evidence increases liability, insurance costs, and schedule/contract risk for public works.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official site describes Waskita Karya as one of Indonesia’s largest state-owned construction companies with a 65-year track record of national infrastructure delivery.",
+  "relevant_capability": "Site hazard screening and solutions intelligence (engineering options with limitations).",
+  "recommended_product": "solutions_intelligence",
+  "recommended_message": "Embed Talaix flood and wildfire site evidence into Waskita’s design-build process so project teams can justify resilient siting and adaptation features.",
+  "priority": "medium",
+  "fit_score": "Large domestic engineering/construction firm executing national infrastructure in hazard-exposed regions; natural buyer of site-level hazard evidence for design and risk review.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage presents Waskita Karya as one of Indonesia’s largest state-owned construction/engineering companies.",
+      "source": "https://www.waskita.co.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.waskita.co.id",
+  "date_checked": "2026-08-24"
+}

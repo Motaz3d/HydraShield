@@ -1,0 +1,36 @@
+{
+  "organization": "ENVIROS, s.r.o.",
+  "segment": "environmental_consulting",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.enviros.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Czechia's September 2024 floods and recurring summer drought, heat and wildfire risks are increasing the demand for climate adaptation, environmental due diligence and energy-efficiency consulting. ENVIROS is a Prague-headquartered environmental consultancy active across the Czech Republic and CEE, providing services such as independent energy-efficiency evaluation, EPC projects and sustainability advisory.",
+  "climate_exposure": "The consultancy's client projects span buildings, industry and infrastructure that are increasingly exposed to flood, wildfire and heat hazards across Czechia.",
+  "potential_pain": "Clients and regulators now expect climate risk and adaptation inputs in EIA, permitting and EPC work; without high-resolution hazard data, ENVIROS risks losing competitiveness on technical bids.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wildfire and heat hazard layers and historical event intelligence for Czech project sites.",
+  "relevant_capability": "Climate risk intelligence and historical event intelligence",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer Talaix hazard data and professional climate-risk reports as inputs for environmental due diligence, EPC and adaptation studies.",
+  "priority": "medium",
+  "fit_score": "Good fit: an established Czech environmental consultancy with project exposure to flood- and wildfire-affected regions; climate risk data complements its core services.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ENVIROS's contact page confirms its headquarters in Prague 10, Czech Republic, and its website describes energy-efficiency and EPC project work.",
+      "source": "https://www.enviros.cz/kontakt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.enviros.cz/kontakt",
+  "date_checked": "2026-08-24"
+}

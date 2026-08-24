@@ -1,0 +1,36 @@
+{
+  "organization": "CCR S.A.",
+  "segment": "infrastructure",
+  "country": "BR",
+  "region": "São Paulo",
+  "website": "https://www.ccr.com.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "CCR is one of Brazil's largest transport infrastructure concessionaires, operating toll roads, airports and rail systems across 13 states. Its assets are exposed to the April-May 2024 Rio Grande do Sul floods and to wildfire and drought risks that disrupt road, rail and airport operations across the country.",
+  "climate_exposure": "The company owns and operates 37 concessions in highways, airports and rail networks spanning all Brazilian regions, many of which cross floodplains and wildfire-prone vegetation.",
+  "potential_pain": "Climate-related service interruptions, asset damage and emergency-response costs are hard to forecast and manage without per-asset flood and wildfire exposure intelligence.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Per-asset flood and wildfire exposure layers with historical event intelligence for CCR's road, airport and rail concessions.",
+  "relevant_capability": "flood/wildfire exposure layers",
+  "recommended_product": "monitoring",
+  "recommended_message": "Show how Talaix monitoring can track flood and wildfire exposure across CCR's concession network to support operations and risk management.",
+  "priority": "high",
+  "fit_score": "National infrastructure concessionaire with 37 transport concessions across all Brazilian regions; direct operational exposure to floods and wildfires makes climate risk intelligence a core need.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CCR's homepage states it has 37 concessions in roads, airports and rail, present in 13 states, with approximately R$ 46 billion in planned investments.",
+      "source": "https://www.ccr.com.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ccr.com.br",
+  "date_checked": "2026-08-24"
+}

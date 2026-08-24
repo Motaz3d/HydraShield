@@ -1,0 +1,36 @@
+{
+  "organization": "CENTRAL GROUP a.s.",
+  "segment": "real_estate",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.centralgroup.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "The September 2024 floods affected large parts of Moravia, Silesia and Northern Bohemia, damaging homes, roads and commercial assets and putting property values and construction timelines at risk. CENTRAL GROUP is one of the largest Czech residential developers, with a portfolio of major projects in Prague and other Czech cities, and therefore has material exposure to flood-prone locations.",
+  "climate_exposure": "Its developments, land banks and existing residential portfolios are located in Czech urban areas and river basins vulnerable to flash and riverine flooding, including regions impacted by the 2024 floods.",
+  "potential_pain": "Flood damage to completed units, construction sites and underground infrastructure can trigger warranty claims, delay handovers and reduce asset valuations.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard layers and historical event intelligence for Czech municipalities and development sites.",
+  "relevant_capability": "Climate risk intelligence for real estate portfolios",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a location-level flood risk screening of the existing and pipeline development portfolio to inform site selection, design and investor reporting.",
+  "priority": "medium",
+  "fit_score": "Good fit: a leading Czech residential developer with a large portfolio in Czech cities and regions exposed to the September 2024 floods.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CENTRAL GROUP's official website identifies the organization as CENTRAL GROUP, a.s. and hosts its corporate web presence at centralgroup.cz.",
+      "source": "https://www.centralgroup.cz"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.centralgroup.cz",
+  "date_checked": "2026-08-24"
+}

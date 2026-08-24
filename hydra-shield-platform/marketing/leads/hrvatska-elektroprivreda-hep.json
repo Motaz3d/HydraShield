@@ -1,0 +1,36 @@
+{
+  "organization": "Hrvatska elektroprivreda d.d. (HEP Group)",
+  "segment": "infrastructure",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://www.hep.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "HEP Group is Croatia’s national power company, responsible for electricity production, transmission and distribution, as well as district heating and gas distribution. Recurring Dalmatian wildfires and the 2023 floods directly threaten generation plants, transmission lines, substations and distribution networks.",
+  "climate_exposure": "HEP’s generation, transmission and distribution assets stretch across fire-prone Adriatic counties and flood-exposed continental river basins, with coastal infrastructure also exposed to storm surges and wind.",
+  "potential_pain": "Wildfire can damage overhead lines and substations, while flooding can disrupt hydro plants and low-lying distribution assets, causing outages, repair costs and regulatory scrutiny.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers for Croatian counties, overlaid with HEP’s generation, transmission and distribution asset geography.",
+  "relevant_capability": "Asset-level hazard monitoring and early warning for critical infrastructure",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer continuous flood and wildfire monitoring for HEP’s national grid and generation assets to reduce outage risk and prioritise resilience capex.",
+  "priority": "high",
+  "fit_score": "Croatia’s dominant electricity infrastructure owner-operator has a nationwide asset base concentrated in the same fire- and flood-prone regions covered by Talaix.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: HEP’s homepage and public profile confirm it is Croatia’s national power company headquartered in Zagreb.",
+      "source": "https://www.hep.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hep.hr",
+  "date_checked": "2026-08-24"
+}

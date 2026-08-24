@@ -1,0 +1,35 @@
+{
+  "organization": "Oikon Ltd. - Institute of Applied Ecology",
+  "segment": "environmental_consulting",
+  "country": "HR",
+  "website": "https://oikon.hr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Oikon is a Croatian environmental consultancy with over 28 years of experience, specializing in environmental impact assessments, nature protection, natural resources management and a dedicated Department of Sustainability and Climate Resilience. Recurrent Dalmatia wildfires and the 2023 floods increase demand for climate-risk inputs in its project work.",
+  "climate_exposure": "Its Croatian project portfolio spans coastal, karst and inland ecosystems exposed to wildfire, extreme rainfall and riverine flooding.",
+  "potential_pain": "Preparing defensible EIAs, SEAs and climate-resilience strategies for public and EU-funded clients requires reliable flood and wildfire hazard data; fragmented sources slow proposal and report delivery.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers and historical event intelligence for Dalmatia and flood-affected Croatian regions, source-attributed for client reports.",
+  "relevant_capability": "Talaix multi-hazard analysis and evidence-labelled reports.",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot so Oikon can embed Talaix flood and wildfire hazard layers directly into EIA, SEA and climate-resilience workflows.",
+  "priority": "high",
+  "fit_score": "High fit: Oikon is an established Croatian environmental consultancy with a dedicated climate-resilience department and a track record of nationally and internationally funded projects in hazard-exposed landscapes.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: oikon.hr describes Oikon Ltd. as an Institute of Applied Ecology with departments for environmental engineering, nature protection, natural resources management and a dedicated Sustainability and Climate Resilience department.",
+      "source": "https://oikon.hr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://oikon.hr/",
+  "date_checked": "2026-08-24"
+}

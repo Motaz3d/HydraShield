@@ -1,0 +1,36 @@
+{
+  "organization": "Generali Česká pojišťovna a.s.",
+  "segment": "insurance",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.generali.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The September 2024 floods in Czechia caused more than 200 rivers to overflow, displaced thousands of people and produced insured property damage of around CZK 8.4 billion (with industry estimates up to CZK 19.3 billion), making it the country's second-costliest flood event after 2002. Generali Česká pojišťovna is the largest Czech insurer, managing roughly 6.6 million contracts, and therefore carries a material property, motor and commercial-lines exposure in the affected Moravian-Silesian, Northern-Moravian and other flood-hit regions.",
+  "climate_exposure": "Its nationwide property and commercial portfolios are concentrated in river basins such as the Morava, Odra and Elbe tributaries that were hit by extreme rainfall and river flooding in September 2024.",
+  "potential_pain": "Correlated flood claims across multiple regions can strain claims reserves, distort pricing models and drive reinsurance costs, especially without granular, location-level hazard data.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard layers and historical event intelligence for Czech river basins and the September 2024 flood footprint.",
+  "relevant_capability": "Climate risk intelligence and flood exposure analytics",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose a portfolio-level flood exposure review that maps policy locations against the September 2024 flood footprint and current Czech flood hazard layers.",
+  "priority": "high",
+  "fit_score": "Strong fit: the largest Czech insurer with millions of contracts and direct exposure to the country's second-costliest flood disaster.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Generali Česká pojišťovna's website states it is the largest insurer on the Czech market and manages roughly 6.6 million contracts.",
+      "source": "https://www.generali.cz/o-nas"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.generali.cz/o-nas",
+  "date_checked": "2026-08-24"
+}

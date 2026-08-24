@@ -1,0 +1,36 @@
+{
+  "organization": "Power Construction Corporation of China, Ltd.",
+  "segment": "engineering_firms",
+  "country": "CN",
+  "region": "",
+  "website": "https://www.powerchina.cn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The 2021 Henan and 2023 Hai River floods exposed gaps in flood-resilient design of water, transport and energy infrastructure across northern and central China. PowerChina is the country’s largest power and water engineering contractor, responsible for the survey and design of more than 90% of China’s large and medium hydropower projects and the majority of water-conservancy construction, so its projects and design liabilities are shaped directly by intensifying flood regimes.",
+  "climate_exposure": "PowerChina designs and builds dams, dikes, pumping stations and urban water systems in regions that saw record rainfall and reservoir stress during the 2021 and 2023 flood events.",
+  "potential_pain": "Project redesign, claims, schedule overruns and rising hydraulic-design safety margins on water and energy infrastructure cut into contract profitability and reputation.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard layers and historical event intelligence for the Yellow, Hai and Yangtze basins, including the 2021 Henan and 2023 Hai River event footprints.",
+  "relevant_capability": "Talaix multi-hazard climate risk intelligence with flood depth and extent layers and historical event analytics for infrastructure design and risk review.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Help PowerChina integrate Talaix flood intelligence into feasibility studies and hydraulic design reviews for water and energy infrastructure in flood-prone basins.",
+  "priority": "high",
+  "fit_score": "PowerChina’s dominant role in water conservancy and hydropower design makes it a natural user of high-resolution flood intelligence, both for new projects and for reassessing existing assets.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: PowerChina is China’s leading power and water engineering contractor with extensive hydropower and water-conservancy exposure.",
+      "source": "https://www.powerchina.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.powerchina.cn",
+  "date_checked": "2026-08-24"
+}

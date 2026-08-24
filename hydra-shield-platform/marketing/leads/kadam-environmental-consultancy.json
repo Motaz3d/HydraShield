@@ -1,0 +1,35 @@
+{
+  "organization": "Kadam Environmental Consultancy",
+  "segment": "environmental_consulting",
+  "country": "IN",
+  "website": "https://www.kadamenviro.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Kadam Environmental Consultancy provides environmental and social impact assessment, climate change and sustainability, LCA, environmental audits and engineering services in India and abroad since 1981. Intensifying monsoon floods and heatwaves increase the need for climate-risk evidence in its EIA and sustainability work.",
+  "climate_exposure": "Its Indian projects span industrial, government and civic sites in river basins and urban areas exposed to monsoon flooding and extreme heat.",
+  "potential_pain": "Clients and regulators expect climate-risk paragraphs in EIAs and audits, but assembling location-specific flood and heat evidence from multiple sources is time-consuming and hard to cite.",
+  "relevant_hazards": ["flood", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and heat hazard layers plus historical event intelligence for India's monsoon flood regions, demonstrated on a sample client site.",
+  "relevant_capability": "Talaix climate risk intelligence and historical event intelligence.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Propose a professional hazard report for one of Kadam's Indian project sites to embed Talaix flood and heat exposure evidence into EIA and sustainability deliverables.",
+  "priority": "high",
+  "fit_score": "High fit: Kadam is a well-established Indian environmental consultancy with explicit climate-change and sustainability services; its EIA and audit work is a natural insertion point for Talaix hazard evidence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: kadamenviro.com describes Kadam Environmental Consultancy as providing environmental and social impact assessment, climate change and sustainability, LCA, environmental audits and engineering services since 1981.",
+      "source": "https://www.kadamenviro.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kadamenviro.com/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Dipartimento della Protezione Civile",
+  "segment": "emergency_management",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://www.protezionecivile.gov.it/it",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The Department of Civil Protection is Italy's national civil-protection and disaster-management authority. It coordinates preparedness, alert and response for floods, wildfires and other hazards, including the May 2023 Emilia-Romagna floods and the annual Sicilian wildfire season.",
+  "climate_exposure": "Its operational mandate covers national hydrogeological and wildfire risk, with standing weather-alert systems and emergency-response coordination for flood- and fire-prone regions across Italy.",
+  "potential_pain": "Situational awareness depends on timely, spatially precise hazard data; gaps in real-time or forecast flood and wildfire intelligence can delay alerts and resource deployment during fast-moving events.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire monitoring, alerts and historical event intelligence for Italy, supporting national situational awareness and operational planning.",
+  "relevant_capability": "Real-time hazard monitoring and alerting",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Propose a pilot that feeds Talaix flood and wildfire alerts into the Department's national criticality bulletin and operational-response workflows.",
+  "priority": "high",
+  "fit_score": "Excellent fit: the national civil-protection authority directly responsible for managing Italy's flood and wildfire emergencies, with a clear operational need for improved hazard monitoring.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: the official homepage identifies the organization as the 'Dipartimento della Protezione Civile' and publishes weather alerts, wildfire campaigns and national criticality bulletins.",
+      "source": "https://www.protezionecivile.gov.it/it"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.protezionecivile.gov.it/it",
+  "date_checked": "2026-08-24"
+}

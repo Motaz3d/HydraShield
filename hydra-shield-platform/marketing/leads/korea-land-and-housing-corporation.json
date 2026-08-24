@@ -1,0 +1,36 @@
+{
+  "organization": "Korea Land & Housing Corporation",
+  "segment": "real_estate",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.lh.or.kr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "South Korea has suffered severe urban flooding, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. Korea Land & Housing Corporation (LH) is the national public developer that plans, develops and manages large-scale housing sites and public rental housing across the country, including in the Seoul metropolitan and central-region watersheds affected by those events.",
+  "climate_exposure": "LH owns and manages a nationwide portfolio of land, residential complexes and rental housing, with heavy concentration in the Seoul-Gyeonggi corridor and other river-basin locations vulnerable to pluvial and fluvial flooding.",
+  "potential_pain": "Flood inundation at LH developments can damage common facilities, delay project handovers, trigger repair costs and increase resident compensation claims, yet LH lacks a standardized way to screen its existing and pipeline sites for current and future flood exposure.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, overlaid on LH's housing and land-development geographies.",
+  "relevant_capability": "location-based flood exposure screening and historical event intelligence",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose an enterprise dashboard that screens LH's housing and land portfolio for flood exposure using historical event intelligence from the 2022 Seoul and 2023 Osong floods.",
+  "priority": "high",
+  "fit_score": "High fit: LH is Korea's dominant public land and housing developer with a vast, geographically concentrated asset base that sits directly in the floodplains and urban catchments impacted by recent disasters.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: LH's official website confirms it is the Korea Land & Housing Corporation, engaged in nationwide land development, public housing supply and rental housing management.",
+      "source": "https://www.lh.or.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.lh.or.kr/",
+  "date_checked": "2026-08-24"
+}

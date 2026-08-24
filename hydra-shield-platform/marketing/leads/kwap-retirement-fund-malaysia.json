@@ -1,0 +1,38 @@
+{
+  "organization": "Kumpulan Wang Persaraan (Diperbadankan) (KWAP)",
+  "segment": "investment",
+  "country": "MY",
+  "region": "",
+  "website": "https://www.kwap.gov.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Malaysia’s 2021–22 Klang Valley floods and annual monsoon flooding damage commercial property, infrastructure and listed equities across the country. KWAP is the major public-sector pension fund managing civil-service retirement assets, with sizeable domestic equity, fixed-income and real-asset exposures that sit in flood-prone economic corridors.",
+  "climate_exposure": "Its domestic portfolio includes listed property, construction, utility and infrastructure names whose earnings and asset values are sensitive to flood disruption.",
+  "potential_pain": "Flood-driven markdowns and business-interruption losses in domestic holdings are hard to isolate without asset-level hazard data.",
+  "relevant_hazards": [
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix Malaysia flood hazard scoring and historical event footprints for the Klang Valley and east-coast states.",
+  "relevant_capability": "climate risk intelligence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer KWAP asset-level flood exposure screening to stress-test domestic portfolio concentration against monsoon and pluvial flood risk.",
+  "priority": "high",
+  "fit_score": "High fit: a domestic institutional asset manager with broad Malaysian holdings and a fiduciary duty to understand physical risks to long-term returns.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: KWAP homepage describes management of pension contributions and investments across equity, fixed income and money-market instruments.",
+      "source": "https://www.kwap.gov.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kwap.gov.my",
+  "date_checked": "2026-08-24"
+}

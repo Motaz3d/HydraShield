@@ -1,0 +1,36 @@
+{
+  "organization": "Ministry of the Interior and Safety",
+  "segment": "governments",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.mois.go.kr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "South Korea has suffered severe urban flooding, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. The Ministry of the Interior and Safety (MOIS) is the national ministry responsible for disaster and safety management, including the Central Disaster and Safety Countermeasures Headquarters, and therefore coordinates national response to flood and wildfire emergencies.",
+  "climate_exposure": "MOIS oversees civil-protection and disaster-management policy for the whole country, including Seoul, Gyeonggi-do and central-region corridors that have experienced record rainfall and flash flooding.",
+  "potential_pain": "Inter-agency flood and wildfire response is hampered by fragmented hazard data; MOIS needs a unified national view of current and forecast physical climate risk to allocate resources and coordinate central and local government action.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national flood and wildfire exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, usable for national situational awareness.",
+  "relevant_capability": "real-time monitoring and national hazard intelligence dashboard",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Propose a national climate-risk enterprise dashboard that consolidates Talaix flood and wildfire intelligence to support MOIS disaster coordination and resource allocation.",
+  "priority": "high",
+  "fit_score": "High fit: MOIS is the national ministry with explicit disaster-and-safety management mandate, making it the natural government buyer for unified flood and wildfire risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MOIS's official website confirms it is the Ministry of the Interior and Safety, the national ministry responsible for disaster and safety management.",
+      "source": "https://www.mois.go.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mois.go.kr/",
+  "date_checked": "2026-08-24"
+}

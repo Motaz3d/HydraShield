@@ -1,0 +1,36 @@
+{
+  "organization": "Polskie Sieci Elektroenergetyczne S.A.",
+  "segment": "infrastructure",
+  "country": "PL",
+  "region": "Konstancin-Jeziorna",
+  "website": "https://www.pse.pl/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "PSE S.A. owns and operates Poland's high-voltage electricity transmission grid. The September 2024 Oder-basin floods and summer wildfires threaten substations, transmission towers, access roads, and grid stability in exposed regions.",
+  "climate_exposure": "Its nationwide transmission infrastructure crosses river floodplains, forested fire-prone areas, and storm corridors, with critical assets in the Oder and Vistula basins.",
+  "potential_pain": "Flooded substations or fire-damaged lines can cause outages, costly emergency repairs, and regulatory scrutiny of climate resilience for critical infrastructure.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood and wildfire exposure maps for PSE transmission corridors and critical substations, plus historical event intelligence for Polish power-system disruptions.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Deploy a Talaix enterprise dashboard to monitor flood and wildfire exposure across Poland's transmission grid and prioritize hardening investments.",
+  "priority": "high",
+  "fit_score": "As the national transmission system operator, PSE has an explicit reliability mandate and the capital budget to act on asset-level climate risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Polskie Sieci Elektroenergetyczne S.A. is the national electricity transmission system operator, headquartered in Konstancin-Jeziorna.",
+      "source": "https://www.pse.pl/kontakt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pse.pl/kontakt",
+  "date_checked": "2026-08-24"
+}

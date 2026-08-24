@@ -1,0 +1,35 @@
+{
+  "organization": "Kunhwa Engineering & Consulting Co., Ltd.",
+  "segment": "environmental_consulting",
+  "country": "KR",
+  "website": "https://www.kunhwaeng.co.kr/expertise/water-and-environment/?lang=en",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "South Korea's August 2022 Seoul floods and increasing extreme-rainfall events are raising the climate-resilience bar for water and environmental infrastructure. Kunhwa is a leading Korean engineering and environmental consultancy whose water-supply, sewage, flood-control and environmental-facilities work must account for intensifying flood and wildfire hazard.",
+  "climate_exposure": "Kunhwa's projects span river basins, urban drainage, wastewater treatment and water-resources infrastructure across South Korea, in catchments increasingly exposed to pluvial and fluvial flooding and to wildfire risk in rural and forested areas.",
+  "potential_pain": "Public and private clients are requiring climate-risk inputs in water-resources and environmental approvals, but the firm needs scalable, location-specific flood and wildfire hazard layers to embed in feasibility studies, designs and resilience proposals.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the 2022 Seoul floods and other recent events, demonstrated on Kunhwa's water and environment project geographies.",
+  "relevant_capability": "climate risk intelligence and historical event analytics",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API integration that embeds Talaix flood and wildfire hazard layers into Kunhwa's water-resources and environmental planning workflows, anchored on South Korea's documented flood and wildfire events.",
+  "priority": "high",
+  "fit_score": "High fit: Kunhwa is a well-established Korean engineering and environmental consultancy with explicit water-resources, flood-control and environmental-facilities expertise, directly exposed to the same climate hazards it must design for.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Kunhwa's official website confirms it is a Korean multi-disciplinary engineering firm active in water and environment, with services covering water supply, sewage, stormwater retention, urban flood control and environmental facilities.",
+      "source": "https://www.kunhwaeng.co.kr/expertise/water-and-environment/?lang=en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kunhwaeng.co.kr/expertise/water-and-environment/?lang=en",
+  "date_checked": "2026-08-24"
+}

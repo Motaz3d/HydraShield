@@ -1,0 +1,36 @@
+{
+  "organization": "Singapore Civil Defence Force",
+  "segment": "emergency_management",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.scdf.gov.sg/home/about-scdf",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Municipal Resilience Officer",
+  "identified_problem": "The Singapore Civil Defence Force (SCDF) is the national uniformed organisation under the Ministry of Home Affairs responsible for fire-fighting, rescue, emergency medical services, hazardous materials incident mitigation and civil defence emergency preparedness. Its operational readiness depends on anticipating multi-hazard disruptions, including flash floods, coastal events and urban heat, in a dense low-lying city-state.",
+  "climate_exposure": "SCDF emergency response operations across Singapore are exposed to pluvial flash flooding, coastal inundation and extreme heat that can strain rescue, medical and hazardous-materials capabilities.",
+  "potential_pain": "Without documented, location-specific hazard intelligence and alerting, pre-positioning of assets and public emergency preparedness may lag behind rising climate risks.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix monitoring, SMS alerting and historical event intelligence for flood, coastal and heat hazards across Singapore.",
+  "relevant_capability": "Monitoring + SMS alerts and historical event intelligence",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring pilot for flood, coastal and heat hazards to support SCDF emergency preparedness and resource pre-positioning across Singapore.",
+  "priority": "high",
+  "fit_score": "Strong fit: national civil defence and disaster-management agency with a mandate to respond to life-threatening emergencies in a low-lying, flood- and heat-exposed city-state.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: SCDF 'About SCDF' page states it is a uniformed organisation under the Ministry of Home Affairs providing fire-fighting, rescue, emergency medical services and civil defence shelter regulation.",
+      "source": "https://www.scdf.gov.sg/home/about-scdf"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.scdf.gov.sg/home/about-scdf",
+  "date_checked": "2026-08-24"
+}

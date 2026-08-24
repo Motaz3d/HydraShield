@@ -1,0 +1,36 @@
+{
+  "organization": "BlackRock, Inc.",
+  "segment": "investment",
+  "country": "US",
+  "region": "North America",
+  "website": "https://www.blackrock.com/corporate/about-us",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "BlackRock is the world's largest asset manager and holds a substantial book of US real assets, infrastructure, and municipal securities. Its portfolios are concentrated in California and Gulf/Atlantic Coast markets that face recurring wildfire and hurricane-flood losses, creating location-level physical risk that can affect fund performance and client reporting.",
+  "climate_exposure": "Real estate, infrastructure, and fixed-income holdings across California wildland-urban-interface counties and hurricane-exposed coastal states face asset damage, service disruption, and valuation pressure from wildfire and flood events.",
+  "potential_pain": "Difficulty quantifying location-level wildfire and flood exposure across thousands of US holdings for due diligence, portfolio construction, and investor disclosure.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix multi-location screening across wildfire and flood with historical event context, provenance labels, and exposure concentration summaries for US real-asset portfolios.",
+  "relevant_capability": "Portfolio-location screening and exposure profiling with traceable multi-hazard evidence.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Screen your US real-asset holdings for wildfire and flood exposure with source-attached evidence.",
+  "priority": "high",
+  "fit_score": "BlackRock's scale, US real-asset exposure, and analytical investment culture make it a high-fit prospect for location-level climate-risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BlackRock.com/corporate/about-us describes the firm as a global investment manager serving millions of investors with extensive ETF, multi-asset and alternatives capabilities.",
+      "source": "https://www.blackrock.com/corporate/about-us"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.blackrock.com/corporate/about-us",
+  "date_checked": "2026-08-24"
+}

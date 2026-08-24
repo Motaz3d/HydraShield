@@ -1,0 +1,36 @@
+{
+  "organization": "Hidro Proiect Srl",
+  "segment": "environmental_consulting",
+  "country": "RO",
+  "region": "",
+  "website": "https://www.hidroproiect.ro",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Hidro Proiect Srl is a Romanian consultancy that delivers environmental impact studies, feasibility studies, and hydrogeological and hydrological studies for water and environmental projects. The 2024 Galați floods and recurrent Danube basin flooding create rising demand for evidence-based hydrological and flood-risk assessments in its project work.",
+  "climate_exposure": "Its mandate covers water-resources, environmental impact and flood-related studies nationwide, placing it at the intersection of climate-driven hydrological risk and infrastructure planning.",
+  "potential_pain": "Clients increasingly need higher-resolution flood and drought inputs than legacy studies provide; lacking access to modern hazard layers can slow project approval and reduce study quality.",
+  "relevant_hazards": ["flood", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers, drought indices and historical event intelligence for Romania's river basins, available via API and report formats.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "api",
+  "recommended_message": "Propose Talaix hydrological hazard data as an enrichment layer for Hidro Proiect's environmental and feasibility studies.",
+  "priority": "medium",
+  "fit_score": "Romanian consultancy with a direct mandate in environmental impact and hydrological studies; natural consumer of flood and drought exposure data.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Hidro Proiect Srl offers environmental impact, feasibility, hydrogeological and hydrological studies.",
+      "source": "https://www.hidroproiect.ro"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hidroproiect.ro",
+  "date_checked": "2026-08-24"
+}

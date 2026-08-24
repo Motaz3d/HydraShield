@@ -1,0 +1,38 @@
+{
+  "organization": "Swiss Prime Site AG",
+  "segment": "real_estate",
+  "country": "CH",
+  "website": "https://sps.swiss",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Switzerland's 2021 and 2024 summer floods caused widespread inundation in riverine and urban areas, damaging buildings, retail and logistics assets. Swiss Prime Site AG is one of the largest listed real estate companies in Switzerland, with a nationwide portfolio of commercial and residential properties that sits in flood-exposed cities and river corridors.",
+  "climate_exposure": "Its property portfolio spans prime Swiss locations including Zurich, Geneva and Zug, with assets close to lakes and rivers that are vulnerable to fluvial and pluvial flooding as well as heat and drought stress.",
+  "potential_pain": "Flood damage, business-interruption claims and rising insurance premiums can hit net operating income and asset valuations across the portfolio.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix building-level flood and wildfire risk scores plus historical event footprints for 2021 and 2024 Swiss flood events.",
+  "relevant_capability": "Location-specific flood and wildfire risk screening for real-estate portfolios.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Protect occupancy and asset value with location-specific flood and wildfire risk intelligence for your Swiss portfolio.",
+  "priority": "high",
+  "fit_score": "Swiss Prime Site AG's large domestic property footprint and concentration in river/lake-adjacent Swiss cities make it a high-fit prospect for portfolio-level hazard intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Swiss Prime Site AG's official site describes it as a leading listed Swiss real estate company whose activities cover the full property lifecycle, with headquarters in Zug.",
+      "source": "https://sps.swiss"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://sps.swiss",
+  "date_checked": "2026-08-24"
+}

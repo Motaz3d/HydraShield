@@ -1,0 +1,35 @@
+{
+  "organization": "PT Kereta Api Indonesia (Persero)",
+  "segment": "infrastructure",
+  "country": "ID",
+  "website": "https://www.kai.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "KAI owns and operates Indonesia’s national railway network, including thousands of kilometres of track and hundreds of stations; Jakarta floods and peatland wildfires can wash out tracks, damage signalling and disrupt services.",
+  "climate_exposure": "National rail network runs through flood-prone coastal and riverine areas and through wildfire-prone peatland regions in Sumatra and Kalimantan.",
+  "potential_pain": "Flood damage to track, bridges and signalling, plus fire-related smoke and access restrictions, disrupt passenger and freight operations and increase maintenance costs.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official homepage states KAI has served Indonesia for more than 80 years and publishes network scale (route length, number of stations) and financial highlights.",
+  "relevant_capability": "Asset screening, monitoring + alerts, and solutions intelligence for infrastructure resilience.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Use Talaix to screen KAI’s critical rail corridors and stations against flood and wildfire hazard and set up monitoring for early disruption-risk alerts.",
+  "priority": "high",
+  "fit_score": "State-owned national railway operator with long-lived linear assets across Indonesia; flood and wildfire are direct operational threats to service continuity.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage describes KAI’s national rail network, route length and station count.",
+      "source": "https://www.kai.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kai.id",
+  "date_checked": "2026-08-24"
+}

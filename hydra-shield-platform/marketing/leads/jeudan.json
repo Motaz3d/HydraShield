@@ -1,0 +1,36 @@
+{
+  "organization": "Jeudan A/S",
+  "segment": "real_estate",
+  "country": "DK",
+  "region": "Europe",
+  "website": "https://www.jeudan.dk/om-jeudan",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Denmark is repeatedly affected by cloudburst flooding in Copenhagen and Frederiksberg, and its low-lying capital faces coastal storm-surge and sea-level-rise exposure. Jeudan A/S is Denmark's largest listed property and services company, owning more than 200 properties and roughly one million square metres, primarily in Copenhagen and Frederiksberg. Its portfolio is therefore physically exposed to both pluvial flooding of basements and street-level assets and to coastal inundation.",
+  "climate_exposure": "Jeudan's Copenhagen and Frederiksberg assets include historic and listed buildings, offices, retail and residential space that face recurring cloudburst inundation and storm-surge risk along the capital's harbour and canals.",
+  "potential_pain": "Flood damage to basements, building services and retail units triggers repair backlogs, insurance premium spikes, tenant disruptions and capital write-downs on heritage properties that are costly to restore.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Danish flood and coastal hazard layers, historical event intelligence for documented cloudburst and coastal surge events, and asset-level screening mapped to Jeudan's Copenhagen/Frederiksberg property footprint.",
+  "relevant_capability": "Real-estate portfolio screening that combines flood and coastal hazard layers with historical event intelligence and ongoing monitoring for Danish properties.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a property-level climate-risk monitoring service that flags Jeudan assets exposed to Danish cloudburst and coastal flood perils and supports acquisition, insurance and capital-planning decisions.",
+  "priority": "high",
+  "fit_score": "High fit: Jeudan is Denmark's largest listed property company with a concentrated, high-value Copenhagen portfolio in areas documented to suffer cloudburst flooding, making hazard analytics directly relevant to asset management.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Jeudan's 'Om Jeudan' page states it is Denmark's largest listed property and services company, owning more than 200 properties and approximately one million square metres, primarily in Copenhagen and Frederiksberg.",
+      "source": "https://www.jeudan.dk/om-jeudan"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.jeudan.dk/om-jeudan",
+  "date_checked": "2026-08-24"
+}

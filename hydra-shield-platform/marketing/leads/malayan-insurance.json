@@ -1,0 +1,36 @@
+{
+  "organization": "Malayan Insurance Co., Inc.",
+  "segment": "insurance",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://malayan.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Malayan Insurance is the largest non-life insurer in the Philippines, underwriting motor, property, travel and casualty risks across an archipelago that is hit by an average of 20 tropical cyclones each year. Its nationwide portfolio of insured assets is therefore directly exposed to typhoon-induced flood, storm surge and destructive wind claims.",
+  "climate_exposure": "Malayan’s insured assets span Luzon, Visayas and Mindanao, including Metro Manila and low-lying coastal cities that repeatedly suffer riverine flooding, flash floods and damaging winds during the June–November wet season.",
+  "potential_pain": "Concentrated typhoon and flood losses can rapidly erode combined ratios in property and motor lines, while reinsurance renewals become more expensive if catastrophe exposures are not priced and monitored at the location level.",
+  "relevant_hazards": ["flood", "wind", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Philippines flood, wind and coastal hazard layers plus historical event intelligence for recent typhoon flood footprints overlaid on Malayan’s key exposure corridors.",
+  "relevant_capability": "Portfolio-level typhoon flood, wind and coastal surge screening with historical event intelligence and monitoring for non-life insurance books.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring pilot that scores typhoon flood, wind and coastal surge exposure across Malayan’s insured property and motor portfolios ahead of the Philippine wet season.",
+  "priority": "high",
+  "fit_score": "Very high fit: the country’s dominant non-life insurer holds a nationwide book in the world’s most typhoon-exposed major market, making granular catastrophe exposure intelligence directly relevant to underwriting and reinsurance decisions.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: malayan.com describes itself as the largest non-life insurance company in the Philippines and lists motor, property, travel and health products.",
+      "source": "https://malayan.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://malayan.com/",
+  "date_checked": "2026-08-24"
+}

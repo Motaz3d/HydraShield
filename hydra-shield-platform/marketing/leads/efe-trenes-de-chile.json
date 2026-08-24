@@ -1,0 +1,36 @@
+{
+  "organization": "EFE Trenes de Chile",
+  "segment": "infrastructure",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.efe.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "EFE Trenes de Chile is the state-owned national railway operator. Its homepage reports coastal erosion mitigation on the Limache-Puerto corridor and contingency planning for climatic and seismic events, showing direct exposure. The February 2024 Valparaíso wildfires, recurrent central floods, and coastal hazards threaten track continuity, stations, and freight and passenger services.",
+  "climate_exposure": "Nationwide rail network and stations across wildfire, flood, coastal erosion, and landslide zones, including the Valparaíso corridor.",
+  "potential_pain": "Service interruptions, infrastructure damage, and rising maintenance costs when floods, wildfires, or coastal erosion hit the network.",
+  "relevant_hazards": ["flood", "wildfire", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix corridor-level flood, wildfire, and coastal exposure screening plus historical event intelligence for EFE routes.",
+  "relevant_capability": "asset screening",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer route-level flood, wildfire, and coastal hazard monitoring to protect EFE's network continuity and prioritise resilience investments.",
+  "priority": "high",
+  "fit_score": "EFE is the national railway owner-operator with long-lived linear assets crossing multiple hazard zones; its own public news cites climate and coastal contingencies.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage reports coastal-erosion protection works on the Limache-Puerto corridor and contingency planning for climatic and seismic events.",
+      "source": "https://www.efe.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.efe.cl",
+  "date_checked": "2026-08-24"
+}

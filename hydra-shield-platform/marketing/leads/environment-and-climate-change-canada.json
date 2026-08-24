@@ -1,0 +1,36 @@
+{
+  "organization": "Environment and Climate Change Canada",
+  "segment": "governments",
+  "country": "CA",
+  "region": "North America",
+  "website": "https://www.canada.ca/en/environment-climate-change.html",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Environment and Climate Change Canada is the federal department responsible for weather forecasting, climate change science and policy, environmental protection, and water monitoring. Canada’s 2023 record wildfire season and the 2021 British Columbia floods fall within ECCC’s mandate for climate monitoring, hazards research, and informing national adaptation policy.",
+  "climate_exposure": "ECCC operates national meteorological, hydrological, and climate-science systems that must characterize and communicate escalating flood and wildfire risk to provinces, territories, and emergency partners across Canada.",
+  "potential_pain": "Federated disaster response depends on consistent, high-resolution hazard intelligence; gaps between federal climate projections and operational flood/wildfire decision-making create coordination friction and slow adaptation funding decisions.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Canadian flood and wildfire hazard layers, historical event intelligence for the 2023 fire season and 2021 BC floods, and national-scale analytics that complement ECCC’s climate and weather data programs.",
+  "relevant_capability": "National-scale climate risk intelligence and historical event analytics covering flood, wildfire, and related perils across Canadian provinces and territories.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a collaboration that augments ECCC’s climate and hazards data with Talaix flood and wildfire exposure layers and historical event intelligence for federal adaptation and risk-communication programs.",
+  "priority": "high",
+  "fit_score": "High fit: ECCC is the federal authority whose mandate spans the exact hazards Canada experienced in 2021 and 2023, making it a natural audience for national climate-risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: The Government of Canada page confirms Environment and Climate Change Canada’s responsibilities for weather, climate change, nature, water, and environmental protection.",
+      "source": "https://www.canada.ca/en/environment-climate-change.html"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.canada.ca/en/environment-climate-change.html",
+  "date_checked": "2026-08-24"
+}

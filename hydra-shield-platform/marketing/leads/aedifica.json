@@ -1,0 +1,36 @@
+{
+  "organization": "Aedifica SA/NV",
+  "segment": "real_estate",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.aedifica.eu",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "The July 2021 Vesdre floods caused severe damage across eastern Belgium, demonstrating that even inland real estate portfolios are exposed to riverine flooding. Aedifica is a leading listed European healthcare real estate platform headquartered in Brussels, with a portfolio of care properties and senior housing concentrated in Belgium and neighbouring countries.",
+  "climate_exposure": "Aedifica's Belgian care sites, hospitals and senior-housing assets are located in both flood-prone river catchments and heat-vulnerable urban areas, requiring asset-level hazard screening.",
+  "potential_pain": "Investors, lenders and regulators increasingly ask for documented climate exposure on each asset; properties in the Vesdre/Meuse corridor or low-lying Flemish areas face valuation and insurance-cost pressure.",
+  "relevant_hazards": ["flood", "wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Site-level flood, heat and wildfire screening with source-attached PDF reports, including historical context from the July 2021 Vesdre floods.",
+  "relevant_capability": "Site screening across six hazards",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer a free site-level professional report for a sample of Aedifica's Belgian healthcare properties, highlighting flood and heat exposure with traceable methodology.",
+  "priority": "medium",
+  "fit_score": "Strong fit: a major Belgian-listed real estate owner with long-lived healthcare assets across the country, exactly the profile that needs asset-level climate-risk disclosure.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Aedifica homepage and about-us page confirm the Brussels head office at rue Belliard 40 and the merger into a leading listed European healthcare real estate platform.",
+      "source": "https://www.aedifica.eu/en/about-us"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aedifica.eu/en/about-us",
+  "date_checked": "2026-08-24"
+}

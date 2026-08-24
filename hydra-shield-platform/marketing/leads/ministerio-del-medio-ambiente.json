@@ -1,0 +1,36 @@
+{
+  "organization": "Ministerio del Medio Ambiente",
+  "segment": "governments",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://mma.gob.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Ministry of Environment is Chile's national authority for environmental and climate policy. Its public agenda includes the 100 Años - 100 Acciones por la Naturaleza campaign and ongoing management of climate, biodiversity, and water issues, all directly affected by the mega-drought, the February 2024 Valparaíso wildfires, and recurrent central floods.",
+  "climate_exposure": "National mandate for environmental and climate policy spanning drought-affected basins, wildfire-prone landscapes, and flood-vulnerable settlements.",
+  "potential_pain": "Need for authoritative, evidence-labelled hazard data to underpin national adaptation plans, NDC tracking, and inter-agency coordination.",
+  "relevant_hazards": ["wildfire", "flood", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national-scale wildfire, flood, and drought exposure layers plus historical event intelligence with source provenance.",
+  "relevant_capability": "regional analysis",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a national climate-risk intelligence briefing and territory pilot to support the Ministry's adaptation planning and hazard-response coordination.",
+  "priority": "high",
+  "fit_score": "As the national environment ministry, MMA has the mandate and authority to integrate evidence-based hazard intelligence into Chile's climate policy and resilience planning.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage highlights the 100 Años - 100 Acciones por la Naturaleza campaign and ongoing environmental and climate governance.",
+      "source": "https://mma.gob.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://mma.gob.cl",
+  "date_checked": "2026-08-24"
+}

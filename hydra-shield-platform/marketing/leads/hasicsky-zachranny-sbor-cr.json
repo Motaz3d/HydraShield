@@ -1,0 +1,36 @@
+{
+  "organization": "Hasičský záchranný sbor České republiky",
+  "segment": "emergency_management",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.hzscr.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The September 2024 floods required mass evacuations, water rescues and civil-protection coordination across Moravia and Silesia, and Czechia also faces recurring wildfire and drought risk. Hasičský záchranný sbor ČR is the national fire and rescue service with the mandate for civil protection, crisis management and response to floods, wildfires and other natural disasters.",
+  "climate_exposure": "Its personnel, stations, vehicles and response routes are deployed nationwide, including in floodplains and forested or drought-prone landscapes vulnerable to wildfire and flash flood.",
+  "potential_pain": "Limited access to high-resolution, real-time flood and wildfire intelligence can slow pre-positioning of resources, evacuation decisions and cross-border coordination during major events.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence and monitoring layers for floods and wildfires across Czechia.",
+  "relevant_capability": "Historical event intelligence and hazard monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a national flood and wildfire monitoring dashboard to support pre-positioning, response coordination and post-event analysis.",
+  "priority": "high",
+  "fit_score": "Strong fit: the national civil-protection and rescue agency directly responsible for flood and wildfire response across Czechia.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: HZS ČR's official homepage confirms it is the Fire Rescue Service of the Czech Republic and publishes operational news on fires, floods and civil-protection activities.",
+      "source": "https://www.hzscr.cz"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hzscr.cz",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "East Japan Railway Company",
+  "segment": "infrastructure",
+  "country": "JP",
+  "region": "East Asia",
+  "website": "https://www.jreast.co.jp/en/company/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Japan's recurring typhoon and torrential-rain flooding, including the July 2018 western Japan floods, cause railway disruptions, landslides and infrastructure damage. JR East operates the largest passenger railway network in the Tokyo and Tohoku regions, with extensive track, stations and facilities exposed to flood, wind and landslide risk.",
+  "climate_exposure": "Vast rail network spans coastal plains, river valleys and mountainous terrain across eastern Japan, including areas repeatedly affected by typhoon rainfall and flooding.",
+  "potential_pain": "Service disruptions from flood and landslide events affect millions of daily passengers and freight operations; maintenance and capital plans need hazard evidence to prioritize resilience investments.",
+  "relevant_hazards": ["flood", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wind exposure layers, historical event intelligence for recent typhoons and floods, and monitoring alerts along JR East's rail corridors.",
+  "relevant_capability": "asset screening, monitoring + alerts, historical events",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose an asset-screening and monitoring pilot for JR East's rail corridors to identify flood and typhoon-rainfall exposure and support operations and resilience planning.",
+  "priority": "high",
+  "fit_score": "JR East is the largest passenger railway company in Japan by network and ridership, operating infrastructure highly exposed to typhoon floods and landslides.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: JR East's official English corporate site identifies it as East Japan Railway Company, covering corporate information, financial results and railway operations in eastern Japan.",
+      "source": "https://www.jreast.co.jp/en/company/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.jreast.co.jp/en/company/",
+  "date_checked": "2026-08-24"
+}

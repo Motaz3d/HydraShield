@@ -1,0 +1,36 @@
+{
+  "organization": "PKO Towarzystwo Funduszy Inwestycyjnych S.A.",
+  "segment": "investment",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.pkotfi.pl/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "PKO TFI is one of Poland's largest asset-management firms, serving more than 2 million clients and managing over 50 investment funds. The September 2024 Oder-basin floods damaged property and businesses in its portfolio, and physical climate risk can hit the valuations of Polish equities, bonds, and real-asset-backed securities held by its funds.",
+  "climate_exposure": "Its funds hold Polish equities, bonds, and real-asset-backed instruments across the country, including the Oder and Vistula basins and forest-fire-prone southern regions.",
+  "potential_pain": "Undisclosed flood and wildfire exposure in portfolio holdings can cause sudden NAV shocks, redemption pressure, and regulatory questions about climate-risk integration.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Parcel-level flood and wildfire exposure analytics for Polish assets held by PKO TFI funds, plus historical event intelligence for the 2024 Oder floods.",
+  "relevant_capability": "asset-level climate risk screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Add flood and wildfire exposure screening to fund due diligence and portfolio monitoring for Polish equity, bond, and real-asset holdings.",
+  "priority": "high",
+  "fit_score": "As a leading domestic asset manager with over 2 million clients, PKO TFI has the scale, fiduciary duty, and regulatory visibility to make physical climate risk analytics a core part of its investment process.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: PKO TFI is a leading Polish investment fund company managing assets for over 2 million clients, headquartered in Warsaw.",
+      "source": "https://www.pkotfi.pl/o-nas/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pkotfi.pl/o-nas/",
+  "date_checked": "2026-08-24"
+}

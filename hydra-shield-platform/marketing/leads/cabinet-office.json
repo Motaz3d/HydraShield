@@ -1,0 +1,36 @@
+{
+  "organization": "Cabinet Office",
+  "segment": "emergency_management",
+  "country": "GB",
+  "region": "United Kingdom",
+  "website": "https://www.gov.uk/government/organisations/cabinet-office",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The Cabinet Office is the UK ministerial department that supports the Prime Minister and ensures the effective running of government, taking the lead in critical policy areas including civil contingencies and national resilience. The UK's recurring floods and the 2022 heatwave tested national emergency coordination, local authority support and critical-infrastructure continuity, all within the Cabinet Office's civil-protection remit.",
+  "climate_exposure": "It coordinates UK-wide resilience, civil contingencies and national security, with responsibility for preparedness and response to flood, heat and other hazard-driven emergencies.",
+  "potential_pain": "Coordinating national resilience requires standardized, real-time flood and heat exposure intelligence across devolved administrations and local responders to inform preparedness, resource allocation and situational assessments.",
+  "relevant_hazards": ["flood", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix UK flood exposure layers, historical event intelligence for recent flood episodes and heat exposure context for the 2022 heatwave, usable for national resilience assessments and emergency coordination.",
+  "relevant_capability": "Real-time and historical climate-risk intelligence for floods and heat across the UK, supporting national emergency-management coordination and resilience assessment.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer a UK enterprise dashboard that gives Cabinet Office resilience teams a unified view of flood and heat exposure to inform national preparedness, response and cross-government coordination.",
+  "priority": "high",
+  "fit_score": "As the lead government department for civil contingencies and national resilience, the Cabinet Office is a high-fit buyer for standardized hazard intelligence that supports UK-wide emergency coordination.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Cabinet Office's official GOV.UK page states it supports the Prime Minister, ensures effective running of government and takes the lead in certain critical policy areas.",
+      "source": "https://www.gov.uk/government/organisations/cabinet-office"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gov.uk/government/organisations/cabinet-office",
+  "date_checked": "2026-08-24"
+}

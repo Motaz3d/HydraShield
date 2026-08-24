@@ -1,0 +1,41 @@
+{
+  "organization": "Ministry of Environment, Forest and Climate Change, Government of India",
+  "segment": "governments",
+  "country": "IN",
+  "region": "National",
+  "website": "https://moef.gov.in",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "India's documented climate disasters include monsoon floods (Kerala 2018, Assam annual), Himalayan flash floods and severe heatwaves, all of which fall under the Ministry of Environment, Forest and Climate Change's climate adaptation and national communication responsibilities. MoEFCC leads India's climate policy, NDC tracking and environment regulation and needs authoritative hazard intelligence to set priorities and allocate resources.",
+  "climate_exposure": "The ministry's mandate covers national climate action, forest and biodiversity protection, and environmental clearances for infrastructure in hazard-prone areas.",
+  "potential_pain": "Need for evidence-based, geospatial hazard data to inform National Adaptation Plans, climate finance proposals and sectoral vulnerability assessments.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence and hazard layers for floods, wildfires and heatwaves across Indian states and districts.",
+  "relevant_capability": "Talaix national-scale climate risk intelligence and historical event analytics for policy and adaptation planning.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Equip climate policy and adaptation teams with verified historical-event and forward-looking hazard intelligence for India's priority disaster risks.",
+  "priority": "high",
+  "fit_score": "Strong fit: MoEFCC is the central ministry charged with climate change policy and is the natural buyer of national hazard intelligence for adaptation planning and reporting.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MoEFCC official website confirms role as Ministry of Environment, Forest and Climate Change.",
+      "source": "https://moef.gov.in"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://moef.gov.in",
+  "date_checked": "2026-08-24"
+}

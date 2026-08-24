@@ -1,0 +1,36 @@
+{
+  "organization": "Ministero dell'Ambiente e della Sicurezza Energetica",
+  "segment": "governments",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://www.mase.gov.it",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "MASE is Italy's Ministry of Environment and Energy Security, with national responsibility for climate, environment and energy policy. The May 2023 Emilia-Romagna floods and recurring Sicilian wildfires place acute pressure on its adaptation, civil-protection coordination and NextGenerationEU/PNRR implementation mandates.",
+  "climate_exposure": "The ministry's mandate covers national climate-adaptation planning, flood and wildfire risk governance, and energy-system resilience across all Italian regions.",
+  "potential_pain": "Effective allocation of adaptation funding and PNRR resources requires consistent, location-level hazard data that can be shared across agencies and regions; fragmented or outdated risk maps slow decision-making.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers, historical event intelligence and monitoring for Emilia-Romagna, Sicily and the rest of Italy, aligned to MASE's adaptation and risk-governance responsibilities.",
+  "relevant_capability": "National-scale climate risk intelligence and monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer Talaix's national flood and wildfire monitoring layers as a shared hazard-data input for MASE's adaptation planning and civil-protection coordination.",
+  "priority": "high",
+  "fit_score": "Excellent fit: the central ministry with explicit climate, environment and energy-security mandates, directly responsible for coordinating Italy's response to the documented flood and wildfire disasters.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MASE's official homepage is titled 'Home - Ministero dell'Ambiente e della Sicurezza energetica' and features PNRR, climate campaigns and environmental notices.",
+      "source": "https://www.mase.gov.it"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mase.gov.it",
+  "date_checked": "2026-08-24"
+}

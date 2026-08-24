@@ -1,0 +1,36 @@
+{
+  "organization": "REN - Redes Energéticas Nacionais",
+  "segment": "infrastructure",
+  "country": "PT",
+  "region": "Lisbon",
+  "website": "https://www.ren.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "REN owns and operates Portugal's national electricity transmission grid and high-pressure natural-gas transmission network. The 2017 Pedrógão Grande wildfires, recurrent rural fire seasons, flash floods in the Lisbon area and drought-induced soil changes threaten pylons, substations, lines, gas pipelines and grid resilience.",
+  "climate_exposure": "REN's transmission assets cross fire-prone rural areas, floodplains and coastal zones across mainland Portugal, exposing the grid to wildfire, flood, heat, drought and wind.",
+  "potential_pain": "Climate-related asset damage, forced outages and rising vegetation-management costs require spatially precise hazard monitoring and risk prioritisation for capex and O&M.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers plus historical event intelligence for Portugal's 2017 fire complexes and recent flash-flood events.",
+  "relevant_capability": "wildfire exposure layers, flood exposure layers, monitoring, historical event intelligence, API",
+  "recommended_product": "monitoring",
+  "recommended_message": "Show how Talaix wildfire and flood exposure layers can prioritise REN's line corridors and substations for vegetation management and resilience capex.",
+  "priority": "high",
+  "fit_score": "As the national electricity and gas transmission operator, REN owns long linear assets across Portugal's most hazard-exposed landscapes, making it a strong fit for monitoring and exposure intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: REN homepage identifies the company as operator of Portugal's national electricity and natural-gas networks.",
+      "source": "https://www.ren.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ren.pt",
+  "date_checked": "2026-08-24"
+}

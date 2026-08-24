@@ -1,0 +1,36 @@
+{
+  "organization": "PARPÚBLICA, Participações Públicas, SGPS, S.A.",
+  "segment": "investment",
+  "country": "PT",
+  "region": "Lisbon",
+  "website": "https://www.parpublica.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "PARPÚBLICA is a wholly state-owned company that manages the Portuguese government's equity participations and public real-estate assets, including holdings in infrastructure, financial and real-estate companies. Portugal's documented climate disasters—the 2017 Pedrógão Grande wildfires, recurrent rural fire seasons, Lisbon-area flash floods and prolonged droughts—threaten the physical assets and valuation of its domestic portfolio.",
+  "climate_exposure": "As the public investment holding for state participations and public real estate, PARPÚBLICA's book is concentrated in Portuguese assets exposed to wildfire, flood, drought and heat.",
+  "potential_pain": "Climate-driven asset damage, stranded-value risk and valuation volatility in state-owned holdings require improved physical-risk visibility for portfolio management and divestment/privatisation timing.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Portugal's 2017 fire complexes and recent Lisbon flash-flood events.",
+  "relevant_capability": "flood exposure layers, wildfire exposure layers, historical event intelligence, portfolio-level climate risk intelligence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix exposure layers can screen PARPÚBLICA's domestic equity and real-estate holdings for wildfire and flood risk.",
+  "priority": "medium",
+  "fit_score": "A wholly state-owned investment holding with a portfolio of Portuguese infrastructure and real-estate assets is a natural user of portfolio-level physical climate intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: PARPÚBLICA homepage describes itself as a wholly state-owned company managing public equity participations and real-estate assets.",
+      "source": "https://www.parpublica.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.parpublica.pt",
+  "date_checked": "2026-08-24"
+}

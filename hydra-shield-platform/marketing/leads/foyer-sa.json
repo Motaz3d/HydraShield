@@ -1,0 +1,36 @@
+{
+  "organization": "Foyer S.A.",
+  "segment": "insurance",
+  "country": "LU",
+  "region": "",
+  "website": "https://www.foyer.lu",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Foyer is Luxembourg's leading insurer (homepage: 'Insurance n°1 in Luxembourg') with a domestic property, motor and casualty book. Luxembourg's July 2021 floods caused widespread damage along the Alzette and Sûre river valleys, driving property and business-interruption claims.",
+  "climate_exposure": "Its insured residential and commercial buildings, vehicles and infrastructure are concentrated in Luxembourg, including areas hit by the 2021 floods and other fluvial flood zones.",
+  "potential_pain": "Concentrated insured-asset exposure to river flooding and storm damage, with a need for location-level flood screening to improve underwriting, pricing and claims preparedness.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers and historical event intelligence for Luxembourg river basins, including the July 2021 flood context.",
+  "relevant_capability": "exposure profiles",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Location-level flood and wildfire exposure screening of Foyer's Luxembourg property book, prioritising the 2021-affected river basins.",
+  "priority": "high",
+  "fit_score": "As the country's largest domestic insurer with a concentrated local book, Foyer has clear exposure to the hazard that produced Luxembourg's costliest recent flood event.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Foyer.lu homepage presents Foyer as Luxembourg's #1 insurer for individuals and professionals.",
+      "source": "https://www.foyer.lu"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.foyer.lu",
+  "date_checked": "2026-08-24"
+}

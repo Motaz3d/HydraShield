@@ -1,0 +1,36 @@
+{
+  "organization": "Deutsche Bahn AG",
+  "segment": "infrastructure",
+  "country": "DE",
+  "website": "https://www.bahn.de",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The 2021 Ahr Valley floods washed out railway lines and roads, causing long service disruptions and tens of millions of euros in repair costs. Deutsche Bahn AG is Germany’s national railway operator, owning and operating more than 33,000 km of track, bridges, tunnels and stations across the country.",
+  "climate_exposure": "Large parts of the rail network follow river valleys and cross forested regions, exposing track, signalling and embankments to fluvial flooding, landslides after heavy rain, and wildfire-related heat damage.",
+  "potential_pain": "Infrastructure directors need asset-level flood and wildfire exposure screening to prioritise resilience investments, plan detours and reduce repair downtime after extreme weather.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix asset-level flood and wildfire screening for key Deutsche Bahn corridors, with historical event context from the 2021 Ahr Valley and recent German wildfire seasons.",
+  "relevant_capability": "Infrastructure asset screening, monitoring + alerts, and solutions intelligence for resilience investment.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show Deutsche Bahn how an asset-level hazard dashboard can prioritise flood and wildfire resilience spending across the national rail network.",
+  "priority": "high",
+  "fit_score": "Strong fit: Deutsche Bahn is a monopoly owner-operator of nationally critical infrastructure with direct, documented flood damage and a clear operational mandate to keep the network running.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "relationship_type": "customer",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: bahn.de is the public-facing site of Deutsche Bahn AG, Germany’s federal railway infrastructure and passenger operator.",
+      "source": "https://www.bahn.de"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bahn.de",
+  "date_checked": "2026-08-24"
+}

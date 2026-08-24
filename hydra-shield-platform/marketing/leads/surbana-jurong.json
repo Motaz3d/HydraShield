@@ -1,0 +1,36 @@
+{
+  "organization": "Surbana Jurong (SJ Group)",
+  "segment": "environmental_consulting",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.surbanajurong.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Surbana Jurong, now branded as SJ Group, is a Singapore-based urban and infrastructure consultancy owned by Temasek, providing advisory, planning, design, construction and operations services across the built environment. Its Singapore projects sit in a low-lying tropical city-state where pluvial flash floods, coastal exposure and urban heat are documented climate risks.",
+  "climate_exposure": "Its Singapore advisory and project work covers assets and developments exposed to pluvial flash flooding, coastal inundation and heat stress, requiring defensible climate evidence for planning and design.",
+  "potential_pain": "Client proposals and design justifications need fast, citable, location-specific flood, coastal and heat evidence to support planning decisions and resilient design.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix multi-hazard analysis, evidence-labelled reports and historical event intelligence for Singapore project sites.",
+  "relevant_capability": "Multi-hazard analysis and evidence-labelled reports",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a pilot analysing a sample Singapore project site for flood, coastal and heat exposure to support client proposals and design decisions.",
+  "priority": "medium",
+  "fit_score": "Strong fit: major Singapore-based consultancy with built-environment advisory and design work in a flood-, coastal- and heat-exposed city; can resell evidence across client engagements.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: SJ Group homepage states it is owned by Temasek and refines cities into sustainable, liveable environments; responsibility page notes it is a large Singapore corporate organisation with environmental awareness integrated into operations.",
+      "source": "https://www.surbanajurong.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.surbanajurong.com",
+  "date_checked": "2026-08-24"
+}

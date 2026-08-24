@@ -1,0 +1,36 @@
+{
+  "organization": "China Vanke Co., Ltd.",
+  "segment": "real_estate",
+  "country": "CN",
+  "region": "",
+  "website": "https://www.vanke.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The July 2021 Henan floods caused roughly RMB 133 billion in damage and 398 deaths or missing persons in Zhengzhou and surrounding areas, while the July–August 2023 Beijing–Tianjin–Hebei extreme rainfall killed at least 81 people and forced mass evacuations across the Hai River basin. Vanke is one of China’s largest residential developers, with projects and communities across Henan, the Beijing–Tianjin–Hebei corridor and the Yangtze basin, so its sales inventory, construction sites and delivered assets are directly exposed to pluvial and riverine flood risk.",
+  "climate_exposure": "Vanke’s portfolio spans flood-prone eastern and central China, including cities that recorded record-breaking hourly rainfall during the 2021 and 2023 events.",
+  "potential_pain": "Flood damage to unsold inventory, construction delays, and post-delivery community claims erode margins and brand trust in a weak property market.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard maps and historical event intelligence for Henan (July 2021) and the Hai River basin (July–August 2023), overlaid against Vanke’s disclosed project geography.",
+  "relevant_capability": "Talaix high-resolution pluvial and fluvial flood hazard intelligence with historical event footprints and portfolio-level risk screening.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show Vanke how Talaix flood intelligence can screen its national project pipeline and existing communities against the 2021 Henan and 2023 Hai River event footprints.",
+  "priority": "high",
+  "fit_score": "As a top-tier national developer with assets in the exact regions hit by recent record floods, Vanke has both the scale and the immediate asset exposure to benefit from portfolio-level flood risk screening.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Vanke is a leading national residential developer with projects across flood-affected provinces.",
+      "source": "https://www.vanke.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.vanke.com",
+  "date_checked": "2026-08-24"
+}

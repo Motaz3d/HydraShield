@@ -1,0 +1,36 @@
+{
+  "organization": "Fondul Proprietatea",
+  "segment": "investment",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.fondulproprietatea.ro/home.html",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Fondul Proprietatea is Romania's largest closed-end investment fund, listed on the Bucharest and London Stock Exchanges, with a portfolio concentrated in Romanian energy, utilities and infrastructure holdings. The 2024 Galați floods and recurrent summer drought and heat episodes threaten the operational uptime and valuation of its underlying assets, particularly electricity generation, grid and oil & gas holdings.",
+  "climate_exposure": "Its listed portfolio is dominated by Romanian infrastructure and energy companies whose physical assets sit in floodplains, drought-prone agricultural zones and heat-stressed industrial corridors.",
+  "potential_pain": "Without forward-looking physical risk screening, flood or drought-driven impairments at portfolio companies can translate into NAV markdowns and concentrated drawdowns that are hard to explain to international shareholders.",
+  "relevant_hazards": ["flood", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix portfolio-level flood, drought and heat exposure analysis for Romania, with asset-level hazard scoring for energy and infrastructure holdings.",
+  "relevant_capability": "climate_risk_intelligence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix can map physical climate risk across Fondul Proprietatea's Romanian holdings to support investment risk oversight and NAV resilience.",
+  "priority": "high",
+  "fit_score": "Largest Romanian investment vehicle with direct exposure to energy and infrastructure assets; strong fit for portfolio-level climate risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Fondul Proprietatea is Romania's largest listed investment fund with energy, utility and infrastructure holdings.",
+      "source": "https://www.fondulproprietatea.ro/home.html"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.fondulproprietatea.ro/home.html",
+  "date_checked": "2026-08-24"
+}

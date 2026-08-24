@@ -1,0 +1,36 @@
+{
+  "organization": "Türkiye Varlık Fonu",
+  "segment": "investment",
+  "country": "TR",
+  "region": "Marmara",
+  "website": "https://www.tvf.com.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Turkey’s 2021 and 2024 wildfire seasons and the catastrophic 2021 Black Sea floods destroyed property, infrastructure and productive assets. As Turkey’s sovereign wealth fund, TVF holds long-term stakes in strategic domestic companies across energy, transport, telecom, banking and real estate, so physical climate shocks directly affect portfolio valuations and asset-level cash flows.",
+  "climate_exposure": "Flood and wildfire can disrupt the operations, supply chains and fixed assets of TVF’s portfolio companies, particularly where facilities and infrastructure are located in exposed river basins and forested regions.",
+  "potential_pain": "Unexpected write-downs in portfolio valuations, higher due-diligence requirements for new acquisitions, and stranded or damaged infrastructure assets that reduce fund returns.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence for the 2021 Black Sea floods and the 2021/2024 wildfire seasons, plus asset-level flood and wildfire risk mapping across Turkey.",
+  "relevant_capability": "Talaix portfolio- and asset-level climate risk intelligence for floods and wildfires.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Protect the value of Turkey’s strategic public portfolio by quantifying flood and wildfire risk across TVF’s domestic assets.",
+  "priority": "high",
+  "fit_score": "High fit: a sovereign wealth fund with a large, concentrated domestic asset base and a long-term investment horizon; physical climate risk directly affects NAV and exit valuations.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: TVF describes itself as Turkey’s asset-based development fund focused on value creation in portfolio companies.",
+      "source": "https://www.tvf.com.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.tvf.com.tr",
+  "date_checked": "2026-08-24"
+}

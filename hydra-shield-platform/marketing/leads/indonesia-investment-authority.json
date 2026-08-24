@@ -1,0 +1,35 @@
+{
+  "organization": "Indonesia Investment Authority",
+  "segment": "investment",
+  "country": "ID",
+  "website": "https://www.ina.go.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "INA manages roughly Rp146 trillion in assets under authority and has committed capital across domestic toll roads, ports, digital towers, power, hospitals and other real assets, all exposed to Jakarta floods and peatland wildfires.",
+  "climate_exposure": "Portfolio spans long-lived infrastructure and real-estate assets nationwide, including flood-prone coastal/riverine zones and wildfire-prone peatland provinces.",
+  "potential_pain": "Major floods or wildfire-related smoke and disruption can reduce asset cash flows, increase insurance and CAPEX, and raise due-diligence questions from co-investors and regulators.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official homepage discloses assets under authority, cumulative investment and sector allocations including road length, port TEU capacity, digital towers and hospitals.",
+  "relevant_capability": "Multi-location screening, exposure profiles and monitoring for held assets.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Add location-level flood and wildfire exposure intelligence to INA’s asset-level monitoring so Jakarta floods and peat fires are priced into investment and asset-management decisions.",
+  "priority": "high",
+  "fit_score": "Sovereign wealth fund with a large, geographically dispersed Indonesian infrastructure and real-asset portfolio; climate exposure is material to its mandate.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: sovereign wealth fund homepage reports Rp146+ trillion AUA and domestic infrastructure allocations.",
+      "source": "https://www.ina.go.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ina.go.id",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Ministerul Mediului, Apelor și Pădurilor",
+  "segment": "governments",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.mmediu.ro",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Ministry of Environment, Waters and Forests is the Romanian government ministry responsible for environmental protection, water management, forests and climate policy. The 2024 Galați floods and recurring heat and drought episodes strain its mandate to manage flood risk, water resources and climate adaptation.",
+  "climate_exposure": "The ministry oversees national environmental and water policy across all river basins, forests and protected areas, requiring countrywide situational awareness of flood, drought and heat hazards.",
+  "potential_pain": "Coordinating climate adaptation and disaster-risk reduction across multiple agencies without integrated hazard intelligence slows policy response and reporting to EU obligations.",
+  "relevant_hazards": ["flood", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national flood, drought and heat exposure layers, historical event intelligence and monitoring for Romania.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Position Talaix monitoring and historical event intelligence as a decision-support layer for the ministry's flood, drought and climate adaptation mandate.",
+  "priority": "high",
+  "fit_score": "National ministry with direct policy responsibility for water, environment and climate; high relevance for integrated hazard monitoring and risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: mmediu.ro lists the ministry's environment, water and forest mandate and current climate-related press releases.",
+      "source": "https://www.mmediu.ro"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mmediu.ro",
+  "date_checked": "2026-08-24"
+}

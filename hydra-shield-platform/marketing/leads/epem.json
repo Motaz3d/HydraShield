@@ -1,0 +1,36 @@
+{
+  "organization": "EPEM S.A. – Environmental Planning, Engineering & Management",
+  "segment": "environmental_consulting",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.epem.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "EPEM S.A. is an independent environmental engineering and consulting firm founded in 1992 in Athens, with offices across Southeast Europe and the Mediterranean. Its work includes water resources, wastewater management, solid and hazardous waste, environmental impact assessment, and climate-change projects for public and private clients in Greece and abroad.",
+  "climate_exposure": "Consulting practice spans water resources, wastewater, flood protection, waste management, and climate-change adaptation projects in Greece and neighboring countries that face flood, wildfire, drought, and heat risks.",
+  "potential_pain": "Clients increasingly require hazard-specific evidence and high-resolution exposure data to support environmental impact assessments, climate-adaptation plans, and infrastructure resilience studies.",
+  "relevant_hazards": ["flood", "wildfire", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence and hazard exposure layers for the 2023 Thessaly floods and recent Greek wildfires, plus API access for integration into environmental and climate studies.",
+  "relevant_capability": "api",
+  "recommended_product": "api",
+  "recommended_message": "Provide API-delivered flood and wildfire hazard layers and historical event evidence to enrich EPEM's environmental, water-resources, and climate-change consulting work across Greece and Southeast Europe.",
+  "priority": "medium",
+  "fit_score": "An established Greek environmental engineering consultancy with a regional project portfolio directly tied to climate-adaptation and water-management mandates; strong candidate as a data partner or channel for Talaix analytics.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage describes EPEM as an independent environmental engineering and consulting firm founded in 1992 in Athens, active in Central and Southeast Europe and the Mediterranean.",
+      "source": "https://www.epem.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.epem.gr/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "National Railroad Passenger Corporation (Amtrak)",
+  "segment": "infrastructure",
+  "country": "US",
+  "region": "North America",
+  "website": "https://www.amtrak.com/about-amtrak",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Amtrak operates the national passenger rail network across the United States, with routes running through wildfire-prone Western states and hurricane/flood-exposed Atlantic and Gulf coasts. Climate-driven service disruptions and infrastructure damage affect operations, capital planning, and federal grant justification.",
+  "climate_exposure": "Track, stations, bridges, tunnels, and rights-of-way span thousands of miles in areas exposed to wildfire smoke and ignition risk, riverine and coastal flooding, washouts, and heat-related track stress.",
+  "potential_pain": "Maintaining service reliability and justifying resilience capital across a dispersed national network requires asset-level wildfire and flood hazard evidence that current systems do not consistently provide.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix corridor and asset screening for wildfire and flood with historical disruption context, monitoring, and alerts along the national rail network.",
+  "relevant_capability": "Asset screening, monitoring + alerts, and solutions intelligence for infrastructure resilience planning.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Screen your national rail network for wildfire and flood exposure to prioritize resilience investments.",
+  "priority": "high",
+  "fit_score": "Amtrak's nationwide rail infrastructure and direct exposure to climate-driven service disruption make it a strong infrastructure segment fit for Talaix enterprise monitoring and screening.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: amtrak.com/about-amtrak identifies the organization as the National Railroad Passenger Corporation, the US national passenger rail operator.",
+      "source": "https://www.amtrak.com/about-amtrak"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.amtrak.com/about-amtrak",
+  "date_checked": "2026-08-24"
+}

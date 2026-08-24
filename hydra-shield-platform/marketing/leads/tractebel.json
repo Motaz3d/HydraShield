@@ -1,0 +1,36 @@
+{
+  "organization": "Tractebel",
+  "segment": "environmental_consulting",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.tractebel-engie.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "The July 2021 Vesdre floods exposed gaps in local flood-risk intelligence and adaptation planning across Belgian regions. Tractebel is a global engineering and consulting company and a major Belgian entity of the ENGIE Group, with a dedicated Environment & Climate Resilience practice that includes 220 environmental and social experts working on infrastructure, water, coastal and flood-protection projects.",
+  "climate_exposure": "Tractebel's Belgian and Benelux project portfolio covers flood-prone river catchments, coastal zones, urban infrastructure and energy assets that face riverine flooding, heat, storm and coastal risks.",
+  "potential_pain": "Client proposals and permit studies increasingly require fast, source-attached multi-hazard evidence; Tractebel's environment teams need scalable climate-risk data layers to supplement their own modelling and impact assessments.",
+  "relevant_hazards": ["flood", "wildfire", "heat", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Evidence-labelled multi-hazard analysis and historical event intelligence, including the July 2021 Vesdre flood footprint, accessible via API and QGIS-compatible layers.",
+  "relevant_capability": "Multi-hazard analysis",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API integration pilot so Tractebel's environment and climate-resilience teams can enrich client studies with Talaix's source-attached flood and heat intelligence for Belgian locations.",
+  "priority": "high",
+  "fit_score": "High fit: Tractebel is a major Belgian-origin engineering and consultancy firm with a dedicated Environment & Climate Resilience practice, making it a natural channel for embedding evidence-based hazard intelligence into client projects.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Tractebel's Environment & Climate Resilience page states it has 220 environmental and social experts delivering climate-impact modelling, risk analysis, adaptation planning and E&S services across 40 countries, with Belgium as a key region.",
+      "source": "https://www.tractebel-engie.com/en/markets/environment-climate-resilience"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.tractebel-engie.com/en/markets/environment-climate-resilience",
+  "date_checked": "2026-08-24"
+}

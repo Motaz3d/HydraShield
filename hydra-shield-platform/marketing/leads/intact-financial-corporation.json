@@ -1,0 +1,36 @@
+{
+  "organization": "Intact Financial Corporation",
+  "segment": "insurance",
+  "country": "CA",
+  "region": "North America",
+  "website": "https://www.intactfc.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Intact Financial Corporation is Canada’s largest provider of property and casualty insurance, underwriting personal and commercial lines across every province. Canada’s 2023 record wildfire season caused insured losses in the billions and displaced tens of thousands, while the 2021 British Columbia floods were one of the costliest insured catastrophic events in Canadian history. Intact’s book is directly exposed to both perils through homeowner, auto, and commercial policies.",
+  "climate_exposure": "Intact’s Canadian P&C portfolio is concentrated in populated corridors that face rising riverine and coastal flood risk, as well as in wildland-urban interface zones in British Columbia, Alberta, Ontario, and Quebec that are increasingly vulnerable to ignition and smoke damage.",
+  "potential_pain": "Catastrophic wildfire and flood losses strain loss ratios, force reinsurance pricing adjustments, and create policy-availability pressure in high-risk postal codes where Intact must balance growth with profitability.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Canadian wildfire and flood hazard layers, historical event intelligence for the 2023 national fire season and the 2021 BC floods, and portfolio-level exposure analytics that map Intact’s insured geography to current and future peril zones.",
+  "relevant_capability": "Insurance-specific climate risk intelligence combining probabilistic flood and wildfire layers with historical event footprints and monitoring for active perils.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer an enterprise climate-risk dashboard that lets Intact’s underwriting and reinsurance teams screen Canadian policies by flood and wildfire exposure at the postal-code level.",
+  "priority": "high",
+  "fit_score": "Very high fit: as the dominant Canadian P&C insurer, Intact has the scale, data appetite, and demonstrated catastrophe exposure to make country-wide hazard analytics commercially relevant across underwriting and claims functions.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Intact’s corporate website states it is the largest provider of property and casualty insurance in Canada and describes climate change as a front-line risk.",
+      "source": "https://www.intactfc.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.intactfc.com/",
+  "date_checked": "2026-08-24"
+}

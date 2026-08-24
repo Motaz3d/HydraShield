@@ -1,0 +1,36 @@
+{
+  "organization": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı",
+  "segment": "governments",
+  "country": "TR",
+  "region": "Ankara",
+  "website": "https://www.csb.gov.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Turkey’s 2021 and 2024 wildfires and the 2021 Black Sea floods caused large-scale losses in housing, forests and public infrastructure. The Ministry of Environment, Urbanisation and Climate Change has the national mandate for climate policy, urban planning, environmental protection and resilient housing, and needs authoritative hazard intelligence to guide regulation and adaptation.",
+  "climate_exposure": "Flood and wildfire threaten the ministry’s housing stock, urban renewal zones, public green spaces and infrastructure planning mandates across all 81 provinces.",
+  "potential_pain": "Coordination burden for national adaptation planning, EU climate-alignment reporting and setting resilient zoning/building standards without high-resolution, event-grounded hazard data.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence for the 2021 Black Sea floods and 2021/2024 wildfire seasons, plus nationwide flood and wildfire hazard maps and climate projections.",
+  "relevant_capability": "Talaix national-scale climate risk intelligence and historical event analytics.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Equip Turkey’s climate ministry with nationwide flood and wildfire intelligence for adaptation planning and resilient urban development.",
+  "priority": "high",
+  "fit_score": "Very high fit: the lead national ministry with direct mandate over climate change, urban planning and environment; authoritative hazard data supports policy, regulation and international commitments such as COP31.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ministry homepage confirms the environment, urbanisation and climate-change portfolio and Turkey’s COP31 host role.",
+      "source": "https://www.csb.gov.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.csb.gov.tr",
+  "date_checked": "2026-08-24"
+}

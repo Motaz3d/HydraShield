@@ -1,0 +1,36 @@
+{
+  "organization": "Croatian Bank for Reconstruction and Development",
+  "segment": "investment",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://www.hbor.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "HBOR is Croatia’s national development bank, financing reconstruction, infrastructure, exports, SMEs and venture-capital investments. Recurring Dalmatian wildfires and the 2023 central-Croatia floods mean many of its financed assets and sovereign-backed projects sit in hazard-prone areas.",
+  "climate_exposure": "Its loan book and guarantee portfolio span fire-prone Adriatic counties, flood-exposed continental river basins and coastal zones vulnerable to storm surges, tying sovereign risk to physical climate extremes.",
+  "potential_pain": "Climate damage to financed projects can increase non-performing loans, trigger guarantee calls, delay disbursements and force costly restructuring of public reconstruction programmes.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the Croatian counties and river basins where HBOR-financed projects are located.",
+  "relevant_capability": "Climate risk intelligence for loan books, infrastructure pipelines and guarantee portfolios",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose screening HBOR’s existing and pipeline projects against flood and wildfire layers to protect the public investment book and inform reconstruction lending.",
+  "priority": "high",
+  "fit_score": "As Croatia’s state-owned development bank with a mandate to finance reconstruction and infrastructure, HBOR is a natural buyer of portfolio-level climate risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: HBOR homepage describes itself as Croatia’s national development bank financing reconstruction, infrastructure, exports and SMEs.",
+      "source": "https://www.hbor.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hbor.hr",
+  "date_checked": "2026-08-24"
+}

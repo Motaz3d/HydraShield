@@ -1,0 +1,36 @@
+{
+  "organization": "ČEPS, a.s.",
+  "segment": "infrastructure",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.ceps.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The September 2024 floods left around 250,000 people without electricity and damaged roads, railways and energy infrastructure across Czechia. ČEPS is the sole operator of the Czech transmission system, maintaining roughly 6,000 kilometres of very-high- and high-voltage lines and 45 substations that form the backbone of the national grid.",
+  "climate_exposure": "Overhead lines, substations and access corridors cross river basins, floodplains and forested terrain exposed to riverine flooding, flash floods, wildfire smoke, heat and windstorms.",
+  "potential_pain": "Flooding of substations, erosion of tower foundations and wildfire damage to corridors can cause grid instability, costly emergency repairs and prolonged outages.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers and historical event intelligence along Czech transmission corridors.",
+  "relevant_capability": "Climate risk intelligence and infrastructure monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer corridor-level flood and wildfire risk screening for the transmission grid to prioritize inspections, reinforcements and contingency planning.",
+  "priority": "high",
+  "fit_score": "Strong fit: the monopoly national transmission system operator with extensive infrastructure across flood- and wildfire-prone Czech landscapes.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ČEPS's homepage states it is the exclusive operator of the Czech transmission system, maintaining 45 substations and roughly 6,000 km of high-voltage lines.",
+      "source": "https://www.ceps.cz"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ceps.cz",
+  "date_checked": "2026-08-24"
+}

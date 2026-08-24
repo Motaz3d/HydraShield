@@ -1,0 +1,36 @@
+{
+  "organization": "Ministry of Environmental Protection and Green Transition of the Republic of Croatia",
+  "segment": "governments",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://mzozt.gov.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Ministry of Environmental Protection and Green Transition oversees environmental protection, climate transition, water management, marine protection and nature conservation. Recurring Dalmatian wildfires and the 2023 floods place adaptation, civil-protection coordination and EU reporting at the centre of its mandate.",
+  "climate_exposure": "Its remit covers the whole of Croatia, including fire-prone Adriatic counties, flood-exposed continental river basins and a long coastline exposed to storms and sea-level rise.",
+  "potential_pain": "The ministry needs authoritative, granular hazard data and historical event evidence to design policies, allocate funds, meet EU climate adaptation obligations and respond to emergencies.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national flood and wildfire exposure layers, plus historical event intelligence for the 2023 floods and recent Dalmatian wildfire seasons.",
+  "relevant_capability": "National-scale climate risk intelligence and historical event monitoring",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer a national hazard intelligence dashboard covering flood, wildfire and coastal risks to support the ministry’s climate transition and adaptation planning.",
+  "priority": "high",
+  "fit_score": "The ministry is the primary national authority for climate and environmental policy, making it a high-value target for authoritative hazard intelligence and monitoring tools.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: mzozt.gov.hr is the official site of the Ministry of Environmental Protection and Green Transition, listing its address in Zagreb and its climate, environmental and water-management remit.",
+      "source": "https://mzozt.gov.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://mzozt.gov.hr",
+  "date_checked": "2026-08-24"
+}

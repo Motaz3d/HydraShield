@@ -1,0 +1,36 @@
+{
+  "organization": "Bundesministerium für Umwelt, Klimaschutz, Naturschutz und nukleare Sicherheit (BMUV)",
+  "segment": "governments",
+  "country": "DE",
+  "website": "https://www.bmuv.de",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The 2021 Ahr Valley floods exposed gaps in national flood-risk mapping and civil-protection coordination. BMUV is the federal ministry responsible for climate adaptation, environmental protection and nuclear safety, and it oversees national strategies and funding programmes that depend on authoritative hazard evidence.",
+  "climate_exposure": "BMUV must account for rising fluvial and pluvial flood, drought, heat and wildfire risk across all 16 federal states when designing adaptation policy and allocating finance.",
+  "potential_pain": "Policy officers need consistent, source-attached territorial intelligence to justify adaptation spending and report to parliament and the EU without relying on fragmented agency datasets.",
+  "relevant_hazards": ["flood", "wildfire", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national flood and wildfire hazard layers plus historical event registry for the 2021 Ahr Valley disaster, mapped to federal-state boundaries.",
+  "relevant_capability": "Regional multi-hazard analysis, historical event registry and API for agency systems.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Provide BMUV with a single, source-attached evidence layer for national climate-adaptation planning and funding decisions.",
+  "priority": "high",
+  "fit_score": "Strong fit: BMUV sets Germany’s federal climate-adaptation agenda and manages related funding streams; territorial risk intelligence directly supports its mandate.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "relationship_type": "customer",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BMUV is the German federal environment ministry and publicly links water, flood protection and climate-adaptation policy.",
+      "source": "https://www.bmuv.de"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bmuv.de",
+  "date_checked": "2026-08-24"
+}

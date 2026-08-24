@@ -1,0 +1,36 @@
+{
+  "organization": "adelphi research gemeinnützige GmbH",
+  "segment": "environmental_consulting",
+  "country": "DE",
+  "website": "https://www.adelphi.de",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Germany’s 2021 Ahr Valley floods and recurring summer droughts have made climate risk a standard input for environmental and infrastructure policy advice. adelphi is a Berlin-based independent think-and-do tank and consultancy working on climate, environment and development projects for public and private clients.",
+  "climate_exposure": "adelphi’s project work spans German municipalities, federal agencies and international clients, all of which increasingly need defensible, source-attached hazard evidence for adaptation studies and funding applications.",
+  "potential_pain": "Research teams lose days assembling historical flood, drought and heat evidence from scattered sources and need citable, traceable analysis to support client reports and proposals.",
+  "relevant_hazards": ["flood", "wildfire", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix multi-hazard screening and historical event intelligence for a current client region, exported as an evidence-labelled report.",
+  "relevant_capability": "Multi-hazard analysis and evidence-labelled reports with API access.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Reduce the time adelphi spends compiling citable climate-risk evidence for adaptation and infrastructure client projects.",
+  "priority": "medium",
+  "fit_score": "Good fit: adelphi is a recognised German environmental consultancy with a steady stream of climate-adaptation mandates; Talaix can slot into its research workflow as a source-attached evidence layer.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "relationship_type": "customer",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: adelphi describes itself as Europe’s leading think-and-do tank and independent consultancy for climate, environment and development, with Berlin headquarters.",
+      "source": "https://www.adelphi.de"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.adelphi.de",
+  "date_checked": "2026-08-24"
+}

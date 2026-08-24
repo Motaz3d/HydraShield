@@ -1,0 +1,36 @@
+{
+  "organization": "Ministerio para la Transición Ecológica y el Reto Demográfico",
+  "segment": "governments",
+  "country": "ES",
+  "region": "Spain",
+  "website": "https://www.miteco.gob.es",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Spain suffered catastrophic DANA floods in Valencia in 2024 and large-scale wildfires that burned hundreds of thousands of hectares in 2025/2026. MITECO holds the national mandate for water, forests, coasts, climate change and energy policy, and therefore needs authoritative, location-specific hazard intelligence to target adaptation spending and civil-protection coordination.",
+  "climate_exposure": "The ministry is responsible for national water reserves, forest-fire prevention frameworks, coastal risk and climate adaptation planning across all Spanish regions and municipalities.",
+  "potential_pain": "Without granular hazard data, adaptation funds may be misallocated and the ministry can be exposed to political and legal pressure after preventable flood or wildfire losses.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national flood and wildfire hazard layers, historical DANA 2024 event reconstruction, and current wildfire burn-area statistics from MITECO's own press releases.",
+  "relevant_capability": "Climate risk intelligence and historical event intelligence for national-scale flood and wildfire monitoring, adaptation planning and inter-ministerial coordination.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Give MITECO a single source of flood and wildfire risk intelligence to prioritise adaptation budgets and support regional civil-protection planning.",
+  "priority": "medium",
+  "fit_score": "High fit: the central ministry with explicit climate, water and forest mandates; authoritative hazard intelligence strengthens policy design, planning and post-disaster response.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MITECO homepage confirms responsibility for Transición energética, Equilibrio ecológico (Agua, Cambio climático, Biodiversidad y bosques) and publishes active wildfire and water-reserve bulletins.",
+      "source": "https://www.miteco.gob.es"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.miteco.gob.es",
+  "date_checked": "2026-08-24"
+}

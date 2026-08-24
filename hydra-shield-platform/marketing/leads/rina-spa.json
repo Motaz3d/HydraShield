@@ -1,0 +1,36 @@
+{
+  "organization": "RINA S.p.A.",
+  "segment": "engineering_firms",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://www.rina.org/en",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "RINA is a major Italian engineering consultancy providing engineering solutions, testing, certification and inspection. Its project work spans Italian infrastructure, energy and industrial assets that are exposed to the May 2023 Emilia-Romagna floods and recurring Sicilian wildfires.",
+  "climate_exposure": "As an engineering adviser to domestic infrastructure, energy and industrial clients, RINA's project pipeline and own operations intersect flood-prone valleys and wildfire-prone Mediterranean regions across Italy.",
+  "potential_pain": "Clients increasingly need physical-climate risk inputs for design, certification and resilience advisory; without location-level hazard intelligence, RINA's technical recommendations may lag market and regulatory expectations.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers and historical event intelligence for Italian infrastructure and industrial sites served by RINA.",
+  "relevant_capability": "Climate risk intelligence and hazard analytics for engineering and certification use cases",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose integrating Talaix flood and wildfire layers into RINA's Italian engineering and certification workflows for infrastructure and energy clients.",
+  "priority": "medium",
+  "fit_score": "Good fit: a leading Italian engineering and certification firm whose client base of infrastructure and industrial operators needs authoritative physical-climate inputs; listed under the engineering_firms segment because RINA is a major national engineering consultancy rather than a pure environmental consultancy.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: RINA's official site describes it as a knowledge-based company providing engineering solutions, testing and certification, and confirms RINA S.p.A. with Italian VAT number IT 03794120109.",
+      "source": "https://www.rina.org/en"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.rina.org/en",
+  "date_checked": "2026-08-24"
+}

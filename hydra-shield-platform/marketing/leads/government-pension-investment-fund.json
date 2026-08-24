@@ -1,0 +1,36 @@
+{
+  "organization": "Government Pension Investment Fund",
+  "segment": "investment",
+  "country": "JP",
+  "region": "East Asia",
+  "website": "https://www.gpif.go.jp/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Japan faces recurring typhoon and torrential-rain flooding, highlighted by the July 2018 western Japan floods. As the world's largest public pension fund and Japan's national pension reserve manager, GPIF holds domestic equities, bonds and alternative assets including infrastructure and real estate that are physically exposed to flood and typhoon risk.",
+  "climate_exposure": "Domestic portfolio allocations include real estate and infrastructure assets concentrated in Japan's coastal and riverine areas, including the Tokyo, Osaka and Kyushu regions that are repeatedly affected by typhoon flooding.",
+  "potential_pain": "Flood and typhoon damage to domestic holdings can impair long-term portfolio returns; investment teams need location-level screening and historical event context to assess physical climate risk in asset allocations and valuations.",
+  "relevant_hazards": ["flood", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wind exposure layers plus historical event intelligence for the 2018 western Japan floods and recent typhoons, mapped to GPIF's domestic asset geographies.",
+  "relevant_capability": "multi-location screening, exposure + historical evidence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a portfolio-location climate risk intelligence pilot that screens domestic infrastructure and real estate holdings for flood and typhoon exposure, using historical event context from Japan's recent floods.",
+  "priority": "high",
+  "fit_score": "GPIF is the world's largest public pension fund by AUM and a major domestic asset owner; its long-horizon portfolio is inherently exposed to Japan's recurring typhoon and flood events.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: GPIF's official Japanese homepage identifies it as the Government Pension Investment Fund managing Japan's public pension reserves, with domestic and alternative asset holdings.",
+      "source": "https://www.gpif.go.jp/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gpif.go.jp/",
+  "date_checked": "2026-08-24"
+}

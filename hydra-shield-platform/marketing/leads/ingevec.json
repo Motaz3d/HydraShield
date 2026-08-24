@@ -1,0 +1,36 @@
+{
+  "organization": "Ingevec",
+  "segment": "engineering_firms",
+  "country": "CL",
+  "region": "Santiago",
+  "website": "https://www.ingevec.cl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Ingevec is a publicly traded Chilean company with more than 40 years in engineering, construction, real estate, and hotel operations in Chile and Peru. Its projects in central and southern Chile sit in the same zones hit by the February 2024 Valparaíso wildfires, recurrent central floods, and the long-running mega-drought.",
+  "climate_exposure": "Residential, commercial, and industrial project pipeline across Chile, including regions exposed to flood, wildfire, and drought.",
+  "potential_pain": "Site-level climate hazards create liability and schedule risk; clients and insurers increasingly ask for documented hazard context.",
+  "relevant_hazards": ["wildfire", "flood", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix project-site hazard screening and solutions intelligence for resilient siting and design.",
+  "relevant_capability": "site screening",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer project-site wildfire and flood screening for Ingevec's Chilean developments to inform resilient design and reduce liability.",
+  "priority": "medium",
+  "fit_score": "Ingevec is a major national engineering and construction firm with a visible project portfolio; the environmental_consulting slot is filled using the engineering_firms fallback because a dedicated national environmental consultancy could not be verified.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage describes Ingevec as a Chilean stock-listed engineering and construction company with 40+ years of history and operations in Chile and Peru.",
+      "source": "https://www.ingevec.cl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ingevec.cl",
+  "date_checked": "2026-08-24"
+}

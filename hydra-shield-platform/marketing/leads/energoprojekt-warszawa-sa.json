@@ -1,0 +1,36 @@
+{
+  "organization": "ENERGOPROJEKT-WARSZAWA S.A.",
+  "segment": "environmental_consulting",
+  "country": "PL",
+  "region": "Warsaw",
+  "website": "https://www.energoprojekt.pl/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "ENERGOPROJEKT-WARSZAWA S.A. is a long-standing Polish engineering and environmental consultancy that designs hydrotechnical, hydroelectric, and environmental-protection projects. The September 2024 Oder-basin floods and recurring drought stress increase the need for robust climate-risk inputs in its designs and environmental impact assessments.",
+  "climate_exposure": "Its project portfolio spans dams, flood-control infrastructure, hydroelectric plants, and environmental protection works across Poland's river basins, including the Oder and Vistula catchments.",
+  "potential_pain": "Clients and regulators increasingly require climate-risk evidence in environmental impact assessments and hydrotechnical designs; outdated hazard assumptions can expose the firm to liability and project delays.",
+  "relevant_hazards": ["flood", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "High-resolution flood and drought hazard layers and historical event intelligence for Polish hydrotechnical and environmental-protection projects.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "professional_report",
+  "recommended_message": "Integrate Talaix flood and drought hazard layers into EIAs and hydrotechnical designs to strengthen project resilience and regulatory approval.",
+  "priority": "medium",
+  "fit_score": "A long-standing Polish designer of hydro and environmental projects, ENERGOPROJEKT-WARSZAWA is a natural channel for hazard data into public infrastructure and environmental assessments.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ENERGOPROJEKT-WARSZAWA S.A. offers environmental consulting and hydrotechnical design services from its Warsaw headquarters.",
+      "source": "https://www.energoprojekt.pl/en/contact/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.energoprojekt.pl/en/contact/",
+  "date_checked": "2026-08-24"
+}

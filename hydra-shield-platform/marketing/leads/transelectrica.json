@@ -1,0 +1,36 @@
+{
+  "organization": "CN Transelectrica S.A.",
+  "segment": "infrastructure",
+  "country": "RO",
+  "region": "București",
+  "website": "https://www.transelectrica.ro",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Transelectrica is Romania's national electricity transmission system operator, owning and operating the high-voltage grid and dispatcher. The 2024 Galați floods, summer heat waves and drought-driven vegetation fires threaten substations, overhead lines and grid stability across the country.",
+  "climate_exposure": "Its transmission assets span the entire Romanian territory, including floodplains along major rivers, wildfire-prone hill regions and areas exposed to heat-induced conductor sag and ignition risk.",
+  "potential_pain": "Climate-related outages and asset damage require costly emergency repairs, redundancy investments and regulatory explanations; without hazard-aware asset management, maintenance spend is poorly targeted.",
+  "relevant_hazards": ["flood", "heat", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wildfire and heat exposure layers for Romania's transmission corridor, plus historical event intelligence and monitoring.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose Talaix hazard monitoring and asset exposure layers to help Transelectrica prioritize grid resilience investments against floods, heat and wildfire.",
+  "priority": "high",
+  "fit_score": "National transmission owner-operator with geographically dispersed critical infrastructure; strong fit for real-time monitoring and asset-level climate exposure analysis.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: transelectrica.ro identifies the company as Romania's electricity transmission and system operator.",
+      "source": "https://www.transelectrica.ro"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.transelectrica.ro",
+  "date_checked": "2026-08-24"
+}

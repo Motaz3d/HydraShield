@@ -1,0 +1,36 @@
+{
+  "organization": "Azimut Holding S.p.A.",
+  "segment": "investment",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://www.azimut.it",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Azimut is an independent Italian asset-management group and a global player in asset and wealth management. Its funds and managed portfolios hold Italian real assets, infrastructure, corporate credit and listed equities concentrated in regions hit by the May 2023 Emilia-Romagna floods and recurring Sicilian and southern-Italy wildfires.",
+  "climate_exposure": "Italian-managed assets are exposed to riverine and pluvial flooding in the Po Valley and central-northern regions, and to wildfire-driven damage and devaluation in Sicily, Calabria and other Mediterranean-climate zones.",
+  "potential_pain": "Without location-level physical-risk analytics, climate losses can erode fund performance, trigger redemptions and complicate CSRD- and SFDR-style disclosures for Italian and EU-domiciled products.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers and historical event intelligence for Emilia-Romagna, Sicily and other Italian asset geographies.",
+  "relevant_capability": "Climate risk intelligence for portfolio-level hazard screening and disclosure support",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a portfolio screening pilot that maps Italian real-asset and infrastructure holdings against Talaix flood and wildfire layers to surface concentrations and support disclosure.",
+  "priority": "high",
+  "fit_score": "Strong fit: a major independent Italian asset manager with a broad domestic and international book that needs physical-climate inputs for risk management and product governance.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Azimut's official site describes the group as an independent global player in asset management, wealth management, investment banking and fintech serving individuals and businesses.",
+      "source": "https://www.azimut.it"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.azimut.it",
+  "date_checked": "2026-08-24"
+}

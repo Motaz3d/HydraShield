@@ -1,0 +1,36 @@
+{
+  "organization": "CapitaLand Investment Limited",
+  "segment": "real_estate",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.capitaland.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "CapitaLand Investment Limited is a leading global real asset manager headquartered and listed in Singapore, with a strong Asia foothold and a portfolio spanning multiple asset classes. Its Singapore assets include integrated commercial, residential and lodging properties in a low-lying tropical island where heavy rainfall, flash floods, coastal exposure and urban heat are documented risks.",
+  "climate_exposure": "Its Singapore integrated commercial, residential and lodging assets face pluvial flash-flood, coastal inundation and heat-stress risks across a dense, low-lying city.",
+  "potential_pain": "Asset valuations, insurance premiums and capital planning for Singapore properties need documented climate exposure evidence to satisfy lenders, investors and insurers.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix site-level flood, coastal and heat exposure analysis with historical event context for Singapore assets.",
+  "relevant_capability": "Site screening across six hazards and historical events per site",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a pilot screening of Singapore assets against flood, coastal and heat hazards to support valuation and disclosure.",
+  "priority": "high",
+  "fit_score": "Strong fit: Singapore-headquartered real asset manager with a large local portfolio concentrated in a flood-, coastal- and heat-exposed city.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CapitaLand homepage and search confirm CapitaLand Investment Limited is headquartered and listed in Singapore.",
+      "source": "https://www.capitaland.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.capitaland.com",
+  "date_checked": "2026-08-24"
+}

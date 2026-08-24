@@ -1,0 +1,36 @@
+{
+  "organization": "CPI Property Group S.A.",
+  "segment": "real_estate",
+  "country": "LU",
+  "region": "",
+  "website": "https://www.cpipg.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "CPI Property Group is a Luxembourg-registered real estate group with an €18 billion portfolio of offices, retail, residential, hotels and logistics across Central and Eastern Europe. The July 2021 floods in Luxembourg and neighbouring river basins demonstrated the physical climate risk to built assets and tenant operations.",
+  "climate_exposure": "Its 510 commercial properties in capital cities and regional centres are exposed to river flooding, storm/wind damage and heat, with underlying tenants and operations dependent on continuous building performance.",
+  "potential_pain": "A large, geographically diversified real estate portfolio needs systematic multi-hazard exposure screening to protect asset values, tenant continuity and financing covenants.",
+  "relevant_hazards": ["flood", "wildfire", "wind", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix multi-hazard exposure layers and historical event intelligence for the CEE and German markets where CPIPG's assets are concentrated.",
+  "relevant_capability": "portfolio exposure analytics",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Overlay Talaix flood, wind and heat exposure intelligence onto CPIPG's asset-level portfolio for risk-adjusted asset management.",
+  "priority": "high",
+  "fit_score": "A major Luxembourg-headquartered real estate owner with a pan-European portfolio of income-generating assets is a natural user of asset-level climate risk dashboards.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: cpipg.com about page confirms CPI Property Group is registered in Luxembourg, listed on Frankfurt and owns a €18 billion diversified property portfolio.",
+      "source": "https://www.cpipg.com/en/about-us"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cpipg.com/en/about-us",
+  "date_checked": "2026-08-24"
+}

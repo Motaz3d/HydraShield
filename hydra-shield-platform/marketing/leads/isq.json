@@ -1,0 +1,36 @@
+{
+  "organization": "ISQ - Instituto de Soldadura e Qualidade",
+  "segment": "engineering_firms",
+  "country": "PT",
+  "region": "Porto",
+  "website": "https://www.isq.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "ISQ is Portugal's largest technology interface centre, providing engineering, consulting, inspection and testing services to industrial and infrastructure clients. Portugal's documented climate disasters—the 2017 Pedrógão Grande wildfires, recurring rural fires, Lisbon-area flash floods and drought—damage the industrial facilities, infrastructure and built assets that ISQ inspects, certifies and helps maintain.",
+  "climate_exposure": "ISQ's client base and its own laboratories and facilities span Portuguese industrial zones and infrastructure corridors exposed to wildfire, flood, drought and heat.",
+  "potential_pain": "Clients increasingly need engineering assessments of climate-related asset degradation, business-interruption risk and resilience upgrades; ISQ can embed hazard intelligence into its consultancy and inspection offerings.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Portugal's industrial and infrastructure corridors.",
+  "relevant_capability": "flood exposure layers, wildfire exposure layers, historical event intelligence, custom analysis",
+  "recommended_product": "custom_analysis",
+  "recommended_message": "Offer hazard-backed engineering assessments that ISQ can integrate into its inspection and infrastructure-consultancy services for Portuguese clients.",
+  "priority": "medium",
+  "fit_score": "As the largest national engineering and technology-services firm, ISQ touches a broad base of hazard-exposed assets and can resell or embed climate-risk analysis.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ISQ homepage describes itself as Portugal's largest technology interface centre delivering engineering, consulting, inspection and testing services.",
+      "source": "https://www.isq.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.isq.pt",
+  "date_checked": "2026-08-24"
+}

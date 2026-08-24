@@ -1,0 +1,36 @@
+{
+  "organization": "Megawide Construction Corporation",
+  "segment": "engineering_firms",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://megawide.com.ph/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Megawide is a major Philippine engineering and construction company involved in airports, roads, buildings, renewable energy and other infrastructure. Because no established Philippine environmental consultancy with an accessible official website could be verified during research, Megawide is recorded under the documented engineering-firm fallback for the environmental-consulting slot. Its nationwide project portfolio and operating assets are exposed to typhoon floods and destructive winds.",
+  "climate_exposure": "Megawide builds and operates infrastructure across the Philippine archipelago, including coastal airports, transport links and commercial assets that face recurring inundation, storm surge and damaging winds during tropical cyclones.",
+  "potential_pain": "Flood and wind damage to active construction sites and operating infrastructure can delay completions, increase repair costs and disrupt toll or concession revenues, while lenders and government clients increasingly require climate-risk disclosure in project planning.",
+  "relevant_hazards": ["flood", "wind", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Philippines flood, wind and coastal hazard layers plus historical event intelligence for recent typhoon flood footprints in regions where Megawide has active infrastructure projects.",
+  "relevant_capability": "Project-site flood, wind and coastal surge exposure screening with historical event intelligence and monitoring for engineering and infrastructure portfolios.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a climate risk intelligence review of Megawide’s active project sites to identify typhoon flood and wind exposure for planning, insurance and client reporting.",
+  "priority": "medium",
+  "fit_score": "Medium-high fit: as a leading Philippine engineering and infrastructure contractor, Megawide needs location-level hazard intelligence to protect active sites and operating assets; recorded under the engineering-firms fallback because no verifiable environmental-consultancy lead was reachable.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: megawide.com.ph identifies Megawide as a Philippine engineering and construction corporation engaged in infrastructure, airports, buildings and renewable energy.",
+      "source": "https://megawide.com.ph/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://megawide.com.ph/",
+  "date_checked": "2026-08-24"
+}

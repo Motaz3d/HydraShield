@@ -1,0 +1,36 @@
+{
+  "organization": "Ministry of Infrastructure and Transport",
+  "segment": "governments",
+  "country": "GR",
+  "region": "Athens",
+  "website": "https://www.yme.gov.gr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The Ministry of Infrastructure and Transport is the Greek national ministry responsible for roads, transport networks, and infrastructure. Its mandate covers the national road network, including the Egnatia Odos toll motorway, and major transport infrastructure that intersects with the areas affected by the 2023 Thessaly floods and 2023–2024 wildfire seasons.",
+  "climate_exposure": "National responsibility for Greece's road, rail, port, airport, and broader transport infrastructure, much of which is exposed to flood, wildfire, heat, and wind hazards across all Greek regions.",
+  "potential_pain": "Flooding, wildfire, and heat events damage roads, bridges, and transport corridors, disrupting supply chains and requiring costly emergency repairs and resilience upgrades.",
+  "relevant_hazards": ["flood", "wildfire", "heat", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers, historical event intelligence for the 2023 Thessaly floods and recent Greek wildfires, and monitoring capabilities for critical transport infrastructure.",
+  "relevant_capability": "monitoring",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer hazard exposure mapping and monitoring for Greece's national road and transport infrastructure to support climate-resilient maintenance planning and disaster response prioritization.",
+  "priority": "high",
+  "fit_score": "The national ministry directly responsible for Greek transport infrastructure exposed to flood and wildfire risk; high-value user for infrastructure-focused hazard monitoring and risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official portal identifies the ministry as responsible for infrastructure and transport, with public notices concerning the Egnatia Odos toll road network.",
+      "source": "https://www.yme.gov.gr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.yme.gov.gr/",
+  "date_checked": "2026-08-24"
+}

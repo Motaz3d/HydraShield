@@ -1,0 +1,36 @@
+{
+  "organization": "U.S. Army Corps of Engineers",
+  "segment": "governments",
+  "country": "US",
+  "region": "North America",
+  "website": "https://www.usace.army.mil",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The U.S. Army Corps of Engineers is the federal agency responsible for civil works, flood risk management, coastal storm risk management, and navigation across the United States. California wildfires and hurricane-driven floods repeatedly stress its project prioritization, emergency response, and risk-reduction mandates.",
+  "climate_exposure": "USACE dams, levees, floodwalls, coastal structures, and navigation channels protect populated and economic centers exposed to worsening riverine and coastal flooding, post-wildfire debris flows, and storm surge.",
+  "potential_pain": "Needs consistent, multi-source hazard evidence to prioritize civil-works investments, justify budgets to Congress and local sponsors, and communicate changing risk profiles across watersheds and coastlines.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix regional multi-hazard analysis across flood and wildfire with historical event intelligence and official-source provenance for USACE watersheds and project areas.",
+  "relevant_capability": "Regional analysis and historical event intelligence for policy, civil-works planning, and infrastructure risk assessment.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Support civil-works prioritization with traceable flood and wildfire exposure intelligence for USACE project areas.",
+  "priority": "high",
+  "fit_score": "USACE's national infrastructure, flood-risk, and coastal-protection mandates make it a direct fit for territorial climate-risk intelligence and evidence-based project prioritization.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: usace.army.mil homepage describes the Corps' civil-works, flood-risk-management, and coastal-protection missions, including active flood-mitigation projects in Juneau, Alaska and nationwide.",
+      "source": "https://www.usace.army.mil"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.usace.army.mil",
+  "date_checked": "2026-08-24"
+}

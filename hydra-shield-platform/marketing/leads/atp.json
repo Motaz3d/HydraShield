@@ -1,0 +1,36 @@
+{
+  "organization": "ATP",
+  "segment": "investment",
+  "country": "DK",
+  "region": "Europe",
+  "website": "https://www.atp.dk/om-atp",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Denmark has experienced repeated cloudburst flooding in Copenhagen, Aarhus and other cities, while its long, low-lying coastline faces storm-surge and sea-level-rise exposure. ATP is Denmark's largest pension and administration company, managing long-life pension obligations backed by a large domestic and international investment portfolio that includes real estate and infrastructure assets. Flood and coastal risk therefore affect both the value of physical holdings and the sustainability of long-term payouts.",
+  "climate_exposure": "ATP's Danish real estate and infrastructure holdings, as well as mortgage-backed and corporate credit exposures, are concentrated in urban and coastal locations that face rising pluvial and coastal flood risk.",
+  "potential_pain": "Unpriced flood and coastal exposure in long-duration assets can lead to write-downs, higher impairment charges, and pressure on the funding ratio used to guarantee lifelong pensions.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Danish flood and coastal hazard layers, historical event intelligence for cloudburst and coastal surge events, and portfolio-level exposure screening for ATP's Danish real estate and infrastructure assets.",
+  "relevant_capability": "Portfolio-level climate risk screening for real estate, infrastructure and corporate assets exposed to flood and coastal hazards.",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of ATP's Danish real estate and infrastructure holdings for cloudburst and coastal flood exposure to support investment risk and asset-allocation decisions.",
+  "priority": "high",
+  "fit_score": "High fit: as Denmark's largest pension fund with long-duration liabilities and substantial physical asset exposure, ATP has a strong incentive to quantify flood and coastal climate risk across its portfolio.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ATP's 'Om os' page states ATP Koncernen is Denmark's largest pension and administration company, headquartered in Hillerød with around 3,000 employees.",
+      "source": "https://www.atp.dk/om-atp"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.atp.dk/om-atp",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Canadian Apartment Properties REIT",
+  "segment": "real_estate",
+  "country": "CA",
+  "region": "North America",
+  "website": "https://www.capreit.net/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "CAPREIT is Canada’s largest publicly traded provider of quality rental housing, owning approximately 45,400 apartment suites and townhomes across Canada and the Netherlands with a total fair value of roughly $14.4 billion. Canada’s 2023 record wildfire season forced evacuations in multiple provinces and the 2021 British Columbia floods damaged housing and displaced residents, putting CAPREIT’s geographically distributed residential portfolio at risk of business interruption, repair costs, and tenant turnover.",
+  "climate_exposure": "CAPREIT’s Canadian assets are located in major cities and neighbourhoods that face riverine and coastal flood exposure in Ontario, Quebec, and Atlantic Canada, as well as wildfire smoke and evacuation risk in Alberta and British Columbia.",
+  "potential_pain": "Climate-driven damage and evacuations can trigger repair backlogs, insurance premium spikes, increased tenant churn, and valuation write-downs on assets located in emerging floodplains or wildfire-prone interface zones.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Canadian flood inundation layers, wildfire exposure zones, historical event intelligence for the 2021 BC floods and 2023 fire season, and asset-level screening mapped to CAPREIT’s national property footprint.",
+  "relevant_capability": "Real-estate portfolio screening that combines flood and wildfire hazard layers with historical event intelligence and ongoing monitoring for Canadian properties.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a property-level climate-risk monitoring service that flags CAPREIT assets exposed to Canadian flood and wildfire perils and supports acquisition, insurance, and capital-planning decisions.",
+  "priority": "high",
+  "fit_score": "High fit: CAPREIT is the largest publicly traded residential landlord in Canada, giving Talaix a single counterparty with a national asset base where flood and wildfire exposure analytics can directly inform portfolio management.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CAPREIT’s website states it is Canada’s largest publicly traded provider of quality rental housing with approximately 45,400 suites and townhomes across Canada.",
+      "source": "https://www.capreit.net/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.capreit.net/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,35 @@
+{
+  "organization": "NSI N.V.",
+  "segment": "real_estate",
+  "country": "NL",
+  "website": "https://www.nsi.nl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "The 2021 Limburg floods demonstrated that even a wealthy, well-protected country can suffer widespread property damage from extreme rainfall and river discharge. NSI N.V. is a Dutch listed office real estate company with a portfolio of 41 buildings concentrated in Amsterdam and other major cities, all in a delta exposed to pluvial, riverine and coastal flood risk.",
+  "climate_exposure": "Prime Dutch office assets are concentrated in dense, low-lying urban areas where surface-water flooding, river dike stress and coastal storm-surge risk are increasing.",
+  "potential_pain": "Flood-driven business interruption, higher insurance premiums and capital expenditure for resilience upgrades can compress net operating income and asset valuations.",
+  "relevant_hazards": ["flood", "coastal", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, coastal and wind hazard intelligence mapped to NSI's Dutch office portfolio, including scenario-based exposure around Amsterdam and other main cities.",
+  "relevant_capability": "Talaix climate risk intelligence and property portfolio exposure screening.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer NSI a monitoring view of flood, coastal and wind risk across its Dutch office portfolio to inform asset management and resilience capex.",
+  "priority": "medium",
+  "fit_score": "A Dutch office REIT with an explicit Netherlands focus is a natural buyer for location-specific flood and coastal risk monitoring to protect asset values and tenant continuity.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: NSI homepage describes 30+ years of Dutch real estate experience and a 41-building portfolio focused on Amsterdam and major Dutch cities.",
+      "source": "https://www.nsi.nl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.nsi.nl",
+  "date_checked": "2026-08-24"
+}

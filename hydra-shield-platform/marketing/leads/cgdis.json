@@ -1,0 +1,36 @@
+{
+  "organization": "Corps grand-ducal d'incendie et de secours (CGDIS)",
+  "segment": "emergency_management",
+  "country": "LU",
+  "region": "",
+  "website": "https://www.cgdis.lu",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "CGDIS is Luxembourg's national fire and rescue/civil-protection service, coordinating emergency response, prevention and public safety. The July 2021 floods required large-scale rescue and relief operations, and the service also responds to vegetation and forest fires.",
+  "climate_exposure": "Its mandate covers the whole Grand Duchy, including flood-prone river valleys, forests exposed to wildfire, and urban areas at risk from heat and storms.",
+  "potential_pain": "Operational planning and resource deployment need evidence-based hazard forecasts and historical event intelligence to anticipate floods, wildfires and storms.",
+  "relevant_hazards": ["flood", "wildfire", "heat", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence, hazard monitoring and alerting for floods and wildfires in Luxembourg.",
+  "relevant_capability": "monitoring and alerts",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Equip CGDIS with Talaix hazard monitoring and SMS alerting for floods, wildfires and storms across Luxembourg.",
+  "priority": "high",
+  "fit_score": "The national civil-protection agency is directly responsible for the consequences of the 2021 floods and rising wildfire risk, making operational hazard intelligence highly relevant.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: cgdis.lu homepage presents the Corps grand-ducal d'incendie et de secours as Luxembourg's national fire, rescue and civil-protection service.",
+      "source": "https://www.cgdis.lu"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cgdis.lu",
+  "date_checked": "2026-08-24"
+}

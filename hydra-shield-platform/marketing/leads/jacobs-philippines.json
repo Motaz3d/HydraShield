@@ -1,0 +1,35 @@
+{
+  "organization": "Jacobs",
+  "segment": "environmental_consulting",
+  "country": "PH",
+  "website": "https://www.jacobs.com/locations/asia-pacific/philippines",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The Philippines faces recurrent typhoon floods and destructive winds, and major infrastructure and environmental programs need climate-risk intelligence. Jacobs has delivered complex infrastructure, water and environment projects in the Philippines for nearly three decades.",
+  "climate_exposure": "Jacobs' Philippine project portfolio spans energy, water, environment and advanced manufacturing assets across an archipelago exposed to typhoon flooding, storm surge and damaging winds.",
+  "potential_pain": "Large-scale, multi-phase programs require coordination across complex systems; clients and financiers increasingly ask for asset-level flood and wind hazard inputs that Jacobs can integrate into planning and design.",
+  "relevant_hazards": ["flood", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix Philippines flood and wind hazard layers plus historical event intelligence for typhoon flood footprints, demonstrated on Jacobs' energy, water and environment project geographies.",
+  "relevant_capability": "climate risk intelligence and historical event analytics",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API pilot so Jacobs Philippines can embed Talaix flood and wind hazard layers into water, environment and infrastructure programs.",
+  "priority": "high",
+  "fit_score": "High fit: Jacobs is a global engineering and environmental consultancy with a verified Philippines office and three decades of water, environment and infrastructure work in a typhoon-exposed market.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Jacobs' Philippines office page confirms nearly three decades of complex infrastructure and water/environment projects across energy, power, water and environment.",
+      "source": "https://www.jacobs.com/locations/asia-pacific/philippines"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.jacobs.com/locations/asia-pacific/philippines",
+  "date_checked": "2026-08-24"
+}

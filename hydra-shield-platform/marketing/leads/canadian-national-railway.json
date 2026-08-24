@@ -1,0 +1,36 @@
+{
+  "organization": "Canadian National Railway",
+  "segment": "infrastructure",
+  "country": "CA",
+  "region": "North America",
+  "website": "https://www.cn.ca/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Canadian National Railway operates a 20,000-mile rail network spanning Canada and Mid-America, connecting the Atlantic, Pacific, and Gulf coasts. The 2023 record Canadian wildfire season caused track closures, service disruptions, and bridge vulnerabilities in Western Canada, while the 2021 British Columbia floods washed out rail lines and severed CN’s key Vancouver corridor, demonstrating direct exposure of the network to both perils.",
+  "climate_exposure": "CN’s track, bridges, tunnels, and yards cross river systems, wildland-urban interfaces, and fire-prone forests across British Columbia, Alberta, Ontario, Quebec, and the Prairies, creating recurring flood and wildfire risk to physical assets and supply-chain continuity.",
+  "potential_pain": "Flood washouts and wildfire-related track closures interrupt freight flows, trigger emergency repair costs, strain customer contracts, and require capital-intensive resilience upgrades on the most exposed corridors.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Canadian flood and wildfire hazard layers, historical event intelligence for the 2021 BC floods and 2023 fire season, and corridor-level exposure analytics along CN’s main rail lines and bridge inventory.",
+  "relevant_capability": "Infrastructure network climate-risk intelligence combining flood and wildfire hazard layers with historical event data and monitoring for route disruption.",
+  "recommended_product": "api",
+  "recommended_message": "Propose a Talaix hazard-data API that integrates with CN’s asset-management and operations systems to prioritize flood and wildfire resilience investments across the Canadian rail network.",
+  "priority": "high",
+  "fit_score": "Very high fit: CN is a national railway owner-operator whose physical infrastructure was directly damaged and disrupted by both assigned Canadian disasters, making climate-risk analytics operationally relevant.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CN’s official website states it operates a 20,000-mile network spanning Canada and Mid-America connecting three coasts.",
+      "source": "https://www.cn.ca/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cn.ca/",
+  "date_checked": "2026-08-24"
+}

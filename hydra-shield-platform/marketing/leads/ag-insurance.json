@@ -1,0 +1,36 @@
+{
+  "organization": "AG Insurance NV",
+  "segment": "insurance",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.aginsurance.be",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "The July 2021 Vesdre floods caused catastrophic damage in eastern Belgium, particularly around Liège, Verviers and Pepinster, killing dozens and destroying thousands of homes and businesses. AG Insurance is one of Belgium's largest insurers and the non-life/PC arm of the Ageas group, with a dominant share of the Belgian motor, home and SME property market.",
+  "climate_exposure": "AG's property book is concentrated in densely populated Flemish and Walloon river basins, including the Meuse, Vesdre and Ourthe catchments that experienced record flooding in 2021.",
+  "potential_pain": "Repeat riverine and pluvial flood events drive large aggregated claims across home, motor and SME policies; pricing and reinsurance decisions need location-level evidence that the public catastrophe models do not capture well.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Flood exposure layers and historical event intelligence for Belgian postal codes and the July 2021 Vesdre flood footprint, with source-attached indicators.",
+  "relevant_capability": "Per-location multi-hazard analysis with provenance",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API pilot that screens a sample of AG's Belgian property and motor book against the July 2021 Vesdre flood footprint and comparable riverine events.",
+  "priority": "high",
+  "fit_score": "High fit: AG Insurance is a top-tier Belgian insurer with a national property/casualty book directly exposed to the documented 2021 Vesdre flood corridor.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: AG Insurance homepage confirms the brand as AG NV, a major Belgian insurer.",
+      "source": "https://www.aginsurance.be"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aginsurance.be",
+  "date_checked": "2026-08-24"
+}

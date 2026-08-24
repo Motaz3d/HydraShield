@@ -1,0 +1,38 @@
+{
+  "organization": "Tenaga Nasional Berhad",
+  "segment": "infrastructure",
+  "country": "MY",
+  "region": "",
+  "website": "https://www.tnb.com.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Malaysia’s 2021–22 Klang Valley floods and annual monsoon floods inundated substations, underground cables and transmission corridors, causing prolonged power outages. Tenaga Nasional Berhad owns and operates the national electricity grid and is the country’s largest power utility.",
+  "climate_exposure": "TNB’s generation plants, substations, transmission towers and distribution networks span flood-prone river basins and coastal lowlands across Malaysia.",
+  "potential_pain": "Flood-related asset damage and network outages require costly emergency repairs, redundancy investments and regulatory reporting.",
+  "relevant_hazards": [
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard layers, historical event footprints and asset-level risk scoring for Malaysian electricity infrastructure.",
+  "relevant_capability": "climate risk intelligence",
+  "recommended_product": "api",
+  "recommended_message": "Offer TNB an API feed of flood hazard and event data to integrate climate-risk screening into network planning and asset management.",
+  "priority": "high",
+  "fit_score": "Very high fit: the national grid operator owns critical linear infrastructure spread across Malaysia’s flood-exposed regions and has a clear operational incentive to mitigate outages.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: TNB homepage identifies the company as Malaysia’s national electricity utility and reports grid-related tenders and partnerships.",
+      "source": "https://www.tnb.com.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.tnb.com.my",
+  "date_checked": "2026-08-24"
+}

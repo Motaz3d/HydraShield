@@ -1,0 +1,35 @@
+{
+  "organization": "Sinar Mas Land",
+  "segment": "real_estate",
+  "country": "ID",
+  "website": "https://www.sinarmasland.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Sinar Mas Land is one of Indonesia’s largest diversified property developers; its residential, commercial and industrial estates across Greater Jakarta and other regions face chronic flood inundation and peatland-fire haze/disruption.",
+  "climate_exposure": "Large land bank and operating assets span Java, Sumatra and Kalimantan, including low-lying Jakarta fringe and peatland-fire-prone provinces.",
+  "potential_pain": "Flood inundation and fire-related haze or access closures damage leasing cash flows, site operations, and buyer/lender confidence in key developments.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official homepage identifies Sinar Mas Land as the ‘Leading Diversified Developer in Indonesia’, confirming national scale and asset concentration.",
+  "relevant_capability": "Site screening across six hazards, historical events per site, PDF reports with traceable methodology, and monitoring of owned assets.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Use Talaix site-level flood and wildfire reports to document exposure for Sinar Mas Land’s key estates and support buyer and lender conversations.",
+  "priority": "high",
+  "fit_score": "Major national developer with a broad geographic footprint in hazard-exposed Indonesia; asset disclosure and risk documentation needs are growing.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage states Sinar Mas Land is Indonesia’s leading diversified developer.",
+      "source": "https://www.sinarmasland.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sinarmasland.com",
+  "date_checked": "2026-08-24"
+}

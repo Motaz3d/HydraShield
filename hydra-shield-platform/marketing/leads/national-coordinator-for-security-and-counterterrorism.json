@@ -1,0 +1,35 @@
+{
+  "organization": "National Coordinator for Security and Counterterrorism",
+  "segment": "emergency_management",
+  "country": "NL",
+  "website": "https://english.nctv.nl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "The 2021 Limburg floods required a national crisis response and showed the need for all-hazard situational awareness and cross-sector coordination. The National Coordinator for Security and Counterterrorism (NCTV) is the national Dutch authority for counterterrorism, cybersecurity and crisis management, coordinating the government's response to major disasters and disruptions.",
+  "climate_exposure": "Rising flood, coastal storm and heat hazards increase the frequency and scale of events that can trigger national crisis management and strain civil-protection resources.",
+  "potential_pain": "Without a unified, real-time picture of climate-driven hazard exposure, coordination across safety regions, ministries and operators can be slow and incomplete during large events.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix real-time alerts and hazard intelligence for floods, coastal events and heatwaves across the Netherlands, including historical event footprints such as Limburg 2021.",
+  "relevant_capability": "Talaix alerts and monitoring capabilities for climate-related hazards.",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Position Talaix hazard alerts and event monitoring as a source of common operating picture for NCTV crisis-management coordination during flood and coastal emergencies.",
+  "priority": "medium",
+  "fit_score": "As the national crisis-management coordinator, NCTV needs multi-hazard situational awareness and is a natural buyer for standardised alert feeds and event intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: NCTV English homepage lists crisis management, cybersecurity and counterterrorism as core responsibilities and names the national coordinator.",
+      "source": "https://english.nctv.nl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://english.nctv.nl",
+  "date_checked": "2026-08-24"
+}

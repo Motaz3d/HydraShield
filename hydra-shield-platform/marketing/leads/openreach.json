@@ -1,0 +1,36 @@
+{
+  "organization": "Openreach",
+  "segment": "infrastructure",
+  "country": "GB",
+  "region": "United Kingdom",
+  "website": "https://www.openreach.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Openreach runs the UK's largest broadband network, connecting millions of homes, businesses and essential services, and is building the UK's largest Full Fibre network to reach 25 million premises. Recurring UK floods and the 2022 heatwave directly threaten its street cabinets, exchanges, underground ducts and engineering workforce; service disruption during emergencies affects emergency services, hospitals and remote workers.",
+  "climate_exposure": "Its nationwide telecom infrastructure — street cabinets, exchanges, cables and engineer operations — spans floodplains and heat-vulnerable urban areas across Great Britain.",
+  "potential_pain": "Flood inundation of street cabinets and exchanges, heat-related equipment stress and storm damage to overhead infrastructure drive repair costs, service outages and reputational risk.",
+  "relevant_hazards": ["flood", "heat", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers mapped to Openreach's cabinet and exchange locations, plus heat and wind risk context for network resilience planning.",
+  "relevant_capability": "Asset-level flood, heat and wind exposure screening with monitoring and alerts for critical telecom infrastructure.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Help Openreach integrate flood, heat and wind risk intelligence into network resilience planning, exchange/cabinet siting and emergency-response prioritisation.",
+  "priority": "high",
+  "fit_score": "As the monopoly national telecoms infrastructure owner-operator with a published mission to keep the UK connected, Openreach is a strong buyer for asset-level climate risk monitoring across its nationwide network.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Openreach's official site states it runs the UK's largest broadband network, connecting millions of homes and businesses, and is building the UK's largest Full Fibre network.",
+      "source": "https://www.openreach.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.openreach.com/",
+  "date_checked": "2026-08-24"
+}

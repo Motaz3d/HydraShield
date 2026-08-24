@@ -1,0 +1,36 @@
+{
+  "organization": "Department for Environment, Food & Rural Affairs",
+  "segment": "governments",
+  "country": "GB",
+  "region": "United Kingdom",
+  "website": "https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Defra is the UK government department responsible for improving and protecting the environment, supported by 36 agencies and public bodies. The UK faces recurring fluvial, coastal and surface-water floods and the 2022 heatwave stressed ecosystems, agriculture, water resources and infrastructure; Defra's flood-risk, climate-adaptation and environmental mandates mean it needs authoritative hazard intelligence to inform national policy and resilience spending.",
+  "climate_exposure": "Its responsibilities span flood-risk management, climate adaptation, agriculture, water and the natural environment across England and UK-wide coordination, all exposed to flood, heat and drought.",
+  "potential_pain": "Policymakers need consistent, location-specific flood and heat exposure intelligence to update national risk assessments, target adaptation funding and advise ministers after recurring events.",
+  "relevant_hazards": ["flood", "heat", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Address-level flood exposure layers and historical event intelligence for recent UK flood episodes, plus heat exposure context for the 2022 heatwave, suitable for national climate-risk reporting.",
+  "relevant_capability": "climate_risk_intelligence",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show Defra how Talaix national flood and heat exposure layers can support evidence-based climate adaptation, flood-risk policy and cross-portfolio environmental resilience.",
+  "priority": "high",
+  "fit_score": "As the lead UK government department for environment, flood risk and rural affairs, Defra is a natural buyer for authoritative hazard intelligence supporting policy, grants and national reporting.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Defra's official GOV.UK page states it is responsible for improving and protecting the environment and is supported by 36 agencies and public bodies.",
+      "source": "https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs",
+  "date_checked": "2026-08-24"
+}

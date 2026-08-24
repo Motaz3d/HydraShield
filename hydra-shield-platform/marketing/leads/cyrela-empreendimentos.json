@@ -1,0 +1,36 @@
+{
+  "organization": "Cyrela Empreendimentos e Participações",
+  "segment": "real_estate",
+  "country": "BR",
+  "region": "São Paulo",
+  "website": "https://www.cyrela.com.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Cyrela is one of Brazil's largest residential real estate developers, with a portfolio of high-end and middle-income projects across São Paulo and other major cities. The April-May 2024 floods in Rio Grande do Sul and recurring urban flash floods in São Paulo and coastal cities directly threaten construction sites, inventory and delivered assets.",
+  "climate_exposure": "The company owns, develops and sells residential properties concentrated in Brazilian metropolitan areas exposed to flooding, landslides and heat stress.",
+  "potential_pain": "Climate-driven construction delays, asset damage and buyer-risk perception are hard to quantify and mitigate without location-specific flood and wildfire exposure data.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Per-project flood and wildfire exposure screening with historical event intelligence for Cyrela's development pipeline.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "professional_report",
+  "recommended_message": "Show how Talaix can screen flood and wildfire exposure across Cyrela's development pipeline to inform site selection, insurance and buyer due diligence.",
+  "priority": "high",
+  "fit_score": "Major national residential developer with a nationwide project portfolio; direct physical asset exposure to Brazil's 2024 floods and recurring urban flooding makes climate risk intelligence highly relevant.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Cyrela's institutional page presents the company as a leading Brazilian developer with a broad portfolio of residential projects in São Paulo and other cities.",
+      "source": "https://www.cyrela.com.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cyrela.com.br",
+  "date_checked": "2026-08-24"
+}

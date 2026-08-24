@@ -1,0 +1,39 @@
+{
+  "organization": "Malaysian Reinsurance Berhad",
+  "segment": "insurance",
+  "country": "MY",
+  "region": "",
+  "website": "https://www.malaysian-re.com.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CRO",
+  "identified_problem": "Malaysia’s 2021–22 Klang Valley floods and recurring east-coast monsoon floods inflicted billions of ringgit in property and motor losses. Malaysian Re is the national reinsurance and retakaful operator; its domestic treaty portfolio absorbs catastrophe losses from Malaysian general insurers, so concentrated flood events directly affect its technical results and capital adequacy.",
+  "climate_exposure": "Its property and motor reinsurance treaties cover assets concentrated in flood-prone urban centres and river basins across Peninsular Malaysia and East Malaysia.",
+  "potential_pain": "Unexpected accumulation of flood claims after each monsoon season forces ad-hoc treaty pricing adjustments and reserves strain.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix Malaysia flood hazard layers and historical event intelligence for the 2021–22 Klang Valley floods.",
+  "relevant_capability": "climate risk intelligence",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show Malaysian Re how Talaix flood footprint analytics can sharpen catastrophe treaty pricing and accumulation control for Malaysian risks.",
+  "priority": "high",
+  "fit_score": "Very high fit: a national reinsurer with explicit exposure to Malaysia’s dominant peril and a balance-sheet incentive to quantify catastrophe accumulation.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Malaysian Re publishes Malaysian Insurance Highlights analysing flood impacts on the insurance market.",
+      "source": "https://www.malaysian-re.com.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.malaysian-re.com.my",
+  "date_checked": "2026-08-24"
+}

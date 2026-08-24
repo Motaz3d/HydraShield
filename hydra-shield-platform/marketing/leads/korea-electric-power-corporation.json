@@ -1,0 +1,36 @@
+{
+  "organization": "Korea Electric Power Corporation",
+  "segment": "infrastructure",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.kepco.co.kr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "South Korea has suffered severe urban flooding, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. Korea Electric Power Corporation (KEPCO) owns and operates the national electricity generation, transmission and distribution system, so flood inundation and wildfire can damage substations, towers, lines and supply chains across the country.",
+  "climate_exposure": "KEPCO's grid infrastructure is spread across all of South Korea, including flood-prone urban catchments around Seoul and wildfire-prone mountain corridors, with critical substations and transmission corridors exposed to both hazards.",
+  "potential_pain": "Flood and wildfire damage to grid assets causes service outages, emergency repair costs and regulatory pressure; operations teams need location-specific hazard monitoring to prioritise inspection and hardening budgets.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, applied to KEPCO's transmission and distribution asset locations.",
+  "relevant_capability": "infrastructure monitoring and hazard alerting",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring service that tracks flood and wildfire hazard around KEPCO's transmission and distribution assets, using the 2022 Seoul and 2023 Osong floods as calibration events.",
+  "priority": "high",
+  "fit_score": "High fit: KEPCO is the national electricity grid owner-operator with hard assets spread across the exact regions that have experienced recent flood disasters, making it a natural buyer for asset-level hazard monitoring.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: KEPCO's official website confirms it is the Korea Electric Power Corporation, responsible for stable power supply through generation, transmission and distribution.",
+      "source": "https://www.kepco.co.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kepco.co.kr/",
+  "date_checked": "2026-08-24"
+}

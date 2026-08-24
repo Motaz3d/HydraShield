@@ -1,0 +1,36 @@
+{
+  "organization": "Mitsubishi Estate Co., Ltd.",
+  "segment": "real_estate",
+  "country": "JP",
+  "region": "East Asia",
+  "website": "https://www.mec.co.jp/en/company/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Japan faces recurring typhoon and torrential-rain flooding, including the July 2018 western Japan floods. Mitsubishi Estate is one of Japan's largest property developers and owners, with flagship assets in Tokyo's Marunouchi, Otemachi and Yurakucho district and developments nationwide that are exposed to flood, wind and heat.",
+  "climate_exposure": "Large portfolio of office, retail, residential and urban development assets across Japan, including low-lying coastal and riverine districts in Tokyo and other major cities that are vulnerable to typhoon-driven rainfall and flooding.",
+  "potential_pain": "Flood and wind-driven rainfall can disrupt operations, damage properties and affect asset valuations; lenders and tenants increasingly expect documented climate risk evidence for prime real estate.",
+  "relevant_hazards": ["flood", "wind", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind and heat exposure layers and historical event intelligence for recent Japanese typhoon floods, mapped to Mitsubishi Estate's asset locations.",
+  "relevant_capability": "site screening across six hazards, historical events per site, evidence-labelled reports",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show how Talaix can screen Mitsubishi Estate's nationwide portfolio for flood, wind and heat exposure and provide an evidence-labelled dashboard for asset-level risk monitoring.",
+  "priority": "high",
+  "fit_score": "Mitsubishi Estate is a top-tier Japanese real estate owner-developer with concentrated high-value assets in central Tokyo and other flood/typhoon-exposed cities.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Mitsubishi Estate's English company page states it is a leading Japanese real estate group with over 130 years of urban development in Marunouchi and nationwide operations.",
+      "source": "https://www.mec.co.jp/en/company/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mec.co.jp/en/company/",
+  "date_checked": "2026-08-24"
+}

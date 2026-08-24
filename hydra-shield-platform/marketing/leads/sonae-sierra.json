@@ -1,0 +1,36 @@
+{
+  "organization": "Sonae Sierra",
+  "segment": "real_estate",
+  "country": "PT",
+  "region": "Maia, Porto",
+  "website": "https://www.sonaesierra.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Sonae Sierra is a Portuguese real estate company that develops, owns and manages retail, residential, workplace and mixed-use assets across Portugal and more than 35 countries, with €7 billion in assets under management. Portugal's 2017 Pedrógão Grande wildfires, recurring rural fire seasons and flash floods in the Lisbon metropolitan area directly threaten the physical condition, occupancy and insurance costs of its domestic properties.",
+  "climate_exposure": "Its Portuguese portfolio of shopping centres, residential projects and mixed-use assets is exposed to wildfire, flood, drought and heat across mainland Portugal.",
+  "potential_pain": "Property damage, business interruption, rising insurance premiums and tenant risk assessments increasingly require asset-level hazard data for acquisition, development and operations decisions.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix wildfire and flood exposure layers plus historical event intelligence for Portuguese regions where Sonae Sierra owns, develops or manages assets.",
+  "relevant_capability": "wildfire exposure layers, flood exposure layers, historical event intelligence, enterprise dashboard",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Demonstrate a location-level wildfire and flood risk screen across Sonae Sierra's Portuguese asset portfolio.",
+  "priority": "high",
+  "fit_score": "A major national real estate owner-operator with a large domestic asset base in a hazard-prone country is a strong fit for Talaix asset-level climate intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Sonae Sierra homepage states it operates in real estate with €7 billion in investment vehicles and active operations on three continents.",
+      "source": "https://www.sonaesierra.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sonaesierra.com",
+  "date_checked": "2026-08-24"
+}

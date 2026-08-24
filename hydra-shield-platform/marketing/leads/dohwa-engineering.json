@@ -1,0 +1,36 @@
+{
+  "organization": "Dohwa Engineering",
+  "segment": "engineering_firms",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.dohwa.co.kr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "South Korea has suffered severe urban flooding, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. Dohwa Engineering is a major Korean multi-disciplinary engineering firm that designs water-resources, environmental and infrastructure projects, so its feasibility studies, master plans and designs must account for intensifying flood and wildfire hazard.",
+  "climate_exposure": "Dohwa's project portfolio spans water resources, transportation, urban development and environmental infrastructure across South Korea, in catchments and landscapes increasingly exposed to extreme rainfall and wildfire.",
+  "potential_pain": "Public-sector and private clients are requiring climate-risk inputs in planning and environmental approvals, but the firm lacks scalable, location-specific flood and wildfire hazard layers to embed in proposals and designs.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, demonstrated on a sample of Dohwa's project geographies.",
+  "relevant_capability": "climate risk intelligence and historical event analytics",
+  "recommended_product": "api",
+  "recommended_message": "Offer an API integration that brings Talaix flood and wildfire hazard layers into Dohwa's planning and design workflows, anchored on the 2022 Seoul and 2023 Osong events.",
+  "priority": "medium",
+  "fit_score": "Medium-high fit: Dohwa is a well-established Korean engineering firm whose water-resources and infrastructure design work sits at the point where public clients need climate-risk justification; this slot uses the documented engineering-firms fallback because a pure environmental-consultancy target was not verifiable.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Dohwa Engineering's official website confirms it is a Korean multi-disciplinary engineering firm active in water resources, environment and infrastructure.",
+      "source": "https://www.dohwa.co.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.dohwa.co.kr/",
+  "date_checked": "2026-08-24"
+}

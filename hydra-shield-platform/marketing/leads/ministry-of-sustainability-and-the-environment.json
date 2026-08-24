@@ -1,0 +1,36 @@
+{
+  "organization": "Ministry of Sustainability and the Environment",
+  "segment": "governments",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.mse.gov.sg",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Ministry of Sustainability and the Environment (MSE) is the Singapore government ministry responsible for sustainability, environmental and climate policy. It has designated 2026 as the Year of Climate Adaptation, signalling climate adaptation as a national priority for a low-lying island exposed to flash floods, coastal inundation and urban heat.",
+  "climate_exposure": "Singapore's national climate adaptation agenda must address pluvial flash floods during intense rainfall, coastal inundation from sea-level rise and storm surges, and rising urban heat across the densely built island.",
+  "potential_pain": "National resilience planning needs traceable, multi-hazard evidence to prioritise adaptation investments, set design standards and coordinate whole-of-government action.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix regional flood, coastal and heat exposure layers plus historical event intelligence for Singapore.",
+  "relevant_capability": "Regional analysis and historical evidence",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer a briefing and territory pilot covering flood, coastal and heat exposure intelligence to support the Year of Climate Adaptation and national adaptation planning.",
+  "priority": "high",
+  "fit_score": "Strong fit: national ministry with explicit climate adaptation mandate, designated 2026 as the Year of Climate Adaptation, overseeing a low-lying, flood- and heat-exposed city-state.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: MSE homepage designates 2026 as the Year of Climate Adaptation and states its work touches sustainability, resilience and everyday life in Singapore.",
+      "source": "https://www.mse.gov.sg"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mse.gov.sg",
+  "date_checked": "2026-08-24"
+}

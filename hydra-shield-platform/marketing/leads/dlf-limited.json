@@ -1,0 +1,38 @@
+{
+  "organization": "DLF Limited",
+  "segment": "real_estate",
+  "country": "IN",
+  "region": "National",
+  "website": "https://www.dlf.in",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "India's monsoon floods, urban waterlogging and heatwaves increasingly disrupt commercial and residential real estate operations. DLF is one of India's largest listed real estate developers with extensive commercial, retail and residential assets across Delhi NCR, Mumbai, Chennai and other flood-prone metros.",
+  "climate_exposure": "DLF's office buildings, malls, residential towers and plotted developments are concentrated in Indian cities that experience recurrent pluvial flooding and extreme rainfall.",
+  "potential_pain": "Revenue loss from tenant disruptions, basement and car-park flooding, construction delays and rising insurance costs across a geographically concentrated portfolio.",
+  "relevant_hazards": [
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard maps for DLF project locations, showing pluvial and fluvial flood probability.",
+  "relevant_capability": "Talaix property-level flood risk intelligence and monitoring for real estate portfolios.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Add location-specific flood and waterlogging intelligence to due diligence and asset management for your nationwide development portfolio.",
+  "priority": "high",
+  "fit_score": "Strong fit: DLF's scale, listed status and concentration in flood-exposed Indian metros make it a natural buyer of portfolio-level hazard monitoring.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: DLF official website confirms it is a leading real estate developer in India.",
+      "source": "https://www.dlf.in"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.dlf.in",
+  "date_checked": "2026-08-24"
+}

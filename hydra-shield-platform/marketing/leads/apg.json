@@ -1,0 +1,35 @@
+{
+  "organization": "APG",
+  "segment": "investment",
+  "country": "NL",
+  "website": "https://www.apg.nl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "The 2021 Limburg floods and accelerating coastal/sea-level exposure threaten the real assets and infrastructure that back Dutch pension savings. APG is the Netherlands' largest pension asset manager, investing for pension funds such as ABP and bpfBOUW across equities, real estate and infrastructure, giving it direct exposure to climate-impaired Dutch and global assets.",
+  "climate_exposure": "Dutch real estate, infrastructure and farmland holdings are concentrated in low-lying delta areas exposed to riverine flood, coastal inundation, heat stress and drought.",
+  "potential_pain": "Underestimating physical climate risk can lead to asset write-downs, illiquidity and pressure to meet long-term pension liabilities.",
+  "relevant_hazards": ["flood", "coastal", "heat", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix climate risk intelligence for Dutch real estate and infrastructure, showing flood and coastal exposure under current and future scenarios.",
+  "relevant_capability": "Talaix climate risk intelligence and asset-level exposure analytics.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Help APG stress-test its Dutch real-asset and infrastructure allocations against Talaix flood and coastal hazard scenarios.",
+  "priority": "high",
+  "fit_score": "APG manages hundreds of billions in pension assets and has a long-dated liability profile, making forward-looking physical risk analytics highly relevant to its investment process.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: APG site positions it as a pension investor managing assets 'for now, later and the future' for major Dutch pension funds.",
+      "source": "https://www.apg.nl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.apg.nl",
+  "date_checked": "2026-08-24"
+}

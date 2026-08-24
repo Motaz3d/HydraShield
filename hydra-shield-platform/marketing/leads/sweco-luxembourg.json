@@ -1,0 +1,35 @@
+{
+  "organization": "Sweco Luxembourg",
+  "segment": "environmental_consulting",
+  "country": "LU",
+  "website": "https://www.sweco.lu/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Luxembourg's July 2021 floods caused severe damage to buildings, roads and utilities, driving public and private clients to demand climate-resilient urban and infrastructure design. Sweco Luxembourg is a major engineering and architecture consultancy active in sustainable buildings, urban planning and environmental design.",
+  "climate_exposure": "Sweco's Luxembourg portfolio covers buildings, urban districts and infrastructure in river valleys and urban catchments vulnerable to pluvial and fluvial flooding, as well as heat and storm risks.",
+  "potential_pain": "Winning and delivering high-stakes resilience and sustainability projects requires reliable, evidence-based multi-hazard data; coarse or outdated inputs can weaken proposals and client trust.",
+  "relevant_hazards": ["flood", "wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wildfire and heat hazard layers and historical event intelligence for Luxembourg project sites and the July 2021 flood footprint.",
+  "relevant_capability": "climate risk intelligence and historical event analytics",
+  "recommended_product": "professional_report",
+  "recommended_message": "Provide project-site flood, wildfire and heat risk reports so Sweco Luxembourg can embed evidence-based climate resilience into urban planning and building design.",
+  "priority": "medium",
+  "fit_score": "Medium-high fit: Sweco is a leading European engineering and architecture firm with a dedicated Luxembourg office and a public focus on sustainable, resilient urban and building design.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: sweco.lu confirms Sweco's Luxembourg operation designs sustainable urban spaces and buildings, combining architecture, engineering and environment expertise.",
+      "source": "https://www.sweco.lu/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sweco.lu/",
+  "date_checked": "2026-08-24"
+}

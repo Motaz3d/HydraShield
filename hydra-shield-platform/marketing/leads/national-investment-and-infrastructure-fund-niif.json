@@ -1,0 +1,39 @@
+{
+  "organization": "National Investment and Infrastructure Fund (NIIF)",
+  "segment": "investment",
+  "country": "IN",
+  "region": "National",
+  "website": "https://www.niifindia.in",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "India faces annual monsoon floods (Kerala 2018, Assam recurrent) and Himalayan flash floods that damage infrastructure, transport corridors and energy assets. NIIF is India's sovereign-anchored alternative asset manager with capital deployed across infrastructure and energy platforms, so flood and climate-related asset impairment directly threatens portfolio returns and capital preservation.",
+  "climate_exposure": "NIIF's Master Fund and energy platforms own or finance ports, roads, renewables, logistics and urban infrastructure in flood-prone and cyclone-exposed regions across India.",
+  "potential_pain": "Concentrated exposure to riverine and coastal flooding without granular, location-specific hazard intelligence for portfolio companies and assets.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical-event and forward-looking flood hazard layers for NIIF's portfolio geographies, including monsoon pluvial and fluvial flood footprints.",
+  "relevant_capability": "Talaix portfolio-level climate risk intelligence and asset-specific hazard scoring for infrastructure investors.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Quantify flood and wildfire exposure across your infrastructure portfolio to protect long-term asset value and inform divestment or resilience capex decisions.",
+  "priority": "high",
+  "fit_score": "High strategic fit: NIIF is a domestic, infrastructure-focused investor whose mandate aligns directly with Talaix's asset-level hazard analytics; the sovereign-anchored profile also creates follow-on advocacy potential.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: NIIF website lists infrastructure/energy platforms and leadership team including CIO and Managing Partners.",
+      "source": "https://www.niifindia.in"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.niifindia.in",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,35 @@
+{
+  "organization": "Badan Nasional Penanggulangan Bencana (BNPB)",
+  "segment": "emergency_management",
+  "country": "ID",
+  "website": "https://www.bnpb.go.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "BNPB is Indonesia’s national disaster-management authority; it coordinates preparedness and response to Jakarta floods, peatland fires, earthquakes and other hazards across the archipelago.",
+  "climate_exposure": "National mandate covers flood, wildfire, drought, heat and other hazards in all provinces, requiring multi-hazard situational awareness for civil protection.",
+  "potential_pain": "Early warning and operational coordination across thousands of islands require timely, source-attributed hazard intelligence to allocate resources and issue alerts.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official homepage lists current disaster-response news, including West Kalimantan fire water-bombing operations and post-earthquake logistics, confirming active flood/wildfire coordination.",
+  "relevant_capability": "Monitoring + SMS alerts, historical event evidence and a multi-hazard registry.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Talaix can augment BNPB’s existing warning systems with satellite-derived flood and wildfire monitoring layers and historical event context for rapid, evidence-based coordination.",
+  "priority": "high",
+  "fit_score": "National emergency-management agency with an explicit mandate for floods and fires; direct operational need for hazard intelligence and alerting.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: homepage shows active disaster-management news including West Kalimantan fire response and earthquake logistics.",
+      "source": "https://www.bnpb.go.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bnpb.go.id",
+  "date_checked": "2026-08-24"
+}

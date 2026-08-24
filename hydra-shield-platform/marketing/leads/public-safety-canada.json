@@ -1,0 +1,36 @@
+{
+  "organization": "Public Safety Canada",
+  "segment": "emergency_management",
+  "country": "CA",
+  "region": "North America",
+  "website": "https://www.publicsafety.gc.ca/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "Public Safety Canada is the federal department responsible for national emergency management, disaster financial assistance, critical infrastructure protection, and public safety policy. The 2023 record Canadian wildfire season triggered interprovincial evacuations and federal disaster assistance, while the 2021 British Columbia floods tested federal-provincial coordination and critical infrastructure resilience.",
+  "climate_exposure": "Public Safety Canada must coordinate national preparedness, response, and recovery for flood and wildfire events that cross provincial boundaries and strain federal disaster-assistance programs and critical-infrastructure partnerships.",
+  "potential_pain": "Limited real-time, standardized flood and wildfire exposure intelligence across provinces slows pre-positioning of federal assets, complicates disaster financial assistance triggers, and hampers all-hazards risk assessments.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Canadian flood and wildfire hazard layers, historical event intelligence for the 2021 BC floods and 2023 national fire season, and national monitoring capabilities that support federal emergency-management coordination.",
+  "relevant_capability": "Real-time and historical climate-risk intelligence for floods and wildfires across Canada, supporting national emergency-management coordination and critical-infrastructure risk assessment.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer a federal enterprise dashboard that gives Public Safety Canada a unified view of flood and wildfire exposure across provinces to inform preparedness, response, and disaster-assessment workflows.",
+  "priority": "high",
+  "fit_score": "High fit: Public Safety Canada has the national emergency-management mandate most directly exercised during Canada’s recent record wildfire and flood seasons, making hazard intelligence immediately relevant to its operations.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Public Safety Canada’s official website is the federal portal for national emergency management and public safety programs.",
+      "source": "https://www.publicsafety.gc.ca/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.publicsafety.gc.ca/",
+  "date_checked": "2026-08-24"
+}

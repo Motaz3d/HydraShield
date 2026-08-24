@@ -1,0 +1,36 @@
+{
+  "organization": "Nationaal Crisiscentrum / Centre de Crise National",
+  "segment": "emergency_management",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.crisiscentrum.be",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The July 2021 Vesdre floods overwhelmed local emergency services and killed dozens of people in Liège province, showing that Belgium needs better national flood preparedness and cross-border situational awareness. The Nationaal Crisiscentrum is Belgium's national crisis centre under the Federal Public Service Interior, coordinating civil protection, public alerting and emergency planning.",
+  "climate_exposure": "The centre's mandate covers the whole country, including the Meuse, Vesdre and Scheldt river systems as well as coastal and heat-wave risks that affect public safety and critical infrastructure.",
+  "potential_pain": "Coordinating timely warnings and response across federal, regional and local actors requires a single, authoritative multi-hazard monitoring and alerting picture, especially for fast-evolving flood and wildfire events.",
+  "relevant_hazards": ["flood", "wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Multi-hazard monitoring registry and historical event intelligence for the July 2021 Vesdre floods, with SMS/email alerting capabilities for Belgian territories.",
+  "relevant_capability": "Monitoring + SMS alerts",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer a national-territory monitoring pilot that gives the Crisis Centre source-attributed flood, wildfire and heat alerts for Belgium and its border regions.",
+  "priority": "high",
+  "fit_score": "High fit: Belgium's lead civil-protection coordination body with a clear operational mandate for the exact perils that caused the 2021 disaster.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Crisiscentrum homepage identifies the organisation as the Nationaal Crisiscentrum / Centre de Crise National under FOD Binnenlandse Zaken, with sections on risks in Belgium, government preparedness and BE-Alert.",
+      "source": "https://www.crisiscentrum.be"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.crisiscentrum.be",
+  "date_checked": "2026-08-24"
+}

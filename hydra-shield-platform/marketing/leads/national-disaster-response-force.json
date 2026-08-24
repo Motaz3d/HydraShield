@@ -1,0 +1,39 @@
+{
+  "organization": "National Disaster Response Force, Ministry of Home Affairs, Government of India",
+  "segment": "emergency_management",
+  "country": "IN",
+  "region": "National",
+  "website": "https://www.ndrf.gov.in",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "India's monsoon floods, flash floods and cyclones generate mass-casualty events requiring rapid, pre-positioned response. The National Disaster Response Force is India's specialized disaster response force with 16 battalions under the Ministry of Home Affairs, and its operational planning depends on accurate, location-specific hazard and early-warning intelligence to deploy teams before disasters strike.",
+  "climate_exposure": "NDRF battalions are pre-positioned nationwide and respond to floods, cyclones, landslides, building collapses and other climate-driven emergencies across all Indian states and union territories.",
+  "potential_pain": "Need for actionable flood and landslide forecasts plus historical event intelligence to improve pre-positioning, resource allocation and response times during monsoon and cyclone seasons.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix real-time flood monitoring, historical flood event footprints and hazard layers aligned to NDRF's areas of responsibility.",
+  "relevant_capability": "Talaix disaster intelligence and monitoring capabilities for emergency response pre-positioning and situational awareness.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Enhance pre-positioning and rapid response with location-specific flood and landslide intelligence for NDRF battalions during India's monsoon and cyclone seasons.",
+  "priority": "high",
+  "fit_score": "High fit: NDRF is the country's primary disaster response force; operational demand for hazard intelligence is direct and recurring every monsoon season.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: NDRF official website confirms it is a specialized disaster response force under Ministry of Home Affairs with 16 battalions.",
+      "source": "https://www.ndrf.gov.in/en/about-us"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ndrf.gov.in/en/about-us",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,35 @@
+{
+  "organization": "Consulgal",
+  "segment": "environmental_consulting",
+  "country": "PT",
+  "website": "https://consulgal.pt/ambiente/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Sustainability Officer",
+  "identified_problem": "Portugal's 2017 deadly wildfires and recurring floods have increased the climate-resilience demands on infrastructure and environmental planning. Consulgal is a Portuguese engineering and environmental consultancy headquartered in Carcavelos with over 40 years of experience in water, wastewater, solid waste and environmental projects.",
+  "climate_exposure": "Consulgal's Portuguese projects cover water supply, wastewater and solid-waste facilities, urban infrastructure and environmental systems across regions exposed to wildfire, riverine flooding and coastal storm impacts.",
+  "potential_pain": "Public clients and regulators are requiring climate-risk and resilience inputs in environmental approvals and infrastructure designs; Consulgal needs scalable flood and wildfire hazard layers to support feasibility studies and environmental assessments.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers plus historical event intelligence for Portugal's 2017 wildfires and recent floods, demonstrated on Consulgal's water, environment and infrastructure project geographies.",
+  "relevant_capability": "climate risk intelligence and historical event analytics",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer project-site flood and wildfire risk reports so Consulgal can embed Talaix hazard intelligence into Portuguese water, wastewater and environmental infrastructure studies.",
+  "priority": "high",
+  "fit_score": "High fit: Consulgal is a well-established Portuguese engineering and environmental consultancy headquartered in mainland Portugal, with explicit environment services and a project portfolio directly exposed to floods and wildfires.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: consulgal.pt describes the company as a Portuguese engineering and environmental consultancy and its environment page details water, wastewater and solid-waste projects in Portugal and abroad.",
+      "source": "https://consulgal.pt/ambiente/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://consulgal.pt/ambiente/",
+  "date_checked": "2026-08-24"
+}

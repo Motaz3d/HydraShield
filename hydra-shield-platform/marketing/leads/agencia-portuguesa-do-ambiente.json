@@ -1,0 +1,36 @@
+{
+  "organization": "Agência Portuguesa do Ambiente",
+  "segment": "governments",
+  "country": "PT",
+  "region": "Amadora, Lisbon",
+  "website": "https://www.apambiente.pt",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The Portuguese Environment Agency (APA) is the national authority for water, climate, environmental licensing and risk prevention, including flood, drought and coastal-cliff risk. Portugal's documented disasters—the 2017 Pedrógão Grande wildfires, recurrent rural fire seasons, Lisbon-area flash floods and prolonged droughts—fall within or intersect APA's regulatory and planning mandates.",
+  "climate_exposure": "APA regulates and plans for environmental and water resources across Portugal, where floods, droughts, wildfires and coastal erosion increasingly strain national adaptation planning.",
+  "potential_pain": "APA must produce and update national climate-adaptation and water-management plans under EU and national obligations, requiring authoritative, spatially explicit hazard data.",
+  "relevant_hazards": ["flood", "wildfire", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wildfire and drought exposure layers and historical event intelligence for Portugal, with source-attached evidence.",
+  "relevant_capability": "flood exposure layers, wildfire exposure layers, drought monitoring, historical event intelligence, API",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose integrating Talaix hazard exposure and historical event layers into APA's national flood, drought and climate-adaptation planning tools.",
+  "priority": "high",
+  "fit_score": "APA's role as the national environment and water authority makes it a direct user of authoritative flood, drought and wildfire intelligence for public planning.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: APA homepage lists competences for climate adaptation, water resources, environmental licensing and prevention/management of flood, drought and coastal risks.",
+      "source": "https://www.apambiente.pt"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.apambiente.pt",
+  "date_checked": "2026-08-24"
+}

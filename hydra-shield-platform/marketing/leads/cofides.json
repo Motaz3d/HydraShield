@@ -1,0 +1,36 @@
+{
+  "organization": "Compañía Española de Financiación del Desarrollo, COFIDES, S.A, S.M.E.",
+  "segment": "investment",
+  "country": "ES",
+  "region": "Spain",
+  "website": "https://www.cofides.es",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "Spain's 2024 Valencia DANA floods and recurring summer wildfires caused tens of billions of euros in asset damage and business interruption. COFIDES finances and co-invests in infrastructure, energy and corporate projects across Spain and emerging markets, so flood and wildfire losses at portfolio companies or project sites can directly impair loan performance, equity value and development outcomes.",
+  "climate_exposure": "COFIDES has committed more than EUR 5.1 billion across over 1,200 projects; many are long-tenor investments in physical assets located in regions exposed to flash flooding, riverine flooding and wildfire.",
+  "potential_pain": "Concentrated exposure to flood/wildfire zones could trigger covenant breaches, write-downs and unexpected due-diligence liabilities on new transactions.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix Spain flood and wildfire hazard layers plus the 2024 Valencia DANA historical footprint, mapped against COFIDES-backed project geographies.",
+  "relevant_capability": "Asset-level climate risk intelligence and historical event intelligence for flood and wildfire exposure in investment portfolios.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Identify and price physical climate risk across your Spanish and international project finance portfolio before the next flood or wildfire season.",
+  "priority": "medium",
+  "fit_score": "Strong fit: a state-backed development financier with a physical-asset portfolio and a mandate to protect public value; climate hazard intelligence supports both risk management and origination.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: COFIDES publishes a EUR 1.017 billion total investment portfolio and more than 1,200 financed projects on its homepage, and its legal notice confirms headquarters in Madrid.",
+      "source": "https://www.cofides.es"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cofides.es",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Hellenic Corporation of Assets and Participations S.A. (GrowthFund)",
+  "segment": "investment",
+  "country": "GR",
+  "region": "Athens",
+  "website": "http://www.hcap.gr/en/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "GrowthFund is Greece's national investment fund, with €12.3 billion in assets under management across 23 subsidiaries and participations spanning 11 sectors including infrastructure, energy, real estate, and transport concessions. These holdings are concentrated in Greece and are directly exposed to the 2023 Thessaly floods and the 2023–2024 wildfire seasons.",
+  "climate_exposure": "A diversified public-asset portfolio of Greek infrastructure, energy, transport, and real-estate participations located in regions vulnerable to flood, wildfire, heat, and wind.",
+  "potential_pain": "Climate-driven asset damage and devaluation across concession and real-estate holdings threaten portfolio returns, capital planning, and the fund's ability to meet long-term public-value targets.",
+  "relevant_hazards": ["flood", "wildfire", "heat", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the 2023 Thessaly floods and recent Greek wildfires, mapped across the GrowthFund portfolio geography.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Screen the national fund's Greek infrastructure and real-estate participations against current flood and wildfire hazard layers to inform asset-level risk budgeting and resilience planning.",
+  "priority": "high",
+  "fit_score": "A sovereign investment vehicle with a large, asset-heavy domestic portfolio spanning sectors most sensitive to physical climate risk; strong candidate for portfolio-wide hazard monitoring and risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: GrowthFund English homepage reports €12.3B in assets under management, 23 subsidiaries/participations, and 11 investment sectors.",
+      "source": "http://www.hcap.gr/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "http://www.hcap.gr/en/",
+  "date_checked": "2026-08-24"
+}

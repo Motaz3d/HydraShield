@@ -1,0 +1,38 @@
+{
+  "organization": "Federal Office for the Environment (FOEN)",
+  "segment": "governments",
+  "country": "CH",
+  "website": "https://www.bafu.admin.ch/bafu/en/home.html",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Switzerland experienced severe floods in 2021 and again in 2024, with impacts on settlements, transport and water infrastructure. FOEN is the federal agency responsible for environmental protection, climate policy, natural-hazard management and water protection, giving it a direct mandate to understand and reduce physical climate risks.",
+  "climate_exposure": "FOEN's mandate covers the whole of Switzerland, including river basins, alpine valleys and urban centres increasingly exposed to floods, drought, heat and wildfire under climate change.",
+  "potential_pain": "Federal climate-adaptation plans, hazard maps and cantonal guidance require consistent, high-resolution hazard data that can be difficult to synthesise across 26 cantons and multiple agencies.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix national-scale flood and wildfire hazard intelligence, including historical event data for the 2021 and 2024 Swiss floods.",
+  "relevant_capability": "National climate hazard data layers, risk analytics and historical event intelligence for government planning.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Strengthen federal climate adaptation and disaster-prevention planning with high-resolution flood and wildfire risk data.",
+  "priority": "high",
+  "fit_score": "FOEN's statutory role in climate, water and natural-hazard management makes it a natural fit for authoritative, location-specific flood and wildfire intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: FOEN's official homepage states it is responsible for protecting the country against natural disasters, safeguarding the environment and human health, and climate-related policy.",
+      "source": "https://www.bafu.admin.ch/bafu/en/home.html"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bafu.admin.ch/bafu/en/home.html",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "REDEIA CORPORACIÓN, S.A.",
+  "segment": "infrastructure",
+  "country": "ES",
+  "region": "Spain",
+  "website": "https://www.redeia.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Spain's 2024 Valencia DANA floods and recurring wildfires threaten critical national infrastructure. Redeia operates the Spanish electricity transmission grid and telecommunications infrastructure, with lines, towers and substations distributed across fire-prone forests and flood-prone valleys; storm and fire damage can cause widespread outages and expensive repairs.",
+  "climate_exposure": "The company owns and operates the high-voltage transmission network spanning the Iberian Peninsula, plus national and international fibre and satellite assets, in regions exposed to flash floods, wildfires and high winds.",
+  "potential_pain": "Wildfire damage to towers or flood damage to substations can trigger network outages, regulatory penalties, large capital expenditures and rising insurance premiums.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix Spain flood and wildfire hazard layers mapped along Redeia's transmission corridors, plus historical DANA 2024 impact data.",
+  "relevant_capability": "Infrastructure network climate risk intelligence, monitoring and historical event intelligence for flood and wildfire hazards.",
+  "recommended_product": "api",
+  "recommended_message": "Integrate Talaix flood and wildfire risk data into Redeia's network operations and asset management systems to harden the grid before the next extreme event.",
+  "priority": "high",
+  "fit_score": "Very high fit: the national electricity transmission owner-operator with a geographically distributed asset base directly exposed to Spain's two dominant climate hazards.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Redeia legal notice confirms the company as REDEIA CORPORACIÓN, S.A. with registered office in Alcobendas (Madrid), and its site describes electricity and telecommunications infrastructure operations.",
+      "source": "https://www.redeia.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.redeia.com",
+  "date_checked": "2026-08-24"
+}

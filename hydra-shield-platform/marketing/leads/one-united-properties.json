@@ -1,0 +1,36 @@
+{
+  "organization": "One United Properties S.A.",
+  "segment": "real_estate",
+  "country": "RO",
+  "region": "București",
+  "website": "https://one.ro",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "One United Properties is the largest listed real estate developer on the Bucharest Stock Exchange, with a portfolio of residential, office and mixed-use projects across Bucharest and other Romanian cities. The 2024 Galați floods and increasing urban flash-flood risk in Bucharest place its developments and buyers in potentially exposed catchments.",
+  "climate_exposure": "Its projects span central and emerging Bucharest districts as well as other cities, where intense rainfall and drainage constraints can generate localized flooding and heat-island effects.",
+  "potential_pain": "Undisclosed flood exposure at development sites can delay permitting, trigger warranty claims, damage buyer confidence and attract regulatory scrutiny on climate risk disclosure.",
+  "relevant_hazards": ["flood", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix parcel-level flood exposure reports and historical event intelligence for Bucharest and other cities where One United Properties is active.",
+  "relevant_capability": "flood exposure layers",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer site-specific flood and heat exposure reports for One United Properties' development pipeline to support risk disclosure and site selection.",
+  "priority": "medium",
+  "fit_score": "Major listed developer with a large national pipeline; flood and heat screening is relevant across its project portfolio and buyer due diligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: One United Properties is the largest listed real estate developer on the Bucharest Stock Exchange with an extensive Bucharest portfolio.",
+      "source": "https://one.ro"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://one.ro",
+  "date_checked": "2026-08-24"
+}

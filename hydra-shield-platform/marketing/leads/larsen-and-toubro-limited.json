@@ -1,0 +1,39 @@
+{
+  "organization": "Larsen & Toubro Limited",
+  "segment": "engineering_firms",
+  "country": "IN",
+  "region": "National",
+  "website": "https://www.larsentoubro.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "India's monsoon floods, Himalayan flash floods and coastal hazards regularly damage roads, bridges, ports, power and water infrastructure that L&T builds and operates. As India's largest engineering and construction conglomerate, L&T's project pipelines, operating assets and client contracts are exposed to climate-driven site interruptions and design failures.",
+  "climate_exposure": "L&T's hydropower, water, transportation, heavy civil and power transmission projects span flood-prone river basins, coastal zones and Himalayan terrain.",
+  "potential_pain": "Contract delays, cost overruns, claims, and reputational risk from projects sited in areas with underestimated flood or landslide hazard.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix hazard layers for L&T's project footprints, including historical flood events and forward-looking flood scenarios.",
+  "relevant_capability": "Talaix engineering-grade climate risk intelligence for infrastructure siting, design and resilience planning.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Integrate high-resolution flood and landslide hazard intelligence into engineering design, bidding and risk management for infrastructure projects across India.",
+  "priority": "high",
+  "fit_score": "High fit: L&T's nationwide infrastructure footprint and EPC leadership create demand for granular hazard data to de-risk projects and support client advisory services.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: L&T corporate website confirms headquarters in Mumbai and business lines in EPC, hi-tech manufacturing and services.",
+      "source": "https://www.larsentoubro.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.larsentoubro.com",
+  "date_checked": "2026-08-24"
+}

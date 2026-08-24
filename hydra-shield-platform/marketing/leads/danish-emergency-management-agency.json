@@ -1,0 +1,36 @@
+{
+  "organization": "Danish Emergency Management Agency",
+  "segment": "emergency_management",
+  "country": "DK",
+  "region": "Europe",
+  "website": "https://www.brs.dk",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "Denmark is repeatedly hit by cloudburst flooding in Copenhagen, Aarhus and other cities, and its long, low-lying coastline faces storm-surge exposure. The Danish Emergency Management Agency (Beredskabsstyrelsen) is a central part of Denmark's disaster preparedness, preventing and responding to crises and major accidents. It therefore needs national-scale exposure intelligence to coordinate preparedness, response and recovery for flood and coastal events.",
+  "climate_exposure": "Beredskabsstyrelsen must coordinate national preparedness, response and recovery for flood and coastal-surge events that cross municipal boundaries and strain national disaster assistance and critical-infrastructure partnerships.",
+  "potential_pain": "Limited real-time, standardised flood and coastal exposure intelligence across municipalities slows pre-positioning of national assets and complicates damage assessment and all-hazards risk assessments.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Danish flood and coastal hazard layers, historical event intelligence for documented cloudburst and coastal surge events, and national monitoring capabilities that support Danish emergency-management coordination.",
+  "relevant_capability": "Real-time and historical climate-risk intelligence for floods and coastal surges across Denmark, supporting national emergency-management coordination and critical-infrastructure risk assessment.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer a national enterprise dashboard that gives Beredskabsstyrelsen a unified view of flood and coastal exposure across Denmark to inform preparedness, response and damage-assessment workflows.",
+  "priority": "high",
+  "fit_score": "High fit: Beredskabsstyrelsen has the national civil-protection mandate most directly exercised during Denmark's cloudburst and coastal surge events, making hazard intelligence immediately relevant to its operations.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: brs.dk is the official website of Beredskabsstyrelsen, described as a central part of Denmark's disaster preparedness that prevents and responds to crises and major accidents.",
+      "source": "https://www.brs.dk"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.brs.dk",
+  "date_checked": "2026-08-24"
+}

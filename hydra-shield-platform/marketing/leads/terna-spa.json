@@ -1,0 +1,36 @@
+{
+  "organization": "Terna S.p.A.",
+  "segment": "infrastructure",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://www.terna.it/en/who-we-are",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Terna is Italy's national electricity transmission system operator and the first grid operator for electricity transmission in Italy. Its pylons, substations and rights-of-way cross regions affected by the May 2023 Emilia-Romagna floods and recurring Sicilian and southern wildfires.",
+  "climate_exposure": "High-voltage lines and substations are exposed to fluvial and pluvial flooding in the Po Valley and central-northern Italy, and to wildfire heat, smoke and vegetation damage in Sicily, Calabria and other fire-prone regions.",
+  "potential_pain": "Flood or wildfire damage to substations and lines can cause outages, trigger expensive emergency repairs and expose the operator to regulatory penalties and supply-security scrutiny.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers and historical event intelligence mapped to Terna's transmission corridors in Emilia-Romagna, Sicily and other critical geographies.",
+  "relevant_capability": "Infrastructure climate risk intelligence and monitoring",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer a monitoring pilot that overlays Talaix flood and wildfire layers on Terna's transmission assets to prioritize inspections, vegetation management and contingency plans.",
+  "priority": "high",
+  "fit_score": "Excellent fit: the monopoly owner-operator of Italy's national electricity grid, with hard assets directly exposed to the documented flood and wildfire events and strong incentives to protect network resilience.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Terna's official 'Who we are' page states that Terna is the first grid operator for electricity transmission in Italy and a key player in the electricity system.",
+      "source": "https://www.terna.it/en/who-we-are"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.terna.it/en/who-we-are",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Cabinet Office (Disaster Management), Government of Japan",
+  "segment": "emergency_management",
+  "country": "JP",
+  "region": "East Asia",
+  "website": "https://www.bousai.go.jp/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "Japan is exposed to recurring typhoon floods, highlighted by the July 2018 western Japan floods, as well as landslides, earthquakes and other hazards. The Cabinet Office (Disaster Management) is the national government body responsible for disaster prevention and crisis management, coordinating civil protection and local government disaster response.",
+  "climate_exposure": "Nationwide mandate covering all prefectures and municipalities exposed to typhoon flooding, landslides, wind damage and other natural hazards across Japan's coastal, riverine and mountainous areas.",
+  "potential_pain": "National disaster management requires authoritative, real-time multi-hazard intelligence and historical event evidence to coordinate preparedness, response and recovery across local governments and agencies.",
+  "relevant_hazards": ["flood", "wind", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix monitoring + SMS alerts, historical event intelligence and multi-hazard registry for flood, wind and wildfire events across Japan.",
+  "relevant_capability": "monitoring + SMS alerts, historical evidence, multi-hazard registry",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring pilot that gives the Cabinet Office and local governments real-time flood and typhoon alerts with historical event context for national disaster preparedness.",
+  "priority": "high",
+  "fit_score": "The Cabinet Office (Disaster Management) has the central government mandate for civil protection and disaster management in one of the world's most disaster-exposed advanced economies.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: The Cabinet Office disaster-management portal (Bousai) is operated by the Cabinet Office and aggregates national disaster information, White Papers and recent event pages including the 2018 western Japan floods and major typhoons.",
+      "source": "https://www.bousai.go.jp/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bousai.go.jp/",
+  "date_checked": "2026-08-24"
+}

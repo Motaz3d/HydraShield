@@ -1,0 +1,36 @@
+{
+  "organization": "Schroeder & Associés SA",
+  "segment": "engineering_firms",
+  "country": "LU",
+  "region": "",
+  "website": "https://www.schroeder.lu",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Schroeder & Associés is a Luxembourg engineering consultancy with 60 years' experience and around 450 staff serving structural, infrastructure and services projects. No dedicated national environmental consultancy could be verified, so this major national engineering firm is used as the consultancy fallback. Luxembourg's July 2021 floods damaged buildings, roads and utility infrastructure, increasing demand for climate-resilient design.",
+  "climate_exposure": "Its project portfolio spans Luxembourg's built environment and infrastructure, including flood-prone river valleys and storm-exposed sites.",
+  "potential_pain": "Engineering studies must integrate flood and storm hazard data to size drainage, protect structures and meet resilience expectations for public and private clients.",
+  "relevant_hazards": ["flood", "wildfire", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix hazard exposure maps and historical flood event intelligence for Luxembourg project sites.",
+  "relevant_capability": "hazard layers",
+  "recommended_product": "professional_report",
+  "recommended_message": "Provide Schroeder & Associés with project-site flood, wildfire and wind risk reports to embed climate resilience into engineering studies.",
+  "priority": "medium",
+  "fit_score": "As a large national engineering consultancy working on local infrastructure and structures, it can act as a channel for hazard data into project design.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: schroeder.lu describes the firm as a Luxembourg engineering consultancy active in structure, infrastructure and services with c.450 employees.",
+      "source": "https://www.schroeder.lu"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.schroeder.lu",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Ayala Land, Inc.",
+  "segment": "real_estate",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://ayalaland.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Ayala Land is one of the largest and most diversified property developers in the Philippines, with a portfolio of residential, commercial, retail and mixed-use estates across the archipelago. Its master-planned communities, malls and office towers are located in areas repeatedly exposed to tropical cyclone flooding, storm surge and damaging winds.",
+  "climate_exposure": "Ayala Land developments span Metro Manila, Cebu, Bacolod, Davao and other coastal and riverine cities that face recurring typhoon-induced flooding, flash floods and wind damage during the wet season.",
+  "potential_pain": "Flood and wind damage to existing malls, offices and residential towers can disrupt rental income and tenant operations, while unpriced hazard exposure in new master-planned estates can raise capital costs, insurance premiums and disclosure obligations.",
+  "relevant_hazards": ["flood", "wind", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Philippines flood, wind and coastal hazard layers plus historical event intelligence for recent typhoon flood footprints overlaid on Ayala Land’s key estate and township locations.",
+  "relevant_capability": "Asset-level flood, wind and coastal surge exposure screening with historical event intelligence and monitoring for large property development portfolios.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring pilot that tracks typhoon flood, wind and coastal surge risk across Ayala Land’s mixed-use estate portfolio before and during the Philippine wet season.",
+  "priority": "high",
+  "fit_score": "Very high fit: the country’s leading property developer holds a geographically dispersed portfolio of income-generating assets in one of the world’s most cyclone-exposed markets, making location-level hazard monitoring directly relevant to risk and operations.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ayalaland.com describes Ayala Land as a leading Philippine property developer with mixed-use, residential, commercial and retail estates nationwide.",
+      "source": "https://ayalaland.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://ayalaland.com/",
+  "date_checked": "2026-08-24"
+}

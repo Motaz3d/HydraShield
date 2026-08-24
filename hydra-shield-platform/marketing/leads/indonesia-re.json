@@ -1,0 +1,35 @@
+{
+  "organization": "PT Reasuransi Indonesia Utama (Persero) — Indonesia Re",
+  "segment": "insurance",
+  "country": "ID",
+  "website": "https://www.indonesiare.co.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "As Indonesia’s national reinsurer, Indonesia Re covers general and life reinsurance for cedents across the archipelago, where recurrent Jakarta floods and dry-season peatland fires in Kalimantan and Sumatra drive insured property, motor and infrastructure losses.",
+  "climate_exposure": "Its reinsurance book accumulates flood and wildfire risk from cedents operating in low-lying Greater Jakarta and fire-prone peatland regions.",
+  "potential_pain": "Sudden spikes in flood and wildfire claims after major events strain reserve adequacy, treaty pricing and accumulation control.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Official homepage articles explicitly discuss flood disaster losses (e.g. ‘Bencana Banjir’) and the reinsurer’s underwriting focus, confirming exposure to Indonesia’s key hazards.",
+  "relevant_capability": "Multi-hazard portfolio screening and historical event intelligence with source-attached results.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix can map cedents’ exposure to Jakarta flood and peatland-fire zones to support treaty pricing, accumulation control and claims preparedness.",
+  "priority": "high",
+  "fit_score": "National reinsurer with a public focus on disaster risk; location-level flood/wildfire intelligence directly improves underwriting and risk selection.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: national reinsurer homepage discusses flood risk and underwriting categories.",
+      "source": "https://www.indonesiare.co.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.indonesiare.co.id",
+  "date_checked": "2026-08-24"
+}

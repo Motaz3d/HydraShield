@@ -1,0 +1,36 @@
+{
+  "organization": "Federal Emergency Management Agency",
+  "segment": "emergency_management",
+  "country": "US",
+  "region": "North America",
+  "website": "https://www.fema.gov",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Municipal Resilience Officer",
+  "identified_problem": "FEMA leads federal disaster response, preparedness, and climate-resilience coordination across the United States. Recurring California wildfire seasons and Atlantic/Gulf hurricane floods drive major disaster declarations, strain response resources, and elevate the need for pre-positioned, location-specific hazard intelligence.",
+  "climate_exposure": "FEMA programs cover millions of households, communities, and critical facilities in wildland-urban interface zones and coastal/repetitive-loss floodplains, requiring timely and accurate multi-hazard awareness.",
+  "potential_pain": "Needs documented, location-specific wildfire and flood activity signals and historical context to allocate preparedness grants, position response assets, and support state and local emergency managers.",
+  "relevant_hazards": ["wildfire", "flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix monitoring, alerting, and historical event registry across wildfire and flood per county, with source-attached hazard activity and impact context.",
+  "relevant_capability": "Monitoring + SMS alerts and multi-hazard historical event registry for emergency-management use.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Strengthen federal and community preparedness with monitored wildfire and flood alerts backed by historical context.",
+  "priority": "high",
+  "fit_score": "FEMA's national emergency-management mandate and explicit Climate Resilience strategic pillar align directly with Talaix monitoring and historical event intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: fema.gov homepage lists 'Climate Resilience' as a strategic priority and currently displays major disaster declarations for wildfire, flood, and hurricane events.",
+      "source": "https://www.fema.gov"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.fema.gov",
+  "date_checked": "2026-08-24"
+}

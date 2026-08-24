@@ -1,0 +1,36 @@
+{
+  "organization": "SFPIM - Société Fédérale de Participations et d'Investissement",
+  "segment": "investment",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.sfpim.be",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "The July 2021 Vesdre floods killed dozens and inflicted billions of euros of damage on housing, SMEs and infrastructure in Wallonia and Flanders. SFPIM is the Belgian sovereign wealth fund that manages around €14 billion of federal assets and invests in Belgian scale-ups, SMEs and strategic sectors such as energy, transport and life sciences.",
+  "climate_exposure": "SFPIM's listed and unlisted holdings, direct real estate and infrastructure participations span the whole country, including flood-exposed river basins and dense urban areas vulnerable to pluvial flooding.",
+  "potential_pain": "Concentrated exposure to flood-prone regions in the portfolio threatens long-term asset values and justifies a systematic climate-risk screen before new commitments and follow-on rounds.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Portfolio-location screening across flood and wildfire layers, plus historical event intelligence for the July 2021 Vesdre floods and comparable Belgian events.",
+  "relevant_capability": "Multi-location screening",
+  "recommended_product": "custom_analysis",
+  "recommended_message": "Propose a custom portfolio screen that maps SFPIM's Belgian holdings against the 2021 Vesdre flood footprint and multi-hazard exposure layers.",
+  "priority": "high",
+  "fit_score": "High fit: Belgium's sovereign wealth fund with a domestic mandate and a diversified asset base that needs documented physical climate evidence for stewardship and risk management.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: SFPIM homepage states it is the Belgian sovereign wealth fund managing around €14 billion of federal assets and investing in Belgian companies.",
+      "source": "https://www.sfpim.be"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sfpim.be",
+  "date_checked": "2026-08-24"
+}

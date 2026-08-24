@@ -1,0 +1,35 @@
+{
+  "organization": "TEMELSU Uluslararası Mühendislik Hizmetleri A.Ş.",
+  "segment": "environmental_consulting",
+  "country": "TR",
+  "website": "https://temelsu.net/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Turkey's 2021/2024 wildfires and 2021 Black Sea floods are raising the climate-resilience bar for water and environmental infrastructure. Temelsu is a major Turkish engineering consultancy founded in 1969 with expertise in water supply, wastewater, environmental health, flood control and dams.",
+  "climate_exposure": "Temelsu's Turkish and international portfolio spans water supply, wastewater, flood-control, dam and transport projects across Turkey, including regions exposed to flash floods, riverine flooding and wildfire.",
+  "potential_pain": "Public-sector clients (DSİ, municipalities) and multilateral financiers increasingly require climate-risk and hazard inputs in master plans, feasibility studies and designs; Temelsu needs scalable flood and wildfire hazard layers to strengthen proposals and project planning.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers plus historical event intelligence for the 2021 Black Sea floods and 2021/2024 Turkish wildfires, demonstrated on Temelsu's water and environment project geographies.",
+  "relevant_capability": "climate risk intelligence and historical event analytics",
+  "recommended_product": "api",
+  "recommended_message": "Propose an API integration so Temelsu can embed Talaix flood and wildfire hazard layers into water-resources, wastewater and flood-control studies across Turkey.",
+  "priority": "high",
+  "fit_score": "High fit: Temelsu is a long-established Turkish engineering consultancy with explicit water-supply, wastewater and environmental-health services and direct exposure to Turkey's documented floods and wildfires.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: temelsu.net confirms Temelsu is a Turkish international engineering services firm founded in 1969, active in water supply, wastewater, environmental health, flood control and dams.",
+      "source": "https://temelsu.net/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://temelsu.net/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,35 @@
+{
+  "organization": "Ministry of Infrastructure and Water Management",
+  "segment": "governments",
+  "country": "NL",
+  "website": "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "The 2021 Limburg floods strained regional water defences and emergency response, while long-term sea-level rise threatens the Netherlands' world-renowned Delta Programme. The Ministry of Infrastructure and Water Management is the national ministry responsible for flood protection, water management, transport networks and environmental quality, and it sets policy for national climate adaptation.",
+  "climate_exposure": "Much of the Netherlands lies below sea level and behind dikes; the ministry must manage increasing riverine, pluvial and coastal flood risk plus heat impacts on infrastructure.",
+  "potential_pain": "Budget and policy decisions must be prioritised across thousands of kilometres of dikes, roads and waterways; poor spatial targeting wastes public money and leaves protection gaps.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and coastal hazard intelligence for the Netherlands, including 2021 Limburg event footprints and future sea-level scenarios, to support national adaptation planning.",
+  "relevant_capability": "Talaix climate risk intelligence and historical event intelligence.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer the ministry an enterprise dashboard view of national flood and coastal hazard exposure to inform Delta Programme investment and adaptation prioritisation.",
+  "priority": "high",
+  "fit_score": "The national ministry with explicit water management and flood-protection mandate is a strategic buyer for authoritative hazard intelligence that can underpin policy and infrastructure spending.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Government.nl page states the ministry is committed to effective water management to protect against flooding and an efficient transport network.",
+      "source": "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management",
+  "date_checked": "2026-08-24"
+}

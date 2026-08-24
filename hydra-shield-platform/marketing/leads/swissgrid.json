@@ -1,0 +1,38 @@
+{
+  "organization": "Swissgrid AG",
+  "segment": "infrastructure",
+  "country": "CH",
+  "website": "https://www.swissgrid.ch/en/home.html",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The 2021 and 2024 Swiss floods damaged roads, railways and local utilities in river corridors and alpine areas. Swissgrid AG is the national grid company responsible for the safe operation, monitoring and maintenance of the Swiss extra-high-voltage transmission grid, a critical infrastructure network exposed to floods, landslides and wildfires.",
+  "climate_exposure": "Swissgrid operates substations, switchyards and overhead lines across Switzerland's varied topography, including floodplains, steep valleys and forested regions vulnerable to inundation, slope failure and wildfire.",
+  "potential_pain": "Unplanned outages from flood or wildfire damage can threaten system stability, trigger costly emergency repairs and disrupt power supply to industry and households.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix asset-level flood and wildfire risk intelligence for transmission-grid corridors, contextualised with 2021 and 2024 Swiss flood events.",
+  "relevant_capability": "Infrastructure risk analytics and monitoring for electricity-grid assets exposed to floods, wildfires and related perils.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Safeguard Switzerland's power backbone with location-specific flood and wildfire risk intelligence for grid assets.",
+  "priority": "high",
+  "fit_score": "Swissgrid AG's monopoly role as national transmission system operator makes it a high-priority prospect for climate-resilience analytics on critical energy infrastructure.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Swissgrid's official homepage states it is the national grid company responsible for the safe operation and monitoring of the Swiss transmission grid.",
+      "source": "https://www.swissgrid.ch/en/home.html"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.swissgrid.ch/en/home.html",
+  "date_checked": "2026-08-24"
+}

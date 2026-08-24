@@ -1,0 +1,36 @@
+{
+  "organization": "MERLIN Properties SOCIMI, S.A.",
+  "segment": "real_estate",
+  "country": "ES",
+  "region": "Spain",
+  "website": "https://www.merlinproperties.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "The 2024 Valencia DANA floods and recurring summer wildfires across Spain have shown that commercial and logistics real estate in the Iberian Peninsula is directly exposed to physical climate hazards. Merlin Properties is one of Spain's largest listed REITs, owning offices, logistics parks and shopping centres nationwide, making flood inundation and wildfire proximity material risks to occupancy, insurance costs and asset valuations.",
+  "climate_exposure": "Merlin's portfolio spans Madrid, Barcelona, Valencia and major logistics corridors where pluvial flash flooding and summer wildfires are already disrupting access, utilities and tenants.",
+  "potential_pain": "Repeated flood damage and wildfire smoke/road closures can increase insurance deductibles, trigger tenant business-interruption claims and reduce NOI at affected assets.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix asset-level flood and wildfire risk scoring for Spain overlaid on Merlin's portfolio locations, including the 2024 Valencia DANA footprint.",
+  "relevant_capability": "Real estate asset-level climate risk intelligence and monitoring for flood and wildfire hazards.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Add location-specific flood and wildfire risk scores to your asset management dashboards before the next DANA or fire season affects portfolio yields.",
+  "priority": "high",
+  "fit_score": "High fit: a national REIT with a large, geographically diversified portfolio of physical assets where hazard-aware asset management directly protects NAV and insurance economics.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Merlin Properties legal notice confirms the company as MERLIN Properties SOCIMI, S.A. with headquarters in Madrid and a national real-estate portfolio.",
+      "source": "https://www.merlinproperties.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.merlinproperties.com",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Philippine Atmospheric, Geophysical and Astronomical Services Administration",
+  "segment": "governments",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://pagasa.dost.gov.ph/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "PAGASA is the Philippines’ national meteorological and hydrological service, mandated to provide weather forecasts, tropical cyclone warnings, flood bulletins and climate information. Its mandate is directly tied to the same typhoon floods and destructive winds that affect the country every year, and its observational infrastructure (radar, weather stations, forecasting centers) must remain operational through these events.",
+  "climate_exposure": "PAGASA operates forecasting centers, radar stations and observation networks across the archipelago, many in coastal and low-lying locations vulnerable to typhoon flooding, storm surge and damaging winds.",
+  "potential_pain": "As cyclone intensity and rainfall variability increase, PAGASA faces growing demand for localized, asset-level hazard intelligence that can feed into warnings, risk assessments and national climate-adaptation planning beyond traditional weather forecasting.",
+  "relevant_hazards": ["flood", "wind", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Philippines flood, wind and coastal hazard layers plus historical event intelligence that can complement PAGASA’s tropical cyclone and flood bulletins with exposure analytics at the infrastructure and community level.",
+  "relevant_capability": "Historical event intelligence and asset-level flood, wind and coastal surge exposure analytics to support national climate services and disaster risk reduction.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose integrating Talaix historical event intelligence and exposure layers with PAGASA’s climate services to strengthen localized risk assessments and post-event analysis.",
+  "priority": "high",
+  "fit_score": "High fit: as the national weather and climate agency, PAGASA’s core mandate aligns directly with Talaix hazard intelligence, and its own infrastructure and service delivery are exposed to the same typhoon flood and wind risks it monitors.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: pagasa.dost.gov.ph confirms PAGASA is the national weather service under DOST, providing forecasts, tropical cyclone warnings, flood bulletins and climate information.",
+      "source": "https://pagasa.dost.gov.ph/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://pagasa.dost.gov.ph/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "National Fire Agency of Korea",
+  "segment": "emergency_management",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.nfa.go.kr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Manager",
+  "identified_problem": "South Korea has suffered severe urban flooding, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. The National Fire Agency of Korea (소방청) is the national civil-protection and rescue agency that mobilises firefighters and rescue units for flood and wildfire emergencies across the country.",
+  "climate_exposure": "The agency operates nationwide rescue and firefighting assets, with high deployment demand in the Seoul metropolitan area and central river basins during summer monsoon floods and in forested regions during spring and autumn wildfire seasons.",
+  "potential_pain": "Flood and wildfire incidents are becoming more frequent and intense, straining rescue-resource positioning and pre-deployment decisions; the agency lacks a dedicated hazard intelligence feed tuned to flood and wildfire risk at sub-national scale.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, supporting pre-positioning and incident-response planning.",
+  "relevant_capability": "real-time hazard alerts and monitoring",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Offer hazard-based SMS alerting and monitoring that helps the National Fire Agency pre-position rescue assets ahead of flood and wildfire events, using the 2022 Seoul and 2023 Osong floods as reference cases.",
+  "priority": "high",
+  "fit_score": "High fit: The National Fire Agency is the national rescue and civil-protection body directly responsible for responding to the flood and wildfire events that have already caused major losses in Korea.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: The National Fire Agency's official website confirms it is a Korean government electronic-government site for the national fire and rescue agency.",
+      "source": "https://www.nfa.go.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.nfa.go.kr/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Generali Investments CEE, investiční společnost, a.s.",
+  "segment": "investment",
+  "country": "CZ",
+  "region": "Europe",
+  "website": "https://www.generali-investments.cz",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "The September 2024 floods damaged homes, roads, railways and industrial zones across Moravia-Silesia and Northern Moravia, causing billions of Czech crowns in losses. Generali Investments CEE is one of the largest asset managers in Czechia and the CEE region, with assets under management of approximately CZK 416 billion and a Prague headquarters, giving it direct exposure through real-estate funds and corporate debt portfolios to flood-hit Czech issuers and locations.",
+  "climate_exposure": "Its Czech real-estate and corporate bond portfolios are concentrated in cities and industrial zones within the Morava, Odra and Elbe river basins that experienced severe flooding.",
+  "potential_pain": "Flood-driven asset write-downs, tenant defaults, bond downgrades and liquidity stress in affected funds require asset-level climate risk screening that is currently missing from standard financial analysis.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers and historical event intelligence for Czech municipalities, infrastructure and commercial real estate.",
+  "relevant_capability": "Climate risk intelligence for portfolio screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer a screening of real-estate and corporate bond holdings against Talaix flood hazard layers to quantify concentration risk in flood-affected regions.",
+  "priority": "medium",
+  "fit_score": "Strong fit: a major Czech asset manager with hundreds of billions of CZK under management in real estate and corporate debt, both exposed to the September 2024 floods.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Generali Investments CEE's profile page confirms it is one of the largest Czech investment companies, headquartered in Prague, with CZK 416.4 billion in assets under management.",
+      "source": "https://www.generali-investments.cz/o-nas"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.generali-investments.cz/o-nas",
+  "date_checked": "2026-08-24"
+}

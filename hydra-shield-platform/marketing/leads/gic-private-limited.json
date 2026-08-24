@@ -1,0 +1,36 @@
+{
+  "organization": "GIC Private Limited",
+  "segment": "investment",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.gic.com.sg/who-we-are/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "GIC is Singapore's sovereign wealth fund, established in 1981 to secure Singapore's financial future as a leading global long-term investor. Its real-asset and infrastructure portfolios include exposure in low-lying tropical and coastal markets, including Singapore, where heavy rainfall, flash floods and heat stress are documented by the Meteorological Service Singapore.",
+  "climate_exposure": "Its Singapore and regional real-asset, infrastructure and real estate holdings face pluvial flash-flood, coastal inundation and heat-stress risks in dense, low-lying coastal cities.",
+  "potential_pain": "Climate-linked devaluation of long-dated infrastructure and real estate holdings could erode risk-adjusted returns without traceable, location-specific hazard evidence for due diligence and monitoring.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix multi-location screening and historical event intelligence for flood, coastal and heat exposure across portfolio locations.",
+  "relevant_capability": "Multi-location screening and exposure profiles",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer a portfolio-location screening pilot covering flood, coastal and heat exposure for Singapore and regional real-asset holdings.",
+  "priority": "high",
+  "fit_score": "Strong fit: Singapore's sovereign wealth fund with long-term real-asset and infrastructure exposure in coastal, tropical markets.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: GIC 'Who we are' page states it was established in 1981 to secure Singapore's financial future and is a leading global long-term investor.",
+      "source": "https://www.gic.com.sg/who-we-are/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.gic.com.sg/who-we-are/",
+  "date_checked": "2026-08-24"
+}

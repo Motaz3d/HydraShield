@@ -1,0 +1,36 @@
+{
+  "organization": "Vonovia SE",
+  "segment": "real_estate",
+  "country": "DE",
+  "website": "https://www.vonovia.de",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "The July 2021 Ahr Valley flood destroyed thousands of homes and caused tens of billions of euros in insured and uninsured losses. Vonovia SE is Germany’s largest residential property company, owning roughly 470,000 rental units nationwide, many in riverine cities and increasingly heat- and wildfire-stressed regions.",
+  "climate_exposure": "Many Vonovia assets are in dense urban and riverine locations where pluvial and fluvial flood risk is rising, while summer heat and dry spells increase building-maintenance and energy costs across the stock.",
+  "potential_pain": "Asset managers need location-specific climate exposure evidence to prioritise capex, inform insurance renewals and answer lender and investor questions about portfolio resilience.",
+  "relevant_hazards": ["flood", "wildfire", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix site-level flood, heat and wildfire screening for a sample of Vonovia’s German cities, plus historical event context for the 2021 floods.",
+  "relevant_capability": "Site screening across six hazards with traceable PDF reports and monitoring of owned assets.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Help Vonovia identify which cities and assets carry rising flood, heat and wildfire exposure before the next insurance renewal or capex cycle.",
+  "priority": "medium",
+  "fit_score": "Strong fit: Vonovia is the biggest residential landlord in Germany, so even a small per-asset risk reduction translates into material book protection; the need is operational, not sustainability-led.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "relationship_type": "customer",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Vonovia SE manages around 471,000 rental units across Germany, placing a large book of residential assets in flood, heat and wildfire exposure zones.",
+      "source": "https://www.vonovia.de"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.vonovia.de",
+  "date_checked": "2026-08-24"
+}

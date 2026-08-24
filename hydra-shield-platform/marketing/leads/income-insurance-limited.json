@@ -1,0 +1,36 @@
+{
+  "organization": "Income Insurance Limited",
+  "segment": "insurance",
+  "country": "SG",
+  "region": "Asia-Pacific",
+  "website": "https://www.income.com.sg/about-us",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "Income Insurance is one of Singapore's leading composite insurers, offering life, health and general insurance from a headquarters established in Singapore in 1970. Its home market is a low-lying tropical city-state where the Meteorological Service Singapore has recorded rising mean temperatures and increased frequency of heavy rainfall, while coastal inundation and urban heat exposure are long-term planning concerns.",
+  "climate_exposure": "Its Singapore property, motor and commercial lines are exposed to pluvial flash floods in low-lying urban districts, coastal inundation around reclaimed and waterfront zones, and heat-related claims across a dense island portfolio.",
+  "potential_pain": "Without location-level flood, coastal and heat intelligence, underwriting and pricing may misprice concentrated urban risks and fail to reserve adequately for climate-linked claims.",
+  "relevant_hazards": ["flood", "coastal", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, coastal and heat exposure layers plus historical event intelligence for Singapore's flash-flood and coastal-inundation hotspots.",
+  "relevant_capability": "Climate risk intelligence and location-level hazard screening",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose a portfolio-screening pilot for Singapore property and commercial lines against flood, coastal and heat hazard layers.",
+  "priority": "high",
+  "fit_score": "Strong fit: a leading Singapore composite insurer with a large local book concentrated in a flood-, coastal- and heat-exposed, low-lying island.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Income Insurance About Us page states it is one of Singapore's leading composite insurers, established in Singapore in 1970.",
+      "source": "https://www.income.com.sg/about-us"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.income.com.sg/about-us",
+  "date_checked": "2026-08-24"
+}

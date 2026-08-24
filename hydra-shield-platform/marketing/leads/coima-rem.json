@@ -1,0 +1,36 @@
+{
+  "organization": "Coima REM S.p.A.",
+  "segment": "real_estate",
+  "country": "IT",
+  "region": "Europe",
+  "website": "https://coima.it/it/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Coima REM is an Italian real-estate company whose portfolio of properties and development assets is concentrated in Italy. The May 2023 Emilia-Romagna floods and recurring summer wildfires in Sicily and the south directly threaten the value, occupancy and insurability of its buildings and sites.",
+  "climate_exposure": "Office, retail, residential and logistics assets are exposed to pluvial and fluvial flooding in northern and central Italy, and to wildfire smoke, heat and access disruption in southern regions.",
+  "potential_pain": "Without asset-level climate screening, acquisitions and refinancings can concentrate in hazard hotspots, insurance costs can spike after major events, and asset values can be repriced by lenders and investors.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Italian metropolitan areas where Coima REM holds assets.",
+  "relevant_capability": "Climate risk intelligence and asset-level hazard screening",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer a Talaix dashboard pilot screening the Italian portfolio against flood and wildfire hazard layers to inform acquisition, capex and insurance planning.",
+  "priority": "high",
+  "fit_score": "Strong fit: a major Italian real-estate owner and developer with a domestic asset base that needs visibility into flood and wildfire exposure across its portfolio.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Coima REM's official homepage identifies the organization as a real-estate company and references Coima SGR, Coima REM and Coima RES property/asset platforms.",
+      "source": "https://coima.it/it/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://coima.it/it/",
+  "date_checked": "2026-08-24"
+}

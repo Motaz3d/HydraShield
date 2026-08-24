@@ -1,0 +1,36 @@
+{
+  "organization": "Infrabel",
+  "segment": "infrastructure",
+  "country": "BE",
+  "region": "",
+  "website": "https://www.infrabel.be",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The July 2021 Vesdre floods washed out roads, bridges and embankments across eastern Belgium, disrupting transport and utilities for weeks. Infrabel owns, builds, maintains and operates the Belgian railway infrastructure, managing thousands of kilometres of track, stations, bridges and tunnels.",
+  "climate_exposure": "Infrabel's network crosses flood-prone river catchments in Wallonia and Flanders, as well as embankments and cuttings vulnerable to landslides, heat-related track buckling and storm damage.",
+  "potential_pain": "Flood and storm damage to bridges, culverts, tracks and signalling causes service disruption and high repair costs; climate resilience investment needs asset-level hazard prioritisation.",
+  "relevant_hazards": ["flood", "wildfire", "wind", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Asset-level flood, wind and heat screening plus historical event intelligence for the July 2021 Vesdre floods and comparable events along the Belgian rail network.",
+  "relevant_capability": "Asset screening",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer a monitoring pilot for critical Infrabel assets in flood-prone catchments, combining the July 2021 Vesdre flood footprint with ongoing hazard alerts.",
+  "priority": "high",
+  "fit_score": "High fit: the national railway infrastructure manager owns long-lived assets across every Belgian region, including the documented 2021 flood corridor.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Infrabel homepage states it builds, maintains and modernises the Belgian railway infrastructure and directs all trains on the Belgian rail network.",
+      "source": "https://www.infrabel.be"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.infrabel.be",
+  "date_checked": "2026-08-24"
+}

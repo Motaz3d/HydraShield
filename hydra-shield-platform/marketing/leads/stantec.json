@@ -1,0 +1,36 @@
+{
+  "organization": "Stantec",
+  "segment": "environmental_consulting",
+  "country": "CA",
+  "region": "North America",
+  "website": "https://www.stantec.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Stantec is a global Canadian leader in engineering, architecture, and environmental consulting, with projects spanning transportation, water, energy, buildings, and community infrastructure. Canada’s 2023 record wildfire season and the 2021 British Columbia floods have increased client demand for climate-resilient design, flood mitigation, and wildfire-risk planning, all of which intersect with Stantec’s service lines.",
+  "climate_exposure": "Stantec designs and advises on infrastructure and buildings across Canada that face escalating flood, wildfire, heat, and drought stress, requiring authoritative hazard data to support engineering judgment and client recommendations.",
+  "potential_pain": "Project teams need reliable, location-specific flood and wildfire intelligence to size infrastructure, set freeboard, justify adaptation budgets, and defend design decisions to public and private clients without overstating or green-washing risk.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Canadian flood and wildfire hazard layers, historical event intelligence for the 2023 fire season and 2021 BC floods, and analytics that Stantec project teams can embed into climate-risk and resilience studies.",
+  "relevant_capability": "Engineering-grade climate risk data and historical event intelligence that supports floodplain mapping, wildfire interface analysis, and resilience planning for built-environment clients.",
+  "recommended_product": "solutions_intelligence",
+  "recommended_message": "Offer Talaix hazard intelligence as a data layer Stantec can integrate into climate-risk and resilience engagements for Canadian infrastructure, water, and community clients.",
+  "priority": "medium",
+  "fit_score": "Strong fit: Stantec is a major Canadian consultancy whose project portfolio naturally requires authoritative hazard data; Talaix can become a trusted data partner rather than a project competitor.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Stantec’s homepage describes it as a global leader in sustainable engineering, architecture, and environmental consulting with resilience and environment work visible.",
+      "source": "https://www.stantec.com/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.stantec.com/",
+  "date_checked": "2026-08-24"
+}

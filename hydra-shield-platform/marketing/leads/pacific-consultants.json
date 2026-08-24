@@ -1,0 +1,36 @@
+{
+  "organization": "Pacific Consultants Co., Ltd.",
+  "segment": "environmental_consulting",
+  "country": "JP",
+  "region": "East Asia",
+  "website": "https://www.pacific.co.jp/business/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "Japan's recurring typhoon and torrential-rain flooding, including the July 2018 western Japan floods, create demand for engineering and environmental consultancy on resilient infrastructure. Pacific Consultants is a major Japanese construction and infrastructure consultancy working on social infrastructure, disaster prevention, environment, water, energy and urban development projects.",
+  "climate_exposure": "Consultancy projects span flood-prone river basins, coastal zones and urban areas across Japan; the firm supports infrastructure planning and disaster-risk reduction for public and private clients.",
+  "potential_pain": "Client projects increasingly require defensible climate-risk evidence and hazard screening for infrastructure siting, adaptation planning and disaster prevention; consultants need fast, traceable multi-hazard data to support proposals and designs.",
+  "relevant_hazards": ["flood", "wind"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix multi-hazard analysis, evidence-labelled reports and API for flood/wind/heat screening of client project sites and infrastructure corridors.",
+  "relevant_capability": "multi-hazard analysis, evidence-labelled reports, API",
+  "recommended_product": "professional_report",
+  "recommended_message": "Propose a professional analysis pilot that gives Pacific Consultants traceable flood and typhoon-risk evidence for client infrastructure and adaptation projects across Japan.",
+  "priority": "medium",
+  "fit_score": "Pacific Consultants is one of Japan's leading infrastructure engineering consultancies, with explicit business areas covering environment, water, disaster prevention and urban/regional development.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Pacific Consultants' official business page describes it as a leading Japanese construction consultant covering infrastructure, environment, water, disaster prevention, energy and urban/regional development.",
+      "source": "https://www.pacific.co.jp/business/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pacific.co.jp/business/",
+  "date_checked": "2026-08-24"
+}

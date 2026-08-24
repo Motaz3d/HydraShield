@@ -1,0 +1,36 @@
+{
+  "organization": "Energinet",
+  "segment": "infrastructure",
+  "country": "DK",
+  "region": "Europe",
+  "website": "https://www.energinet.dk",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Denmark has experienced repeated cloudburst flooding and faces coastal storm-surge and sea-level-rise exposure along its long, low-lying coastline. Energinet is an independent state-owned company that owns and operates Danish energy infrastructure, ensuring high security of supply in the electricity and gas sectors. Its substations, cables, pipelines and offshore assets are therefore physically exposed to flood and surge events that can interrupt supply.",
+  "climate_exposure": "Energinet's transmission assets cross river systems, low-lying coastal zones and offshore areas across Denmark, creating recurring pluvial, riverine and coastal flood risk to physical assets and grid continuity.",
+  "potential_pain": "Flood inundation of substations, cable routes and gas infrastructure can trigger emergency repair costs, supply interruptions and capital-intensive resilience upgrades on the most exposed parts of the national grid.",
+  "relevant_hazards": ["flood", "coastal"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix Danish flood and coastal hazard layers, historical event intelligence for documented cloudburst and coastal surge events, and asset-level exposure analytics along Energinet's electricity and gas transmission network.",
+  "relevant_capability": "Infrastructure network climate-risk intelligence combining flood and coastal hazard layers with historical event data and monitoring for asset and supply disruption.",
+  "recommended_product": "api",
+  "recommended_message": "Propose a Talaix hazard-data API that integrates with Energinet's asset-management systems to prioritise flood and coastal resilience investments across the Danish electricity and gas transmission network.",
+  "priority": "high",
+  "fit_score": "Very high fit: Energinet is the national owner-operator of Danish energy infrastructure in a country with documented cloudburst and coastal flood risk, making climate-risk analytics operationally relevant to supply security.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: energinet.dk states that Energinet is an independent state-owned company that owns and operates Danish energy infrastructure and ensures high security of supply in electricity and gas.",
+      "source": "https://www.energinet.dk"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.energinet.dk",
+  "date_checked": "2026-08-24"
+}

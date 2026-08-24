@@ -1,0 +1,36 @@
+{
+  "organization": "Prota Mühendislik Proje ve Danışmanlık Hizmetleri A.Ş.",
+  "segment": "engineering_firms",
+  "country": "TR",
+  "region": "Central Anatolia",
+  "website": "https://www.prota.com.tr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Turkey’s 2021 and 2024 wildfires and the 2021 Black Sea floods damaged built assets and infrastructure corridors. Prota is a major Turkish engineering and design consultancy working on buildings, transportation, energy and industrial projects nationwide, so its project sites and client portfolios are exposed to flood and wildfire hazards.",
+  "climate_exposure": "Project portfolios located in floodplains, coastal river basins and forested/wildfire-prone zones face increased design loads, construction delays and potential damage to completed assets.",
+  "potential_pain": "Clients increasingly require climate-risk inputs in feasibility studies and designs; failure to account for intensifying hazards creates liability exposure, cost overruns and reputational risk.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix historical event intelligence for Turkey’s 2021 Black Sea floods and recent wildfire seasons, plus location-specific flood and wildfire risk layers.",
+  "relevant_capability": "Talaix hazard, exposure and loss analytics for engineering and infrastructure planning.",
+  "recommended_product": "professional_report",
+  "recommended_message": "Add verified flood and wildfire risk intelligence to Prota’s engineering and feasibility studies across Turkey.",
+  "priority": "medium",
+  "fit_score": "Good fit: a leading national engineering consultancy with a broad project portfolio; climate-risk data can strengthen bids, design standards and client advice.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Prota lists Turkish offices in Ankara, Istanbul and Izmir and provides engineering, architectural and consultancy services in more than 30 countries.",
+      "source": "https://www.prota.com.tr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.prota.com.tr",
+  "date_checked": "2026-08-24"
+}

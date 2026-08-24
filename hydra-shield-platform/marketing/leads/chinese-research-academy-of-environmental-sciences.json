@@ -1,0 +1,35 @@
+{
+  "organization": "Chinese Research Academy of Environmental Sciences",
+  "segment": "environmental_consulting",
+  "country": "CN",
+  "website": "https://www.craes.cn/en/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "CRAES is a national research and technical institute under China's Ministry of Ecology and Environment, conducting environmental science, impact assessment and pollution-control research. The 2021 Henan and 2023 Hai River floods highlight the need for authoritative flood and climate-risk evidence in its studies and policy support.",
+  "climate_exposure": "Its nationwide research and consultancy portfolio covers river basins and urban areas increasingly affected by extreme rainfall, pluvial and riverine flooding.",
+  "potential_pain": "Providing evidence-based climate-risk inputs for national environmental assessments and basin planning requires consistent, source-attributed hazard data that is hard to assemble from fragmented sources.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wildfire hazard layers and historical event catalogue for the Hai River and Henan regions, with source attribution and reproducible analysis.",
+  "relevant_capability": "Talaix climate risk intelligence and historical event intelligence.",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Propose Talaix climate risk intelligence as an evidence layer for CRAES flood and climate-adaptation studies, anchored on the 2021 Henan and 2023 Hai River events.",
+  "priority": "high",
+  "fit_score": "High fit: CRAES is a leading national environmental research body whose mandate spans China's most flood-exposed river basins; Talaix can provide the traceable hazard evidence it needs.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: craes.cn/en identifies the organization as the Chinese Research Academy of Environmental Sciences and lists national laboratories including the National Engineering Laboratory for Lake Pollution Control and Ecological Restoration.",
+      "source": "https://www.craes.cn/en/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.craes.cn/en/",
+  "date_checked": "2026-08-24"
+}

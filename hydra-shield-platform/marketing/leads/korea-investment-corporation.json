@@ -1,0 +1,36 @@
+{
+  "organization": "Korea Investment Corporation",
+  "segment": "investment",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.kic.go.kr/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "South Korea has suffered severe urban flooding, notably the August 2022 Seoul floods and the July 2023 Osong underpass flood. As Korea's sovereign wealth fund, KIC manages USD 232 billion in assets (end-2025) across public and private markets including domestic and overseas real assets and infrastructure, so unpriced physical climate risk can affect both its Korean collateral and its global infrastructure book.",
+  "climate_exposure": "KIC allocates to real estate and infrastructure in Korea and globally; its Seoul and Gyeonggi-based assets, plus global infrastructure positions, are exposed to pluvial and fluvial flood hazard and increasing wildfire risk.",
+  "potential_pain": "Flood-driven write-downs or insurance-cost increases on domestic real assets and infrastructure can hit portfolio returns; the risk team needs a repeatable, location-level climate hazard screen for acquisition due diligence and ongoing asset monitoring.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood exposure layers plus historical event intelligence for the 2022 Seoul and 2023 Osong floods, applied to KIC's domestic real-asset geographies.",
+  "relevant_capability": "climate risk intelligence and location-screening analytics",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer a climate-risk-intelligence pilot that screens KIC's Korean real-asset and infrastructure locations against flood and wildfire hazard, anchored on the 2022 Seoul and 2023 Osong flood events.",
+  "priority": "high",
+  "fit_score": "High fit: KIC is Korea's sovereign wealth fund with a large real-asset and infrastructure allocation, and South Korea's documented flood losses provide a concrete entry point for physical-risk analytics.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: KIC's official website confirms it is Korea's sovereign wealth fund managing USD 232 billion in assets as of end-2025, with Seoul headquarters and global offices.",
+      "source": "https://www.kic.go.kr/"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.kic.go.kr/",
+  "date_checked": "2026-08-24"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Institut IGH d.d.",
+  "segment": "engineering_firms",
+  "country": "HR",
+  "region": "Zagreb",
+  "website": "https://www.igh.hr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Institut IGH is one of Croatia’s leading civil engineering consultancies, providing design, supervision, investigation and laboratory services for major infrastructure such as the Pelješac Bridge, Croatian motorways, Zagreb Airport and Rijeka port. No large Croatian environmental consultancy could be verified, so this slot is filled with the engineering-firm fallback.",
+  "climate_exposure": "Its project portfolio spans bridges, tunnels, roads, ports and buildings located in floodplains, fire-prone coastal zones and landslide-sensitive terrain across Croatia.",
+  "potential_pain": "Increasingly severe floods, wildfires and slope instability raise design loads, warranty risk and demand for climate-resilient retrofits and supervision.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix site-level flood and wildfire exposure maps plus historical event intelligence for the Croatian infrastructure projects in IGH’s reference list.",
+  "relevant_capability": "Site-level climate risk screening and historical event intelligence for engineering projects",
+  "recommended_product": "professional_report",
+  "recommended_message": "Propose parcel-level flood and wildfire risk reports for IGH’s design and supervision projects to support resilient engineering standards and client due diligence.",
+  "priority": "medium",
+  "fit_score": "As a major national engineering consultancy with a flagship project portfolio across Croatia, IGH is a credible route for embedding Talaix hazard data into infrastructure design.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: IGH’s homepage identifies it as a leading European civil engineering and laboratory services company headquartered in Zagreb, with projects including the Pelješac Bridge and Zagreb Airport.",
+      "source": "https://www.igh.hr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.igh.hr",
+  "date_checked": "2026-08-24"
+}

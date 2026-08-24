@@ -1,0 +1,36 @@
+{
+  "organization": "BNDES - Banco Nacional de Desenvolvimento Econômico e Social",
+  "segment": "investment",
+  "country": "BR",
+  "region": "Rio de Janeiro",
+  "website": "https://www.bndes.gov.br",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "BNDES is Brazil's federal development bank and one of the largest public investment institutions in the world, financing long-term infrastructure, energy, agribusiness and industrial projects across Brazil. The April-May 2024 Rio Grande do Sul floods and the 2024 Pantanal wildfires damaged precisely the sectors and regions that dominate BNDES's loan and equity portfolio.",
+  "climate_exposure": "Its portfolio is concentrated in long-term Brazilian infrastructure, agribusiness and industrial projects exposed to flooding, wildfire and drought across multiple biomes.",
+  "potential_pain": "Without location-level climate hazard intelligence, BNDES cannot systematically assess how floods and wildfires affect borrower credit risk, project viability or portfolio concentration.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Per-location flood and wildfire exposure screening with historical event intelligence for priority financed projects and sectors.",
+  "relevant_capability": "flood/wildfire exposure layers",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Show how Talaix can help BNDES screen physical climate risk across its infrastructure, energy and agribusiness portfolio using traceable flood and wildfire intelligence.",
+  "priority": "high",
+  "fit_score": "National development bank with a mandate to finance long-term Brazilian infrastructure and productive sectors; portfolio concentration in flood and wildfire-affected regions creates a direct need for climate risk intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BNDES homepage identifies it as the national development bank and highlights financing for infrastructure, energy, agribusiness and development projects.",
+      "source": "https://www.bndes.gov.br"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bndes.gov.br",
+  "date_checked": "2026-08-24"
+}

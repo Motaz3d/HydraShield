@@ -1,0 +1,36 @@
+{
+  "organization": "Prologis, Inc.",
+  "segment": "real_estate",
+  "country": "US",
+  "region": "North America",
+  "website": "https://ir.prologis.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "Prologis is the largest global owner, operator and developer of logistics real estate, with a US footprint concentrated in major distribution corridors including California and Gulf/Atlantic Coast markets. Recurring California wildfires and hurricane-driven flooding threaten property availability, tenant operations, and portfolio cash flows.",
+  "climate_exposure": "Industrial warehouses and logistics parks in California wildfire zones and Atlantic/Gulf Coast floodplains face property damage, access disruption, and rising insurance and capital-cost pressure.",
+  "potential_pain": "Portfolio-wide wildfire and flood screening and disclosure evidence for lenders, investors, and tenants are hard to assemble consistently across thousands of buildings.",
+  "relevant_hazards": ["flood", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Show Talaix site-level flood and wildfire screening with historical event records, traceable methodology, and monitoring of owned assets across the US logistics portfolio.",
+  "relevant_capability": "Site screening across six hazards with PDF reports and ongoing monitoring of owned real-estate assets.",
+  "recommended_product": "monitoring",
+  "recommended_message": "Add climate-risk monitoring to your US logistics portfolio with evidence per location.",
+  "priority": "high",
+  "fit_score": "Prologis is the leading industrial REIT with a vast, geographically dispersed US portfolio in hazard-exposed logistics corridors, making asset-level monitoring highly relevant.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: ir.prologis.com reports approximately $240B in assets under management, 5,929 buildings and 1.3B square feet across 20 countries, with the US as its core market.",
+      "source": "https://ir.prologis.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://ir.prologis.com",
+  "date_checked": "2026-08-24"
+}

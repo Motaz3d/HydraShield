@@ -1,0 +1,38 @@
+{
+  "organization": "Ranhill Utilities Berhad",
+  "segment": "environmental_consulting",
+  "country": "MY",
+  "region": "",
+  "website": "https://www.ranhill.com.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "CEO",
+  "identified_problem": "Malaysia’s monsoon floods and Klang Valley flash floods routinely overwhelm water-treatment plants, distribution networks and drainage systems. Ranhill Utilities is a major Malaysian environmental and engineering group that operates water and wastewater assets and provides multidisciplinary EPCM, PMC and O&M consultancy services.",
+  "climate_exposure": "The company owns and operates water-treatment capacity and provides engineering consultancy on water, wastewater and environmental projects in flood-prone states.",
+  "potential_pain": "Flood damage to treatment works and consultancy projects can cause service outages, cost overruns and claims.",
+  "relevant_hazards": [
+    "flood"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood hazard and historical event data for water-asset catchments and project sites across Malaysia.",
+  "relevant_capability": "climate risk intelligence",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer Ranhill site-specific flood risk reports to harden water-asset resilience and support client environmental-impact assessments.",
+  "priority": "medium",
+  "fit_score": "Strong fit: a national environmental engineering group whose operations and consultancy work sit at the intersection of water infrastructure and flood exposure.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Ranhill homepage describes water, power and consultancy services, with stated treatment capacity and multi-disciplinary EPCM/O&M capabilities.",
+      "source": "https://www.ranhill.com.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ranhill.com.my",
+  "date_checked": "2026-08-24"
+}

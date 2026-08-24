@@ -1,0 +1,36 @@
+{
+  "organization": "China Three Gorges Corporation",
+  "segment": "infrastructure",
+  "country": "CN",
+  "region": "",
+  "website": "https://www.ctg.com.cn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "The 2021 Henan floods and 2023 Hai River floods demonstrated how extreme rainfall overwhelms river basins and reservoir systems across northern and central China. China Three Gorges Corporation owns and operates the Three Gorges Dam and a growing portfolio of cascade hydropower and flood-control reservoirs, making its assets a direct hedge — and exposure — to intensifying fluvial flood regimes.",
+  "climate_exposure": "CTG’s dams and reservoirs on the Yangtze and other basins are designed around flood-control storage rules that are being tested by more frequent extreme rainfall events.",
+  "potential_pain": "Reservoir operations must balance power generation, downstream flood safety and dam safety under increasingly volatile inflows, raising regulatory and liability risk.",
+  "relevant_hazards": ["flood"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix fluvial flood hazard maps and historical event intelligence for the Yangtze and Hai River basins, including rainfall-runoff analytics relevant to reservoir operations.",
+  "relevant_capability": "Talaix flood hazard intelligence and historical event analytics for dam and reservoir operations.",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Show CTG how Talaix basin-scale flood intelligence can support reservoir flood-control operations and long-term climate-risk planning.",
+  "priority": "high",
+  "fit_score": "As owner-operator of China’s most consequential dam system, CTG faces both operational and strategic decisions that depend on accurate, basin-scale flood intelligence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-24",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: CTG owns and operates the Three Gorges Dam and a national portfolio of hydropower and flood-control reservoirs.",
+      "source": "https://www.ctg.com.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ctg.com.cn",
+  "date_checked": "2026-08-24"
+}
