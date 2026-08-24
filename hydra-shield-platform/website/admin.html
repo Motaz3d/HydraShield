@@ -53,12 +53,19 @@
         .mkt-row:hover { background: var(--light-2); }
         .mkt-toggle { background: none; border: none; cursor: pointer; font-size: 0.85rem; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-light); }
         .mkt-toggle:focus-visible { outline: 2px solid var(--primary); border-radius: 4px; }
-        .mkt-label { font-weight: 600; font-size: 0.92rem; color: var(--dark); }
+        .mkt-label { font-weight: 600; font-size: 0.92rem; color: var(--dark); cursor: pointer; }
         .mkt-count { font-size: 0.75rem; color: var(--text-light); background: var(--light-2); padding: 1px 8px; border-radius: 999px; margin-left: 4px; }
         .mkt-countries { padding: 4px 16px 12px 48px; display: flex; flex-wrap: wrap; gap: 8px; }
         .mkt-country { background: var(--white); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); padding: 6px 12px; cursor: pointer; font-size: 0.85rem; font-weight: 500; color: var(--dark); }
         .mkt-country:hover { border-color: var(--primary); background: rgba(14,165,233,0.04); }
         .mkt-country:focus-visible { outline: 2px solid var(--primary); }
+        .mkt-regions { padding: 4px 16px 12px 74px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .mkt-region { background: var(--white); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); padding: 5px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 500; color: var(--dark); }
+        .mkt-region:hover { border-color: var(--primary); background: rgba(14,165,233,0.04); }
+        .mkt-region:focus-visible { outline: 2px solid var(--primary); }
+        .mkt-textfilter { width: 100%; max-width: 320px; padding: 8px 12px; border: 2px solid var(--light-2); border-radius: var(--radius-sm); font-family: var(--font-main); font-size: 0.9rem; }
+        .mkt-textfilter:focus { outline: none; border-color: var(--primary); }
+        .mkt-segment-tag { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.03em; }
         .mkt-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(15,23,42,0.6); backdrop-filter: blur(3px); align-items: center; justify-content: center; padding: 5vh 3vw; }
         .mkt-modal.open { display: flex; }
         .mkt-modal-panel { background: var(--white); border-radius: var(--radius-md); width: 94vw; height: 90vh; max-width: none; max-height: none; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; }

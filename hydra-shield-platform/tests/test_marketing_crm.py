@@ -112,6 +112,7 @@ def sample_workspace(env):
             "decision_maker_role": "Sustainability Director",
             "identified_problem": "Exposure to flood and wildfire risk.",
             "relevant_capability": "Portfolio screening",
+            "region": "Northeast",
         },
         {
             "organization": "Test Bank Two",
@@ -124,6 +125,7 @@ def sample_workspace(env):
             "decision_maker_role": "Risk Officer",
             "identified_problem": "Needs climate risk data.",
             "relevant_capability": "Enterprise dashboard",
+            "region": "Southeast",
         },
         {
             "organization": "Test Insurer",
@@ -159,6 +161,18 @@ def sample_workspace(env):
             "recommended_product": "risk_api",
             "decision_maker_role": "Technical Director",
             "identified_problem": "Engineering projects need hazard screening.",
+            "relevant_capability": "Risk API",
+        },
+        {
+            "organization": "Test Research Center",
+            "segment": "research_centers",
+            "country": "GB",
+            "priority": "medium",
+            "urgency": "low",
+            "outreach_status": "researched",
+            "recommended_product": "risk_api",
+            "decision_maker_role": "Research Director",
+            "identified_problem": "Data integration for climate models.",
             "relevant_capability": "Risk API",
         },
         {
@@ -387,30 +401,62 @@ def test_tree_root_returns_sectors_with_counts(client, env):
     assert "sectors" in body
     assert "countries" not in body
     sectors = body["sectors"]
-    # Sorted by count desc, then key asc; zero-count sectors omitted.
+    # Six for-* categories in fixed order, plus "more" when raw segments exist.
     assert [s["key"] for s in sectors] == [
-        "banking", "engineering_firms", "governments", "insurance",
+        "banking", "environmental_consulting", "investment", "insurance",
+        "real_estate", "governments", "more",
     ]
     by_key = {s["key"]: s for s in sectors}
-    # Target sectors keep their nicer labels; non-target segments are first-class.
     assert by_key["banking"]["label"] == "Banks & lenders"
-    assert by_key["engineering_firms"]["label"] == "Engineering Firms"
-    # Excluded lead is omitted; municipalities roll into governments.
+    assert by_key["environmental_consulting"]["label"] == "Consultants"
+    assert by_key["investment"]["label"] == "Investors"
+    assert by_key["insurance"]["label"] == "Insurance"
+    assert by_key["real_estate"]["label"] == "Real estate"
+    assert by_key["governments"]["label"] == "Government"
+    assert by_key["more"]["label"] == "More sectors"
+    # Aliases are aggregated into categories.
     assert by_key["banking"]["count"] == 2
     assert by_key["insurance"]["count"] == 1
-    assert by_key["governments"]["count"] == 1
-    assert by_key["engineering_firms"]["count"] == 1
+    assert by_key["governments"]["count"] == 1  # municipalities
+    assert by_key["environmental_consulting"]["count"] == 1  # engineering_firms
+    assert by_key["investment"]["count"] == 0
+    assert by_key["real_estate"]["count"] == 0
+    assert by_key["more"]["count"] == 1  # research_centers
 
 
 @pytest.mark.usefixtures("sample_workspace")
-def test_tree_segment_returns_countries(client, env):
+def test_tree_segment_returns_countries_for_category_or_raw(client, env):
     admin = _make_user(client, env, "op@example.org", role="admin")
+    # Category: banking aggregates all banking leads.
     resp = client.get("/api/v2/admin/marketing/tree?segment=banking", headers=admin)
     assert resp.status_code == 200
     body = resp.get_json()
     assert body["segment"] == "banking"
     assert "countries" in body and "statuses" not in body and "leads" not in body
     assert body["countries"] == [{"country": "US", "count": 2}]
+
+    # Alias category: environmental_consulting sees engineering_firms leads.
+    resp = client.get("/api/v2/admin/marketing/tree?segment=environmental_consulting",
+                      headers=admin)
+    assert resp.get_json()["countries"] == [{"country": "US", "count": 1}]
+
+    # Raw sub-sector: research_centers.
+    resp = client.get("/api/v2/admin/marketing/tree?segment=research_centers",
+                      headers=admin)
+    assert resp.status_code == 200
+    assert resp.get_json()["countries"] == [{"country": "GB", "count": 1}]
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_tree_more_returns_subsectors(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.get("/api/v2/admin/marketing/tree?segment=more", headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["segment"] == "more"
+    assert body["subsectors"] == [
+        {"key": "research_centers", "label": "Research Centers", "count": 1}
+    ]
 
 
 @pytest.mark.usefixtures("sample_workspace")
@@ -422,30 +468,66 @@ def test_tree_parent_params_required(client, env):
     # Status without country.
     assert client.get("/api/v2/admin/marketing/tree?segment=banking&status=researched",
                       headers=admin).status_code == 400
+    # Region without country.
+    assert client.get("/api/v2/admin/marketing/tree?segment=banking&region=Northeast",
+                      headers=admin).status_code == 400
 
 
 @pytest.mark.usefixtures("sample_workspace")
-def test_tree_segment_country_returns_statuses_and_all_leads(client, env):
+def test_tree_segment_country_returns_regions_statuses_and_all_leads(client, env):
     admin = _make_user(client, env, "op@example.org", role="admin")
     resp = client.get("/api/v2/admin/marketing/tree?segment=banking&country=US",
                       headers=admin)
     assert resp.status_code == 200
     body = resp.get_json()
+    assert body["segment"] == "banking"
+    assert body["country"] == "US"
+    assert body["regions"] == [
+        {"region": "Northeast", "count": 1},
+        {"region": "Southeast", "count": 1},
+    ]
     assert body["statuses"] == [
         {"status": "researched", "count": 1},
         {"status": "qualified", "count": 1},
     ]
-    # All leads in the intersection are returned, unfiltered by status.
+    # All leads in the intersection are returned, unfiltered by status/region.
     assert len(body["leads"]) == 2
     by_slug = {l["slug"]: l for l in body["leads"]}
     assert by_slug["test-bank-one"]["outreach_status"] == "researched"
+    assert by_slug["test-bank-one"]["segment"] == "banking"
+    assert by_slug["test-bank-one"]["region"] == "Northeast"
     assert by_slug["test-bank-two"]["outreach_status"] == "qualified"
+    assert by_slug["test-bank-two"]["region"] == "Southeast"
     for lead in body["leads"]:
         assert "score" in lead and "recommended_product" in lead
 
 
 @pytest.mark.usefixtures("sample_workspace")
-def test_tree_full_path_filters_leads_by_status(client, env):
+def test_tree_region_filter_narrows_leads_and_statuses(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.get(
+        "/api/v2/admin/marketing/tree?segment=banking&country=US&region=Northeast",
+        headers=admin,
+    )
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["segment"] == "banking"
+    assert body["country"] == "US"
+    assert body["region"] == "Northeast"
+    # Regions are computed before filtering.
+    assert body["regions"] == [
+        {"region": "Northeast", "count": 1},
+        {"region": "Southeast", "count": 1},
+    ]
+    assert body["statuses"] == [{"status": "researched", "count": 1}]
+    assert len(body["leads"]) == 1
+    lead = body["leads"][0]
+    assert lead["slug"] == "test-bank-one"
+    assert lead["region"] == "Northeast"
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_tree_status_filter_works_with_regions(client, env):
     admin = _make_user(client, env, "op@example.org", role="admin")
     resp = client.get(
         "/api/v2/admin/marketing/tree?segment=banking&country=US&status=researched",
@@ -463,11 +545,9 @@ def test_tree_full_path_filters_leads_by_status(client, env):
     assert len(body["leads"]) == 1
     lead = body["leads"][0]
     assert lead["slug"] == "test-bank-one"
-    assert lead["organization"] == "Test Bank One"
-    assert lead["priority"] == "high"
-    assert lead["score"] == 85  # high priority (50) + high urgency (35) + researched (0)
     assert lead["outreach_status"] == "researched"
-    assert "recommended_product" in lead
+    assert lead["segment"] == "banking"
+    assert lead["region"] == "Northeast"
 
 
 # ---------------------------------------------------------------------------

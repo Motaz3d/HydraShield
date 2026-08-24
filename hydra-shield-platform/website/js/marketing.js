@@ -289,16 +289,19 @@
     // Targets tree
     // ------------------------------------------------------------------
 
-    function treeRow(label, count, toggleKey) {
-        var toggle = toggleKey
-            ? '<button class="mkt-toggle" data-sector="' + esc(toggleKey) + '" aria-expanded="false">▸</button>'
+    function treeRow(label, count, toggleAttrs, labelAttrs) {
+        var toggle = toggleAttrs
+            ? '<button class="mkt-toggle" ' + toggleAttrs + ' aria-expanded="false">▸</button>'
             : '<span class="mkt-toggle" style="visibility:hidden;">▸</span>';
         var countBadge = count !== undefined && count !== null
             ? '<span class="mkt-count">' + esc(String(count)) + '</span>'
             : '';
+        var labelHtml = labelAttrs
+            ? '<span class="mkt-label" ' + labelAttrs + '>' + esc(label) + '</span>'
+            : '<span class="mkt-label">' + esc(label) + '</span>';
         return '<div class="mkt-row">' +
             toggle +
-            '<span class="mkt-label">' + esc(label) + '</span>' +
+            labelHtml +
             countBadge +
             '</div>';
     }
@@ -325,7 +328,9 @@
         sectors.forEach(function (s) {
             var childrenId = 'mkt-sector-' + esc(s.key);
             html += '<div class="mkt-node">' +
-                treeRow(s.label, s.count, s.key) +
+                treeRow(s.label, s.count,
+                        'data-sector="' + esc(s.key) + '"',
+                        'data-toggle-sector="' + esc(s.key) + '"') +
                 '<div id="' + childrenId + '" class="mkt-countries hidden"></div>' +
                 '</div>';
         });
@@ -340,6 +345,15 @@
             function (btn) {
                 btn.addEventListener('click', function () {
                     toggleSector(btn.getAttribute('data-sector'), btn);
+                });
+            });
+        Array.prototype.forEach.call(
+            document.querySelectorAll('.mkt-label[data-toggle-sector]'),
+            function (label) {
+                label.addEventListener('click', function () {
+                    var key = label.getAttribute('data-toggle-sector');
+                    var btn = label.parentElement.querySelector('.mkt-toggle');
+                    toggleSector(key, btn);
                 });
             });
     }
@@ -364,6 +378,10 @@
             setExpanded(btn, true);
             return;
         }
+        if (key === 'more') {
+            loadSubsectors(container, btn);
+            return;
+        }
         var cached = getFromCache({ segment: key });
         if (cached) {
             renderCountries(key, cached.countries || []);
@@ -371,15 +389,71 @@
             setExpanded(btn, true);
             return;
         }
-        fetchJSON(BASE + '/tree?segment=' + encodeURIComponent(key)).then(function (res) {
+        loadCountries(key, container, btn);
+    }
+
+    function loadSubsectors(container, btn) {
+        var cached = getFromCache({ segment: 'more' });
+        if (cached) {
+            renderSubsectors(cached.subsectors || []);
+            container.classList.remove('hidden');
+            setExpanded(btn, true);
+            return;
+        }
+        fetchJSON(BASE + '/tree?segment=more').then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                container.innerHTML = '<div class="muted small">Could not load sub-sectors.</div>';
+                container.classList.remove('hidden');
+                return;
+            }
+            setCache({ segment: 'more' }, res.body);
+            renderSubsectors(res.body.subsectors || []);
+            container.classList.remove('hidden');
+            setExpanded(btn, true);
+        }).catch(function () {
+            container.innerHTML = '<div class="muted small">Could not load sub-sectors.</div>';
+            container.classList.remove('hidden');
+        });
+    }
+
+    function renderSubsectors(subsectors) {
+        var container = el('mkt-sector-more');
+        var html = subsectors.map(function (s) {
+            var childrenId = 'mkt-sector-' + esc(s.key);
+            return '<div class="mkt-node" style="margin-left:22px;">' +
+                treeRow(s.label, s.count,
+                        'data-sector="' + esc(s.key) + '"',
+                        'data-toggle-sector="' + esc(s.key) + '"') +
+                '<div id="' + childrenId + '" class="mkt-countries hidden"></div>' +
+                '</div>';
+        }).join('');
+        container.innerHTML = html || '<div class="muted small">No additional sectors.</div>';
+
+        Array.prototype.forEach.call(container.querySelectorAll('.mkt-toggle[data-sector]'), function (btn) {
+            btn.addEventListener('click', function () {
+                toggleSector(btn.getAttribute('data-sector'), btn);
+            });
+        });
+        Array.prototype.forEach.call(container.querySelectorAll('.mkt-label[data-toggle-sector]'), function (label) {
+            label.addEventListener('click', function () {
+                var key = label.getAttribute('data-toggle-sector');
+                var btn = label.parentElement.querySelector('.mkt-toggle');
+                toggleSector(key, btn);
+            });
+        });
+    }
+
+    function loadCountries(segment, container, btn) {
+        fetchJSON(BASE + '/tree?segment=' + encodeURIComponent(segment)).then(function (res) {
             if (showAuthHint(res)) return;
             if (!res.ok) {
                 container.innerHTML = '<div class="muted small">Could not load countries.</div>';
                 container.classList.remove('hidden');
                 return;
             }
-            setCache({ segment: key }, res.body);
-            renderCountries(key, res.body.countries || []);
+            setCache({ segment: segment }, res.body);
+            renderCountries(segment, res.body.countries || []);
             container.classList.remove('hidden');
             setExpanded(btn, true);
         }).catch(function () {
@@ -391,15 +465,89 @@
     function renderCountries(segment, countries) {
         var containerId = 'mkt-sector-' + segment;
         var html = countries.map(function (c) {
-            return '<button class="mkt-country" data-open="' + esc(segment) + ':' + esc(c.country) + '">' +
-                esc(c.country) + ' <span class="mkt-count">' + esc(String(c.count)) + '</span></button>';
+            var childrenId = 'mkt-country-' + esc(segment) + '-' + esc(c.country);
+            return '<div class="mkt-node" style="margin-left:22px;">' +
+                treeRow(c.country, c.count,
+                        'data-country="' + esc(segment) + ':' + esc(c.country) + '"',
+                        'data-open-country="' + esc(segment) + ':' + esc(c.country) + '"') +
+                '<div id="' + childrenId + '" class="mkt-regions hidden"></div>' +
+                '</div>';
         }).join('');
         el(containerId).innerHTML = html || '<div class="muted small">No countries.</div>';
 
-        Array.prototype.forEach.call(el(containerId).querySelectorAll('[data-open]'), function (btn) {
+        Array.prototype.forEach.call(el(containerId).querySelectorAll('.mkt-toggle[data-country]'), function (btn) {
             btn.addEventListener('click', function () {
-                var parts = btn.getAttribute('data-open').split(':');
+                var parts = btn.getAttribute('data-country').split(':');
+                toggleCountry(parts[0], parts[1], btn);
+            });
+        });
+        Array.prototype.forEach.call(el(containerId).querySelectorAll('.mkt-label[data-open-country]'), function (label) {
+            label.addEventListener('click', function () {
+                var parts = label.getAttribute('data-open-country').split(':');
                 openIntersection(parts[0], parts[1]);
+            });
+        });
+    }
+
+    function toggleCountry(segment, country, btn) {
+        var containerId = 'mkt-country-' + segment + '-' + country;
+        var container = el(containerId);
+        if (!container) return;
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        if (expanded) {
+            container.classList.add('hidden');
+            setExpanded(btn, false);
+            return;
+        }
+        if (container.hasChildNodes() && container.innerHTML !== '') {
+            container.classList.remove('hidden');
+            setExpanded(btn, true);
+            return;
+        }
+        loadCountryIntersection(segment, country, container, btn);
+    }
+
+    function loadCountryIntersection(segment, country, container, btn) {
+        var cached = getFromCache({ segment: segment, country: country });
+        if (cached) {
+            renderRegions(segment, country, cached.regions || []);
+            container.classList.remove('hidden');
+            setExpanded(btn, true);
+            return;
+        }
+        fetchJSON(BASE + '/tree?segment=' + encodeURIComponent(segment) + '&country=' + encodeURIComponent(country)).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                container.innerHTML = '<div class="muted small">Could not load regions.</div>';
+                container.classList.remove('hidden');
+                return;
+            }
+            setCache({ segment: segment, country: country }, res.body);
+            renderRegions(segment, country, (res.body.regions || []));
+            container.classList.remove('hidden');
+            setExpanded(btn, true);
+        }).catch(function () {
+            container.innerHTML = '<div class="muted small">Could not load regions.</div>';
+            container.classList.remove('hidden');
+        });
+    }
+
+    function renderRegions(segment, country, regions) {
+        var containerId = 'mkt-country-' + segment + '-' + country;
+        if (!regions.length) {
+            el(containerId).innerHTML = '<div class="muted small" style="padding:2px 0 6px;">No sub-national regions.</div>';
+            return;
+        }
+        var html = regions.map(function (r) {
+            return '<button class="mkt-region" data-open-region="' + esc(segment) + ':' + esc(country) + ':' + esc(r.region) + '">' +
+                esc(r.region) + ' <span class="mkt-count">' + esc(String(r.count)) + '</span></button>';
+        }).join('');
+        el(containerId).innerHTML = html;
+
+        Array.prototype.forEach.call(el(containerId).querySelectorAll('[data-open-region]'), function (btn) {
+            btn.addEventListener('click', function () {
+                var parts = btn.getAttribute('data-open-region').split(':');
+                openIntersection(parts[0], parts[1], parts[2]);
             });
         });
     }
@@ -408,9 +556,11 @@
     // Intersection modal
     // ------------------------------------------------------------------
 
-    function openIntersection(segment, country) {
-        currentIntersection = { segment: segment, country: country, status: '' };
-        el('intersectionTitle').textContent = segment.replace(/_/g, ' ') + ' × ' + country;
+    function openIntersection(segment, country, region) {
+        currentIntersection = { segment: segment, country: country, region: region || '', status: '' };
+        var title = segment.replace(/_/g, ' ') + ' × ' + country;
+        if (region) title += ' — ' + region;
+        el('intersectionTitle').textContent = title;
         var filters = el('intersectionFilters');
         if (filters) filters.innerHTML = '';
         el('intersectionBody').innerHTML = '<div class="notice notice-empty">Loading targets…</div>';
@@ -422,17 +572,19 @@
     function closeIntersection() {
         el('intersectionModal').classList.remove('open');
         document.body.style.overflow = '';
-        currentIntersection = { segment: '', country: '', status: '' };
+        currentIntersection = { segment: '', country: '', region: '', status: '' };
     }
 
     function loadIntersection() {
         var segment = currentIntersection.segment;
         var country = currentIntersection.country;
+        var region = currentIntersection.region;
         var status = currentIntersection.status;
         var params = 'segment=' + encodeURIComponent(segment) + '&country=' + encodeURIComponent(country);
+        if (region) params += '&region=' + encodeURIComponent(region);
         if (status) params += '&status=' + encodeURIComponent(status);
 
-        var cached = getFromCache({ segment: segment, country: country, status: status });
+        var cached = getFromCache({ segment: segment, country: country, region: region, status: status });
         if (cached) {
             renderIntersection(cached);
             return;
@@ -444,7 +596,7 @@
                     '<div class="notice notice-error">Could not load targets.</div>';
                 return;
             }
-            setCache({ segment: segment, country: country, status: status }, res.body);
+            setCache({ segment: segment, country: country, region: region, status: status }, res.body);
             renderIntersection(res.body);
         }).catch(function () {
             el('intersectionBody').innerHTML =
@@ -455,24 +607,47 @@
     function renderIntersection(data) {
         var segment = data.segment || currentIntersection.segment;
         var country = data.country || currentIntersection.country;
+        var region = data.region || currentIntersection.region;
         var activeStatus = data.status || currentIntersection.status;
         var statuses = data.statuses || [];
-        var leads = data.leads || [];
+        var regions = data.regions || [];
+        var allLeads = data.leads || [];
+
+        var title = segment.replace(/_/g, ' ') + ' × ' + country;
+        if (region) title += ' — ' + region;
+        el('intersectionTitle').textContent = title;
 
         var total = statuses.reduce(function (sum, s) { return sum + (s.count || 0); }, 0);
 
-        var filtersHtml = '<button class="mkt-filter' + (activeStatus ? '' : ' active') + '" data-filter="">All (' + esc(total) + ')</button>';
+        var filtersHtml = '<div class="mkt-filters">' +
+            '<button class="mkt-filter' + (activeStatus ? '' : ' active') + '" data-filter="">All (' + esc(total) + ')</button>';
         statuses.forEach(function (s) {
             filtersHtml += '<button class="mkt-filter' + (activeStatus === s.status ? ' active' : '') + '" data-filter="' + esc(s.status) + '">' +
                 esc(s.status.replace(/_/g, ' ')) + ' (' + esc(String(s.count)) + ')</button>';
         });
+        filtersHtml += '</div>';
+
+        if (regions.length) {
+            filtersHtml += '<div class="mkt-filters" style="margin-top:8px;">' +
+                '<button class="mkt-filter' + (region ? '' : ' active') + '" data-region="">All regions</button>';
+            regions.forEach(function (r) {
+                filtersHtml += '<button class="mkt-filter' + (region === r.region ? ' active' : '') + '" data-region="' + esc(r.region) + '">' +
+                    esc(r.region) + ' (' + esc(String(r.count)) + ')</button>';
+            });
+            filtersHtml += '</div>';
+        }
+
+        filtersHtml += '<div style="margin-top:12px;">' +
+            '<input type="text" class="mkt-textfilter" id="mkt-namefilter" placeholder="Filter by name…">' +
+            '</div>';
+
         var filters = el('intersectionFilters');
         if (filters) filters.innerHTML = filtersHtml;
 
         var html = '';
-        if (leads.length) {
-            html += '<div class="mkt-targets">';
-            leads.forEach(function (l) {
+        if (allLeads.length) {
+            html += '<div class="mkt-targets" id="mkt-targets-list">';
+            allLeads.forEach(function (l) {
                 html += renderTarget(segment, country, l);
             });
             html += '</div>';
@@ -489,6 +664,19 @@
                 loadIntersection();
             });
         });
+        Array.prototype.forEach.call(filterContainer.querySelectorAll('[data-region]'), function (btn) {
+            btn.addEventListener('click', function () {
+                currentIntersection.region = btn.getAttribute('data-region');
+                loadIntersection();
+            });
+        });
+
+        var nameFilter = el('mkt-namefilter');
+        if (nameFilter) {
+            nameFilter.addEventListener('input', function () {
+                filterLeadsByName(nameFilter.value);
+            });
+        }
 
         Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-follow]'), function (btn) {
             var slug = btn.getAttribute('data-follow');
@@ -508,6 +696,17 @@
         });
     }
 
+    function filterLeadsByName(query) {
+        var q = (query || '').toLowerCase();
+        var list = el('mkt-targets-list');
+        if (!list) return;
+        Array.prototype.forEach.call(list.querySelectorAll('.mkt-target'), function (row) {
+            var nameEl = row.querySelector('strong');
+            var name = nameEl ? nameEl.textContent.toLowerCase() : '';
+            row.style.display = (!q || name.indexOf(q) >= 0) ? '' : 'none';
+        });
+    }
+
     function renderTarget(segment, country, l) {
         var org = l.website
             ? '<a class="text-link" href="' + esc(l.website) + '" target="_blank" rel="noopener">' + esc(l.organization) + '</a>'
@@ -516,6 +715,7 @@
             '<div class="mkt-target-head">' +
             '<div>' +
             '<strong>' + org + '</strong>' +
+            (l.segment ? ' <span class="mkt-segment-tag">' + esc((l.segment || '').replace(/_/g, ' ')) + '</span>' : '') +
             '<div class="mkt-target-meta" style="margin-top:4px;">' +
             priorityChip(l.priority) +
             statusChip(l.outreach_status) +

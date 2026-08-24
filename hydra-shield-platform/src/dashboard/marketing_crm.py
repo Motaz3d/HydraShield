@@ -45,6 +45,30 @@ def _lead_sector(lead: Dict) -> str:
     return _target_sector(lead.get("segment") or "") or (lead.get("segment") or "")
 
 
+# The six "Solutions for" categories (the site's for-* pages). Segments
+# aliased into them roll up to the category; every other segment stays
+# addressable under the "more" bucket — the platform targets all sectors.
+_CATEGORY_ALIAS = {
+    "municipalities": "governments",
+    "municipal_climate_adaptation": "governments",
+    "emergency_management": "governments",
+    "water_management": "governments",
+    "asset_management": "investment",
+    "sustainable_finance": "investment",
+    "green_investment": "investment",
+    "engineering_firms": "environmental_consulting",
+}
+_CATEGORY_KEYS = [k for k, _ in _TARGET_SECTORS]
+
+
+def _lead_category(lead: Dict) -> str:
+    """Top-level targeting category: one of the six for-* sectors, or
+    "more" for every other segment."""
+    seg = lead.get("segment") or ""
+    mapped = _CATEGORY_ALIAS.get(seg) or (_target_sector(seg) or seg)
+    return mapped if mapped in _CATEGORY_KEYS else "more"
+
+
 def _leads_by_slug() -> Dict[str, Dict]:
     return {lead.get("_slug"): lead for lead in _all_leads() if lead.get("_slug")}
 
@@ -72,21 +96,30 @@ def _outreach_template_and_context(lead: Dict, data: Dict):
 @marketing_crm_bp.get("/admin/marketing/tree")
 @require_role("admin")
 def marketing_tree():
-    """Lazy navigation: sector → country → the sector×country intersection
-    (all targeted organisations, status as a per-lead field + filter).
+    """Lazy navigation: category → country → (region) → intersection.
 
-    Every segment present in the lead base is a first-class sector — the
-    platform targets all sectors, not only the six for-* pages."""
+    Root returns the six "Solutions for" categories plus a "more" bucket
+    holding every other segment (we target all sectors). The country level
+    returns the intersection — statuses, sub-national regions and the full
+    lead list — filterable by region and status."""
     segment = (request.args.get("segment") or "").strip()
     country = (request.args.get("country") or "").strip()
+    region = (request.args.get("region") or "").strip()
     status = (request.args.get("status") or "").strip()
 
     leads = [l for l in _all_leads() if not l.get("excluded")]
+
+    def _matches(l: Dict, key: str) -> bool:
+        if key in _CATEGORY_KEYS or key == "more":
+            return _lead_category(l) == key
+        return (l.get("segment") or "") == key
 
     def _lead_row(l: Dict) -> Dict:
         return {
             "slug": l.get("_slug"),
             "organization": l.get("organization"),
+            "segment": l.get("segment"),
+            "region": l.get("region"),
             "priority": l.get("priority"),
             "urgency": l.get("urgency"),
             "score": _lead_score(l),
@@ -99,25 +132,35 @@ def marketing_tree():
         }
 
     if not segment:
-        if country or status:
+        if country or status or region:
             return jsonify({"error": "segment is required", "status": 400}), 400
-        labels = dict(_TARGET_SECTORS)
         counts: Dict[str, int] = {}
         for l in leads:
-            key = _lead_sector(l)
+            key = _lead_category(l)
             counts[key] = counts.get(key, 0) + 1
-        sectors = [
-            {"key": key,
-             "label": labels.get(key, key.replace("_", " ").title()),
-             "count": ct}
-            for key, ct in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
-        ]
+        labels = dict(_TARGET_SECTORS)
+        sectors = [{"key": key, "label": label,
+                    "count": counts.get(key, 0)}
+                   for key, label in _TARGET_SECTORS]
+        if counts.get("more"):
+            sectors.append({"key": "more", "label": "More sectors",
+                            "count": counts["more"]})
         return jsonify({"sectors": sectors})
 
     if not country:
-        if status:
+        if status or region:
             return jsonify({"error": "country is required", "status": 400}), 400
-        seg_leads = [l for l in leads if _lead_sector(l) == segment]
+        seg_leads = [l for l in leads if _matches(l, segment)]
+        if segment == "more":
+            # Sub-sectors inside the "more" bucket (raw segments).
+            sub = Counter(l.get("segment") or "?" for l in seg_leads)
+            return jsonify({
+                "segment": "more",
+                "subsectors": [
+                    {"key": k, "label": k.replace("_", " ").title(), "count": c}
+                    for k, c in sorted(sub.items(), key=lambda kv: (-kv[1], kv[0]))
+                ],
+            })
         countries = Counter((l.get("country") or "?") for l in seg_leads)
         return jsonify({
             "segment": segment,
@@ -129,8 +172,14 @@ def marketing_tree():
 
     seg_leads = [
         l for l in leads
-        if _lead_sector(l) == segment and (l.get("country") or "") == country
+        if _matches(l, segment) and (l.get("country") or "") == country
     ]
+    region_counts = Counter(
+        (l.get("region") or "").strip() for l in seg_leads
+        if (l.get("region") or "").strip())
+    if region:
+        seg_leads = [
+            l for l in seg_leads if (l.get("region") or "").strip() == region]
     status_counts = Counter(
         l.get("outreach_status", "researched") for l in seg_leads)
     if status:
@@ -141,12 +190,18 @@ def marketing_tree():
     resp = {
         "segment": segment,
         "country": country,
+        "regions": [
+            {"region": r, "count": c}
+            for r, c in sorted(region_counts.items(), key=lambda kv: -kv[1])
+        ],
         "statuses": [
             {"status": s, "count": status_counts[s]}
             for s in OUTREACH_STATUSES if status_counts.get(s)
         ],
         "leads": [_lead_row(l) for l in seg_leads],
     }
+    if region:
+        resp["region"] = region
     if status:
         resp["status"] = status
     return jsonify(resp)
