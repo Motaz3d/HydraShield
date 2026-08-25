@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance &amp; Environmental Risk — Talaix</title>
+    <meta name="description" content="Insurance environmental risk profiles: current per-peril hazard levels plus long-term event history for underwriters and reinsurers. Not a catastrophe model, not rate-making, no loss quantification.">
+    <link rel="canonical" href="https://talaix.com/insurance.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="insurance">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Insurance &amp; Environmental Risk</h1>
+            <p class="page-lead">
+                Per-peril hazard levels plus long-term event history for insured
+                assets. Built for underwriters and reinsurers who need an
+                evidence-based screening layer before invoking catastrophe models
+                or pricing workflows.
+            </p>
+            <p class="muted small">
+                Honesty contract: unavailable data is declared, never invented.
+            </p>
+            <div class="notice notice-warn">
+                <strong>Screening data product only.</strong> This is NOT a catastrophe
+                model, NOT a rate-making or pricing tool, and NOT actuarial advice.
+                Losses are explicitly <strong>not quantified</strong> (no AAL/PML, no
+                exceedance-probability curves). Levels are screening indicators unless
+                labelled validated.
+            </div>
+
+            <!-- Single asset profile -->
+            <div class="panel">
+                <h2>Assess an insured asset</h2>
+                <div class="toolbar" style="align-items:flex-start;">
+                    <div class="form-group" style="flex:1;">
+                        <label for="assetLocInput">Location</label>
+                        <input type="text" id="assetLocInput" placeholder="Place name or lat,lon">
+                    </div>
+                    <div class="form-group" style="width:120px;">
+                        <label for="radiusInput">Radius (km)</label>
+                        <input type="number" id="radiusInput" value="50" min="1" max="500">
+                    </div>
+                    <button class="btn-action" id="assessAssetBtn">Assess asset</button>
+                </div>
+                <div id="assetLocAssist"></div>
+                <div id="profileStatus"></div>
+                <div id="profileResult"></div>
+            </div>
+
+            <!-- Portfolio check -->
+            <div class="panel">
+                <h2>Insured portfolio check</h2>
+                <p class="muted small">
+                    One asset per line: <code>name,lat,lon</code>. Optional radius applies to
+                    all sites. Up to 25 assets on the free tier; subscribers can check up to 100.
+                </p>
+                <div class="form-group">
+                    <label for="portfolioName">Portfolio name (optional)</label>
+                    <input type="text" id="portfolioName" placeholder="Portfolio name">
+                </div>
+                <div class="form-group" style="width:120px;">
+                    <label for="portfolioRadiusInput">Radius (km)</label>
+                    <input type="number" id="portfolioRadiusInput" value="50" min="1" max="500">
+                </div>
+                <div class="form-group">
+                    <label for="portfolioText">Assets</label>
+                    <textarea id="portfolioText" rows="6" placeholder="Trier plant,49.75,6.64&#10;A Coruña terminal,43.3,-8.4"></textarea>
+                </div>
+                <button class="btn-action" id="assessPortfolioBtn">Check portfolio</button>
+                <div id="portfolioStatus"></div>
+                <div id="portfolioResult"></div>
+            </div>
+
+            <!-- Frameworks & scope -->
+            <h2>Frameworks &amp; scope</h2>
+            <div class="card-grid">
+                <div class="item-card">
+                    <h3>EIOPA climate &amp; nat-cat stress tests</h3>
+                    <span class="chip chip-documented">regulatory context</span>
+                    <p class="muted">Per-peril levels and event history provide the
+                       physical-evidence layer for (re)insurer stress-test exercises.</p>
+                </div>
+                <div class="item-card">
+                    <h3>Solvency II</h3>
+                    <span class="chip chip-documented">prudential context</span>
+                    <p class="muted">Can inform underwriting risk identification and ORSA
+                       work; does not replace internal model calculations.</p>
+                </div>
+                <div class="item-card">
+                    <h3>Protection gap / EIOPA nat-cat dashboard</h3>
+                    <span class="chip chip-modelled">market context</span>
+                    <p class="muted">Evidence-based screening can help close data gaps on
+                       exposed assets by declaring which perils are observable.</p>
+                </div>
+            </div>
+
+            <div class="card-grid" style="margin-top:24px;">
+                <div class="item-card">
+                    <h3>What this is</h3>
+                    <ul class="muted">
+                        <li>Current per-peril hazard screening.</li>
+                        <li>Long-term event history per peril (dataset coverage declared).</li>
+                        <li>A pre-cat-model evidence layer for underwriters.</li>
+                    </ul>
+                </div>
+                <div class="item-card">
+                    <h3>What this is not</h3>
+                    <ul class="muted">
+                        <li>A vendor catastrophe model.</li>
+                        <li>A rate-making or pricing tool.</li>
+                        <li>Loss quantification (no AAL/PML/EP curve).</li>
+                        <li>Actuarial advice.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/convert.js" defer></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/insurance.js" defer></script>
+</body>
+</html>
