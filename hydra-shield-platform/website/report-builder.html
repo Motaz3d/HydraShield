@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Builder — Talaix</title>
+    <meta name="description" content="Build Talaix evidence reports automatically, or section by section with full transparency on how each section was composed.">
+    <link rel="canonical" href="https://talaix.com/report-builder.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="reportbuilder">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Report Builder</h1>
+            <p class="page-lead">
+                Your report, your choice: fully automatic in one click, or interactive
+                section-by-section where you see <em>how and why</em> every section was
+                built — and can edit it.
+            </p>
+            <p class="muted small">
+                Engine text is template-composed from the cited evidence only. Your edits
+                are marked "[edited by user]" in the exported PDF, and the PDF metadata
+                declares the edit count.
+            </p>
+
+            <!-- Mode choice -->
+            <div id="modeChoice" class="card-grid" style="margin-top:24px;">
+                <div class="item-card">
+                    <h3>Automatic — one click</h3>
+                    <span class="chip chip-observed">PDF</span>
+                    <p class="muted">Go straight to the existing product PDF for the fastest, engine-built report.</p>
+                    <p>
+                        <a class="btn-secondary btn-sm" href="green-finance.html">Green Finance →</a>
+                        <a class="btn-secondary btn-sm" href="insurance.html">Insurance →</a>
+                        <a class="btn-secondary btn-sm" href="sustainability.html">Sustainability →</a>
+                    </p>
+                </div>
+                <div class="item-card" style="cursor:pointer;" id="interactiveCard">
+                    <h3>Interactive — build it section by section</h3>
+                    <span class="chip chip-modelled">BUILDER</span>
+                    <p class="muted">Generate a structured draft, inspect why each section exists, edit the text, reorder sections and export the PDF.</p>
+                    <button class="btn-action" id="startInteractiveBtn">Start interactive</button>
+                </div>
+            </div>
+
+            <!-- Setup form -->
+            <div class="panel" id="setupPanel" style="display:none;">
+                <h2>Interactive setup</h2>
+                <div class="form-group">
+                    <label for="productSelect">Product</label>
+                    <select id="productSelect">
+                        <option value="">Choose…</option>
+                        <option value="verification">Green Finance Verification</option>
+                        <option value="insurance">Insurance &amp; Environmental Risk</option>
+                        <option value="sustainability">Sustainability &amp; CSRD Evidence</option>
+                    </select>
+                </div>
+
+                <!-- Location-based setup -->
+                <div id="locationSetup" style="display:none;">
+                    <div class="toolbar" style="gap:12px; flex-wrap:wrap;">
+                        <div class="form-group" style="flex:1; min-width:220px;">
+                            <label for="locationInput">Location (place name or lat,lon)</label>
+                            <input type="text" id="locationInput" placeholder="e.g. Clervaux, Luxembourg">
+                        </div>
+                        <div class="form-group" style="width:140px;" id="radiusGroup">
+                            <label for="radiusInput">Radius (km)</label>
+                            <input type="number" id="radiusInput" value="50" min="1" max="500">
+                        </div>
+                    </div>
+                    <div id="locationAssist"></div>
+                </div>
+
+                <!-- Sustainability setup -->
+                <div id="sustainabilitySetup" style="display:none;">
+                    <div class="toolbar" style="gap:12px; flex-wrap:wrap;">
+                        <div class="form-group" style="flex:1; min-width:200px;">
+                            <label for="companyName">Company name</label>
+                            <input type="text" id="companyName" placeholder="Acme S.A.">
+                        </div>
+                        <div class="form-group" style="flex:1; min-width:200px;">
+                            <label for="companySector">Sector</label>
+                            <input type="text" id="companySector" placeholder="Manufacturing">
+                        </div>
+                    </div>
+                    <div class="toolbar" style="gap:12px; flex-wrap:wrap;">
+                        <div class="form-group" style="flex:1; min-width:200px;">
+                            <label for="companyCountry">Country</label>
+                            <input type="text" id="companyCountry" placeholder="Luxembourg">
+                        </div>
+                        <div class="form-group" style="flex:1; min-width:200px;">
+                            <label for="companyWebsite">Website</label>
+                            <input type="text" id="companyWebsite" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyDescription">Description</label>
+                        <input type="text" id="companyDescription" placeholder="Short company description">
+                    </div>
+                    <div class="form-group">
+                        <label for="assetsText">Sites (one per line: name,lat,lon or lat,lon)</label>
+                        <textarea id="assetsText" rows="4" placeholder="Headquarters,49.6116,6.1319&#10;Plant,50.8503,4.3517"></textarea>
+                    </div>
+                </div>
+
+                <button class="btn-action" id="generateDraftBtn">Generate draft</button>
+                <div id="setupStatus" style="margin-top:12px;"></div>
+            </div>
+
+            <!-- Draft editor -->
+            <div class="panel" id="editorPanel" style="display:none;">
+                <h2>Edit draft</h2>
+                <div class="form-group">
+                    <label for="draftTitle">Report title</label>
+                    <input type="text" id="draftTitle" maxlength="200">
+                </div>
+                <p class="muted small" id="interconnectionNote"></p>
+
+                <div id="sectionsContainer"></div>
+
+                <div class="toolbar" style="gap:12px; margin-top:24px; flex-wrap:wrap;">
+                    <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
+                    <button class="btn-secondary" id="newDraftBtn">New draft</button>
+                </div>
+                <div id="editorStatus" style="margin-top:12px;"></div>
+                <p class="muted small" id="editSummary"></p>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/report-builder.js" defer></script>
+</body>
+</html>

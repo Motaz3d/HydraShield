@@ -1174,6 +1174,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(briefs_bp)
 
+    # Visual Report Builder API (/api/v2/report-builder/…).
+    from ..climate.api_report_builder import report_builder as report_builder_bp
+
+    app.register_blueprint(report_builder_bp)
+
     return app
 
 
