@@ -304,6 +304,11 @@
         if (window.HS && HS.location) {
             HS.location.enhance('caseSiteInput', 'caseSiteAssist');
         }
+
+        var params = new URLSearchParams(location.search);
+        var q = params.get('location');
+        if (q && el('caseSiteInput')) el('caseSiteInput').value = q;
+
         loadFrameworks();
     }
 

@@ -200,6 +200,13 @@
             html += '<p class="muted">No level could be computed for this location; see the blocks below for what is available.</p>';
         }
         if (a.summary) html += '<p style="margin-top:10px;">' + esc(a.summary) + '</p>';
+        if (loc.lat != null && loc.lon != null) {
+            html += '<p class="muted small" style="margin-top:10px;">' +
+                '<a class="text-link" href="forensics.html?location=' +
+                encodeURIComponent(loc.lat.toFixed(4) + ',' + loc.lon.toFixed(4)) +
+                '">Open a forensic case at this location →</a>' +
+                '</p>';
+        }
         html += '</div>';
 
         // ---- Blocks (generic renderer) -----------------------------------

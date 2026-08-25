@@ -133,6 +133,34 @@
         centreChip.innerHTML =
             '<div class="mcc-name">' + esc(name) + '</div>' +
             '<div class="mcc-coords">' + c.lat.toFixed(4) + ', ' + c.lng.toFixed(4) + '</div>';
+        renderActOnPoint(c.lat, c.lng);
+    }
+
+    /* Sidebar panel: deep-link from the map centre into the product tools. */
+    function renderActOnPoint(lat, lon) {
+        var id = 'actOnPointPanel';
+        var panel = el(id);
+        if (!panel) {
+            panel = document.createElement('div');
+            panel.id = id;
+            panel.className = 'map-sidebar-section';
+            var layersHeading = el('layerPanel').previousElementSibling;
+            if (layersHeading && layersHeading.tagName === 'H2') {
+                layersHeading.parentNode.insertBefore(panel, layersHeading);
+            } else {
+                el('mapSidebar').appendChild(panel);
+            }
+        }
+        var coord = lat.toFixed(4) + ',' + lon.toFixed(4);
+        panel.innerHTML =
+            '<h2>Act on this point</h2>' +
+            '<p class="muted small" style="margin:0 0 6px 0;">' + esc(coord) + '</p>' +
+            '<div class="layer-state" style="padding-left:0;">' +
+            '<a class="text-link" href="green-finance.html?location=' + encodeURIComponent(coord) + '">Green Finance check</a> · ' +
+            '<a class="text-link" href="insurance.html?location=' + encodeURIComponent(coord) + '">Insurance profile</a> · ' +
+            '<a class="text-link" href="forensics.html?location=' + encodeURIComponent(coord) + '">Forensic case</a> · ' +
+            '<a class="text-link" href="sustainability.html">Sustainability report</a>' +
+            '</div>';
     }
 
     /* Reverse-geocode the map centre (debounced after moveend; cached

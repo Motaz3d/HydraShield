@@ -321,6 +321,10 @@
         if (window.HS && HS.location) {
             HS.location.enhance('assetLocInput', 'assetLocAssist');
         }
+
+        var params = new URLSearchParams(location.search);
+        var q = params.get('location');
+        if (q && el('assetLocInput')) el('assetLocInput').value = q;
     }
 
     init();

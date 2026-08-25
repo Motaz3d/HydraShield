@@ -17,11 +17,12 @@ try:
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib.units import mm
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, TableStyle
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, TableStyle, Image
     _HAS_REPORTLAB = True
 except ImportError:  # honest failure handled by the endpoint
     _HAS_REPORTLAB = False
 
+from .site_image import build_site_context_png, site_context_caption
 from .verification_report import (
     _xml,
     _kv_table,
@@ -90,6 +91,24 @@ def build_custom_pdf(title: str, sections: List[Dict[str, Any]], meta: Dict[str,
         ["Edited by user", str(meta.get("edited_count", 0))],
     ]
     story.append(_kv_table(meta_rows))
+
+    # ---- Site context image --------------------------------------------------
+    lat = meta.get("lat")
+    lon = meta.get("lon")
+    if lat is not None and lon is not None:
+        try:
+            img_bytes = build_site_context_png(float(lat), float(lon), window_m=1000.0)
+            if img_bytes:
+                img = Image(io.BytesIO(img_bytes), width=170 * mm, height=78 * mm)
+                story.append(Spacer(1, 3 * mm))
+                story.append(img)
+                story.append(Paragraph(site_context_caption(), _SM))
+            else:
+                story.append(Paragraph("Site context image unavailable for this run.", _SM))
+        except Exception:
+            story.append(Paragraph("Site context image unavailable for this run.", _SM))
+    else:
+        story.append(Paragraph("Site context image unavailable for this run.", _SM))
 
     # ---- Sections ------------------------------------------------------------
     for s in sections:
