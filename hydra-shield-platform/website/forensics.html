@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Forensic Verification — Talaix</title>
+    <meta name="description" content="Environmental forensic evidence packs: satellite × land cover × active-fire consistency checks for investigators. Never a legality determination.">
+    <link rel="canonical" href="https://talaix.com/forensics.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="forensics">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Environmental Forensic Verification</h1>
+            <p class="page-lead">
+                Build a content-hashed evidence pack that cross-matches a site and a
+                structured claim against satellite, land-cover and active-fire data.
+                Designed for regulators, FIUs, NGOs and investigative journalists.
+            </p>
+            <p class="muted small">
+                Honesty contract: unavailable data is declared, never invented.
+            </p>
+            <div class="notice notice-warn">
+                <strong>Investigative evidence pack only.</strong> Talaix does
+                <strong>NOT</strong> determine legality or criminal conduct, holds
+                <strong>NO</strong> financial transaction data, and does
+                <strong>NOT</strong> certify forensic findings. The pack documents
+                claim–evidence consistency for qualified investigators.
+            </div>
+
+            <!-- Case form -->
+            <div class="panel">
+                <h2>Open a case</h2>
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="caseTitle">Case title (optional)</label>
+                        <input type="text" id="caseTitle" placeholder="e.g. Concession Alpha review">
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="caseTypology">Typology</label>
+                        <select id="caseTypology"></select>
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="caseClaimType">Subject claim</label>
+                        <select id="caseClaimType"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="caseClaimText">Claim text (optional, free-text context)</label>
+                    <input type="text" id="caseClaimText" placeholder="Describe the claim being investigated">
+                </div>
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="caseSiteInput">Site (place name or lat,lon)</label>
+                        <input type="text" id="caseSiteInput" placeholder="Place name or lat,lon">
+                    </div>
+                    <div class="form-group" style="width:120px;">
+                        <label for="caseRadiusInput">Radius (km)</label>
+                        <input type="number" id="caseRadiusInput" value="25" min="1" max="200">
+                    </div>
+                </div>
+                <div id="caseSiteAssist"></div>
+                <div class="form-group">
+                    <label for="caseDocs">Reference documents (one per line: title,url)</label>
+                    <textarea id="caseDocs" rows="3" placeholder="Permit 123,https://example.gov/permit/123&#10;Company statement,https://example.com/statement"></textarea>
+                </div>
+                <div class="toolbar" style="gap:12px;">
+                    <button class="btn-action" id="assessCaseBtn">Assess case (JSON)</button>
+                    <button class="btn-secondary" id="downloadCasePdfBtn">Download evidence pack PDF</button>
+                </div>
+                <div id="caseStatus"></div>
+                <div id="caseResult"></div>
+            </div>
+
+            <!-- Typologies & frameworks -->
+            <h2>Typologies &amp; frameworks</h2>
+            <div id="typologyCards" class="card-grid"></div>
+
+            <div class="card-grid" style="margin-top:24px;">
+                <div class="item-card">
+                    <h3>What this is</h3>
+                    <ul class="muted">
+                        <li>Physical-evidence consistency pack.</li>
+                        <li>Content-hashed chain of custody per evidence item.</li>
+                        <li>AML/FIU environmental-crime case-file annex.</li>
+                    </ul>
+                </div>
+                <div class="item-card">
+                    <h3>What this is not</h3>
+                    <ul class="muted">
+                        <li>A determination of legality or criminal conduct.</li>
+                        <li>A forensic-lab certification.</li>
+                        <li>Financial analysis or transaction data.</li>
+                        <li>Exoneration or proof of a crime.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/forensics.js" defer></script>
+</body>
+</html>
