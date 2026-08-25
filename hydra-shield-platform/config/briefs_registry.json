@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "note": "Talaix Knowledge Arm — periodic briefs and framework explainers. Every item carries open sources with links; news items are REPORTED (publisher account), official documents are DOCUMENTED. Nothing is published without a source.",
+  "briefs": [
+    {
+      "id": "explainer-eu-taxonomy-dnsh-adaptation",
+      "kind": "framework_explainer",
+      "title": "EU Taxonomy DNSH climate adaptation — a plain-language explainer",
+      "date": "2026-08-25",
+      "summary": "What the EU Taxonomy's 'Do No Significant Harm' test for climate change adaptation actually requires, which physical hazards it lists, and what counts as evidence — for banks, companies and their advisors.",
+      "sections": [
+        {
+          "heading": "What the EU Taxonomy is",
+          "body": "The EU Taxonomy (Regulation (EU) 2020/852) is the European Union's classification system for environmentally sustainable economic activities. It exists so that 'sustainable' means the same thing across banks, companies and funds — a disclosure vocabulary, not an investment recommendation and not a green label for portfolios."
+        },
+        {
+          "heading": "Six objectives, one rule: do no significant harm",
+          "body": "An economic activity is 'taxonomy-aligned' when it contributes substantially to at least one of six environmental objectives — climate change mitigation; climate change adaptation; sustainable use of water and marine resources; circular economy; pollution prevention; and biodiversity — while doing no significant harm (DNSH) to the other five, and meeting minimum social safeguards. DNSH is the part that is most often misunderstood: it is not enough to be green somewhere; you must not be causing material harm elsewhere."
+        },
+        {
+          "heading": "The DNSH climate adaptation test in practice",
+          "body": "For climate change adaptation, the Climate Delegated Act (Commission Delegated Regulation (EU) 2021/2139, Appendix A) requires an assessment of the material physical climate risks to the activity. Appendix A classifies the hazards to consider as chronic (for example changing temperature, water stress, sea-level rise) and acute (for example heat waves, wildfires, storms, flooding). The assessment must cover the activity's expected lifetime, use state-of-the-art climate projections where relevant, and — where material risks exist — be followed by adaptation solutions that reduce them. A paper statement that 'no risk exists' without underlying evidence does not meet the spirit of the test."
+        },
+        {
+          "heading": "Why banks and companies should care",
+          "body": "Banks disclose their Green Asset Ratio under EBA Pillar 3 ESG rules: the share of their covered assets that is taxonomy-aligned. That ratio is only as good as the evidence behind each alignment claim — including the DNSH adaptation assessment for every financed activity. Companies reporting under CSRD/ESRS meet the same vocabulary from the other side. In both directions, the practical question is identical: what physical evidence exists for the hazards at the asset's actual location?"
+        },
+        {
+          "heading": "What counts as evidence — and where Talaix fits",
+          "body": "The adaptation test is, at its core, a request for physical evidence: observed hazard exposure, documented historical events, and declared modelled indicators at the asset's coordinates — with sources, dates and limitations. This is exactly the layer Talaix produces with its Green Finance verification reports: a per-hazard checklist in the Appendix A vocabulary, with claim status, confidence and declared data gaps. Talaix supplies the evidence; it is not an ESMA-registered external reviewer and does not issue Second Party Opinions. Unavailable data is declared, never invented."
+        }
+      ],
+      "sources": [
+        {
+          "name": "Regulation (EU) 2020/852 (EU Taxonomy) — EUR-Lex",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32020R0852",
+          "date": "2020-06-18",
+          "claim_status": "DOCUMENTED"
+        },
+        {
+          "name": "Commission Delegated Regulation (EU) 2021/2139 (Climate Delegated Act, incl. Appendix A) — EUR-Lex",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32021R2139",
+          "date": "2021-06-04",
+          "claim_status": "DOCUMENTED"
+        },
+        {
+          "name": "EU Taxonomy Navigator — European Commission",
+          "url": "https://ec.europa.eu/sustainable-finance-taxonomy/",
+          "date": null,
+          "claim_status": "DOCUMENTED"
+        }
+      ],
+      "related_tools": [
+        {"label": "Green Finance Verification", "href": "green-finance.html"},
+        {"label": "Talaix Academy — EU framework map module", "href": "academy.html"}
+      ],
+      "related_glossary": ["eu_taxonomy", "dnsh", "acute_hazard", "chronic_hazard", "green_asset_ratio"],
+      "status": "published"
+    },
+    {
+      "id": "evidence-brief-2026-08-pilot",
+      "kind": "evidence_brief",
+      "title": "Evidence Brief №1 — August 2026 (pilot issue)",
+      "date": "2026-08-25",
+      "summary": "The pilot of our periodic open-source brief at the intersection of finance and the environment: drought and water scarcity on the EU agenda, the Digital Product Passport becomes real, and a Mediterranean blue-carbon finding. Every item is linked to its open source; our analysis is labelled as such.",
+      "sections": [
+        {
+          "heading": "Editorial line (read once, applies always)",
+          "body": "This brief uses open sources only. News items are REPORTED — they are the publisher's account, linked so you can read the original; official documents are DOCUMENTED. Our own analysis is marked 'Talaix view'. If a beat produced nothing verifiable in the window, we say so rather than fill space. This pilot issue draws on one official source (the European Commission's DG Environment news); the monitors below list the institutions we track for future issues."
+        },
+        {
+          "heading": "Drought and water scarcity high on the EU agenda",
+          "body": "REPORTED — 14 August 2026, European Commission (DG Environment): as Europe faces another summer of extreme heat, water scarcity and drought, the EU is calling for stronger global action to restore degraded land, strengthen drought resilience and protect water resources. Talaix view: water stress is a chronic physical hazard in the EU Taxonomy DNSH vocabulary and one of the perils in our insurance and verification engines; policy attention at this level is what converts physical-risk evidence from a nice-to-have into a compliance input for banks and insurers."
+        },
+        {
+          "heading": "Digital Product Passport moves from law to practice",
+          "body": "REPORTED — 20 July 2026, European Commission (DG Environment): a launch marks an important milestone in making the Digital Product Passport (DPP) a practical reality for businesses placing products on the EU market. Talaix view: the DPP direction — product-level, evidence-backed claims — is the same architecture as EUDR origin evidence: declared claims tied to verifiable physical data. Companies building geolocation evidence habits now will meet these regimes cheaper than those bolting them on later."
+        },
+        {
+          "heading": "Mediterranean seagrass as a major carbon sink",
+          "body": "REPORTED — 19 August 2026, European Commission (DG Environment), citing a study: seagrass meadows have the capacity to be among the largest carbon sinks of plant ecosystems, with the Mediterranean holding the highest seagrass biomass carbon stock per hectare. Talaix view: blue-carbon evidence is exactly where carbon-credit integrity will be won or lost — claimed sequestration must be matched with observed habitat, not self-report. Our declared gap stands: no dedicated habitat-loss dataset is integrated yet, and we say so in every supply-chain report."
+        },
+        {
+          "heading": "Institutional: EEA and EIONET under evaluation",
+          "body": "REPORTED — 30 July 2026, European Commission (DG Environment): the Commission opened a call for evidence to evaluate the European Environment Agency and the EIONET network for 2022–2026. Talaix view: the EU's own environmental evidence infrastructure is being reviewed — a reminder that evidence quality, coverage and honesty about gaps are live institutional questions, not just commercial ones."
+        },
+        {
+          "heading": "What we monitor (open sources only)",
+          "body": "For future issues we track the public pages of: EBA (Pillar 3 ESG), ESMA (incl. green-bond external reviewers), EIOPA (insurance climate stress), ECB/NGFS (climate risk supervision), DG ENV and DG CLIMA (EUDR and environment policy), FATF (money laundering from environmental crime), and the official carbon-market bodies (ICVCM, UNFCCC Article 6). Suggestions for open sources we should add are welcome via the contact page."
+        }
+      ],
+      "sources": [
+        {
+          "name": "European Commission, DG Environment — News (items of 14 Aug, 20 Jul, 19 Aug, 30 Jul 2026)",
+          "url": "https://environment.ec.europa.eu/news_en",
+          "date": "2026-08-14",
+          "claim_status": "REPORTED"
+        }
+      ],
+      "related_tools": [
+        {"label": "Insurance & Environmental Risk", "href": "insurance.html"},
+        {"label": "Supply Chain & Origin Evidence", "href": "supplychain.html"}
+      ],
+      "related_glossary": ["eu_taxonomy", "dnsh", "chronic_hazard", "eudr", "greenwashing"],
+      "status": "published"
+    }
+  ]
+}
