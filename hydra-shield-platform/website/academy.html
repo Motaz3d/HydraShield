@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talaix Academy — Climate Risk for Finance</title>
+    <meta name="description" content="Talaix Academy pilot course: Climate Risk Assessment for Financial Institutions. Free certificate of completion; not an accredited qualification.">
+    <link rel="canonical" href="https://talaix.com/academy.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="academy">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Talaix Academy</h1>
+            <p class="page-lead">
+                A pilot course on climate risk assessment for financial institutions.
+                Learn the EU framework map, evidence literacy and hands-on use of the
+                Talaix platform — then earn a Certificate of Completion.
+            </p>
+            <div class="notice notice-info">
+                <strong>Certificate of Completion.</strong> This is a Talaix Academy
+                pilot course. The certificate is <strong>not</strong> an accredited
+                academic qualification and <strong>not</strong> a professional
+                certification. University partnership is planned; not claimed.
+            </div>
+
+            <div class="panel">
+                <h2>Course: Climate Risk Assessment for Financial Institutions</h2>
+                <p class="muted small" id="courseMeta"></p>
+                <div id="moduleList"></div>
+            </div>
+
+            <div class="panel" id="moduleReaderPanel" style="display:none;">
+                <h2 id="moduleReaderTitle"></h2>
+                <p class="muted small" id="moduleReaderMeta"></p>
+                <div id="moduleReaderContent"></div>
+                <div id="moduleQuiz"></div>
+                <div id="moduleQuizStatus"></div>
+                <div id="moduleQuizResult"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Glossary</h2>
+                <div class="form-group">
+                    <input type="text" id="glossarySearch" placeholder="Search terms…">
+                </div>
+                <div id="glossaryGrid" class="card-grid"></div>
+            </div>
+
+            <div class="panel" id="certificatePanel">
+                <h2>Your certificate</h2>
+                <div id="certificateStatus"></div>
+                <div id="certificateActions"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Verify a certificate</h2>
+                <div class="toolbar" style="gap:12px;">
+                    <div class="form-group" style="flex:1;">
+                        <input type="text" id="verifyCertId" placeholder="Certificate ID">
+                    </div>
+                    <button class="btn-action" id="verifyCertBtn">Verify</button>
+                </div>
+                <div id="verifyCertResult"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/academy.js" defer></script>
+</body>
+</html>

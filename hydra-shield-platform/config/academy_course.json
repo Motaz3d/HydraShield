@@ -1,0 +1,432 @@
+{
+  "version": "1.0.0",
+  "courses": [
+    {
+      "id": "climate-risk-finance",
+      "title": "Climate Risk Assessment for Financial Institutions",
+      "audience": "Bank, insurance and investor staff facing CSRD, EBA and EIOPA climate requirements",
+      "description": "A pilot Talaix Academy course on physical climate risk for finance. Completion earns a Talaix Academy Certificate of Completion. This is not an accredited academic qualification and not a professional certification.",
+      "certificate_note": "Talaix Academy Certificate of Completion — not an accredited academic qualification or professional certification.",
+      "modules": [
+        {
+          "id": "foundations",
+          "title": "Foundations: climate risk in finance",
+          "minutes": 12,
+          "summary": "Why physical and transition climate risks matter to banks, insurers and investors, and the disclosure architecture built around the TCFD recommendations.",
+          "sections": [
+            {
+              "heading": "Physical vs transition risk",
+              "body": "Climate risk in finance is usually split into physical risk and transition risk. Physical risk is the damage or value loss caused by climate-driven events and long-term shifts, such as floods, wildfires, heat stress and sea-level rise. Transition risk is the financial impact of moving to a lower-carbon economy, driven by policy, technology, litigation and market preferences. Both can hit the same asset or portfolio at the same time, so analysts should consider them together rather than in isolation."
+            },
+            {
+              "heading": "Acute vs chronic hazards",
+              "body": "Physical risk is further divided into acute and chronic hazards. Acute hazards are event-driven, such as storms, floods and wildfires. Chronic hazards develop gradually, such as persistent drought, water stress, sea-level rise and long-term temperature change. Acute hazards tend to drive insurance losses and immediate credit events; chronic hazards erode collateral values, increase operating costs and change long-term default probabilities."
+            },
+            {
+              "heading": "From TCFD to IFRS S2",
+              "body": "The Task Force on Climate-related Financial Disclosures (TCFD) organised climate reporting around four pillars: governance, strategy, risk management, and metrics and targets. That structure has been adopted by standard-setters globally. The ISSB's IFRS S2 Climate-related Disclosures now carries the TCFD recommendations forward as an international standard. The framework is therefore not a regulation by itself, but it shapes regulatory disclosure rules in many jurisdictions."
+            },
+            {
+              "heading": "Why supervisors now require this",
+              "body": "Banking, insurance and securities supervisors expect regulated firms to identify, measure and disclose climate risks. The European Banking Authority (EBA) has issued guidelines and Pillar 3 ESG disclosure templates for banks. The European Central Bank expects banks under its supervision to manage climate risks as part of their risk frameworks. EIOPA, the insurance and pensions authority, has published stress-test exercises and disclosure expectations for insurers. These are supervisory expectations, not optional best practice."
+            }
+          ],
+          "key_terms": ["physical_risk", "transition_risk", "acute_hazard", "chronic_hazard", "tcfd", "ifrs_s2"],
+          "quiz": [
+            {
+              "question": "Which of the following is an example of transition risk?",
+              "options": [
+                "A flood damages a factory.",
+                "A carbon tax reduces the value of a coal-fired power plant.",
+                "A heatwave lowers crop yields.",
+                "A wildfire destroys a forestry plantation."
+              ],
+              "correct_index": 1,
+              "explanation": "A carbon tax is a policy shift that affects asset value during the transition to a lower-carbon economy. The other options are physical risks."
+            },
+            {
+              "question": "What are the four TCFD pillars?",
+              "options": [
+                "Governance, strategy, risk management, metrics and targets.",
+                "Assets, liabilities, income, expenses.",
+                "Scope 1, scope 2, scope 3, avoided emissions.",
+                "Origination, underwriting, claims, pricing."
+              ],
+              "correct_index": 0,
+              "explanation": "The TCFD pillars are governance, strategy, risk management, and metrics and targets. IFRS S2 follows the same structure."
+            },
+            {
+              "question": "In EU finance, climate-risk expectations for banks and insurers come mainly from:",
+              "options": [
+                "The United Nations Security Council.",
+                "The ECB, EBA and EIOPA.",
+                "The World Trade Organization.",
+                "The International Olympic Committee."
+              ],
+              "correct_index": 1,
+              "explanation": "The ECB supervises banks, the EBA sets banking rules and disclosures, and EIOPA oversees insurers and pension funds."
+            }
+          ]
+        },
+        {
+          "id": "eu-frameworks",
+          "title": "EU framework map",
+          "minutes": 15,
+          "summary": "A plain-language tour of the EU sustainability regulations that shape financial disclosure and product classification.",
+          "sections": [
+            {
+              "heading": "EU Taxonomy and DNSH",
+              "body": "The EU Taxonomy is a classification system for environmentally sustainable economic activities. An activity must substantially contribute to one of six environmental objectives and do no significant harm (DNSH) to the other five. For climate-change adaptation, DNSH means the activity must be resilient to material physical climate risks. The Taxonomy is a disclosure tool, not an investment recommendation or a green label for portfolios."
+            },
+            {
+              "heading": "SFDR: disclosure, not a virtue label",
+              "body": "The Sustainable Finance Disclosure Regulation requires financial-market participants and advisers to publish sustainability disclosures. Article 6 covers products with no sustainability claim, Article 8 covers products that promote environmental or social characteristics, and Article 9 covers products with a sustainable investment objective. These are disclosure categories, not rankings of environmental merit, and greenwashing has occurred when disclosures did not match reality."
+            },
+            {
+              "heading": "CSRD and ESRS",
+              "body": "The Corporate Sustainability Reporting Directive expands sustainability reporting for large EU companies and listed SMEs. Reports are prepared under the European Sustainability Reporting Standards (ESRS). ESRS E1 covers climate change, including transition plans, physical and transition risks, and greenhouse-gas emissions. Reports must be assured by a statutory auditor or accredited independent assurance provider."
+            },
+            {
+              "heading": "EBA Pillar 3 ESG and the Green Asset Ratio",
+              "body": "The EBA mandates standardised ESG disclosure templates for banks, including the Green Asset Ratio (GAR). The GAR expresses taxonomy-aligned assets as a share of total covered assets. It is a quantitative disclosure, not a policy target, and its usefulness depends on the quality of the underlying taxonomy-alignment evidence."
+            },
+            {
+              "heading": "EU Green Bonds and external reviewers",
+              "body": "The EU Green Bond Regulation sets voluntary rules for issuers of European Green Bonds and requires external reviewers to be registered with ESMA. Registration means supervision and transparency requirements. A Second Party Opinion under the ICMA Green Bond Principles is different from an ESMA-registered external review. Talaix supplies physical evidence; it does not act as an external reviewer or issue SPOs."
+            }
+          ],
+          "key_terms": ["eu_taxonomy", "dnsh", "sfdr", "csrd", "esrs", "double_materiality", "eba_pillar3_esg", "green_asset_ratio", "eu_green_bond_regulation", "esma_external_reviewer", "second_party_opinion", "icma_green_bond_principles"],
+          "quiz": [
+            {
+              "question": "Under the EU Taxonomy, what does DNSH stand for?",
+              "options": [
+                "Do Not Sell Harmful assets.",
+                "Do No Significant Harm.",
+                "Disclose New Sustainability Hazards.",
+                "Divest Non-Strategic Holdings."
+              ],
+              "correct_index": 1,
+              "explanation": "DNSH means Do No Significant Harm: a Taxonomy-aligned activity must not significantly harm the other environmental objectives."
+            },
+            {
+              "question": "Which statement about SFDR Article 8 and Article 9 products is correct?",
+              "options": [
+                "Article 9 products are always more sustainable than Article 8 products.",
+                "They are disclosure categories, not environmental seals.",
+                "Only Article 6 products need to disclose sustainability risks.",
+                "Article 8 products are prohibited from holding fossil-fuel assets."
+              ],
+              "correct_index": 1,
+              "explanation": "SFDR Articles 6, 8 and 9 set disclosure levels. They do not certify environmental superiority."
+            },
+            {
+              "question": "Who must register as an external reviewer under the EU Green Bond Regulation?",
+              "options": [
+                "Any consultant that writes a sustainability report.",
+                "Reviewers of European Green Bonds with ESMA.",
+                "All issuers of green bonds in the EU.",
+                "Investors that buy green bonds."
+              ],
+              "correct_index": 1,
+              "explanation": "External reviewers of European Green Bonds must register with ESMA under the EU Green Bond Regulation."
+            },
+            {
+              "question": "The Green Asset Ratio (GAR) is:",
+              "options": [
+                "A mandatory 50% target for all EU banks.",
+                "A quantitative disclosure of taxonomy-aligned assets over covered assets.",
+                "A risk-weighting adjustment for green loans.",
+                "An EU-wide tax on non-green assets."
+              ],
+              "correct_index": 1,
+              "explanation": "The GAR is a Pillar 3 ESG disclosure. It is not a target, a tax or a capital adjustment."
+            }
+          ]
+        },
+        {
+          "id": "evidence-literacy",
+          "title": "Evidence literacy",
+          "minutes": 12,
+          "summary": "How to read evidence honestly and why 'data unavailable' is a legitimate answer in climate finance.",
+          "sections": [
+            {
+              "heading": "Claim-status vocabulary",
+              "body": "Talaix uses a six-level claim-status vocabulary. OBSERVED means a direct measurement, such as a satellite scene. DOCUMENTED means a verified record, such as an official report. REPORTED means a disclosed value that has not been independently verified. MODELLED means a declared model output. INFERRED means a conclusion drawn from other evidence. UNKNOWN means the required data is missing. UNKNOWN is not a failure; it is honest information that prevents false confidence."
+            },
+            {
+              "heading": "Confidence and screening indicators",
+              "body": "Every evidence layer carries a confidence level and stated limitations. A high-confidence observation may still be limited in time or space. A screening indicator uses available data and declared approximations to flag potential issues; it is not a validated local model and should not replace site-specific engineering or audits. The platform distinguishes these explicitly so users do not overstate a screening result."
+            },
+            {
+              "heading": "Greenwashing and the evidence counter-layer",
+              "body": "Greenwashing occurs when sustainability claims are unsupported or misleading. Regulators have enforced this: Frankfurt prosecutors fined DWS €25 million in 2025, and the SEC settled with BNY Mellon for $1.5 million in 2022, both in relation to sustainability claims. Physical and documentary evidence provides a counter-layer: if an asset claims to be green or low-risk, the observed land cover, flood exposure or fire activity can either support or contradict that claim."
+            }
+          ],
+          "key_terms": ["claim_status", "screening_indicator", "greenwashing"],
+          "quiz": [
+            {
+              "question": "What does an UNKNOWN claim status mean?",
+              "options": [
+                "The claim is definitely false.",
+                "The required data is unavailable and should not be invented.",
+                "The model produced an error.",
+                "The asset is exempt from disclosure."
+              ],
+              "correct_index": 1,
+              "explanation": "UNKNOWN means the data needed to assess the claim is missing. It is an honest answer, not a value judgment."
+            },
+            {
+              "question": "A screening indicator is best described as:",
+              "options": [
+                "A calibrated, site-specific engineering model.",
+                "A preliminary signal based on available data and declared limitations.",
+                "An audited prediction of future losses.",
+                "A regulatory capital requirement."
+              ],
+              "correct_index": 1,
+              "explanation": "Screening indicators are preliminary and must be accompanied by stated limitations. They are not calibrated local models."
+            },
+            {
+              "question": "Which of these was a real public enforcement action against greenwashing?",
+              "options": [
+                "DWS fined €25 million by Frankfurt prosecutors in 2025.",
+                "A major tech company banned from issuing bonds in 2030.",
+                "An EU-wide freeze on all Article 9 funds.",
+                "A UN court ruling against sovereign green bonds."
+              ],
+              "correct_index": 0,
+              "explanation": "Frankfurt prosecutors fined DWS €25 million in 2025; the SEC settled with BNY Mellon for $1.5 million in 2022."
+            }
+          ]
+        },
+        {
+          "id": "verify-asset",
+          "title": "Hands-on: verify a financed asset",
+          "minutes": 14,
+          "summary": "How to read a Green Finance DNSH evidence report and interpret it in a credit or investment process.",
+          "sections": [
+            {
+              "heading": "EU Taxonomy Appendix A hazards",
+              "body": "Appendix A of the EU Taxonomy Climate Delegated Act lists physical climate hazards that must be considered for the DNSH climate-change adaptation test. They include acute hazards such as wildfire, flooding, windstorms, extreme heat and landslides, and chronic hazards such as sea-level rise, water stress and temperature change. The Talaix Green Finance engine screens each hazard for which it has a registered, real-data module."
+            },
+            {
+              "heading": "Walking the DNSH checklist",
+              "body": "A Green Finance evidence report presents one row per screened hazard. Each row shows the taxonomy label, claim status, level, confidence, evidence records and limitations. A row marked UNKNOWN with a declared gap is not a clean bill of health; it is a signal that the evidence does not exist and the credit committee should treat the claim as unverified. Consistent high-confidence evidence across relevant hazards strengthens the DNSH case."
+            },
+            {
+              "heading": "Declared data gaps and credit committees",
+              "body": "Declared gaps are as important as the checks. A gap may mean the hazard module is not registered, the satellite scene was cloudy, or the historical event dataset is not available for that region. The report therefore documents the boundary of what is known. Credit committees should ask whether the missing layer is material to the exposure and whether the borrower can supply additional evidence."
+            },
+            {
+              "heading": "What the report is not",
+              "body": "The Green Finance report is a physical-evidence screening layer. It is not a Second Party Opinion, not an ESMA-registered external review, not an audit and not a credit rating. It supports but does not replace due diligence by the financial institution."
+            }
+          ],
+          "key_terms": ["eu_taxonomy", "dnsh", "acute_hazard", "chronic_hazard", "claim_status", "screening_indicator", "second_party_opinion"],
+          "try_it": {
+            "label": "Try the Green Finance verification tool",
+            "href": "green-finance.html"
+          },
+          "quiz": [
+            {
+              "question": "In a Green Finance DNSH report, a hazard marked UNKNOWN means:",
+              "options": [
+                "The asset is safe for that hazard.",
+                "The required evidence is unavailable and the claim is unverified.",
+                "The hazard does not apply to the asset.",
+                "The model predicted zero risk."
+              ],
+              "correct_index": 1,
+              "explanation": "UNKNOWN means the data needed to assess that hazard is missing; it is not evidence of safety."
+            },
+            {
+              "question": "Which of the following is an acute hazard under EU Taxonomy Appendix A?",
+              "options": [
+                "Sea-level rise.",
+                "Persistent drought.",
+                "Flooding.",
+                "Long-term temperature change."
+              ],
+              "correct_index": 2,
+              "explanation": "Flooding is an acute, event-driven hazard. Sea-level rise, drought and long-term temperature change are chronic hazards."
+            },
+            {
+              "question": "A Green Finance report is:",
+              "options": [
+                "An ESMA-registered external review.",
+                "A physical-evidence screening layer, not an audit or SPO.",
+                "A credit rating for the borrower.",
+                "A legally binding certification."
+              ],
+              "correct_index": 1,
+              "explanation": "The report supports due diligence but is not an external review, audit, rating or certification."
+            }
+          ]
+        },
+        {
+          "id": "read-disclosures",
+          "title": "Hands-on: read disclosures and risk profiles",
+          "minutes": 13,
+          "summary": "How to cross-read sustainability disclosures and insurance risk profiles for the same underlying exposure.",
+          "sections": [
+            {
+              "heading": "ESRS coverage map and boundaries",
+              "body": "Talaix sustainability reports map evidence to ESRS disclosure requirements using coverage tags such as covered_by_evidence, partial or not_covered. This tells the user where the platform can support a CSRD disclosure and where the company must provide additional information or state a boundary. The mapping is evidence-based, not a guarantee of assurance."
+            },
+            {
+              "heading": "Insurance risk profile structure",
+              "body": "An Insurance Environmental Risk Profile lists per-peril current levels and long-term event history. Each peril shows the claim status, confidence, level basis, evidence records and event counts. The product explicitly does not quantify losses: there is no AAL, PML or exceedance-probability curve. It is a pre-cat-model evidence layer."
+            },
+            {
+              "heading": "Lender vs insurer perspective",
+              "body": "A lender and an insurer may look at the same site differently. The lender cares about collateral value and probability of default under climate stress. The insurer cares about frequency, severity and aggregation of claims. Both need evidence, but the decision frameworks differ. Cross-reading the Green Finance, Sustainability and Insurance reports for the same site gives a more complete picture than any single report."
+            }
+          ],
+          "key_terms": ["csrd", "esrs", "double_materiality", "eudr", "claim_status", "screening_indicator"],
+          "try_it": {
+            "label": "Try the Sustainability and Insurance tools",
+            "href": "sustainability.html"
+          },
+          "quiz": [
+            {
+              "question": "In a Talaix sustainability report, 'not_covered' means:",
+              "options": [
+                "The disclosure is guaranteed by an auditor.",
+                "The platform has no evidence for that ESRS requirement.",
+                "The company failed the disclosure.",
+                "The requirement does not apply."
+              ],
+              "correct_index": 1,
+              "explanation": "'not_covered' means the platform cannot currently supply evidence; the company must provide other evidence or state the boundary."
+            },
+            {
+              "question": "An Insurance Environmental Risk Profile explicitly does NOT provide:",
+              "options": [
+                "Current per-peril levels.",
+                "Long-term event history.",
+                "Loss quantification such as AAL or PML.",
+                "Claim status and confidence per peril."
+              ],
+              "correct_index": 2,
+              "explanation": "The profile is a hazard and event-history layer. Monetary loss quantification is explicitly not provided."
+            },
+            {
+              "question": "Cross-reading lender and insurer reports is useful because:",
+              "options": [
+                "They always give the same conclusion.",
+                "They use different decision frameworks and evidence emphasises.",
+                "The insurer report replaces the lender's credit model.",
+                "Only one report is ever needed."
+              ],
+              "correct_index": 1,
+              "explanation": "Lenders focus on collateral and default; insurers focus on claims frequency and severity. Cross-reading gives a fuller picture."
+            }
+          ]
+        },
+        {
+          "id": "final-assessment",
+          "title": "Final assessment",
+          "minutes": 10,
+          "summary": "Recap and final quiz. Pass all modules, including this one, to receive the Certificate of Completion.",
+          "sections": [
+            {
+              "heading": "Course recap",
+              "body": "This course has covered the foundations of physical and transition climate risk, the EU sustainability regulatory map, evidence literacy, and hands-on use of the platform's Green Finance, Sustainability and Insurance reports. The common thread is the honesty contract: declare what is known, declare what is missing, and never substitute an unavailable dataset with invented certainty."
+            }
+          ],
+          "key_terms": ["tcfd", "ifrs_s2", "eu_taxonomy", "dnsh", "sfdr", "csrd", "esrs", "claim_status", "screening_indicator", "greenwashing", "eudr"],
+          "quiz": [
+            {
+              "question": "IFRS S2 is best described as:",
+              "options": [
+                "A voluntary ICMA guidance document.",
+                "An ISSB climate-disclosure standard that carries forward TCFD.",
+                "An EU regulation that replaces the Taxonomy.",
+                "A banking capital requirement."
+              ],
+              "correct_index": 1,
+              "explanation": "IFRS S2 is an ISSB standard for climate-related disclosures and follows the TCFD four-pillar structure."
+            },
+            {
+              "question": "A screening indicator should be treated as:",
+              "options": [
+                "A validated local engineering model.",
+                "A preliminary signal with declared limitations.",
+                "A legally binding risk rating.",
+                "A substitute for borrower financials."
+              ],
+              "correct_index": 1,
+              "explanation": "Screening indicators are preliminary. Their limitations must be read and respected."
+            },
+            {
+              "question": "Which of the following is true about SFDR Article 8 and Article 9?",
+              "options": [
+                "They are disclosure categories.",
+                "They guarantee a product has positive environmental impact.",
+                "They replace the EU Taxonomy.",
+                "They only apply to banks."
+              ],
+              "correct_index": 0,
+              "explanation": "SFDR Articles 6, 8 and 9 are disclosure categories for financial products, not impact certifications."
+            },
+            {
+              "question": "Under the EU Green Bond Regulation, an external reviewer of a European Green Bond must be:",
+              "options": [
+                "Any credit-rating agency.",
+                "Registered with ESMA.",
+                "Appointed by the issuer's parent company.",
+                "Approved by the European Parliament."
+              ],
+              "correct_index": 1,
+              "explanation": "External reviewers of European Green Bonds must register with ESMA."
+            },
+            {
+              "question": "What does double materiality mean under CSRD/ESRS?",
+              "options": [
+                "Only financially material topics are reported.",
+                "Only environmental impact topics are reported.",
+                "Both outside-in financial risk and inside-out impact are considered.",
+                "The same report is filed twice."
+              ],
+              "correct_index": 2,
+              "explanation": "Double materiality covers how sustainability topics affect the company and how the company affects people and planet."
+            },
+            {
+              "question": "A Green Finance report marks a hazard as UNKNOWN. The correct interpretation is:",
+              "options": [
+                "The asset is safe.",
+                "The evidence is unavailable and the claim is unverified.",
+                "The hazard is not material.",
+                "The report is defective."
+              ],
+              "correct_index": 1,
+              "explanation": "UNKNOWN means the required evidence is missing. It is not a safety determination."
+            },
+            {
+              "question": "The EU Taxonomy's DNSH principle applies to:",
+              "options": [
+                "Only climate-change mitigation activities.",
+                "All Taxonomy-aligned activities relative to the other five objectives.",
+                "Only banks' green bonds.",
+                "Only Article 9 funds."
+              ],
+              "correct_index": 1,
+              "explanation": "DNSH requires that an activity does no significant harm to the other environmental objectives."
+            },
+            {
+              "question": "Which public enforcement case involved a €25 million fine by Frankfurt prosecutors in 2025?",
+              "options": [
+                "DWS.",
+                "BNY Mellon.",
+                "A major EU pension fund.",
+                "An ICMA member bank."
+              ],
+              "correct_index": 0,
+              "explanation": "Frankfurt prosecutors fined DWS €25 million in 2025; BNY Mellon settled with the SEC for $1.5 million in 2022."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

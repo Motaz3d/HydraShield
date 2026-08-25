@@ -1,0 +1,203 @@
+{
+  "version": "1.0.0",
+  "terms": [
+    {
+      "id": "eu_taxonomy",
+      "term": "EU Taxonomy",
+      "short": "An EU classification system for environmentally sustainable economic activities.",
+      "long": "The EU Taxonomy Regulation defines when an activity can be called environmentally sustainable. An activity must make a substantial contribution to at least one of six environmental objectives, do no significant harm to the others, and comply with minimum social safeguards. It is a disclosure tool, not an investment recommendation.",
+      "related": ["dnsh", "csrd", "esrs", "green_asset_ratio"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "dnsh",
+      "term": "DNSH — Do No Significant Harm",
+      "short": "A Taxonomy requirement: a green activity must not significantly harm other environmental objectives.",
+      "long": "Do No Significant Harm is one of the three Taxonomy conditions. For climate-change adaptation, DNSH means the activity is resilient to material physical climate risks. The platform's Green Finance engine screens assets against physical hazards to support this evidence layer.",
+      "related": ["eu_taxonomy", "acute_hazard", "chronic_hazard"],
+      "module": "eu-frameworks",
+      "platform_link": "green-finance.html"
+    },
+    {
+      "id": "sfdr",
+      "term": "SFDR — Sustainable Finance Disclosure Regulation",
+      "short": "EU rules on sustainability disclosures for financial-market participants and advisers.",
+      "long": "SFDR requires asset managers, insurers, pension funds and advisers to disclose how they integrate sustainability risks and principal adverse impacts. Article 6, 8 and 9 describe disclosure levels for products, but they are disclosure categories, not seals of environmental virtue.",
+      "related": ["csrd", "esrs", "greenwashing"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "csrd",
+      "term": "CSRD — Corporate Sustainability Reporting Directive",
+      "short": "EU directive that expands sustainability reporting for large companies and listed SMEs.",
+      "long": "CSRD requires in-scope companies to report sustainability information under the European Sustainability Reporting Standards (ESRS). Reports are audited by a statutory auditor or accredited independent assurance provider.",
+      "related": ["esrs", "double_materiality", "eu_taxonomy"],
+      "module": "eu-frameworks",
+      "platform_link": "sustainability.html"
+    },
+    {
+      "id": "esrs",
+      "term": "ESRS — European Sustainability Reporting Standards",
+      "short": "The reporting standards that companies use under CSRD.",
+      "long": "ESRS sets sector-agnostic and sector-specific disclosure requirements. ESRS E1 covers climate change, including transition plans, climate risks and opportunities, and greenhouse-gas emissions. ESRS reporting is subject to assurance.",
+      "related": ["csrd", "double_materiality", "physical_risk", "transition_risk"],
+      "module": "eu-frameworks",
+      "platform_link": "sustainability.html"
+    },
+    {
+      "id": "double_materiality",
+      "term": "Double materiality",
+      "short": "A CSRD/ESRS concept: a topic can matter because it affects the company or because the company affects people and planet.",
+      "long": "Double materiality means reporting both (1) how sustainability topics create financial risks and opportunities for the company ('outside-in') and (2) how the company's activities impact people and the environment ('inside-out'). Only material topics need full disclosure.",
+      "related": ["csrd", "esrs", "physical_risk", "transition_risk"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "eba_pillar3_esg",
+      "term": "EBA Pillar 3 ESG disclosures",
+      "short": "Standardised ESG disclosure templates for EU banks.",
+      "long": "The European Banking Authority mandates Pillar 3 ESG disclosure templates covering environmental, social and governance risks. Banks publish quantitative and qualitative information on climate transition and physical risk, including the Green Asset Ratio.",
+      "related": ["green_asset_ratio", "physical_risk", "transition_risk"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "green_asset_ratio",
+      "term": "Green Asset Ratio (GAR)",
+      "short": "A bank ESG metric: taxonomy-aligned assets as a share of total covered assets.",
+      "long": "The Green Asset Ratio is the proportion of a bank's assets that are taxonomy-aligned, divided by total covered assets. It is a quantitative disclosure under EBA Pillar 3 ESG templates, not a target or a green label.",
+      "related": ["eu_taxonomy", "eba_pillar3_esg"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "eu_green_bond_regulation",
+      "term": "EU Green Bond Regulation",
+      "short": "Rules for issuing 'European Green Bonds' (EuGB) and registering external reviewers.",
+      "long": "The EU Green Bond Standard sets voluntary rules for issuers of European Green Bonds, including allocation and impact reporting. External reviewers must be registered with ESMA. Talaix provides physical-evidence data; it does not act as an external reviewer.",
+      "related": ["esma_external_reviewer", "second_party_opinion", "icma_green_bond_principles"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "esma_external_reviewer",
+      "term": "ESMA-registered external reviewer",
+      "short": "A reviewer of green bonds registered with the European Securities and Markets Authority.",
+      "long": "Under the EU Green Bond Regulation, entities that provide external review of European Green Bonds must register with ESMA and meet transparency and governance requirements. This is a regulated role separate from data providers or Second Party Opinion issuers.",
+      "related": ["eu_green_bond_regulation", "second_party_opinion"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "second_party_opinion",
+      "term": "Second Party Opinion (SPO)",
+      "short": "An independent assessment of a green-bond or sustainability-linked framework.",
+      "long": "A Second Party Opinion evaluates whether a bond framework aligns with principles such as the ICMA Green Bond Principles and whether the use of proceeds is credible. An SPO is not an audit of the bond's ultimate impact.",
+      "related": ["eu_green_bond_regulation", "icma_green_bond_principles", "esma_external_reviewer"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "icma_green_bond_principles",
+      "term": "ICMA Green Bond Principles",
+      "short": "Voluntary process guidelines for green bond issuance.",
+      "long": "The Green Bond Principles, administered by ICMA, provide a voluntary framework for use of proceeds, project evaluation and selection, management of proceeds, and reporting. They are market guidance, not regulation.",
+      "related": ["second_party_opinion", "eu_green_bond_regulation"],
+      "module": "eu-frameworks",
+      "platform_link": null
+    },
+    {
+      "id": "ifrs_s2",
+      "term": "IFRS S2",
+      "short": "The ISSB standard for climate-related disclosures.",
+      "long": "IFRS S2 Climate-related Disclosures, issued by the International Sustainability Standards Board, requires companies to disclose climate-related risks and opportunities, including governance, strategy, risk management, and metrics and targets. It carries forward the TCFD recommendations.",
+      "related": ["tcfd", "csrd", "esrs"],
+      "module": "foundations",
+      "platform_link": null
+    },
+    {
+      "id": "tcfd",
+      "term": "TCFD",
+      "short": "Task Force on Climate-related Financial Disclosures.",
+      "long": "The TCFD developed a four-pillar framework for climate disclosures: governance, strategy, risk management, and metrics and targets. Its recommendations have been taken up by jurisdictions and standard-setters including the ISSB's IFRS S2.",
+      "related": ["ifrs_s2", "physical_risk", "transition_risk"],
+      "module": "foundations",
+      "platform_link": null
+    },
+    {
+      "id": "physical_risk",
+      "term": "Physical climate risk",
+      "short": "Financial risk from climate-driven physical events and long-term shifts.",
+      "long": "Physical risk includes acute hazards such as floods, wildfires and storms, and chronic hazards such as sea-level rise, heat stress and drought. It can damage assets, disrupt supply chains and change the value of collateral and investments.",
+      "related": ["acute_hazard", "chronic_hazard", "transition_risk"],
+      "module": "foundations",
+      "platform_link": "intelligence.html"
+    },
+    {
+      "id": "transition_risk",
+      "term": "Transition risk",
+      "short": "Financial risk from moving to a lower-carbon economy.",
+      "long": "Transition risk arises from policy changes, technology shifts, legal liability and market preferences during the move to a lower-carbon economy. It can strand assets, increase financing costs and reduce demand for carbon-intensive products.",
+      "related": ["physical_risk", "sfdr", "esrs"],
+      "module": "foundations",
+      "platform_link": null
+    },
+    {
+      "id": "acute_hazard",
+      "term": "Acute hazard",
+      "short": "A short-duration, high-impact climate event such as a flood or wildfire.",
+      "long": "Acute hazards are event-driven. In the EU Taxonomy Appendix A they include wildfire, flooding, windstorms and extreme heat. These are the hazards most commonly screened by the platform's Green Finance engine.",
+      "related": ["chronic_hazard", "physical_risk", "dnsh"],
+      "module": "foundations",
+      "platform_link": "green-finance.html"
+    },
+    {
+      "id": "chronic_hazard",
+      "term": "Chronic hazard",
+      "short": "A long-term, gradual climate shift such as sea-level rise or persistent drought.",
+      "long": "Chronic hazards develop over years or decades. In the EU Taxonomy they include sea-level rise, water stress and rising temperatures. Chronic exposure can reduce agricultural yields, increase cooling costs and depress property values.",
+      "related": ["acute_hazard", "physical_risk", "dnsh"],
+      "module": "foundations",
+      "platform_link": "green-finance.html"
+    },
+    {
+      "id": "greenwashing",
+      "term": "Greenwashing",
+      "short": "Misleading claims about environmental performance.",
+      "long": "Greenwashing occurs when sustainability claims are exaggerated, unsubstantiated or false. Regulators in Europe and the United States have fined asset managers for such claims, including a €25 million Frankfurt-prosecutor fine against DWS in 2025 and a $1.5 million SEC settlement with BNY Mellon in 2022.",
+      "related": ["claim_status", "screening_indicator", "sfdr"],
+      "module": "evidence-literacy",
+      "platform_link": null
+    },
+    {
+      "id": "claim_status",
+      "term": "Claim status",
+      "short": "Talaix vocabulary for how strongly a data layer supports a statement.",
+      "long": "The platform uses OBSERVED, DOCUMENTED, REPORTED, MODELLED, INFERRED and UNKNOWN to describe the evidential basis of a claim. UNKNOWN is a legitimate answer: it means the required data is unavailable and should not be filled in.",
+      "related": ["screening_indicator", "greenwashing"],
+      "module": "evidence-literacy",
+      "platform_link": null
+    },
+    {
+      "id": "screening_indicator",
+      "term": "Screening indicator",
+      "short": "A preliminary signal, not a validated local prediction.",
+      "long": "A screening indicator uses available data and declared approximations to flag potential concern or consistency. It should not be treated as a calibrated, validated model or as a substitute for site-specific engineering or audit work.",
+      "related": ["claim_status", "dnsh"],
+      "module": "evidence-literacy",
+      "platform_link": null
+    },
+    {
+      "id": "eudr",
+      "term": "EUDR",
+      "short": "EU Deforestation Regulation.",
+      "long": "The EU Deforestation Regulation requires operators to ensure that certain products placed on or exported from the EU market are deforestation-free after 31 December 2020 and produced in accordance with the relevant legislation of the country of production. Talaix's Supply Chain engine screens remote-sensing evidence but cannot verify compliance because it lacks an integrated forest-loss time series.",
+      "related": ["dnsh", "claim_status"],
+      "module": "read-disclosures",
+      "platform_link": "supplychain.html"
+    }
+  ]
+}
