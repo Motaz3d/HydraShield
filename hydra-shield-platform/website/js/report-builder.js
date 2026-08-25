@@ -286,6 +286,12 @@
             honesty_note: draft.honesty_note,
             disclaimer: draft.disclaimer,
         };
+        // Site coordinates (when the draft carries them) enable the
+        // site-context image in the exported PDF.
+        if (draft.asset && typeof draft.asset.lat === 'number' && typeof draft.asset.lon === 'number') {
+            payload.lat = draft.asset.lat;
+            payload.lon = draft.asset.lon;
+        }
 
         fetch(API + '/v2/report-builder/pdf', {
             method: 'POST',

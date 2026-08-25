@@ -172,6 +172,7 @@ def _build_verification_draft(params: Dict[str, Any]) -> Dict[str, Any]:
         "engine_version": payload.get("engine_version", _ENGINE_VERSION),
         "payload_id": payload.get("verification_id", ""),
         "disclaimer": payload.get("disclaimer", ""),
+        "asset": payload.get("asset"),
         "sections": sections,
     }
 
@@ -292,6 +293,7 @@ def _build_insurance_draft(params: Dict[str, Any]) -> Dict[str, Any]:
         "engine_version": payload.get("engine_version", _ENGINE_VERSION),
         "payload_id": payload.get("profile_id", ""),
         "disclaimer": payload.get("disclaimer", ""),
+        "asset": payload.get("asset"),
         "sections": sections,
     }
 
@@ -464,6 +466,7 @@ def build_draft(kind: str, params: Dict[str, Any]) -> Dict[str, Any]:
         "engine_version": result["engine_version"],
         "payload_id": result["payload_id"],
         "disclaimer": result["disclaimer"],
+        "asset": result.get("asset"),
         "sections": sections,
         "interconnection_note": _INTERCONNECTION_NOTE,
         "honesty_note": _HONESTY_NOTE,

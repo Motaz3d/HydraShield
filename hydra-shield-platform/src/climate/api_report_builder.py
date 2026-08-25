@@ -114,6 +114,15 @@ def export_pdf():
         "disclaimer": str(data.get("disclaimer") or ""),
     }
 
+    # Optional site coordinates: enable the site-context image in the PDF.
+    try:
+        lat = float(data.get("lat"))
+        lon = float(data.get("lon"))
+        if -90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0:
+            meta["lat"], meta["lon"] = lat, lon
+    except (TypeError, ValueError):
+        pass  # no coordinates — the PDF declares the image unavailable
+
     try:
         pdf = build_custom_pdf(title, cleaned, meta)
     except RuntimeError as exc:
