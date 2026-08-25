@@ -3,7 +3,7 @@
 Talaix Supply Chain Origin Evidence screens origin and green claims for
 supply-chain due diligence, including EU Deforestation Regulation (EUDR)
 context. It uses only the real datasets that exist in this repository and is
-explicit about the dataset gap that prevents a full EUDR compliance check.
+explicit about the limitations that prevent a full EUDR compliance check.
 
 ## Honesty contract
 
@@ -18,10 +18,10 @@ Verdict vocabulary is intentionally limited:
 | Level | Value |
 |-------|-------|
 | Per plot | `partial_evidence` or `no_evidence` |
-| Per claim | `not_verifiable_with_current_evidence` |
-| Deforestation assessment | `status: "not_verifiable"` |
+| Per claim | `screened_findings_detected`, `no_inconsistency_detected_with_current_evidence`, or `not_verifiable_with_current_evidence` |
+| Deforestation assessment | `no_loss_detected`, `no_post_cutoff_loss_detected`, `loss_detected_after_cutoff`, or `not_verifiable` |
 
-Every missing dataset is named in `declared_gaps`.
+Every limitation and missing dataset is named in `declared_gaps`.
 
 ## Datasets used
 
@@ -35,11 +35,18 @@ Every missing dataset is named in `declared_gaps`.
   because of persistent cloud cover, a revisit gap, or missing Copernicus
   credentials, in which case the limitation is declared honestly.
 
-## Dataset not integrated
+* **Hansen/UMD Global Forest Change 2023 v1.11** via `src.gis_mapping.forest_loss.fetch_forest_loss`.  
+  Public 30 m tiles from Google Cloud Storage. Reports 2000 canopy cover,
+  forested fraction, and tree-cover loss years 2001–2023 for a window around
+  each plot. Pixels are counted as forested at ≥30% canopy cover. Loss after
+  2020-12-31 is flagged using lossyear codes 21–23 (2021–2023).
 
-There is **no integrated forest-loss time series** in this deployment. Global
-Forest Watch / Hansen / RADD are not wired. Because of that, deforestation
-before or after the EUDR cutoff date (`2020-12-31`) cannot be assessed.
+## Vintage limitation
+
+Hansen/UMD GFC 2023 v1.11 covers tree-cover loss through 2023 only. Loss in
+2024 or later is not included and is declared as a vintage limitation.
+
+Near-real-time alerting (e.g., RADD) is on the roadmap but not yet integrated.
 
 ## Inputs
 
@@ -62,16 +69,25 @@ address.
 ## Outputs
 
 * `claim_id` — stable identifier for the evaluated claim.
-* `claim_verdict` — always `not_verifiable_with_current_evidence`.
-* `deforestation_assessment` — `{status: "not_verifiable", reason: ...}`.
+* `claim_verdict` — `screened_findings_detected` if post-cutoff loss is
+  detected in any plot; `no_inconsistency_detected_with_current_evidence` if
+  all plots were assessed and no post-cutoff loss was found;
+  `not_verifiable_with_current_evidence` otherwise.
+* `deforestation_assessment` — aggregated per-plot status:
+  `no_loss_detected`, `no_post_cutoff_loss_detected`,
+  `loss_detected_after_cutoff`, or `not_verifiable`.
 * `eudr_cutoff_date` — `"2020-12-31"`.
-* `eudr_timeline_note` — explains that the current datasets cannot establish
-  the EUDR timeline.
+* `eudr_timeline_note` — explains that GFC supports screening through 2023
+  and that 2024+ loss is not covered.
+* `screening_note` — summary of datasets and the post-cutoff loss rule.
+* `certification_statement` — explicit statement that this is not a
+  certificate or compliance verification.
 * `plots` — per-plot verdicts, land-cover snapshot, Sentinel-2 result,
-  evidence records, and limitations.
-* `declared_gaps` — always includes the missing forest-loss dataset and the
-  single-year land-cover limitation; includes Sentinel-2 unavailability when
-  applicable.
+  GFC forest-loss result, deforestation assessment, evidence records, and
+  limitations.
+* `declared_gaps` — always includes the GFC vintage limitation and the
+  single-year land-cover limitation; includes data-unavailability gaps when
+  GFC or Sentinel-2 fail.
 
 ## API
 
@@ -96,6 +112,6 @@ pattern: `talaix_supplychain_<commodity or supplier>.pdf`.
 
 Talaix Supply Chain Origin Evidence is a screening-level data product. It is
 **NOT** a EUDR compliance verification, **NOT** a deforestation-free
-certificate, and **NOT** a supply-chain audit. Verdicts are evidence screening
-only; any green or deforestation-free claim remains unverified with the current
-datasets.
+certificate, and **NOT** a supply-chain audit. Even with Hansen/UMD GFC
+forest-loss screening through 2023, any green or deforestation-free claim
+remains unverified without audit-grade evidence.

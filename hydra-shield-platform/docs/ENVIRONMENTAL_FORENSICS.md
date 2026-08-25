@@ -2,8 +2,8 @@
 
 Talaix Environmental Forensic Evidence Packs cross-match a structured claim
 about a site against observed physical evidence (satellite, land cover,
-active fires) and document consistency / inconsistency / cannot_assess for
-qualified investigators.
+Hansen/UMD GFC forest-loss time series, active fires) and document
+consistency / inconsistency / cannot_assess for qualified investigators.
 
 ## Audience
 
@@ -40,9 +40,9 @@ The overall `case_verdict` is one of:
 
 | ID | Label | Relevant evidence | Declared gaps |
 |----|-------|-------------------|---------------|
-| `illegal_logging` | Suspected unauthorised timber extraction | Land cover, active fires, NDVI | Forest-loss time series, concession boundaries, chain-of-custody docs |
+| `illegal_logging` | Suspected unauthorised timber extraction | Land cover, GFC forest-loss time series, active fires, NDVI | Concession boundaries, chain-of-custody docs |
 | `illegal_mining` | Suspected unauthorised extraction / land disturbance | Land cover snapshot, NDVI/NDWI | Dedicated mining/disturbance detection, concession boundaries, ground inspection |
-| `unlicensed_clearing` | Land clearing without a permit | Land cover, active fires, NDVI | Historical land-cover time series, permit register |
+| `unlicensed_clearing` | Land clearing without a permit | Land cover, GFC forest-loss time series, active fires, NDVI | Permit / land-title register |
 | `waste_dumping` | Illegal waste disposal | Land cover, spectral indices | Dedicated waste/dump detection, ground inspection, regulatory records |
 | `other` | Other environmental-crime suspicion | Depends on claim | Missing layers declared explicitly |
 
@@ -53,6 +53,13 @@ The overall `case_verdict` is one of:
   - Land-cover dominant class is present and not tree cover → **inconsistent**
   - Land-cover data unavailable → **cannot_assess**
   - Caveat: single-year ESA WorldCover snapshot, not a forest-loss time series.
+
+- `no_recent_clearing` — "No recent tree-cover clearing (e.g., post-2020)"
+  - GFC available, `loss_after_2020` is false → **consistent**
+  - GFC available, `loss_after_2020` is true → **inconsistent**
+  - GFC unavailable / fetch error → **cannot_assess**
+  - Caveats: 30 m resolution misses small clearings; GFC 2023 v1.11 covers
+    through 2023, so 2024+ loss is not included.
 
 - `no_burning` — "No open burning occurs at the site"
   - FIRMS available, 0 detections within `radius_km` / `days` → **consistent**
@@ -72,6 +79,7 @@ The overall `case_verdict` is one of:
 ## Datasets used
 
 - `src.gis_mapping.landcover.fetch_landcover` — ESA WorldCover 10 m 2021 v200.
+- `src.gis_mapping.forest_loss.fetch_forest_loss` — Hansen/UMD GFC 2023 v1.11, 30 m, 2001–2023 loss years.
 - `src.dashboard.real_data.fetch_satellite_data` — Sentinel-2 L2A NDVI/NDMI/NDWI.
 - `src.dashboard.real_data.fetch_active_fires` — NASA FIRMS VIIRS/MODIS active-fire detections (requires `FIRMS_MAP_KEY`; honestly unavailable when missing).
 - `src.climate.evidence.EvidenceRecord` — typed, content-hashed evidence items.
@@ -80,10 +88,11 @@ The overall `case_verdict` is one of:
 
 Every pack includes:
 
-- **Forest-loss time series not integrated** (GFW/Hansen/RADD not wired).
+- **GFC vintage limitation** — Hansen/UMD GFC 2023 v1.11 covers through 2023
+  only; 2024+ loss is not included.
 - **Financial data boundary** — Talaix holds no transaction data.
 - Typology-specific gaps (mining/waste detection, permit registers, etc.).
-- Data-unavailability gaps for any failed fetcher (land cover, Sentinel-2, FIRMS).
+- Data-unavailability gaps for any failed fetcher (land cover, GFC, Sentinel-2, FIRMS).
 
 ## Chain of custody
 
@@ -116,14 +125,13 @@ same source observation yields the same identifier.
 
 ## Relation to Supply Chain
 
-Both products share the same two integrated remote-sensing datasets (ESA
-WorldCover and Sentinel-2) and the same declared forest-loss gap. Forensics
-adds active-fire detections and structured claim–evidence consistency checks
-for investigative use.
+Both products share the same integrated remote-sensing datasets (ESA
+WorldCover, Sentinel-2, and Hansen/UMD GFC through 2023). Forensics adds
+active-fire detections and structured claim–evidence consistency checks for
+investigative use.
 
 ## Roadmap
 
-- Integrate a forest-loss / disturbance time series to enable real
-  deforestation and clearing checks.
+- Integrate near-real-time disturbance alerting (e.g., RADD) for 2024+ loss.
 - Add export formats for case-file systems (JSON-LD, STIX-like packages).
 - Support multi-site cases and temporal claim windows.

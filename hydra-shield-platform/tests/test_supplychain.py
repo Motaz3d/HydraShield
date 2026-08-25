@@ -80,12 +80,68 @@ def _satellite_error(lat, lon, days_back=30):
     return {"error": "No recent cloud-free Sentinel-2 scene available", "source": "Sentinel-2 L2A (Earth Search STAC)"}
 
 
+def _forest_loss_ok(lat, lon, window_m=500.0):
+    return {
+        "tree_cover_2000_mean_pct": 72.0,
+        "forested_fraction_2000": 0.65,
+        "loss_detected": True,
+        "loss_pixel_fraction": 0.05,
+        "loss_years": {2004: 1, 2019: 1},
+        "latest_loss_year": 2019,
+        "loss_after_2020": False,
+        "loss_after_2020_pixel_fraction": 0.0,
+        "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "dataset": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "resolution": "30 m",
+        "vintage_note": "Covers tree-cover loss through 2023; losses in 2024+ are not included — declared limitation.",
+    }
+
+
+def _forest_loss_post_cutoff(lat, lon, window_m=500.0):
+    return {
+        "tree_cover_2000_mean_pct": 70.0,
+        "forested_fraction_2000": 0.60,
+        "loss_detected": True,
+        "loss_pixel_fraction": 0.15,
+        "loss_years": {2018: 1, 2021: 2},
+        "latest_loss_year": 2021,
+        "loss_after_2020": True,
+        "loss_after_2020_pixel_fraction": 0.10,
+        "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "dataset": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "resolution": "30 m",
+        "vintage_note": "Covers tree-cover loss through 2023; losses in 2024+ are not included — declared limitation.",
+    }
+
+
+def _forest_loss_no_loss(lat, lon, window_m=500.0):
+    return {
+        "tree_cover_2000_mean_pct": 80.0,
+        "forested_fraction_2000": 0.90,
+        "loss_detected": False,
+        "loss_pixel_fraction": 0.0,
+        "loss_years": {},
+        "latest_loss_year": None,
+        "loss_after_2020": False,
+        "loss_after_2020_pixel_fraction": 0.0,
+        "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "dataset": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "resolution": "30 m",
+        "vintage_note": "Covers tree-cover loss through 2023; losses in 2024+ are not included — declared limitation.",
+    }
+
+
+def _forest_loss_error(lat, lon, window_m=500.0):
+    return {"error": "GFC read failed: network timeout", "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)"}
+
+
 @pytest.fixture()
 def stub_ok(monkeypatch):
     import src.climate.supplychain as sc
 
     monkeypatch.setattr(sc, "fetch_landcover", _landcover_ok)
     monkeypatch.setattr(sc, "fetch_satellite_data", _satellite_ok)
+    monkeypatch.setattr(sc, "fetch_forest_loss", _forest_loss_ok)
 
 
 @pytest.fixture()
@@ -94,6 +150,7 @@ def stub_unavailable(monkeypatch):
 
     monkeypatch.setattr(sc, "fetch_landcover", _landcover_error)
     monkeypatch.setattr(sc, "fetch_satellite_data", _satellite_error)
+    monkeypatch.setattr(sc, "fetch_forest_loss", _forest_loss_error)
 
 
 # -----------------------------------------------------------------------------
@@ -184,8 +241,8 @@ def test_claims_authenticated(client, env, stub_ok):
     assert resp.status_code == 200, resp.get_json()
     data = resp.get_json()
     assert data["claim_id"]
-    assert data["claim_verdict"] == "not_verifiable_with_current_evidence"
-    assert data["deforestation_assessment"]["status"] == "not_verifiable"
+    assert data["claim_verdict"] == "no_inconsistency_detected_with_current_evidence"
+    assert data["deforestation_assessment"]["status"] == "no_post_cutoff_loss_detected"
     assert data["declared_gaps_count"] >= 1
     assert data["plot_count"] == 2
     assert data["partial_evidence_count"] == 2
@@ -193,14 +250,19 @@ def test_claims_authenticated(client, env, stub_ok):
 
     claim = data["claim"]
     assert claim["eudr_cutoff_date"] == "2020-12-31"
+    assert claim["screening_note"]
+    assert claim["certification_statement"]
     assert claim["honesty_contract"]
     assert claim["disclaimer"]
     assert len(claim["declared_gaps"]) >= 1
+    assert any(g["type"] == "vintage_limitation" for g in claim["declared_gaps"])
 
     for p in claim["plots"]:
         assert p["verdict"] == "partial_evidence"
         assert "error" not in p["landcover"]
         assert "error" not in p["satellite"]
+        assert "error" not in p["forest_loss"]
+        assert p["deforestation_assessment"]["status"] == "no_post_cutoff_loss_detected"
         assert p["evidence"]
 
     # No verified-green / verified-deforestation-free wording anywhere.
@@ -305,6 +367,7 @@ def test_engine_honesty_when_data_unavailable(stub_unavailable):
     assert claim["deforestation_assessment"]["status"] == "not_verifiable"
     assert claim["deforestation_assessment"]["cutoff_date"] == "2020-12-31"
     assert len(claim["declared_gaps"]) >= 1
+    assert any(g["type"] == "data_unavailable" and "GFC" in g.get("dataset", "") for g in claim["declared_gaps"])
 
     assert claim["plots"][0]["verdict"] == "no_evidence"
     assert claim["partial_evidence_count"] == 0
@@ -323,13 +386,50 @@ def test_engine_partial_evidence(stub_ok):
         "commodity": "soy",
         "plots": [{"name": "Farm A", "lat": -12.3, "lon": -55.4}],
     })
-    assert claim["claim_verdict"] == "not_verifiable_with_current_evidence"
+    assert claim["claim_verdict"] == "no_inconsistency_detected_with_current_evidence"
     assert claim["plots"][0]["verdict"] == "partial_evidence"
+    assert claim["plots"][0]["deforestation_assessment"]["status"] == "no_post_cutoff_loss_detected"
     assert any("single-year snapshot" in g["reason"] for g in claim["declared_gaps"])
-    assert any(
-        g.get("dataset", "").startswith("Global Forest Watch") or "forest-loss" in g["reason"]
-        for g in claim["declared_gaps"]
-    )
+    assert any(g["type"] == "vintage_limitation" for g in claim["declared_gaps"])
+
+
+def test_engine_post_cutoff_loss_detected(monkeypatch):
+    import src.climate.supplychain as sc
+    from src.climate.supplychain import evaluate_claim
+
+    monkeypatch.setattr(sc, "fetch_landcover", _landcover_ok)
+    monkeypatch.setattr(sc, "fetch_satellite_data", _satellite_ok)
+    monkeypatch.setattr(sc, "fetch_forest_loss", _forest_loss_post_cutoff)
+
+    claim = evaluate_claim({
+        "supplier": "Acme S.A.",
+        "commodity": "soy",
+        "plots": [{"name": "Farm A", "lat": -12.3, "lon": -55.4}],
+    })
+    assert claim["claim_verdict"] == "screened_findings_detected"
+    assert claim["deforestation_assessment"]["status"] == "loss_detected_after_cutoff"
+    assert claim["plots"][0]["deforestation_assessment"]["status"] == "loss_detected_after_cutoff"
+    assert 2021 in claim["plots"][0]["forest_loss"]["loss_years"]
+
+
+def test_engine_forest_loss_error_keeps_honesty(monkeypatch):
+    import src.climate.supplychain as sc
+    from src.climate.supplychain import evaluate_claim
+
+    monkeypatch.setattr(sc, "fetch_landcover", _landcover_ok)
+    monkeypatch.setattr(sc, "fetch_satellite_data", _satellite_ok)
+    monkeypatch.setattr(sc, "fetch_forest_loss", _forest_loss_error)
+
+    claim = evaluate_claim({
+        "supplier": "Acme S.A.",
+        "commodity": "soy",
+        "plots": [{"name": "Farm A", "lat": -12.3, "lon": -55.4}],
+    })
+    assert claim["claim_verdict"] == "not_verifiable_with_current_evidence"
+    assert claim["deforestation_assessment"]["status"] == "not_verifiable"
+    assert claim["plots"][0]["verdict"] == "partial_evidence"
+    assert "error" in claim["plots"][0]["forest_loss"]
+    assert any(g["type"] == "data_unavailable" and "GFC" in g.get("dataset", "") for g in claim["declared_gaps"])
 
 
 # -----------------------------------------------------------------------------
@@ -366,4 +466,4 @@ def test_commodity_normalisation_and_advisory(stub_ok):
     })
     assert claim["commodity_normalised"] == "bananas"
     assert "not an EUDR-covered commodity" in claim["commodity_advisory"]
-    assert claim["claim_verdict"] == "not_verifiable_with_current_evidence"
+    assert claim["claim_verdict"] == "no_inconsistency_detected_with_current_evidence"

@@ -114,6 +114,55 @@ def _fires(count):
     return _fetch
 
 
+def _forest_loss_no_recent(lat, lon, window_m=500.0):
+    return {
+        "loss_detected": True,
+        "loss_years": {2004: 1, 2019: 1},
+        "latest_loss_year": 2019,
+        "loss_after_2020": False,
+        "loss_after_2020_pixel_fraction": 0.0,
+        "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "dataset": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "resolution": "30 m",
+        "vintage_note": "Covers tree-cover loss through 2023; losses in 2024+ are not included — declared limitation.",
+        "limitations": ["30 m resolution"],
+    }
+
+
+def _forest_loss_recent(lat, lon, window_m=500.0):
+    return {
+        "loss_detected": True,
+        "loss_years": {2021: 2, 2022: 1},
+        "latest_loss_year": 2022,
+        "loss_after_2020": True,
+        "loss_after_2020_pixel_fraction": 0.15,
+        "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "dataset": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "resolution": "30 m",
+        "vintage_note": "Covers tree-cover loss through 2023; losses in 2024+ are not included — declared limitation.",
+        "limitations": ["30 m resolution"],
+    }
+
+
+def _forest_loss_none(lat, lon, window_m=500.0):
+    return {
+        "loss_detected": False,
+        "loss_years": {},
+        "latest_loss_year": None,
+        "loss_after_2020": False,
+        "loss_after_2020_pixel_fraction": 0.0,
+        "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "dataset": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)",
+        "resolution": "30 m",
+        "vintage_note": "Covers tree-cover loss through 2023; losses in 2024+ are not included — declared limitation.",
+        "limitations": ["30 m resolution"],
+    }
+
+
+def _forest_loss_error(lat, lon, window_m=500.0):
+    return {"error": "GFC read failed: network timeout", "source": "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)"}
+
+
 @pytest.fixture()
 def stub_tree_no_fires_high_ndvi(monkeypatch):
     import src.climate.forensics as forensics
@@ -121,6 +170,7 @@ def stub_tree_no_fires_high_ndvi(monkeypatch):
     monkeypatch.setattr(forensics, "fetch_landcover", _landcover_tree)
     monkeypatch.setattr(forensics, "fetch_satellite_data", _satellite_ndvi(0.7))
     monkeypatch.setattr(forensics, "fetch_active_fires", _fires(0))
+    monkeypatch.setattr(forensics, "fetch_forest_loss", _forest_loss_no_recent)
 
 
 @pytest.fixture()
@@ -130,6 +180,7 @@ def stub_crop_three_fires_low_ndvi(monkeypatch):
     monkeypatch.setattr(forensics, "fetch_landcover", _landcover_crop)
     monkeypatch.setattr(forensics, "fetch_satellite_data", _satellite_ndvi(0.1))
     monkeypatch.setattr(forensics, "fetch_active_fires", _fires(3))
+    monkeypatch.setattr(forensics, "fetch_forest_loss", _forest_loss_recent)
 
 
 @pytest.fixture()
@@ -139,6 +190,7 @@ def stub_unavailable(monkeypatch):
     monkeypatch.setattr(forensics, "fetch_landcover", _landcover_error)
     monkeypatch.setattr(forensics, "fetch_satellite_data", _satellite_ndvi(None))
     monkeypatch.setattr(forensics, "fetch_active_fires", _fires(None))
+    monkeypatch.setattr(forensics, "fetch_forest_loss", _forest_loss_error)
 
 
 # -----------------------------------------------------------------------------
@@ -210,6 +262,7 @@ def test_frameworks_public(client):
     assert data["disclaimer"]
     assert any(t["id"] == "illegal_logging" for t in data["typologies"])
     assert any(c["id"] == "site_forested" for c in data["claim_types"])
+    assert any(c["id"] == "no_recent_clearing" for c in data["claim_types"])
 
 
 def test_cases_requires_auth(client):
@@ -292,6 +345,40 @@ def test_no_burning_cannot_assess(client, env, stub_unavailable):
     check = data["checks"][0]
     assert check["result"] == "cannot_assess"
     assert any(g["dataset"] == "NASA FIRMS" for g in data["payload"]["declared_gaps"])
+
+
+def test_no_recent_clearing_consistent(client, env, stub_tree_no_fires_high_ndvi):
+    _, token = _register_and_verify(client, env)
+    resp = client.post("/api/v2/forensics/cases", json=_case_payload("no_recent_clearing"), headers=_auth(token))
+    assert resp.status_code == 200, resp.get_json()
+    data = resp.get_json()
+    check = data["checks"][0]
+    assert check["check"] == "no_recent_clearing"
+    assert check["result"] == "consistent"
+    assert data["case_verdict"] == "no_inconsistency_detected_with_current_evidence"
+
+
+def test_no_recent_clearing_inconsistent(client, env, stub_crop_three_fires_low_ndvi):
+    _, token = _register_and_verify(client, env)
+    resp = client.post("/api/v2/forensics/cases", json=_case_payload("no_recent_clearing"), headers=_auth(token))
+    assert resp.status_code == 200, resp.get_json()
+    data = resp.get_json()
+    check = data["checks"][0]
+    assert check["check"] == "no_recent_clearing"
+    assert check["result"] == "inconsistent"
+    assert "2021" in check["basis"]
+    assert data["case_verdict"] == "inconsistencies_found"
+
+
+def test_no_recent_clearing_cannot_assess(client, env, stub_unavailable):
+    _, token = _register_and_verify(client, env)
+    resp = client.post("/api/v2/forensics/cases", json=_case_payload("no_recent_clearing"), headers=_auth(token))
+    assert resp.status_code == 200, resp.get_json()
+    data = resp.get_json()
+    check = data["checks"][0]
+    assert check["check"] == "no_recent_clearing"
+    assert check["result"] == "cannot_assess"
+    assert any(g["type"] == "vintage_limitation" for g in data["payload"]["declared_gaps"])
 
 
 def test_vegetation_present_consistent(client, env, stub_tree_no_fires_high_ndvi):

@@ -3,8 +3,9 @@ Talaix Environmental Security & Forensic Verification engine.
 
 No Flask imports. Builds a content-hashed "Environmental Forensic Evidence Pack"
 for investigators: given a site and a structured claim, it cross-matches the
-claim against observed physical evidence (satellite, land cover, active fires)
-and documents consistency / inconsistency / cannot_assess.
+claim against observed physical evidence (satellite, land cover, active fires,
+Hansen/UMD GFC forest-loss time series) and documents consistency /
+inconsistency / cannot_assess.
 
 The engine NEVER determines legality, illegality, guilt or criminal conduct.
 It is an evidence annex for qualified investigators.
@@ -16,6 +17,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from ..dashboard.real_data import fetch_active_fires, fetch_satellite_data, geocode_location
+from ..gis_mapping.forest_loss import fetch_forest_loss
 from ..gis_mapping.landcover import fetch_landcover
 from .evidence import EvidenceRecord, content_hash
 
@@ -26,10 +28,11 @@ CASE_TYPOLOGIES: List[Dict[str, str]] = [
         "id": "illegal_logging",
         "label": "Suspected unauthorised timber extraction",
         "note": (
-            "Relevant evidence: land cover (forest presence), active fires "
+            "Relevant evidence: land cover (forest presence), Hansen/UMD GFC "
+            "forest-loss time series through 2023, active fires "
             "(burning associated with clearing), Sentinel-2 NDVI. Missing: "
-            "high-resolution forest-loss time series, concession boundaries, "
-            "timber-chain-of-custody documents."
+            "high-resolution concession boundaries and timber-chain-of-custody "
+            "documents."
         ),
     },
     {
@@ -45,9 +48,9 @@ CASE_TYPOLOGIES: List[Dict[str, str]] = [
         "id": "unlicensed_clearing",
         "label": "Land clearing without a permit",
         "note": (
-            "Relevant evidence: land cover class, active-fire detections, "
-            "Sentinel-2 vegetation signal. Missing: historical land-cover "
-            "time series and the legal permit status of the site."
+            "Relevant evidence: land cover class, Hansen/UMD GFC forest-loss "
+            "time series through 2023, active-fire detections, Sentinel-2 "
+            "vegetation signal. Missing: legal permit status of the site."
         ),
     },
     {
@@ -72,6 +75,7 @@ CASE_TYPOLOGIES: List[Dict[str, str]] = [
 
 CLAIM_TYPES: List[Dict[str, str]] = [
     {"id": "site_forested", "label": "The site is forested / intact"},
+    {"id": "no_recent_clearing", "label": "No recent tree-cover clearing (e.g., post-2020)"},
     {"id": "no_burning", "label": "No open burning occurs at the site"},
     {"id": "vegetation_present", "label": "Vegetation / restoration is present and active"},
     {"id": "free_text", "label": "Any other claim (investigator assessment)"},
@@ -128,16 +132,17 @@ FORENSICS_DISCLAIMER = (
 )
 
 HONESTY_CONTRACT = (
-    "Every evidence item is typed, sourced and content-hashed. Missing datasets "
-    "(forest-loss time series, mining/waste detection, financial data) are declared "
-    "as gaps. Fetch failures are reported as unavailable. The engine never labels "
+    "Every evidence item is typed, sourced and content-hashed. Hansen/UMD GFC "
+    "forest-loss time series through 2023 is integrated; remaining gaps "
+    "(mining/waste detection, financial data, 2024+ loss) are declared. "
+    "Fetch failures are reported as unavailable. The engine never labels "
     "a site or claim as legal, illegal, criminal or exonerated."
 )
 
-_NO_FOREST_LOSS_DATASET = (
-    "No integrated forest-loss time series is available in this deployment "
-    "(Global Forest Watch / Hansen / RADD are not wired). Historical deforestation "
-    "or degradation cannot be assessed."
+_FOREST_LOSS_PRODUCT = "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)"
+_FOREST_LOSS_VINTAGE_LIMITATION = (
+    "Hansen/UMD GFC 2023 v1.11 covers tree-cover loss through 2023 only. "
+    "Loss in 2024 or later is not included and must be declared as a vintage limitation."
 )
 
 _FINANCIAL_DATA_BOUNDARY = (
@@ -224,7 +229,7 @@ def _fetch_evidence_bundle(
 ) -> Dict[str, Any]:
     """Gather every fetcher that exists; failures become declared gaps, not exceptions."""
     evidence_records: List[Dict[str, Any]] = []
-    bundle: Dict[str, Any] = {"landcover": {}, "satellite": {}, "active_fires": {}}
+    bundle: Dict[str, Any] = {"landcover": {}, "satellite": {}, "active_fires": {}, "forest_loss": {}}
 
     try:
         landcover = fetch_landcover(lat, lon)
@@ -277,6 +282,23 @@ def _fetch_evidence_bundle(
             )))
     except Exception as exc:  # noqa: BLE001
         bundle["active_fires"] = {"error": f"Active-fires fetch raised {type(exc).__name__}: {exc}"}
+
+    try:
+        forest_loss = fetch_forest_loss(lat, lon)
+        bundle["forest_loss"] = forest_loss
+        if "error" not in forest_loss:
+            evidence_records.append(_record_with_hash(EvidenceRecord.open_data(
+                source=forest_loss.get("source", _FOREST_LOSS_PRODUCT),
+                status="OBSERVED",
+                temporal="HISTORICAL",
+                dataset=forest_loss.get("dataset", _FOREST_LOSS_PRODUCT),
+                resolution=forest_loss.get("resolution"),
+                method="Hansen/UMD GFC windowed screening (~1 km box)",
+                location={"lat": lat, "lon": lon},
+                limitations=" ".join(forest_loss.get("limitations", [])) or "30 m resolution; 30% canopy threshold; screening only.",
+            )))
+    except Exception as exc:  # noqa: BLE001
+        bundle["forest_loss"] = {"error": f"Forest-loss fetch raised {type(exc).__name__}: {exc}"}
 
     return {"bundle": bundle, "evidence_records": evidence_records}
 
@@ -331,6 +353,67 @@ def _check_site_forested(
         "evidence_ids": evidence_ids,
         "caveats": [
             "Land cover is a single-year snapshot; the observed class is inconsistent with the claim at this time.",
+        ],
+    }
+
+
+def _check_no_recent_clearing(
+    bundle: Dict[str, Any],
+    evidence_records: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    forest_loss = bundle.get("forest_loss") or {}
+    evidence_ids = [eid for eid in [
+        _evidence_id_by_source(evidence_records, "hansen"),
+        _evidence_id_by_source(evidence_records, "umd"),
+    ] if eid]
+
+    if "error" in forest_loss or forest_loss.get("loss_detected") is None:
+        reason = forest_loss.get("error") or "Forest-loss data unavailable"
+        return {
+            "check": "no_recent_clearing",
+            "claim_type": "no_recent_clearing",
+            "result": "cannot_assess",
+            "basis": f"Forest-loss layer is unavailable: {reason}.",
+            "evidence_ids": evidence_ids,
+            "caveats": ["GFC 2023 v1.11 covers 2001–2023 only."],
+        }
+
+    if forest_loss.get("loss_after_2020"):
+        years = ", ".join(str(y) for y in sorted((forest_loss.get("loss_years") or {}).keys()) if y >= 2021)
+        return {
+            "check": "no_recent_clearing",
+            "claim_type": "no_recent_clearing",
+            "result": "inconsistent",
+            "basis": f"Hansen/UMD GFC detects tree-cover loss in {years} after the 2020-12-31 cutoff.",
+            "evidence_ids": evidence_ids,
+            "caveats": [
+                "30 m resolution; small clearings and degradation may be missed.",
+                "GFC 2023 v1.11 covers through 2023; 2024+ loss is not included.",
+            ],
+        }
+
+    if forest_loss.get("loss_detected"):
+        latest = forest_loss.get("latest_loss_year")
+        return {
+            "check": "no_recent_clearing",
+            "claim_type": "no_recent_clearing",
+            "result": "consistent",
+            "basis": f"Tree-cover loss detected only in {latest}, before the 2020-12-31 cutoff; no post-cutoff loss through 2023.",
+            "evidence_ids": evidence_ids,
+            "caveats": [
+                "GFC 2023 v1.11 covers through 2023; 2024+ loss is not included.",
+            ],
+        }
+
+    return {
+        "check": "no_recent_clearing",
+        "claim_type": "no_recent_clearing",
+        "result": "consistent",
+        "basis": "No Hansen/UMD GFC tree-cover loss detected in the screened window through 2023.",
+        "evidence_ids": evidence_ids,
+        "caveats": [
+            "30 m resolution; small clearings and degradation may be missed.",
+            "GFC 2023 v1.11 covers through 2023; 2024+ loss is not included.",
         ],
     }
 
@@ -437,6 +520,8 @@ def _run_consistency_checks(
 ) -> List[Dict[str, Any]]:
     if claim_type == "site_forested":
         return [_check_site_forested(bundle, evidence_records)]
+    if claim_type == "no_recent_clearing":
+        return [_check_no_recent_clearing(bundle, evidence_records)]
     if claim_type == "no_burning":
         return [_check_no_burning(bundle, evidence_records)]
     if claim_type == "vegetation_present":
@@ -452,9 +537,9 @@ def _build_declared_gaps(
 ) -> List[Dict[str, Any]]:
     gaps: List[Dict[str, Any]] = [
         {
-            "type": "dataset_not_integrated",
-            "dataset": "Global Forest Watch / Hansen / RADD forest-loss time series",
-            "reason": _NO_FOREST_LOSS_DATASET,
+            "type": "vintage_limitation",
+            "dataset": _FOREST_LOSS_PRODUCT,
+            "reason": _FOREST_LOSS_VINTAGE_LIMITATION,
         },
         {
             "type": "financial_data",
@@ -473,8 +558,16 @@ def _build_declared_gaps(
     if typology == "unlicensed_clearing":
         gaps.append({
             "type": "dataset_not_integrated",
-            "dataset": "Historical land-cover time series / permit register",
-            "reason": "Clearing legality requires permit status and historical change data, neither integrated.",
+            "dataset": "Permit / land-title register",
+            "reason": "Clearing legality requires permit status, which is not integrated.",
+        })
+
+    forest_loss = bundle.get("forest_loss") or {}
+    if "error" in forest_loss:
+        gaps.append({
+            "type": "data_unavailable",
+            "dataset": _FOREST_LOSS_PRODUCT,
+            "reason": f"Forest-loss fetch failed: {forest_loss['error']}",
         })
 
     landcover = bundle.get("landcover") or {}
@@ -522,7 +615,7 @@ def assess_case(case: Dict[str, Any]) -> Dict[str, Any]:
           "title": "optional string",
           "typology": "illegal_logging|illegal_mining|unlicensed_clearing|waste_dumping|other",
           "site": {"name?": "...", "lat": ..., "lon": ...} | {"address": "..."},
-          "subject_claim": {"type": "site_forested|no_burning|vegetation_present|free_text", "text?": "..."},
+          "subject_claim": {"type": "site_forested|no_recent_clearing|no_burning|vegetation_present|free_text", "text?": "..."},
           "reference_documents?": [{"title": "...", "url": "..."}],
           "radius_km?": 25
         }

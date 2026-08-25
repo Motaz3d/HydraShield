@@ -1,21 +1,27 @@
 """
 Talaix Supply Chain Origin & EUDR Evidence engine.
 
-No Flask imports. Screens origin/green claims using only the real datasets that
+No Flask imports. Screens origin/green claims using the real datasets that
 exist in this repository:
 
 * ESA WorldCover 10 m 2021 snapshot — ``src.gis_mapping.landcover.fetch_landcover``
 * Sentinel-2 NDVI/NDMI — ``src.dashboard.real_data.fetch_satellite_data``
+* Hansen/UMD Global Forest Change 2023 v1.11 — ``src.gis_mapping.forest_loss.fetch_forest_loss``
 
-There is **no integrated forest-loss dataset** (no GFW/Hansen/RADD). Because of
-that, the engine never certifies a claim as "green" or "deforestation-free".
+The engine screens for deforestation evidence through 2023 but never certifies
+a claim as "green", "deforestation-free", or EUDR-compliant.
 
 Verdict vocabulary:
 
 * Per plot: ``partial_evidence`` / ``no_evidence``
-* Per claim: ``not_verifiable_with_current_evidence``
-* Deforestation assessment: ``status: "not_verifiable"`` with the dataset gap
-  named explicitly.
+* Per claim:
+  * ``screened_findings_detected`` — post-cutoff tree-cover loss detected
+  * ``no_inconsistency_detected_with_current_evidence`` — all plots assessed,
+    no post-cutoff loss detected
+  * ``not_verifiable_with_current_evidence`` — assessment incomplete
+* Deforestation assessment: ``no_loss_detected``,
+  ``no_post_cutoff_loss_detected``, ``loss_detected_after_cutoff``, or
+  ``not_verifiable`` when the layer is unavailable.
 """
 
 from __future__ import annotations
@@ -24,6 +30,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from ..dashboard.real_data import fetch_satellite_data
+from ..gis_mapping.forest_loss import fetch_forest_loss
 from ..gis_mapping.landcover import fetch_landcover
 from .evidence import EvidenceRecord, content_hash
 
@@ -49,8 +56,8 @@ SUPPLY_CHAIN_FRAMEWORKS = [
         "role": "regulatory context",
         "note": (
             "EUDR requires proof that products are deforestation-free after "
-            "31 December 2020. Talaix can currently provide only a partial "
-            "remote-sensing evidence layer; it cannot verify compliance."
+            "31 December 2020. Talaix screens with Hansen/UMD GFC through 2023 "
+            "and reports what the data show; it does not verify compliance."
         ),
     },
     {
@@ -59,8 +66,9 @@ SUPPLY_CHAIN_FRAMEWORKS = [
         "aspect": "Due diligence on forest-risk commodities in UK supply chains",
         "role": "regulatory context",
         "note": (
-            "Operator-level due-diligence evidence can be supported, but "
-            "forest-loss verification is not available in this deployment."
+            "Operator-level due-diligence evidence can be supported, including "
+            "Hansen/UMD GFC forest-loss screening through 2023, but this is not "
+            "a compliance verification."
         ),
     },
     {
@@ -70,8 +78,9 @@ SUPPLY_CHAIN_FRAMEWORKS = [
         "role": "commercial context",
         "note": (
             "The engine reports the evidence that exists and the evidence that "
-            "is missing. A claim cannot be labelled green without a forest-loss "
-            "time series."
+            "is missing. Hansen/UMD GFC provides a 2001–2023 forest-loss time "
+            "series, but a green or deforestation-free label still requires "
+            "audit-grade evidence beyond remote sensing."
         ),
     },
 ]
@@ -89,10 +98,15 @@ SENTINEL_LIMITATION = (
     "credentials."
 )
 
-NO_FOREST_LOSS_DATASET = (
-    "No integrated forest-loss time series is available in this deployment "
-    "(Global Forest Watch / Hansen / RADD are not wired). Deforestation "
-    "before or after the EUDR cutoff cannot be assessed."
+FOREST_LOSS_PRODUCT = "Hansen/UMD Global Forest Change 2023 v1.11 (GFC)"
+FOREST_LOSS_LIMITATION = (
+    "Hansen/UMD GFC is a 30 m spatial-resolution layer. It misses small "
+    "clearings and degradation, and it counts a pixel as forested only when "
+    "the 2000 canopy cover is at least 30%."
+)
+FOREST_LOSS_VINTAGE_LIMITATION = (
+    "Hansen/UMD GFC 2023 v1.11 covers tree-cover loss through 2023 only. "
+    "Loss in 2024 or later is not included and must be declared as a vintage limitation."
 )
 
 DISCLAIMER = (
@@ -104,10 +118,10 @@ DISCLAIMER = (
 )
 
 HONESTY_CONTRACT = (
-    "Unavailable data is declared, never invented. The engine names the "
-    "missing forest-loss dataset, states that land cover is a single-year "
-    "snapshot, and reports when Sentinel-2 is unavailable. No claim is "
-    "labelled 'verified' where the data does not support it."
+    "Unavailable data is declared, never invented. The engine screens with "
+    "Hansen/UMD GFC through 2023, states that land cover is a single-year "
+    "snapshot, reports when Sentinel-2 or GFC is unavailable, and never "
+    "claims EUDR compliance or deforestation-free status."
 )
 
 
@@ -162,8 +176,67 @@ def _geocode_plot(plot: Dict[str, Any]) -> Dict[str, Any]:
     return plot
 
 
+def _build_deforestation_assessment(forest_loss: Dict[str, Any]) -> Dict[str, Any]:
+    """Map a GFC result to a structured deforestation assessment."""
+    if "error" in forest_loss:
+        return {
+            "status": "not_verifiable",
+            "reason": f"Forest-loss layer unavailable: {forest_loss['error']}",
+            "cutoff_date": EUDR_CUTOFF_DATE,
+        }
+
+    loss_years = forest_loss.get("loss_years") or {}
+    latest = forest_loss.get("latest_loss_year")
+    fraction = forest_loss.get("loss_pixel_fraction", 0.0)
+    post_fraction = forest_loss.get("loss_after_2020_pixel_fraction", 0.0)
+    vintage = forest_loss.get("vintage_note", FOREST_LOSS_VINTAGE_LIMITATION)
+
+    if forest_loss.get("loss_after_2020"):
+        years = ", ".join(str(y) for y in sorted(loss_years.keys()) if y >= 2021)
+        return {
+            "status": "loss_detected_after_cutoff",
+            "finding": (
+                f"Tree-cover loss detected in {years} after the EUDR cutoff "
+                f"2020-12-31 ({post_fraction:.1%} of the screened window). "
+                "Screening evidence — not a legality determination."
+            ),
+            "latest_loss_year": latest,
+            "loss_years": loss_years,
+            "loss_pixel_fraction": fraction,
+            "loss_after_2020_pixel_fraction": post_fraction,
+            "cutoff_date": EUDR_CUTOFF_DATE,
+            "vintage_note": vintage,
+        }
+
+    if forest_loss.get("loss_detected"):
+        return {
+            "status": "no_post_cutoff_loss_detected",
+            "finding": (
+                f"Tree-cover loss detected only in earlier years "
+                f"({latest}); no loss after the EUDR cutoff through 2023."
+            ),
+            "latest_loss_year": latest,
+            "loss_years": loss_years,
+            "loss_pixel_fraction": fraction,
+            "loss_after_2020_pixel_fraction": post_fraction,
+            "cutoff_date": EUDR_CUTOFF_DATE,
+            "vintage_note": vintage,
+        }
+
+    return {
+        "status": "no_loss_detected",
+        "finding": "No tree-cover loss detected in the screened window through 2023.",
+        "latest_loss_year": None,
+        "loss_years": {},
+        "loss_pixel_fraction": 0.0,
+        "loss_after_2020_pixel_fraction": 0.0,
+        "cutoff_date": EUDR_CUTOFF_DATE,
+        "vintage_note": vintage,
+    }
+
+
 def _assess_plot(lat: float, lon: float, name: Optional[str] = None) -> Dict[str, Any]:
-    """Screen one plot with the two datasets that exist in the repo."""
+    """Screen one plot with land cover, Sentinel-2 and Hansen/UMD GFC."""
     evidence: List[Dict[str, Any]] = []
     limitations: List[str] = []
     partial = False
@@ -218,6 +291,27 @@ def _assess_plot(lat: float, lon: float, name: Optional[str] = None) -> Dict[str
     else:
         limitations.append(f"Sentinel-2 observation unavailable: {satellite.get('error')}")
 
+    forest_loss = fetch_forest_loss(lat, lon)
+    deforestation_assessment = _build_deforestation_assessment(forest_loss)
+    if "error" not in forest_loss:
+        partial = True
+        evidence.append(
+            EvidenceRecord.open_data(
+                source=forest_loss.get("source", FOREST_LOSS_PRODUCT),
+                status="OBSERVED",
+                temporal="HISTORICAL",
+                dataset=forest_loss.get("dataset", FOREST_LOSS_PRODUCT),
+                resolution=forest_loss.get("resolution"),
+                method="Hansen/UMD GFC windowed screening (~1 km box)",
+                limitations=f"{FOREST_LOSS_LIMITATION} {forest_loss.get('vintage_note', FOREST_LOSS_VINTAGE_LIMITATION)}",
+                location={"lat": lat, "lon": lon},
+            ).to_dict()
+        )
+        limitations.append(forest_loss.get("vintage_note", FOREST_LOSS_VINTAGE_LIMITATION))
+        limitations.append(FOREST_LOSS_LIMITATION)
+    else:
+        limitations.append(f"Forest-loss layer unavailable: {forest_loss.get('error')}")
+
     return {
         "name": name,
         "lat": lat,
@@ -225,6 +319,8 @@ def _assess_plot(lat: float, lon: float, name: Optional[str] = None) -> Dict[str
         "verdict": "partial_evidence" if partial else "no_evidence",
         "landcover": landcover,
         "satellite": satellite,
+        "forest_loss": forest_loss,
+        "deforestation_assessment": deforestation_assessment,
         "evidence": evidence,
         "limitations": limitations,
     }
@@ -308,11 +404,55 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
     partial_count = sum(1 for p in plot_results if p["verdict"] == "partial_evidence")
     no_evidence_count = len(plot_results) - partial_count
 
+    # Aggregate per-plot deforestation assessments into a claim-level view.
+    statuses = [p["deforestation_assessment"]["status"] for p in plot_results]
+    any_post_cutoff = any(s == "loss_detected_after_cutoff" for s in statuses)
+    all_assessed = statuses and all(s != "not_verifiable" for s in statuses)
+
+    if any_post_cutoff:
+        claim_verdict = "screened_findings_detected"
+    elif all_assessed:
+        claim_verdict = "no_inconsistency_detected_with_current_evidence"
+    else:
+        claim_verdict = "not_verifiable_with_current_evidence"
+
+    if any_post_cutoff:
+        top_deforestation = {
+            "status": "loss_detected_after_cutoff",
+            "reason": (
+                "At least one screened plot shows Hansen/UMD GFC tree-cover loss "
+                f"after the EUDR cutoff {EUDR_CUTOFF_DATE}. This is screening evidence, "
+                "not a legality determination."
+            ),
+            "cutoff_date": EUDR_CUTOFF_DATE,
+        }
+    elif any(s == "no_post_cutoff_loss_detected" for s in statuses):
+        top_deforestation = {
+            "status": "no_post_cutoff_loss_detected",
+            "reason": (
+                "Tree-cover loss was detected only before the EUDR cutoff; "
+                "no post-cutoff loss through 2023."
+            ),
+            "cutoff_date": EUDR_CUTOFF_DATE,
+        }
+    elif any(s == "no_loss_detected" for s in statuses):
+        top_deforestation = {
+            "status": "no_loss_detected",
+            "reason": "No Hansen/UMD GFC tree-cover loss detected in assessed plots through 2023.",
+            "cutoff_date": EUDR_CUTOFF_DATE,
+        }
+    else:
+        top_deforestation = {
+            "status": "not_verifiable",
+            "reason": "Forest-loss layer unavailable for all screened plots.",
+            "cutoff_date": EUDR_CUTOFF_DATE,
+        }
+
     declared_gaps: List[Dict[str, Any]] = [
         {
-            "type": "dataset_not_integrated",
-            "dataset": "Global Forest Watch / Hansen / RADD forest-loss time series",
-            "reason": NO_FOREST_LOSS_DATASET,
+            "type": "vintage_limitation",
+            "dataset": FOREST_LOSS_PRODUCT,
+            "reason": FOREST_LOSS_VINTAGE_LIMITATION,
         },
         {
             "type": "single_year_snapshot",
@@ -320,6 +460,13 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
             "reason": WORLD_COVER_LIMITATION,
         },
     ]
+
+    if any("Forest-loss layer unavailable" in lim for p in plot_results for lim in p["limitations"]):
+        declared_gaps.append({
+            "type": "data_unavailable",
+            "dataset": FOREST_LOSS_PRODUCT,
+            "reason": "Hansen/UMD GFC fetch failed for at least one plot.",
+        })
 
     if any("Sentinel-2 observation unavailable" in lim for p in plot_results for lim in p["limitations"]):
         declared_gaps.append({
@@ -345,6 +492,18 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
         ],
     })[:16]
 
+    certification_statement = (
+        "This report is not a EUDR due-diligence statement, not a "
+        "deforestation-free certificate, and not a supply-chain audit. It is a "
+        "screening-level evidence summary only."
+    )
+
+    screening_note = (
+        f"Screened {len(plot_results)} plot(s) with ESA WorldCover, Sentinel-2, "
+        f"and {FOREST_LOSS_PRODUCT}. Post-cutoff loss status is based on GFC "
+        f"lossyear codes {21}–{23} (2021–2023)."
+    )
+
     return {
         "claim_id": claim_id,
         "supplier": supplier,
@@ -357,17 +516,15 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
         "engine_version": ENGINE_VERSION,
         "frameworks": SUPPLY_CHAIN_FRAMEWORKS,
         "eudr_cutoff_date": EUDR_CUTOFF_DATE,
-        "claim_verdict": "not_verifiable_with_current_evidence",
-        "deforestation_assessment": {
-            "status": "not_verifiable",
-            "reason": NO_FOREST_LOSS_DATASET,
-            "cutoff_date": EUDR_CUTOFF_DATE,
-        },
+        "claim_verdict": claim_verdict,
+        "deforestation_assessment": top_deforestation,
         "eudr_timeline_note": (
-            "EUDR requires that production land was not subject to "
-            "deforestation or forest degradation after 31 December 2020. "
-            "The current datasets cannot establish that timeline."
+            "EUDR requires that production land was not subject to deforestation "
+            f"or forest degradation after {EUDR_CUTOFF_DATE}. Hansen/UMD GFC 2023 "
+            "v1.11 supports screening through 2023; 2024+ loss is not covered."
         ),
+        "screening_note": screening_note,
+        "certification_statement": certification_statement,
         "plot_count": len(plot_results),
         "partial_evidence_count": partial_count,
         "no_evidence_count": no_evidence_count,
