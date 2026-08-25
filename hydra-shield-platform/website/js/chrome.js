@@ -12,7 +12,7 @@
  * source of truth for site navigation — an IA change is one edit here.
  *
  * Primary nav — grouped so the bar stays readable (single source of truth):
- * Intelligence · Map · Business ▾ · Learn ▾ · Explore ▾ + Account.
+ * Intelligence · Map · Solutions ▾ · Learn ▾ · Explore ▾ + Account.
  * The legacy marketing pages stay reachable from the footer.
  */
 (function () {
@@ -27,31 +27,35 @@
         : '/api';
 
     /* Top level: single links + groups (dropdowns on desktop, expanded
-     * sections inside the mobile menu). Every id maps to <body data-page>
-     * for active highlighting; a group is active when the current page is
-     * one of its children. IA rule: Sectors = who we serve (audience
-     * landing pages), Products = what the engine computes (the tools). */
+     * sections inside the mobile menu). IA: one Solutions mega-menu holds
+     * the portals BY SOLUTION and BY SECTOR side by side — the same tool
+     * may appear under several paths on purpose; repetition across entry
+     * portals is a feature of the information architecture, not a bug. */
     var PRIMARY = [
         { id: 'intelligence', href: 'intelligence.html', label: 'Intelligence' },
         { id: 'map', href: 'map.html', label: 'Map' },
         {
-            id: 'sectors', label: 'Sectors', children: [
-                { id: 'for-banks', href: 'for-banks.html', label: 'Banks & lenders' },
-                { id: 'for-insurance', href: 'for-insurance.html', label: 'Insurance' },
-                { id: 'for-investors', href: 'for-investors.html', label: 'Investors' },
-                { id: 'for-real-estate', href: 'for-real-estate.html', label: 'Real estate' },
-                { id: 'for-consulting', href: 'for-consulting.html', label: 'Consultants & auditors' },
-                { id: 'for-government', href: 'for-government.html', label: 'Government' }
-            ]
-        },
-        {
-            id: 'products', label: 'Products', children: [
-                { id: 'reportbuilder', href: 'report-builder.html', label: 'Report Builder' },
-                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
-                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability' },
-                { id: 'insurance', href: 'insurance.html', label: 'Insurance' },
-                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain' },
-                { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
+            id: 'solutions', label: 'Solutions', mega: true, columns: [
+                {
+                    heading: 'By solution', children: [
+                        { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
+                        { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
+                        { id: 'insurance', href: 'insurance.html', label: 'Insurance Risk' },
+                        { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
+                        { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
+                        { id: 'reports', href: 'reports.html', label: 'Reports & Builder' }
+                    ]
+                },
+                {
+                    heading: 'By sector', children: [
+                        { id: 'for-banks', href: 'for-banks.html', label: 'Banks & lenders' },
+                        { id: 'for-insurance', href: 'for-insurance.html', label: 'Insurance' },
+                        { id: 'for-investors', href: 'for-investors.html', label: 'Investors' },
+                        { id: 'for-real-estate', href: 'for-real-estate.html', label: 'Real estate' },
+                        { id: 'for-consulting', href: 'for-consulting.html', label: 'Consultants & auditors' },
+                        { id: 'for-government', href: 'for-government.html', label: 'Government' }
+                    ]
+                }
             ]
         },
         {
@@ -63,10 +67,9 @@
         {
             id: 'explore', label: 'Explore', children: [
                 { id: 'events', href: 'events.html', label: 'Events' },
-                { id: 'solutions', href: 'solutions.html', label: 'Solutions' },
+                { id: 'solutions-hub', href: 'solutions.html', label: 'Hazard solutions' },
                 { id: 'funding', href: 'funding.html', label: 'Funding' },
-                { id: 'economy', href: 'economy.html', label: 'Economy' },
-                { id: 'reports', href: 'reports.html', label: 'Reports' }
+                { id: 'economy', href: 'economy.html', label: 'Economy' }
             ]
         }
     ];
@@ -74,7 +77,11 @@
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
     var ALL_LINKS = [];
     PRIMARY.forEach(function (item) {
-        if (item.children) {
+        if (item.columns) {
+            item.columns.forEach(function (col) {
+                col.children.forEach(function (c) { ALL_LINKS.push(c); });
+            });
+        } else if (item.children) {
             item.children.forEach(function (c) { ALL_LINKS.push(c); });
         } else {
             ALL_LINKS.push(item);
@@ -105,6 +112,23 @@
     }
 
     function navGroup(item) {
+        if (item.mega) {
+            var megaActive = item.columns.some(function (col) {
+                return col.children.some(function (c) { return c.id === PAGE; });
+            });
+            var cols = item.columns.map(function (col) {
+                var links = col.children.map(function (c) {
+                    var active = c.id === PAGE ? ' class="active" aria-current="page"' : '';
+                    return '<li><a href="' + c.href + '"' + active + '>' + c.label + '</a></li>';
+                }).join('');
+                return '<div class="nav-mega-col"><h4>' + col.heading + '</h4><ul>' + links + '</ul></div>';
+            }).join('');
+            return '<li class="nav-group nav-mega">' +
+                '<button type="button" class="nav-group-toggle' + (megaActive ? ' active' : '') + '"' +
+                ' aria-haspopup="true" aria-expanded="false">' +
+                item.label + ' <span class="chevron" aria-hidden="true">▾</span></button>' +
+                '<div class="nav-dropdown nav-dropdown-mega">' + cols + '</div></li>';
+        }
         var groupActive = item.children.some(function (c) { return c.id === PAGE; });
         var links = item.children.map(function (c) {
             var active = c.id === PAGE ? ' class="active" aria-current="page"' : '';
@@ -119,7 +143,7 @@
 
     function renderHeader(mount) {
         var links = PRIMARY.map(function (i) {
-            return i.children ? navGroup(i) : navLink(i);
+            return (i.children || i.columns) ? navGroup(i) : navLink(i);
         }).join('');
         var accountActive = PAGE === 'account' ? ' class="active" aria-current="page"' : '';
         mount.innerHTML =

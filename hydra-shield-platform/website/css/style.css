@@ -1126,6 +1126,45 @@ body {
     display: none;
 }
 
+/* Mega dropdown (Solutions: by solution | by sector, two columns). */
+.nav-dropdown-mega {
+    min-width: 470px;
+    padding: 14px 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 20px;
+}
+
+.nav-group:hover .nav-dropdown-mega,
+.nav-group.open .nav-dropdown-mega {
+    display: grid;
+}
+
+.nav-mega-col h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 2px 0 6px;
+}
+
+.nav-mega-col ul {
+    list-style: none;
+}
+
+@media (max-width: 768px) {
+    .nav-dropdown-mega {
+        min-width: 0;
+        padding: 2px 0 8px 16px;
+        grid-template-columns: 1fr;
+    }
+
+    .nav-mega-col h4 {
+        color: rgba(255, 255, 255, 0.55);
+        margin: 10px 0 4px;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-links {
         max-height: calc(100vh - 72px);
