@@ -1139,6 +1139,41 @@ def create_app() -> Flask:
 
     app.register_blueprint(marketing_crm_bp)
 
+    # Green Finance Verification API (/api/v2/verification/…).
+    from ..climate.api_verification import verification as verification_bp
+
+    app.register_blueprint(verification_bp)
+
+    # Sustainability & CSRD Reporting API (/api/v2/sustainability/…).
+    from ..climate.api_sustainability import sustainability as sustainability_bp
+
+    app.register_blueprint(sustainability_bp)
+
+    # Insurance & Environmental Risk API (/api/v2/insurance/…).
+    from ..climate.api_insurance import insurance as insurance_bp
+
+    app.register_blueprint(insurance_bp)
+
+    # Supply Chain Origin & EUDR Evidence API (/api/v2/supplychain/…).
+    from ..climate.api_supplychain import supplychain as supplychain_bp
+
+    app.register_blueprint(supplychain_bp)
+
+    # Environmental Security & Forensic Verification API (/api/v2/forensics/…).
+    from ..climate.api_forensics import forensics as forensics_bp
+
+    app.register_blueprint(forensics_bp)
+
+    # Talaix Academy API (/api/v2/academy/…).
+    from ..climate.api_academy import academy as academy_bp
+
+    app.register_blueprint(academy_bp)
+
+    # Talaix Knowledge Arm API (/api/v2/briefs/…).
+    from ..climate.api_briefs import briefs as briefs_bp
+
+    app.register_blueprint(briefs_bp)
+
     return app
 
 

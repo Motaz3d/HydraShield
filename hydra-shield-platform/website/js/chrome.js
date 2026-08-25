@@ -20,12 +20,25 @@
 
     var PAGE = (document.body && document.body.getAttribute('data-page')) || '';
 
+    /* Same base sniffing as js/api.js (duplicated on purpose: chrome.js must
+     * stay self-contained — index.html loads it without api.js). */
+    var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? 'http://localhost:8051/api'
+        : '/api';
+
     var PRIMARY = [
         { id: 'intelligence', href: 'intelligence.html', label: 'Intelligence' },
         { id: 'map', href: 'map.html', label: 'Map' },
         { id: 'events', href: 'events.html', label: 'Events' },
         { id: 'solutions', href: 'solutions.html', label: 'Solutions' },
         { id: 'funding', href: 'funding.html', label: 'Funding' },
+        { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
+        { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability' },
+        { id: 'insurance', href: 'insurance.html', label: 'Insurance' },
+        { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain' },
+        { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
+        { id: 'academy', href: 'academy.html', label: 'Academy' },
+        { id: 'briefs', href: 'briefs.html', label: 'Briefs' },
         { id: 'economy', href: 'economy.html', label: 'Economy' },
         { id: 'reports', href: 'reports.html', label: 'Reports' }
     ];
@@ -141,12 +154,62 @@
         }
     }
 
+    /* Session-aware CTA visibility (site-wide design rule):
+     * elements marked .guest-only (create-account / subscribe invitations)
+     * are shown ONLY to guests; elements marked .user-only start hidden
+     * (inline display:none) and are revealed only for a signed-in session.
+     * A signed-in user never sees a register/subscribe prompt. */
+    function reflectCta(signedIn) {
+        var guests = document.querySelectorAll('.guest-only');
+        var users = document.querySelectorAll('.user-only');
+        Array.prototype.forEach.call(guests, function (el) {
+            el.style.display = signedIn ? 'none' : '';
+        });
+        Array.prototype.forEach.call(users, function (el) {
+            el.style.display = signedIn ? '' : 'none';
+        });
+    }
+
+    /* Auth-aware nav: when a session cookie is present, append a "Sign out"
+     * action next to the Account link so visitors can leave their session
+     * from any page. Guests keep the plain Account link. */
+    function reflectSession() {
+        function go() { location.href = 'account.html'; }
+        fetch(API + '/v2/account', { credentials: 'same-origin' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (account) {
+                reflectCta(!!account);
+                if (!account) return;
+                var navLinks = document.getElementById('navLinks');
+                if (!navLinks || document.getElementById('navSignOut')) return;
+                var li = document.createElement('li');
+                li.className = 'nav-signout';
+                var a = document.createElement('a');
+                a.href = 'account.html';
+                a.id = 'navSignOut';
+                a.textContent = 'Sign out';
+                a.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    fetch(API + '/v2/auth/logout', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: '{}'
+                    }).then(go, go);
+                });
+                li.appendChild(a);
+                navLinks.appendChild(li);
+            })
+            .catch(function () { /* guest or API unreachable — keep default nav */ });
+    }
+
     function init() {
         var header = document.getElementById('site-header');
         var footer = document.getElementById('site-footer');
         if (header) renderHeader(header);
         if (footer) renderFooter(footer);
         wire();
+        reflectSession();
         // First-party product analytics beacon (privacy-conscious; see
         // js/analytics.js + docs/PRODUCT_ANALYTICS.md). Loaded here so every
         // page gets it; honours Do Not Track.

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Finance Verification — Talaix</title>
+    <meta name="description" content="Physical climate-risk verification for financed assets: EU Taxonomy DNSH vocabulary, per-hazard evidence, and batch portfolio checks from real Earth-observation and open-data sources.">
+    <link rel="canonical" href="https://talaix.com/green-finance.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="greenfinance">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Green Finance Verification</h1>
+            <p class="page-lead">
+                Physical, satellite- and open-data evidence for financed assets.
+                We screen each asset against the EU Taxonomy "Do No Significant
+                Harm" climate-adaptation hazard vocabulary, document the evidence,
+                and declare every gap honestly.
+            </p>
+            <p class="muted small">
+                Honesty contract: unavailable data is declared, never invented.
+            </p>
+            <div class="notice notice-warn">
+                <strong>Not a Second Party Opinion.</strong> This is a physical-evidence
+                screening layer, not an EU Green Bond external review by an ESMA-registered
+                external reviewer, and not investment advice. Hazard levels are screening
+                indicators unless explicitly labelled validated.
+            </div>
+
+            <!-- Verify an asset -->
+            <div class="panel">
+                <h2>Verify an asset</h2>
+                <div class="toolbar" style="align-items:flex-start;">
+                    <div class="form-group" style="flex:1;">
+                        <label for="assetLocInput">Location</label>
+                        <input type="text" id="assetLocInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                    </div>
+                    <button class="btn-action" id="verifyAssetBtn">Verify asset</button>
+                </div>
+                <div id="assetLocAssist"></div>
+                <div id="assetStatus"></div>
+                <div id="assetResult"></div>
+            </div>
+
+            <!-- Portfolio batch check -->
+            <div class="panel">
+                <h2>Portfolio batch check</h2>
+                <p class="muted small">
+                    One asset per line: <code>name,lat,lon</code>. Up to 25 assets on the
+                    free tier; subscribers can check up to 100. Sign in to run a batch.
+                </p>
+                <div class="form-group">
+                    <label for="portfolioName">Portfolio name (optional)</label>
+                    <input type="text" id="portfolioName" placeholder="Portfolio name">
+                </div>
+                <div class="form-group">
+                    <label for="portfolioText">Assets</label>
+                    <textarea id="portfolioText" rows="6" placeholder="Trier,49.75,6.64&#10;A Coruña,43.3,-8.4&#10;Sevilla,37.4,-5.9"></textarea>
+                </div>
+                <button class="btn-action" id="verifyPortfolioBtn">Check portfolio</button>
+                <div id="portfolioStatus"></div>
+                <div id="portfolioResult"></div>
+            </div>
+
+            <!-- Frameworks & scope -->
+            <h2>Frameworks &amp; scope</h2>
+            <div class="card-grid">
+                <div class="item-card">
+                    <h3>EU Taxonomy DNSH adaptation</h3>
+                    <span class="chip chip-documented">Appendix A vocabulary</span>
+                    <p class="muted">Maps each checked hazard to the Taxonomy's
+                       acute / chronic classification and states the claim status
+                       of the physical-evidence layer.</p>
+                </div>
+                <div class="item-card">
+                    <h3>EBA Pillar 3 ESG ITS</h3>
+                    <span class="chip chip-modelled">Template 5 context</span>
+                    <p class="muted">Provides the physical-risk evidence context
+                       that banks can reference in Pillar 3 ESG disclosures.</p>
+                </div>
+                <div class="item-card">
+                    <h3>ICMA Green Bond Principles</h3>
+                    <span class="chip chip-observed">Post-issuance monitoring</span>
+                    <p class="muted">Supports recurring post-issuance verification
+                       of financed assets with reproducible, versioned evidence.</p>
+                </div>
+                <div class="item-card">
+                    <h3>IFRS S2 / TCFD</h3>
+                    <span class="chip chip-inferred">Physical-risk disclosure</span>
+                    <p class="muted">Uses the same observed / modelled / scenario /
+                       unavailable language expected in physical-risk disclosures.</p>
+                </div>
+            </div>
+
+            <div class="card-grid" style="margin-top:24px;">
+                <div class="item-card">
+                    <h3>What this is</h3>
+                    <ul class="muted">
+                        <li>A physical-evidence screening layer for financed assets.</li>
+                        <li>Per-hazard claim status from real data.</li>
+                        <li>Reproducible PDF evidence reports with declared gaps.</li>
+                        <li>Batch portfolio checks for registered users.</li>
+                    </ul>
+                </div>
+                <div class="item-card">
+                    <h3>What this is not</h3>
+                    <ul class="muted">
+                        <li>A Second Party Opinion on a green bond.</li>
+                        <li>An external review by an ESMA-registered reviewer.</li>
+                        <li>Investment advice or a credit rating.</li>
+                        <li>A substitute for site-specific due diligence.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/convert.js" defer></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/green-finance.js" defer></script>
+</body>
+</html>
