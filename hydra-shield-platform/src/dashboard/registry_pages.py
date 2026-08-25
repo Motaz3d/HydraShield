@@ -67,6 +67,45 @@ def _availability_chip(available: bool) -> str:
     return _chip("#10B981", "AVAILABLE") if available else _chip("#F59E0B", "UNAVAILABLE")
 
 
+def _session_user():
+    """The signed-in user for this request, or None for guests.
+
+    Lazy import keeps the renderer import-light; any failure degrades to the
+    guest view (CTA shown) rather than breaking the page.
+    """
+    try:
+        from .auth_api import current_user
+
+        return current_user()
+    except Exception:
+        return None
+
+
+def _cta_block() -> str:
+    """Session-aware call-to-action.
+
+    Design rule: the create-account / subscribe invitation is shown ONLY to
+    guests. A signed-in visitor never sees a registration or subscription
+    prompt — they get a quiet link to the account they already have.
+    """
+    user = _session_user()
+    if user is not None:
+        name = user.get("display_name") or user.get("email") or "your account"
+        return f"""  <div class="cta cta-account">
+    <h2>Signed in as {_esc(name)}</h2>
+    <p>Your API keys, webhook subscriptions, monitoring alerts and
+       subscription already live in your account.</p>
+    <a class="btn" href="/account.html">Open your account</a>
+  </div>"""
+    return """  <div class="cta">
+    <h2>Use this data in your own systems</h2>
+    <p>Create a free account and subscribe to receive an API key, webhook
+       subscriptions and monitoring alerts. Subscriptions are recorded on the
+       platform — no payment data is collected.</p>
+    <a class="btn" href="/account.html">Create an account / Subscribe</a>
+  </div>"""
+
+
 def _page(title: str, lead: str, body: str, json_url: str) -> str:
     """The shared branded shell: header, lead, content, subscribe CTA, footer."""
     return f"""<!DOCTYPE html>
@@ -108,6 +147,7 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
   a {{ color: {_BRAND["primary_dark"]}; }}
   .cta {{ background: linear-gradient(135deg, {_BRAND["primary"]} 0%, {_BRAND["secondary"]} 100%);
           border-radius: 14px; color: #fff; padding: 26px 28px; margin: 28px 0; }}
+  .cta.cta-account {{ background: {_BRAND["dark"]}; }}
   .cta h2 {{ font-size: 20px; margin-bottom: 6px; }}
   .cta p {{ font-size: 14px; opacity: .95; max-width: 720px; }}
   .cta a.btn {{ display: inline-block; margin-top: 12px; background: #fff;
@@ -134,13 +174,7 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
      — send <code>Accept: application/json</code> (or append <code>?format=json</code>)
      for the JSON contract consumed by the SDKs and the QGIS plugin.</p>
   {body}
-  <div class="cta">
-    <h2>Use this data in your own systems</h2>
-    <p>Create a free account and subscribe to receive an API key, webhook
-       subscriptions and monitoring alerts. Subscriptions are recorded on the
-       platform — no payment data is collected.</p>
-    <a class="btn" href="/account.html">Create an account / Subscribe</a>
-  </div>
+  {_cta_block()}
 </div></main>
 <footer><div class="container">
   <a href="/">Home</a><a href="/technology.html">Technology</a>

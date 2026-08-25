@@ -36,6 +36,30 @@
     var DISMISS_KEY = 'hs_convert_dismissed';
     var USAGE_KEY = 'hs_usage';
 
+    /* Same base sniffing as js/api.js (convert.js may load without api.js). */
+    var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? 'http://localhost:8051/api'
+        : '/api';
+
+    /* Conversion prompts are guest-only by design: a signed-in user already
+     * has an account, so register/subscribe nudges must never appear. The
+     * session is probed once and cached; probe failure degrades to guest
+     * behaviour (prompts may show) rather than hiding value from guests. */
+    var _session = { known: false, signedIn: false };
+    function probeSession() {
+        if (_session.known) return Promise.resolve(_session.signedIn);
+        return fetch(API + '/v2/account', { credentials: 'same-origin' })
+            .then(function (r) {
+                _session.known = true;
+                _session.signedIn = !!(r && r.ok);
+                return _session.signedIn;
+            })
+            .catch(function () {
+                _session.known = true;
+                return false;
+            });
+    }
+
     function readJSON(key) {
         try { return JSON.parse(localStorage.getItem(key) || '{}'); }
         catch (e) { return {}; }
@@ -82,6 +106,13 @@
 
     /* HSConvert.show({mount, context, text, cta, href}) — one quiet strip. */
     function show(opts) {
+        probeSession().then(function (signedIn) {
+            if (signedIn) return;
+            _show(opts);
+        });
+    }
+
+    function _show(opts) {
         var mount = document.getElementById(opts.mount);
         if (!mount || dismissed(opts.context)) return;
         if (mount.querySelector('.convert-strip')) return;
@@ -121,9 +152,16 @@
 
     /* HSConvert.evaluate(mountId) — threshold-driven nudge for heavy use. */
     function evaluate(mountId) {
-        var tier = currentTier();
-        if (!tier) return;
-        show({
+        probeSession().then(function (signedIn) {
+            if (signedIn) return;
+            var tier = currentTier();
+            if (!tier) return;
+            show(opts_for(tier, mountId));
+        });
+    }
+
+    function opts_for(tier, mountId) {
+        return {
             mount: mountId,
             context: 'tier_' + tier,
             text: CONVERSION_CONFIG.messages[tier],
@@ -131,7 +169,7 @@
                 : (tier === 'professional' ? 'Explore professional capabilities'
                 : (tier === 'monitor' ? 'Save and monitor' : 'Create a free account')),
             href: tier === 'business' ? 'contact.html' : 'account.html'
-        });
+        };
     }
 
     window.HSConvert = {
