@@ -295,6 +295,51 @@
             });
     }
 
+    // ------------------------------------------------------------------
+    // Registered users list (operator-only)
+    // ------------------------------------------------------------------
+
+    function loadUsers(container) {
+        fetchJSON(API + '/v2/admin/users').then(function (res) {
+            if (!res.ok) {
+                container.innerHTML =
+                    '<div class="notice notice-error">Users could not be loaded.</div>';
+                return;
+            }
+            renderUsers(container, res.body.users || [], res.body.total || 0);
+        }).catch(function () {
+            container.innerHTML =
+                '<div class="notice notice-error">Users could not be reached.</div>';
+        });
+    }
+
+    function renderUsers(container, users, total) {
+        if (!users.length) {
+            container.innerHTML =
+                '<div class="notice notice-empty">No registered users yet.</div>';
+            return;
+        }
+        var html = '<p class="muted small">' + esc(total) + ' registered user' +
+            (total === 1 ? '' : 's') + '</p>' +
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Email</th><th>Display name</th><th>Status</th><th>Role</th>' +
+            '<th>Verified</th><th>Registered</th><th>Last login</th>' +
+            '</tr></thead><tbody>';
+        users.forEach(function (u) {
+            html += '<tr>' +
+                '<td>' + esc(u.email) + '</td>' +
+                '<td>' + esc(u.display_name || '—') + '</td>' +
+                '<td>' + esc(u.status || '—') + '</td>' +
+                '<td>' + esc(u.role || '—') + '</td>' +
+                '<td>' + esc(u.email_verified_at ? u.email_verified_at.slice(0, 10) : '—') + '</td>' +
+                '<td>' + esc(u.created_at ? u.created_at.slice(0, 10) : '—') + '</td>' +
+                '<td>' + esc(u.last_login_at ? u.last_login_at.slice(0, 10) : '—') + '</td>' +
+                '</tr>';
+        });
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    }
+
     function renderAll(d) {
         render(d);
         renderBoard(d);
@@ -709,13 +754,16 @@
 
     // Hook for the unified operator-tabs shell to notify admin.js when the
     // Commercial Center tab becomes visible again (Leaflet needs a size recalc
-    // after being hidden).
+    // after being hidden), and to lazy-mount the Users panel.
     window.HSAdmin = {
         onShow: function (tabId) {
             if (tabId === 'overview' && leadsMap) {
                 // Defer so the browser has finished revealing the panel.
                 setTimeout(function () { leadsMap.invalidateSize(); }, 0);
             }
+        },
+        mountUsers: function (container) {
+            loadUsers(container);
         }
     };
 })();

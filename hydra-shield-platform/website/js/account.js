@@ -27,11 +27,16 @@
         el('statusArea').innerHTML = msg
             ? '<div class="notice notice-' + kind + '">' + esc(msg) + '</div>'
             : '';
+        // The notice area sits at the top of the page, off-screen when the
+        // visitor is down at a form — bring feedback into view (centred so
+        // the fixed navbar never covers it).
+        if (msg) el('statusArea').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function showView(loggedIn) {
         el('authView').classList.toggle('hidden', loggedIn);
         el('accountView').classList.toggle('hidden', !loggedIn);
+        el('registerDone').classList.add('hidden');
     }
 
     /* Safe post-login destination: local absolute paths only (no "//…",
@@ -164,8 +169,15 @@
                     status('error', res.body.error || 'Registration failed.');
                     return;
                 }
-                status('info', res.body.message ||
-                    'Check your inbox for the verification link.');
+                // Replace the forms with an explicit success state — a status
+                // line alone reads as "nothing happened".
+                var email = res.body.email || el('regEmail').value;
+                status('', '');
+                el('registerForm').reset();
+                el('registerDoneEmail').textContent = email;
+                el('authView').classList.add('hidden');
+                el('registerDone').classList.remove('hidden');
+                el('registerDone').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }).catch(function () { status('error', 'Registration request failed.'); });
         });
 
@@ -173,6 +185,13 @@
         el('forgotLink').addEventListener('click', function (e) {
             e.preventDefault();
             el('forgotForm').classList.toggle('hidden');
+        });
+
+        el('registerDoneBack').addEventListener('click', function (e) {
+            e.preventDefault();
+            el('registerDone').classList.add('hidden');
+            el('authView').classList.remove('hidden');
+            el('authView').scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
 
         el('forgotForm').addEventListener('submit', function (e) {

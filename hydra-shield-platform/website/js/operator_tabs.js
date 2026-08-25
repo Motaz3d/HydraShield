@@ -7,12 +7,12 @@
 (function () {
     'use strict';
 
-    var mounted = { overview: true, targets: false, stats: false };
+    var mounted = { overview: true, targets: false, stats: false, users: false };
 
     function el(id) { return document.getElementById(id); }
 
     function activateTab(id) {
-        var valid = id === 'overview' || id === 'targets' || id === 'stats';
+        var valid = id === 'overview' || id === 'targets' || id === 'stats' || id === 'users';
         if (!valid) id = 'overview';
 
         Array.prototype.forEach.call(document.querySelectorAll('.mkt-tab'), function (tab) {
@@ -33,6 +33,10 @@
             HSMarketing.mountStats(el('stats'));
             mounted.stats = true;
         }
+        if (id === 'users' && !mounted.users && window.HSAdmin && HSAdmin.mountUsers) {
+            HSAdmin.mountUsers(el('users'));
+            mounted.users = true;
+        }
         if (id === 'overview' && window.HSAdmin && HSAdmin.onShow) {
             HSAdmin.onShow('overview');
         }
@@ -44,7 +48,7 @@
 
     function handleHash() {
         var hash = location.hash.replace('#', '');
-        if (hash === 'targets' || hash === 'stats') {
+        if (hash === 'targets' || hash === 'stats' || hash === 'users') {
             activateTab(hash);
         }
     }

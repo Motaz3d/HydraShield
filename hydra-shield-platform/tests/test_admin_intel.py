@@ -186,3 +186,64 @@ def test_intel_daily_workspace_fields(client, env):
         ev = opp["evidence"]
         assert ev["lead_source"] and ev["date_checked"], \
             "opportunity evidence chain must cite the lead source"
+
+
+# ---------------------------------------------------------------------------
+# /api/v2/admin/users
+# ---------------------------------------------------------------------------
+
+
+def test_users_requires_auth(client):
+    assert client.get("/api/v2/admin/users").status_code == 401
+
+
+def test_users_requires_admin_role(client, env):
+    client.post("/api/v2/auth/register",
+                json={"email": "user@example.org",
+                      "password": "Correct-Horse-42!", "consent": True})
+    from src.dashboard.accounts import UserStore
+
+    store = UserStore(str(env["db"]))
+    user = store.get_user_by_email("user@example.org")
+    store.mark_email_verified(user["id"])
+    login = client.post("/api/v2/auth/login",
+                        json={"email": "user@example.org",
+                              "password": "Correct-Horse-42!"})
+    headers = {"Authorization": f"Bearer {login.get_json()['session_token']}"}
+    resp = client.get("/api/v2/admin/users", headers=headers)
+    assert resp.status_code == 403
+    assert resp.get_json()["upgrade"]["required_role"] == "admin"
+
+
+def test_users_lists_registered_users(client, env):
+    headers = _make_admin(client, env)
+    resp = client.get("/api/v2/admin/users", headers=headers)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert "users" in body
+    assert "total" in body
+    assert body["total"] >= 1
+    assert len(body["users"]) == body["total"]
+    for u in body["users"]:
+        for field in ("id", "email", "display_name", "status", "role",
+                      "created_at", "email_verified_at", "last_login_at"):
+            assert field in u, field
+        assert "password_hash" not in u
+        assert "password" not in u
+    emails = {u["email"] for u in body["users"]}
+    assert "op@example.org" in emails
+
+
+def test_users_ordered_by_created_desc(client, env):
+    headers = _make_admin(client, env)
+    from src.dashboard.accounts import UserStore
+
+    store = UserStore(str(env["db"]))
+    for i in range(3):
+        u = store.register_user(f"u{i}@example.org", "Correct-Horse-42!")
+        store.mark_email_verified(u["id"])
+    resp = client.get("/api/v2/admin/users", headers=headers)
+    assert resp.status_code == 200
+    users = resp.get_json()["users"]
+    created = [u["created_at"] for u in users]
+    assert created == sorted(created, reverse=True)

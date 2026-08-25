@@ -25,6 +25,23 @@
 
             <div id="statusArea"></div>
 
+            <!-- Registration success (replaces the forms after a successful register) -->
+            <div id="registerDone" class="panel hidden">
+                <h2 style="margin-top:0;">Account created — check your inbox</h2>
+                <p>
+                    We have sent a verification link to
+                    <strong id="registerDoneEmail"></strong>. Open that email and click
+                    the link to activate your account, then sign in.
+                </p>
+                <p class="muted small">
+                    The link is valid for 24 hours. If nothing arrives within a few
+                    minutes, check your spam/junk folder.
+                </p>
+                <p class="muted small" style="margin-bottom:0;">
+                    <a href="#" id="registerDoneBack">&larr; Back to sign in</a>
+                </p>
+            </div>
+
             <!-- What free / account / subscription means (no pricing invented) -->
             <div class="panel" style="margin-bottom:22px;">
                 <h2 style="margin-top:0;">What you get at each level</h2>
@@ -123,11 +140,11 @@
             <!-- Account view (shown when logged in) -->
             <div id="accountView" class="hidden">
                 <div class="panel">
-                    <h2>Profile</h2>
-                    <div id="profileBlock"></div>
-                    <div class="card-actions" style="margin-top:14px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+                        <h2 style="margin:0;">Profile</h2>
                         <button class="btn-action btn-quiet" id="logoutBtn">Sign out</button>
                     </div>
+                    <div id="profileBlock"></div>
                 </div>
 
                 <div class="panel" id="subscription">

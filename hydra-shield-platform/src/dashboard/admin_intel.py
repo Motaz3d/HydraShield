@@ -799,6 +799,39 @@ def admin_contact_status(message_id: int):
 
 
 # ---------------------------------------------------------------------------
+# Registered users list (operator-only, no secrets)
+# ---------------------------------------------------------------------------
+
+_USER_PUBLIC_COLS = (
+    "id", "email", "display_name", "status", "role", "created_at",
+    "email_verified_at", "last_login_at")
+
+
+@admin_intel_bp.get("/admin/users")
+@require_role("admin")
+def admin_users():
+    """Registered users, newest first. Returns public fields only — never
+    password hashes, tokens or other secrets."""
+    db_path = default_cache().db_path
+    try:
+        with sqlite3.connect(db_path, timeout=10.0) as conn:
+            rows = conn.execute(
+                "SELECT id, email, display_name, status, role, created_at,"
+                " email_verified_at, last_login_at FROM users"
+                " ORDER BY created_at DESC LIMIT 500"
+            ).fetchall()
+            total = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+    except sqlite3.Error:
+        return jsonify({"error": "Database error", "status": 500}), 500
+
+    return jsonify({
+        "users": [{col: row[i] for i, col in enumerate(_USER_PUBLIC_COLS)}
+                  for row in rows],
+        "total": total,
+    })
+
+
+# ---------------------------------------------------------------------------
 # Campaign performance endpoint
 # ---------------------------------------------------------------------------
 
