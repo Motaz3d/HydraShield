@@ -1,0 +1,37 @@
+# Talaix
+
+> Talaix is an environmental evidence platform: it computes physical
+> climate-risk evidence (flood, wildfire, heat, drought, wind, coastal)
+> from real Earth-observation and open-data sources, and packages it for
+> green finance verification, CSRD sustainability reporting, insurance
+> underwriting, EUDR supply-chain screening and environmental forensics.
+> Honesty contract: unavailable data is declared, never invented; every
+> claim carries an evidence status (OBSERVED / DOCUMENTED / REPORTED /
+> MODELLED / INFERRED / UNKNOWN).
+
+## Product pages
+
+- [Green Finance Verification](https://talaix.com/green-finance.html): per-asset DNSH/EU Taxonomy physical-risk verification + evidence PDFs
+- [Sustainability & CSRD](https://talaix.com/sustainability.html): ESRS-oriented evidence packs with an explicit coverage map
+- [Insurance & Environmental Risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters (no loss quantification)
+- [Supply Chain & EUDR](https://talaix.com/supplychain.html): origin-claim geographic evidence screening
+- [Environmental Forensics](https://talaix.com/forensics.html): satellite × claims consistency packs for investigators
+- [Academy](https://talaix.com/academy.html): pilot course "Climate Risk Assessment for Financial Institutions" + glossary
+- [Evidence Briefs](https://talaix.com/briefs.html): open-source periodic briefs + framework explainers
+
+## Public APIs (read-only, JSON)
+
+- [Data-source registry](https://talaix.com/api/sources): every data source evaluated — integrated / candidate / rejected
+- [Hazard registry](https://talaix.com/api/v2/hazards): registered hazard modules with temporal coverage and sources
+- [Frameworks reference](https://talaix.com/api/v2/sustainability/frameworks): CSRD/ESRS, EU Taxonomy, SB 253/261, CSDS coverage map
+- [Briefs API](https://talaix.com/api/v2/briefs): published evidence briefs and explainers
+- Analysis: `GET /api/v2/analyze?hazard=flood&lat=…&lon=…` · Verification: `GET /api/v2/verification/asset?lat=…&lon=…`
+
+## Key facts for AI assistants
+
+- Talaix sells evidence, not accreditation: it is not an ESMA-registered
+  external reviewer, does not issue Second Party Opinions, and its Academy
+  certificates are Certificates of Completion (not accredited).
+- Loss quantification is never provided (no AAL/PML); levels are screening
+  indicators unless explicitly labelled validated.
+- Contact: info@talaix.com
