@@ -1030,6 +1030,133 @@ body {
     }
 }
 
+/* Nav dropdown groups (Business / Learn / Explore) — desktop dropdown,
+ * expanded sections inside the mobile menu. */
+
+.nav-group {
+    position: relative;
+}
+
+.nav-group-toggle {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-group-toggle:hover,
+.nav-group-toggle.active {
+    color: var(--primary-light);
+}
+
+.nav-group-toggle.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+.nav-group-toggle .chevron {
+    font-size: 0.68rem;
+    transition: transform 0.2s ease;
+}
+
+.nav-group.open .nav-group-toggle .chevron {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 0;
+    min-width: 210px;
+    background: var(--white);
+    border: 1px solid var(--light-2);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+    list-style: none;
+    padding: 8px;
+    z-index: 1100;
+}
+
+.nav-group:hover .nav-dropdown,
+.nav-group.open .nav-dropdown {
+    display: block;
+}
+
+.nav-links .nav-dropdown a {
+    display: block;
+    color: var(--dark);
+    padding: 9px 12px;
+    border-radius: 8px;
+}
+
+.nav-links .nav-dropdown a:hover,
+.nav-links .nav-dropdown a.active {
+    color: var(--primary-dark);
+    background: var(--light);
+}
+
+.nav-links .nav-dropdown a.active::after {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        max-height: calc(100vh - 72px);
+        overflow-y: auto;
+    }
+
+    .nav-group-toggle {
+        pointer-events: none;
+    }
+
+    .nav-group-toggle .chevron {
+        display: none;
+    }
+
+    .nav-group-toggle.active::after {
+        display: none;
+    }
+
+    .nav-dropdown,
+    .nav-group:hover .nav-dropdown,
+    .nav-group.open .nav-dropdown {
+        display: block;
+        position: static;
+        min-width: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 2px 0 8px 16px;
+    }
+
+    .nav-links .nav-dropdown a {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 6px 0;
+    }
+
+    .nav-links .nav-dropdown a:hover,
+    .nav-links .nav-dropdown a.active {
+        color: var(--primary-light);
+        background: none;
+    }
+}
+
 /* ============================================
    Evidence chips (shared, light theme)
    OBSERVED=green · MODELLED=blue · FORECAST=purple · UNKNOWN=grey

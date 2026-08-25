@@ -11,8 +11,8 @@
  * highlights the active item from <body data-page>. This file is the single
  * source of truth for site navigation — an IA change is one edit here.
  *
- * Primary nav (docs/PLATFORM_ARCHITECTURE.md §3.8):
- * Intelligence · Map · Events · Solutions · Economy · Reports + Account.
+ * Primary nav — grouped so the bar stays readable (single source of truth):
+ * Intelligence · Map · Business ▾ · Learn ▾ · Explore ▾ + Account.
  * The legacy marketing pages stay reachable from the footer.
  */
 (function () {
@@ -26,22 +26,48 @@
         ? 'http://localhost:8051/api'
         : '/api';
 
+    /* Top level: single links + groups (dropdowns on desktop, expanded
+     * sections inside the mobile menu). Every id maps to <body data-page>
+     * for active highlighting; a group is active when the current page is
+     * one of its children. */
     var PRIMARY = [
         { id: 'intelligence', href: 'intelligence.html', label: 'Intelligence' },
         { id: 'map', href: 'map.html', label: 'Map' },
-        { id: 'events', href: 'events.html', label: 'Events' },
-        { id: 'solutions', href: 'solutions.html', label: 'Solutions' },
-        { id: 'funding', href: 'funding.html', label: 'Funding' },
-        { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
-        { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability' },
-        { id: 'insurance', href: 'insurance.html', label: 'Insurance' },
-        { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain' },
-        { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
-        { id: 'academy', href: 'academy.html', label: 'Academy' },
-        { id: 'briefs', href: 'briefs.html', label: 'Briefs' },
-        { id: 'economy', href: 'economy.html', label: 'Economy' },
-        { id: 'reports', href: 'reports.html', label: 'Reports' }
+        {
+            id: 'business', label: 'Business', children: [
+                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
+                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability' },
+                { id: 'insurance', href: 'insurance.html', label: 'Insurance' },
+                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain' },
+                { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
+            ]
+        },
+        {
+            id: 'learn', label: 'Learn', children: [
+                { id: 'academy', href: 'academy.html', label: 'Academy' },
+                { id: 'briefs', href: 'briefs.html', label: 'Briefs' }
+            ]
+        },
+        {
+            id: 'explore', label: 'Explore', children: [
+                { id: 'events', href: 'events.html', label: 'Events' },
+                { id: 'solutions', href: 'solutions.html', label: 'Solutions' },
+                { id: 'funding', href: 'funding.html', label: 'Funding' },
+                { id: 'economy', href: 'economy.html', label: 'Economy' },
+                { id: 'reports', href: 'reports.html', label: 'Reports' }
+            ]
+        }
     ];
+
+    /* Flat list of every linkable item (footer + anywhere a full map is needed). */
+    var ALL_LINKS = [];
+    PRIMARY.forEach(function (item) {
+        if (item.children) {
+            item.children.forEach(function (c) { ALL_LINKS.push(c); });
+        } else {
+            ALL_LINKS.push(item);
+        }
+    });
 
     var LEGACY = [
         { href: 'problem.html', label: 'The Problem' },
@@ -66,8 +92,23 @@
         return '<li><a href="' + item.href + '"' + active + '>' + item.label + '</a></li>';
     }
 
+    function navGroup(item) {
+        var groupActive = item.children.some(function (c) { return c.id === PAGE; });
+        var links = item.children.map(function (c) {
+            var active = c.id === PAGE ? ' class="active" aria-current="page"' : '';
+            return '<li><a href="' + c.href + '"' + active + '>' + c.label + '</a></li>';
+        }).join('');
+        return '<li class="nav-group">' +
+            '<button type="button" class="nav-group-toggle' + (groupActive ? ' active' : '') + '"' +
+            ' aria-haspopup="true" aria-expanded="false">' +
+            item.label + ' <span class="chevron" aria-hidden="true">▾</span></button>' +
+            '<ul class="nav-dropdown">' + links + '</ul></li>';
+    }
+
     function renderHeader(mount) {
-        var links = PRIMARY.map(navLink).join('');
+        var links = PRIMARY.map(function (i) {
+            return i.children ? navGroup(i) : navLink(i);
+        }).join('');
         var accountActive = PAGE === 'account' ? ' class="active" aria-current="page"' : '';
         mount.innerHTML =
             '<nav class="navbar" id="navbar">' +
@@ -96,7 +137,7 @@
             'reduce exposure. Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
             '<div class="footer-links"><h4>Platform</h4><ul>' +
-            PRIMARY.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
+            ALL_LINKS.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
             '<li><a href="account.html">Account</a></li>' +
             '<li><a href="dashboard.html">Wildfire analysis (full)</a></li>' +
             '</ul></div>' +
@@ -125,6 +166,33 @@
             'Time: OBSERVED · HISTORICAL · FORECAST · PROJECTED · SCENARIO</p>' +
             '</div>' +
             '</div></footer>';
+    }
+
+    /* Nav dropdown groups: click toggles (touch/keyboard), outside click and
+     * Escape close; desktop also opens on :hover via CSS. */
+    function closeNavGroups(except) {
+        document.querySelectorAll('.nav-group.open').forEach(function (li) {
+            if (except && li === except) return;
+            li.classList.remove('open');
+            li.querySelector('.nav-group-toggle').setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    function wireNavGroups() {
+        document.querySelectorAll('.nav-group-toggle').forEach(function (btn) {
+            btn.addEventListener('click', function (ev) {
+                ev.stopPropagation();
+                var li = btn.parentElement;
+                var willOpen = !li.classList.contains('open');
+                closeNavGroups(null);
+                li.classList.toggle('open', willOpen);
+                btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+        });
+        document.addEventListener('click', function () { closeNavGroups(null); });
+        document.addEventListener('keydown', function (ev) {
+            if (ev.key === 'Escape') closeNavGroups(null);
+        });
     }
 
     function wire() {
@@ -209,6 +277,7 @@
         if (header) renderHeader(header);
         if (footer) renderFooter(footer);
         wire();
+        wireNavGroups();
         reflectSession();
         // First-party product analytics beacon (privacy-conscious; see
         // js/analytics.js + docs/PRODUCT_ANALYTICS.md). Loaded here so every
