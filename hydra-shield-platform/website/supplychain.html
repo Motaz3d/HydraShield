@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Origin Evidence — Talaix</title>
+    <meta name="description" content="Screen origin and green claims for supply-chain due diligence and EUDR context. Honest evidence: never claims verified deforestation-free or verified green.">
+    <link rel="canonical" href="https://talaix.com/supplychain.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="supplychain">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Supply Chain Origin Evidence</h1>
+            <p class="page-lead">
+                Screen origin and green claims against real remote-sensing data for
+                supply-chain due diligence and EUDR context. The engine reports the
+                evidence that exists and the evidence that is missing.
+            </p>
+            <p class="muted small">
+                Honesty contract: unavailable data is declared, never invented.
+            </p>
+            <div class="notice notice-warn">
+                <strong>Screening evidence only.</strong> This is <strong>NOT</strong> a EUDR
+                compliance verification, <strong>NOT</strong> a deforestation-free certificate,
+                and <strong>NOT</strong> a supply-chain audit. Verdicts are
+                <strong>partial evidence</strong> or <strong>no evidence</strong> only.
+            </div>
+
+            <!-- Claim form -->
+            <div class="panel">
+                <h2>Screen a claim</h2>
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                    <div class="form-group" style="flex:1; min-width:160px;">
+                        <label for="supplierInput">Supplier</label>
+                        <input type="text" id="supplierInput" placeholder="Supplier name">
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:140px;">
+                        <label for="commodityInput">Commodity</label>
+                        <input type="text" id="commodityInput" placeholder="e.g. soy, cocoa, palm oil">
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:140px;">
+                        <label for="countryInput">Country</label>
+                        <input type="text" id="countryInput" placeholder="Country of origin">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="plotsText">Production plots</label>
+                    <p class="muted small">One plot per line: <code>name,lat,lon</code>. Up to 25 plots on the free tier; subscribers can screen up to 100.</p>
+                    <textarea id="plotsText" rows="6" placeholder="Farm A,-12.3000,-55.4000&#10;Farm B,-12.3100,-55.4100"></textarea>
+                </div>
+                <div class="toolbar" style="gap:12px;">
+                    <button class="btn-action" id="evaluateClaimBtn">Evaluate claim</button>
+                    <button class="btn-secondary" id="downloadClaimPdfBtn">Download PDF</button>
+                </div>
+                <div id="claimStatus"></div>
+                <div id="claimResult"></div>
+            </div>
+
+            <!-- Frameworks & scope -->
+            <h2>Frameworks &amp; scope</h2>
+            <div class="card-grid">
+                <div class="item-card">
+                    <h3>EU Deforestation Regulation</h3>
+                    <span class="chip chip-documented">regulatory context</span>
+                    <p class="muted">Requires proof of deforestation-free status after 31 Dec 2020. Talaix currently provides only a partial evidence layer.</p>
+                </div>
+                <div class="item-card">
+                    <h3>UK Forest Risk Commodity Scheme</h3>
+                    <span class="chip chip-documented">regulatory context</span>
+                    <p class="muted">Operator-level due-diligence evidence can be supported, but forest-loss verification is not available.</p>
+                </div>
+                <div class="item-card">
+                    <h3>Green Claims</h3>
+                    <span class="chip chip-modelled">commercial context</span>
+                    <p class="muted">Reports existing evidence and missing evidence. A claim cannot be verified green without a forest-loss time series.</p>
+                </div>
+            </div>
+
+            <div class="card-grid" style="margin-top:24px;">
+                <div class="item-card">
+                    <h3>What this is</h3>
+                    <ul class="muted">
+                        <li>Land-cover snapshot from ESA WorldCover 10m 2021.</li>
+                        <li>Recent Sentinel-2 NDVI/NDMI when a cloud-free scene exists.</li>
+                        <li>An explicit list of declared data gaps.</li>
+                    </ul>
+                </div>
+                <div class="item-card">
+                    <h3>What this is not</h3>
+                    <ul class="muted">
+                        <li>A verified deforestation-free certificate.</li>
+                        <li>A verified green claim.</li>
+                        <li>A forest-loss time series (GFW/Hansen/RADD not integrated).</li>
+                        <li>EUDR compliance or a supply-chain audit.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/supplychain.js" defer></script>
+</body>
+</html>
