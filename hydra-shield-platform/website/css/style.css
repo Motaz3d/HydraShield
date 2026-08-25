@@ -1093,6 +1093,17 @@ body {
     z-index: 1100;
 }
 
+/* Invisible bridge across the offset gap: keeps :hover alive while the
+ * pointer travels from the toggle into the dropdown (was closing instantly). */
+.nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: 0;
+    right: 0;
+    height: 14px;
+}
+
 .nav-group:hover .nav-dropdown,
 .nav-group.open .nav-dropdown {
     display: block;

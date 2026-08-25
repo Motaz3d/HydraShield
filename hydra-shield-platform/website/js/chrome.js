@@ -29,12 +29,24 @@
     /* Top level: single links + groups (dropdowns on desktop, expanded
      * sections inside the mobile menu). Every id maps to <body data-page>
      * for active highlighting; a group is active when the current page is
-     * one of its children. */
+     * one of its children. IA rule: Sectors = who we serve (audience
+     * landing pages), Products = what the engine computes (the tools). */
     var PRIMARY = [
         { id: 'intelligence', href: 'intelligence.html', label: 'Intelligence' },
         { id: 'map', href: 'map.html', label: 'Map' },
         {
-            id: 'business', label: 'Business', children: [
+            id: 'sectors', label: 'Sectors', children: [
+                { id: 'for-banks', href: 'for-banks.html', label: 'Banks & lenders' },
+                { id: 'for-insurance', href: 'for-insurance.html', label: 'Insurance' },
+                { id: 'for-investors', href: 'for-investors.html', label: 'Investors' },
+                { id: 'for-real-estate', href: 'for-real-estate.html', label: 'Real estate' },
+                { id: 'for-consulting', href: 'for-consulting.html', label: 'Consultants & auditors' },
+                { id: 'for-government', href: 'for-government.html', label: 'Government' }
+            ]
+        },
+        {
+            id: 'products', label: 'Products', children: [
+                { id: 'reportbuilder', href: 'report-builder.html', label: 'Report Builder' },
                 { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
                 { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability' },
                 { id: 'insurance', href: 'insurance.html', label: 'Insurance' },
