@@ -1184,6 +1184,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(mapcheck_bp)
 
+    # MCP server endpoint (/api/mcp).
+    from .mcp_api import mcp as mcp_bp
+
+    app.register_blueprint(mcp_bp)
+
     return app
 
 

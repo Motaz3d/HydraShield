@@ -27,6 +27,17 @@
 - [Briefs API](https://talaix.com/api/v2/briefs): published evidence briefs and explainers
 - Analysis: `GET /api/v2/analyze?hazard=flood&lat=…&lon=…` · Verification: `GET /api/v2/verification/asset?lat=…&lon=…`
 
+## MCP server (remote tools for AI assistants)
+
+- Endpoint: `POST /api/mcp` — JSON-RPC 2.0, Streamable-HTTP style, no SSE in this version.
+- Transport: single HTTP request/response; stateless; public read-only.
+- Tools exposed:
+  `talaix_analyze`, `talaix_verify_asset`, `talaix_insurance_profile`,
+  `talaix_mapcheck`, `talaix_briefs`, `talaix_brief`,
+  `talaix_sustainability_frameworks`, `talaix_sources`, `talaix_hazards`.
+- Each tool description embeds the honesty constraints: screening indicators,
+  no loss quantification, no accreditation, unavailable data is declared.
+
 ## Key facts for AI assistants
 
 - Talaix sells evidence, not accreditation: it is not an ESMA-registered
