@@ -33,7 +33,7 @@ import urllib.parse
 import urllib.request
 from typing import Dict, List, Optional
 
-from .cache import cached, TTL_GEOCODE, TTL_TERRAIN, TTL_WEATHER_CURRENT, TTL_WEATHER_DAILY, TTL_FIRES
+from .cache import cached, TTL_GEOCODE, TTL_TERRAIN, TTL_WEATHER_CURRENT, TTL_WEATHER_DAILY, TTL_FIRES, TTL_CLIMATE_SERIES
 
 _UA = "Talaix/1.0 (Climate Extreme Intelligence; contact info@talaix.com)"
 _TIMEOUT = 15.0
@@ -996,3 +996,132 @@ def fetch_marine(lat: float, lon: float, start: str, end: str) -> Dict:
     if _is_recent_end(end):
         return _fetch_marine_recent(lat, lon, start, end)
     return _fetch_marine_hist(lat, lon, start, end)
+
+
+# --------------------------------------------------------------------------
+# Climate series — long annual temperature / precipitation context (ERA5)
+# --------------------------------------------------------------------------
+
+@cached("climate_series", TTL_CLIMATE_SERIES)
+def fetch_climate_series(lat: float, lon: float, start_year: int = 1991) -> Dict:
+    """
+    Annual temperature and precipitation series from the Open-Meteo archive
+    (ERA5 / ERA5-Land). Computes a 1991–2020 baseline by default and reports
+    the most recent complete year versus that baseline.
+
+    Returns a dict with ``annual`` series, ``baseline``, and ``current``
+    anomaly values, or an ``error`` key when the upstream service cannot
+    answer.
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    from datetime import date
+
+    today = date.today()
+    end_year = today.year
+    start_date = f"{int(start_year)}-01-01"
+    end_date = f"{today.isoformat()}"
+
+    params = urllib.parse.urlencode(
+        {
+            "latitude": lat,
+            "longitude": lon,
+            "start_date": start_date,
+            "end_date": end_date,
+            "daily": "temperature_2m_max,precipitation_sum",
+            "timezone": "auto",
+        }
+    )
+    try:
+        data = _get_json(f"{ARCHIVE_API_URL}?{params}", timeout=60.0)
+    except RuntimeError as exc:
+        return {"error": f"Reanalysis service unavailable: {exc}"}
+    if data.get("error"):
+        return {
+            "error": f"Archive API error: {data.get('reason', 'unknown')}",
+            "source": DAILY_CLIMATE_SOURCE,
+        }
+
+    daily = data.get("daily") or {}
+    times = daily.get("time", [])
+    tmax_series = daily.get("temperature_2m_max", [])
+    precip_series = daily.get("precipitation_sum", [])
+    if not times:
+        return {"error": "Archive returned no daily data", "source": DAILY_CLIMATE_SOURCE}
+
+    min_days_for_year = 300
+    baseline_start, baseline_end = 1991, 2020
+
+    years: Dict[int, Dict[str, Any]] = {}
+    for i, t in enumerate(times):
+        try:
+            year = int(str(t)[:4])
+        except (ValueError, TypeError):
+            continue
+        bucket = years.setdefault(year, {"tmax_values": [], "precip_values": [], "days": 0})
+        tmax = tmax_series[i] if i < len(tmax_series) else None
+        precip = precip_series[i] if i < len(precip_series) else None
+        if tmax is not None:
+            bucket["tmax_values"].append(float(tmax))
+        if precip is not None:
+            bucket["precip_values"].append(float(precip))
+        bucket["days"] += 1
+
+    annual: List[Dict[str, Any]] = []
+    baseline_tmax: List[float] = []
+    baseline_precip: List[float] = []
+    for year in sorted(years):
+        bucket = years[year]
+        if bucket["days"] < min_days_for_year:
+            continue
+        if not bucket["tmax_values"] or not bucket["precip_values"]:
+            continue
+        mean_tmax = sum(bucket["tmax_values"]) / len(bucket["tmax_values"])
+        total_precip = sum(bucket["precip_values"])
+        record = {
+            "year": year,
+            "mean_tmax_c": round(mean_tmax, 2),
+            "total_precip_mm": round(total_precip, 1),
+            "days_used": bucket["days"],
+        }
+        annual.append(record)
+        if baseline_start <= year <= baseline_end:
+            baseline_tmax.append(mean_tmax)
+            baseline_precip.append(total_precip)
+
+    if not annual:
+        return {"error": "No complete years of climate data", "source": DAILY_CLIMATE_SOURCE}
+
+    current = annual[-1]
+    baseline: Dict[str, Any] = {"period": f"{baseline_start}–{baseline_end}"}
+    if baseline_tmax:
+        baseline["mean_tmax_c"] = round(sum(baseline_tmax) / len(baseline_tmax), 2)
+        baseline["precip_mm"] = round(sum(baseline_precip) / len(baseline_precip), 1)
+        baseline["years_used"] = len(baseline_tmax)
+    else:
+        baseline["mean_tmax_c"] = None
+        baseline["precip_mm"] = None
+        baseline["years_used"] = 0
+
+    current_anomaly: Dict[str, Any] = {"year": current["year"]}
+    if baseline["mean_tmax_c"] is not None:
+        current_anomaly["mean_tmax_anomaly_c"] = round(
+            current["mean_tmax_c"] - baseline["mean_tmax_c"], 2
+        )
+    else:
+        current_anomaly["mean_tmax_anomaly_c"] = None
+    if baseline["precip_mm"] is not None and baseline["precip_mm"] > 0:
+        current_anomaly["precip_pct_of_baseline"] = round(
+            100.0 * current["total_precip_mm"] / baseline["precip_mm"], 1
+        )
+    else:
+        current_anomaly["precip_pct_of_baseline"] = None
+
+    return {
+        "annual": annual,
+        "baseline": baseline,
+        "current": current_anomaly,
+        "series_end_year": current["year"],
+        "source": "Reanalysis (ERA5 / ERA5-Land via Open-Meteo archive)",
+        "variables": {"temperature": "daily maximum 2 m temperature", "precipitation": "daily sum"},
+    }

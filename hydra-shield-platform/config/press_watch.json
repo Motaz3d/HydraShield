@@ -1,0 +1,179 @@
+{
+  "sources": [
+    {
+      "name": "Copernicus Climate Change Service (C3S) Climate Pulse",
+      "url": "https://climate.copernicus.eu/climate-pulse",
+      "publisher": "Copernicus Climate Change Service / ECMWF",
+      "frequency": "monthly",
+      "scope": "global climate indicators, ERA5 updates"
+    },
+    {
+      "name": "European State of the Climate",
+      "url": "https://climate.copernicus.eu/ESOTC",
+      "publisher": "Copernicus Climate Change Service",
+      "frequency": "annual",
+      "scope": "Europe-focused climate assessment"
+    },
+    {
+      "name": "World Meteorological Organization — Climate Updates",
+      "url": "https://wmo.int/climate",
+      "publisher": "WMO",
+      "frequency": "ongoing",
+      "scope": "global climate statements and press releases"
+    },
+    {
+      "name": "NOAA National Centers for Environmental Information",
+      "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/global",
+      "publisher": "NOAA",
+      "frequency": "monthly",
+      "scope": "global temperature and precipitation anomalies"
+    },
+    {
+      "name": "NASA Goddard Institute for Space Studies — Surface Temperature Analysis",
+      "url": "https://data.giss.nasa.gov/gistemp/",
+      "publisher": "NASA GISS",
+      "frequency": "monthly",
+      "scope": "global surface temperature analysis"
+    },
+    {
+      "name": "Global Disaster Alert and Coordination System (GDACS)",
+      "url": "https://www.gdacs.org/",
+      "publisher": "UN-OCHA / EU JRC",
+      "frequency": "real-time",
+      "scope": "tropical cyclones, floods, wildfires, earthquakes"
+    },
+    {
+      "name": "ECMWF Medium-Range Weather Forecasts",
+      "url": "https://www.ecmwf.int/en/forecasts",
+      "publisher": "ECMWF",
+      "frequency": "daily",
+      "scope": "medium-range weather and extreme forecasts"
+    },
+    {
+      "name": "Copernicus Atmosphere Monitoring Service",
+      "url": "https://atmosphere.copernicus.eu/",
+      "publisher": "Copernicus Atmosphere Monitoring Service",
+      "frequency": "daily",
+      "scope": "air quality, wildfire emissions, atmospheric composition"
+    },
+    {
+      "name": "NASA FIRMS Active Fire Data",
+      "url": "https://firms.modaps.eosdis.nasa.gov/",
+      "publisher": "NASA",
+      "frequency": "near-real-time",
+      "scope": "active fire detections (VIIRS/MODIS)"
+    },
+    {
+      "name": "Sentinel Hub — Sentinel-2 and EO Browser",
+      "url": "https://www.sentinel-hub.com/explore/eobrowser/",
+      "publisher": "Sinergise / Copernicus",
+      "frequency": "5-day revisit",
+      "scope": "optical satellite imagery and indices"
+    },
+    {
+      "name": "USGS Earth Resources Observation and Science (EROS)",
+      "url": "https://eros.usgs.gov/",
+      "publisher": "USGS",
+      "frequency": "ongoing",
+      "scope": "Landsat archive and land surface change"
+    },
+    {
+      "name": "FAO Global Information and Early Warning System",
+      "url": "https://www.fao.org/giews/en/",
+      "publisher": "FAO",
+      "frequency": "monthly",
+      "scope": "food security and agricultural drought"
+    },
+    {
+      "name": "Drought.gov — U.S. National Integrated Drought Information System",
+      "url": "https://www.drought.gov/",
+      "publisher": "NOAA NIDIS",
+      "frequency": "weekly",
+      "scope": "U.S. drought monitoring and outlook"
+    },
+    {
+      "name": "International Disaster Database (EM-DAT)",
+      "url": "https://www.emdat.be/",
+      "publisher": "Centre for Research on the Epidemiology of Disasters",
+      "frequency": "annual",
+      "scope": "standardised global disaster records"
+    },
+    {
+      "name": "UNDRR Global Assessment Report",
+      "url": "https://www.undrr.org/gar",
+      "publisher": "UN Office for Disaster Risk Reduction",
+      "frequency": "biennial",
+      "scope": "global disaster risk reduction assessment"
+    },
+    {
+      "name": "IPCC Newsroom and Reports",
+      "url": "https://www.ipcc.ch/",
+      "publisher": "Intergovernmental Panel on Climate Change",
+      "frequency": "cycle-based",
+      "scope": "authoritative climate science assessments"
+    },
+    {
+      "name": "Carbon Brief — Climate and Energy Data",
+      "url": "https://www.carbonbrief.org/",
+      "publisher": "Carbon Brief",
+      "frequency": "ongoing",
+      "scope": "data-driven climate journalism and explainers"
+    },
+    {
+      "name": "Climate Central — Climate Shift Index",
+      "url": "https://www.climatecentral.org/",
+      "publisher": "Climate Central",
+      "frequency": "daily",
+      "scope": "daily climate-attribution signals"
+    },
+    {
+      "name": "Reuters — Climate Change",
+      "url": "https://www.reuters.com/sustainability/climate-change/",
+      "publisher": "Reuters",
+      "frequency": "ongoing",
+      "scope": "global climate news and data reporting"
+    },
+    {
+      "name": "European Commission — Climate Action News",
+      "url": "https://climate.ec.europa.eu/news_en",
+      "publisher": "European Commission",
+      "frequency": "ongoing",
+      "scope": "EU policy, legislation and statistics"
+    },
+    {
+      "name": "UK Met Office — Climate Dashboard",
+      "url": "https://www.metoffice.gov.uk/research/climate/maps-and-data",
+      "publisher": "UK Met Office",
+      "frequency": "monthly",
+      "scope": "UK and global climate maps and datasets"
+    },
+    {
+      "name": "Deutscher Wetterdienst — Climate Monitoring",
+      "url": "https://www.dwd.de/EN/climate_environment/climate_monitoring/climate_monitoring_node.html",
+      "publisher": "DWD",
+      "frequency": "monthly",
+      "scope": "Germany and European climate monitoring"
+    },
+    {
+      "name": "Météo-France — Climatologie",
+      "url": "https://meteofrance.com/actualite-et-climat/climat",
+      "publisher": "Météo-France",
+      "frequency": "monthly",
+      "scope": "France climate bulletins and datasets"
+    },
+    {
+      "name": "Arab Center for Climate Change Policies",
+      "url": "https://www.arabclimatecenter.org/",
+      "publisher": "UN ESCWA",
+      "frequency": "ongoing",
+      "scope": "Arab region climate policy and data"
+    },
+    {
+      "name": "Open-Meteo Climate Data API",
+      "url": "https://open-meteo.com/en/docs/climate-api",
+      "publisher": "Open-Meteo",
+      "frequency": "API",
+      "scope": "open reanalysis and climate model access"
+    }
+  ]
+}

@@ -39,6 +39,7 @@ TTL_FIRES = 3 * 3600                # FIRMS active fires
 TTL_ANALYSIS = 15 * 60              # full analysis result
 TTL_LANDCOVER = 30 * 24 * 3600      # land cover is near-static
 TTL_SNAPSHOT = 30 * 60              # public risk snapshot aggregate
+TTL_CLIMATE_SERIES = 30 * 24 * 3600 # historical climate series changes slowly
 
 
 class TTLCache:

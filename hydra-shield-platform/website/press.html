@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Press Evidence Pack — Talaix</title>
+    <meta name="description" content="Journalist-facing climate evidence packs: real ERA5 charts, satellite figures, quotable sourced lines and an open press-watch registry. English packs are public; other languages are subscriber-only.">
+    <link rel="canonical" href="https://talaix.com/press.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="press">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Press Evidence Pack</h1>
+            <p class="page-lead">
+                A journalist-facing evidence pack built from real data: ERA5
+                temperature and precipitation context, a Sentinel-2 vegetation
+                snapshot, site land-cover context, and quotable sourced lines.
+                English packs are public; French, German and Arabic packs are
+                subscriber-only.
+            </p>
+            <p class="muted small">
+                Honesty contract: unavailable data is declared, never invented.
+                Every line is deterministic from cited sources.
+            </p>
+
+            <!-- Pack generator -->
+            <div class="panel">
+                <h2>Generate a pack</h2>
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap;">
+                    <div class="form-group" style="flex:1; min-width:220px;">
+                        <label for="pressLocInput">Location</label>
+                        <input type="text" id="pressLocInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                    </div>
+                    <div class="form-group" style="min-width:140px;">
+                        <label for="pressLangSelect">Language</label>
+                        <select id="pressLangSelect">
+                            <option value="en" selected>English (public)</option>
+                            <option value="fr">Français (subscriber)</option>
+                            <option value="de">Deutsch (subscriber)</option>
+                            <option value="ar">العربية (subscriber)</option>
+                        </select>
+                    </div>
+                    <button class="btn-action" id="pressGenerateBtn" style="margin-top:24px;">Generate pack</button>
+                </div>
+                <div id="pressStatus"></div>
+            </div>
+
+            <!-- Results -->
+            <div id="pressResult"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/press.js" defer></script>
+</body>
+</html>

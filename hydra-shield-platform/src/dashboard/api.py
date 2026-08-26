@@ -1189,6 +1189,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(mcp_bp)
 
+    # Talaix Press evidence-pack API (/api/v2/press/…).
+    from ..climate.api_press import press as press_bp
+
+    app.register_blueprint(press_bp)
+
     return app
 
 
