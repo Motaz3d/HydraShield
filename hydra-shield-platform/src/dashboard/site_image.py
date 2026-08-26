@@ -98,7 +98,7 @@ def _read_worldcover_window(lat: float, lon: float, window_m: float) -> Optional
 
     url = _worldcover_url(lat, lon)
     try:
-        with rasterio.open(url) as ds:
+        with rasterio.Env(GDAL_HTTP_TIMEOUT=20), rasterio.open(url) as ds:
             transformer = Transformer.from_crs("EPSG:4326", ds.crs, always_xy=True)
             x, y = transformer.transform(lon, lat)
             row, col = ds.index(x, y)
@@ -117,7 +117,7 @@ def _read_gfc_window(lat: float, lon: float, layer: str, window_m: float) -> Opt
     tag = _gfc_tile_tag(lat, lon)
     url = _gfc_url(layer, tag)
     try:
-        with rasterio.open(url) as ds:
+        with rasterio.Env(GDAL_HTTP_TIMEOUT=20), rasterio.open(url) as ds:
             row, col = ds.index(lon, lat)
             half_px = int(round(window_m / 30.0))  # ~30 m pixels
             win = Window(col - half_px, row - half_px, 2 * half_px, 2 * half_px)

@@ -26,6 +26,15 @@ from src.dashboard.api import create_app  # noqa: E402
 # -----------------------------------------------------------------------------
 
 
+@pytest.fixture(autouse=True)
+def _no_site_image_network(monkeypatch):
+    """Offline guarantee: the site-context image fetch never runs in tests."""
+    monkeypatch.setattr(
+        "src.dashboard.report_builder_pdf.build_site_context_png",
+        lambda *a, **k: None,
+    )
+
+
 @pytest.fixture()
 def env(tmp_path, monkeypatch):
     """Isolated DB + outbox per test."""
