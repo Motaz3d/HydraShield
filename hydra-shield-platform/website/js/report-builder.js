@@ -202,7 +202,7 @@
             var locked = s.kind !== 'body';
             html += '<div class="panel" data-idx="' + idx + '" style="margin-bottom:16px;">' +
                 '<div class="toolbar" style="justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:8px;">' +
-                '<span>' + kindChip(s.kind) + (s.edited ? ' ' + chip('reported', 'edited') : '') + '</span>' +
+                '<span>' + kindChip(s.kind) + (s.edited ? ' ' + chip('reported', 'edited') : '') + (s.ai_polished ? ' ' + chip('reported', 'AI-polished') : '') + '</span>' +
                 '<span>' +
                 '<button class="btn-secondary btn-sm" data-action="up" data-idx="' + idx + '"' + (idx === 0 ? ' disabled' : '') + '>↑</button>' +
                 '<button class="btn-secondary btn-sm" data-action="down" data-idx="' + idx + '"' + (idx === sections.length - 1 ? ' disabled' : '') + '>↓</button>' +
@@ -214,6 +214,9 @@
                 '</div>' +
                 '<div class="form-group">' +
                 '<textarea class="section-text" data-idx="' + idx + '" rows="6" maxlength="5000">' + esc(s.text) + '</textarea>' +
+                '</div>' +
+                '<div style="margin-bottom:8px;">' +
+                '<button class="btn-secondary btn-sm polish-btn" data-idx="' + idx + '"' + (s.text ? '' : ' disabled') + '>Polish with AI</button>' +
                 '</div>' +
                 '<details class="expander">' +
                 '<summary>Why is this section here?</summary>' +
@@ -234,6 +237,11 @@
                     sections[idx].edited = true;
                     renderSections();
                 }
+                if (input.classList.contains('section-text')) {
+                    var panel = input.closest('.panel');
+                    var polishBtn = panel && panel.querySelector('.polish-btn');
+                    if (polishBtn) polishBtn.disabled = !input.value.trim();
+                }
                 updateEditSummary();
             });
         });
@@ -246,6 +254,14 @@
                 if (action === 'up') moveSection(idx, -1);
                 else if (action === 'down') moveSection(idx, 1);
                 else if (action === 'remove') removeSection(idx);
+            });
+        });
+
+        // Wire AI polish buttons
+        container.querySelectorAll('.polish-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var idx = parseInt(btn.getAttribute('data-idx'), 10);
+                polishSection(idx);
             });
         });
     }
@@ -264,6 +280,45 @@
         sections.splice(idx, 1);
         renderSections();
         updateEditSummary();
+    }
+
+    function polishSection(idx) {
+        if (!draft) return;
+        var s = sections[idx];
+        if (!s || !s.text || !s.text.trim()) return;
+
+        clearStatus('editorStatus');
+        var btn = el('sectionsContainer').querySelector('.polish-btn[data-idx="' + idx + '"]');
+        if (btn) btn.disabled = true;
+
+        fetchJSON(API + '/v2/report-builder/polish', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ heading: s.heading, text: s.text }),
+        }).then(function (res) {
+            if (btn) btn.disabled = false;
+            if (res.status === 401 || res.status === 403) {
+                renderStatus('editorStatus', 'warn', authPrompt('polish sections'));
+                return;
+            }
+            if (res.status === 503) {
+                renderStatus('editorStatus', 'warn', 'AI polish is currently unavailable.');
+                return;
+            }
+            if (!res.ok || res.body.error) {
+                renderStatus('editorStatus', 'error', esc(res.body.error || 'AI polish failed'));
+                return;
+            }
+            sections[idx].text = res.body.text || sections[idx].text;
+            sections[idx].edited = true;
+            sections[idx].ai_polished = true;
+            renderSections();
+            updateEditSummary();
+        }).catch(function () {
+            if (btn) btn.disabled = false;
+            renderStatus('editorStatus', 'error', 'The AI polish service could not be reached.');
+        });
     }
 
     function updateEditSummary() {

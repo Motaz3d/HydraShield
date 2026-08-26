@@ -4,8 +4,9 @@
 Registered from ``src/dashboard.api.py::create_app()``.
 
 Endpoints:
-    POST /draft   Build a deterministic sectioned draft from engine data (registered+, 6/min)
-    POST /pdf     Export the edited sections as an honest PDF (registered+, 6/min)
+    POST /draft    Build a deterministic sectioned draft from engine data (registered+, 6/min)
+    POST /polish   Polish one section's prose via the AI gateway (registered+, 6/min)
+    POST /pdf      Export the edited sections as an honest PDF (registered+, 6/min)
 """
 
 from __future__ import annotations
@@ -72,6 +73,52 @@ def create_draft():
 
 
 # -----------------------------------------------------------------------------
+# AI polish
+# -----------------------------------------------------------------------------
+
+
+@report_builder.post("/polish")
+@_registered_gate
+def polish_section():
+    """POST /api/v2/report-builder/polish — polish one section's prose via AI."""
+    if not _rate("v2reportbuilder_polish", 6, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from ..ai import gateway
+
+    if not gateway.configured():
+        return _err("AI polish is not configured", 503)
+
+    data = request.get_json(silent=True) or {}
+    heading = str(data.get("heading") or "").strip()
+    text = str(data.get("text") or "").strip()
+
+    if not text:
+        return _err("text is required", 400)
+    if len(text) > 5000:
+        return _err("text exceeds 5000 characters", 400)
+
+    user_prompt = text
+    if heading:
+        user_prompt = f"Section heading: {heading}\n\n{text}"
+
+    try:
+        polished = gateway.complete(
+            "polish",
+            user_prompt,
+            system_prompt=gateway.POLISH_SYSTEM_PROMPT,
+            max_tokens=800,
+            timeout=30,
+        )
+    except gateway.AIUnavailable as exc:
+        return _err(f"AI polish unavailable: {exc}", 503)
+    except Exception as exc:
+        return _err(f"AI polish failed: {exc}", 502)
+
+    return jsonify({"text": polished})
+
+
+# -----------------------------------------------------------------------------
 # PDF export
 # -----------------------------------------------------------------------------
 
@@ -104,12 +151,15 @@ def export_pdf():
     except ValueError as exc:
         return _err(str(exc), 400)
 
+    ai_polished_count = sum(1 for s in cleaned if s.get("ai_polished"))
+
     meta = {
         "draft_id": str(data.get("draft_id") or ""),
         "generated_at": str(data.get("generated_at") or ""),
         "kind": str(data.get("kind") or ""),
         "engine_version": str(data.get("engine_version") or ""),
         "edited_count": edited_count,
+        "ai_polished_count": ai_polished_count,
         "honesty_note": str(data.get("honesty_note") or ""),
         "disclaimer": str(data.get("disclaimer") or ""),
     }

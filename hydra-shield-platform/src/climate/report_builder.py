@@ -512,6 +512,7 @@ def prepare_sections(sections: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any
             raise ValueError(f"section kind at index {idx} must be one of: introduction, body, gaps, conclusion")
 
         edited = bool(s.get("edited"))
+        ai_polished = bool(s.get("ai_polished"))
         if edited:
             edited_count += 1
 
@@ -523,6 +524,7 @@ def prepare_sections(sections: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any
             "why": str(s.get("why") or ""),
             "source_refs": list(s.get("source_refs") or []),
             "edited": edited,
+            "ai_polished": ai_polished,
         })
 
     return cleaned, edited_count

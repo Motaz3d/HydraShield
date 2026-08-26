@@ -48,6 +48,16 @@ _EDITED = ParagraphStyle(
     spaceAfter=4,
 )
 
+_AI_POLISHED = ParagraphStyle(
+    "ai_polished",
+    fontName="Helvetica-Bold",
+    fontSize=9,
+    leading=12,
+    textColor=_ACCENT,
+    spaceBefore=2,
+    spaceAfter=4,
+)
+
 
 def _footer(canvas, doc):
     """Footer for the interactive report builder PDF."""
@@ -89,6 +99,7 @@ def build_custom_pdf(title: str, sections: List[Dict[str, Any]], meta: Dict[str,
         ["Engine version", _xml(meta.get("engine_version"))],
         ["Total sections", str(len(sections))],
         ["Edited by user", str(meta.get("edited_count", 0))],
+        ["AI-polished", str(meta.get("ai_polished_count", 0))],
     ]
     story.append(_kv_table(meta_rows))
 
@@ -119,6 +130,8 @@ def build_custom_pdf(title: str, sections: List[Dict[str, Any]], meta: Dict[str,
             story.append(Paragraph(f"<i>Why this section:</i> {_xml(s['why'])}", _SM))
         if s.get("edited"):
             story.append(Paragraph("[edited by user]", _EDITED))
+        if s.get("ai_polished"):
+            story.append(Paragraph("[AI-polished]", _AI_POLISHED))
         story.append(Spacer(1, 1 * mm))
 
     # ---- Composition & honesty ---------------------------------------------

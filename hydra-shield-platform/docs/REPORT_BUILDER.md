@@ -38,7 +38,8 @@ A draft section returned by `POST /api/v2/report-builder/draft` looks like:
   "text": "...",
   "why": "Built from the flood hazard module result: level 'Low', claim status MODELLED, 2 evidence record(s).",
   "source_refs": ["flood", "flood:ev-123"],
-  "edited": false
+  "edited": false,
+  "ai_polished": false
 }
 ```
 
@@ -94,6 +95,30 @@ same inputs always produce the same draft identity.
   template-composed from the cited evidence only; user-edited text is the
   user's own."
 
+## AI prose polish
+
+The Report Builder can optionally polish user-edited section prose through a
+server-side Kimi API gateway. The feature is disabled when `KIMI_API_KEY` is
+unset; in that state the polish endpoint returns `503` and the UI shows a
+clear "unavailable" message.
+
+- Polishing is available per-section from the section editor. The button is
+  enabled only when the section body is non-empty.
+- The server sends the section heading and text to the gateway with the
+  `polish` task kind, which routes to the cheap `kimi-for-coding` model.
+- The system prompt instructs the model to improve clarity and grammar only:
+  it must not invent facts, numbers, hazard labels, source references, or
+  conclusions absent from the user's text.
+- A successfully polished section is returned to the frontend, which marks it
+  `edited: true` and `ai_polished: true`.
+- The exported PDF renders an `[AI-polished]` marker below the section text,
+  in addition to any `[edited by user]` marker, and the metadata block
+  declares the count of AI-polished sections.
+- Daily call volume is capped by `AI_DAILY_CALL_CAP` (default: 50). Once the
+  cap is reached the gateway refuses further calls until midnight UTC.
+- The API key is read from the environment only and is never logged or
+  returned in error responses.
+
 ## API reference
 
 Both endpoints require a registered session and are rate-limited to 6/min per
@@ -103,6 +128,13 @@ client IP.
   - Body: `{ "kind": "verification"|"insurance"|"sustainability", "params": {...} }`
   - Returns: `{ "draft": {...} }`
   - Errors: 400 for invalid kind/params, 502 for engine failure.
+
+- `POST /api/v2/report-builder/polish`
+  - Body: `{ "heading": "...", "text": "..." }`
+  - Returns: `{ "text": "..." }`
+  - Errors: 400 for missing/oversized text, 401/403 for unregistered sessions,
+    429 for rate limit, 503 when AI is not configured or the daily cap is
+    reached, 502 for upstream failure.
 
 - `POST /api/v2/report-builder/pdf`
   - Body: `{ "title": "...", "sections": [...], "draft_id": "...", "generated_at": "...", "kind": "...", "engine_version": "...", "honesty_note": "...", "disclaimer": "..." }`
@@ -121,12 +153,11 @@ client IP.
   - Sustainability: company fields + site textarea parser (same format as
     `sustainability.js`).
 - Section editor with editable heading/text, "Why this section?" expander,
-  up/down reorder, remove (body sections only), edited chip.
+  up/down reorder, remove (body sections only), edited chip, and a per-section
+  "Polish with AI" button.
 - Export button with blob download and an edit-count summary line.
 
 ## Roadmap (out of scope for this phase)
 
-- Optional AI prose polish via a server-side LLM gateway, clearly labelled per
-  regenerated section.
 - Per-section regeneration from updated engine inputs.
 - Additional report kinds (forensics, supply-chain evidence packs).
