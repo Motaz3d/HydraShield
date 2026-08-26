@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Check — Talaix</title>
+    <meta name="description" content="Cartographic cross-verification: compare what open maps say against what satellite observation shows, with honest discrepancy analysis and possible causes.">
+    <link rel="canonical" href="https://talaix.com/mapcheck.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="mapcheck">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Map Check</h1>
+            <p class="page-lead">
+                Cross-check what open maps <strong>say</strong> against what satellite
+                observation <strong>shows</strong> — and when they disagree, see the
+                most likely reasons why. A discrepancy is a signal to verify, never
+                proof that a map is wrong.
+            </p>
+            <p class="muted small">
+                Honesty contract: only open sources are compared (OpenStreetMap,
+                ESA WorldCover, Sentinel-2). Proprietary maps are not fetched.
+            </p>
+            <div class="notice notice-warn">
+                <strong>Open sources only.</strong> We compare OpenStreetMap green
+                features with Sentinel-2 NDVI and ESA WorldCover land-cover class.
+                Proprietary maps (Google, Apple, Bing, etc.) are not fetched or
+                compared because their terms do not allow automated extraction.
+                A detected discrepancy is not proof of an error — verify before
+                relying on any single map.
+            </div>
+
+            <div class="panel">
+                <h2>Check a location</h2>
+                <div class="toolbar" style="align-items:flex-end; flex-wrap:wrap; gap:12px;">
+                    <div class="form-group" style="flex:1; min-width:220px;">
+                        <label for="mapcheckLocInput">Location</label>
+                        <input type="text" id="mapcheckLocInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                    </div>
+                    <div class="form-group" style="width:140px;">
+                        <label for="radiusInput">Radius (m)</label>
+                        <input type="number" id="radiusInput" value="300" min="50" max="2000" step="50">
+                    </div>
+                    <button class="btn-action" id="runMapcheckBtn">Run Map Check</button>
+                </div>
+                <div id="mapcheckLocAssist"></div>
+                <div id="mapcheckStatus"></div>
+                <div id="mapcheckResult"></div>
+            </div>
+
+            <div id="mapcheckExplainer" style="display:none;">
+                <h2>Why discrepancies happen</h2>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <h3>Outdated map data</h3>
+                        <span class="chip chip-historical">Time lag</span>
+                        <p class="muted">OpenStreetMap is edited by volunteers. A park, plantation or land-use change may have happened since the last edit.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>Unmapped features</h3>
+                        <span class="chip chip-unknown">Completeness</span>
+                        <p class="muted">Many green spaces are simply not mapped yet — especially private gardens, informal green space and recent planting.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>Season &amp; clouds</h3>
+                        <span class="chip chip-modelled">Observation window</span>
+                        <p class="muted">NDVI reflects the most recent cloud-free Sentinel-2 scene. Winter, harvest, drought or clouds can make vegetation look temporarily sparse.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>Resolution mismatch</h3>
+                        <span class="chip chip-inferred">Scale</span>
+                        <p class="muted">WorldCover pixels are 10 m and Sentinel-2 pixels are 10–30 m. Small mapped features or narrow tree lines may fall below the pixel size.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>Real change</h3>
+                        <span class="chip chip-reported">Change</span>
+                        <p class="muted">Construction, logging, planting, flooding or fire can change vegetation between the map edit date and the satellite observation.</p>
+                    </div>
+                </div>
+
+                <h2 style="margin-top:24px;">Use this before trusting one map</h2>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <h3>For real-estate developers</h3>
+                        <p class="muted">Spot green-space claims that need ground verification before planning or valuation. Use alongside <a class="text-link" href="green-finance.html">Green Finance</a> evidence.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>For investors &amp; auditors</h3>
+                        <p class="muted">Document map-source uncertainty in due diligence. A discrepancy here is a diligence flag, not a final answer.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>For insurance risk</h3>
+                        <p class="muted">Vegetation proximity affects wildfire and flood exposure. Cross-check with the <a class="text-link" href="insurance.html">Insurance profile</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/convert.js" defer></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/mapcheck.js" defer></script>
+</body>
+</html>

@@ -1179,6 +1179,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(report_builder_bp)
 
+    # Map Check API (/api/v2/mapcheck/…).
+    from ..climate.api_mapcheck import mapcheck as mapcheck_bp
+
+    app.register_blueprint(mapcheck_bp)
+
     return app
 
 

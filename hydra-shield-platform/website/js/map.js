@@ -156,6 +156,7 @@
             '<h2>Act on this point</h2>' +
             '<p class="muted small" style="margin:0 0 6px 0;">' + esc(coord) + '</p>' +
             '<div class="layer-state" style="padding-left:0;">' +
+            '<a class="text-link" href="mapcheck.html?location=' + encodeURIComponent(coord) + '">Map-vs-satellite check</a> · ' +
             '<a class="text-link" href="green-finance.html?location=' + encodeURIComponent(coord) + '">Green Finance check</a> · ' +
             '<a class="text-link" href="insurance.html?location=' + encodeURIComponent(coord) + '">Insurance profile</a> · ' +
             '<a class="text-link" href="forensics.html?location=' + encodeURIComponent(coord) + '">Forensic case</a> · ' +

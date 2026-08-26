@@ -66,6 +66,7 @@
         },
         {
             id: 'explore', label: 'Explore', children: [
+                { id: 'mapcheck', href: 'mapcheck.html', label: 'Map Check' },
                 { id: 'events', href: 'events.html', label: 'Events' },
                 { id: 'solutions-hub', href: 'solutions.html', label: 'Hazard solutions' },
                 { id: 'funding', href: 'funding.html', label: 'Funding' },
