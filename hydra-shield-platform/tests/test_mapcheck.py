@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
 from typing import Any, Dict
 
 import pytest
@@ -310,15 +311,21 @@ def test_endpoint_happy_path(client, monkeypatch):
 
 
 # -----------------------------------------------------------------------------
-# Live smoke (network allowed for this check only)
+# Live smoke (network allowed for this check only) — OPT-IN.
+# The CI gate requires a fully offline suite, so this test is skipped unless
+# HYDRASHIELD_LIVE=1 is set explicitly (manual verification runs).
 # -----------------------------------------------------------------------------
 
 
+@pytest.mark.skipif(
+    os.environ.get("HYDRASHIELD_LIVE") != "1",
+    reason="live network smoke — opt-in via HYDRASHIELD_LIVE=1",
+)
 def test_live_smoke_ljubljana():
     """Run a live call against Ljubljana (Tivoli park) and report honestly."""
     proc = subprocess.run(
         [
-            ".venv/bin/python",
+            sys.executable,
             "-c",
             "from src.climate.mapcheck import check_map_vs_satellite; "
             "import json; "
