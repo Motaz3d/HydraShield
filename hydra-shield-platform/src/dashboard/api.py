@@ -1194,6 +1194,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(press_bp)
 
+    # Sector Exposure Screening API (/api/v2/sector-screen/…).
+    from ..climate.api_sector import sector_screen_bp
+
+    app.register_blueprint(sector_screen_bp)
+
     return app
 
 

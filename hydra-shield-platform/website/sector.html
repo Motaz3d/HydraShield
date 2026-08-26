@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sector Exposure Screening | Talaix — Climate Extreme Intelligence</title>
+    <meta name="description" content="Physical-risk screening for investors, owners and governments: sector sensitivity x location hazards x physical trajectory over time, with official crime statistics where openly available.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="sector">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Sector Exposure Screening</h1>
+            <p class="page-lead">
+                Physical evidence for investors, property owners and governments:
+                sector-hazard sensitivity, current location-level hazards, and the
+                physical trajectory over time — with official crime statistics only
+                where an open official source exists.
+            </p>
+            <div class="notice notice-warn">
+                <strong>Not investment advice.</strong> This page provides physical-risk
+                screening evidence only. It is not a valuation, not a prediction, and not
+                a recommendation to invest, divest or transact. Crime figures come from
+                official statistics only where an open source exists.
+            </div>
+
+            <div class="panel">
+                <h2>Screen a location</h2>
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap;">
+                    <div class="form-group" style="flex:1; min-width:220px;">
+                        <label for="sectorLocInput">Location</label>
+                        <input type="text" id="sectorLocInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
+                    </div>
+                    <div class="form-group" style="min-width:220px;">
+                        <label>Sectors</label>
+                        <div id="sectorChips" class="sector-chips"></div>
+                    </div>
+                    <button class="btn-action" id="sectorRunBtn" style="margin-top:24px;">Run screen</button>
+                </div>
+                <div id="sectorStatus"></div>
+            </div>
+
+            <div id="sectorResult"></div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/sector.js" defer></script>
+</body>
+</html>

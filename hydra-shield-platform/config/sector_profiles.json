@@ -1,0 +1,104 @@
+{
+  "version": "1.0.0",
+  "disclaimer": "Physical-risk screening evidence only. This is not investment advice, not a valuation, and not a prediction. Crime figures come from official statistics only where an open official source exists; financial metrics are not quantified.",
+  "methodology_note": "Sector sensitivity weights and hazard level scores are declared screening heuristics, not validated models. high=2, medium=1; Extreme=4, Severe=3, Moderate=2, Mild/Low=1, none/unknown=0. The exposure band is a deterministic summation of weight x level across the sector's sensitive hazards.",
+  "sectors": [
+    {
+      "id": "agriculture",
+      "label": "Agriculture",
+      "sensitive_hazards": [
+        {"hazard": "drought", "weight": "high", "rationale": "Crop and livestock productivity are directly tied to soil moisture and water availability."},
+        {"hazard": "heat", "weight": "high", "rationale": "Heat stress reduces yields, affects animal welfare and can damage perennial crops."},
+        {"hazard": "flood", "weight": "medium", "rationale": "Riverine and pluvial flooding can destroy planted fields, stored harvests and farm infrastructure."},
+        {"hazard": "wind", "weight": "medium", "rationale": "Storms and hail-bearing winds damage crops, greenhouses and livestock housing."}
+      ],
+      "investor_note": "Due-diligence evidence should focus on water-stress trajectory, growing-season heat trends and the concentration of flood or storm losses in the surrounding region."
+    },
+    {
+      "id": "real_estate_residential",
+      "label": "Real estate — residential",
+      "sensitive_hazards": [
+        {"hazard": "flood", "weight": "high", "rationale": "Residential buildings and basements are directly exposed to riverine, pluvial and coastal flooding."},
+        {"hazard": "heat", "weight": "medium", "rationale": "Urban heat affects occupant health, cooling demand and maintenance costs."},
+        {"hazard": "wildfire", "weight": "medium", "rationale": "Homes in or adjacent to burnable landscapes face direct fire exposure."},
+        {"hazard": "wind", "weight": "medium", "rationale": "Storms damage roofs, facades and local infrastructure serving the asset."}
+      ],
+      "investor_note": "Screen the asset's proximity to mapped flood zones, heat-island trends, wildland-urban-interface signals and storm tracks."
+    },
+    {
+      "id": "real_estate_commercial",
+      "label": "Real estate — commercial",
+      "sensitive_hazards": [
+        {"hazard": "flood", "weight": "high", "rationale": "Commercial buildings, parking, logistics and tenant access are disrupted by flooding."},
+        {"hazard": "heat", "weight": "medium", "rationale": "Heat drives cooling costs and can affect occupier productivity and equipment."},
+        {"hazard": "wind", "weight": "medium", "rationale": "Storms damage building envelopes, signage and business-interruption-sensitive operations."},
+        {"hazard": "coastal", "weight": "medium", "rationale": "Coastal commercial assets face storm surge, sea-level rise and saline intrusion."}
+      ],
+      "investor_note": "Look for flood-exposure pathways, coastal proximity, heat trends and the resilience of tenant operations to storm disruption."
+    },
+    {
+      "id": "tourism_hospitality",
+      "label": "Tourism & hospitality",
+      "sensitive_hazards": [
+        {"hazard": "wildfire", "weight": "high", "rationale": "Smoke and active fires reduce visitation, damage assets and interrupt access in nature-based destinations."},
+        {"hazard": "coastal", "weight": "high", "rationale": "Beach and coastal resorts are exposed to storm surge, erosion and sea-level rise."},
+        {"hazard": "heat", "weight": "medium", "rationale": "Extreme heat alters season length, outdoor activity safety and cooling demand."},
+        {"hazard": "drought", "weight": "medium", "rationale": "Water scarcity affects ski resorts, golf courses and destinations dependent on freshwater amenities."}
+      ],
+      "investor_note": "Assess whether the destination's attractiveness and access depend on fire-free summers, stable coastlines and reliable water supply."
+    },
+    {
+      "id": "energy_solar",
+      "label": "Energy — solar",
+      "sensitive_hazards": [
+        {"hazard": "heat", "weight": "high", "rationale": "High temperatures reduce photovoltaic efficiency and increase inverter stress."},
+        {"hazard": "drought", "weight": "medium", "rationale": "Dust accumulation and water scarcity for soiling cleaning affect output."},
+        {"hazard": "wind", "weight": "medium", "rationale": "Storms and hail can damage panels, trackers and grid connection infrastructure."},
+        {"hazard": "flood", "weight": "low", "rationale": "Ground-mounted arrays in floodplains can suffer inundation and sediment burial."}
+      ],
+      "investor_note": "Prioritise the local heat trajectory, soiling/dust conditions and storm-hail frequency around the site."
+    },
+    {
+      "id": "energy_wind",
+      "label": "Energy — wind",
+      "sensitive_hazards": [
+        {"hazard": "wind", "weight": "high", "rationale": "Turbines are designed for wind loading, but extreme gusts and icing storms affect availability and maintenance."},
+        {"hazard": "heat", "weight": "low", "rationale": "Heat affects transformer and grid-connection performance but is a secondary concern for wind sites."}
+      ],
+      "investor_note": "Focus on extreme-wind and icing climatology, grid-access resilience and maintenance-season weather patterns."
+    },
+    {
+      "id": "logistics_ports",
+      "label": "Logistics & ports",
+      "sensitive_hazards": [
+        {"hazard": "coastal", "weight": "high", "rationale": "Port operations and coastal infrastructure are directly exposed to storm surge and sea-level rise."},
+        {"hazard": "flood", "weight": "high", "rationale": "Port hinterland flooding disrupts truck and rail connections."},
+        {"hazard": "wind", "weight": "medium", "rationale": "Storms limit crane operations, damage containers and interrupt vessel movements."},
+        {"hazard": "heat", "weight": "low", "rationale": "Heat affects worker safety and refrigerated cargo handling but is secondary to storm exposure."}
+      ],
+      "investor_note": "Coastal defence levels, hinterland flood exposure and wind-related downtime are the key physical evidence points."
+    },
+    {
+      "id": "mining",
+      "label": "Mining",
+      "sensitive_hazards": [
+        {"hazard": "flood", "weight": "high", "rationale": "Open pits, tailings facilities and haul roads are vulnerable to intense rainfall and flooding."},
+        {"hazard": "drought", "weight": "high", "rationale": "Water availability constrains mineral processing and dust suppression."},
+        {"hazard": "heat", "weight": "medium", "rationale": "Heat affects worker safety, equipment performance and energy demand at remote sites."},
+        {"hazard": "wind", "weight": "low", "rationale": "Storms can disrupt transport and power supply but are typically localised."}
+      ],
+      "investor_note": "Water-security trajectory, extreme-rainfall exposure of tailings and pits, and site-access reliability matter most."
+    },
+    {
+      "id": "forestry_timber",
+      "label": "Forestry & timber",
+      "sensitive_hazards": [
+        {"hazard": "wildfire", "weight": "high", "rationale": "Forest stands and timber assets are directly consumed or degraded by wildfire."},
+        {"hazard": "drought", "weight": "medium", "rationale": "Drought increases fire risk and reduces growth rates in water-limited forests."},
+        {"hazard": "wind", "weight": "medium", "rationale": "Storms cause blowdown and stem breakage, especially in mature stands."},
+        {"hazard": "heat", "weight": "low", "rationale": "Heat contributes to moisture stress and pest pressure but acts mainly through drought."}
+      ],
+      "investor_note": "Historical and recent tree-cover loss, fire-return patterns and storm blowdown are the primary physical evidence signals."
+    }
+  ]
+}

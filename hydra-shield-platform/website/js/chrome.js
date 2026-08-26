@@ -44,7 +44,8 @@
                         { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
                         { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
                         { id: 'reports', href: 'reports.html', label: 'Reports & Builder' },
-                        { id: 'press', href: 'press.html', label: 'Press' }
+                        { id: 'press', href: 'press.html', label: 'Press' },
+                        { id: 'sector', href: 'sector.html', label: 'Sector Exposure' }
                     ]
                 },
                 {
