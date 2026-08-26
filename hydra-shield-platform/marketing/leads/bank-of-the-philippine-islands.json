@@ -9,7 +9,11 @@
   "identified_problem": "BPI is one of the largest banks in the Philippines, with a nationwide mortgage, SME, and commercial loan book collateralized by properties across an archipelago exposed to tropical cyclones, storm surges, and monsoon flooding. The Philippines consistently ranks among the world's most disaster-exposed countries by reported events and affected population.",
   "climate_exposure": "BPI's collateral is spread across Luzon, Visayas, and Mindanao, including Metro Manila and low-lying coastal cities that face recurring typhoon-induced flooding, riverine inundation, and damaging wind speeds each wet season.",
   "potential_pain": "Repeated typhoon and flood damage to collateral can drive up mortgage and SME delinquencies in affected regions, while disaster-related insurance gaps and regulatory disclosure expectations raise the cost of holding unpriced physical-risk concentrations.",
-  "relevant_hazards": ["flood", "wind", "coastal"],
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Show Talaix Philippines flood, wind, and coastal exposure layers plus historical event intelligence for recent typhoon flood footprints and storm-surge inundation along BPI's key collateral corridors.",
@@ -27,10 +31,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: bpi.com.ph confirms BPI is a major Philippine bank delivering retail, corporate, and investment banking services, with a focus on financial inclusion and community resilience.",
       "source": "https://www.bpi.com.ph"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Committed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.bpi.com.ph",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Committed",
+      "assets_usd_m": 62100,
+      "date_joined": "20260428Apr, 2026",
+      "first_disclosure": "--",
+      "most_recent_disclosure": "--",
+      "disclosure_url": null,
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

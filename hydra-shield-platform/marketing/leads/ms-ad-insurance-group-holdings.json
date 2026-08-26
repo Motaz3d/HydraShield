@@ -31,10 +31,31 @@
       "type": "discovered",
       "summary": "Identified via Asia commercial-signal research (official sources).",
       "source": "https://www.ms-ad-hd.com/en/"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.ms-ad-hd.com/en/",
-  "date_checked": "2026-08-18"
+  "date_checked": "2026-08-18",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 179000,
+      "date_joined": "20211214Dec, 2021",
+      "first_disclosure": "20220801Aug, 2022",
+      "most_recent_disclosure": "20220801Aug, 2022",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/ms-ad-disclosure.pdf",
+      "category": "Insurance",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

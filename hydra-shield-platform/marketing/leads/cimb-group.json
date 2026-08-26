@@ -9,14 +9,16 @@
   "identified_problem": "CIMB is one of Malaysia's largest banking groups with a nationwide retail, SME, and commercial property loan portfolio. Its collateral is concentrated in Greater Kuala Lumpur and other urban centres that have repeatedly flooded, including the 2021-22 Klang Valley floods and annual monsoon-driven inundations.",
   "climate_exposure": "CIMB's Malaysian mortgage and SME collateral is concentrated in flood-prone urban catchments in the Klang Valley, Penang, Johor, and east-coast states that experience recurring monsoon floods and flash-flood events.",
   "potential_pain": "Flood damage to residential and SME collateral can trigger higher non-performing loans in disaster-affected postcodes, while regulators and insurers are increasing scrutiny of physical climate risk in bank loan books.",
-  "relevant_hazards": ["flood"],
+  "relevant_hazards": [
+    "flood"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Show Talaix Malaysia flood exposure layers and historical event intelligence for the 2021-22 Klang Valley floods and recurring monsoon flood extents, mapped against CIMB's key lending geographies.",
   "relevant_capability": "Flood exposure intelligence and historical flood-event screening for mortgage and SME collateral portfolios.",
   "recommended_product": "professional_report",
   "recommended_message": "Offer a professional climate-risk report piloting a flood exposure screen on a sample of CIMB mortgage and SME collateral in the Klang Valley and other high-monsoon-risk districts.",
-  "priority": "medium",
+  "priority": "high",
   "fit_score": "High fit: CIMB is a top-tier Malaysian bank with a national lending footprint that directly overlaps documented flood zones, and a professional report is a low-friction entry point.",
   "urgency": "medium",
   "outreach_status": "researched",
@@ -27,10 +29,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: cimb.com confirms CIMB Group is a leading ASEAN banking group providing personal, business, commercial, and cross-border financial solutions across the region.",
       "source": "https://www.cimb.com"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.cimb.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 143500,
+      "date_joined": "20210907Sep, 2021",
+      "first_disclosure": "20230710Jul, 2023",
+      "most_recent_disclosure": "20240704Jul, 2024",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/cimb-sr-2023.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

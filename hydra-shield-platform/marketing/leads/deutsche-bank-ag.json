@@ -9,7 +9,10 @@
   "identified_problem": "The July 2021 Ahr Valley floods caused more than EUR 33 billion in insured and uninsured losses across Rhineland-Palatinate and North Rhine-Westphalia, destroying thousands of homes and businesses. As Germany's largest bank with a nationwide mortgage and SME lending book, Deutsche Bank holds collateral across river catchments that are demonstrably exposed to severe pluvial and fluvial flooding.",
   "climate_exposure": "Germany's western and southern river valleys face recurring summer flash floods, with the Ahr, Erft, Mosel and Danube catchments showing concentrated residential and commercial exposure.",
   "potential_pain": "Collateral devaluation in recently flooded catchments, elevated mortgage default risk where properties lack flood resilience, and growing regulatory expectation that loan-book climate exposure be evidenced at the collateral-location level.",
-  "relevant_hazards": ["flood", "wildfire"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Flood exposure layers plus historical event intelligence for Deutsche Bank collateral geographies, including the 2021 Ahr Valley flood footprint and comparable German riverine events.",
@@ -27,10 +30,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Deutsche Bank's global homepage confirms it is a German-headquartered bank and Europe's leading bank, with corporate and private-banking activities across Germany.",
       "source": "https://www.db.com"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.db.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 1600000,
+      "date_joined": "20210301Mar, 2021",
+      "first_disclosure": "20220304Mar, 2022",
+      "most_recent_disclosure": "20220304Mar, 2022",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/deutsche-bank-towards-net-zero-emissions-2021.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

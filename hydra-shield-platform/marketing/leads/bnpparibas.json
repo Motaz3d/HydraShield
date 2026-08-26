@@ -8,7 +8,10 @@
   "identified_problem": "BNP Paribas is one of France's largest banks, with a nationwide retail and corporate loan book backed by property collateral across metropolitan France. France has documented recurring river and coastal floods, and the 2022 Gironde wildfires destroyed substantial property and forest assets in the southwest.",
   "climate_exposure": "Its mortgage and SME loan collateral is spread across Atlantic coastal zones, Mediterranean wildfire-prone departments, and major river floodplains, giving the bank concentrated physical exposure to flood and wildfire.",
   "potential_pain": "Collateral devaluation in repeatedly flooded or burned areas, rising mortgage default risk in disaster-affected regions, and growing regulatory expectation to evidence physical climate risk in the loan portfolio.",
-  "relevant_hazards": ["flood", "wildfire"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the collateral geography, including Gironde 2022 wildfire context and recurrent flood zones.",
@@ -26,10 +29,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: BNP Paribas corporate homepage confirms it is a major French banking group with retail, corporate and investment banking activities.",
       "source": "https://www.bnpparibas.com"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.bnpparibas.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 2871543,
+      "date_joined": "20220408Apr, 2022",
+      "first_disclosure": "20260112Jan, 2026",
+      "most_recent_disclosure": "20260112Jan, 2026",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/2nd-amendment-to-the-2024-universal-registration-document-and-annual-financial-report.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

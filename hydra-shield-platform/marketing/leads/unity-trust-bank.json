@@ -1,0 +1,60 @@
+{
+  "organization": "Unity Trust Bank",
+  "segment": "banking",
+  "country": "United Kingdom",
+  "region": "Europe",
+  "website": "https://www.unity.co.uk",
+  "website_source": "wikidata",
+  "wikidata_id": "Q7893820",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "PCAF signatory committed to measuring and disclosing financed emissions; physical-risk evidence complements emissions accounting.",
+  "climate_exposure": "Financed-asset portfolio exposed to climate hazards.",
+  "potential_pain": "Needs documented physical-risk evidence to accompany financed-emissions disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio-location multi-hazard screening with source-attached results",
+  "relevant_capability": "portfolio-location climate-risk screening with traceable evidence",
+  "priority": "high",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer Unity Trust Bank a portfolio-location pilot that pairs PCAF-style disclosure with traceable physical-risk evidence.",
+  "fit_score": "PCAF signatory with a public commitment to financed-emissions transparency.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Discovered via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://carbonaccountingfinancials.com/en/signatories",
+  "date_checked": "2026-08-26",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 2019,
+      "date_joined": "20230606Jun, 2023",
+      "first_disclosure": "20260602Jun, 2026",
+      "most_recent_disclosure": "20260602Jun, 2026",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/Unity-Trust-Bank-Annual-Report-and-Accounts-2025.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
+}

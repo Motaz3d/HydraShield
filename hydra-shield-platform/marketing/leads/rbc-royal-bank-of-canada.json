@@ -9,7 +9,11 @@
   "identified_problem": "RBC is one of Canada's largest banks and one of the largest in the world by market capitalization, with a national mortgage and commercial loan book tied to properties across every province. Its collateral is exposed to Canada's escalating wildfire seasons and to major riverine and coastal flood events such as the 2021 British Columbia floods.",
   "climate_exposure": "RBC's Canadian residential mortgage and CRE collateral is concentrated in major metropolitan areas and resource-dependent regions that face recurring wildfire smoke and evacuation risk in Alberta and British Columbia, plus riverine and coastal flood exposure in Ontario, Quebec, and Atlantic Canada.",
   "potential_pain": "Concentrated collateral in wildfire evacuation zones and floodplains creates tail risk of mortgage default spikes, insurance premium shocks for borrowers, and regulatory expectations for climate-risk disclosure under OSFI and ISSB-aligned frameworks.",
-  "relevant_hazards": ["flood", "wildfire", "drought"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "drought"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Show Talaix Canadian wildfire exposure layers, historical event intelligence for the 2023 record fire season and 2021 BC floods, and flood inundation layers for major Canadian population centres.",
@@ -27,10 +31,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: RBC's official 'About RBC' page describes it as one of Canada's largest banks and one of the largest banks in the world, with international banking operations.",
       "source": "https://www.rbc.com/about-rbc.html"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.rbc.com/about-rbc.html",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 1200000,
+      "date_joined": "20210225Feb, 2021",
+      "first_disclosure": "20220301Mar, 2022",
+      "most_recent_disclosure": "20230306Mar, 2023",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/RBC-Climate-Report-2022.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

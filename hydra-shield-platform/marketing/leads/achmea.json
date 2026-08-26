@@ -8,7 +8,11 @@
   "identified_problem": "The July 2021 Limburg floods caused billions of euros in damage across the Netherlands and showed how quickly riverine flooding can overwhelm insured property. Achmea is one of the country’s largest insurers, serving 10 million customers through non-life and health brands such as Centraal Beheer and Interpolis, so its property book is directly exposed to flood, storm and coastal loss amplification in a low-lying country.",
   "climate_exposure": "A large share of Dutch residential and SME property policies sits in polder and riverine areas that face both flash and river flood risk and long-term sea-level rise.",
   "potential_pain": "Concentrated natural-catastrophe claims from a single flood or coastal storm event could erode underwriting margins and trigger reinsurance pressure.",
-  "relevant_hazards": ["flood", "coastal", "wind"],
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "wind"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood, coastal and wind hazard layers for the Netherlands, plus the 2021 Limburg historical event footprint, to quantify portfolio exposure by location and scenario.",
@@ -26,10 +30,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Achmea homepage describes 10 million customers and broad non-life/health insurance coverage in the Netherlands.",
       "source": "https://www.achmea.nl"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.achmea.nl",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 93724,
+      "date_joined": "20151201Dec, 2015",
+      "first_disclosure": "20191201Dec, 2019",
+      "most_recent_disclosure": "20260528May, 2026",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/Annual-report-Achmea-BV.pdf",
+      "category": "Asset owner/managers",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

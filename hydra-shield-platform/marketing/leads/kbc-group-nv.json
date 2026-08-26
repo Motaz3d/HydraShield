@@ -9,7 +9,9 @@
   "identified_problem": "The July 2021 Vesdre floods caused catastrophic damage in eastern Belgium, particularly around Liege, Verviers and Pepinster, killing dozens and destroying thousands of buildings. KBC is Belgium's largest bank-insurance group with a dominant retail, private banking and SME lending footprint across all Belgian regions.",
   "climate_exposure": "The Meuse, Vesdre and Ourthe catchments in Wallonia and densely populated Flemish and Brussels areas face riverine flash-flood and pluvial flood exposure.",
   "potential_pain": "Collateral devaluation in the Vesdre and Meuse catchments; SME loan defaults after repeat flooding; pressure to screen national collateral locations for regulatory risk disclosure and provisioning.",
-  "relevant_hazards": ["flood"],
+  "relevant_hazards": [
+    "flood"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Flood exposure layers plus historical event intelligence for Belgian collateral geographies, including the July 2021 Vesdre flood footprint.",
@@ -27,10 +29,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: KBC's homepage confirms it is an integrated bank-insurance group catering mainly for retail, private banking, SME and mid-cap clients, with Belgium as its home market.",
       "source": "https://www.kbc.com"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.kbc.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 325116,
+      "date_joined": "20190901Sep, 2019",
+      "first_disclosure": "20200301Mar, 2020",
+      "most_recent_disclosure": "20240617Jun, 2024",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/csr-sr-2023.pdf",
+      "category": "Financial services group",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

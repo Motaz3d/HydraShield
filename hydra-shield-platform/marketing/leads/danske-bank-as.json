@@ -9,7 +9,10 @@
   "identified_problem": "Denmark has experienced repeated cloudburst flooding in Copenhagen, Aarhus and other cities, while its long, low-lying coastline faces storm-surge and sea-level-rise exposure. Danske Bank is Denmark's largest bank with a national mortgage and corporate lending footprint.",
   "climate_exposure": "Urban pluvial and cloudburst flood exposure is concentrated in Copenhagen and Aarhus, while coastal flood and storm-surge risk extends along Denmark's North Sea and Baltic coastlines.",
   "potential_pain": "Mortgage default risk in cloudburst-prone urban districts; collateral devaluation along exposed coastlines; portfolio-level screening needs for both risk management and emerging regulatory climate disclosure.",
-  "relevant_hazards": ["flood", "coastal"],
+  "relevant_hazards": [
+    "flood",
+    "coastal"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Flood and coastal exposure layers plus historical event intelligence for Danish collateral locations, including documented cloudburst and coastal surge events.",
@@ -27,10 +30,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Danske Bank's homepage confirms it is a major Nordic bank headquartered in Denmark, reporting Danish kroner results and serving retail, commercial and institutional clients.",
       "source": "https://www.danskebank.com"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.danskebank.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 799600,
+      "date_joined": "20200501May, 2020",
+      "first_disclosure": "20210601Jun, 2021",
+      "most_recent_disclosure": "20240617Jun, 2024",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/Climate-Action-Plan-Progress-Report-2023.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

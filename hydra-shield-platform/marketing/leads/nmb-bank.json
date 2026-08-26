@@ -1,0 +1,60 @@
+{
+  "organization": "NMB Bank",
+  "segment": "banking",
+  "country": "Nepal",
+  "region": "Asia-Pacific",
+  "website": "http://www.nmbz.co.zw/",
+  "website_source": "wikidata",
+  "wikidata_id": "Q17107908",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "PCAF signatory committed to measuring and disclosing financed emissions; physical-risk evidence complements emissions accounting.",
+  "climate_exposure": "Financed-asset portfolio exposed to climate hazards.",
+  "potential_pain": "Needs documented physical-risk evidence to accompany financed-emissions disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio-location multi-hazard screening with source-attached results",
+  "relevant_capability": "portfolio-location climate-risk screening with traceable evidence",
+  "priority": "high",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer NMB Bank a portfolio-location pilot that pairs PCAF-style disclosure with traceable physical-risk evidence.",
+  "fit_score": "PCAF signatory with a public commitment to financed-emissions transparency.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Discovered via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://carbonaccountingfinancials.com/en/signatories",
+  "date_checked": "2026-08-26",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 945,
+      "date_joined": "20190301Mar, 2019",
+      "first_disclosure": "20220601Jun, 2022",
+      "most_recent_disclosure": "20241231Dec, 2024",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/Carbon-Disclosure-Report-2024.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
+}

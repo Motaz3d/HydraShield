@@ -139,6 +139,90 @@ python scripts/import_contacts.py
 Missing lead files are created automatically; contacts are deduplicated by
 `(lead_slug, email)`.
 
+## Signatory lists (Layer 1)
+
+Official climate-finance signatory lists are a permanent, low-noise lead source.
+The model is: fetch the official page → parse the published table → resolve an
+honest website per row → match by normalised organisation name → merge into an
+existing lead or create a new one. Re-running is idempotent.
+
+**Source registry** (`src/dashboard/signatories.py`):
+
+| id | name | state | reason |
+|---|---|---|---|
+| `pcaf` | Partnership for Carbon Accounting Financials | **live** | public server-rendered table with disclosure status and per-organisation disclosure PDFs |
+| `unepfi` | UNEP FI Membership | pending | AJAX-rendered list; no confirmed public endpoint |
+| `icma` | International Capital Market Association | pending | JS-rendered |
+| `gfanz` | Glasgow Financial Alliance for Net Zero | pending | no public member list published |
+
+Pending sources are recorded with their exact reason. They are **not scraped** in
+this phase.
+
+**Website resolution (two-stage, honesty HARD):**
+
+1. **Self-hosted disclosure PDF.** If the published disclosure URL is hosted on
+the organisation's own domain, that domain becomes the lead website
+(`website_source: self-disclosure`).
+2. **Wikidata official website (P856).** If the disclosure PDF is hosted on the
+PCAF site itself (which is the norm — PCAF publishes no organisation websites),
+the importer queries Wikidata's public API for the entity's `P856` official
+website claim (`website_source: wikidata`).
+3. **Pending.** If neither source yields a verifiable website, the row is written
+to `marketing/imports/signatory_pending.json` with `pending_reason` and is **not**
+turned into a lead. This file is overwritten wholesale on each run; it is a
+staging snapshot, not a cumulative backlog.
+
+**Run the import (PCAF live now):**
+
+```
+python scripts/import_signatories.py
+python scripts/import_signatories.py --source pcaf
+python scripts/import_signatories.py --dry-run
+python scripts/import_signatories.py --dir /path/to/marketing/leads
+```
+
+One-off cleanup of the buggy PCAF-domain leads (Phase 20 bug):
+
+```
+python scripts/import_signatories.py --purge-bad
+```
+
+The script:
+
+- Fetches only live sources.
+- Refuses to import a truncated PCAF table (`< 200` rows) and aborts that source
+  with exit code `2`.
+- Resolves websites in two stages; unresolved rows go to the pending snapshot.
+- Builds leads only from resolved rows; each lead carries `website_source` and
+  `wikidata_id` when applicable. The original disclosure URL remains in
+  `signatory_meta` as provenance.
+- Merges by normalised organisation name, appending the source to `signatory_of`
+  and storing per-source metadata under `signatory_meta`.
+- Sets `priority` to `high` when a signatory has status **Disclosed** or appears
+  on two or more lists.
+
+**Weekly cron:**
+
+```
+0 9 * * 1 cd /path/to/hydra-shield-platform && .venv/bin/python scripts/import_signatories.py
+```
+
+**From signatory import to contact:**
+
+1. Import produces/updates a lead in `marketing/leads/` (or stages it in
+   `marketing/imports/signatory_pending.json`).
+2. Use the CRM **Contacts** flow (`/admin.html` Targets tab or
+   `scripts/import_contacts.py`) to discover a public contact at the organisation.
+3. Review the lead, then **Preview** and **Send** — individual sends remain
+   operator-initiated.
+
+**Honesty note:** this importer copies only what the official lists and
+Wikidata publish. Disclosure URLs are captured verbatim. PCAF's own domain is
+**never** used as an organisation's website. No organisation is invented, no
+domain is guessed, no contact is inferred, and no financial figure is padded.
+Unresolved rows stay in the pending snapshot rather than being assigned a fake
+website.
+
 ## Email discovery (Talaix engine)
 
 The CRM uses a layered discovery model: the Talaix engine runs first because

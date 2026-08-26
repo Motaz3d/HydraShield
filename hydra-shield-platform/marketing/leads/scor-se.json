@@ -32,10 +32,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Official homepage live (July 30, 2026 Q2 results release; 2025 Activity Report published).",
       "source": "https://www.scor.com/en"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.scor.com/en",
-  "date_checked": "2026-08-18"
+  "date_checked": "2026-08-18",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 23000,
+      "date_joined": "20221128Nov, 2022",
+      "first_disclosure": "20260826Aug, 2026",
+      "most_recent_disclosure": "20260826Aug, 2026",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/2025-07-SCOR-Sustainable-Business-Report-2024-Wiztrust.pdf",
+      "category": "Insurance",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

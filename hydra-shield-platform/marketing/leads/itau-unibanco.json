@@ -9,7 +9,10 @@
   "identified_problem": "Itaú Unibanco is one of Brazil's largest banks, serving retail, corporate and agribusiness clients nationwide. The April-May 2024 Rio Grande do Sul floods damaged businesses and households across its loan book, while recurring urban flash floods and droughts affect collateral values and credit risk in multiple states.",
   "climate_exposure": "Its lending book is exposed to corporate, mortgage and rural credit collateral located in floodplains, wildfire-prone biomes and drought-affected agricultural regions.",
   "potential_pain": "Climate-related losses in the loan portfolio are hard to anticipate and document without per-location hazard intelligence, complicating risk-weighting and disclosure.",
-  "relevant_hazards": ["flood", "wildfire"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Traceable flood and wildfire exposure screening across a sample of corporate and mortgage collateral locations.",
@@ -27,10 +30,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Itaú's official homepage presents the bank as a nationwide retail and corporate financial solutions provider.",
       "source": "https://www.itau.com.br"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.itau.com.br",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 388500,
+      "date_joined": "20210301Mar, 2021",
+      "first_disclosure": "20210401Apr, 2021",
+      "most_recent_disclosure": "20250531May, 2025",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/ESG20Report202024-compressed.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

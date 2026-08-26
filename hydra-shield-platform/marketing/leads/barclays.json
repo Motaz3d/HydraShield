@@ -8,7 +8,10 @@
   "identified_problem": "Barclays is a major UK bank with an extensive mortgage and commercial lending book across Great Britain. The UK faces recurring fluvial and coastal flood events and the 2022 heatwave stressed property, infrastructure and mortgage collateral.",
   "climate_exposure": "Its collateral book covers floodplains and heat-vulnerable urban concentrations across England, Scotland and Wales, with postcodes repeatedly hit by surface-water and coastal flooding.",
   "potential_pain": "Mortgage default risk and collateral value erosion in flood-prone postcodes, plus emerging disclosure requirements for physical climate risks in lending portfolios.",
-  "relevant_hazards": ["flood", "heat"],
+  "relevant_hazards": [
+    "flood",
+    "heat"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood exposure layers and historical event intelligence for Great Britain, plus heat exposure context for the 2022 heatwave period.",
@@ -26,10 +29,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Barclays UK homepage confirms personal banking, mortgages, loans and insurance products serving UK customers.",
       "source": "https://www.barclays.co.uk"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.barclays.co.uk",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 1505102,
+      "date_joined": "20201101Nov, 2020",
+      "first_disclosure": "20240603Jun, 2024",
+      "most_recent_disclosure": "20240603Jun, 2024",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/Barclays-PLC-Annual-Report-2025.pdf",
+      "category": "Financial services group",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

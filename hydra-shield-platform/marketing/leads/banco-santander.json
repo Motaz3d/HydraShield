@@ -9,7 +9,10 @@
   "identified_problem": "Banco Santander is Spain's largest bank and a major mortgage and corporate lender across the Iberian Peninsula. The October 2024 DANA floods in Valencia killed hundreds and caused severe damage across the country's third-largest metropolitan area, while Spain faces recurring summer wildfires that threaten rural and peri-urban collateral.",
   "climate_exposure": "Its Spanish mortgage and corporate loan books are exposed to flash-flood and pluvial flood risk in Mediterranean coastal provinces, and to wildfire risk in Catalonia, Valencia, Andalusia and Galicia.",
   "potential_pain": "Concentrated lending in flood- and wildfire-prone provinces can lead to unexpected collateral write-downs, higher provisioning and regulatory scrutiny of physical risk disclosures.",
-  "relevant_hazards": ["flood", "wildfire"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Valencia and other Spanish collateral geographies.",
@@ -27,10 +30,31 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Santander corporate homepage confirms it is a global retail bank with 182 million customers and a leading position in Spain.",
       "source": "https://www.santander.com"
+    },
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.santander.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 1229168,
+      "date_joined": "20210913Sep, 2021",
+      "first_disclosure": "20220718Jul, 2022",
+      "most_recent_disclosure": "20240430Apr, 2024",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/ias-2023-climate-finance-2023-en.pdf",
+      "category": "Commercial bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
 }

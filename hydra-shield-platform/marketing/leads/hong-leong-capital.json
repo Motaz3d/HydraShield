@@ -1,0 +1,60 @@
+{
+  "organization": "Hong Leong Capital",
+  "segment": "investment",
+  "country": "Malaysia",
+  "region": "Asia-Pacific",
+  "website": "https://www.hlgcap.com.my",
+  "website_source": "wikidata",
+  "wikidata_id": "Q139387759",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "PCAF signatory committed to measuring and disclosing financed emissions; physical-risk evidence complements emissions accounting.",
+  "climate_exposure": "Financed-asset portfolio exposed to climate hazards.",
+  "potential_pain": "Needs documented physical-risk evidence to accompany financed-emissions disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio-location multi-hazard screening with source-attached results",
+  "relevant_capability": "multi-location exposure screening and monitoring",
+  "priority": "high",
+  "recommended_product": "api",
+  "recommended_message": "Offer Hong Leong Capital a portfolio-location pilot that pairs PCAF-style disclosure with traceable physical-risk evidence.",
+  "fit_score": "PCAF signatory with a public commitment to financed-emissions transparency.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Discovered via signatory-list import (pcaf): Disclosed status.",
+      "source": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://carbonaccountingfinancials.com/en/signatories",
+  "date_checked": "2026-08-26",
+  "signatory_of": [
+    "pcaf"
+  ],
+  "signatory_meta": {
+    "pcaf": {
+      "status": "Disclosed",
+      "assets_usd_m": 3229,
+      "date_joined": "20241105Nov, 2024",
+      "first_disclosure": "20251010Oct, 2025",
+      "most_recent_disclosure": "20251010Oct, 2025",
+      "disclosure_url": "https://carbonaccountingfinancials.com/files/institutions_downloads/Annual-Report-2025-new.pdf",
+      "category": "Investment bank",
+      "source_url": "https://carbonaccountingfinancials.com/en/signatories"
+    }
+  }
+}
