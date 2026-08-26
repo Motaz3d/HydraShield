@@ -95,6 +95,50 @@ daily cap, logs an `email` interaction, and advances `outreach_status` to
 */5 * * * * cd <repo>/hydra-shield-platform && .venv/bin/python scripts/process_scheduled_outreach.py
 ```
 
+## Campaigns & replies (Phase 18)
+
+**Campaign waves.** A campaign is a named sequence of follow-up emails sent to
+matching leads. Use the CLI or the Targets tab in `/admin.html` to enqueue a
+wave:
+
+```
+python scripts/run_campaign.py --campaign q4-2026 --wave 2 --template followup_1 \
+    --filter segment=banking --filter country=US --delay-days 1
+```
+
+Allowed templates are `followup_1` (wave-2 nudge) and `followup_2`
+(wave-3 value-add + breakup). Eligible leads must have at least one stored
+contact, not be excluded or unsubscribed, and have an early outreach status
+(`researched`, `qualified` or `contacted`). The processor sends due waves in
+order, enforces the daily cap, and cancels any pending wave for a lead that
+has replied or unsubscribed.
+
+The same endpoints power the UI:
+- `GET /api/v2/admin/marketing/campaigns` — per-campaign stats and wave breakdowns
+- `GET /api/v2/admin/marketing/campaigns/<name>` — detail for one campaign
+- `POST /api/v2/admin/marketing/campaigns/start` — enqueue a wave
+
+**Reply detection.** When `IMAP_*` is configured, `scripts/check_replies.py`
+scans the inbox for unseen messages, matches the sender to stored contacts,
+logs a `reply` interaction, sets `outreach_status` to `replied`, and
+auto-cancels scheduled outreach plus campaign waves. If the subject or plain-text
+body contains "unsubscribe" or "إلغاء الاشتراك", it also marks the lead
+unsubscribed and logs an `unsubscribe` interaction. Matched messages are marked
+Seen; unmatched messages are left untouched.
+
+Cron (e.g. every 15 minutes):
+```
+*/15 * * * * cd /path/to/hydra-shield-platform && .venv/bin/python scripts/check_replies.py
+```
+
+**Contact imports.** Research contacts live in `marketing/imports/*.json` and are
+idempotently imported into the CRM with:
+```
+python scripts/import_contacts.py
+```
+Missing lead files are created automatically; contacts are deduplicated by
+`(lead_slug, email)`.
+
 ## Email discovery (Talaix engine)
 
 The CRM uses a layered discovery model: the Talaix engine runs first because

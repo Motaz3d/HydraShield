@@ -514,6 +514,91 @@ def marketing_scheduled_cancel(sid: int):
 
 
 # ---------------------------------------------------------------------------
+# Replies and campaigns (Phase 18)
+# ---------------------------------------------------------------------------
+
+
+@marketing_crm_bp.get("/admin/marketing/replies")
+@require_role("admin")
+def marketing_replies():
+    """Latest reply interactions across leads, newest first."""
+    store = MarketingStore()
+    interactions = store.list_interactions()
+    replies = [
+        {
+            "id": i["id"],
+            "lead_slug": i["lead_slug"],
+            "organization": _leads_by_slug().get(i["lead_slug"], {}).get("organization"),
+            "date": i["date"],
+            "summary": i["summary"],
+        }
+        for i in interactions
+        if i["type"] in ("reply", "unsubscribe")
+    ][:100]
+    return jsonify({"replies": replies})
+
+
+@marketing_crm_bp.get("/admin/marketing/campaigns")
+@require_role("admin")
+def marketing_campaigns():
+    """Stats for all campaigns."""
+    return jsonify({"campaigns": MarketingStore().campaign_stats()})
+
+
+@marketing_crm_bp.get("/admin/marketing/campaigns/<name>")
+@require_role("admin")
+def marketing_campaign_detail(name: str):
+    """Stats + per-wave breakdown + leads list for one campaign."""
+    stats = MarketingStore().campaign_stats(campaign=name)
+    if not stats:
+        return jsonify({"error": f"Unknown campaign '{name}'", "status": 404}), 404
+    return jsonify({"campaign": stats[0]})
+
+
+@marketing_crm_bp.post("/admin/marketing/campaigns/start")
+@require_role("admin")
+def marketing_campaign_start():
+    """Enqueue a campaign wave for matching leads."""
+    from .campaigns import ALLOWED_TEMPLATES, start_campaign
+
+    data = request.get_json(silent=True) or {}
+    campaign = (data.get("campaign") or "").strip()
+    wave = data.get("wave")
+    template = (data.get("template") or "").strip()
+    filters = data.get("filters") or {}
+    delay_days = data.get("delay_days", 0.0)
+
+    if not campaign:
+        return jsonify({"error": "campaign is required", "status": 400}), 400
+    if not isinstance(wave, int) or wave < 1:
+        return jsonify({"error": "wave must be an integer >= 1", "status": 400}), 400
+    if template not in ALLOWED_TEMPLATES:
+        return jsonify({
+            "error": f"template must be one of {sorted(ALLOWED_TEMPLATES)}",
+            "status": 400,
+        }), 400
+    if not isinstance(filters, dict):
+        return jsonify({"error": "filters must be an object", "status": 400}), 400
+    if "segment" in filters and not isinstance(filters["segment"], str):
+        return jsonify({"error": "filters.segment must be a string", "status": 400}), 400
+    if "country" in filters and not isinstance(filters["country"], str):
+        return jsonify({"error": "filters.country must be a string", "status": 400}), 400
+
+    try:
+        result = start_campaign(
+            campaign=campaign,
+            wave=wave,
+            template=template,
+            filters={k: v for k, v in filters.items() if k in ("segment", "country")},
+            delay_days=float(delay_days) if delay_days is not None else 0.0,
+        )
+    except ValueError as exc:
+        return jsonify({"error": str(exc), "status": 400}), 400
+
+    return jsonify({"ok": True, **result})
+
+
+# ---------------------------------------------------------------------------
 # Lead contact discovery (Hunter.io)
 # ---------------------------------------------------------------------------
 

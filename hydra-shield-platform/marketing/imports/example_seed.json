@@ -1,0 +1,41 @@
+{
+  "batch": "example-seed",
+  "imported_at": "2026-08-26",
+  "note": "Example seed file for the contact-import mechanism. These are illustrative contacts for testing; replace with real research batches in production.",
+  "contacts": [
+    {
+      "organization": "Example Research Institute",
+      "country": "NL",
+      "segment": "research",
+      "website": "https://example-research.nl",
+      "email": "contact@example-research.nl",
+      "person": "A. Researcher",
+      "role": "Climate adaptation lead",
+      "email_type": "department",
+      "source_url": "https://example-research.nl/contact",
+      "source_type": "official",
+      "verification": "public_official",
+      "priority": "medium",
+      "recommended_product": "api",
+      "identified_problem": "Needs integrated flood, drought and heat evidence for adaptation studies.",
+      "relevant_capability": "Multi-hazard API and historical event intelligence"
+    },
+    {
+      "organization": "Example Municipality",
+      "country": "BE",
+      "segment": "municipalities",
+      "website": "https://example-city.be",
+      "email": "resilience@example-city.be",
+      "person": "B. Resilience Officer",
+      "role": "Resilience and civil protection",
+      "email_type": "general",
+      "source_url": "https://example-city.be/resilience",
+      "source_type": "official",
+      "verification": "public_official",
+      "priority": "high",
+      "recommended_product": "monitoring",
+      "identified_problem": "Requires location-level hazard monitoring for critical infrastructure.",
+      "relevant_capability": "Real-time hazard monitoring and alerting"
+    }
+  ]
+}

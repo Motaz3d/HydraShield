@@ -12,7 +12,7 @@
 
     var OUTREACH_STATUSES = [
         'researched', 'qualified', 'draft_prepared',
-        'contacted', 'responded', 'opportunity'
+        'contacted', 'responded', 'replied', 'opportunity'
     ];
 
     var cache = new Map();
@@ -94,6 +94,15 @@
     function mountTargets(container) {
         if (!el('treeContainer')) {
             container.innerHTML =
+                '<h2 style="margin-bottom:10px;">Inbound replies</h2>' +
+                '<div class="panel" id="repliesPanel" style="margin-bottom:26px;">' +
+                '<div class="notice notice-empty">Loading replies…</div>' +
+                '</div>' +
+                '<h2 style="margin-bottom:10px;">Campaigns</h2>' +
+                '<div class="panel" id="campaignsPanel" style="margin-bottom:26px;">' +
+                '<div class="notice notice-empty">Loading campaigns…</div>' +
+                '</div>' +
+                '<h2 style="margin-bottom:10px;">Target sectors</h2>' +
                 '<div class="mkt-tree" id="treeContainer">' +
                 '<div class="notice notice-empty" style="margin:12px 16px;">Loading sectors…</div>' +
                 '</div>' +
@@ -113,6 +122,8 @@
                 '</div>';
             bindModalClose();
         }
+        loadReplies();
+        loadCampaigns();
         loadSectors();
     }
 
@@ -151,9 +162,240 @@
             el('statsContainer').innerHTML = '<div class="notice notice-empty">Loading statistics…</div>';
             loadStats();
         }
+        if (el('repliesPanel')) {
+            el('repliesPanel').innerHTML = '<div class="notice notice-empty">Loading replies…</div>';
+            loadReplies();
+        }
+        if (el('campaignsPanel')) {
+            el('campaignsPanel').innerHTML = '<div class="notice notice-empty">Loading campaigns…</div>';
+            loadCampaigns();
+        }
         if (el('intersectionModal') && el('intersectionModal').classList.contains('open')) {
             loadIntersection();
         }
+    }
+
+    // ------------------------------------------------------------------
+    // Replies and campaigns (Phase 18)
+    // ------------------------------------------------------------------
+
+    function loadReplies() {
+        fetchJSON(BASE + '/replies').then(function (res) {
+            if (showAuthHint(res)) {
+                if (el('repliesPanel')) el('repliesPanel').innerHTML = '';
+                return;
+            }
+            if (!res.ok) {
+                if (el('repliesPanel')) {
+                    el('repliesPanel').innerHTML =
+                        '<div class="notice notice-error">Could not load replies.</div>';
+                }
+                return;
+            }
+            renderReplies(res.body || {});
+        }).catch(function () {
+            if (el('repliesPanel')) {
+                el('repliesPanel').innerHTML =
+                    '<div class="notice notice-error">Replies could not be reached.</div>';
+            }
+        });
+    }
+
+    function renderReplies(data) {
+        var panel = el('repliesPanel');
+        if (!panel) return;
+        var replies = data.replies || [];
+        if (!replies.length) {
+            panel.innerHTML =
+                '<div class="notice notice-empty">No replies or unsubscribe signals yet.</div>';
+            return;
+        }
+        var html = '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>When</th><th>Organization</th><th>Summary</th>' +
+            '</tr></thead><tbody>';
+        replies.forEach(function (r) {
+            html += '<tr>' +
+                '<td>' + esc(r.date || '—') + '</td>' +
+                '<td><strong>' + esc(r.organization || r.lead_slug || '—') + '</strong></td>' +
+                '<td class="muted small">' + esc(r.summary || '—') + '</td>' +
+                '</tr>';
+        });
+        html += '</tbody></table></div>';
+        panel.innerHTML = html;
+    }
+
+    function loadCampaigns() {
+        fetchJSON(BASE + '/campaigns').then(function (res) {
+            if (showAuthHint(res)) {
+                if (el('campaignsPanel')) el('campaignsPanel').innerHTML = '';
+                return;
+            }
+            if (!res.ok) {
+                if (el('campaignsPanel')) {
+                    el('campaignsPanel').innerHTML =
+                        '<div class="notice notice-error">Could not load campaigns.</div>';
+                }
+                return;
+            }
+            renderCampaigns(res.body || {});
+        }).catch(function () {
+            if (el('campaignsPanel')) {
+                el('campaignsPanel').innerHTML =
+                    '<div class="notice notice-error">Campaigns could not be reached.</div>';
+            }
+        });
+    }
+
+    function renderCampaigns(data) {
+        var panel = el('campaignsPanel');
+        if (!panel) return;
+        var campaigns = data.campaigns || [];
+        var html = '';
+
+        if (!campaigns.length) {
+            html += '<div class="notice notice-empty">No campaigns yet.</div>';
+        } else {
+            campaigns.forEach(function (c) {
+                var leadCount = c.leads ? c.leads.length : 0;
+                html += '<div class="mkt-campaign" style="margin-bottom:14px;">' +
+                    '<div style="display:flex;justify-content:space-between;' +
+                    'align-items:center;flex-wrap:wrap;gap:8px;">' +
+                    '<strong>' + esc(c.campaign) + '</strong>' +
+                    '<div class="badge-row">' +
+                    HS.chip('modelled', leadCount + ' leads') +
+                    HS.chip('observed', (c.replies || 0) + ' replies') +
+                    HS.chip('forecast', (c.unsubscribed || 0) + ' unsubscribed') +
+                    '</div></div>';
+                if (c.waves && c.waves.length) {
+                    html += '<div class="table-scroll" style="margin-top:8px;">' +
+                        '<table class="data-table"><thead><tr>' +
+                        '<th>Wave</th><th>Pending</th><th>Sent</th><th>Failed</th>' +
+                        '<th>Cancelled</th><th>Skipped</th>' +
+                        '</tr></thead><tbody>';
+                    c.waves.forEach(function (w) {
+                        html += '<tr>' +
+                            '<td>' + esc(String(w.wave)) + '</td>' +
+                            '<td>' + esc(String(w.pending || 0)) + '</td>' +
+                            '<td>' + esc(String(w.sent || 0)) + '</td>' +
+                            '<td>' + esc(String(w.failed || 0)) + '</td>' +
+                            '<td>' + esc(String(w.cancelled || 0)) + '</td>' +
+                            '<td>' + esc(String(w.skipped_unsubscribed || 0)) + '</td>' +
+                            '</tr>';
+                    });
+                    html += '</tbody></table></div>';
+                }
+                html += '</div>';
+            });
+        }
+
+        html += '<div style="margin-top:16px;padding-top:14px;' +
+            'border-top:1px solid var(--light-2);">' +
+            '<h4 style="margin:0 0 10px;">Start a campaign wave</h4>' +
+            '<form id="mkt-start-form" class="mkt-sendactions" ' +
+            'style="align-items:flex-end;flex-wrap:wrap;">' +
+            '<div class="mkt-field" style="flex:1 1 140px;">' +
+            '<label for="mkt-start-campaign">Campaign</label>' +
+            '<input type="text" id="mkt-start-campaign" placeholder="e.g. q4-2026" required>' +
+            '</div>' +
+            '<div class="mkt-field" style="flex:0 0 80px;">' +
+            '<label for="mkt-start-wave">Wave</label>' +
+            '<input type="number" id="mkt-start-wave" min="1" value="1" required>' +
+            '</div>' +
+            '<div class="mkt-field" style="flex:1 1 140px;">' +
+            '<label for="mkt-start-template">Template</label>' +
+            '<select id="mkt-start-template">' +
+            '<option value="followup_1">followup_1</option>' +
+            '<option value="followup_2">followup_2</option>' +
+            '</select>' +
+            '</div>' +
+            '<div class="mkt-field" style="flex:1 1 120px;">' +
+            '<label for="mkt-start-segment">Segment filter</label>' +
+            '<input type="text" id="mkt-start-segment" placeholder="optional">' +
+            '</div>' +
+            '<div class="mkt-field" style="flex:0 0 100px;">' +
+            '<label for="mkt-start-country">Country</label>' +
+            '<input type="text" id="mkt-start-country" placeholder="optional">' +
+            '</div>' +
+            '<div class="mkt-field" style="flex:0 0 90px;">' +
+            '<label for="mkt-start-delay">Delay (days)</label>' +
+            '<input type="number" id="mkt-start-delay" min="0" step="0.1" value="0">' +
+            '</div>' +
+            '<button class="btn-action" type="submit">Enqueue wave</button>' +
+            '</form>' +
+            '<div id="mkt-start-result" class="mkt-sendresult"></div>' +
+            '</div>';
+
+        panel.innerHTML = html;
+
+        var form = el('mkt-start-form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                startCampaign();
+            });
+        }
+    }
+
+    function startCampaign() {
+        var campaignEl = el('mkt-start-campaign');
+        var waveEl = el('mkt-start-wave');
+        var templateEl = el('mkt-start-template');
+        var segmentEl = el('mkt-start-segment');
+        var countryEl = el('mkt-start-country');
+        var delayEl = el('mkt-start-delay');
+        var resultBox = el('mkt-start-result');
+
+        var campaign = campaignEl ? campaignEl.value.trim() : '';
+        var wave = waveEl ? parseInt(waveEl.value, 10) : NaN;
+        var template = templateEl ? templateEl.value : '';
+        var segment = segmentEl ? segmentEl.value.trim() : '';
+        var country = countryEl ? countryEl.value.trim() : '';
+        var delay = delayEl ? parseFloat(delayEl.value || '0') : 0;
+
+        if (!campaign || !wave || wave < 1 || isNaN(wave)) {
+            if (resultBox) {
+                resultBox.innerHTML =
+                    '<div class="mkt-err">Enter a campaign name and a wave number ≥ 1.</div>';
+            }
+            return;
+        }
+
+        var payload = {
+            campaign: campaign,
+            wave: wave,
+            template: template,
+            filters: {},
+            delay_days: isNaN(delay) ? 0 : delay
+        };
+        if (segment) payload.filters.segment = segment;
+        if (country) payload.filters.country = country;
+
+        if (resultBox) resultBox.innerHTML = '<div class="muted small">Enqueueing…</div>';
+
+        postJSON(BASE + '/campaigns/start', payload).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                var msg = (res.body && res.body.error) || 'Campaign start failed.';
+                if (resultBox) {
+                    resultBox.innerHTML = '<div class="mkt-err">' + esc(msg) + '</div>';
+                }
+                return;
+            }
+            var data = res.body || {};
+            status('info', 'Enqueued ' + (data.enqueued || 0) + ' lead(s) for ' +
+                   esc(data.campaign) + ' wave ' + esc(String(data.wave)) + '.');
+            if (resultBox) {
+                resultBox.innerHTML = '<div class="mkt-ok">Enqueued ' +
+                    esc(String(data.enqueued || 0)) + ' lead(s); skipped ' +
+                    esc(String(data.skipped || 0)) + '.</div>';
+            }
+            loadCampaigns();
+        }).catch(function () {
+            if (resultBox) {
+                resultBox.innerHTML =
+                    '<div class="mkt-err">Campaign start request could not be sent.</div>';
+            }
+        });
     }
 
     // ------------------------------------------------------------------
@@ -871,7 +1113,23 @@
     }
 
     function statusChip(s) {
-        return HS.chip(s, s);
+        var kind = 'unknown';
+        if (s === 'replied' || s === 'responded' || s === 'contacted') {
+            kind = 'observed';
+        } else if (s === 'opportunity') {
+            kind = 'modelled';
+        } else if (s === 'qualified') {
+            kind = 'forecast';
+        } else if (s === 'draft_prepared') {
+            kind = 'observed';
+        }
+        return HS.chip(kind, s);
+    }
+
+    function interactionChip(type) {
+        if (type === 'reply') return HS.chip('observed', 'reply');
+        if (type === 'unsubscribe') return HS.chip('forecast', 'unsubscribe');
+        return statusChip(type);
     }
 
     // ------------------------------------------------------------------
@@ -927,6 +1185,15 @@
 
         var html = '<h4>Follow-up: ' + esc(lead.organization || slug) + '</h4>';
 
+        if (lead.outreach_status === 'replied' || lead.unsubscribed) {
+            var stopReasons = [];
+            if (lead.outreach_status === 'replied') stopReasons.push('replied');
+            if (lead.unsubscribed) stopReasons.push('unsubscribed');
+            html += '<div class="mkt-err" style="margin-bottom:10px;">' +
+                'Auto-stopped outreach: ' + esc(stopReasons.join(' + ')) +
+                '</div>';
+        }
+
         var current = lead.outreach_status || 'researched';
         var currentIdx = OUTREACH_STATUSES.indexOf(current);
         html += '<div class="mkt-stepbar">';
@@ -968,7 +1235,7 @@
             interactions.slice().reverse().forEach(function (i) {
                 html += '<tr>' +
                     '<td>' + esc(i.date || '—') + '</td>' +
-                    '<td>' + statusChip(i.type) + '</td>' +
+                    '<td>' + interactionChip(i.type) + '</td>' +
                     '<td>' + esc(i.summary || '—') + '</td>' +
                     '</tr>';
             });

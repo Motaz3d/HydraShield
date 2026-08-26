@@ -1527,3 +1527,117 @@ def test_discover_own_rate_limit(client, env, monkeypatch):
     )
     assert resp.status_code == 429
     assert "Rate limit" in resp.get_json()["error"]
+
+
+# ---------------------------------------------------------------------------
+# Replies and campaigns (Phase 18)
+# ---------------------------------------------------------------------------
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_replies_endpoint_requires_auth(client):
+    assert client.get("/api/v2/admin/marketing/replies").status_code == 401
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_replies_endpoint_returns_reply_interactions(client, env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.add_interaction("test-bank-one", "Reply from a@b.org", type="reply")
+    store.add_interaction("test-bank-one", "Unsub request", type="unsubscribe")
+    store.add_interaction("test-bank-two", "Plain note", type="note")
+
+    resp = client.get("/api/v2/admin/marketing/replies", headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert "replies" in body
+    summaries = [r["summary"] for r in body["replies"]]
+    assert "Reply from a@b.org" in summaries
+    assert "Unsub request" in summaries
+    assert "Plain note" not in summaries
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_campaigns_endpoints_require_auth(client):
+    assert client.get("/api/v2/admin/marketing/campaigns").status_code == 401
+    assert client.get("/api/v2/admin/marketing/campaigns/test-campaign").status_code == 401
+    assert client.post("/api/v2/admin/marketing/campaigns/start", json={}).status_code == 401
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_campaigns_endpoint_returns_stats(client, env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.enqueue_wave("q4-2026", "test-bank-one", 1, "followup_1", {}, "2026-09-01T09:00")
+
+    resp = client.get("/api/v2/admin/marketing/campaigns", headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert "campaigns" in body
+    assert len(body["campaigns"]) == 1
+    assert body["campaigns"][0]["campaign"] == "q4-2026"
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_campaign_detail_endpoint(client, env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.enqueue_wave("q4-2026", "test-bank-one", 1, "followup_1", {}, "2026-09-01T09:00")
+
+    resp = client.get("/api/v2/admin/marketing/campaigns/q4-2026", headers=admin)
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["campaign"]["campaign"] == "q4-2026"
+    assert body["campaign"]["waves"][0]["wave"] == 1
+
+    assert client.get("/api/v2/admin/marketing/campaigns/no-such-campaign",
+                      headers=admin).status_code == 404
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_campaign_start_endpoint_validation(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    resp = client.post("/api/v2/admin/marketing/campaigns/start", headers=admin, json={})
+    assert resp.status_code == 400
+    assert "campaign" in resp.get_json()["error"]
+
+    resp = client.post("/api/v2/admin/marketing/campaigns/start", headers=admin, json={
+        "campaign": "x", "wave": 0, "template": "followup_1"})
+    assert resp.status_code == 400
+    assert "wave" in resp.get_json()["error"]
+
+    resp = client.post("/api/v2/admin/marketing/campaigns/start", headers=admin, json={
+        "campaign": "x", "wave": 1, "template": "bad_template"})
+    assert resp.status_code == 400
+    assert "template" in resp.get_json()["error"]
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_campaign_start_endpoint_enqueues_wave(client, env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [{"email": "contact@testbankone.com"}])
+
+    resp = client.post("/api/v2/admin/marketing/campaigns/start", headers=admin, json={
+        "campaign": "q4-2026",
+        "wave": 1,
+        "template": "followup_1",
+        "filters": {"country": "US"},
+        "delay_days": 0.5,
+    })
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["ok"] is True
+    assert body["enqueued"] == 1
+    assert body["leads"] == ["test-bank-one"]
+
+    stats = store.campaign_stats(campaign="q4-2026")[0]
+    assert stats["leads"][0]["slug"] == "test-bank-one"

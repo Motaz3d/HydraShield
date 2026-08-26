@@ -30,12 +30,14 @@ from typing import Dict, List, Optional
 from .cache import default_cache
 
 OUTREACH_STATUSES = ("researched", "qualified", "draft_prepared",
-                     "contacted", "responded", "opportunity")
+                     "contacted", "responded", "replied", "opportunity")
 LEAD_STATUSES = ("open", "won", "lost")
 LEAD_PRIORITIES = ("high", "medium", "low")
 INTERACTION_TYPES = ("email", "call", "meeting", "demo", "note", "linkedin",
-                     "followup", "proposal", "subscription", "trial", "renewal")
+                     "followup", "proposal", "subscription", "trial", "renewal",
+                     "reply", "unsubscribe")
 SCHEDULED_STATUSES = ("scheduled", "sent", "failed", "cancelled", "skipped_unsubscribed")
+WAVE_STATUSES = ("pending", "sent", "failed", "cancelled", "skipped_unsubscribed")
 
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,120}$")
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -108,6 +110,20 @@ class MarketingStore:
                     created_at TEXT NOT NULL,
                     UNIQUE(lead_slug, email)
                 );
+                CREATE TABLE IF NOT EXISTS campaign_waves (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    campaign TEXT NOT NULL,
+                    lead_slug TEXT NOT NULL,
+                    wave INTEGER NOT NULL,
+                    template TEXT NOT NULL,
+                    context_json TEXT NOT NULL,
+                    send_at TEXT NOT NULL,
+                    status TEXT NOT NULL DEFAULT 'pending',
+                    error TEXT,
+                    created_at TEXT NOT NULL,
+                    sent_at TEXT,
+                    UNIQUE(campaign, lead_slug, wave)
+                );
                 """
             )
             # Additive migrations for existing databases (never destructive).
@@ -133,6 +149,32 @@ class MarketingStore:
             if "verification" not in contact_cols:
                 conn.execute(
                     "ALTER TABLE lead_contacts ADD COLUMN verification TEXT")
+            # Campaign waves (Phase 18).
+            tables = {r[0] for r in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'").fetchall()}
+            if "campaign_waves" not in tables:
+                conn.executescript(
+                    """
+                    CREATE TABLE campaign_waves (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        campaign TEXT NOT NULL,
+                        lead_slug TEXT NOT NULL,
+                        wave INTEGER NOT NULL,
+                        template TEXT NOT NULL,
+                        context_json TEXT NOT NULL,
+                        send_at TEXT NOT NULL,
+                        status TEXT NOT NULL DEFAULT 'pending',
+                        error TEXT,
+                        created_at TEXT NOT NULL,
+                        sent_at TEXT,
+                        UNIQUE(campaign, lead_slug, wave)
+                    );
+                    CREATE INDEX idx_campaign_waves_status_send_at
+                        ON campaign_waves(status, send_at);
+                    CREATE INDEX idx_campaign_waves_lead
+                        ON campaign_waves(lead_slug, status);
+                    """
+                )
 
     _STATE_COLS = ("lead_slug, outreach_status, status, priority, next_action,"
                    " next_followup, COALESCE(excluded, 0), exclude_reason,"
@@ -262,7 +304,7 @@ class MarketingStore:
         return bool(row[0]) if row else False
 
     def sent_today_count(self) -> int:
-        """Number of emails sent today via immediate or scheduled send."""
+        """Number of emails sent today via immediate, scheduled or campaign sends."""
         today = _utcnow()[:10]
         with self._lock, self._connect() as conn:
             immediate = conn.execute(
@@ -275,7 +317,12 @@ class MarketingStore:
                 " WHERE status = 'sent' AND sent_at >= ?",
                 (today,),
             ).fetchone()[0] or 0
-        return int(immediate) + int(scheduled)
+            waves = conn.execute(
+                "SELECT COUNT(*) FROM campaign_waves"
+                " WHERE status = 'sent' AND sent_at >= ?",
+                (today,),
+            ).fetchone()[0] or 0
+        return int(immediate) + int(scheduled) + int(waves)
 
     # ------------------------------------------------------------------
     # Interaction log
@@ -455,6 +502,232 @@ class MarketingStore:
             )
         return self.get_scheduled(scheduled_id)
 
+    def cancel_scheduled_for_lead(self, lead_slug: str) -> int:
+        """Cancel all scheduled outreach rows for a lead. Returns count changed."""
+        if not self.valid_slug(lead_slug):
+            return 0
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "UPDATE scheduled_outreach SET status = ?"
+                " WHERE lead_slug = ? AND status = ?",
+                ("cancelled", lead_slug, "scheduled"),
+            )
+            return cur.rowcount
+
+    # ------------------------------------------------------------------
+    # Campaign waves (periodic outreach)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _wave_row(row) -> Dict:
+        return {
+            "id": row[0],
+            "campaign": row[1],
+            "lead_slug": row[2],
+            "wave": row[3],
+            "template": row[4],
+            "context": json.loads(row[5] or "{}"),
+            "send_at": row[6],
+            "status": row[7],
+            "error": row[8],
+            "created_at": row[9],
+            "sent_at": row[10],
+        }
+
+    def enqueue_wave(
+        self,
+        campaign: str,
+        lead_slug: str,
+        wave: int,
+        template: str,
+        context: Dict,
+        send_at: str,
+    ) -> Optional[Dict]:
+        """Queue a campaign wave row. Returns the row or None on invalid input."""
+        if not self.valid_slug(lead_slug):
+            return None
+        campaign = str(campaign or "").strip()[:80]
+        if not campaign:
+            return None
+        if not isinstance(wave, int) or wave < 1:
+            return None
+        if not template or not isinstance(template, str) or len(template) > 60:
+            return None
+        if not isinstance(context, dict):
+            return None
+        if not send_at or not _SEND_AT_RE.match(send_at):
+            return None
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "INSERT OR IGNORE INTO campaign_waves"
+                " (campaign, lead_slug, wave, template, context_json, send_at, status, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (campaign, lead_slug, wave, template,
+                 json.dumps(context), send_at, "pending", _utcnow()),
+            )
+            if cur.lastrowid is None:
+                # Already enqueued for this campaign/lead/wave.
+                return None
+            iid = cur.lastrowid
+        return self.get_wave(iid)
+
+    def get_wave(self, wave_id: int) -> Optional[Dict]:
+        if not isinstance(wave_id, int):
+            return None
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, campaign, lead_slug, wave, template, context_json,"
+                " send_at, status, error, created_at, sent_at"
+                " FROM campaign_waves WHERE id = ?",
+                (wave_id,),
+            ).fetchone()
+        return self._wave_row(row) if row else None
+
+    def pending_waves(
+        self,
+        due_before: Optional[str] = None,
+        campaign: Optional[str] = None,
+    ) -> List[Dict]:
+        clauses: List[str] = []
+        params: List = []
+        if campaign is not None:
+            clauses.append("campaign = ?")
+            params.append(campaign)
+        if due_before is not None:
+            clauses.append("status = ? AND send_at <= ?")
+            params.extend(["pending", due_before])
+        else:
+            clauses.append("status = ?")
+            params.append("pending")
+        where = " WHERE " + " AND ".join(clauses) if clauses else ""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT id, campaign, lead_slug, wave, template, context_json,"
+                " send_at, status, error, created_at, sent_at"
+                f" FROM campaign_waves{where} ORDER BY send_at ASC, id ASC",
+                params,
+            ).fetchall()
+        return [self._wave_row(r) for r in rows]
+
+    def mark_wave(
+        self,
+        wave_id: int,
+        status: str,
+        error: Optional[str] = None,
+    ) -> Optional[Dict]:
+        if status not in WAVE_STATUSES:
+            return None
+        row = self.get_wave(wave_id)
+        if row is None:
+            return None
+        sent_at = _utcnow() if status == "sent" else row.get("sent_at")
+        error = (error or "")[:500]
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE campaign_waves SET status = ?, error = ?, sent_at = ?"
+                " WHERE id = ?",
+                (status, error, sent_at, wave_id),
+            )
+        return self.get_wave(wave_id)
+
+    def cancel_waves_for_lead(self, lead_slug: str, campaign: Optional[str] = None) -> int:
+        """Cancel pending campaign waves for a lead. Returns count changed."""
+        if not self.valid_slug(lead_slug):
+            return 0
+        with self._lock, self._connect() as conn:
+            if campaign:
+                cur = conn.execute(
+                    "UPDATE campaign_waves SET status = ?"
+                    " WHERE lead_slug = ? AND campaign = ? AND status = ?",
+                    ("cancelled", lead_slug, campaign, "pending"),
+                )
+            else:
+                cur = conn.execute(
+                    "UPDATE campaign_waves SET status = ?"
+                    " WHERE lead_slug = ? AND status = ?",
+                    ("cancelled", lead_slug, "pending"),
+                )
+            return cur.rowcount
+
+    def campaign_stats(self, campaign: Optional[str] = None) -> List[Dict]:
+        """Per-campaign statistics with per-wave breakdown."""
+        with self._lock, self._connect() as conn:
+            where = " WHERE campaign = ?" if campaign else ""
+            params = (campaign,) if campaign else ()
+            rows = conn.execute(
+                "SELECT campaign, wave, status, COUNT(*)"
+                f" FROM campaign_waves{where}"
+                " GROUP BY campaign, wave, status",
+                params,
+            ).fetchall()
+            reply_rows = conn.execute(
+                "SELECT i.lead_slug, ls.outreach_status, ls.unsubscribed"
+                " FROM lead_interactions i"
+                " LEFT JOIN lead_state ls ON ls.lead_slug = i.lead_slug"
+                " WHERE i.type IN ('reply', 'unsubscribe')"
+            ).fetchall()
+            lead_rows = conn.execute(
+                "SELECT campaign, lead_slug, status, wave"
+                " FROM campaign_waves" + where,
+                params,
+            ).fetchall()
+
+        # Build campaign map.
+        by_campaign: Dict[str, Dict] = {}
+        for cam, wave, status, count in rows:
+            entry = by_campaign.setdefault(cam, {"campaign": cam, "waves": {}})
+            wave_entry = entry["waves"].setdefault(wave, {"wave": wave})
+            wave_entry[status] = count
+
+        # Attach lead lists and reply/unsubscribe flags.
+        lead_map: Dict[str, Dict[str, Dict]] = {}
+        for cam, lead_slug, status, wave in lead_rows:
+            lead_map.setdefault(cam, {}).setdefault(lead_slug, {"waves": []})
+            lead_map[cam][lead_slug]["waves"].append({"wave": wave, "status": status})
+
+        reply_map: Dict[str, set] = {}
+        unsub_map: Dict[str, set] = {}
+        for lead_slug, out_status, unsubscribed in reply_rows:
+            if out_status == "replied":
+                for cam, leads in lead_map.items():
+                    if lead_slug in leads:
+                        reply_map.setdefault(cam, set()).add(lead_slug)
+            if unsubscribed:
+                for cam, leads in lead_map.items():
+                    if lead_slug in leads:
+                        unsub_map.setdefault(cam, set()).add(lead_slug)
+
+        for cam, leads in lead_map.items():
+            entry = by_campaign.setdefault(cam, {"campaign": cam, "waves": {}})
+            entry["leads"] = [
+                {
+                    "slug": slug,
+                    "replied": slug in reply_map.get(cam, set()),
+                    "unsubscribed": slug in unsub_map.get(cam, set()),
+                    "waves": info["waves"],
+                }
+                for slug, info in sorted(leads.items())
+            ]
+            entry["replies"] = len(reply_map.get(cam, set()))
+            entry["unsubscribed"] = len(unsub_map.get(cam, set()))
+
+        # Normalize wave dicts into sorted lists.
+        for entry in by_campaign.values():
+            waves = []
+            for wave_num in sorted(entry["waves"]):
+                w = entry["waves"][wave_num]
+                waves.append({
+                    "wave": wave_num,
+                    "pending": w.get("pending", 0),
+                    "sent": w.get("sent", 0),
+                    "failed": w.get("failed", 0),
+                    "cancelled": w.get("cancelled", 0),
+                    "skipped_unsubscribed": w.get("skipped_unsubscribed", 0),
+                })
+            entry["waves"] = waves
+
+        return list(by_campaign.values())
+
     # ------------------------------------------------------------------
     # Lead contacts (discovered via Hunter.io)
     # ------------------------------------------------------------------
@@ -560,16 +833,24 @@ class MarketingStore:
             ).fetchone()
         return self._contact_row(row) if row else None
 
-    def list_contacts(self, lead_slug: str) -> List[Dict]:
-        """Stored contacts for a lead, highest-confidence first."""
+    def list_contacts(self, lead_slug: Optional[str] = None) -> List[Dict]:
+        """Stored contacts for a lead (or all contacts if no slug),
+        highest-confidence first."""
         with self._lock, self._connect() as conn:
-            rows = conn.execute(
-                "SELECT id, lead_slug, email, name, position, department,"
-                " confidence, source, verification, created_at FROM lead_contacts"
-                " WHERE lead_slug = ?"
-                " ORDER BY (confidence IS NULL), confidence DESC, id",
-                (lead_slug,),
-            ).fetchall()
+            if lead_slug:
+                rows = conn.execute(
+                    "SELECT id, lead_slug, email, name, position, department,"
+                    " confidence, source, verification, created_at FROM lead_contacts"
+                    " WHERE lead_slug = ?"
+                    " ORDER BY (confidence IS NULL), confidence DESC, id",
+                    (lead_slug,),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT id, lead_slug, email, name, position, department,"
+                    " confidence, source, verification, created_at FROM lead_contacts"
+                    " ORDER BY id"
+                ).fetchall()
         return [self._contact_row(r) for r in rows]
 
     def delete_contact(self, contact_id: int) -> Optional[Dict]:
