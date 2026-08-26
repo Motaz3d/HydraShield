@@ -13,5 +13,8 @@ authors = [{ name = "Talaix Earth Systems" }]
 keywords = ["climate", "wildfire", "risk", "api", "client"]
 dependencies = []
 
+[project.scripts]
+talaix = "hydrashield.cli:main"
+
 [tool.setuptools.packages.find]
 include = ["hydrashield*"]

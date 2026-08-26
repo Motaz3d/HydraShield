@@ -55,6 +55,64 @@ except TalaixError as exc:
 - Honest unavailability (`{"status": "unavailable", "unavailable_reason": …}`,
   also on HTTP 503) is returned as **data** — render it, don't catch it.
 
+## CLI
+
+The package also installs a `talaix` command for read-only access to the
+public GET endpoints. It is **read-only**: portfolio, claim, case and
+report-builder endpoints that require a registered session are not exposed.
+
+```bash
+pip install sdk/python          # or `pip install .` inside sdk/python/
+
+# Global flags
+export TALAIX_BASE_URL=https://talaix.com   # optional
+export TALAIX_API_KEY=hs_…                  # optional metering key
+
+# Service status
+talaix health
+
+# List hazards
+talaix hazards
+
+# Analyze a hazard at a point
+talaix analyze --hazard wildfire --lat 37.6 --lon -6.5
+
+# Physical asset verification
+talaix verify --lat 49.75 --lon 6.64 --name "Clervaux"
+talaix verify --lat 49.75 --lon 6.64 --pdf report.pdf
+
+# Insurance risk profile
+talaix insurance --lat 37.6 --lon -6.5 --radius-km 25
+
+# Map-vs-satellite cross-check
+talaix mapcheck --lat 46.0542 --lon 14.4707 --radius-m 300
+
+# Knowledge briefs
+talaix briefs
+talaix briefs --kind wildfire
+talaix briefs br-2024-001
+
+# Sustainability frameworks
+talaix frameworks
+
+# Data-source audit registry
+talaix sources
+
+# Raw JSON output
+talaix --json analyze --hazard wildfire --lat 37.6 --lon -6.5
+```
+
+### Exit codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | Success |
+| 2 | API error (`TalaixError`) — printed as `error: HTTP <status>: <message>` |
+| 3 | Network error / timeout — printed as `error: could not reach <base-url> (<reason>)` |
+
+With `--json`, the API payload (including unavailable states and error bodies)
+is printed to stdout; the exit code still reflects the outcome.
+
 ## Install / test
 
 The package is self-contained — put `sdk/python/` on your `PYTHONPATH` or

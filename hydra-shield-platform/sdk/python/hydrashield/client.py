@@ -176,3 +176,81 @@ class TalaixClient:
         """GET /api/smoke-scenario — SCENARIO smoke transport (MODELLED)."""
         return self._get("/api/smoke-scenario",
                          {"lat": lat, "lon": lon, "hours": hours})
+
+    # ------------------------------------------------------------------
+    # v2 — verification / insurance / mapcheck / briefs / sustainability
+    # ------------------------------------------------------------------
+
+    def verify_asset(self, lat: float, lon: float, name: str | None = None):
+        """GET /api/v2/verification/asset — physical evidence check."""
+        params = {"lat": lat, "lon": lon}
+        if name:
+            params["name"] = name
+        return self._get("/api/v2/verification/asset", params)
+
+    def verification_report_url(self, lat: float, lon: float,
+                                name: str | None = None) -> str:
+        """The URL of the verification PDF report for a location."""
+        params = {"lat": lat, "lon": lon}
+        if name:
+            params["name"] = name
+        return self._url("/api/v2/verification/report", params)
+
+    def insurance_profile(self, lat: float, lon: float,
+                          name: str | None = None, radius_km: float = 50):
+        """GET /api/v2/insurance/profile — environmental risk profile."""
+        params = {"lat": lat, "lon": lon, "radius_km": radius_km}
+        if name:
+            params["name"] = name
+        return self._get("/api/v2/insurance/profile", params)
+
+    def mapcheck(self, lat: float, lon: float, radius_m: int = 300):
+        """GET /api/v2/mapcheck — map vs satellite cross-verification."""
+        return self._get("/api/v2/mapcheck",
+                         {"lat": lat, "lon": lon, "radius_m": radius_m})
+
+    def briefs(self, kind: str | None = None):
+        """GET /api/v2/briefs — knowledge briefs list."""
+        params = {}
+        if kind:
+            params["kind"] = kind
+        return self._get("/api/v2/briefs", params)
+
+    def brief(self, brief_id: str):
+        """GET /api/v2/briefs/<id> — one knowledge brief."""
+        return self._get("/api/v2/briefs/" + urllib.parse.quote(str(brief_id)))
+
+    def sustainability_frameworks(self):
+        """GET /api/v2/sustainability/frameworks — disclosure frameworks."""
+        return self._get("/api/v2/sustainability/frameworks")
+
+    # ------------------------------------------------------------------
+    # Binary downloads (PDFs)
+    # ------------------------------------------------------------------
+
+    def _download(self, url: str) -> bytes:
+        """Download raw bytes from a URL using the same auth headers.
+
+        Raises :class:`TalaixError` when the response is JSON with an
+        ``error`` field; returns raw bytes otherwise (e.g. for PDFs).
+        """
+        headers = {
+            "User-Agent": _USER_AGENT,
+            "Accept": "application/pdf,application/octet-stream,*/*",
+        }
+        if self.api_key:
+            headers["X-API-Key"] = self.api_key
+        req = urllib.request.Request(url, headers=headers, method="GET")
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as exc:
+            raw = exc.read().decode("utf-8", errors="replace")
+            try:
+                payload = json.loads(raw) if raw else {}
+            except json.JSONDecodeError:
+                payload = {}
+            if isinstance(payload, dict) and "error" in payload:
+                raise TalaixError(exc.code, str(payload["error"])) from exc
+            # Non-JSON error response: return the bytes we have.
+            return raw.encode("utf-8", errors="replace")
