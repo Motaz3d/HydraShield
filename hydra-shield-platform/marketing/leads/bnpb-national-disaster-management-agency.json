@@ -1,0 +1,24 @@
+{
+  "organization": "BNPB — National Disaster Management Agency",
+  "segment": "emergency_management",
+  "country": "ID",
+  "website": "https://bnpb.go.id",
+  "priority": "medium",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "monitoring",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Climate adaptation and disaster-risk programmes need monitored, source-cited physical evidence.",
+  "relevant_capability": "monitored hazard alerts and evidence layers for adaptation programmes",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Imported via external_research_wave1 batch.",
+      "source": "bnpb.go.id"
+    }
+  ],
+  "source": "bnpb.go.id",
+  "date_checked": "2026-08-26"
+}

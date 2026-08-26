@@ -112,8 +112,8 @@ def import_batch(store: MarketingStore, seed: Dict) -> Dict:
     counts = {"created": 0, "contacts_added": 0, "skipped": 0}
 
     for contact in seed.get("contacts", []):
-        organization = contact.get("organization", "").strip()
-        email = contact.get("email", "").strip().lower()
+        organization = (contact.get("organization") or "").strip()
+        email = (contact.get("email") or "").strip().lower()
         if not organization or not email:
             counts["skipped"] += 1
             continue
@@ -131,10 +131,10 @@ def import_batch(store: MarketingStore, seed: Dict) -> Dict:
             slug,
             [{
                 "email": email,
-                "name": contact.get("person", "").strip() or None,
-                "position": contact.get("role", "").strip() or None,
+                "name": (contact.get("person") or "").strip() or None,
+                "position": (contact.get("role") or "").strip() or None,
                 "confidence": confidence,
-                "verification": contact.get("verification", "").strip() or None,
+                "verification": (contact.get("verification") or "").strip() or None,
             }],
             source="external-research",
         )

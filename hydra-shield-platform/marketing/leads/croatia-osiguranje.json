@@ -1,0 +1,24 @@
+{
+  "organization": "Croatia osiguranje",
+  "segment": "insurance",
+  "country": "HR",
+  "website": "https://crosig.hr",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "portfolio_screening",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Underwriting needs per-peril evidence with long-term event history at insured locations.",
+  "relevant_capability": "per-peril risk profiles with event history for underwriting",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Imported via external_research_wave1 batch.",
+      "source": "crosig.hr"
+    }
+  ],
+  "source": "crosig.hr",
+  "date_checked": "2026-08-26"
+}

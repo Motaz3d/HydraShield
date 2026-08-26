@@ -1,0 +1,24 @@
+{
+  "organization": "Potsdam Institute for Climate Impact Research",
+  "segment": "research_centers",
+  "country": "DE",
+  "website": "https://pik-potsdam.de",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "portfolio_screening",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Multi-hazard, Earth-observation evidence supports climate-risk research and decision support.",
+  "relevant_capability": "multi-hazard evidence layers, API and EO data for research",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Imported via external_research_wave1 batch.",
+      "source": "pik-potsdam.de"
+    }
+  ],
+  "source": "pik-potsdam.de",
+  "date_checked": "2026-08-26"
+}
