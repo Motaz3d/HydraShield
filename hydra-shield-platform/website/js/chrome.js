@@ -107,6 +107,12 @@
         '<path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>' +
         '</svg>';
 
+    var SEARCH_SVG =
+        '<svg class="search-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<circle cx="11" cy="11" r="8"></circle>' +
+        '<line x1="21" y1="21" x2="16.65" y2="16.65"></line>' +
+        '</svg>';
+
     function navLink(item) {
         var active = item.id === PAGE ? ' class="active" aria-current="page"' : '';
         return '<li><a href="' + item.href + '"' + active + '>' + item.label + '</a></li>';
@@ -156,6 +162,7 @@
             '<span></span><span></span><span></span></button>' +
             '<ul class="nav-links" id="navLinks">' +
             links +
+            '<li class="nav-search"><button type="button" id="navSearchBtn" aria-label="Search (Ctrl+K)">' + SEARCH_SVG + '</button></li>' +
             '<li class="nav-account"><a href="account.html"' + accountActive + '>Account</a></li>' +
             '</ul>' +
             '</div></nav>';
@@ -316,6 +323,22 @@
         wire();
         wireNavGroups();
         reflectSession();
+
+        // Expose the flat nav list for the command-palette search, then load it.
+        window.HS_NAV_LINKS = ALL_LINKS;
+        var searchScript = document.createElement('script');
+        searchScript.src = 'js/search.js';
+        searchScript.defer = true;
+        document.head.appendChild(searchScript);
+        var searchBtn = document.getElementById('navSearchBtn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', function () {
+                if (window.HSSearch && typeof window.HSSearch.open === 'function') {
+                    window.HSSearch.open();
+                }
+            });
+        }
+
         // First-party product analytics beacon (privacy-conscious; see
         // js/analytics.js + docs/PRODUCT_ANALYTICS.md). Loaded here so every
         // page gets it; honours Do Not Track.
