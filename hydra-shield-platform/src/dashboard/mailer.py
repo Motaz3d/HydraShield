@@ -64,6 +64,8 @@ _TEMPLATE_NAMES = {
     "outreach_real_estate",
     "outreach_environmental_consulting",
     "outreach_governments",
+    "followup_1",
+    "followup_2",
 }
 
 _VAR_RE = re.compile(r"\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}")
