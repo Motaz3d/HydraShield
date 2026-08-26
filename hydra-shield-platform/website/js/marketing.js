@@ -641,7 +641,8 @@
             '<input type="text" class="mkt-textfilter" id="mkt-namefilter" placeholder="Filter by name…">' +
             '</div>' +
             '<div style="margin-top:8px;">' +
-            '<button class="btn-action btn-quiet" id="mkt-bulk-discover">Discover contacts for this intersection</button>' +
+            '<button class="btn-action btn-quiet" id="mkt-bulk-discover-own">Discover (Talaix) for intersection</button> ' +
+            '<button class="btn-action btn-quiet" id="mkt-bulk-discover">Discover via Hunter.io</button>' +
             '</div>';
 
         var filters = el('intersectionFilters');
@@ -685,6 +686,13 @@
         if (bulkDiscoverBtn) {
             bulkDiscoverBtn.addEventListener('click', function () {
                 bulkDiscoverIntersection();
+            });
+        }
+
+        var bulkDiscoverOwnBtn = el('mkt-bulk-discover-own');
+        if (bulkDiscoverOwnBtn) {
+            bulkDiscoverOwnBtn.addEventListener('click', function () {
+                bulkDiscoverOwnIntersection();
             });
         }
 
@@ -778,7 +786,36 @@
             status('error', 'Bulk discovery request could not be sent.');
         }).then(function () {
             var btn = el('mkt-bulk-discover');
-            if (btn) { btn.disabled = false; btn.textContent = 'Discover contacts for this intersection'; }
+            if (btn) { btn.disabled = false; btn.textContent = 'Discover via Hunter.io'; }
+        });
+    }
+
+    function bulkDiscoverOwnIntersection() {
+        var segment = currentIntersection.segment;
+        var country = currentIntersection.country;
+        var region = currentIntersection.region;
+        if (!segment || !country) return;
+        var body = { segment: segment, country: country };
+        if (region) body.region = region;
+        var filters = el('intersectionFilters');
+        if (filters) {
+            var btn = el('mkt-bulk-discover-own');
+            if (btn) { btn.disabled = true; btn.textContent = 'Discovering…'; }
+        }
+        postJSON(BASE + '/tree/discover-own', body).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                status('error', esc((res.body && res.body.error) || 'Bulk discovery failed.'));
+                return;
+            }
+            var data = res.body || {};
+            status('info', 'Talaix bulk discovery added ' + (data.added || 0) + ' contacts (' + (data.processed || 0) + ' processed).');
+            contactsCache.clear();
+        }).catch(function () {
+            status('error', 'Bulk discovery request could not be sent.');
+        }).then(function () {
+            var btn = el('mkt-bulk-discover-own');
+            if (btn) { btn.disabled = false; btn.textContent = 'Discover (Talaix) for intersection'; }
         });
     }
 
@@ -1076,6 +1113,7 @@
             '<div class="mkt-actions">' +
             '<button class="btn-action btn-quiet" data-find-email="' + esc(slug) + '"' +
             (configured ? '' : ' disabled') + '>Find email</button>' +
+            '<button class="btn-action btn-quiet" data-discover-own="' + esc(slug) + '">Discover (Talaix)</button>' +
             '<button class="btn-action btn-quiet" data-discover="' + esc(slug) + '"' +
             (configured ? '' : ' disabled') + '>Discover via Hunter.io</button>' +
             '</div>' +
@@ -1099,17 +1137,20 @@
 
         if (contacts.length) {
             html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
-                '<th>Email</th><th>Name</th><th>Position / Department</th><th>Confidence</th><th>Verification</th><th>Source</th><th></th>' +
+                '<th>Email</th><th>Name</th><th>Position / Department</th><th>Confidence</th><th>Claim</th><th>Source</th><th></th>' +
                 '</tr></thead><tbody>';
             contacts.forEach(function (c) {
                 var pos = (c.position || '') + (c.department ? (c.position ? ' · ' : '') + c.department : '');
+                var inferred = (c.verification || '').toUpperCase() === 'INFERRED' ||
+                               (c.position || '').indexOf('pattern-inferred') >= 0;
                 html += '<tr>' +
-                    '<td><strong>' + esc(c.email || '—') + '</strong></td>' +
+                    '<td><strong>' + esc(c.email || '—') + '</strong>' +
+                    (inferred ? ' <span class="chip chip-observed" title="pattern-inferred — verify before sending">inferred</span>' : '') + '</td>' +
                     '<td>' + esc(c.name || '—') + '</td>' +
                     '<td>' + esc(pos || '—') + '</td>' +
                     '<td>' + (c.confidence != null ? '<span class="chip chip-modelled">' + esc(c.confidence) + '%</span>' : '—') + '</td>' +
-                    '<td>' + verificationChip(c.verification) + '</td>' +
-                    '<td>' + esc(c.source || '—') + '</td>' +
+                    '<td>' + claimChip(c.verification) + '</td>' +
+                    '<td>' + sourceChip(c.source) + '</td>' +
                     '<td class="mkt-contact-actions">' +
                     '<button class="btn-action btn-quiet" data-verify-contact="' + esc(c.id) + '" data-lead="' + esc(slug) + '">Verify</button>' +
                     '<button class="btn-action btn-quiet" data-use-contact="' + esc(slug) + '" ' +
@@ -1121,13 +1162,16 @@
             html += '</tbody></table></div>';
         } else {
             html += '<div class="notice notice-empty">' +
-                (configured
-                    ? 'No contacts stored — run discovery to fetch them from Hunter.io (results are kept here; lookups are quota-limited).'
-                    : 'No contacts stored yet.') +
+                'No contacts stored — use Discover (Talaix) for evidence-based extraction, or Hunter.io when configured.' +
                 '</div>';
         }
 
         panel.innerHTML = html;
+
+        var discoverOwnBtn = panel.querySelector('[data-discover-own]');
+        if (discoverOwnBtn) {
+            discoverOwnBtn.addEventListener('click', function () { discoverOwnContacts(slug); });
+        }
 
         var discoverBtn = panel.querySelector('[data-discover]');
         if (discoverBtn && configured) {
@@ -1172,6 +1216,20 @@
         else if (v === 'risky') kind = 'observed';
         else if (v === 'invalid' || v === 'undeliverable') kind = 'forecast';
         return HS.chip(kind, v);
+    }
+
+    function claimChip(claim) {
+        var c = (claim || 'unknown').toUpperCase();
+        if (c === 'OBSERVED') return HS.chip('modelled', 'observed');
+        if (c === 'INFERRED') return HS.chip('observed', 'inferred');
+        return HS.chip('unknown', c.toLowerCase());
+    }
+
+    function sourceChip(source) {
+        var s = (source || 'unknown').toLowerCase();
+        if (s.indexOf('hunter') >= 0) return HS.chip('forecast', 'hunter');
+        if (s.indexOf('talaix') >= 0) return HS.chip('modelled', 'talaix');
+        return HS.chip('unknown', s);
     }
 
     function toggleFindEmail(slug) {
@@ -1279,6 +1337,47 @@
         btn.textContent = 'Discover via Hunter.io';
     }
 
+    function resetDiscoverOwnButton(btn) {
+        if (!btn) return;
+        btn.disabled = false;
+        btn.textContent = 'Discover (Talaix)';
+    }
+
+    function discoverOwnContacts(slug) {
+        var panel = el('mkt-contacts-' + slug);
+        if (!panel) return;
+        var discoverBtn = panel.querySelector('[data-discover-own]');
+        if (discoverBtn) {
+            discoverBtn.disabled = true;
+            discoverBtn.textContent = 'Discovering…';
+        }
+        var resultBox = el('mkt-contacts-result-' + slug);
+        if (resultBox) resultBox.innerHTML = '';
+
+        postJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/contacts/discover-own', {}).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (res.status === 429) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Rate limit exceeded — wait a minute.</div>';
+                resetDiscoverOwnButton(discoverBtn);
+                return;
+            }
+            if (!res.ok) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Discovery failed.') + '</div>';
+                resetDiscoverOwnButton(discoverBtn);
+                return;
+            }
+            var data = res.body || { contacts: [] };
+            contactsCache.set(slug, { configured: true, contacts: data.contacts });
+            if (resultBox && data.added != null && data.domain) {
+                resultBox.innerHTML = '<div class="mkt-ok">Added ' + esc(data.added) + ' new contacts (' + esc(data.domain) + ').</div>';
+            }
+            renderContactsPanel(slug, { configured: true, contacts: data.contacts });
+        }).catch(function () {
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Discovery request could not be sent.</div>';
+            resetDiscoverOwnButton(discoverBtn);
+        });
+    }
+
     function deleteContact(id, slug) {
         postJSON(BASE + '/contacts/' + encodeURIComponent(id) + '/delete', {}).then(function (res) {
             if (showAuthHint(res)) return;
@@ -1383,7 +1482,11 @@
                 '<option value="">Manual entry</option>' +
                 contacts.map(function (c) {
                     var val = esc(c.email || '') + ':' + esc(c.name || '');
-                    var label = esc(c.email || '') + (c.name ? ' — ' + esc(c.name) : '');
+                    var inferred = (c.verification || '').toUpperCase() === 'INFERRED' ||
+                                   (c.position || '').indexOf('pattern-inferred') >= 0;
+                    var label = esc(c.email || '') +
+                        (inferred ? ' (inferred)' : '') +
+                        (c.name ? ' — ' + esc(c.name) : '');
                     return '<option value="' + val + '">' + label + '</option>';
                 }).join('') +
                 '</select>' +

@@ -1356,3 +1356,174 @@ def test_processor_skips_unsubscribed_lead(client, env):
     detail = client.get("/api/v2/admin/marketing/lead/test-bank-one",
                         headers=admin).get_json()
     assert not any(i["type"] == "email" for i in detail["interactions"])
+
+
+# ---------------------------------------------------------------------------
+# Talaix email-discovery endpoints
+# ---------------------------------------------------------------------------
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_own_stores_observed_contacts(client, env, monkeypatch):
+    from src.dashboard import email_discovery
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    def _fake_discover(domain, **kwargs):
+        return {
+            "domain": domain,
+            "contacts": [
+                {"email": "team@example.com", "type": "role", "source_url": f"https://{domain}/contact",
+                 "found_on": "/contact", "claim_status": "OBSERVED", "confidence": 0.9},
+                {"email": "ada.lovelace@example.com", "type": "personal", "source_url": f"https://{domain}/team",
+                 "found_on": "/team", "claim_status": "OBSERVED", "confidence": 0.85},
+            ],
+            "pages_fetched": 2,
+            "robots_respected": True,
+            "note": "test note",
+        }
+
+    monkeypatch.setattr(email_discovery, "discover_emails", _fake_discover)
+
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/contacts/discover-own",
+        headers=admin,
+    )
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["ok"] is True
+    assert body["added"] == 2
+    assert body["domain"] == "testbankone.com"
+
+    contacts = {c["email"]: c for c in body["contacts"]}
+    assert "team@example.com" in contacts
+    assert contacts["team@example.com"]["source"] == "talaix-discovery"
+    assert contacts["team@example.com"]["verification"] == "OBSERVED"
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_own_returns_400_without_website(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    # Test Engineering Firm has no website in the fixture.
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-engineering-firm/contacts/discover-own",
+        headers=admin,
+    )
+    assert resp.status_code == 400
+    assert "no usable domain" in resp.get_json()["error"]
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_infer_email_stores_inferred_contact(client, env, monkeypatch):
+    from src.dashboard import email_discovery
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    def _fake_find(domain, first_name, last_name, known_emails=None):
+        return {
+            "email": f"{first_name.lower()}.{last_name.lower()}@testbankone.com",
+            "claim_status": "INFERRED",
+            "pattern": "first.last",
+            "basis": "pattern from 2 observed emails at the domain",
+            "confidence": 0.6,
+        }
+
+    monkeypatch.setattr(email_discovery, "find_for_person", _fake_find)
+
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/contacts/infer-email",
+        headers=admin,
+        json={"first_name": "Ada", "last_name": "Lovelace"},
+    )
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["ok"] is True
+    assert body["found"] is True
+    assert body["claim_status"] == "INFERRED"
+    assert body["email"] == "ada.lovelace@testbankone.com"
+
+    contacts = {c["email"]: c for c in body["contacts"]}
+    assert contacts["ada.lovelace@testbankone.com"]["source"] == "talaix-inference"
+    assert "INFERRED" in contacts["ada.lovelace@testbankone.com"]["verification"]
+    assert "verify before sending" in contacts["ada.lovelace@testbankone.com"]["position"]
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_infer_email_returns_unknown_without_storing(client, env, monkeypatch):
+    from src.dashboard import email_discovery
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    monkeypatch.setattr(email_discovery, "find_for_person",
+                        lambda d, f, l, known_emails=None: {"email": None, "claim_status": "UNKNOWN", "reason": "no pattern"})
+
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/contacts/infer-email",
+        headers=admin,
+        json={"first_name": "Ada", "last_name": "Lovelace"},
+    )
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["ok"] is True
+    assert body["found"] is False
+    assert body["claim_status"] == "UNKNOWN"
+
+    # Nothing was stored.
+    detail = client.get("/api/v2/admin/marketing/lead/test-bank-one",
+                        headers=admin).get_json()
+    assert detail["contacts"] == []
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_tree_discover_own_bulk_respects_cap(client, env, monkeypatch):
+    from src.dashboard import email_discovery
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    calls = []
+
+    def _fake_discover(domain, **kwargs):
+        calls.append((domain, kwargs))
+        return {
+            "domain": domain,
+            "contacts": [{"email": f"contact@{domain}", "type": "role",
+                          "source_url": f"https://{domain}/", "found_on": "/",
+                          "claim_status": "OBSERVED", "confidence": 0.8}],
+            "pages_fetched": 1,
+            "robots_respected": True,
+            "note": "",
+        }
+
+    monkeypatch.setattr(email_discovery, "discover_emails", _fake_discover)
+
+    resp = client.post(
+        "/api/v2/admin/marketing/tree/discover-own",
+        headers=admin,
+        json={"segment": "banking", "country": "US"},
+    )
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["ok"] is True
+    assert body["leads"] == 2  # Test Bank One + Test Bank Two
+    assert body["processed"] == 1  # only Test Bank One has a website
+    assert body["added"] == 1
+    assert body["skipped"] == 1
+
+    # max_pages=8 passed for bulk politeness.
+    assert calls[0][1].get("max_pages") == 8
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_discover_own_rate_limit(client, env, monkeypatch):
+    from src.dashboard import marketing_crm
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    # Tighten rate limit so the second request is blocked.
+    monkeypatch.setattr(marketing_crm._email_discovery_limiter, "allow",
+                        lambda key, max_requests, window_seconds: False)
+
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/contacts/discover-own",
+        headers=admin,
+    )
+    assert resp.status_code == 429
+    assert "Rate limit" in resp.get_json()["error"]

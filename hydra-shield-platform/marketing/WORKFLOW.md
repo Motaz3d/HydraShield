@@ -94,3 +94,42 @@ daily cap, logs an `email` interaction, and advances `outreach_status` to
 ```
 */5 * * * * cd <repo>/hydra-shield-platform && .venv/bin/python scripts/process_scheduled_outreach.py
 ```
+
+## Email discovery (Talaix engine)
+
+The CRM uses a layered discovery model: the Talaix engine runs first because
+it is free and records provenance for every contact; Hunter.io remains
+available as a quota-limited fallback.
+
+The engine crawls a polite, fixed list of public pages on the target domain
+(`/`, `/contact`, `/about`, `/team`, `/sustainability`, `/press`, etc. — up to
+12 pages per request). It extracts emails from `mailto:` links and visible
+text, including common "name [at] domain [dot] tld" obfuscation, then filters
+junk localparts (`noreply`, `postmaster`, etc.), image-file artifacts,
+off-domain addresses and free-mail hosts (`gmail.com`, `yahoo.com`, etc.).
+
+Every returned contact carries:
+
+- `email` — lower-cased, deduplicated
+- `type` — `role` (`info@`, `press@`, etc.), `personal` (`first.last@`,
+  `f.last@`, etc.) or `unknown`
+- `source_url` — the exact public page where the address was observed
+- `found_on` — the page path within the domain
+- `claim_status` — `OBSERVED` for extracted addresses, `INFERRED` for
+  pattern-generated addresses, `UNKNOWN` when no pattern is available
+- `confidence` — page-weight score (0.50–0.99), never treated as verification
+
+`robots.txt` is fetched and honored when possible; if it cannot be fetched or
+parsed the engine proceeds politely and notes that in the result.
+
+**Pattern inference.** When at least two personal emails at the same domain
+share a consistent pattern (`first.last`, `f.last` or `first.l`), the engine
+can infer a candidate for a named person. Inferred emails are always labelled
+`INFERRED` and carry a "verify before sending" warning in the UI. They are
+never displayed as observed or verified.
+
+**Declared limits.** This phase does not perform SMTP probing (reputation
+risk), does not validate via MX lookup (`dnspython` is not a dependency yet),
+and does not use a global pre-built index like Hunter.io. It only reads pages
+on the supplied domain, so deep pages or sites that block bots will yield
+fewer contacts.

@@ -11,13 +11,14 @@ from __future__ import annotations
 import json
 import os
 import re
+import threading
 from collections import Counter
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 
 from flask import Blueprint, jsonify, request
 
-from . import hunter, mailer
+from . import email_discovery, hunter, mailer
 from .admin_intel import (
     _TARGET_SECTORS,
     _WORKSPACE,
@@ -35,6 +36,32 @@ marketing_crm_bp = Blueprint("marketing_crm", __name__, url_prefix="/api/v2")
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 _DAILY_SEND_CAP = int(os.environ.get("DAILY_SEND_CAP") or 20)
+
+
+class _SimpleRateLimiter:
+    """In-memory per-key sliding-window rate limiter."""
+
+    def __init__(self) -> None:
+        self._hits: Dict[str, List[float]] = {}
+
+    def allow(self, key: str, max_requests: int, window_seconds: float) -> bool:
+        import time
+        now = time.time()
+        with threading.Lock():
+            window = [t for t in self._hits.get(key, []) if now - t < window_seconds]
+            if len(window) >= max_requests:
+                self._hits[key] = window
+                return False
+            window.append(now)
+            self._hits[key] = window
+            return True
+
+
+_email_discovery_limiter = _SimpleRateLimiter()
+
+
+def _rate_limit_discovery(key: str) -> bool:
+    return _email_discovery_limiter.allow(key, max_requests=10, window_seconds=60.0)
 
 
 def _daily_cap_reached() -> bool:
@@ -743,4 +770,179 @@ def marketing_lead_preview(lead_slug: str):
         "template": template,
         "subject": rendered["subject"],
         "body": rendered["text"],
+    })
+
+
+# ---------------------------------------------------------------------------
+# Self-hosted email discovery (Talaix engine)
+# ---------------------------------------------------------------------------
+
+def _discovery_client_key() -> str:
+    return request.headers.get(
+        "X-Forwarded-For", request.remote_addr or "unknown"
+    ).split(",")[0].strip()
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/contacts/discover-own")
+@require_role("admin")
+def marketing_lead_contacts_discover_own(lead_slug: str):
+    """Discover and store contacts for a lead's domain using the Talaix engine."""
+    lead = _leads_by_slug().get(lead_slug)
+    if lead is None:
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+
+    if not _rate_limit_discovery(f"discover-own:{_discovery_client_key()}"):
+        return jsonify({"error": "Rate limit exceeded (10 requests/minute)", "status": 429}), 429
+
+    domain = hunter.domain_from_url(lead.get("website"))
+    if domain is None:
+        return jsonify({"error": "no usable domain on this lead", "status": 400}), 400
+
+    result = email_discovery.discover_emails(domain)
+    contacts = result.get("contacts", [])
+    store = MarketingStore()
+    added = store.add_contacts(
+        lead_slug,
+        [{
+            "email": c["email"],
+            "name": None,
+            "confidence": int(c.get("confidence", 0.5) * 100) if c.get("confidence") is not None else None,
+            "source": "talaix-discovery",
+            "verification": c.get("claim_status", "OBSERVED"),
+        } for c in contacts],
+        source="talaix-discovery",
+    )
+    return jsonify({
+        "ok": True,
+        "domain": domain,
+        "added": added,
+        "contacts": store.list_contacts(lead_slug),
+        "pages_fetched": result.get("pages_fetched"),
+        "robots_respected": result.get("robots_respected"),
+        "note": result.get("note"),
+    })
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/contacts/infer-email")
+@require_role("admin")
+def marketing_lead_contacts_infer_email(lead_slug: str):
+    """Infer an email for a person from observed domain patterns.
+
+    Stores the result only when an email was inferred; UNKNOWN verdicts are
+    returned without writing to the database.
+    """
+    lead = _leads_by_slug().get(lead_slug)
+    if lead is None:
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+
+    if not _rate_limit_discovery(f"infer-email:{_discovery_client_key()}"):
+        return jsonify({"error": "Rate limit exceeded (10 requests/minute)", "status": 429}), 429
+
+    data = request.get_json(silent=True) or {}
+    first_name = (data.get("first_name") or "").strip()
+    last_name = (data.get("last_name") or "").strip()
+    if not first_name or not last_name:
+        return jsonify({"error": "first_name and last_name are required", "status": 400}), 400
+
+    domain = hunter.domain_from_url(lead.get("website"))
+    if domain is None:
+        return jsonify({"error": "no usable domain on this lead", "status": 400}), 400
+
+    store = MarketingStore()
+    known = [c["email"] for c in store.list_contacts(lead_slug)]
+    verdict = email_discovery.find_for_person(domain, first_name, last_name, known_emails=known or None)
+
+    if verdict.get("claim_status") != "INFERRED" or not verdict.get("email"):
+        return jsonify({
+            "ok": True,
+            "found": False,
+            "claim_status": verdict.get("claim_status"),
+            "reason": verdict.get("reason"),
+        })
+
+    store.add_contacts(
+        lead_slug,
+        [{
+            "email": verdict["email"],
+            "name": f"{first_name} {last_name}".strip(),
+            "confidence": int(verdict.get("confidence", 0.6) * 100),
+            "source": "talaix-inference",
+            "verification": "INFERRED",
+            "position": "pattern-inferred — verify before sending",
+        }],
+        source="talaix-inference",
+    )
+    return jsonify({
+        "ok": True,
+        "found": True,
+        "claim_status": "INFERRED",
+        "email": verdict["email"],
+        "pattern": verdict.get("pattern"),
+        "basis": verdict.get("basis"),
+        "contacts": store.list_contacts(lead_slug),
+    })
+
+
+@marketing_crm_bp.post("/admin/marketing/tree/discover-own")
+@require_role("admin")
+def marketing_tree_discover_own():
+    """Bulk-discover contacts with the Talaix engine across an intersection."""
+    if not _rate_limit_discovery(f"tree-discover-own:{_discovery_client_key()}"):
+        return jsonify({"error": "Rate limit exceeded (10 requests/minute)", "status": 429}), 429
+
+    data = request.get_json(silent=True) or {}
+    segment = (data.get("segment") or "").strip()
+    country = (data.get("country") or "").strip()
+    region = (data.get("region") or "").strip()
+    if not segment or not country:
+        return jsonify({"error": "segment and country are required", "status": 400}), 400
+
+    leads = [
+        l for l in _all_leads()
+        if _lead_category(l) == segment
+        and (l.get("country") or "") == country
+        and (not region or (l.get("region") or "").strip() == region)
+        and not l.get("excluded")
+    ][:10]
+
+    store = MarketingStore()
+    processed = added = skipped = errors = 0
+    for lead in leads:
+        slug = lead.get("_slug")
+        if not slug:
+            skipped += 1
+            continue
+        if store.list_contacts(slug):
+            skipped += 1
+            continue
+        domain = hunter.domain_from_url(lead.get("website"))
+        if domain is None:
+            skipped += 1
+            continue
+        try:
+            result = email_discovery.discover_emails(domain, max_pages=8)
+            contacts = result.get("contacts", [])
+            if contacts:
+                new = store.add_contacts(
+                    slug,
+                    [{
+                        "email": c["email"],
+                        "confidence": int(c.get("confidence", 0.5) * 100) if c.get("confidence") is not None else None,
+                        "source": "talaix-discovery",
+                        "verification": c.get("claim_status", "OBSERVED"),
+                    } for c in contacts],
+                    source="talaix-discovery",
+                )
+                added += new
+            processed += 1
+        except Exception:
+            errors += 1
+
+    return jsonify({
+        "ok": True,
+        "processed": processed,
+        "added": added,
+        "skipped": skipped,
+        "errors": errors,
+        "leads": len(leads),
     })
