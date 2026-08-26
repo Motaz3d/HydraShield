@@ -105,7 +105,17 @@ clear "unavailable" message.
 - Polishing is available per-section from the section editor. The button is
   enabled only when the section body is non-empty.
 - The server sends the section heading and text to the gateway with the
-  `polish` task kind, which routes to the cheap `kimi-for-coding` model.
+  `polish` task kind. Routing is provider-aware and cheap-first:
+  - `KIMI_PROVIDER=code` (default, Kimi Code membership API at
+    `api.kimi.com/coding/v1`): cheap tier `kimi-for-coding`, strong tier
+    `k3-256k` (used only by `deep_analysis`).
+  - `KIMI_PROVIDER=platform` (pay-as-you-go Kimi Platform at
+    `api.moonshot.cn/v1`; use `platform-international` for
+    `api.moonshot.ai/v1`): cheap tier `moonshot-v1-8k`, strong tier
+    `kimi-k2-0711-preview`.
+  - `KIMI_BASE_URL`, `KIMI_MODEL_CHEAP` and `KIMI_MODEL_STRONG` override the
+    endpoint and model ids when a provider introduces new ids — callers never
+    pick models ad hoc.
 - The system prompt instructs the model to improve clarity and grammar only:
   it must not invent facts, numbers, hazard labels, source references, or
   conclusions absent from the user's text.

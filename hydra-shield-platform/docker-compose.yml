@@ -83,6 +83,10 @@ services:
       - HYDRASHIELD_OPERATOR_EMAILS=${HYDRASHIELD_OPERATOR_EMAILS:-}
       # AI gateway (Kimi) — value lives only in the server .env, never in git.
       - KIMI_API_KEY=${KIMI_API_KEY:-}
+      - KIMI_PROVIDER=${KIMI_PROVIDER:-code}
+      - KIMI_BASE_URL=${KIMI_BASE_URL:-}
+      - KIMI_MODEL_CHEAP=${KIMI_MODEL_CHEAP:-}
+      - KIMI_MODEL_STRONG=${KIMI_MODEL_STRONG:-}
       - AI_DAILY_CALL_CAP=${AI_DAILY_CALL_CAP:-50}
       # Marketing CRM — Hunter fallback layer + outreach send cap.
       - HUNTER_API_KEY=${HUNTER_API_KEY:-}

@@ -300,3 +300,65 @@ def test_pdf_renders_ai_polished_marker(client, env):
     assert "[edited by user]" in text
 
 
+
+
+# -----------------------------------------------------------------------------
+# Provider routing (pay-as-you-go Kimi Platform)
+# -----------------------------------------------------------------------------
+
+
+def _capture_post(monkeypatch, captured):
+    def fake_post(url, headers, payload, timeout):
+        captured["url"] = url
+        captured["payload"] = payload
+        return _ok_response("ok")
+
+    monkeypatch.setattr(gateway, "_post", fake_post)
+
+
+def test_platform_provider_routes_cheap_and_url(monkeypatch):
+    monkeypatch.setenv("KIMI_API_KEY", "test-key")
+    monkeypatch.setenv("KIMI_PROVIDER", "platform")
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("polish", "draft prose")
+    assert captured["payload"]["model"] == "moonshot-v1-8k"
+    assert captured["url"] == "https://api.moonshot.cn/v1/chat/completions"
+
+
+def test_platform_provider_routes_strong_for_deep_analysis(monkeypatch):
+    monkeypatch.setenv("KIMI_API_KEY", "test-key")
+    monkeypatch.setenv("KIMI_PROVIDER", "platform")
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("deep_analysis", "long prompt")
+    assert captured["payload"]["model"] == "kimi-k2-0711-preview"
+
+
+def test_platform_international_url(monkeypatch):
+    monkeypatch.setenv("KIMI_API_KEY", "test-key")
+    monkeypatch.setenv("KIMI_PROVIDER", "platform-international")
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("summarize", "text")
+    assert captured["url"] == "https://api.moonshot.ai/v1/chat/completions"
+    assert captured["payload"]["model"] == "moonshot-v1-8k"
+
+
+def test_model_and_base_url_overrides(monkeypatch):
+    monkeypatch.setenv("KIMI_API_KEY", "test-key")
+    monkeypatch.setenv("KIMI_PROVIDER", "platform")
+    monkeypatch.setenv("KIMI_MODEL_CHEAP", "moonshot-v1-32k")
+    monkeypatch.setenv("KIMI_BASE_URL", "https://proxy.internal/v1/chat/completions")
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("classify", "text")
+    assert captured["payload"]["model"] == "moonshot-v1-32k"
+    assert captured["url"] == "https://proxy.internal/v1/chat/completions"
+
+
+def test_unknown_provider_raises(monkeypatch):
+    monkeypatch.setenv("KIMI_API_KEY", "test-key")
+    monkeypatch.setenv("KIMI_PROVIDER", "nonsense")
+    with pytest.raises(gateway.AIUnavailable, match="KIMI_PROVIDER"):
+        gateway.complete("polish", "text")

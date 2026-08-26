@@ -5,6 +5,21 @@ Provides a cheap-first, tiered interface to the Kimi API. The gateway is
 opt-in via ``KIMI_API_KEY``; when the key is absent every call raises
 ``AIUnavailable`` so callers can degrade gracefully.
 
+Two providers are supported (``KIMI_PROVIDER``):
+
+- ``code`` (default): the Kimi Code API bundled with a Kimi membership
+  (https://api.kimi.com/coding/v1). Cheap tier ``kimi-for-coding``,
+  strong tier ``k3-256k``.
+- ``platform``: the pay-as-you-go Kimi Platform
+  (https://api.moonshot.cn/v1 — or ``platform-international`` for
+  https://api.moonshot.ai/v1). Cheap tier ``moonshot-v1-8k``, strong
+  tier ``kimi-k2-0711-preview``.
+
+``KIMI_BASE_URL`` overrides the endpoint outright, and
+``KIMI_MODEL_CHEAP`` / ``KIMI_MODEL_STRONG`` override the per-provider
+default model ids (use them when the platform introduces new model ids —
+never let callers pick models ad hoc).
+
 Usage is logged to the shared platform SQLite database so daily caps can be
 enforced and operators can audit spend.
 """
@@ -21,14 +36,32 @@ import requests
 
 from ..dashboard.cache import default_cache
 
-KIMI_BASE_URL = "https://api.kimi.com/coding/v1/chat/completions"
+_PROVIDERS: Dict[str, Dict[str, Any]] = {
+    "code": {
+        "base_url": "https://api.kimi.com/coding/v1/chat/completions",
+        "cheap": "kimi-for-coding",
+        "strong": "k3-256k",
+    },
+    "platform": {
+        "base_url": "https://api.moonshot.cn/v1/chat/completions",
+        "cheap": "moonshot-v1-8k",
+        "strong": "kimi-k2-0711-preview",
+    },
+    "platform-international": {
+        "base_url": "https://api.moonshot.ai/v1/chat/completions",
+        "cheap": "moonshot-v1-8k",
+        "strong": "kimi-k2-0711-preview",
+    },
+}
 
+#: Task kinds are the ONLY routing input: cheap by default, strong only for
+#: documented heavy work. Values reference the provider tier, not a model id.
 TASK_TIERS: Dict[str, str] = {
-    "classify": "kimi-for-coding",
-    "polish": "kimi-for-coding",
-    "summarize": "kimi-for-coding",
-    "draft_prose": "kimi-for-coding",
-    "deep_analysis": "k3-256k",
+    "classify": "cheap",
+    "polish": "cheap",
+    "summarize": "cheap",
+    "draft_prose": "cheap",
+    "deep_analysis": "strong",
 }
 
 POLISH_SYSTEM_PROMPT = (
@@ -132,11 +165,30 @@ def calls_today() -> int:
     return row[0] if row else 0
 
 
+def _provider() -> Dict[str, Any]:
+    """Resolve the active provider config from the environment."""
+    name = (os.environ.get("KIMI_PROVIDER") or "code").strip().lower() or "code"
+    config = _PROVIDERS.get(name)
+    if config is None:
+        raise AIUnavailable(
+            f"unknown KIMI_PROVIDER '{name}' (expected one of: {', '.join(sorted(_PROVIDERS))})"
+        )
+    return config
+
+
+def _base_url() -> str:
+    override = (os.environ.get("KIMI_BASE_URL") or "").strip()
+    return override or _provider()["base_url"]
+
+
 def _resolve_model(task_kind: str) -> str:
-    """Return the model for a task kind, or raise AIUnavailable."""
+    """Return the model for a task kind via the provider tier map."""
     if task_kind not in TASK_TIERS:
         raise AIUnavailable(f"unknown task kind: {task_kind}")
-    return TASK_TIERS[task_kind]
+    tier = TASK_TIERS[task_kind]
+    if tier == "cheap":
+        return (os.environ.get("KIMI_MODEL_CHEAP") or "").strip() or _provider()["cheap"]
+    return (os.environ.get("KIMI_MODEL_STRONG") or "").strip() or _provider()["strong"]
 
 
 def _post(url: str, headers: Dict[str, str], payload: Dict[str, Any], timeout: float) -> Dict[str, Any]:
@@ -202,7 +254,7 @@ def complete(
         "Content-Type": "application/json",
     }
 
-    data = _post(KIMI_BASE_URL, headers, payload, timeout)
+    data = _post(_base_url(), headers, payload, timeout)
 
     try:
         text = data["choices"][0]["message"]["content"]
