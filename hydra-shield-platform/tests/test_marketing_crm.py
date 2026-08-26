@@ -983,3 +983,376 @@ def test_discover_no_usable_domain_returns_422(client, env, monkeypatch):
     )
     assert resp.status_code == 422
     assert "no usable domain" in resp.get_json()["error"]
+
+
+# ---------------------------------------------------------------------------
+# Hunter.io email finder + verifier
+# ---------------------------------------------------------------------------
+
+def test_email_finder_returns_contact_or_none(env, monkeypatch):
+    from src.dashboard import hunter
+
+    calls = []
+
+    def _fake_urlopen(req, timeout=None):
+        url = req.full_url
+        calls.append(url)
+        if "email-finder" in url and "Ada" in url and "Lovelace" in url:
+            payload = {
+                "data": {
+                    "email": "ada@example.com",
+                    "score": 95,
+                    "sources": [{"uri": "http://example.com"}],
+                    "verification": {"status": "valid"},
+                }
+            }
+        elif "email-verifier" in url:
+            payload = {
+                "data": {
+                    "email": "ada@example.com",
+                    "score": 95,
+                    "status": "valid",
+                    "result": "deliverable",
+                }
+            }
+        else:
+            import urllib.error
+            raise urllib.error.HTTPError(url, 404, "Not found", {}, None)
+
+        class Resp:
+            def read(self):
+                return json.dumps(payload).encode("utf-8")
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+        return Resp()
+
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+    monkeypatch.setattr(hunter.urllib.request, "urlopen", _fake_urlopen)
+
+    found = hunter.email_finder("example.com", "Ada", "Lovelace")
+    assert found["email"] == "ada@example.com"
+    assert found["score"] == 95
+    assert found["verification"] == "valid"
+
+    verified = hunter.verify_email("ada@example.com")
+    assert verified["result"] == "deliverable"
+
+
+def test_email_finder_returns_none_on_404(env, monkeypatch):
+    from src.dashboard import hunter
+
+    def _fake_urlopen(req, timeout=None):
+        import urllib.error
+        raise urllib.error.HTTPError(req.full_url, 404, "Not found", {}, None)
+
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+    monkeypatch.setattr(hunter.urllib.request, "urlopen", _fake_urlopen)
+    assert hunter.email_finder("example.com", "No", "Such") is None
+
+
+# ---------------------------------------------------------------------------
+# MarketingStore auto-send / unsubscribe / verification / daily count
+# ---------------------------------------------------------------------------
+
+def test_store_auto_send_unsubscribe_and_verification(env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "x@example.com", "name": "X", "confidence": 80},
+    ])
+
+    assert store.set_auto_send("test-bank-one", True) is True
+    state = store.get_state("test-bank-one")
+    assert state["auto_send"] is True
+
+    assert store.set_auto_send("test-bank-one", False) is True
+    state = store.get_state("test-bank-one")
+    assert state["auto_send"] is False
+
+    assert store.unsubscribe("test-bank-one", "asked to stop") is True
+    assert store.is_unsubscribed("test-bank-one") is True
+    state = store.get_state("test-bank-one")
+    assert state["unsub_reason"] == "asked to stop"
+
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+    updated = store.set_contact_verification(cid, "valid")
+    assert updated["verification"] == "valid"
+    assert store.get_contact(cid)["verification"] == "valid"
+
+
+def test_store_sent_today_count(env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    assert store.sent_today_count() == 0
+
+    store.add_interaction("test-bank-one", "Outreach email to a@b.org", type="email")
+    assert store.sent_today_count() == 1
+
+    store.schedule_send(
+        lead_slug="test-bank-two",
+        to_email="b@c.org",
+        contact_name=None,
+        template="outreach_generic",
+        context={},
+        send_at="2026-09-01T09:00",
+    )
+    # scheduled rows do not count until marked sent
+    assert store.sent_today_count() == 1
+
+
+# ---------------------------------------------------------------------------
+# CRM auto-send / unsubscribe / preview
+# ---------------------------------------------------------------------------
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_auto_send_toggle(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/auto-send",
+        headers=admin,
+        json={"enabled": True},
+    )
+    assert resp.status_code == 200
+    assert resp.get_json()["auto_send"] is True
+
+    detail = client.get("/api/v2/admin/marketing/lead/test-bank-one",
+                        headers=admin).get_json()
+    assert detail["lead"]["auto_send"] is True
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_unsubscribe_blocks_send_and_schedule(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/unsubscribe",
+        headers=admin,
+        json={"reason": "opted out"},
+    )
+    assert resp.status_code == 200
+    assert resp.get_json()["unsubscribed"] is True
+
+    send = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/send",
+        headers=admin,
+        json={"to_email": "contact@example.org"},
+    )
+    assert send.status_code == 400
+    assert "unsubscribed" in send.get_json()["error"]
+
+    future = (datetime.utcnow() + timedelta(days=1)).isoformat() + "Z"
+    schedule = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/schedule",
+        headers=admin,
+        json={"to_email": "later@example.org", "send_at": future},
+    )
+    assert schedule.status_code == 400
+    assert "unsubscribed" in schedule.get_json()["error"]
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_preview_returns_rendered_template(client, env):
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/preview",
+        headers=admin,
+        json={"contact_name": "Ada"},
+    )
+    assert resp.status_code == 200
+    body = resp.get_json()
+    assert body["ok"] is True
+    assert "Test Bank One" in body["subject"]
+    assert "Test Bank One" in body["body"]
+    assert "Ada" in body["body"]
+
+
+# ---------------------------------------------------------------------------
+# CRM find-email / verify-email / bulk discover
+# ---------------------------------------------------------------------------
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_find_email_stores_contact(client, env, monkeypatch):
+    from src.dashboard import hunter
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    def _fake_finder(domain, first, last):
+        return {
+            "email": f"{first.lower()}.{last.lower()}@testbankone.com",
+            "score": 90,
+            "sources": [],
+            "verification": "valid",
+        }
+
+    monkeypatch.setattr(hunter, "configured", lambda: True)
+    monkeypatch.setattr(hunter, "email_finder", _fake_finder)
+
+    resp = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/find-email",
+        headers=admin,
+        json={"first_name": "Ada", "last_name": "Lovelace"},
+    )
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert data["found"] is True
+    assert data["contact"]["email"] == "ada.lovelace@testbankone.com"
+
+    contacts = client.get(
+        "/api/v2/admin/marketing/lead/test-bank-one/contacts",
+        headers=admin,
+    ).get_json()["contacts"]
+    assert any(c["email"] == "ada.lovelace@testbankone.com" for c in contacts)
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_verify_email_endpoint_updates_contact(client, env, monkeypatch):
+    from src.dashboard import hunter
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "check@example.com", "name": "Check", "confidence": 70},
+    ])
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+
+    monkeypatch.setattr(hunter, "configured", lambda: True)
+    monkeypatch.setattr(hunter, "verify_email",
+                        lambda email: {"email": email, "score": 80, "result": "deliverable", "status": "valid"})
+
+    resp = client.post(
+        f"/api/v2/admin/marketing/contacts/{cid}/verify",
+        headers=admin,
+    )
+    assert resp.status_code == 200
+    assert resp.get_json()["verification"]["result"] == "deliverable"
+    assert store.get_contact(cid)["verification"] == "deliverable"
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_bulk_discover_adds_contacts_to_multiple_leads(client, env, monkeypatch):
+    from src.dashboard import hunter
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+
+    def _fake_search(domain):
+        return [{"email": f"contact@{domain}", "name": "Contact", "confidence": 80}]
+
+    monkeypatch.setattr(hunter, "configured", lambda: True)
+    monkeypatch.setattr(hunter, "domain_search", _fake_search)
+
+    resp = client.post(
+        "/api/v2/admin/marketing/tree/discover",
+        headers=admin,
+        json={"segment": "banking", "country": "US"},
+    )
+    assert resp.status_code == 200
+    data = resp.get_json()
+    # Only Test Bank One has a website in the fixture; Test Bank Two does not.
+    assert data["added"] == 1
+    assert data["leads"] == 2
+    assert data["domains"] == ["testbankone.com"]
+
+
+# ---------------------------------------------------------------------------
+# Daily cap enforcement
+# ---------------------------------------------------------------------------
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_send_rejects_when_daily_cap_reached(client, env, monkeypatch):
+    from src.dashboard import marketing_crm
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    monkeypatch.setattr(marketing_crm, "_DAILY_SEND_CAP", 1)
+
+    # First send consumes the cap.
+    r1 = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-one/send",
+        headers=admin,
+        json={"to_email": "one@example.org"},
+    )
+    assert r1.status_code == 200
+
+    r2 = client.post(
+        "/api/v2/admin/marketing/lead/test-bank-two/send",
+        headers=admin,
+        json={"to_email": "two@example.org"},
+    )
+    assert r2.status_code == 429
+    assert "cap" in r2.get_json()["error"].lower()
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_processor_leaves_pending_when_cap_reached(client, env, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+
+    script_path = Path(__file__).resolve().parent.parent / "scripts" / "process_scheduled_outreach.py"
+    spec = importlib.util.spec_from_file_location("process_scheduled_outreach", str(script_path))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    # Cap of 1; first scheduled row will consume it, second must stay pending.
+    monkeypatch.setattr(mod, "_DAILY_SEND_CAP", 1)
+
+    past = (datetime.utcnow() - timedelta(hours=1)).isoformat()[:19]
+    row1 = store.schedule_send(
+        lead_slug="test-bank-one",
+        to_email="first@example.org",
+        contact_name="First",
+        template="outreach_generic",
+        context={"organization": "Test Bank One"},
+        send_at=past,
+    )
+    row2 = store.schedule_send(
+        lead_slug="test-bank-two",
+        to_email="second@example.org",
+        contact_name="Second",
+        template="outreach_generic",
+        context={"organization": "Test Bank Two"},
+        send_at=past,
+    )
+
+    assert mod.main() == 0
+
+    assert store.get_scheduled(row1["id"])["status"] == "sent"
+    assert store.get_scheduled(row2["id"])["status"] == "scheduled"
+
+
+@pytest.mark.usefixtures("sample_workspace")
+def test_processor_skips_unsubscribed_lead(client, env):
+    from src.dashboard.marketing_store import MarketingStore
+
+    admin = _make_user(client, env, "op@example.org", role="admin")
+    store = MarketingStore(str(env["db"]))
+    store.unsubscribe("test-bank-one")
+
+    past = (datetime.utcnow() - timedelta(hours=1)).isoformat()[:19]
+    row = store.schedule_send(
+        lead_slug="test-bank-one",
+        to_email="skip@example.org",
+        contact_name="Skip",
+        template="outreach_generic",
+        context={"organization": "Test Bank One"},
+        send_at=past,
+    )
+
+    script_path = Path(__file__).resolve().parent.parent / "scripts" / "process_scheduled_outreach.py"
+    spec = importlib.util.spec_from_file_location("process_scheduled_outreach", str(script_path))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod.main() == 0
+
+    updated = store.get_scheduled(row["id"])
+    assert updated["status"] == "skipped_unsubscribed"
+
+    detail = client.get("/api/v2/admin/marketing/lead/test-bank-one",
+                        headers=admin).get_json()
+    assert not any(i["type"] == "email" for i in detail["interactions"])

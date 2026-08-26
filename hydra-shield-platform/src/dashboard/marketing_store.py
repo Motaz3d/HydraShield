@@ -35,7 +35,7 @@ LEAD_STATUSES = ("open", "won", "lost")
 LEAD_PRIORITIES = ("high", "medium", "low")
 INTERACTION_TYPES = ("email", "call", "meeting", "demo", "note", "linkedin",
                      "followup", "proposal", "subscription", "trial", "renewal")
-SCHEDULED_STATUSES = ("scheduled", "sent", "failed", "cancelled")
+SCHEDULED_STATUSES = ("scheduled", "sent", "failed", "cancelled", "skipped_unsubscribed")
 
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,120}$")
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -69,6 +69,9 @@ class MarketingStore:
                     priority TEXT,
                     next_action TEXT,
                     next_followup TEXT,
+                    auto_send INTEGER DEFAULT 0,
+                    unsubscribed INTEGER DEFAULT 0,
+                    unsub_reason TEXT,
                     updated_at TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS lead_interactions (
@@ -101,6 +104,7 @@ class MarketingStore:
                     department TEXT,
                     confidence INTEGER,
                     source TEXT NOT NULL DEFAULT 'hunter',
+                    verification TEXT,
                     created_at TEXT NOT NULL,
                     UNIQUE(lead_slug, email)
                 );
@@ -115,16 +119,34 @@ class MarketingStore:
             if "exclude_reason" not in cols:
                 conn.execute(
                     "ALTER TABLE lead_state ADD COLUMN exclude_reason TEXT")
+            if "auto_send" not in cols:
+                conn.execute(
+                    "ALTER TABLE lead_state ADD COLUMN auto_send INTEGER DEFAULT 0")
+            if "unsubscribed" not in cols:
+                conn.execute(
+                    "ALTER TABLE lead_state ADD COLUMN unsubscribed INTEGER DEFAULT 0")
+            if "unsub_reason" not in cols:
+                conn.execute(
+                    "ALTER TABLE lead_state ADD COLUMN unsub_reason TEXT")
+            contact_cols = {r[1] for r in conn.execute(
+                "PRAGMA table_info(lead_contacts)").fetchall()}
+            if "verification" not in contact_cols:
+                conn.execute(
+                    "ALTER TABLE lead_contacts ADD COLUMN verification TEXT")
 
     _STATE_COLS = ("lead_slug, outreach_status, status, priority, next_action,"
-                   " next_followup, COALESCE(excluded, 0), exclude_reason, updated_at")
+                   " next_followup, COALESCE(excluded, 0), exclude_reason,"
+                   " COALESCE(auto_send, 0), COALESCE(unsubscribed, 0),"
+                   " unsub_reason, updated_at")
 
     @staticmethod
     def _state_row(row) -> Dict:
         return {"lead_slug": row[0], "outreach_status": row[1], "status": row[2],
                 "priority": row[3], "next_action": row[4],
                 "next_followup": row[5], "excluded": bool(row[6]),
-                "exclude_reason": row[7], "updated_at": row[8]}
+                "exclude_reason": row[7], "auto_send": bool(row[8]),
+                "unsubscribed": bool(row[9]), "unsub_reason": row[10],
+                "updated_at": row[11]}
 
     # ------------------------------------------------------------------
     # Validation
@@ -191,6 +213,69 @@ class MarketingStore:
                 f"SELECT {self._STATE_COLS} FROM lead_state"
             ).fetchall()
         return [self._state_row(r) for r in rows]
+
+    def set_auto_send(self, lead_slug: str, enabled: bool) -> bool:
+        """Enable or disable auto-send for a lead."""
+        if not self.valid_slug(lead_slug):
+            return False
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "INSERT INTO lead_state (lead_slug, updated_at) VALUES (?, ?)"
+                " ON CONFLICT(lead_slug) DO NOTHING",
+                (lead_slug, _utcnow()),
+            )
+            conn.execute(
+                "UPDATE lead_state SET auto_send = ?, updated_at = ?"
+                " WHERE lead_slug = ?",
+                (1 if enabled else 0, _utcnow(), lead_slug),
+            )
+        return True
+
+    def unsubscribe(self, lead_slug: str, reason: Optional[str] = None) -> bool:
+        """Mark a lead as unsubscribed and record an optional reason."""
+        if not self.valid_slug(lead_slug):
+            return False
+        reason = (reason or "").strip()[:200] or None
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "INSERT INTO lead_state (lead_slug, updated_at) VALUES (?, ?)"
+                " ON CONFLICT(lead_slug) DO NOTHING",
+                (lead_slug, _utcnow()),
+            )
+            conn.execute(
+                "UPDATE lead_state SET unsubscribed = 1, unsub_reason = ?,"
+                " updated_at = ? WHERE lead_slug = ?",
+                (reason, _utcnow(), lead_slug),
+            )
+        return True
+
+    def is_unsubscribed(self, lead_slug: str) -> bool:
+        """Return True if the lead has opted out of outreach."""
+        if not self.valid_slug(lead_slug):
+            return False
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT COALESCE(unsubscribed, 0) FROM lead_state"
+                " WHERE lead_slug = ?",
+                (lead_slug,),
+            ).fetchone()
+        return bool(row[0]) if row else False
+
+    def sent_today_count(self) -> int:
+        """Number of emails sent today via immediate or scheduled send."""
+        today = _utcnow()[:10]
+        with self._lock, self._connect() as conn:
+            immediate = conn.execute(
+                "SELECT COUNT(*) FROM lead_interactions"
+                " WHERE type = 'email' AND date >= ?",
+                (today,),
+            ).fetchone()[0] or 0
+            scheduled = conn.execute(
+                "SELECT COUNT(*) FROM scheduled_outreach"
+                " WHERE status = 'sent' AND sent_at >= ?",
+                (today,),
+            ).fetchone()[0] or 0
+        return int(immediate) + int(scheduled)
 
     # ------------------------------------------------------------------
     # Interaction log
@@ -342,8 +427,8 @@ class MarketingStore:
         status: str,
         error: Optional[str] = None,
     ) -> Optional[Dict]:
-        """Mark a scheduled row as sent or failed. Returns the row or None."""
-        if status not in ("sent", "failed"):
+        """Mark a scheduled row as sent, failed or skipped. Returns the row or None."""
+        if status not in ("sent", "failed", "skipped_unsubscribed"):
             return None
         row = self.get_scheduled(scheduled_id)
         if row is None:
@@ -385,7 +470,8 @@ class MarketingStore:
             "department": row[5],
             "confidence": row[6],
             "source": row[7],
-            "created_at": row[8],
+            "verification": row[8],
+            "created_at": row[9],
         }
 
     def add_contacts(
@@ -419,9 +505,10 @@ class MarketingStore:
                         confidence = None
                 except (TypeError, ValueError):
                     confidence = None
+            verification = str(c.get("verification") or "").strip()[:20] or None
             rows.append(
                 (lead_slug, email, name or None, position or None,
-                 department or None, confidence, source, _utcnow())
+                 department or None, confidence, source, verification, _utcnow())
             )
         if not rows:
             return 0
@@ -430,18 +517,55 @@ class MarketingStore:
             conn.executemany(
                 "INSERT OR IGNORE INTO lead_contacts"
                 " (lead_slug, email, name, position, department, confidence,"
-                " source, created_at)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                " source, verification, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 rows,
             )
             return conn.total_changes - changes_before
+
+    def set_contact_verification(
+        self,
+        contact_id: int,
+        verification: str,
+    ) -> Optional[Dict]:
+        """Update the verification status of a stored contact."""
+        if not isinstance(contact_id, int):
+            return None
+        verification = str(verification or "").strip()[:20] or None
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, lead_slug, email, name, position, department,"
+                " confidence, source, verification, created_at"
+                " FROM lead_contacts WHERE id = ?",
+                (contact_id,),
+            ).fetchone()
+            if row is None:
+                return None
+            conn.execute(
+                "UPDATE lead_contacts SET verification = ? WHERE id = ?",
+                (verification, contact_id),
+            )
+        return self.get_contact(contact_id)
+
+    def get_contact(self, contact_id: int) -> Optional[Dict]:
+        """Fetch a single stored contact by id."""
+        if not isinstance(contact_id, int):
+            return None
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT id, lead_slug, email, name, position, department,"
+                " confidence, source, verification, created_at"
+                " FROM lead_contacts WHERE id = ?",
+                (contact_id,),
+            ).fetchone()
+        return self._contact_row(row) if row else None
 
     def list_contacts(self, lead_slug: str) -> List[Dict]:
         """Stored contacts for a lead, highest-confidence first."""
         with self._lock, self._connect() as conn:
             rows = conn.execute(
                 "SELECT id, lead_slug, email, name, position, department,"
-                " confidence, source, created_at FROM lead_contacts"
+                " confidence, source, verification, created_at FROM lead_contacts"
                 " WHERE lead_slug = ?"
                 " ORDER BY (confidence IS NULL), confidence DESC, id",
                 (lead_slug,),
@@ -455,7 +579,8 @@ class MarketingStore:
         with self._lock, self._connect() as conn:
             row = conn.execute(
                 "SELECT id, lead_slug, email, name, position, department,"
-                " confidence, source, created_at FROM lead_contacts WHERE id = ?",
+                " confidence, source, verification, created_at"
+                " FROM lead_contacts WHERE id = ?",
                 (contact_id,),
             ).fetchone()
             if row is None:

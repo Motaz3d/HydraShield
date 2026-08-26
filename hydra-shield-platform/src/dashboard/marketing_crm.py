@@ -34,6 +34,22 @@ marketing_crm_bp = Blueprint("marketing_crm", __name__, url_prefix="/api/v2")
 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
+_DAILY_SEND_CAP = int(os.environ.get("DAILY_SEND_CAP") or 20)
+
+
+def _daily_cap_reached() -> bool:
+    return MarketingStore().sent_today_count() >= _DAILY_SEND_CAP
+
+
+def _lead_store_state(lead_slug: str) -> Dict:
+    """Return stored state fields merged with safe defaults."""
+    state = MarketingStore().get_state(lead_slug) or {}
+    return {
+        "auto_send": bool(state.get("auto_send")),
+        "unsubscribed": bool(state.get("unsubscribed")),
+        "unsub_reason": state.get("unsub_reason"),
+    }
+
 
 def _all_leads() -> List[Dict]:
     """Merged workspace leads with working-state overlay."""
@@ -89,6 +105,7 @@ def _outreach_template_and_context(lead: Dict, data: Dict):
         "relevant_capability": lead.get("relevant_capability") or "",
         "recommended_product": lead.get("recommended_product") or "",
         "custom_message": (data.get("custom_message") or "").strip(),
+        "unsubscribe_url": "",
     }
     return template, context
 
@@ -341,6 +358,9 @@ def marketing_lead_detail(lead_slug: str):
             break
 
     store = MarketingStore()
+    lead["auto_send"] = _lead_store_state(lead_slug)["auto_send"]
+    lead["unsubscribed"] = _lead_store_state(lead_slug)["unsubscribed"]
+    lead["unsub_reason"] = _lead_store_state(lead_slug)["unsub_reason"]
     return jsonify({
         "lead": lead,
         "score": _lead_score(lead),
@@ -361,6 +381,16 @@ def marketing_lead_send(lead_slug: str):
     if lead.get("excluded"):
         return jsonify({"error": "Lead is excluded", "status": 409}), 409
 
+    store = MarketingStore()
+    if store.is_unsubscribed(lead_slug):
+        return jsonify({"error": "Lead has unsubscribed from outreach", "status": 400}), 400
+    if _daily_cap_reached():
+        return jsonify({
+            "error": "Daily outreach cap reached — retry tomorrow",
+            "cap": _DAILY_SEND_CAP,
+            "status": 429,
+        }), 429
+
     data = request.get_json(silent=True) or {}
     to_email = (data.get("to_email") or "").strip()
     if not to_email or not _EMAIL_RE.match(to_email):
@@ -372,7 +402,6 @@ def marketing_lead_send(lead_slug: str):
     except Exception as exc:
         return jsonify({"error": "delivery failed", "detail": str(exc), "status": 502}), 502
 
-    store = MarketingStore()
     subject = delivery.get("subject") or f"outreach ({template})"
     store.add_interaction(
         lead_slug,
@@ -402,6 +431,10 @@ def marketing_lead_schedule(lead_slug: str):
     if lead.get("excluded"):
         return jsonify({"error": "Lead is excluded", "status": 409}), 409
 
+    store = MarketingStore()
+    if store.is_unsubscribed(lead_slug):
+        return jsonify({"error": "Lead has unsubscribed from outreach", "status": 400}), 400
+
     data = request.get_json(silent=True) or {}
     to_email = (data.get("to_email") or "").strip()
     if not to_email or not _EMAIL_RE.match(to_email):
@@ -415,7 +448,7 @@ def marketing_lead_schedule(lead_slug: str):
         return jsonify({"error": "send_at must be in the future", "status": 400}), 400
 
     template, context = _outreach_template_and_context(lead, data)
-    row = MarketingStore().schedule_send(
+    row = store.schedule_send(
         lead_slug=lead_slug,
         to_email=to_email,
         contact_name=context.get("contact_name") or None,
@@ -511,3 +544,203 @@ def marketing_contact_delete(cid: int):
     if deleted is None:
         return jsonify({"error": "Unknown contact", "status": 404}), 404
     return jsonify({"ok": True})
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/find-email")
+@require_role("admin")
+def marketing_lead_find_email(lead_slug: str):
+    """Find a single email address on the lead's domain given a name."""
+    lead = _leads_by_slug().get(lead_slug)
+    if lead is None:
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+    if not hunter.configured():
+        return jsonify({
+            "error": "Hunter.io is not configured on this server — set HUNTER_API_KEY and redeploy.",
+            "status": 503,
+        }), 503
+
+    data = request.get_json(silent=True) or {}
+    first_name = (data.get("first_name") or "").strip()
+    last_name = (data.get("last_name") or "").strip()
+    if not first_name or not last_name:
+        return jsonify({"error": "first_name and last_name are required", "status": 400}), 400
+
+    domain = hunter.domain_from_url(lead.get("website"))
+    if domain is None:
+        return jsonify({"error": "no usable domain on this lead", "status": 422}), 422
+
+    try:
+        found = hunter.email_finder(domain, first_name, last_name)
+    except hunter.HunterError as exc:
+        return jsonify({"error": str(exc), "status": 502}), 502
+
+    if found is None:
+        return jsonify({"found": False, "domain": domain}), 200
+
+    store = MarketingStore()
+    store.add_contacts(
+        lead_slug,
+        [{
+            "email": found["email"],
+            "name": f"{first_name} {last_name}".strip(),
+            "confidence": found.get("score"),
+            "verification": found.get("verification"),
+        }],
+        source="hunter_finder",
+    )
+    return jsonify({
+        "found": True,
+        "domain": domain,
+        "contact": store.list_contacts(lead_slug)[0],
+    })
+
+
+@marketing_crm_bp.post("/admin/marketing/verify-email")
+@require_role("admin")
+def marketing_verify_email():
+    """Verify an arbitrary email address with Hunter.io."""
+    if not hunter.configured():
+        return jsonify({
+            "error": "Hunter.io is not configured on this server — set HUNTER_API_KEY and redeploy.",
+            "status": 503,
+        }), 503
+
+    data = request.get_json(silent=True) or {}
+    email = (data.get("email") or "").strip()
+    if not email or not _EMAIL_RE.match(email):
+        return jsonify({"error": "email is required and must be valid", "status": 400}), 400
+
+    try:
+        result = hunter.verify_email(email)
+    except hunter.HunterError as exc:
+        return jsonify({"error": str(exc), "status": 502}), 502
+    return jsonify({"ok": True, "verification": result})
+
+
+@marketing_crm_bp.post("/admin/marketing/contacts/<int:cid>/verify")
+@require_role("admin")
+def marketing_contact_verify(cid: int):
+    """Verify a stored contact's email and persist the result."""
+    if not hunter.configured():
+        return jsonify({
+            "error": "Hunter.io is not configured on this server — set HUNTER_API_KEY and redeploy.",
+            "status": 503,
+        }), 503
+
+    store = MarketingStore()
+    contact = store.get_contact(cid)
+    if contact is None:
+        return jsonify({"error": "Unknown contact", "status": 404}), 404
+
+    try:
+        result = hunter.verify_email(contact["email"])
+    except hunter.HunterError as exc:
+        return jsonify({"error": str(exc), "status": 502}), 502
+
+    verification = result.get("result") or result.get("status") or "unknown"
+    store.set_contact_verification(cid, verification)
+    return jsonify({"ok": True, "verification": result})
+
+
+@marketing_crm_bp.post("/admin/marketing/tree/discover")
+@require_role("admin")
+def marketing_tree_discover():
+    """Bulk-discover contacts for every lead in an intersection."""
+    if not hunter.configured():
+        return jsonify({
+            "error": "Hunter.io is not configured on this server — set HUNTER_API_KEY and redeploy.",
+            "status": 503,
+        }), 503
+
+    data = request.get_json(silent=True) or {}
+    segment = (data.get("segment") or "").strip()
+    country = (data.get("country") or "").strip()
+    region = (data.get("region") or "").strip()
+    if not segment or not country:
+        return jsonify({"error": "segment and country are required", "status": 400}), 400
+
+    leads = [
+        l for l in _all_leads()
+        if _lead_category(l) == segment
+        and (l.get("country") or "") == country
+        and (not region or (l.get("region") or "").strip() == region)
+        and not l.get("excluded")
+    ]
+
+    store = MarketingStore()
+    added = 0
+    domains = []
+    skipped = 0
+    for lead in leads:
+        slug = lead.get("_slug")
+        if not slug:
+            skipped += 1
+            continue
+        if store.list_contacts(slug):
+            skipped += 1
+            continue
+        domain = hunter.domain_from_url(lead.get("website"))
+        if domain is None:
+            skipped += 1
+            continue
+        try:
+            contacts = hunter.domain_search(domain)
+        except hunter.HunterError:
+            skipped += 1
+            continue
+        if contacts:
+            new = store.add_contacts(slug, contacts, source="hunter")
+            added += new
+            domains.append(domain)
+
+    return jsonify({
+        "added": added,
+        "domains": domains,
+        "skipped": skipped,
+        "leads": len(leads),
+    })
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/auto-send")
+@require_role("admin")
+def marketing_lead_auto_send(lead_slug: str):
+    """Toggle auto-send for a lead."""
+    if lead_slug not in _leads_by_slug():
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+    data = request.get_json(silent=True) or {}
+    enabled = bool(data.get("enabled"))
+    MarketingStore().set_auto_send(lead_slug, enabled)
+    return jsonify({"ok": True, "auto_send": enabled})
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/unsubscribe")
+@require_role("admin")
+def marketing_lead_unsubscribe(lead_slug: str):
+    """Mark a lead as unsubscribed from outreach."""
+    if lead_slug not in _leads_by_slug():
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+    data = request.get_json(silent=True) or {}
+    reason = (data.get("reason") or "").strip() or None
+    MarketingStore().unsubscribe(lead_slug, reason)
+    return jsonify({"ok": True, "unsubscribed": True})
+
+
+@marketing_crm_bp.post("/admin/marketing/lead/<lead_slug>/preview")
+@require_role("admin")
+def marketing_lead_preview(lead_slug: str):
+    """Render the outreach template for a lead without sending."""
+    lead = _leads_by_slug().get(lead_slug)
+    if lead is None:
+        return jsonify({"error": f"Unknown lead '{lead_slug}'", "status": 404}), 404
+    data = request.get_json(silent=True) or {}
+    template, context = _outreach_template_and_context(lead, data)
+    try:
+        rendered = mailer.render_template(template, context)
+    except Exception as exc:
+        return jsonify({"error": "render failed", "detail": str(exc), "status": 502}), 502
+    return jsonify({
+        "ok": True,
+        "template": template,
+        "subject": rendered["subject"],
+        "body": rendered["text"],
+    })

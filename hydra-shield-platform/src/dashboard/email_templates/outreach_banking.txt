@@ -14,3 +14,6 @@ Would a 20-minute call this week be useful to explore how {{organization}} could
 Best,
 The Talaix team
 talaix.com
+
+---
+If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.

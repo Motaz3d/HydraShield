@@ -109,3 +109,106 @@ def domain_search(domain: str, limit: int = 10) -> List[Dict]:
             "confidence": confidence,
         })
     return out
+
+
+def email_finder(domain: str, first_name: str, last_name: str) -> Optional[Dict]:
+    """Find a single email address on ``domain`` given a name.
+
+    Returns a contact dict::
+
+        {"email", "score", "sources", "verification"}
+
+    Returns ``None`` when Hunter has no result for the name/domain.
+    Raises :class:`HunterError` on API failure.
+    """
+    api_key = os.environ.get("HUNTER_API_KEY")
+    if not api_key:
+        raise HunterError("Hunter.io is not configured")
+
+    first = str(first_name or "").strip()
+    last = str(last_name or "").strip()
+    if not first or not last:
+        raise HunterError("first_name and last_name are required")
+
+    url = (
+        "https://api.hunter.io/v2/email-finder"
+        f"?domain={quote(domain, safe='')}"
+        f"&first_name={quote(first)}"
+        f"&last_name={quote(last)}"
+        f"&api_key={api_key}"
+    )
+    req = urllib.request.Request(url, headers={"Accept": "application/json"})
+
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return None
+        if exc.code in (401, 403):
+            raise HunterError("invalid API key")
+        if exc.code == 429:
+            raise HunterError("Hunter.io quota exhausted")
+        raise HunterError(f"Hunter.io lookup failed: HTTP {exc.code}")
+    except urllib.error.URLError as exc:
+        raise HunterError(f"Hunter.io lookup failed: {exc.reason}")
+    except Exception as exc:
+        raise HunterError(f"Hunter.io lookup failed: {exc}")
+
+    data = payload.get("data") or {}
+    email = data.get("email")
+    if not email:
+        return None
+
+    verification = data.get("verification") or {}
+    return {
+        "email": email,
+        "score": data.get("score"),
+        "sources": data.get("sources") or [],
+        "verification": verification.get("status") or verification.get("result"),
+    }
+
+
+def verify_email(email: str) -> Dict:
+    """Verify an email address with Hunter.io.
+
+    Returns a dict::
+
+        {"email", "score", "status", "result"}
+
+    Raises :class:`HunterError` on API failure.
+    """
+    api_key = os.environ.get("HUNTER_API_KEY")
+    if not api_key:
+        raise HunterError("Hunter.io is not configured")
+
+    if not email or "@" not in email:
+        raise HunterError("valid email is required")
+
+    url = (
+        "https://api.hunter.io/v2/email-verifier"
+        f"?email={quote(email, safe='')}&api_key={api_key}"
+    )
+    req = urllib.request.Request(url, headers={"Accept": "application/json"})
+
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        if exc.code in (401, 403):
+            raise HunterError("invalid API key")
+        if exc.code == 429:
+            raise HunterError("Hunter.io quota exhausted")
+        raise HunterError(f"Hunter.io lookup failed: HTTP {exc.code}")
+    except urllib.error.URLError as exc:
+        raise HunterError(f"Hunter.io lookup failed: {exc.reason}")
+    except Exception as exc:
+        raise HunterError(f"Hunter.io lookup failed: {exc}")
+
+    data = payload.get("data") or {}
+    return {
+        "email": data.get("email") or email,
+        "score": data.get("score"),
+        "status": data.get("status"),
+        "result": data.get("result"),
+    }

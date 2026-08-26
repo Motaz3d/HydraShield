@@ -639,6 +639,9 @@
 
         filtersHtml += '<div style="margin-top:12px;">' +
             '<input type="text" class="mkt-textfilter" id="mkt-namefilter" placeholder="Filter by name…">' +
+            '</div>' +
+            '<div style="margin-top:8px;">' +
+            '<button class="btn-action btn-quiet" id="mkt-bulk-discover">Discover contacts for this intersection</button>' +
             '</div>';
 
         var filters = el('intersectionFilters');
@@ -678,6 +681,13 @@
             });
         }
 
+        var bulkDiscoverBtn = el('mkt-bulk-discover');
+        if (bulkDiscoverBtn) {
+            bulkDiscoverBtn.addEventListener('click', function () {
+                bulkDiscoverIntersection();
+            });
+        }
+
         Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-follow]'), function (btn) {
             var slug = btn.getAttribute('data-follow');
             btn.addEventListener('click', function () { toggleFollowUp(slug); });
@@ -693,6 +703,82 @@
         Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-contacts]'), function (btn) {
             var slug = btn.getAttribute('data-contacts');
             btn.addEventListener('click', function () { toggleContacts(slug); });
+        });
+
+        Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-auto-send]'), function (btn) {
+            var slug = btn.getAttribute('data-auto-send');
+            var enabled = btn.getAttribute('data-enabled') !== '1';
+            btn.addEventListener('click', function () { setAutoSend(slug, enabled); });
+        });
+
+        Array.prototype.forEach.call(el('intersectionBody').querySelectorAll('[data-unsubscribe]'), function (btn) {
+            var slug = btn.getAttribute('data-unsubscribe');
+            btn.addEventListener('click', function () { unsubscribeLead(slug); });
+        });
+    }
+
+    function setAutoSend(slug, enabled) {
+        postJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/auto-send', { enabled: enabled }).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                status('error', esc((res.body && res.body.error) || 'Auto-send update failed.'));
+                return;
+            }
+            status('info', 'Auto-send ' + (enabled ? 'enabled' : 'disabled') + '.');
+            clearTreeCache();
+            if (el('intersectionModal') && el('intersectionModal').classList.contains('open')) {
+                loadIntersection();
+            }
+        }).catch(function () {
+            status('error', 'Auto-send request could not be sent.');
+        });
+    }
+
+    function unsubscribeLead(slug) {
+        var reason = window.prompt('Unsubscribe reason (optional):');
+        if (reason === null) return;
+        postJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/unsubscribe', { reason: reason }).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                status('error', esc((res.body && res.body.error) || 'Unsubscribe failed.'));
+                return;
+            }
+            status('info', 'Lead unsubscribed.');
+            clearTreeCache();
+            if (el('intersectionModal') && el('intersectionModal').classList.contains('open')) {
+                loadIntersection();
+            }
+        }).catch(function () {
+            status('error', 'Unsubscribe request could not be sent.');
+        });
+    }
+
+    function bulkDiscoverIntersection() {
+        var segment = currentIntersection.segment;
+        var country = currentIntersection.country;
+        var region = currentIntersection.region;
+        if (!segment || !country) return;
+        var body = { segment: segment, country: country };
+        if (region) body.region = region;
+        var filters = el('intersectionFilters');
+        if (filters) {
+            var btn = el('mkt-bulk-discover');
+            if (btn) { btn.disabled = true; btn.textContent = 'Discovering…'; }
+        }
+        postJSON(BASE + '/tree/discover', body).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                status('error', esc((res.body && res.body.error) || 'Bulk discovery failed.'));
+                return;
+            }
+            var data = res.body || {};
+            status('info', 'Bulk discovery added ' + (data.added || 0) + ' contacts (' + (data.domains || []).length + ' domains).');
+            contactsCache.clear();
+        }).catch(function () {
+            status('error', 'Bulk discovery request could not be sent.');
+        }).then(function () {
+            var btn = el('mkt-bulk-discover');
+            if (btn) { btn.disabled = false; btn.textContent = 'Discover contacts for this intersection'; }
         });
     }
 
@@ -711,6 +797,8 @@
         var org = l.website
             ? '<a class="text-link" href="' + esc(l.website) + '" target="_blank" rel="noopener">' + esc(l.organization) + '</a>'
             : esc(l.organization);
+        var unsub = l.unsubscribed ? ' <span class="chip chip-forecast">unsubscribed</span>' : '';
+        var auto = l.auto_send ? ' <span class="chip chip-modelled">auto-send</span>' : '';
         return '<div class="mkt-target" id="mkt-leadwrap-' + esc(l.slug) + '">' +
             '<div class="mkt-target-head">' +
             '<div>' +
@@ -720,9 +808,13 @@
             priorityChip(l.priority) +
             statusChip(l.outreach_status) +
             (l.score != null ? '<span class="chip chip-modelled">score ' + esc(l.score) + '</span>' : '') +
+            auto + unsub +
             '</div>' +
             '</div>' +
             '<div class="mkt-actions" style="display:flex;gap:8px;">' +
+            '<button class="btn-action btn-quiet" data-auto-send="' + esc(l.slug) + '" ' +
+            'data-enabled="' + (l.auto_send ? '1' : '0') + '">' + (l.auto_send ? 'Disable auto-send' : 'Enable auto-send') + '</button> ' +
+            '<button class="btn-action btn-quiet" data-unsubscribe="' + esc(l.slug) + '">Unsubscribe</button> ' +
             '<button class="btn-action btn-quiet" data-send="' + esc(l.slug) + '" ' +
             'data-sector="' + esc(segment) + '" data-role="' + esc(l.decision_maker_role || '') + '">Auto-send</button> ' +
             '<button class="btn-action btn-quiet" data-follow="' + esc(l.slug) + '" ' +
@@ -981,8 +1073,12 @@
             '<h4>Contacts' +
             (contacts.length ? ' <span class="mkt-count">' + esc(String(contacts.length)) + '</span>' : '') +
             '</h4>' +
+            '<div class="mkt-actions">' +
+            '<button class="btn-action btn-quiet" data-find-email="' + esc(slug) + '"' +
+            (configured ? '' : ' disabled') + '>Find email</button>' +
             '<button class="btn-action btn-quiet" data-discover="' + esc(slug) + '"' +
             (configured ? '' : ' disabled') + '>Discover via Hunter.io</button>' +
+            '</div>' +
             '</div>';
 
         if (!configured && data.note) {
@@ -991,9 +1087,19 @@
 
         html += '<div id="mkt-contacts-result-' + esc(slug) + '" class="mkt-sendresult"></div>';
 
+        html += '<div id="mkt-find-email-' + esc(slug) + '" class="mkt-findemail hidden">' +
+            '<div class="mkt-field" style="display:inline-block;margin-right:8px;">' +
+            '<input type="text" id="mkt-find-first-' + esc(slug) + '" placeholder="First name" style="width:120px;">' +
+            '</div>' +
+            '<div class="mkt-field" style="display:inline-block;margin-right:8px;">' +
+            '<input type="text" id="mkt-find-last-' + esc(slug) + '" placeholder="Last name" style="width:120px;">' +
+            '</div>' +
+            '<button class="btn-action btn-quiet" data-find-run="' + esc(slug) + '">Find via Hunter.io</button>' +
+            '</div>';
+
         if (contacts.length) {
             html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
-                '<th>Email</th><th>Name</th><th>Position / Department</th><th>Confidence</th><th>Source</th><th></th>' +
+                '<th>Email</th><th>Name</th><th>Position / Department</th><th>Confidence</th><th>Verification</th><th>Source</th><th></th>' +
                 '</tr></thead><tbody>';
             contacts.forEach(function (c) {
                 var pos = (c.position || '') + (c.department ? (c.position ? ' · ' : '') + c.department : '');
@@ -1002,8 +1108,10 @@
                     '<td>' + esc(c.name || '—') + '</td>' +
                     '<td>' + esc(pos || '—') + '</td>' +
                     '<td>' + (c.confidence != null ? '<span class="chip chip-modelled">' + esc(c.confidence) + '%</span>' : '—') + '</td>' +
+                    '<td>' + verificationChip(c.verification) + '</td>' +
                     '<td>' + esc(c.source || '—') + '</td>' +
                     '<td class="mkt-contact-actions">' +
+                    '<button class="btn-action btn-quiet" data-verify-contact="' + esc(c.id) + '" data-lead="' + esc(slug) + '">Verify</button>' +
                     '<button class="btn-action btn-quiet" data-use-contact="' + esc(slug) + '" ' +
                     'data-email="' + esc(c.email || '') + '" data-name="' + esc(c.name || '') + '">Use</button>' +
                     '<button class="btn-action btn-quiet" data-delete-contact="' + esc(c.id) + '" data-lead="' + esc(slug) + '">×</button>' +
@@ -1026,6 +1134,22 @@
             discoverBtn.addEventListener('click', function () { discoverContacts(slug); });
         }
 
+        var findBtn = panel.querySelector('[data-find-email]');
+        if (findBtn && configured) {
+            findBtn.addEventListener('click', function () { toggleFindEmail(slug); });
+        }
+
+        var findRunBtn = panel.querySelector('[data-find-run]');
+        if (findRunBtn) {
+            findRunBtn.addEventListener('click', function () { runFindEmail(slug); });
+        }
+
+        Array.prototype.forEach.call(panel.querySelectorAll('[data-verify-contact]'), function (btn) {
+            btn.addEventListener('click', function () {
+                verifyContact(btn.getAttribute('data-verify-contact'), slug);
+            });
+        });
+
         Array.prototype.forEach.call(panel.querySelectorAll('[data-use-contact]'), function (btn) {
             btn.addEventListener('click', function () {
                 useContact(slug, btn.getAttribute('data-email'), btn.getAttribute('data-name'));
@@ -1038,6 +1162,79 @@
                 if (!window.confirm('Delete this contact?')) return;
                 deleteContact(id, slug);
             });
+        });
+    }
+
+    function verificationChip(verification) {
+        var v = (verification || 'unknown').toLowerCase();
+        var kind = 'unknown';
+        if (v === 'valid' || v === 'deliverable') kind = 'modelled';
+        else if (v === 'risky') kind = 'observed';
+        else if (v === 'invalid' || v === 'undeliverable') kind = 'forecast';
+        return HS.chip(kind, v);
+    }
+
+    function toggleFindEmail(slug) {
+        var box = el('mkt-find-email-' + slug);
+        if (!box) return;
+        box.classList.toggle('hidden');
+        if (!box.classList.contains('hidden')) {
+            var first = el('mkt-find-first-' + slug);
+            if (first) first.focus();
+        }
+    }
+
+    function runFindEmail(slug) {
+        var resultBox = el('mkt-contacts-result-' + slug);
+        var first = el('mkt-find-first-' + slug);
+        var last = el('mkt-find-last-' + slug);
+        var firstName = first ? first.value.trim() : '';
+        var lastName = last ? last.value.trim() : '';
+        if (!firstName || !lastName) {
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Enter first and last name.</div>';
+            return;
+        }
+        if (resultBox) resultBox.innerHTML = '<div class="muted small">Finding email…</div>';
+        postJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/find-email', {
+            first_name: firstName,
+            last_name: lastName
+        }).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (res.status === 503 || res.status === 502 || res.status === 422) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Find failed.') + '</div>';
+                return;
+            }
+            if (!res.ok) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Find failed.') + '</div>';
+                return;
+            }
+            var data = res.body || {};
+            if (!data.found) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">No email found for that name.</div>';
+                return;
+            }
+            contactsCache.set(slug, { configured: true, contacts: [data.contact] });
+            renderContactsPanel(slug, { configured: true, contacts: [data.contact] });
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-ok">Found ' + esc(data.contact.email) + '.</div>';
+        }).catch(function () {
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Find request could not be sent.</div>';
+        });
+    }
+
+    function verifyContact(id, slug) {
+        var resultBox = el('mkt-contacts-result-' + slug);
+        if (resultBox) resultBox.innerHTML = '<div class="muted small">Verifying…</div>';
+        postJSON(BASE + '/contacts/' + encodeURIComponent(id) + '/verify', {}).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Verify failed.') + '</div>';
+                return;
+            }
+            contactsCache.delete(slug);
+            loadContacts(slug);
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-ok">Verification updated.</div>';
+        }).catch(function () {
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Verify request could not be sent.</div>';
         });
     }
 
@@ -1210,6 +1407,13 @@
             '<div class="mkt-sendactions">' +
             '<button class="btn-action" data-send-now>Send now</button>' +
             '<button class="btn-action btn-quiet" data-schedule-toggle>Schedule</button>' +
+            '<button class="btn-action btn-quiet" data-preview>Preview</button>' +
+            '</div>' +
+            '<div class="mkt-previewwrap hidden" id="mkt-previewwrap-' + esc(slug) + '">' +
+            '<div class="mkt-field"><label>Subject</label>' +
+            '<div id="mkt-preview-subject-' + esc(slug) + '" class="mkt-previewbox"></div></div>' +
+            '<div class="mkt-field"><label>Body</label>' +
+            '<pre id="mkt-preview-body-' + esc(slug) + '" class="mkt-previewbox"></pre></div>' +
             '</div>' +
             '<div class="mkt-schedulewrap" id="mkt-schedulewrap-' + esc(slug) + '">' +
             '<div class="mkt-field">' +
@@ -1226,6 +1430,7 @@
         var nowBtn = form.querySelector('[data-send-now]');
         var scheduleToggle = form.querySelector('[data-schedule-toggle]');
         var scheduleBtn = form.querySelector('[data-send-schedule]');
+        var previewBtn = form.querySelector('[data-preview]');
         var contactSelect = form.querySelector('[id^="mkt-contact-select-"]');
         if (nowBtn) {
             nowBtn.addEventListener('click', function () { doSend(slug, null); });
@@ -1235,6 +1440,9 @@
                 var wrap = el('mkt-schedulewrap-' + slug);
                 if (wrap) wrap.classList.toggle('visible');
             });
+        }
+        if (previewBtn) {
+            previewBtn.addEventListener('click', function () { loadPreview(slug); });
         }
         if (scheduleBtn) {
             scheduleBtn.addEventListener('click', function () {
@@ -1283,6 +1491,33 @@
         return null;
     }
 
+    function loadPreview(slug) {
+        var wrap = el('mkt-previewwrap-' + slug);
+        var subjectBox = el('mkt-preview-subject-' + slug);
+        var bodyBox = el('mkt-preview-body-' + slug);
+        var resultBox = el('mkt-sendresult-' + slug);
+        if (wrap) wrap.classList.remove('hidden');
+        if (subjectBox) subjectBox.textContent = 'Loading…';
+        if (bodyBox) bodyBox.textContent = '';
+        var payload = getSendPayload(slug);
+        fetchJSON(BASE + '/lead/' + encodeURIComponent(slug) + '/preview', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(function (res) {
+            if (showAuthHint(res)) return;
+            if (!res.ok) {
+                if (resultBox) resultBox.innerHTML = '<div class="mkt-err">' + esc((res.body && res.body.error) || 'Preview failed.') + '</div>';
+                return;
+            }
+            var data = res.body || {};
+            if (subjectBox) subjectBox.textContent = data.subject || '—';
+            if (bodyBox) bodyBox.textContent = data.body || '—';
+        }).catch(function () {
+            if (resultBox) resultBox.innerHTML = '<div class="mkt-err">Preview request could not be sent.</div>';
+        });
+    }
+
     function doSend(slug, sendAt) {
         var resultBox = el('mkt-sendresult-' + slug);
         if (resultBox) resultBox.innerHTML = '';
@@ -1298,6 +1533,10 @@
             if (showAuthHint(res)) return;
             if (res.status === 400) {
                 showSendResult(slug, 'error', esc((res.body && res.body.error) || 'Invalid input.'));
+                return;
+            }
+            if (res.status === 429) {
+                showSendResult(slug, 'error', esc((res.body && res.body.error) || 'Daily cap reached.'));
                 return;
             }
             if (res.status === 502) {

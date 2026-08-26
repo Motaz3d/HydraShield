@@ -28,6 +28,7 @@ from src.dashboard.mailer import send_mail
 from src.dashboard.marketing_store import MarketingStore
 
 _ADVANCE_FROM = {"researched", "qualified", "draft_prepared"}
+_DAILY_SEND_CAP = int(os.environ.get("DAILY_SEND_CAP") or 200)
 
 
 def main() -> int:
@@ -37,10 +38,22 @@ def main() -> int:
         print(f"{datetime.utcnow().isoformat()} — no scheduled outreach due")
         return 0
 
-    sent = failed = 0
+    sent = failed = skipped = cap_hits = 0
     for row in due:
         sid = row["id"]
         lead_slug = row["lead_slug"]
+
+        if store.is_unsubscribed(lead_slug):
+            store.mark_scheduled(sid, "skipped_unsubscribed")
+            print(f"[{sid}] {lead_slug} -> skipped_unsubscribed")
+            skipped += 1
+            continue
+
+        if store.sent_today_count() >= _DAILY_SEND_CAP:
+            print(f"[{sid}] {lead_slug} -> daily cap reached, leaving pending")
+            cap_hits += 1
+            break
+
         to_email = row["to_email"]
         template = row["template"]
         context = row.get("context") or {}
@@ -66,7 +79,7 @@ def main() -> int:
 
     print(
         f"Processed {len(due)} scheduled outreach row(s): "
-        f"{sent} sent, {failed} failed"
+        f"{sent} sent, {failed} failed, {skipped} skipped, {cap_hits} held by cap"
     )
     return 0
 

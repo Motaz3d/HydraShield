@@ -1,7 +1,8 @@
 # Daily operator workflow
 
-The copilot (`scripts/marketing_status.py`) drives the day. Nothing
-auto-sends; the operator decides and executes.
+The copilot (`scripts/marketing_status.py`) drives the day. Outreach is
+operator-initiated by default, with optional per-lead auto-send for
+scheduled/bulk flows. Unsubscribes and the daily send cap are always honored.
 
 ## Morning
 
@@ -66,18 +67,29 @@ then collapsible detail sections: most visited pages, daily visitors,
 traffic sources, devices & languages and risk interests. Aggregate counts
 only — analytics sessions are pseudonymous hashes.
 
-**Auto-send.** The operator clicks send; nothing self-sends. The message is
-rendered from the sector templates in
-`src/dashboard/email_templates/outreach_*.txt` (falling back to
+**Auto-send.** The operator clicks send; individual sends are always
+operator-initiated. Each lead can be opted into auto-send for scheduled/bulk
+flows (`POST /lead/<slug>/auto-send`). The message is rendered from the sector
+templates in `src/dashboard/email_templates/outreach_*.txt` (falling back to
 `outreach_generic.txt`), merged with the lead's country, identified problem,
-capability and any custom note. Without `SMTP_HOST` configured, email goes to
-the dev outbox (`HYDRASHIELD_OUTBOX_DIR`) and the UI says so; with SMTP env
-set, delivery uses STARTTLS.
+capability, custom note and an unsubscribe footer. Without `SMTP_HOST`
+configured, email goes to the dev outbox (`HYDRASHIELD_OUTBOX_DIR`) and the UI
+says so; with SMTP env set, delivery uses STARTTLS.
+
+**Daily send cap.** A hard cap (default 20, override with `DAILY_SEND_CAP`)
+counts immediate sends and scheduled sends per calendar day. When the cap is
+reached, the API returns 429 for new sends and the cron processor leaves
+remaining scheduled rows pending for the next day.
+
+**Unsubscribe.** A lead can be marked unsubscribed from the CRM. Unsubscribed
+leads block all immediate and scheduled sends; scheduled rows for unsubscribed
+leads are marked `skipped_unsubscribed` rather than sent or failed. Every
+outreach template includes an unsubscribe footer.
 
 **Scheduled sending.** Queue future emails with `send_at` (ISO, must be
-future). A cron job sends due rows, logs an `email` interaction, and advances
-`outreach_status` to `contacted` when it was `researched`, `qualified` or
-`draft_prepared`:
+future). A cron job sends due rows, skips unsubscribed leads, enforces the
+daily cap, logs an `email` interaction, and advances `outreach_status` to
+`contacted` when it was `researched`, `qualified` or `draft_prepared`:
 
 ```
 */5 * * * * cd <repo>/hydra-shield-platform && .venv/bin/python scripts/process_scheduled_outreach.py
