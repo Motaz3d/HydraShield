@@ -1,19 +1,24 @@
-Subject: Climate risk screening for {{organization}}
+Subject: Physical verification of financed assets — {{organization}}
+
 Hi {{contact_name}},
 
-Banks and lenders in {{country}} are facing sharper questions about how physical climate hazards affect loan portfolios and borrower creditworthiness.
+Banks in {{country}} are being asked the same question by supervisors and reviewers: what physical evidence stands behind the "green" and climate-resilient claims in the loan book?
 
 {{identified_problem}}
 
-Talaix provides {{relevant_capability}}. We can run a free portfolio screening at talaix.com so you can see asset-level exposure without a procurement step.
+Talaix's Green Finance Verification screens each financed asset against the EU Taxonomy DNSH hazard vocabulary — flood, wildfire, heat, drought, wind, coastal — from satellite and open data, and issues a per-asset evidence report: claim status, confidence, sources, and declared data gaps. Portfolios run in batch, and monitoring continues after disbursement. We sell evidence, not accreditation: not a Second Party Opinion, not an ESMA-registered external review.
+
+{{relevant_capability}}
 
 {{custom_message}}
 
-Would a 20-minute call this week be useful to explore how {{organization}} could use this?
+Send three collateral coordinates and we will return a free sample verification report for {{organization}} — no procurement step needed.
+
+Would a 20-minute call this week be useful?
 
 Best,
-The Talaix team
-talaix.com
+Motaz Omarien — Talaix
+talaix.com/green-finance.html
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.

@@ -1,19 +1,22 @@
-Subject: Portfolio climate-risk intelligence for {{organization}}
-Hi {{contact_name}},
+Subject: Evidence behind the green claims in {{organization}}'s portfolio
 
-Investors and infrastructure funds active in {{country}} are under increasing pressure to quantify physical climate risk across their holdings.
+Hi {{contact_name}},
 
 {{identified_problem}}
 
-Talaix offers {{relevant_capability}}. We can run a free analysis at talaix.com on a sample of assets so you can see the level of detail we provide.
+Talaix physically verifies the assets behind green claims. For investors, that means per-asset DNSH hazard screening from satellite and open data for pre-investment due diligence, CSRD/ESRS evidence packs with an explicit coverage map (covered / partial / not covered — boundaries declared, not hidden), and continuous monitoring of the same assets after the investment closes.
+
+{{relevant_capability}}
 
 {{custom_message}}
 
-Would a 20-minute call this week be useful to discuss how {{organization}} could apply this?
+Send two or three asset coordinates from the {{organization}} portfolio and we will return a free sample verification, so the evidence can be judged directly.
+
+Would a 20-minute call this week be useful?
 
 Best,
-The Talaix team
-talaix.com
+Motaz Omarien — Talaix
+talaix.com/green-finance.html
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.

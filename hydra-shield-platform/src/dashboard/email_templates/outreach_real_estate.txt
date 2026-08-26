@@ -1,19 +1,22 @@
-Subject: Asset-level climate risk for {{organization}}
-Hi {{contact_name}},
+Subject: Physical-risk profile for {{organization}}'s assets
 
-Real estate and engineering teams in {{country}} are seeing climate hazards directly affect asset performance, insurance terms and planning timelines.
+Hi {{contact_name}},
 
 {{identified_problem}}
 
-Talaix provides {{relevant_capability}}. We can run a free site-level analysis at talaix.com so you can see the risk profile for one of your assets.
+Talaix profiles individual properties against flood, wildfire, heat, drought, wind and coastal hazards using satellite and open data: current levels, historical events, confidence, and declared data gaps. Real estate and engineering teams use it for acquisition screening, insurance negotiations and planning timelines.
+
+{{relevant_capability}}
 
 {{custom_message}}
 
-Would a short call this week be useful to explore how this fits {{organization}}?
+Send us one asset's coordinates and we will return a free physical-risk profile for {{organization}} to evaluate.
+
+Would a short call this week be useful?
 
 Best,
-The Talaix team
-talaix.com
+Motaz Omarien — Talaix
+talaix.com/insurance.html
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.

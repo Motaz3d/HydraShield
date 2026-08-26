@@ -1,19 +1,22 @@
-Subject: Climate resilience data for {{organization}}
-Hi {{contact_name}},
+Subject: Environmental evidence for public mandates — {{organization}}
 
-Government and municipal teams in {{country}} need reliable, spatial climate-risk data to inform resilience planning, civil protection and infrastructure decisions.
+Hi {{contact_name}},
 
 {{identified_problem}}
 
-Talaix provides {{relevant_capability}}. We can run a free analysis at talaix.com for your area of interest so you can see the data and provenance.
+Talaix supports public mandates with multi-hazard evidence — flood, wildfire, heat, drought, wind, coastal — continuous monitoring alerts, and forensic verification packs that cross-check satellite observations against declared claims. Regulators, disaster agencies and investigative units use it where defensibility matters: sources and confidence are stated per value, and unavailable data is declared, never invented.
+
+{{relevant_capability}}
 
 {{custom_message}}
 
-Would a short call this week be useful to explore how {{organization}} could use this?
+We can run a free pilot over a priority area for {{organization}} and demonstrate the evidence and alerting live.
+
+Would a short call this week be useful?
 
 Best,
-The Talaix team
-talaix.com
+Motaz Omarien — Talaix
+talaix.com/forensics.html
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.

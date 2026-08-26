@@ -1,19 +1,22 @@
-Subject: Risk data partnership for {{organization}}
-Hi {{contact_name}},
+Subject: An evidence layer for {{organization}}'s client work
 
-Environmental and ESG consultants in {{country}} are being asked to deliver climate-risk analysis that is traceable, evidence-labelled and reproducible.
+Hi {{contact_name}},
 
 {{identified_problem}}
 
-Talaix offers {{relevant_capability}}. We can set up a free evaluation at talaix.com so you can see whether the data layer fits your client work.
+Consultants use Talaix as the physical-evidence layer under their client deliverables: CSRD/ESRS evidence packs with an explicit coverage map, per-asset verification reports in EU Taxonomy DNSH vocabulary, and EUDR origin screening for supply-chain claims. Everything is source-cited and reproducible, and gaps are declared, never invented — which is exactly what your clients' auditors ask for.
+
+{{relevant_capability}}
 
 {{custom_message}}
 
-Would a 20-minute call this week be useful to discuss a partnership for {{organization}}?
+We can run a free evaluation on one of your client sites, so {{organization}} can test the fit before any partnership conversation.
+
+Would a 20-minute call this week be useful?
 
 Best,
-The Talaix team
-talaix.com
+Motaz Omarien — Talaix
+talaix.com/sustainability.html
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.

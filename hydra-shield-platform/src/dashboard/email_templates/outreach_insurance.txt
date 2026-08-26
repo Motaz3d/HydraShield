@@ -1,19 +1,22 @@
-Subject: Physical risk data for {{organization}}
-Hi {{contact_name}},
+Subject: Per-peril evidence for underwriting — {{organization}}
 
-Insurers operating in {{country}} need consistent, asset-level views of flood, wildfire, wind and heat risk to support underwriting and pricing.
+Hi {{contact_name}},
 
 {{identified_problem}}
 
-Talaix delivers {{relevant_capability}}. We can provide a free risk snapshot at talaix.com for a sample set of locations so you can judge the data quality.
+Talaix's Insurance Environmental Risk Profile gives underwriters per-peril current levels — flood, wildfire, windstorm, heatwave, drought, coastal — plus long-term event history at each insured location, from real Earth-observation and open data. It speaks the vocabulary of EIOPA climate stress exercises. We deliberately do not quantify losses (no AAL/PML): this is the evidence layer before your catastrophe models, and gaps are declared, never filled.
+
+{{relevant_capability}}
 
 {{custom_message}}
 
-Would a short call this week be useful to see how this could fit {{organization}}?
+Send a sample of insured locations and we will return free risk profiles for {{organization}}, so you can compare the data against what you use today.
+
+Would a short call this week be useful?
 
 Best,
-The Talaix team
-talaix.com
+Motaz Omarien — Talaix
+talaix.com/insurance.html
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.

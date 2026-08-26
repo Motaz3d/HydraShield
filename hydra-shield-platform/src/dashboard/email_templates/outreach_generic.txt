@@ -1,19 +1,22 @@
-Subject: Climate-risk intelligence for {{organization}}
-Hi {{contact_name}},
+Subject: Physical climate-risk evidence for {{organization}}
 
-Organizations like {{organization}} in {{country}} are working with growing climate-risk exposure across their operations and assets.
+Hi {{contact_name}},
 
 {{identified_problem}}
 
-Talaix offers {{relevant_capability}}. A good first step is a free analysis at talaix.com so you can see the risk picture for your locations.
+Talaix is an environmental evidence platform. We compute physical climate-risk evidence — flood, wildfire, heat, drought, wind, coastal — from real Earth-observation and open-data sources, and package it for green finance verification, CSRD sustainability reporting, insurance underwriting, EUDR supply-chain screening and environmental forensics. Every value carries its source and status; unavailable data is declared, never invented.
+
+{{relevant_capability}} is the part most relevant to {{organization}}.
 
 {{custom_message}}
 
-Would a short call this week be useful to explore how this fits {{organization}}?
+The fastest way to judge us: send two or three locations (coordinates) and we will return a free sample evidence report, so you can see exactly what {{organization}} would receive.
+
+Would a 20-minute call this week be useful?
 
 Best,
-The Talaix team
+Motaz Omarien — Talaix
 talaix.com
 
 ---
-If you prefer not to receive these messages, reply with "unsubscribe" or visit {{unsubscribe_url}}.
+If this is not relevant, just reply "unsubscribe" and we will stop.
