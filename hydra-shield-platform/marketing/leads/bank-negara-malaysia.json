@@ -1,0 +1,40 @@
+{
+  "organization": "Bank Negara Malaysia (BNM)",
+  "segment": "banking",
+  "country": "MY",
+  "region": "Southeast Asia",
+  "website": "https://www.bnm.gov.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Risk / JC3 Secretariat",
+  "identified_problem": "BNM's climate risk agenda (JC3) expects Malaysian banks to evidence physical risk; monsoon flooding and plantation-linked lending make independent evidence valuable.",
+  "climate_exposure": "Banking book exposed to monsoon floods, heat and palm-oil supply chains.",
+  "potential_pain": "BNM's climate risk agenda (JC3) expects Malaysian banks to evidence physical risk; monsoon flooding and plantation-linked lending make independent evidence valuable.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio screening plus EUDR origin evidence for plantation-linked finance",
+  "relevant_capability": "portfolio screening plus EUDR origin evidence for plantation-linked finance",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a pilot combining flood screening of collateral with origin evidence for plantation-linked borrowers.",
+  "priority": "high",
+  "fit_score": "BNM's climate risk agenda (JC3) expects Malaysian banks to evidence physical risk; monsoon flooding and plantation-linked lending make independent evidence valuable.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bnm.gov.my.",
+      "source": "https://www.bnm.gov.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bnm.gov.my",
+  "date_checked": "2026-08-26"
+}

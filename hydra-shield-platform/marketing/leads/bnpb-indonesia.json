@@ -1,0 +1,41 @@
+{
+  "organization": "BNPB — National Disaster Management Agency (Indonesia)",
+  "segment": "governments",
+  "country": "ID",
+  "region": "Southeast Asia",
+  "website": "https://www.bnpb.go.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Deputy for Risk Analysis",
+  "identified_problem": "Indonesia's national disaster agency coordinates flood, drought and coastal risk across an archipelago; consistent multi-hazard evidence and alerting supports preparedness.",
+  "climate_exposure": "Archipelago-wide exposure to flooding, drought and storm surge.",
+  "potential_pain": "Indonesia's national disaster agency coordinates flood, drought and coastal risk across an archipelago; consistent multi-hazard evidence and alerting supports preparedness.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "coastal",
+    "wind"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "multi-hazard monitoring alerts and evidence layers for priority provinces",
+  "relevant_capability": "multi-hazard monitoring alerts and evidence layers for priority provinces",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer monitored hazard alerts with evidence labels for a set of priority provinces.",
+  "priority": "medium",
+  "fit_score": "Indonesia's national disaster agency coordinates flood, drought and coastal risk across an archipelago; consistent multi-hazard evidence and alerting supports preparedness.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bnpb.go.id.",
+      "source": "https://www.bnpb.go.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bnpb.go.id",
+  "date_checked": "2026-08-26"
+}

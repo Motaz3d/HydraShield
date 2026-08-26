@@ -1,0 +1,40 @@
+{
+  "organization": "Bank of Thailand (BOT)",
+  "segment": "banking",
+  "country": "TH",
+  "region": "Southeast Asia",
+  "website": "https://www.bot.or.th",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Risk / Supervision",
+  "identified_problem": "BOT's climate-risk direction for banks builds on Thailand's flood history (2011) and drought cycles; evidence-based screening supports supervisory dialogue.",
+  "climate_exposure": "Thai banking exposure to Chao Phraya floodplain, northeast drought and industrial estates.",
+  "potential_pain": "BOT's climate-risk direction for banks builds on Thailand's flood history (2011) and drought cycles; evidence-based screening supports supervisory dialogue.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio screening with flood/drought evidence and historical event layers",
+  "relevant_capability": "portfolio screening with flood/drought evidence and historical event layers",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a flood-and-drought screening pilot for a collateral sample with historical event evidence.",
+  "priority": "high",
+  "fit_score": "BOT's climate-risk direction for banks builds on Thailand's flood history (2011) and drought cycles; evidence-based screening supports supervisory dialogue.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bot.or.th.",
+      "source": "https://www.bot.or.th"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bot.or.th",
+  "date_checked": "2026-08-26"
+}

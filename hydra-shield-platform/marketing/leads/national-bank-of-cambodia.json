@@ -1,0 +1,39 @@
+{
+  "organization": "National Bank of Cambodia",
+  "segment": "banking",
+  "country": "KH",
+  "region": "Southeast Asia",
+  "website": "https://www.nbc.org.kh",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Banking Supervision",
+  "identified_problem": "Cambodia's Mekong/Tonle Sap flood-drought cycle drives agricultural credit risk; evidence supports supervision and financial stability.",
+  "climate_exposure": "Agricultural and MFI-linked collateral exposed to flood and drought.",
+  "potential_pain": "Cambodia's Mekong/Tonle Sap flood-drought cycle drives agricultural credit risk; evidence supports supervision and financial stability.",
+  "relevant_hazards": [
+    "flood",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "flood/drought screening for agricultural credit regions",
+  "relevant_capability": "flood/drought screening for agricultural credit regions",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a flood/drought screening pilot for agricultural lending regions.",
+  "priority": "medium",
+  "fit_score": "Cambodia's Mekong/Tonle Sap flood-drought cycle drives agricultural credit risk; evidence supports supervision and financial stability.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.nbc.org.kh.",
+      "source": "https://www.nbc.org.kh"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.nbc.org.kh",
+  "date_checked": "2026-08-26"
+}

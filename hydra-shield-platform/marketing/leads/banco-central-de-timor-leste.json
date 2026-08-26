@@ -1,0 +1,40 @@
+{
+  "organization": "Banco Central de Timor-Leste",
+  "segment": "banking",
+  "country": "TL",
+  "region": "Southeast Asia",
+  "website": "https://www.bancocentral.tl",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Financial Stability",
+  "identified_problem": "Timor-Leste's flood and landslide exposure affects a developing banking system; physical evidence supports stability work.",
+  "climate_exposure": "Dili and upland collateral exposed to floods and landslides.",
+  "potential_pain": "Timor-Leste's flood and landslide exposure affects a developing banking system; physical evidence supports stability work.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "flood screening and event evidence for national collateral",
+  "relevant_capability": "flood screening and event evidence for national collateral",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a flood-evidence pilot for national collateral regions.",
+  "priority": "medium",
+  "fit_score": "Timor-Leste's flood and landslide exposure affects a developing banking system; physical evidence supports stability work.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bancocentral.tl.",
+      "source": "https://www.bancocentral.tl"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bancocentral.tl",
+  "date_checked": "2026-08-26"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "China Pacific Insurance (Group) Co.",
+  "segment": "insurance",
+  "country": "CN",
+  "region": "East Asia",
+  "website": "https://www.cpic.com.cn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of Underwriting",
+  "identified_problem": "China Pacific Insurance is one of the country's largest insurers, covering property, casualty and agricultural risks. Rising nat-cat losses across China — floods in the Yangtze basin, typhoon coastal damage and drought in the north — pressure underwriting margins and catastrophe reserving.",
+  "climate_exposure": "Nationwide property and agriculture portfolios exposed to flood, typhoon wind, drought and heat hazards across all Chinese provinces.",
+  "potential_pain": "Catastrophe models need independent, location-specific hazard evidence for pricing, accumulation control and regulatory reporting; climate risk is increasingly material to solvency and investor disclosure.",
+  "relevant_hazards": ["flood", "wind", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix hazard layers and historical event intelligence for floods, typhoons, droughts and heatwaves across Chinese provinces and cities.",
+  "relevant_capability": "climate risk intelligence, portfolio screening and historical event analytics",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a portfolio-screening engagement that maps China Pacific's insured locations against flood, wind, drought and heat exposure, with historical event calibration.",
+  "priority": "high",
+  "fit_score": "High fit: one of China's top three insurers with broad property/casualty exposure and a strategic need for independent climate risk data.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: China Pacific Insurance official site confirms it is a leading integrated insurance group in China.",
+      "source": "https://www.cpic.com.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cpic.com.cn",
+  "date_checked": "2026-08-25"
+}

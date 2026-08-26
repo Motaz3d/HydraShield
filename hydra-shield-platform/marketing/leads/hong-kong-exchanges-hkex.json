@@ -1,0 +1,40 @@
+{
+  "organization": "Hong Kong Exchanges and Clearing (HKEX)",
+  "segment": "investment",
+  "country": "HK",
+  "region": "East Asia",
+  "website": "https://www.hkex.com.hk",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of ESG/Listing Policy",
+  "identified_problem": "HKEX's ESG disclosure regime pushes listed issuers toward ISSB-aligned climate reporting; issuers need physical-risk evidence and HKEX tracks market-wide disclosure quality.",
+  "climate_exposure": "Listed issuers with physical assets across typhoon-exposed southern China and Southeast Asia.",
+  "potential_pain": "HKEX's ESG disclosure regime pushes listed issuers toward ISSB-aligned climate reporting; issuers need physical-risk evidence and HKEX tracks market-wide disclosure quality.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "API access to physical-risk evidence for issuer-level disclosure support",
+  "relevant_capability": "API access to physical-risk evidence for issuer-level disclosure support",
+  "recommended_product": "api",
+  "recommended_message": "Position the Talaix API as an evidence source issuers can cite in ISSB-aligned climate disclosures.",
+  "priority": "medium",
+  "fit_score": "HKEX's ESG disclosure regime pushes listed issuers toward ISSB-aligned climate reporting; issuers need physical-risk evidence and HKEX tracks market-wide disclosure quality.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.hkex.com.hk.",
+      "source": "https://www.hkex.com.hk"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hkex.com.hk",
+  "date_checked": "2026-08-26"
+}

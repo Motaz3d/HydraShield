@@ -1,0 +1,40 @@
+{
+  "organization": "Taiwan Financial Supervisory Commission (FSC)",
+  "segment": "governments",
+  "country": "TW",
+  "region": "East Asia",
+  "website": "https://www.fsc.gov.tw",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate/ESG Supervision Director",
+  "identified_problem": "Taiwan's financial supervisor is aligning banks and insurers with climate-risk disclosure and stress-testing expectations; typhoon and flood exposure across the island makes physical-risk evidence a supervisory need, not a preference.",
+  "climate_exposure": "Island-wide financial system exposed to typhoons, pluvial flooding, storm surge and heat.",
+  "potential_pain": "Taiwan's financial supervisor is aligning banks and insurers with climate-risk disclosure and stress-testing expectations; typhoon and flood exposure across the island makes physical-risk evidence a supervisory need, not a preference.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "supervisory-grade physical-risk evidence, portfolio screening and stress-test input layers",
+  "relevant_capability": "supervisory-grade physical-risk evidence, portfolio screening and stress-test input layers",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer Talaix's evidence-labelled physical-risk screening as an input layer for the FSC's climate-risk supervision and insurer/bank stress-test expectations.",
+  "priority": "high",
+  "fit_score": "Taiwan's financial supervisor is aligning banks and insurers with climate-risk disclosure and stress-testing expectations; typhoon and flood exposure across the island makes physical-risk evidence a supervisory need, not",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.fsc.gov.tw.",
+      "source": "https://www.fsc.gov.tw"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.fsc.gov.tw",
+  "date_checked": "2026-08-26"
+}

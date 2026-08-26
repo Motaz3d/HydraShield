@@ -1,0 +1,36 @@
+{
+  "organization": "State Grid Corporation of China",
+  "segment": "infrastructure",
+  "country": "CN",
+  "region": "East Asia",
+  "website": "https://www.sgcc.com.cn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "State Grid operates the world's largest power grid, spanning flood-prone river basins, typhoon-exposed coastlines and wildfire-prone western provinces. Extreme weather events in China — including 2021 Henan floods and recurring summer typhoons — threaten transmission towers, substations and distribution networks serving over a billion people.",
+  "climate_exposure": "Nationwide ultra-high-voltage transmission corridors, coastal substations and western grid assets exposed to flood, typhoon wind and wildfire hazards.",
+  "potential_pain": "Widespread outages trigger emergency repair costs, regulatory scrutiny and economic losses; grid planners need asset-level hazard intelligence to prioritise hardening and redundancy investments.",
+  "relevant_hazards": ["flood", "wind", "wildfire"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind and wildfire exposure layers, plus historical event intelligence for Henan 2021 and recent typhoon impacts, applied across State Grid's transmission geography.",
+  "relevant_capability": "infrastructure monitoring, hazard alerting and historical event analytics",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring and alerting pilot for State Grid corridors and substations, combining flood, wind and wildfire layers with historical event calibration for recent China disasters.",
+  "priority": "high",
+  "fit_score": "Very high fit: State Grid is the world's largest utility by revenue and asset base, with infrastructure directly exposed to the hazards Talaix models at national scale.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: State Grid official English portal describes it as the largest public utility in the world, responsible for investment, construction and operation of power networks in China.",
+      "source": "https://www.sgcc.com.cn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sgcc.com.cn",
+  "date_checked": "2026-08-25"
+}

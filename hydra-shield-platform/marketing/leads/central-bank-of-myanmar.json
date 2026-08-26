@@ -1,0 +1,40 @@
+{
+  "organization": "Central Bank of Myanmar",
+  "segment": "banking",
+  "country": "MM",
+  "region": "Southeast Asia",
+  "website": "https://www.cbm.gov.mm",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Financial Stability",
+  "identified_problem": "Myanmar's cyclone and flood exposure (Nargis, Mocha) affects collateral and banking stability; physical evidence supports risk monitoring.",
+  "climate_exposure": "Delta and coastal collateral exposed to cyclones and flooding.",
+  "potential_pain": "Myanmar's cyclone and flood exposure (Nargis, Mocha) affects collateral and banking stability; physical evidence supports risk monitoring.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "flood/wind screening and event evidence for collateral regions",
+  "relevant_capability": "flood/wind screening and event evidence for collateral regions",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a flood/cyclone evidence pilot for collateral regions.",
+  "priority": "medium",
+  "fit_score": "Myanmar's cyclone and flood exposure (Nargis, Mocha) affects collateral and banking stability; physical evidence supports risk monitoring.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.cbm.gov.mm.",
+      "source": "https://www.cbm.gov.mm"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cbm.gov.mm",
+  "date_checked": "2026-08-26"
+}

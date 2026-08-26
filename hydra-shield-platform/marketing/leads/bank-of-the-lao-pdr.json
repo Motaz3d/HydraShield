@@ -1,0 +1,39 @@
+{
+  "organization": "Bank of the Lao PDR",
+  "segment": "banking",
+  "country": "LA",
+  "region": "Southeast Asia",
+  "website": "https://www.bol.gov.la",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Financial Stability",
+  "identified_problem": "Laos's flood and landslide exposure, including hydropower-linked collateral, creates a physical-evidence need for the banking system.",
+  "climate_exposure": "River-basin assets and hydropower collateral exposed to floods.",
+  "potential_pain": "Laos's flood and landslide exposure, including hydropower-linked collateral, creates a physical-evidence need for the banking system.",
+  "relevant_hazards": [
+    "flood",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "flood screening and event evidence for river-basin assets",
+  "relevant_capability": "flood screening and event evidence for river-basin assets",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a flood-evidence pilot for river-basin and hydropower-linked collateral.",
+  "priority": "medium",
+  "fit_score": "Laos's flood and landslide exposure, including hydropower-linked collateral, creates a physical-evidence need for the banking system.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bol.gov.la.",
+      "source": "https://www.bol.gov.la"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bol.gov.la",
+  "date_checked": "2026-08-26"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Manila Water Company",
+  "segment": "water_management",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://www.manilawater.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Resilience Officer",
+  "identified_problem": "Manila Water is the largest private water utility in the Philippines, serving Metro Manila's east zone. Tropical cyclones, intense rainfall and flooding disrupt treatment plants, distribution networks and water quality, while droughts strain supply from the Angat reservoir.",
+  "climate_exposure": "Water supply and distribution infrastructure across Metro Manila and Rizal, exposed to typhoon rainfall, river flooding, landslides and drought.",
+  "potential_pain": "Service interruptions and water-quality incidents require hazard-aware operations, capital planning and climate-resilience reporting to regulators and investors.",
+  "relevant_hazards": ["flood", "wind", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind and drought exposure layers plus historical event intelligence for typhoons and floods affecting Metro Manila.",
+  "relevant_capability": "monitoring + alerts, historical event evidence and hazard screening",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a flood and drought monitoring service for Manila Water's supply and distribution assets, using historical typhoon events to calibrate risk thresholds.",
+  "priority": "high",
+  "fit_score": "High fit: major metro water utility with direct exposure to flood and drought hazards and a mandate for reliable service.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Manila Water official site describes it as the water and wastewater services provider for the east zone of Metro Manila.",
+      "source": "https://www.manilawater.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.manilawater.com",
+  "date_checked": "2026-08-25"
+}

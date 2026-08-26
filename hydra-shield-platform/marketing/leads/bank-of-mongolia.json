@@ -1,0 +1,40 @@
+{
+  "organization": "Bank of Mongolia",
+  "segment": "banking",
+  "country": "MN",
+  "region": "East Asia",
+  "website": "https://www.bankofmongolia.mn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Financial Stability Directorate",
+  "identified_problem": "Mongolia's dzud winters, drought and heat stress hit rural collateral and banking stability; physical evidence supports financial-stability monitoring.",
+  "climate_exposure": "Livestock and mining-linked collateral exposed to dzud, drought and heat extremes.",
+  "potential_pain": "Mongolia's dzud winters, drought and heat stress hit rural collateral and banking stability; physical evidence supports financial-stability monitoring.",
+  "relevant_hazards": [
+    "drought",
+    "heat",
+    "wind"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "drought/heat screening and long-term event evidence for collateral regions",
+  "relevant_capability": "drought/heat screening and long-term event evidence for collateral regions",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a drought/heat evidence pilot for collateral regions supporting financial-stability analysis.",
+  "priority": "medium",
+  "fit_score": "Mongolia's dzud winters, drought and heat stress hit rural collateral and banking stability; physical evidence supports financial-stability monitoring.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bankofmongolia.mn.",
+      "source": "https://www.bankofmongolia.mn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bankofmongolia.mn",
+  "date_checked": "2026-08-26"
+}

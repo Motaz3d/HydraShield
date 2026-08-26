@@ -1,0 +1,41 @@
+{
+  "organization": "PAGASA — Philippine Atmospheric, Geophysical and Astronomical Services Administration",
+  "segment": "governments",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://www.pagasa.dost.gov.ph",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Deputy Administrator, Research & Development",
+  "identified_problem": "The national weather agency's mandate spans typhoons, floods and heat; complementary evidence layers and alerting support public warning services.",
+  "climate_exposure": "Archipelago-wide exposure to typhoons, floods and heat.",
+  "potential_pain": "The national weather agency's mandate spans typhoons, floods and heat; complementary evidence layers and alerting support public warning services.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "monitored hazard alerts and evidence layers complementing national services",
+  "relevant_capability": "monitored hazard alerts and evidence layers complementing national services",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a technical exchange on monitored hazard evidence and alerting for priority regions.",
+  "priority": "medium",
+  "fit_score": "The national weather agency's mandate spans typhoons, floods and heat; complementary evidence layers and alerting support public warning services.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.pagasa.dost.gov.ph.",
+      "source": "https://www.pagasa.dost.gov.ph"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pagasa.dost.gov.ph",
+  "date_checked": "2026-08-26"
+}

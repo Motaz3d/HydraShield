@@ -1,0 +1,40 @@
+{
+  "organization": "Singapore Exchange (SGX Group)",
+  "segment": "investment",
+  "country": "SG",
+  "region": "Southeast Asia",
+  "website": "https://www.sgx.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of Sustainability / Listing Policy",
+  "identified_problem": "SGX's climate disclosure rules push issuers toward ISSB-aligned reporting; physical-risk evidence is a market-wide data need.",
+  "climate_exposure": "Listed issuers with assets across flood- and heat-exposed Asia.",
+  "potential_pain": "SGX's climate disclosure rules push issuers toward ISSB-aligned reporting; physical-risk evidence is a market-wide data need.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "API access to physical-risk evidence for issuer disclosures",
+  "relevant_capability": "API access to physical-risk evidence for issuer disclosures",
+  "recommended_product": "api",
+  "recommended_message": "Position the Talaix API as a citable evidence source for SGX issuers' climate disclosures.",
+  "priority": "medium",
+  "fit_score": "SGX's climate disclosure rules push issuers toward ISSB-aligned reporting; physical-risk evidence is a market-wide data need.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.sgx.com.",
+      "source": "https://www.sgx.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sgx.com",
+  "date_checked": "2026-08-26"
+}

@@ -1,0 +1,40 @@
+{
+  "organization": "Bangko Sentral ng Pilipinas (BSP)",
+  "segment": "banking",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://www.bsp.gov.ph",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Sustainable Finance Office",
+  "identified_problem": "The BSP's sustainable finance framework expects banks to manage climate risk in one of the world's most typhoon-exposed banking systems.",
+  "climate_exposure": "National banking book exposed to typhoons, storm surge and urban flooding.",
+  "potential_pain": "The BSP's sustainable finance framework expects banks to manage climate risk in one of the world's most typhoon-exposed banking systems.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio screening with typhoon/flood evidence and event history",
+  "relevant_capability": "portfolio screening with typhoon/flood evidence and event history",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a typhoon-corridor collateral screening pilot with historical event evidence.",
+  "priority": "high",
+  "fit_score": "The BSP's sustainable finance framework expects banks to manage climate risk in one of the world's most typhoon-exposed banking systems.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bsp.gov.ph.",
+      "source": "https://www.bsp.gov.ph"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bsp.gov.ph",
+  "date_checked": "2026-08-26"
+}

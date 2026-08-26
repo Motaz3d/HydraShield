@@ -1,0 +1,40 @@
+{
+  "organization": "Thai General Insurance Association (TGIA)",
+  "segment": "insurance",
+  "country": "TH",
+  "region": "Southeast Asia",
+  "website": "https://www.tgia.or.th",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Secretary General / Nat Cat Committee",
+  "identified_problem": "Thai non-life insurers carry flood and storm exposure from 2011-scale events; member companies need consistent per-peril evidence.",
+  "climate_exposure": "Member portfolios concentrated in Bangkok metro and industrial corridors.",
+  "potential_pain": "Thai non-life insurers carry flood and storm exposure from 2011-scale events; member companies need consistent per-peril evidence.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "per-peril underwriting profiles with event history for member companies",
+  "relevant_capability": "per-peril underwriting profiles with event history for member companies",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Propose per-peril evidence profiles for a sample of member insured locations.",
+  "priority": "medium",
+  "fit_score": "Thai non-life insurers carry flood and storm exposure from 2011-scale events; member companies need consistent per-peril evidence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.tgia.or.th.",
+      "source": "https://www.tgia.or.th"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.tgia.or.th",
+  "date_checked": "2026-08-26"
+}

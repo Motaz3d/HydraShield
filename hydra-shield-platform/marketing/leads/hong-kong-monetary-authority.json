@@ -1,0 +1,41 @@
+{
+  "organization": "Hong Kong Monetary Authority (HKMA)",
+  "segment": "banking",
+  "country": "HK",
+  "region": "East Asia",
+  "website": "https://www.hkma.gov.hk",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Green & Sustainable Finance Lead",
+  "identified_problem": "The HKMA runs green and sustainable finance programmes and expects banks to manage and disclose climate risk; independent physical evidence for financed assets is a direct fit.",
+  "climate_exposure": "Hong Kong banking book concentrated in coastal real estate and infrastructure exposed to typhoons, storm surge and heat.",
+  "potential_pain": "The HKMA runs green and sustainable finance programmes and expects banks to manage and disclose climate risk; independent physical evidence for financed assets is a direct fit.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "asset-level DNSH/physical-risk verification and bank-book screening evidence",
+  "relevant_capability": "asset-level DNSH/physical-risk verification and bank-book screening evidence",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer an asset-level physical verification pilot on a sample of bank collateral, aligned with HKMA climate-risk management expectations.",
+  "priority": "high",
+  "fit_score": "The HKMA runs green and sustainable finance programmes and expects banks to manage and disclose climate risk; independent physical evidence for financed assets is a direct fit.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.hkma.gov.hk.",
+      "source": "https://www.hkma.gov.hk"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hkma.gov.hk",
+  "date_checked": "2026-08-26"
+}

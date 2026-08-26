@@ -1,0 +1,40 @@
+{
+  "organization": "Monetary Authority of Singapore (MAS)",
+  "segment": "banking",
+  "country": "SG",
+  "region": "Southeast Asia",
+  "website": "https://www.mas.gov.sg",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head, Green Finance / Sustainability",
+  "identified_problem": "MAS's Green Finance Action Plan and environmental risk management guidelines for banks, insurers and asset managers make independent physical-risk evidence directly relevant to supervision and grant programmes.",
+  "climate_exposure": "Singapore's coastal financial district, plus regional lending books exposed to flood and heat across Southeast Asia.",
+  "potential_pain": "MAS's Green Finance Action Plan and environmental risk management guidelines for banks, insurers and asset managers make independent physical-risk evidence directly relevant to supervision and grant programmes.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "DNSH-vocabulary asset verification, portfolio screening and evidence packs for environmental risk guidelines",
+  "relevant_capability": "DNSH-vocabulary asset verification, portfolio screening and evidence packs for environmental risk guidelines",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Propose an evidence pilot showing per-asset physical verification with declared gaps — the vocabulary MAS guidelines expect.",
+  "priority": "high",
+  "fit_score": "MAS's Green Finance Action Plan and environmental risk management guidelines for banks, insurers and asset managers make independent physical-risk evidence directly relevant to supervision and grant programmes.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.mas.gov.sg.",
+      "source": "https://www.mas.gov.sg"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.mas.gov.sg",
+  "date_checked": "2026-08-26"
+}

@@ -1,0 +1,36 @@
+{
+  "organization": "Vietnam Electricity (EVN)",
+  "segment": "infrastructure",
+  "country": "VN",
+  "region": "Southeast Asia",
+  "website": "https://www.evn.com.vn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "EVN is Vietnam's national power utility, responsible for generation, transmission and distribution across a long, narrow territory exposed to typhoons, monsoon floods, droughts and salinity intrusion in the Mekong Delta. Storms and flooding repeatedly damage poles, lines and hydropower assets.",
+  "climate_exposure": "Nationwide grid from northern mountains to the Mekong Delta, with coastal transmission corridors exposed to typhoon wind and storm surge, and central/highland areas exposed to floods and landslides.",
+  "potential_pain": "Outages affect industrial zones and households; climate adaptation planning needs asset-level hazard intelligence to prioritise resilience investment and emergency response.",
+  "relevant_hazards": ["flood", "wind", "drought"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind and drought exposure layers plus historical event intelligence for Vietnamese typhoons and floods.",
+  "relevant_capability": "infrastructure monitoring, hazard alerting and historical event analytics",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring service that tracks flood, typhoon and drought hazard around EVN generation and transmission assets, calibrated on recent Vietnamese events.",
+  "priority": "high",
+  "fit_score": "High fit: Vietnam's monopoly national utility with hard assets spanning the exact hazards Talaix models, and recent public disaster events demonstrating the need.",
+  "urgency": "high",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: EVN official site describes it as Vietnam's largest power corporation, covering generation, transmission and distribution.",
+      "source": "https://www.evn.com.vn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.evn.com.vn",
+  "date_checked": "2026-08-25"
+}

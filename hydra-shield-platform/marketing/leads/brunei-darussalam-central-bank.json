@@ -1,0 +1,40 @@
+{
+  "organization": "Brunei Darussalam Central Bank (BDCB)",
+  "segment": "banking",
+  "country": "BN",
+  "region": "Southeast Asia",
+  "website": "https://www.bdcb.gov.bn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Financial Stability / Sustainability",
+  "identified_problem": "Brunei's coastal concentration and energy-linked economy create a focused physical-risk evidence need for a small banking system.",
+  "climate_exposure": "Coastal urban and energy-linked assets.",
+  "potential_pain": "Brunei's coastal concentration and energy-linked economy create a focused physical-risk evidence need for a small banking system.",
+  "relevant_hazards": [
+    "coastal",
+    "flood",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "coastal/flood screening for a concentrated national book",
+  "relevant_capability": "coastal/flood screening for a concentrated national book",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a focused coastal-risk evidence pilot.",
+  "priority": "medium",
+  "fit_score": "Brunei's coastal concentration and energy-linked economy create a focused physical-risk evidence need for a small banking system.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.bdcb.gov.bn.",
+      "source": "https://www.bdcb.gov.bn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bdcb.gov.bn",
+  "date_checked": "2026-08-26"
+}

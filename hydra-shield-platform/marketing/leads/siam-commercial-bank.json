@@ -1,0 +1,36 @@
+{
+  "organization": "Siam Commercial Bank (SCB)",
+  "segment": "banking",
+  "country": "TH",
+  "region": "Southeast Asia",
+  "website": "https://www.scb.co.th",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Sustainability Director",
+  "identified_problem": "SCB is one of Thailand's largest commercial banks, with lending exposure to property, SME, corporate and agricultural clients across flood- and drought-prone regions. Physical climate risk is increasingly relevant to credit quality, ESG disclosures and green-finance eligibility.",
+  "climate_exposure": "Loan portfolio spans Thailand's central floodplain, coastal tourism zones, drought-prone northeast and industrial estates vulnerable to flood and heat.",
+  "potential_pain": "Need for location-level climate risk data to assess collateral, sector concentration, transition-plan credibility and climate-related financial disclosure.",
+  "relevant_hazards": ["flood", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, drought and heat exposure layers and historical event analytics for Thailand.",
+  "relevant_capability": "portfolio screening, climate risk intelligence and evidence packs",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a portfolio screening that locates SCB borrower exposures against flood, drought and heat hazards, supporting ESG disclosure and credit risk review.",
+  "priority": "high",
+  "fit_score": "Strong fit: one of Thailand's largest banks, actively publishing sustainability and climate risk disclosures, with a portfolio concentrated in hazard-exposed geographies.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: SCB official site describes it as one of Thailand's leading universal banks with a sustainability strategy.",
+      "source": "https://www.scb.co.th"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.scb.co.th",
+  "date_checked": "2026-08-25"
+}

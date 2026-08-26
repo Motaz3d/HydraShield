@@ -1,0 +1,36 @@
+{
+  "organization": "Aboitiz Equity Ventures",
+  "segment": "infrastructure",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://www.aboitiz.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Sustainability Director",
+  "identified_problem": "Aboitiz Equity Ventures is a Philippine conglomerate with power generation, distribution, banking, food and infrastructure assets. Its energy and infrastructure portfolio is exposed to typhoons, floods, landslides and sea-level-rise impacts across the Philippine archipelago.",
+  "climate_exposure": "Power plants, distribution utilities, ports and land holdings across the Philippines, including typhoon-prone eastern seaboard and flood-prone river basins.",
+  "potential_pain": "Physical climate risk affects asset availability, insurance costs and sustainability commitments; group-level risk reporting needs consistent hazard data across operating companies.",
+  "relevant_hazards": ["flood", "wind", "landslide"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind and landslide exposure layers plus historical event intelligence for recent Philippine typhoons and floods.",
+  "relevant_capability": "climate risk intelligence, asset screening and monitoring + alerts",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer a group-wide asset screening and monitoring engagement that maps Aboitiz power, distribution and infrastructure assets against typhoon, flood and landslide hazards.",
+  "priority": "high",
+  "fit_score": "Strong fit: large Philippine conglomerate with critical infrastructure assets across the archipelago and public sustainability commitments.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Aboitiz official site describes the group's businesses in power, financial services, food, infrastructure and land.",
+      "source": "https://www.aboitiz.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aboitiz.com",
+  "date_checked": "2026-08-25"
+}

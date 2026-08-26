@@ -1,0 +1,40 @@
+{
+  "organization": "Ministry of Natural Resources and Environment (MONRE, Vietnam)",
+  "segment": "governments",
+  "country": "VN",
+  "region": "Southeast Asia",
+  "website": "https://www.monre.gov.vn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Change Department",
+  "identified_problem": "MONRE leads climate adaptation including Mekong Delta salinity and flood programmes; monitored hazard evidence supports planning.",
+  "climate_exposure": "Mekong Delta and central-coast exposure to floods, drought and salinity.",
+  "potential_pain": "MONRE leads climate adaptation including Mekong Delta salinity and flood programmes; monitored hazard evidence supports planning.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "monitored hazard alerts and evidence layers for adaptation planning",
+  "relevant_capability": "monitored hazard alerts and evidence layers for adaptation planning",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer monitored hazard alerts with evidence labels for priority delta provinces.",
+  "priority": "medium",
+  "fit_score": "MONRE leads climate adaptation including Mekong Delta salinity and flood programmes; monitored hazard evidence supports planning.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.monre.gov.vn.",
+      "source": "https://www.monre.gov.vn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.monre.gov.vn",
+  "date_checked": "2026-08-26"
+}

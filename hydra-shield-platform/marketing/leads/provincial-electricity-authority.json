@@ -1,0 +1,36 @@
+{
+  "organization": "Provincial Electricity Authority (PEA)",
+  "segment": "infrastructure",
+  "country": "TH",
+  "region": "Southeast Asia",
+  "website": "https://www.pea.co.th",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "PEA distributes electricity to 99% of Thailand's provinces outside Bangkok, serving commercial, industrial and rural customers. Thailand faces annual monsoon floods, tropical storms and urban flash flooding that damage distribution transformers, poles and lines.",
+  "climate_exposure": "Distribution network across all Thai provinces including flood-prone central plains, southern coasts and mountainous northern regions exposed to landslides.",
+  "potential_pain": "Flood-related outages disrupt industry and households; restoration costs and reliability targets create demand for hazard-based asset prioritisation and early warning.",
+  "relevant_hazards": ["flood", "wind", "landslide"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood and wind exposure layers plus historical event intelligence for recent Thai floods and tropical storms, mapped across provincial distribution areas.",
+  "relevant_capability": "asset screening, monitoring + alerts, historical events",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a flood and storm monitoring pilot for PEA's distribution network, using historical Thai flood events to calibrate exposure and alert thresholds.",
+  "priority": "high",
+  "fit_score": "High fit: Thailand's dominant provincial distributor with extensive outdoor infrastructure exposed to monsoon flooding and tropical storms.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: PEA official site describes it as the state enterprise responsible for electricity distribution in provincial Thailand.",
+      "source": "https://www.pea.co.th"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.pea.co.th",
+  "date_checked": "2026-08-25"
+}

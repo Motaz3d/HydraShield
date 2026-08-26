@@ -1,0 +1,40 @@
+{
+  "organization": "State Bank of Vietnam (SBV)",
+  "segment": "banking",
+  "country": "VN",
+  "region": "Southeast Asia",
+  "website": "https://www.sbv.gov.vn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Banking Supervision / Green Banking",
+  "identified_problem": "Vietnam's green-banking direction faces Mekong Delta salinity intrusion, flooding and typhoon exposure across the banking book.",
+  "climate_exposure": "Mekong Delta agricultural collateral and coastal urban assets.",
+  "potential_pain": "Vietnam's green-banking direction faces Mekong Delta salinity intrusion, flooding and typhoon exposure across the banking book.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio screening with flood/coastal/drought evidence",
+  "relevant_capability": "portfolio screening with flood/coastal/drought evidence",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a Mekong Delta-focused collateral screening pilot with declared data gaps.",
+  "priority": "high",
+  "fit_score": "Vietnam's green-banking direction faces Mekong Delta salinity intrusion, flooding and typhoon exposure across the banking book.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.sbv.gov.vn.",
+      "source": "https://www.sbv.gov.vn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.sbv.gov.vn",
+  "date_checked": "2026-08-26"
+}

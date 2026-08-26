@@ -1,0 +1,40 @@
+{
+  "organization": "Cathay Financial Holdings",
+  "segment": "insurance",
+  "country": "TW",
+  "region": "East Asia",
+  "website": "https://www.cathayholdings.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Group Chief Risk Officer",
+  "identified_problem": "One of Taiwan's largest financial groups with life, P&C and banking arms; group-level climate disclosure and underwriting exposure to typhoon/flood require defensible physical evidence.",
+  "climate_exposure": "Underwriting and investment portfolios across Taiwan's typhoon corridor and coastal urban assets.",
+  "potential_pain": "One of Taiwan's largest financial groups with life, P&C and banking arms; group-level climate disclosure and underwriting exposure to typhoon/flood require defensible physical evidence.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "per-peril underwriting profiles, long-term event history and evidence packs for group disclosure",
+  "relevant_capability": "per-peril underwriting profiles, long-term event history and evidence packs for group disclosure",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Propose a pilot: per-peril risk profiles with event history for a sample of Cathay's insured and invested locations.",
+  "priority": "high",
+  "fit_score": "One of Taiwan's largest financial groups with life, P&C and banking arms; group-level climate disclosure and underwriting exposure to typhoon/flood require defensible physical evidence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.cathayholdings.com.",
+      "source": "https://www.cathayholdings.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.cathayholdings.com",
+  "date_checked": "2026-08-26"
+}

@@ -1,0 +1,40 @@
+{
+  "organization": "Khazanah Nasional",
+  "segment": "investment",
+  "country": "MY",
+  "region": "Southeast Asia",
+  "website": "https://www.khazanah.com.my",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Head of Sustainability",
+  "identified_problem": "Malaysia's sovereign fund with a sustainability framework; investee-level physical-risk evidence supports portfolio stewardship.",
+  "climate_exposure": "Investee assets across flood- and heat-exposed Malaysia and the region.",
+  "potential_pain": "Malaysia's sovereign fund with a sustainability framework; investee-level physical-risk evidence supports portfolio stewardship.",
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "API access to asset-level physical-risk evidence for stewardship",
+  "relevant_capability": "API access to asset-level physical-risk evidence for stewardship",
+  "recommended_product": "api",
+  "recommended_message": "Position the Talaix API as an evidence layer for investee climate-risk reviews.",
+  "priority": "medium",
+  "fit_score": "Malaysia's sovereign fund with a sustainability framework; investee-level physical-risk evidence supports portfolio stewardship.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.khazanah.com.my.",
+      "source": "https://www.khazanah.com.my"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.khazanah.com.my",
+  "date_checked": "2026-08-26"
+}

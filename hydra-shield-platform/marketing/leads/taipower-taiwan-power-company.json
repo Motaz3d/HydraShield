@@ -1,0 +1,36 @@
+{
+  "organization": "Taiwan Power Company (Taipower)",
+  "segment": "infrastructure",
+  "country": "TW",
+  "region": "East Asia",
+  "website": "https://www.taipower.com.tw",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Infrastructure Director",
+  "identified_problem": "Taipower is Taiwan's state-owned electric utility, operating thermal, hydro, nuclear and renewable generation plus transmission and distribution. Taiwan is exposed to typhoons, earthquakes-induced landslides, heavy rainfall and droughts that affect generation capacity and grid stability.",
+  "climate_exposure": "Generation sites, transmission lines and distribution networks across Taiwan's mountainous island geography, with coastal and riverine flood exposure and landslide-prone mountain corridors.",
+  "potential_pain": "Typhoon damage and drought-induced hydropower shortages disrupt supply; resilience planning needs hazard data tied to specific assets and corridors.",
+  "relevant_hazards": ["flood", "wind", "drought", "landslide"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind, drought and landslide exposure layers plus historical event intelligence for typhoons affecting Taiwan.",
+  "relevant_capability": "infrastructure monitoring, hazard alerting and historical event analytics",
+  "recommended_product": "monitoring",
+  "recommended_message": "Propose a monitoring pilot for Taipower generation and transmission assets, tracking typhoon, flood, drought and landslide hazards with historical event calibration.",
+  "priority": "high",
+  "fit_score": "High fit: Taiwan's monopoly utility with generation and grid assets exposed to multiple climate hazards and a strong operational mandate for reliability.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Taipower official site describes it as Taiwan's sole integrated electric utility responsible for generation, transmission and distribution.",
+      "source": "https://www.taipower.com.tw"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.taipower.com.tw",
+  "date_checked": "2026-08-25"
+}

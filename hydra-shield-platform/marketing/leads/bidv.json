@@ -1,0 +1,36 @@
+{
+  "organization": "Bank for Investment and Development of Vietnam (BIDV)",
+  "segment": "banking",
+  "country": "VN",
+  "region": "Southeast Asia",
+  "website": "https://www.bidv.com.vn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Risk Officer",
+  "identified_problem": "BIDV is one of Vietnam's largest state-owned banks, financing infrastructure, agriculture, manufacturing and real estate across provinces exposed to floods, typhoons, drought and salinity. Physical climate risk is becoming material to credit risk and green-bond frameworks.",
+  "climate_exposure": "Loan book concentrated in flood-prone Red River and Mekong Deltas, typhoon-exposed central coast, and drought-affected central highlands.",
+  "potential_pain": "Need geospatial hazard data for collateral valuation, sectoral exposure limits, climate stress testing and sustainable-finance reporting.",
+  "relevant_hazards": ["flood", "wind", "drought", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind, drought and heat exposure layers and historical event analytics for Vietnam.",
+  "relevant_capability": "portfolio screening and climate risk intelligence",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a portfolio screening that maps BIDV exposures against Vietnam's key climate hazards, supporting credit risk and green-finance reporting.",
+  "priority": "high",
+  "fit_score": "Strong fit: major Vietnamese state bank with broad infrastructure and agricultural lending in highly hazard-exposed regions.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: BIDV official site describes it as one of Vietnam's largest commercial banks and a leading state-owned bank.",
+      "source": "https://www.bidv.com.vn"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.bidv.com.vn",
+  "date_checked": "2026-08-25"
+}

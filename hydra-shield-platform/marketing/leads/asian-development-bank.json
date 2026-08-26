@@ -1,0 +1,41 @@
+{
+  "organization": "Asian Development Bank (ADB)",
+  "segment": "investment",
+  "country": "PH",
+  "region": "Southeast Asia",
+  "website": "https://www.adb.org",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Change / Safeguards",
+  "identified_problem": "ADB's climate finance across Asia requires physical-risk evidence for project screening and safeguards; consistent multi-country evidence is a direct fit.",
+  "climate_exposure": "Infrastructure and development projects across flood-, drought- and heat-exposed Asia.",
+  "potential_pain": "ADB's climate finance across Asia requires physical-risk evidence for project screening and safeguards; consistent multi-country evidence is a direct fit.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "API access to consistent multi-hazard evidence for project screening",
+  "relevant_capability": "API access to consistent multi-hazard evidence for project screening",
+  "recommended_product": "api",
+  "recommended_message": "Position the Talaix API as a screening layer for project-level physical-risk review.",
+  "priority": "high",
+  "fit_score": "ADB's climate finance across Asia requires physical-risk evidence for project screening and safeguards; consistent multi-country evidence is a direct fit.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.adb.org.",
+      "source": "https://www.adb.org"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.adb.org",
+  "date_checked": "2026-08-26"
+}

@@ -1,0 +1,41 @@
+{
+  "organization": "AIA Group",
+  "segment": "insurance",
+  "country": "HK",
+  "region": "East Asia",
+  "website": "https://www.aia.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Group Chief Risk Officer",
+  "identified_problem": "Pan-Asian insurer with assets and policyholders across typhoon-, flood- and heat-exposed markets; group risk needs consistent physical evidence across jurisdictions.",
+  "climate_exposure": "18 Asia-Pacific markets with coastal urban concentration.",
+  "potential_pain": "Pan-Asian insurer with assets and policyholders across typhoon-, flood- and heat-exposed markets; group risk needs consistent physical evidence across jurisdictions.",
+  "relevant_hazards": [
+    "flood",
+    "wind",
+    "coastal",
+    "heat"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "multi-country per-peril screening with a single evidence vocabulary",
+  "relevant_capability": "multi-country per-peril screening with a single evidence vocabulary",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a multi-country pilot: consistent per-peril evidence profiles across a sample of AIA's Asian asset locations.",
+  "priority": "high",
+  "fit_score": "Pan-Asian insurer with assets and policyholders across typhoon-, flood- and heat-exposed markets; group risk needs consistent physical evidence across jurisdictions.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.aia.com.",
+      "source": "https://www.aia.com"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.aia.com",
+  "date_checked": "2026-08-26"
+}

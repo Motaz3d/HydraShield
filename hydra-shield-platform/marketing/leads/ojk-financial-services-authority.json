@@ -1,0 +1,40 @@
+{
+  "organization": "Otoritas Jasa Keuangan (OJK — Financial Services Authority)",
+  "segment": "banking",
+  "country": "ID",
+  "region": "Southeast Asia",
+  "website": "https://www.ojk.go.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Sustainable Finance Directorate",
+  "identified_problem": "OJK's sustainable finance roadmap requires banks to manage climate risk; Indonesian loan books carry flood, drought and commodity-plantation exposure that is hard to evidence today.",
+  "climate_exposure": "Banking system exposure to urban flooding, peatland drought/fire risk and coastal assets.",
+  "potential_pain": "OJK's sustainable finance roadmap requires banks to manage climate risk; Indonesian loan books carry flood, drought and commodity-plantation exposure that is hard to evidence today.",
+  "relevant_hazards": [
+    "flood",
+    "drought",
+    "coastal"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "portfolio screening plus deforestation-aware origin evidence for plantation-linked lending",
+  "relevant_capability": "portfolio screening plus deforestation-aware origin evidence for plantation-linked lending",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer a combined pilot: physical-risk screening plus EUDR-relevant origin evidence for plantation-linked credit.",
+  "priority": "high",
+  "fit_score": "OJK's sustainable finance roadmap requires banks to manage climate risk; Indonesian loan books carry flood, drought and commodity-plantation exposure that is hard to evidence today.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-26",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: official site https://www.ojk.go.id.",
+      "source": "https://www.ojk.go.id"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.ojk.go.id",
+  "date_checked": "2026-08-26"
+}

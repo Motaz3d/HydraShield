@@ -1,0 +1,36 @@
+{
+  "organization": "Hyundai Engineering & Construction",
+  "segment": "engineering_firms",
+  "country": "KR",
+  "region": "East Asia",
+  "website": "https://www.hdec.co.kr",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Technical Director",
+  "identified_problem": "Hyundai E&C is one of South Korea's largest construction and engineering companies, building infrastructure, plants and buildings domestically and overseas. Projects face flood, typhoon and heat hazards that affect site safety, schedules and long-term asset resilience.",
+  "climate_exposure": "Construction sites and completed assets in Korea and abroad, including flood-prone river catchments, coastal typhoon zones and heat-exposed urban areas.",
+  "potential_pain": "Need for hazard screening during bidding and design, plus climate-resilience credentials for ESG reporting and client requirements.",
+  "relevant_hazards": ["flood", "wind", "heat"],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "Talaix flood, wind and heat exposure layers and historical event intelligence for the 2022 Seoul floods and recent Korean typhoons.",
+  "relevant_capability": "hazard screening, climate risk intelligence and evidence packs",
+  "recommended_product": "risk_api",
+  "recommended_message": "Offer hazard screening and climate risk intelligence for Hyundai E&C's project pipeline, supporting resilient design, bidding and ESG reporting.",
+  "priority": "high",
+  "fit_score": "Strong fit: Korea's leading E&C firm with a global project portfolio exposed to the hazards Talaix models; natural buyer for location risk data.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-25",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Hyundai E&C official site describes it as a global engineering and construction company building infrastructure, buildings and plants.",
+      "source": "https://www.hdec.co.kr"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.hdec.co.kr",
+  "date_checked": "2026-08-25"
+}
