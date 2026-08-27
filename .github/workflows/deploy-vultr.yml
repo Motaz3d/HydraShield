@@ -90,6 +90,13 @@ jobs:
               set_env IMAP_PASS "${{ secrets.SMTP_PASSWORD }}"
               set_env IMAP_FOLDER INBOX
             fi
+            # AI gateway (Kimi) — key lives only in GitHub secrets; provider
+            # is config (pay-as-you-go platform), overridable on the server.
+            if [ -n "${{ secrets.KIMI_API_KEY }}" ]; then
+              set_env KIMI_API_KEY "${{ secrets.KIMI_API_KEY }}"
+              set_env KIMI_PROVIDER platform
+              set_env AI_DAILY_CALL_CAP 50
+            fi
             docker compose pull
             docker compose build
             docker compose up -d --remove-orphans
@@ -100,7 +107,7 @@ jobs:
             docker image prune -f
             docker compose ps
             # Masked sanity check: key NAMES only, never values.
-            docker compose exec -T api python -c "import os;ks=('SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASSWORD','SMTP_FROM','IMAP_HOST','IMAP_PORT','IMAP_USER','IMAP_PASS','IMAP_FOLDER');print('env present:',[k for k in ks if os.environ.get(k)]);print('env missing:',[k for k in ks if not os.environ.get(k)])" || true
+            docker compose exec -T api python -c "import os;ks=('SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASSWORD','SMTP_FROM','IMAP_HOST','IMAP_PORT','IMAP_USER','IMAP_PASS','IMAP_FOLDER','KIMI_API_KEY','KIMI_PROVIDER','AI_DAILY_CALL_CAP');print('env present:',[k for k in ks if os.environ.get(k)]);print('env missing:',[k for k in ks if not os.environ.get(k)])" || true
             echo "Waiting for stack to settle..."
             sleep 20
             for i in 1 2 3 4 5; do
