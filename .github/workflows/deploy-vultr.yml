@@ -65,20 +65,30 @@ jobs:
               echo 'HYDRASHIELD_OPERATOR_EMAILS=info@talaix.com' >> .env
             fi
             # SMTP + IMAP credentials live ONLY in GitHub secrets — never in
-            # git. Injected idempotently: existing lines are left untouched,
-            # so rotating means editing .env on the server or updating the
-            # secret and re-running with SMTP_FORCE=1.
+            # git. set_env appends when missing, replaces EMPTY values, and
+            # leaves non-empty manual edits untouched (server-side rotation
+            # always wins over redeploys).
+            set_env() {
+              key="$1"; val="$2"
+              if grep -q "^${key}=." .env; then
+                :
+              elif grep -q "^${key}=" .env; then
+                sed -i "s|^${key}=.*|${key}=${val}|" .env
+              else
+                echo "${key}=${val}" >> .env
+              fi
+            }
             if [ -n "${{ secrets.SMTP_PASSWORD }}" ]; then
-              grep -q '^SMTP_HOST=' .env || echo 'SMTP_HOST=smtp.gmail.com' >> .env
-              grep -q '^SMTP_PORT=' .env || echo 'SMTP_PORT=587' >> .env
-              grep -q '^SMTP_USER=' .env || echo 'SMTP_USER=info@talaix.com' >> .env
-              grep -q '^SMTP_FROM=' .env || echo 'SMTP_FROM=info@talaix.com' >> .env
-              grep -q '^SMTP_PASSWORD=' .env || echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
-              grep -q '^IMAP_HOST=' .env || echo 'IMAP_HOST=imap.gmail.com' >> .env
-              grep -q '^IMAP_PORT=' .env || echo 'IMAP_PORT=993' >> .env
-              grep -q '^IMAP_USER=' .env || echo 'IMAP_USER=info@talaix.com' >> .env
-              grep -q '^IMAP_PASS=' .env || echo "IMAP_PASS=${{ secrets.SMTP_PASSWORD }}" >> .env
-              grep -q '^IMAP_FOLDER=' .env || echo 'IMAP_FOLDER=INBOX' >> .env
+              set_env SMTP_HOST smtp.gmail.com
+              set_env SMTP_PORT 587
+              set_env SMTP_USER info@talaix.com
+              set_env SMTP_FROM info@talaix.com
+              set_env SMTP_PASSWORD "${{ secrets.SMTP_PASSWORD }}"
+              set_env IMAP_HOST imap.gmail.com
+              set_env IMAP_PORT 993
+              set_env IMAP_USER info@talaix.com
+              set_env IMAP_PASS "${{ secrets.SMTP_PASSWORD }}"
+              set_env IMAP_FOLDER INBOX
             fi
             docker compose pull
             docker compose build
