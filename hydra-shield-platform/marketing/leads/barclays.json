@@ -35,6 +35,12 @@
       "type": "discovered",
       "summary": "Updated via signatory-list import (pcaf): Disclosed status.",
       "source": "https://carbonaccountingfinancials.com/en/signatories"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (bank).",
+      "source": "https://www.wikidata.org/wiki/Q245343"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
@@ -55,5 +61,17 @@
       "category": "Financial services group",
       "source_url": "https://carbonaccountingfinancials.com/en/signatories"
     }
+  },
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q245343"
+  ],
+  "concepts": [
+    "bank"
+  ],
+  "wikidata_id": "Q245343",
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q245343",
+    "source_url": "https://www.wikidata.org/wiki/Q245343"
   }
 }

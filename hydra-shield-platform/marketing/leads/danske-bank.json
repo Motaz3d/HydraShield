@@ -17,8 +17,26 @@
       "type": "discovered",
       "summary": "Imported via external_research_wave1 batch.",
       "source": "danskebank.com"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (bank).",
+      "source": "https://www.wikidata.org/wiki/Q1636974"
     }
   ],
   "source": "danskebank.com",
-  "date_checked": "2026-08-26"
+  "date_checked": "2026-08-26",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q1636974"
+  ],
+  "concepts": [
+    "bank"
+  ],
+  "wikidata_id": "Q1636974",
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q1636974",
+    "source_url": "https://www.wikidata.org/wiki/Q1636974"
+  }
 }

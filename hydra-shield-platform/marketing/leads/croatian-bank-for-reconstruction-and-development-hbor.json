@@ -9,7 +9,10 @@
   "identified_problem": "HBOR is Croatia’s national development bank, financing reconstruction, infrastructure, exports, SMEs and venture-capital investments. Recurring Dalmatian wildfires and the 2023 central-Croatia floods mean many of its financed assets and sovereign-backed projects sit in hazard-prone areas.",
   "climate_exposure": "Its loan book and guarantee portfolio span fire-prone Adriatic counties, flood-exposed continental river basins and coastal zones vulnerable to storm surges, tying sovereign risk to physical climate extremes.",
   "potential_pain": "Climate damage to financed projects can increase non-performing loans, trigger guarantee calls, delay disbursements and force costly restructuring of public reconstruction programmes.",
-  "relevant_hazards": ["flood", "wildfire"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for the Croatian counties and river basins where HBOR-financed projects are located.",
@@ -27,10 +30,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: HBOR homepage describes itself as Croatia’s national development bank financing reconstruction, infrastructure, exports and SMEs.",
       "source": "https://www.hbor.hr"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (bank).",
+      "source": "https://www.wikidata.org/wiki/Q16908866"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.hbor.hr",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q16908866"
+  ],
+  "concepts": [
+    "bank"
+  ],
+  "wikidata_id": "Q16908866",
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q16908866",
+    "source_url": "https://www.wikidata.org/wiki/Q16908866"
+  }
 }

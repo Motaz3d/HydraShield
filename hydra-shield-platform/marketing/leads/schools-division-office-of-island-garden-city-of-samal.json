@@ -1,0 +1,52 @@
+{
+  "organization": "Schools Division Office of Island Garden City of Samal",
+  "segment": "governments",
+  "country": "PH",
+  "region": "",
+  "website": "https://depedigacos.weebly.com/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Climate Policy Officer",
+  "identified_problem": "national and regional resilience planning needs traceable multi-hazard evidence",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs territorial intelligence with primary institutional sources for planning.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "regional analysis and annual intelligence reports",
+  "relevant_capability": "regional multi-hazard intelligence and annual reports",
+  "priority": "medium",
+  "recommended_product": "organization_account",
+  "recommended_message": "Offer Schools Division Office of Island Garden City of Samal a focused pilot that pairs regional analysis and annual intelligence reports with traceable physical-risk evidence.",
+  "fit_score": "Government body responsible for resilience, policy or territorial planning.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (government agency).",
+      "source": "https://www.wikidata.org/wiki/Q130253627"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q130253627",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q130253627",
+  "concepts": [
+    "government agency"
+  ],
+  "inventory_meta": {
+    "concept_label": "government agency",
+    "wikidata_id": "Q130253627",
+    "source_url": "https://www.wikidata.org/wiki/Q130253627"
+  }
+}

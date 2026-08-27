@@ -1,0 +1,396 @@
+{
+  "generated_at": "2026-08-27T09:04:16.448327+02:00",
+  "parameters": {
+    "countries": "ALL",
+    "concepts": "ALL",
+    "limit_per_query": 200
+  },
+  "totals": {
+    "queries": 540,
+    "hits": 15126,
+    "unique_orgs": 13186,
+    "with_website": 7656,
+    "without_website": 5530
+  },
+  "per_concept": {
+    "bank": {
+      "queries": 37,
+      "hits": 2509,
+      "unique": 2509,
+      "with_website": 1316
+    },
+    "central bank": {
+      "queries": 37,
+      "hits": 48,
+      "unique": 48,
+      "with_website": 37
+    },
+    "insurance company": {
+      "queries": 37,
+      "hits": 648,
+      "unique": 648,
+      "with_website": 396
+    },
+    "investment company": {
+      "queries": 37,
+      "hits": 216,
+      "unique": 216,
+      "with_website": 79
+    },
+    "asset management company": {
+      "queries": 37,
+      "hits": 7,
+      "unique": 7,
+      "with_website": 6
+    },
+    "pension fund": {
+      "queries": 37,
+      "hits": 44,
+      "unique": 44,
+      "with_website": 25
+    },
+    "sovereign wealth fund": {
+      "queries": 37,
+      "hits": 10,
+      "unique": 10,
+      "with_website": 8
+    },
+    "real estate company": {
+      "queries": 37,
+      "hits": 318,
+      "unique": 318,
+      "with_website": 239
+    },
+    "real estate investment trust": {
+      "queries": 37,
+      "hits": 33,
+      "unique": 33,
+      "with_website": 28
+    },
+    "ministry of the environment": {
+      "queries": 37,
+      "hits": 0,
+      "unique": 0,
+      "with_website": 0
+    },
+    "government agency": {
+      "queries": 37,
+      "hits": 4670,
+      "unique": 4670,
+      "with_website": 2440
+    },
+    "meteorological service": {
+      "queries": 37,
+      "hits": 1,
+      "unique": 1,
+      "with_website": 1
+    },
+    "disaster management agency": {
+      "queries": 37,
+      "hits": 0,
+      "unique": 0,
+      "with_website": 0
+    },
+    "university": {
+      "queries": 37,
+      "hits": 2982,
+      "unique": 2982,
+      "with_website": 2274
+    },
+    "research institute": {
+      "queries": 37,
+      "hits": 1889,
+      "unique": 1889,
+      "with_website": 945
+    }
+  },
+  "skipped": [
+    {
+      "kind": "country",
+      "code": "TL",
+      "label": "East Timor",
+      "reason": "Could not resolve country to a Wikidata Q-id"
+    }
+  ],
+  "capped_queries": [
+    {
+      "concept": "bank",
+      "country": "DE",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "bank",
+      "country": "ES",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "bank",
+      "country": "GB",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "insurance company",
+      "country": "DE",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "TW",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "SG",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "ID",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "MY",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "TH",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "VN",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "PH",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "LU",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "BE",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "NL",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "FR",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "CH",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "AT",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "DK",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "FI",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "SE",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "NO",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "PL",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "CZ",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "RO",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "PT",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "ES",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "GR",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "government agency",
+      "country": "GB",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "JP",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "KR",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "TW",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "ID",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "PH",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "DE",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "FR",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "PL",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "ES",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "IT",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "university",
+      "country": "GB",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "JP",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "KR",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "TW",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "ID",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "NL",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "DE",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    },
+    {
+      "concept": "research institute",
+      "country": "FR",
+      "limit": 200,
+      "reason": "Query hit the LIMIT cap; result may be incomplete"
+    }
+  ],
+  "created": 7477,
+  "merged": 179,
+  "pending": 5530
+}

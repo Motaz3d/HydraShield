@@ -31,10 +31,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: official site https://www.khazanah.com.my.",
       "source": "https://www.khazanah.com.my"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (government agency).",
+      "source": "https://www.wikidata.org/wiki/Q4382207"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.khazanah.com.my",
-  "date_checked": "2026-08-26"
+  "date_checked": "2026-08-26",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q4382207"
+  ],
+  "concepts": [
+    "government agency"
+  ],
+  "wikidata_id": "Q4382207",
+  "inventory_meta": {
+    "concept_label": "government agency",
+    "wikidata_id": "Q4382207",
+    "source_url": "https://www.wikidata.org/wiki/Q4382207"
+  }
 }

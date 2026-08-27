@@ -9,7 +9,10 @@
   "identified_problem": "CGD's sustainability page states that its sustainability strategy represents the bank's commitment to sustainable development, the future of its assets, reduced environmental impacts and value creation for clients and employees. Portugal's recurring wildfires, flash floods and droughts threaten the real-estate and SME collateral that back its domestic lending book.",
   "climate_exposure": "As Portugal's state-owned systemic bank, CGD holds mortgages, corporate loans and agricultural credit secured by assets spread across fire- and flood-prone regions of mainland Portugal.",
   "potential_pain": "Climate-related credit losses and stranded-collateral risk are rising, while ECB and EU supervisory expectations require banks to evidence climate-risk analysis across portfolios.",
-  "relevant_hazards": ["wildfire", "flood"],
+  "relevant_hazards": [
+    "wildfire",
+    "flood"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood and wildfire exposure layers plus historical event intelligence for Portuguese municipalities and collateral locations.",
@@ -27,10 +30,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: CGD sustainability page describes the bank's strategy for reducing environmental impacts and safeguarding the future of its assets.",
       "source": "https://www.cgd.pt/sustentabilidade"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (bank).",
+      "source": "https://www.wikidata.org/wiki/Q1026044"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.cgd.pt/sustentabilidade",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q1026044"
+  ],
+  "concepts": [
+    "bank"
+  ],
+  "wikidata_id": "Q1026044",
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q1026044",
+    "source_url": "https://www.wikidata.org/wiki/Q1026044"
+  }
 }

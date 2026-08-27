@@ -30,10 +30,30 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: official site https://www.nbc.org.kh.",
       "source": "https://www.nbc.org.kh"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (bank, central bank, government agency).",
+      "source": "https://www.wikidata.org/wiki/Q284843"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.nbc.org.kh",
-  "date_checked": "2026-08-26"
+  "date_checked": "2026-08-26",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q284843"
+  ],
+  "concepts": [
+    "bank",
+    "central bank",
+    "government agency"
+  ],
+  "wikidata_id": "Q284843",
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q284843",
+    "source_url": "https://www.wikidata.org/wiki/Q284843"
+  }
 }

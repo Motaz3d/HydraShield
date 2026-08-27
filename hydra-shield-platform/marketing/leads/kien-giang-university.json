@@ -1,0 +1,52 @@
+{
+  "organization": "Kien Giang University",
+  "segment": "research_centers",
+  "country": "VN",
+  "region": "",
+  "website": "https://www.vnkgu.edu.vn",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "reproducible research requires provenance-carrying analysis and open registries",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs open, versioned evidence pipelines that can be reproduced and cited.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "content-hashed analysis runs and public source registries",
+  "relevant_capability": "reproducible, content-hashed hazard analysis and open registries",
+  "priority": "medium",
+  "recommended_product": "organization_account",
+  "recommended_message": "Offer Kien Giang University a focused pilot that pairs content-hashed analysis runs and public source registries with traceable physical-risk evidence.",
+  "fit_score": "Research institution that values reproducible, evidence-labelled analysis.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (university).",
+      "source": "https://www.wikidata.org/wiki/Q65172352"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q65172352",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q65172352",
+  "concepts": [
+    "university"
+  ],
+  "inventory_meta": {
+    "concept_label": "university",
+    "wikidata_id": "Q65172352",
+    "source_url": "https://www.wikidata.org/wiki/Q65172352"
+  }
+}

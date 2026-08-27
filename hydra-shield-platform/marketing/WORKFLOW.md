@@ -223,6 +223,85 @@ domain is guessed, no contact is inferred, and no financial figure is padded.
 Unresolved rows stay in the pending snapshot rather than being assigned a fake
 website.
 
+## Organization inventory (deep scan)
+
+The Wikidata-based inventory is a second permanent lead source. It scans
+companies, institutions and government bodies across sectors and countries
+using the public Wikidata SPARQL endpoint, then feeds the marketing workspace.
+
+**Target matrix** (`src/dashboard/org_inventory.py`):
+
+| Segment | Concepts scanned |
+|---|---|
+| Banking | bank, central bank |
+| Insurance | insurance company |
+| Investment | investment company, asset management company, pension fund, sovereign wealth fund |
+| Real estate | real estate company, real estate investment trust |
+| Governments | ministry of the environment, government agency, meteorological service, disaster management agency |
+| Research centers | university, research institute |
+
+**Countries** (ISO-3166-1 alpha-2 codes):
+
+- East Asia: CN, JP, KR, TW, HK, MN
+- Southeast Asia: SG, ID, MY, TH, VN, PH, MM, KH, LA, BN, TL
+- Europe focus: LU, BE, NL, DE, FR, CH, AT, DK, FI, SE, NO, PL, CZ, HR, RO, PT, ES, IT, GR, GB
+
+**Website rule (honesty HARD):**
+
+1. Wikidata SPARQL returns the entity's official website (`P856`) when it exists.
+2. Rows **without** a P856 website are **never** turned into leads. They are
+   written to `marketing/imports/inventory_pending.json` with reason
+   `no official website found (Wikidata P856 missing)`.
+3. No domain is guessed, no search engine is scraped, and no inferred URL is
+   used.
+
+**Run the inventory:**
+
+```
+python scripts/run_org_inventory.py
+python scripts/run_org_inventory.py --countries JP,KR,SG --concepts bank,insurance company
+python scripts/run_org_inventory.py --limit 200 --sleep 1.0
+python scripts/run_org_inventory.py --dry-run
+python scripts/run_org_inventory.py --dir /path/to/marketing/leads
+```
+
+The script:
+
+- Resolves each concept and country to a Wikidata Q-id once per run.
+- Records unresolvable concepts/countries in `skipped` and continues the sweep.
+- Runs one SPARQL query per concept × country, sleeping `sleep` seconds between
+  calls to stay polite to the Wikidata query service.
+- Deduplicates within the sweep by normalised organisation name + country code.
+- Merges matches against existing leads by normalised organisation name,
+  appending source URLs to `inventory_of` (like `signatory_of`), adding
+  `wikidata_id` and `concepts`, and logging a discovery interaction.
+- Creates new lead files for organisations with a P856 website.
+- Writes the staging pending snapshot to `marketing/imports/inventory_pending.json`
+  (overwritten each run) and the operator summary to
+  `marketing/reports/inventory_latest.json`.
+
+**Monthly cron:**
+
+```
+0 6 1 * * cd /path/to/hydra-shield-platform && .venv/bin/python scripts/run_org_inventory.py
+```
+
+**From inventory to contact:**
+
+1. Inventory produces/updates a lead in `marketing/leads/` (or stages it in
+   `marketing/imports/inventory_pending.json`).
+2. Use the CRM **Contacts** flow (`/admin.html` Targets tab or
+   `scripts/import_contacts.py`) to discover a public contact. Government-body
+   websites are often the richest public role-email sources because they are
+   mandated to publish contacts.
+3. Review the lead, then **Preview** and **Send** — individual sends remain
+   operator-initiated.
+
+**Honesty note:** this inventory copies only what Wikidata publishes. Official
+websites come from Wikidata P856 only. No organisation is invented, no domain
+is guessed, no contact is inferred, and no financial figure is padded.
+Unresolvable concepts and countries are recorded, not fabricated.
+
 ## Email discovery (Talaix engine)
 
 The CRM uses a layered discovery model: the Talaix engine runs first because

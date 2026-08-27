@@ -17,8 +17,26 @@
       "type": "discovered",
       "summary": "Imported via external_research_wave1 batch.",
       "source": "vonovia.de"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (real estate company).",
+      "source": "https://www.wikidata.org/wiki/Q1202053"
     }
   ],
   "source": "vonovia.de",
-  "date_checked": "2026-08-26"
+  "date_checked": "2026-08-26",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q1202053"
+  ],
+  "concepts": [
+    "real estate company"
+  ],
+  "wikidata_id": "Q1202053",
+  "inventory_meta": {
+    "concept_label": "real estate company",
+    "wikidata_id": "Q1202053",
+    "source_url": "https://www.wikidata.org/wiki/Q1202053"
+  }
 }

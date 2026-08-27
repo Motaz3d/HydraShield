@@ -1,0 +1,52 @@
+{
+  "organization": "Q23787682",
+  "segment": "insurance",
+  "country": "DE",
+  "region": "",
+  "website": "https://www.fahrlehrerversicherung.de/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "portfolio exposure to wildfire, flood and coastal hazards is hard to evidence per location",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs per-location hazard evidence to support underwriting judgement.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "per-location multi-hazard screening with provenance",
+  "relevant_capability": "portfolio-location climate-risk screening with traceable evidence",
+  "priority": "medium",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer Q23787682 a focused pilot that pairs per-location multi-hazard screening with provenance with traceable physical-risk evidence.",
+  "fit_score": "Insurer with insured locations that benefit from documented hazard context.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (insurance company).",
+      "source": "https://www.wikidata.org/wiki/Q23787682"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q23787682",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q23787682",
+  "concepts": [
+    "insurance company"
+  ],
+  "inventory_meta": {
+    "concept_label": "insurance company",
+    "wikidata_id": "Q23787682",
+    "source_url": "https://www.wikidata.org/wiki/Q23787682"
+  }
+}

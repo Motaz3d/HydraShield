@@ -1,0 +1,52 @@
+{
+  "organization": "Data Storage Institute",
+  "segment": "research_centers",
+  "country": "SG",
+  "region": "",
+  "website": "https://www.a-star.edu.sg/dsi/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Research Director",
+  "identified_problem": "reproducible research requires provenance-carrying analysis and open registries",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs open, versioned evidence pipelines that can be reproduced and cited.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "content-hashed analysis runs and public source registries",
+  "relevant_capability": "reproducible, content-hashed hazard analysis and open registries",
+  "priority": "medium",
+  "recommended_product": "organization_account",
+  "recommended_message": "Offer Data Storage Institute a focused pilot that pairs content-hashed analysis runs and public source registries with traceable physical-risk evidence.",
+  "fit_score": "Research institution that values reproducible, evidence-labelled analysis.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (research institute).",
+      "source": "https://www.wikidata.org/wiki/Q5227218"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q5227218",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q5227218",
+  "concepts": [
+    "research institute"
+  ],
+  "inventory_meta": {
+    "concept_label": "research institute",
+    "wikidata_id": "Q5227218",
+    "source_url": "https://www.wikidata.org/wiki/Q5227218"
+  }
+}

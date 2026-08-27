@@ -1,0 +1,52 @@
+{
+  "organization": "ÖSW Österr. Siedlungswerk",
+  "segment": "real_estate",
+  "country": "AT",
+  "region": "",
+  "website": "https://www.oesw.at/",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Asset Manager",
+  "identified_problem": "site selection and disclosure need documented climate exposure with sources",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs source-attached site reports for buyers, lenders and disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "site-specific PDF reports with traceable methodology",
+  "relevant_capability": "site screening across six hazards with documented sources",
+  "priority": "medium",
+  "recommended_product": "professional_report",
+  "recommended_message": "Offer ÖSW Österr. Siedlungswerk a focused pilot that pairs site-specific PDF reports with traceable methodology with traceable physical-risk evidence.",
+  "fit_score": "Real-estate owner or developer with physical assets to assess.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (real estate company).",
+      "source": "https://www.wikidata.org/wiki/Q118589522"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q118589522",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q118589522",
+  "concepts": [
+    "real estate company"
+  ],
+  "inventory_meta": {
+    "concept_label": "real estate company",
+    "wikidata_id": "Q118589522",
+    "source_url": "https://www.wikidata.org/wiki/Q118589522"
+  }
+}

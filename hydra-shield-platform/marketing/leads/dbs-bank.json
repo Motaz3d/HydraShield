@@ -9,7 +9,11 @@
   "identified_problem": "DBS Bank is Singapore's largest bank and a leading mortgage and corporate lender across Southeast Asia, with its home market concentrated on a low-lying tropical island. Singapore experiences localized flash floods during intense rainfall and faces long-term coastal inundation and urban heat exposure that can affect property collateral and commercial assets.",
   "climate_exposure": "Its Singapore property finance and corporate loan books are exposed to pluvial flash flooding in low-lying districts, coastal inundation risk around the island's reclaimed and waterfront zones, and heat stress for commercial real estate and infrastructure collateral.",
   "potential_pain": "Climate-linked devaluation of high-value Singapore real estate and infrastructure collateral could increase loan-to-value ratios and default risk in concentrated property portfolios.",
-  "relevant_hazards": ["flood", "coastal", "heat"],
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "heat"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood, coastal and heat exposure layers plus historical event intelligence for Singapore's flash-flood and coastal-inundation hotspots.",
@@ -27,10 +31,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: DBS corporate homepage confirms it is headquartered in Singapore and operates in 19 markets, described as the world's best bank.",
       "source": "https://www.dbs.com"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (bank).",
+      "source": "https://www.wikidata.org/wiki/Q705417"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.dbs.com",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q705417"
+  ],
+  "concepts": [
+    "bank"
+  ],
+  "wikidata_id": "Q705417",
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q705417",
+    "source_url": "https://www.wikidata.org/wiki/Q705417"
+  }
 }

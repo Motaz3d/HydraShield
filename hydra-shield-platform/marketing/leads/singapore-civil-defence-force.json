@@ -9,7 +9,11 @@
   "identified_problem": "The Singapore Civil Defence Force (SCDF) is the national uniformed organisation under the Ministry of Home Affairs responsible for fire-fighting, rescue, emergency medical services, hazardous materials incident mitigation and civil defence emergency preparedness. Its operational readiness depends on anticipating multi-hazard disruptions, including flash floods, coastal events and urban heat, in a dense low-lying city-state.",
   "climate_exposure": "SCDF emergency response operations across Singapore are exposed to pluvial flash flooding, coastal inundation and extreme heat that can strain rescue, medical and hazardous-materials capabilities.",
   "potential_pain": "Without documented, location-specific hazard intelligence and alerting, pre-positioning of assets and public emergency preparedness may lag behind rising climate risks.",
-  "relevant_hazards": ["flood", "coastal", "heat"],
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "heat"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix monitoring, SMS alerting and historical event intelligence for flood, coastal and heat hazards across Singapore.",
@@ -27,10 +31,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: SCDF 'About SCDF' page states it is a uniformed organisation under the Ministry of Home Affairs providing fire-fighting, rescue, emergency medical services and civil defence shelter regulation.",
       "source": "https://www.scdf.gov.sg/home/about-scdf"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (government agency).",
+      "source": "https://www.wikidata.org/wiki/Q7522936"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.scdf.gov.sg/home/about-scdf",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q7522936"
+  ],
+  "concepts": [
+    "government agency"
+  ],
+  "wikidata_id": "Q7522936",
+  "inventory_meta": {
+    "concept_label": "government agency",
+    "wikidata_id": "Q7522936",
+    "source_url": "https://www.wikidata.org/wiki/Q7522936"
+  }
 }

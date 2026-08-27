@@ -16,7 +16,7 @@
   ],
   "commercial_signals": [],
   "event_signals": [],
-  "evidence": "Talaix free analysis and professional reports demonstrating how climate exposure evidence strengthens companies' funding applications and resilience planning \u2014 a service Luxinnovation could refer or co-offer.",
+  "evidence": "Talaix free analysis and professional reports demonstrating how climate exposure evidence strengthens companies' funding applications and resilience planning — a service Luxinnovation could refer or co-offer.",
   "relevant_capability": "Talaix free analysis and professional reports demonstrating how climate exposure evidence strengthens companies' fu",
   "recommended_product": "organization_account",
   "recommended_message": "Propose a referral/partnership where Luxinnovation's supported companies use Talaix analyses as climate evidence in national and EU funding applications.",
@@ -31,10 +31,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: About page states Luxinnovation provides companies access to knowledge, funding, infrastructure and networks and fosters collaborative innovation for a sustainable, competitive and digital economy",
       "source": "https://www.luxinnovation.lu/"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (government agency).",
+      "source": "https://www.wikidata.org/wiki/Q14943769"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.luxinnovation.lu/",
-  "date_checked": "2026-08-18"
+  "date_checked": "2026-08-18",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q14943769"
+  ],
+  "concepts": [
+    "government agency"
+  ],
+  "wikidata_id": "Q14943769",
+  "inventory_meta": {
+    "concept_label": "government agency",
+    "wikidata_id": "Q14943769",
+    "source_url": "https://www.wikidata.org/wiki/Q14943769"
+  }
 }

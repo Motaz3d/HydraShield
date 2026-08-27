@@ -1,0 +1,52 @@
+{
+  "organization": "MBI International Holdings",
+  "segment": "investment",
+  "country": "GB",
+  "region": "",
+  "website": "https://www.mbiinternational.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "due diligence lacks traceable climate evidence and portfolio concentration is under-measured",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs documented exposure context for held assets and new acquisitions.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "multi-location exposure screening and historical event context",
+  "relevant_capability": "multi-location exposure screening and monitoring",
+  "priority": "medium",
+  "recommended_product": "api",
+  "recommended_message": "Offer MBI International Holdings a focused pilot that pairs multi-location exposure screening and historical event context with traceable physical-risk evidence.",
+  "fit_score": "Investor or asset manager with portfolio locations to screen.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (investment company).",
+      "source": "https://www.wikidata.org/wiki/Q112090490"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q112090490",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q112090490",
+  "concepts": [
+    "investment company"
+  ],
+  "inventory_meta": {
+    "concept_label": "investment company",
+    "wikidata_id": "Q112090490",
+    "source_url": "https://www.wikidata.org/wiki/Q112090490"
+  }
+}

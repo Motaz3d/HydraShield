@@ -8,7 +8,10 @@
   "identified_problem": "INA manages roughly Rp146 trillion in assets under authority and has committed capital across domestic toll roads, ports, digital towers, power, hospitals and other real assets, all exposed to Jakarta floods and peatland wildfires.",
   "climate_exposure": "Portfolio spans long-lived infrastructure and real-estate assets nationwide, including flood-prone coastal/riverine zones and wildfire-prone peatland provinces.",
   "potential_pain": "Major floods or wildfire-related smoke and disruption can reduce asset cash flows, increase insurance and CAPEX, and raise due-diligence questions from co-investors and regulators.",
-  "relevant_hazards": ["flood", "wildfire"],
+  "relevant_hazards": [
+    "flood",
+    "wildfire"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Official homepage discloses assets under authority, cumulative investment and sector allocations including road length, port TEU capacity, digital towers and hospitals.",
@@ -26,10 +29,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: sovereign wealth fund homepage reports Rp146+ trillion AUA and domestic infrastructure allocations.",
       "source": "https://www.ina.go.id"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (sovereign wealth fund).",
+      "source": "https://www.wikidata.org/wiki/Q106417723"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.ina.go.id",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q106417723"
+  ],
+  "concepts": [
+    "sovereign wealth fund"
+  ],
+  "wikidata_id": "Q106417723",
+  "inventory_meta": {
+    "concept_label": "sovereign wealth fund",
+    "wikidata_id": "Q106417723",
+    "source_url": "https://www.wikidata.org/wiki/Q106417723"
+  }
 }

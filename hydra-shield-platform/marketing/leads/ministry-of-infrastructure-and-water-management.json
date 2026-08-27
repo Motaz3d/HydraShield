@@ -8,7 +8,11 @@
   "identified_problem": "The 2021 Limburg floods strained regional water defences and emergency response, while long-term sea-level rise threatens the Netherlands' world-renowned Delta Programme. The Ministry of Infrastructure and Water Management is the national ministry responsible for flood protection, water management, transport networks and environmental quality, and it sets policy for national climate adaptation.",
   "climate_exposure": "Much of the Netherlands lies below sea level and behind dikes; the ministry must manage increasing riverine, pluvial and coastal flood risk plus heat impacts on infrastructure.",
   "potential_pain": "Budget and policy decisions must be prioritised across thousands of kilometres of dikes, roads and waterways; poor spatial targeting wastes public money and leaves protection gaps.",
-  "relevant_hazards": ["flood", "coastal", "heat"],
+  "relevant_hazards": [
+    "flood",
+    "coastal",
+    "heat"
+  ],
   "commercial_signals": [],
   "event_signals": [],
   "evidence": "Talaix flood and coastal hazard intelligence for the Netherlands, including 2021 Limburg event footprints and future sea-level scenarios, to support national adaptation planning.",
@@ -26,10 +30,28 @@
       "type": "discovered",
       "summary": "Identified via official-source research; signal: Government.nl page states the ministry is committed to effective water management to protect against flooding and an efficient transport network.",
       "source": "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management"
+    },
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Updated via Wikidata organization inventory (government agency).",
+      "source": "https://www.wikidata.org/wiki/Q2188136"
     }
   ],
   "next_action": "Qualify: verify current public signal and select contact route",
   "owner": "operator",
   "source": "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management",
-  "date_checked": "2026-08-24"
+  "date_checked": "2026-08-24",
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q2188136"
+  ],
+  "concepts": [
+    "government agency"
+  ],
+  "wikidata_id": "Q2188136",
+  "inventory_meta": {
+    "concept_label": "government agency",
+    "wikidata_id": "Q2188136",
+    "source_url": "https://www.wikidata.org/wiki/Q2188136"
+  }
 }

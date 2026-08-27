@@ -1,0 +1,52 @@
+{
+  "organization": "UOB Bank of Indonesia",
+  "segment": "banking",
+  "country": "ID",
+  "region": "",
+  "website": "http://www.uob.co.id",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Chief Risk Officer",
+  "identified_problem": "loan-book and collateral locations need documented climate exposure evidence",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs location-level climate evidence for credit files and regulatory disclosure.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "location screening API with source-attached results",
+  "relevant_capability": "portfolio-location climate-risk screening with traceable evidence",
+  "priority": "medium",
+  "recommended_product": "portfolio_screening",
+  "recommended_message": "Offer UOB Bank of Indonesia a focused pilot that pairs location screening API with source-attached results with traceable physical-risk evidence.",
+  "fit_score": "Financial institution with asset locations that need climate evidence.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-27",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (bank).",
+      "source": "https://www.wikidata.org/wiki/Q12474537"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q12474537",
+  "date_checked": "2026-08-27",
+  "wikidata_id": "Q12474537",
+  "concepts": [
+    "bank"
+  ],
+  "inventory_meta": {
+    "concept_label": "bank",
+    "wikidata_id": "Q12474537",
+    "source_url": "https://www.wikidata.org/wiki/Q12474537"
+  }
+}
