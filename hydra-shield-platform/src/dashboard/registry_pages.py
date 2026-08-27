@@ -122,9 +122,10 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
          background: {_BRAND["light"]}; color: {_BRAND["text"]}; line-height: 1.55; }}
   .topbar {{ background: {_BRAND["dark"]}; padding: 14px 0; }}
   .container {{ max-width: 1080px; margin: 0 auto; padding: 0 20px; }}
-  .brand {{ color: #fff; text-decoration: none; font-weight: 800; font-size: 20px;
-            font-family: "Space Grotesk", Inter, sans-serif; }}
-  .brand span {{ color: {_BRAND["primary"]}; }}
+  .brand {{ color: #fff; text-decoration: none; font-weight: 700; font-size: 20px;
+            font-family: "Space Grotesk", Inter, sans-serif; letter-spacing: 0.28em;
+            text-transform: uppercase; }}
+  .brand span {{ color: #47B3A8; }}
   .topnav {{ float: right; }}
   .topnav a {{ color: #CBD5E1; text-decoration: none; margin-left: 18px; font-size: 14px; }}
   .topnav a:hover {{ color: #fff; }}
@@ -165,7 +166,7 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
     <a href="/sources">Data sources</a>
     <a href="/account.html">Account</a>
   </span>
-  <a class="brand" href="/">Tal<span>aix</span></a>
+  <a class="brand" href="/">TALAIX<span>•</span></a>
 </div></div>
 <main><div class="container">
   <h1>{_esc(title)}</h1>

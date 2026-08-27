@@ -15,6 +15,8 @@
     --light: #F8FAFC;
     --light-2: #F1F5F9;
     --text: #1E293B;
+    --brand-navy: #1E2C4A;
+    --brand-teal: #47B3A8;
     --text-light: #64748B;
     --white: #FFFFFF;
     --gradient: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
@@ -89,16 +91,33 @@ body {
 }
 
 .logo-icon {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
+    color: var(--white); /* the T reads currentColor; white on the dark chrome */
+}
+
+/* TALAIX wordmark lockup (T + teal dot identity) */
+.logo-lockup {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.02;
 }
 
 .logo-text {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 1.32rem;
     font-weight: 700;
     color: var(--white);
-    letter-spacing: -0.5px;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+}
+
+.logo-domain {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--brand-teal);
+    margin-top: 3px;
 }
 
 .logo-accent {

@@ -103,12 +103,19 @@
         { href: 'contact.html', label: 'Contact' }
     ];
 
+    /* Brand mark: bold T (currentColor — white on the dark chrome, brand
+     * navy on light contexts) + the teal dot, matching the TALAIX identity. */
     var LOGO_SVG =
-        '<svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '<path d="M20 2L36 10V20C36 29.5 29 37 20 39C11 37 4 29.5 4 20V10L20 2Z" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="2"/>' +
-        '<path d="M20 8L30 13V20C30 25.5 25.5 30.5 20 32C14.5 30.5 10 25.5 10 20V13L20 8Z" fill="#0EA5E9" fill-opacity="0.4"/>' +
-        '<path d="M20 14L25 17V21C25 23.5 22.5 25.5 20 26.5C17.5 25.5 15 23.5 15 21V17L20 14Z" fill="#7DD3FC"/>' +
+        '<svg class="logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<path d="M12 10h40a2.6 2.6 0 0 1 2.6 2.6v4.9a2.6 2.6 0 0 1-2.6 2.6H36.6L30.2 46.6c-.9 3.2-2.7 5.7-5.3 6-2.4.3-3.9-1.1-3.2-4.1L29.4 20H12a2.6 2.6 0 0 1-2.6-2.6v-4.9A2.6 2.6 0 0 1 12 10z" fill="currentColor"/>' +
+        '<circle cx="49" cy="49" r="7.5" fill="#47B3A8"/>' +
         '</svg>';
+
+    var LOGO_LOCKUP =
+        '<span class="logo-lockup">' +
+        '<span class="logo-text">TALAIX</span>' +
+        '<span class="logo-domain">talaix.com</span>' +
+        '</span>';
 
     var SEARCH_SVG =
         '<svg class="search-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -159,8 +166,7 @@
         mount.innerHTML =
             '<nav class="navbar" id="navbar">' +
             '<div class="container nav-container">' +
-            '<a href="index.html" class="logo">' + LOGO_SVG +
-            '<span class="logo-text">Tal<span class="logo-accent">aix</span></span></a>' +
+            '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
             '<button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">' +
             '<span></span><span></span><span></span></button>' +
             '<ul class="nav-links" id="navLinks">' +
@@ -177,8 +183,7 @@
             '<div class="container">' +
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
-            '<a href="index.html" class="logo">' + LOGO_SVG +
-            '<span class="logo-text">Tal<span class="logo-accent">aix</span></span></a>' +
+            '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
             '<p>Climate Extreme Intelligence: the best available evidence on environmental ' +
             'extremes, their consequences, their economic meaning, and the actions that ' +
             'reduce exposure. Real data only — unavailable is stated, never filled in.</p>' +
