@@ -15,8 +15,7 @@ def test_chrome_lockup_and_teal_dot():
     assert ">TALAIX<" in chrome
     assert "logo-domain" in chrome
     assert "talaix.com" in chrome
-    assert "#47B3A8" in chrome
-    assert "currentColor" in chrome
+    assert "assets/brand/logo-mark-inverted.png" in chrome
 
 
 def test_css_lockup_styles_and_brand_vars():

@@ -26,6 +26,7 @@ except ImportError:  # honest failure handled by the endpoint
 
 from .press_charts import build_ndvi_png, climate_series_png
 from .site_image import build_site_context_png, site_context_caption
+from .verification_report import _title_with_mark
 
 ENGINE_VERSION = "1.0.0"
 
@@ -125,7 +126,7 @@ def build_press_pdf(pack: Dict[str, Any]) -> bytes:
     story: List[Any] = []
 
     # Title block
-    story.append(Paragraph(_xml(pack.get("headline")), styles["title"]))
+    story.append(_title_with_mark(_xml(pack.get("headline")), styles["title"]))
     if pack.get("subhead"):
         story.append(Paragraph(_xml(pack["subhead"]), styles["subtitle"]))
     story.append(Spacer(1, 2 * mm))

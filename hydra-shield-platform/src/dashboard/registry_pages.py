@@ -166,7 +166,8 @@ def _page(title: str, lead: str, body: str, json_url: str) -> str:
     <a href="/sources">Data sources</a>
     <a href="/account.html">Account</a>
   </span>
-  <a class="brand" href="/">TALAIX<span>•</span></a>
+  <a class="brand" href="/"><img src="/assets/brand/logo-mark-inverted.png"
+     alt="" style="height:24px;vertical-align:-6px;margin-right:10px;">TALAIX<span>•</span></a>
 </div></div>
 <main><div class="container">
   <h1>{_esc(title)}</h1>

@@ -10,6 +10,7 @@ contract (unavailable data is declared as UNKNOWN).
 from __future__ import annotations
 
 import io
+import os
 from typing import Any, Dict, List, Optional
 
 try:
@@ -27,6 +28,47 @@ except ImportError:  # honest failure handled by the endpoint
 from .site_image import build_site_context_png, site_context_caption
 
 REPORT_ENGINE_VERSION = "1.0.0"
+
+_BRAND_MARK_PATH = os.path.join(
+    os.path.dirname(__file__), "..", "..", "website", "assets", "brand",
+    "logo-master.png",
+)
+
+
+def _brand_mark(width_mm: float = 11.0):
+    """The Talaix T + teal dot mark for PDF letterheads (None when missing).
+
+    Uses the navy-on-white master artwork — correct for white PDF pages.
+    """
+    if not _HAS_REPORTLAB or not os.path.isfile(_BRAND_MARK_PATH):
+        return None
+    try:
+        from PIL import Image as PILImage
+
+        with PILImage.open(_BRAND_MARK_PATH) as im:
+            w, h = im.size
+        return Image(_BRAND_MARK_PATH,
+                     width=width_mm * mm, height=width_mm * mm * h / w)
+    except Exception:
+        return None
+
+
+def _title_with_mark(title_text: str, title_style) -> object:
+    """Title paragraph with the brand mark right-aligned beside it."""
+    mark = _brand_mark()
+    if mark is None:
+        return Paragraph(title_text, title_style)
+    tbl = Table(
+        [[Paragraph(title_text, title_style), mark]],
+        colWidths=(150 * mm, 24 * mm),
+    )
+    tbl.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("ALIGN", (1, 0), (1, 0), "RIGHT"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+    ]))
+    return tbl
 
 _ACCENT = colors.HexColor("#0ea5e9")
 _DARK = colors.HexColor("#0f172a")
@@ -163,7 +205,7 @@ def build_verification_pdf(verification: Dict[str, Any]) -> bytes:
     story: List[Any] = []
 
     # ---- Title --------------------------------------------------------------
-    story.append(Paragraph("Physical Asset Verification", _TITLE))
+    story.append(_title_with_mark("Physical Asset Verification", _TITLE))
     story.append(Paragraph("Green Finance Evidence Report", _SUBTITLE))
     story.append(Spacer(1, 4 * mm))
 
