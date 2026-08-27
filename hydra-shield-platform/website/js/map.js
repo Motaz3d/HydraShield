@@ -160,6 +160,7 @@
             '<a class="text-link" href="green-finance.html?location=' + encodeURIComponent(coord) + '">Green Finance check</a> · ' +
             '<a class="text-link" href="insurance.html?location=' + encodeURIComponent(coord) + '">Insurance profile</a> · ' +
             '<a class="text-link" href="forensics.html?location=' + encodeURIComponent(coord) + '">Forensic case</a> · ' +
+            '<a class="text-link" href="press.html?location=' + encodeURIComponent(coord) + '">Press pack</a> · ' +
             '<a class="text-link" href="sustainability.html">Sustainability report</a>' +
             '</div>';
     }

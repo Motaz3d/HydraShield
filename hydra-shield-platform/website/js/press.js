@@ -157,4 +157,17 @@
     el('pressLocInput').addEventListener('keydown', function (e) {
         if (e.key === 'Enter') generatePack();
     });
+
+    // The live example (RTL.lu drought story) — one click to run it.
+    var exampleBtn = el('pressExampleBtn');
+    if (exampleBtn) {
+        exampleBtn.addEventListener('click', function () {
+            el('pressLocInput').value = '49.75, 6.64';
+            generatePack();
+        });
+    }
+
+    // Deep link: press.html?location=… (e.g. from the map act-on-point panel).
+    var q = new URLSearchParams(location.search).get('location');
+    if (q && el('pressLocInput')) el('pressLocInput').value = q;
 })();

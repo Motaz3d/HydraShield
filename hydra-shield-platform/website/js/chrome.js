@@ -55,7 +55,8 @@
                         { id: 'for-investors', href: 'for-investors.html', label: 'Investors' },
                         { id: 'for-real-estate', href: 'for-real-estate.html', label: 'Real estate' },
                         { id: 'for-consulting', href: 'for-consulting.html', label: 'Consultants & auditors' },
-                        { id: 'for-government', href: 'for-government.html', label: 'Government' }
+                        { id: 'for-government', href: 'for-government.html', label: 'Government' },
+                        { id: 'for-journalists', href: 'for-journalists.html', label: 'Journalists & media' }
                     ]
                 }
             ]
@@ -197,6 +198,7 @@
             '<li><a href="for-insurance.html">Insurance</a></li>' +
             '<li><a href="for-real-estate.html">Real estate</a></li>' +
             '<li><a href="for-government.html">Government</a></li>' +
+            '<li><a href="for-journalists.html">Journalists &amp; media</a></li>' +
             '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
             '<p><a href="/sources">Data sources</a></p>' +
