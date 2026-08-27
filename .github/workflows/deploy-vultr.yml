@@ -89,8 +89,8 @@ jobs:
             docker compose restart caddy
             docker image prune -f
             docker compose ps
-            # Masked sanity check: counts only, never values.
-            docker compose exec -T api python -c "import os;print('SMTP vars present:',sum(1 for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM') if os.environ.get(k)),'of 4 · IMAP vars present:',sum(1 for k in ('IMAP_HOST','IMAP_USER','IMAP_PASS') if os.environ.get(k)),'of 3')" || true
+            # Masked sanity check: key NAMES only, never values.
+            docker compose exec -T api python -c "import os;ks=('SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASSWORD','SMTP_FROM','IMAP_HOST','IMAP_PORT','IMAP_USER','IMAP_PASS','IMAP_FOLDER');print('env present:',[k for k in ks if os.environ.get(k)]);print('env missing:',[k for k in ks if not os.environ.get(k)])" || true
             echo "Waiting for stack to settle..."
             sleep 20
             for i in 1 2 3 4 5; do
