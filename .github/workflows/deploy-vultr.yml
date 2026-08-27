@@ -64,6 +64,22 @@ jobs:
             if ! grep -q '^HYDRASHIELD_OPERATOR_EMAILS=' .env; then
               echo 'HYDRASHIELD_OPERATOR_EMAILS=info@talaix.com' >> .env
             fi
+            # SMTP + IMAP credentials live ONLY in GitHub secrets — never in
+            # git. Injected idempotently: existing lines are left untouched,
+            # so rotating means editing .env on the server or updating the
+            # secret and re-running with SMTP_FORCE=1.
+            if [ -n "${{ secrets.SMTP_PASSWORD }}" ]; then
+              grep -q '^SMTP_HOST=' .env || echo 'SMTP_HOST=smtp.gmail.com' >> .env
+              grep -q '^SMTP_PORT=' .env || echo 'SMTP_PORT=587' >> .env
+              grep -q '^SMTP_USER=' .env || echo 'SMTP_USER=info@talaix.com' >> .env
+              grep -q '^SMTP_FROM=' .env || echo 'SMTP_FROM=info@talaix.com' >> .env
+              grep -q '^SMTP_PASSWORD=' .env || echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+              grep -q '^IMAP_HOST=' .env || echo 'IMAP_HOST=imap.gmail.com' >> .env
+              grep -q '^IMAP_PORT=' .env || echo 'IMAP_PORT=993' >> .env
+              grep -q '^IMAP_USER=' .env || echo 'IMAP_USER=info@talaix.com' >> .env
+              grep -q '^IMAP_PASS=' .env || echo "IMAP_PASS=${{ secrets.SMTP_PASSWORD }}" >> .env
+              grep -q '^IMAP_FOLDER=' .env || echo 'IMAP_FOLDER=INBOX' >> .env
+            fi
             docker compose pull
             docker compose build
             docker compose up -d --remove-orphans
@@ -73,6 +89,8 @@ jobs:
             docker compose restart caddy
             docker image prune -f
             docker compose ps
+            # Masked sanity check: counts only, never values.
+            docker compose exec -T api python -c "import os;print('SMTP vars present:',sum(1 for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM') if os.environ.get(k)),'of 4 · IMAP vars present:',sum(1 for k in ('IMAP_HOST','IMAP_USER','IMAP_PASS') if os.environ.get(k)),'of 3')" || true
             echo "Waiting for stack to settle..."
             sleep 20
             for i in 1 2 3 4 5; do
