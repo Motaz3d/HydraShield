@@ -57,6 +57,10 @@ alert_subscriptions(id, user_id, hazard, lat, lon, threshold_json,
       channel, created_at, active)   -- supersedes anonymous watches over time
 usage_log(id, user_id NULL, endpoint, created_at, meta_json)
 audit_log(id, actor_user_id, action, target, meta_json, created_at)
+portfolios(id, user_id, name, goal NULL, region_name NULL,
+      start_date NULL, end_date NULL, created_at)
+portfolio_items(id, portfolio_id, kind, ref_id NULL, lat NULL, lon NULL,
+      meta_json, created_at)   -- kind ∈ location|analysis|report|alert
 ```
 
 - Passwords: salted hash (PBKDF2-HMAC-SHA256 via stdlib `hashlib`, no new
@@ -120,6 +124,9 @@ GET  /api/v2/account · PATCH /api/v2/account
 GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
 GET  /api/v2/account/history (analyses + reports)
 GET/POST /api/v2/account/alerts · DELETE /api/v2/account/alerts/<id>
+GET/POST /api/v2/account/portfolios · GET/DELETE /api/v2/account/portfolios/<id>
+POST /api/v2/account/portfolios/<id>/items · DELETE …/items/<item_id>
+   (docs/PORTFOLIO.md — geographic + temporal + goal work containers)
 GET  /api/v2/account/subscription · POST /api/v2/account/subscribe
 POST /api/v2/account/unsubscribe
 GET  /api/v2/account/usage

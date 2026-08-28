@@ -454,6 +454,12 @@ Bearer only.
 | `POST /api/v2/account/locations` | `{lat, lon, name?}` → 201 `{"location"}`; 50-location cap (403 + `upgrade`); per-tier rate budget |
 | `DELETE /api/v2/account/locations/<id>` | `{"deleted": true}` or 404 |
 | `GET /api/v2/account/history` | own analysis history |
+| `GET /api/v2/account/portfolios` | `{"portfolios": […]}` with `item_count` (docs/PORTFOLIO.md) |
+| `POST /api/v2/account/portfolios` | `{name, goal?, region_name?, start_date?, end_date?}` → 201 `{"portfolio"}`; 25-portfolio cap (403 + `upgrade`) |
+| `GET /api/v2/account/portfolios/<id>` | `{"portfolio": {…, "items": […]}}`; 404 for foreign ids |
+| `DELETE /api/v2/account/portfolios/<id>` | cascades items; `{"deleted": true}` or 404 |
+| `POST /api/v2/account/portfolios/<id>/items` | `{kind, ref_id?, lat?, lon?, meta?}` — `kind` ∈ `location\|analysis\|report\|alert` → 201 `{"item"}` |
+| `DELETE /api/v2/account/portfolios/<id>/items/<item_id>` | `{"deleted": true}` or 404 |
 | `GET /api/v2/account/alerts` | `{"alerts": […]}` |
 | `POST /api/v2/account/alerts` | `{lat, lon, hazard?, threshold?, channel?}` — `threshold` is an object, e.g. `{"risk_gte": 65}`; `channel` default `email` → 201 `{"alert"}`; per-tier rate budget |
 | `DELETE /api/v2/account/alerts/<id>` | `{"deleted": true}` or 404 |
