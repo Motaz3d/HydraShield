@@ -319,6 +319,15 @@ def verify():
     mailer.send_mail(
         user["email"], "welcome",
         {"display_name": _hello_name(user.get("display_name"))})
+    # Marketing automation: a verified account whose email domain matches a
+    # lead's website records the signal, auto-cancels that lead's pending
+    # outreach and notifies the operator. Must never break auth.
+    try:
+        from .marketing_automation import handle_registration
+
+        handle_registration(user["email"])
+    except Exception:  # noqa: BLE001 — automation must never break auth
+        pass
     if _prefers_html():
         # Browser following the email link: land on the account page,
         # already signed in via the session cookie set below.

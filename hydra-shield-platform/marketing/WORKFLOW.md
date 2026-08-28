@@ -97,6 +97,22 @@ daily cap, logs an `email` interaction, and advances `outreach_status` to
 
 ## Campaigns & replies (Phase 18)
 
+**Marketing automation (automatic follow-ups).** Two automatic flows live on
+top of the CRM (`src/dashboard/marketing_automation.py`):
+
+1. **New-contact follow-up** — opt-in via `AUTO_OUTREACH_ON_CONTACT=1`. When
+   `import_contacts.py` (or any future discovery path) adds genuinely new
+   contacts to a lead, one *scheduled* outreach email is queued per contact
+   (sector template, deduplicated against pending rows, skipped for
+   unsubscribed/excluded leads). Sending stays with the cron processor, so
+   the daily cap and unsubscribe rules are enforced at send time exactly as
+   for operator-queued mail. The import summary prints `auto-queued N`.
+2. **Registration match** — always on. When a newly verified account's email
+   domain matches a lead's website domain (free-mail domains never match),
+   the platform records a `registered` interaction on the lead, auto-cancels
+   that lead's pending scheduled outreach and campaign waves (someone from
+   the organisation is already inside), and notifies the operator by email.
+
 **Campaign waves.** A campaign is a named sequence of follow-up emails sent to
 matching leads. Use the CLI or the Targets tab in `/admin.html` to enqueue a
 wave:

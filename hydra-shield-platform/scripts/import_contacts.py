@@ -4,7 +4,8 @@
 Reads JSON seed files from marketing/imports/*.json (ordered by filename),
 creates missing lead files in marketing/leads/, and stores contacts via
 MarketingStore.add_contacts. Re-running is idempotent: contacts are
- deduplicated by (lead_slug, email).
+ deduplicated by (lead_slug, email). Files named ``example_*.json`` are
+templates and are always skipped.
 
 Usage:
     python scripts/import_contacts.py
@@ -109,7 +110,8 @@ def import_batch(store: MarketingStore, seed: Dict) -> Dict:
     """Import one seed file. Returns counts."""
     batch = seed.get("batch") or "unnamed"
     imported_at = seed.get("imported_at", "")
-    counts = {"created": 0, "contacts_added": 0, "skipped": 0}
+    counts = {"created": 0, "contacts_added": 0, "skipped": 0, "queued": 0}
+    new_by_lead: Dict[str, List[Dict]] = {}
 
     for contact in seed.get("contacts", []):
         organization = (contact.get("organization") or "").strip()
@@ -140,8 +142,19 @@ def import_batch(store: MarketingStore, seed: Dict) -> Dict:
         )
         if added:
             counts["contacts_added"] += added
+            new_by_lead.setdefault(slug, []).append(
+                {"email": email, "name": (contact.get("person") or "").strip()})
         else:
             counts["skipped"] += 1
+
+    # Automatic follow-up (opt-in via AUTO_OUTREACH_ON_CONTACT): queue a
+    # scheduled outreach per genuinely new contact. Sending stays with the
+    # cron processor under the daily cap and unsubscribe rules.
+    if new_by_lead:
+        from src.dashboard.marketing_automation import queue_outreach_for_new_contacts
+
+        for slug, contacts in new_by_lead.items():
+            counts["queued"] += queue_outreach_for_new_contacts(store, slug, contacts)
 
     return counts
 
@@ -157,9 +170,14 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
 
     store = MarketingStore()
-    total = {"created": 0, "contacts_added": 0, "skipped": 0}
+    total = {"created": 0, "contacts_added": 0, "skipped": 0, "queued": 0}
 
     for path in sorted(imports_dir.glob("*.json")):
+        # example_*.json files are templates/documentation, never real
+        # research — importing them would pollute the workspace with fake
+        # leads and break the workspace integrity check.
+        if path.name.startswith("example_"):
+            continue
         try:
             seed = _load_seed(path)
         except (OSError, json.JSONDecodeError) as exc:
@@ -169,6 +187,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(
             f"{path.name}: created {counts['created']} leads, "
             f"added {counts['contacts_added']} contacts, skipped {counts['skipped']}"
+            + (f", auto-queued {counts['queued']}" if counts.get("queued") else "")
         )
         for k in total:
             total[k] += counts[k]
@@ -176,6 +195,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     print(
         f"Total: created {total['created']} leads, "
         f"added {total['contacts_added']} contacts, skipped {total['skipped']}"
+        + (f", auto-queued {total['queued']}" if total.get("queued") else "")
     )
     return 0
 
