@@ -201,7 +201,6 @@ def test_homepage_carries_all_six_audience_services():
     path = os.path.join(os.path.dirname(__file__), "..", "website", "index.html")
     with open(path, encoding="utf-8") as fh:
         html = fh.read()
-    for page in ("for-government.html", "for-insurance.html",
-                 "for-real-estate.html", "for-consulting.html",
-                 "for-investors.html", "for-banks.html"):
-        assert page in html, page
+    for sector in ("government", "insurance", "real-estate",
+                   "consulting", "investors", "banks"):
+        assert f"industries.html?sector={sector}" in html, sector

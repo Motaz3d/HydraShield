@@ -51,13 +51,7 @@
                 },
                 {
                     heading: 'By sector', children: [
-                        { id: 'for-banks', href: 'for-banks.html', label: 'Banks & lenders' },
-                        { id: 'for-insurance', href: 'for-insurance.html', label: 'Insurance' },
-                        { id: 'for-investors', href: 'for-investors.html', label: 'Investors' },
-                        { id: 'for-real-estate', href: 'for-real-estate.html', label: 'Real estate' },
-                        { id: 'for-consulting', href: 'for-consulting.html', label: 'Consultants & auditors' },
-                        { id: 'for-government', href: 'for-government.html', label: 'Government' },
-                        { id: 'for-journalists', href: 'for-journalists.html', label: 'Journalists & media' }
+                        { id: 'industries', href: 'industries.html', label: 'All industries' }
                     ]
                 }
             ]
@@ -99,8 +93,8 @@
         return null;
     }
 
-    /* Footer IA: the 26 services are grouped under four headed columns
-     * (Analyze / Solutions / By sector / Learn & company) instead of one
+    /* Footer IA: the services are grouped under four headed columns
+     * (Analyze / Solutions / Industries / Learn & company) instead of one
      * flat list — the same headings the mega-menu uses. */
     var FOOTER_GROUPS = [
         {
@@ -109,7 +103,7 @@
             ]
         },
         { heading: 'Solutions', items: PRIMARY[2].columns[0].children },
-        { heading: 'By sector', items: PRIMARY[2].columns[1].children },
+        { heading: 'Industries', items: PRIMARY[2].columns[1].children },
         {
             heading: 'Learn & company', items: [
                 'academy', 'briefs', 'funding', 'account-page'

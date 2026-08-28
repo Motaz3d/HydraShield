@@ -1,5 +1,6 @@
-"""Content assertions for the Press sector presence (for-journalists page,
-nav placement, sitemap coverage and cross-links)."""
+"""Content assertions for the Press sector presence (journalists portal —
+consolidated into press.html + the industries hub — nav placement, sitemap
+coverage and cross-links)."""
 
 import os
 
@@ -11,30 +12,30 @@ def _read(rel):
         return fh.read()
 
 
-def test_for_journalists_page_exists_and_links_the_tool():
-    html = _read("website/for-journalists.html")
-    assert 'data-page="for-journalists"' in html
-    assert "press.html" in html
-    assert "guest-only" in html
-    assert "user-only" in html
+def test_for_journalists_redirects_into_press():
+    """The for-journalists landing page merged into press.html: the old URL
+    permanently redirects (Caddyfile), and the press tool page itself is the
+    journalists portal (live RTL example, pack contents)."""
+    caddy = _read("Caddyfile")
+    assert "redir /for-journalists.html /press.html permanent" in caddy
+    html = _read("website/press.html")
     # The live RTL example is part of the page (real, dated example).
     assert "RTL.lu" in html
     assert "26 Aug 2026" in html
 
 
-def test_journalists_in_nav_sector_column_and_footer():
+def test_industries_hub_in_nav_sector_column_and_footer():
     chrome = _read("website/js/chrome.js")
-    assert "{ id: 'for-journalists', href: 'for-journalists.html', label: 'Journalists & media' }" in chrome
-    # Footer renders its "By sector" column from the same PRIMARY structure,
-    # so the journalists page stays reachable from nav and footer alike.
-    assert "heading: 'By sector'" in chrome
+    assert "{ id: 'industries', href: 'industries.html', label: 'All industries' }" in chrome
+    # Footer renders its "Industries" column from the same PRIMARY structure.
+    assert "heading: 'Industries'" in chrome
     assert "PRIMARY[2].columns[1].children" in chrome
 
 
 def test_sitemap_covers_press_surfaces():
     sitemap = _read("website/sitemap.xml")
     assert "https://talaix.com/press.html" in sitemap
-    assert "https://talaix.com/for-journalists.html" in sitemap
+    assert "https://talaix.com/industries.html" in sitemap
     assert "https://talaix.com/sector.html" in sitemap
     assert "https://talaix.com/mapcheck.html" in sitemap
     assert "https://talaix.com/report-builder.html" in sitemap

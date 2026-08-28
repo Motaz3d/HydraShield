@@ -320,36 +320,39 @@ def test_trade_infrastructure_endpoint_contract(client, monkeypatch):
     assert client.get("/api/trade-infrastructure?lat=35&lon=14").status_code == 502
 
 
-def test_government_page_has_public_sector_journey():
-    """for-government.html carries the full public-sector journey and the
-    subscription path — territorial risk → exposure → economy → solutions
-    → funding → monitoring, with CTAs and no invented pricing."""
+def test_government_sector_has_public_sector_journey():
+    """The industries hub's government sector carries the full public-sector
+    journey and the subscription path — territorial risk → exposure → economy
+    → solutions → funding → monitoring, with CTAs and no invented pricing."""
     import os as _os
-    html = open(_os.path.join(_os.path.dirname(__file__), "..", "website",
-                              "for-government.html"), encoding="utf-8").read()
+    js = open(_os.path.join(_os.path.dirname(__file__), "..", "website", "js",
+                            "industries.js"), encoding="utf-8").read()
     for step in ("Territorial risk", "exposed", "Economic exposure",
                  "Resilience solutions", "Funding programmes",
                  "Continuous monitoring"):
-        assert step in html, step
+        assert step in js, step
     for cta in ("Analyze your territory", "Create a free account",
                 "Enable alerts", "contact"):
-        assert cta.lower() in html.lower(), cta
+        assert cta.lower() in js.lower(), cta
     # Government roles are named; no pricing is invented.
-    assert "Municipal resilience officers" in html
-    assert "€" not in html
+    assert "Municipal resilience officers" in js
+    assert "€" not in js
 
 
-def test_audience_pages_have_interactive_hub():
-    """Each for-* audience page mounts the interactive hub (live analyze
-    bar, live risk signals, account-benefit panel) via audience.js +
-    convert.js, and its closing CTA leads with free registration."""
+def test_industries_hub_covers_all_six_sectors():
+    """The consolidated industries page mounts the interactive hub (live
+    analyze bar, live risk signals, account-benefit panel) and carries all
+    six sector configs with their benefit panels — the merged replacement
+    for the seven for-* landing pages."""
     import os as _os
     root = _os.path.join(_os.path.dirname(__file__), "..", "website")
-    for page in ("for-investors.html", "for-government.html",
-                 "for-real-estate.html", "for-insurance.html",
-                 "for-consulting.html"):
-        html = open(_os.path.join(root, page), encoding="utf-8").read()
-        assert 'id="audienceHub"' in html, page
-        assert "js/audience.js" in html, page
-        assert "js/convert.js" in html, page
-        assert "Create a free account" in html, page
+    html = open(_os.path.join(root, "industries.html"), encoding="utf-8").read()
+    assert 'id="audienceHub"' in html
+    assert "js/industries.js" in html
+    assert "js/convert.js" in html
+    js = open(_os.path.join(root, "js", "industries.js"), encoding="utf-8").read()
+    for sector in ("banks", "insurance", "investors", "real-estate",
+                   "consulting", "government"):
+        assert f"{sector}:" in js or f"'{sector}'" in js, sector
+    assert js.count("benefitsTitle") >= 7  # one per sector + render fn
+    assert "Create a free account" in js

@@ -29,6 +29,17 @@ talaix.com {
 		rewrite /sources/ /sources.html
 		file_server
 	}
+
+	# Consolidated audience portals: the seven for-* landing pages merged
+	# into the single industries hub (+ press). Old links, emails and
+	# bookmarks keep working via permanent redirects.
+	redir /for-banks.html /industries.html?sector=banks permanent
+	redir /for-insurance.html /industries.html?sector=insurance permanent
+	redir /for-investors.html /industries.html?sector=investors permanent
+	redir /for-real-estate.html /industries.html?sector=real-estate permanent
+	redir /for-consulting.html /industries.html?sector=consulting permanent
+	redir /for-government.html /industries.html?sector=government permanent
+	redir /for-journalists.html /press.html permanent
 }
 
 # Live interactive Dash dashboard
