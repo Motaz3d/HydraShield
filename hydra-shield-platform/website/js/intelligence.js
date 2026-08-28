@@ -69,14 +69,7 @@
         renderTabs();
         if (window.HS && HS.track) HS.track('hazard_selected', { hazard: hazardId });
         var h = hazards.filter(function (x) { return x.id === hazardId; })[0];
-        var note = h ? (h.tagline || '') : '';
-        if (hazardId === 'wildfire') {
-            note += ' For the full wildfire pipeline (spread scenarios, protection planning, reports) use the ';
-        }
-        var noteHtml = esc(note) +
-            (hazardId === 'wildfire'
-                ? '<a class="text-link" href="dashboard.html">full wildfire analyzer →</a>'
-                : '');
+        var noteHtml = esc(h ? (h.tagline || '') : '');
         // Official sources behind this hazard (from the registry descriptor —
         // the same declarations the map layer panel shows).
         if (h && h.sources && h.sources.length) {
@@ -89,6 +82,12 @@
         el('hazardNote').innerHTML = noteHtml;
         el('analysisArea').innerHTML = '';
         el('statusArea').innerHTML = '';
+        // Wildfire tab = the full merged pipeline (spread scenarios, reports,
+        // map, history); every other hazard uses the generic analysis flow.
+        var isWildfire = hazardId === 'wildfire';
+        el('wildfireFull').classList.toggle('hidden', !isWildfire);
+        el('genericFlow').classList.toggle('hidden', isWildfire);
+        if (isWildfire && window.HSWildfire) window.HSWildfire.onShow();
         if (history.replaceState) history.replaceState(null, '', '#' + hazardId);
     }
 
@@ -393,7 +392,7 @@
     // ------------------------------------------------------------------
 
     function init() {
-        el('analyzeBtn').addEventListener('click', analyze);
+        el('hazardAnalyzeBtn').addEventListener('click', analyze);
         // Platform Location component: named search / coordinates / map link.
         if (window.HS && HS.location) {
             HS.location.mount('locWidget', {

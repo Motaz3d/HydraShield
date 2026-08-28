@@ -215,7 +215,7 @@
                     card.classList.remove('hidden');
                     box.innerHTML = '<span style="color:var(--muted)">Sign in to save this ' +
                         'analysis into a portfolio and keep working on it.</span> ' +
-                        '<a class="text-link" href="account.html?next=/dashboard.html">Sign in</a>';
+                        '<a class="text-link" href="account.html?next=/intelligence.html%23wildfire">Sign in</a>';
                     return;
                 }
                 if (!res.ok) { return; }
@@ -1282,6 +1282,15 @@
 
     // ------------------------------------------------------------------
     // Boot
+    // Hook for the merged intelligence page: when the wildfire tab becomes
+    // visible after the map was rendered while hidden, Leaflet needs a size
+    // recalculation (same pattern as the operator tabs).
+    window.HSWildfire = {
+        onShow: function () {
+            if (map) setTimeout(function () { map.invalidateSize(); }, 0);
+        }
+    };
+
     // ------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', function () {
         el('analyzeBtn').addEventListener('click', function () {
@@ -1314,9 +1323,11 @@
                    'running the same search again will reuse them.', false);
         });
         setupWatch();
+        // On the merged intelligence page the pipeline auto-runs only when
+        // the wildfire tab is the active one (#wildfire).
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
-        if (q) {
+        if (q && location.hash === '#wildfire') {
             el('locationInput').value = q;
             analyze(q);
         }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyze this place — Talaix</title>
-    <meta name="description" content="Per-hazard climate-extreme analysis from real datasets: wildfire, flood, drought, heat, wind, coastal and tropical cyclones — screening levels with basis, blocks, evidence and honest unavailable states.">
+    <title>Intelligence — Talaix</title>
+    <meta name="description" content="Per-hazard climate-extreme analysis from real datasets: wildfire, flood, drought, heat, wind, coastal and tropical cyclones — screening levels with basis, blocks, evidence and honest unavailable states. The wildfire tab carries the full pipeline: spread scenarios, protection planning, reports and history.">
     <link rel="canonical" href="https://talaix.com/intelligence.html">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
@@ -12,14 +12,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/wildfire-full.css">
 </head>
 <body data-page="intelligence">
     <div id="site-header"></div>
 
     <main class="page-main">
         <div class="container">
-            <h1>Analyze this place</h1>
+            <h1>Intelligence</h1>
             <p class="page-lead">
                 What do you want to analyze? Choose a location and a hazard —
                 Talaix brings the evidence: analysis → exposure → economic
@@ -28,26 +31,240 @@
             <p class="muted small">
                 Per-hazard screening analysis from real datasets. Levels are screening
                 indicators with a declared basis — not validated predictors. Every block
-                carries its evidence status; unavailable components say so.
+                carries its evidence status; unavailable components say so. The wildfire
+                tab is the full pipeline: spread scenarios, protection planning, reports,
+                map and history.
             </p>
 
             <div class="hazard-tabs" id="hazardTabs" role="tablist" aria-label="Hazards">
                 <span class="muted">Loading hazards…</span>
             </div>
 
-            <div class="panel">
-                <div class="toolbar" style="align-items:flex-start;">
-                    <div class="form-group" style="flex:1;">
-                        <label>Location</label>
-                        <div id="locWidget"></div>
+            <div id="genericFlow">
+                <div class="panel">
+                    <div class="toolbar" style="align-items:flex-start;">
+                        <div class="form-group" style="flex:1;">
+                            <label>Location</label>
+                            <div id="locWidget"></div>
+                        </div>
+                        <button class="btn-action" id="hazardAnalyzeBtn">Analyze</button>
                     </div>
-                    <button class="btn-action" id="analyzeBtn">Analyze</button>
+                    <div class="muted small" id="hazardNote"></div>
                 </div>
-                <div class="muted small" id="hazardNote"></div>
+
+                <div id="statusArea"></div>
+                <div id="analysisArea"></div>
             </div>
 
-            <div id="statusArea"></div>
-            <div id="analysisArea"></div>
+            <!-- Full wildfire pipeline (merged from the legacy dashboard page) -->
+            <div id="wildfireFull" class="hidden">
+                <div class="dash">
+                    <div class="search-row">
+                        <input id="locationInput" type="text" placeholder="Enter a place (e.g. Clervaux, Luxembourg) or lat,lon">
+                        <button id="analyzeBtn">Analyze</button>
+                    </div>
+
+                    <div id="notice" class="notice notice-info hidden"></div>
+
+                    <!-- Progressive analysis panel -->
+                    <div id="progressPanel" class="progress-card hidden">
+                        <div class="progress-title"><span class="pulse-dot"></span> Talaix is analyzing your area</div>
+                        <div class="evidence-flow">Satellite + Weather + Terrain + Vegetation + Fire danger + Exposure → Talaix intelligence</div>
+                        <ul class="stage-list" id="stageList"></ul>
+                        <div class="progress-foot">
+                            <span id="progressNote">Building your risk assessment…</span>
+                            <button class="cancel-btn" id="cancelBtn">Cancel analysis</button>
+                        </div>
+                    </div>
+
+                    <!-- What we found + report selection -->
+                    <div id="foundPanel" class="hidden">
+                        <div class="ready-banner">✅ <b>Your Talaix assessment is ready.</b>
+                            <span id="cacheNote" class="cached-note"></span></div>
+                        <div class="card">
+                            <h3>What we found</h3>
+                            <div class="found-grid" id="foundGrid"></div>
+                            <div id="foundActions" style="margin-top:.4rem;"></div>
+                        </div>
+                        <div class="card">
+                            <h3>What would you like to receive?</h3>
+                            <div class="report-cards" id="reportCards"></div>
+                        </div>
+                        <div class="card hidden" id="portfolioCard">
+                            <h3>Keep working on this</h3>
+                            <div id="portfolioSave"></div>
+                        </div>
+                    </div>
+
+                    <!-- Headline report -->
+                    <div id="report" class="hidden">
+                        <div class="card">
+                            <h3>Wildfire Risk — <span id="locName"></span></h3>
+                            <div class="risk-banner">
+                                <div class="risk-score" id="riskScore">—</div>
+                                <div class="risk-class-label" id="riskClass">—</div>
+                                <div style="color:var(--muted);font-size:.9rem;">
+                                    Fire danger (FWI): <b id="fwiVal">—</b> <span id="fwiClass"></span><br>
+                                    Trend: <b id="fwiTrend">—</b> · Data: <span id="generatedAt"></span>
+                                </div>
+                            </div>
+                            <div class="score-disclaimer" id="scoreDisclaimer">
+                                This is a composite wildfire-risk indicator (0–100), not a probability of fire.
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Why this risk score?</h3>
+                            <div id="whyScore"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>What changed?</h3>
+                            <div id="whatChanged"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Exposure, vulnerability &amp; access <span style="font-size:.7rem;color:var(--muted);">(not part of the score)</span></h3>
+                            <div id="exposureBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>👥 People &amp; Exposure <span style="font-size:.7rem;color:var(--muted);">(not part of the score)</span></h3>
+                            <div id="peopleBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>🔥 Where could a fire start? <span style="font-size:.7rem;color:var(--muted);">(not part of the score)</span></h3>
+                            <div id="ignitionBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>💨 Smoke Intelligence</h3>
+                            <div id="smokeBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Micro-area context</h3>
+                            <div id="microBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Current conditions</h3>
+                            <div class="summary-grid" id="conditionsGrid"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Proactive protection</h3>
+                            <div id="proactiveList"></div>
+                            <div class="footer-note">Preventive measures reduce exposure; no intervention guarantees prevention.</div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Environmental solutions</h3>
+                            <div id="ecologyBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Automated protection</h3>
+                            <div id="actionPlan"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Main risk drivers</h3>
+                            <div id="riskDrivers" class="kv"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Baseline vs Talaix intervention</h3>
+                            <div class="modelled-label">MODELLED INTERVENTION SCENARIO — not an observed result</div>
+                            <div class="compare-row"><div class="lbl">Baseline risk</div>
+                                <div class="compare-bar" id="barBaseline" style="background:var(--extreme);"></div></div>
+                            <div class="compare-row"><div class="lbl">With Talaix hydration</div>
+                                <div class="compare-bar" id="barIntervention" style="background:var(--low);"></div></div>
+                            <div style="margin-top:.7rem;font-size:1rem;">
+                                Expected risk reduction: <b id="riskReduction">—</b>
+                                · Water used: <b id="waterUsed">—</b>
+                                · Water saved vs conventional: <b id="waterSaved">—</b>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Intervention scenarios</h3>
+                            <div id="scenarioList"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Expected fire spread (screening estimate)</h3>
+                            <div id="spreadSummary" class="kv"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Fire Intelligence Map</h3>
+                            <div id="map"></div>
+                            <div id="fireDaysWrap" class="hidden" style="margin-top:.5rem;font-size:.85rem;">
+                                Fire observation window:
+                                <select id="fireDays" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:.2rem .4rem;">
+                                    <option value="1">last 24 h</option>
+                                    <option value="3">3 days</option>
+                                    <option value="5" selected>5 days</option>
+                                    <option value="10">10 days</option>
+                                </select>
+                                <span style="color:var(--muted);font-size:.76rem;">(NASA FIRMS, when configured)</span>
+                            </div>
+                            <div class="footer-note" id="mapNote"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Active fires nearby (NASA FIRMS)</h3>
+                            <div id="firesBlock"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Recommended action</h3>
+                            <div id="recommendation"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Lessons from the past</h3>
+                            <p style="color:var(--muted);font-size:.88rem;margin-top:0;">
+                                Recent high-risk periods reconstructed from ERA5 reanalysis and the
+                                Canadian FWI System, with observed fire events (NASA FIRMS, when
+                                configured) and what Talaix would have recommended.
+                            </p>
+                            <button class="hist-btn" id="historyBtn">Load history for this location</button>
+                            <div id="historyBlock" style="margin-top:.8rem;"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Alerts</h3>
+                            <p style="color:var(--muted);font-size:.9rem;">Register a watch: we re-analyse this location periodically and alert you when the risk crosses your threshold.</p>
+                            <div class="watch-row">
+                                <input id="watchEmail" type="email" placeholder="you@example.org" style="flex:2;min-width:200px;">
+                                <select id="watchThreshold" style="flex:1;min-width:160px;">
+                                    <option value="45">Alert at Moderate (45+)</option>
+                                    <option value="65" selected>Alert at High (65+)</option>
+                                    <option value="80">Alert at Extreme (80+)</option>
+                                </select>
+                                <button id="watchBtn">Create watch</button>
+                            </div>
+                            <div id="watchStatus" style="margin-top:.6rem;font-size:.88rem;"></div>
+                        </div>
+
+                        <div class="card">
+                            <details>
+                                <summary>Scientific details (expand)</summary>
+                                <div id="scienceAnnex" style="margin-top:.8rem;"></div>
+                            </details>
+                            <details>
+                                <summary>Data sources &amp; provenance (expand)</summary>
+                                <div style="margin-top:.8rem;overflow-x:auto;">
+                                    <table class="prov" id="provTable"></table>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -57,6 +274,9 @@
     <script src="js/chrome.js"></script>
     <script src="js/convert.js" defer></script>
     <script src="js/location.js" defer></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/intelligence.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
 </body>
 </html>

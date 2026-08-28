@@ -100,12 +100,12 @@
     }
 
     /* Footer IA: the services are grouped under four headed columns
-     * (Analyze / Solutions / Industries / Learn & company) instead of one
+     * (Analyze / Solutions / By sector / Learn & company) instead of one
      * flat list — the same headings the mega-menu uses. */
     var FOOTER_GROUPS = [
         {
             heading: 'Analyze', items: [
-                'intelligence', 'map', 'dashboard-full', 'mapcheck', 'events', 'economy'
+                'intelligence', 'map', 'mapcheck', 'events', 'economy'
             ]
         },
         { heading: 'Solutions', items: PRIMARY[2].columns[0].children },
@@ -118,7 +118,6 @@
     ];
 
     var FOOTER_EXTRA = {
-        'dashboard-full': { id: 'dashboard-full', href: 'dashboard.html', label: 'Wildfire analysis (full)' },
         'account-page': { id: 'account-page', href: 'account.html', label: 'Account' }
     };
 

@@ -40,6 +40,10 @@ talaix.com {
 	redir /for-consulting.html /industries.html?sector=consulting permanent
 	redir /for-government.html /industries.html?sector=government permanent
 	redir /for-journalists.html /press.html permanent
+
+	# The full wildfire pipeline merged into intelligence.html (wildfire
+	# tab); the standalone dashboard page is gone.
+	redir /dashboard.html /intelligence.html permanent
 }
 
 # Live interactive Dash dashboard
