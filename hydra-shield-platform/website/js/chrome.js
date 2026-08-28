@@ -51,7 +51,13 @@
                 },
                 {
                     heading: 'By sector', children: [
-                        { id: 'industries', href: 'industries.html', label: 'All industries' }
+                        { id: 'for-banks', href: 'industries.html?sector=banks', label: 'Banks & lenders' },
+                        { id: 'for-insurance', href: 'industries.html?sector=insurance', label: 'Insurance' },
+                        { id: 'for-investors', href: 'industries.html?sector=investors', label: 'Investors' },
+                        { id: 'for-real-estate', href: 'industries.html?sector=real-estate', label: 'Real estate' },
+                        { id: 'for-consulting', href: 'industries.html?sector=consulting', label: 'Consultants & auditors' },
+                        { id: 'for-government', href: 'industries.html?sector=government', label: 'Government' },
+                        { id: 'for-journalists', href: 'press.html', label: 'Journalists & media' }
                     ]
                 }
             ]
@@ -103,7 +109,7 @@
             ]
         },
         { heading: 'Solutions', items: PRIMARY[2].columns[0].children },
-        { heading: 'Industries', items: PRIMARY[2].columns[1].children },
+        { heading: 'By sector', items: PRIMARY[2].columns[1].children },
         {
             heading: 'Learn & company', items: [
                 'academy', 'briefs', 'funding', 'account-page'
