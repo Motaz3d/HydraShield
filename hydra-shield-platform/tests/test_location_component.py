@@ -48,8 +48,8 @@ def test_location_component_wired_on_all_consumer_pages():
     # The economy panel (locAssist) merged into intelligence.html; the
     # widget mounts are asserted per host page.
     pages = {"intelligence.html": ["locWidget", "locAssist"],
-             "funding.html": ["locWidget"],
-             "solutions.html": ["locAssist"], "reports.html": ["locAssist"]}
+             "solutions.html": ["locAssist", "locWidget"],
+             "reports.html": ["locAssist"]}
     for page, mounts in pages.items():
         html = open(os.path.join(ROOT, "website", page),
                     encoding="utf-8").read()

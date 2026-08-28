@@ -106,10 +106,10 @@
             cta: 'Save this solution set', href: 'account.html'
         });
         if (ok && totalMatches) {
-            var fundParams = hazardIds.length ? '?hazards=' + encodeURIComponent(hazardIds.join(',')) : '';
+            var fundParams = hazardIds.length ? '&hazards=' + encodeURIComponent(hazardIds.join(',')) : '';
             el('statusArea').insertAdjacentHTML('beforeend',
                 '<p class="muted small" style="margin-top:8px;">Next step: ' +
-                '<a class="text-link" href="funding.html' + fundParams + '">find potential funding for these solutions →</a> ' +
+                '<a class="text-link" href="solutions.html?mode=funding' + fundParams + '">find potential funding for these solutions →</a> ' +
                 '(potential sources only — eligibility requires verification).</p>');
         }
 
@@ -287,7 +287,24 @@
         return html;
     }
 
+    function setMode(mode) {
+        var funding = mode === 'funding';
+        el('solutionsPanel').classList.toggle('hidden', funding);
+        el('fundingPanel').classList.toggle('hidden', !funding);
+        el('modeSolutionsBtn').classList.toggle('active', !funding);
+        el('modeFundingBtn').classList.toggle('active', funding);
+        if (window.HS && HS.track) HS.track('resilience_mode', { mode: funding ? 'funding' : 'solutions' });
+        if (history.replaceState) {
+            var params = new URLSearchParams(location.search);
+            if (funding) params.set('mode', 'funding'); else params.delete('mode');
+            var qs = params.toString();
+            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+        }
+    }
+
     function init() {
+        el('modeSolutionsBtn').addEventListener('click', function () { setMode('solutions'); });
+        el('modeFundingBtn').addEventListener('click', function () { setMode('funding'); });
         loadHazards();
         el('searchBtn').addEventListener('click', search);
         if (window.HS && HS.location) HS.location.enhance('locInput', 'locAssist');
@@ -300,6 +317,7 @@
             el('locInput').value = q;
             search();
         }
+        if (params.get('mode') === 'funding') setMode('funding');
     }
 
     init();

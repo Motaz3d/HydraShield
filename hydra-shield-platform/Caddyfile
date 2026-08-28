@@ -56,6 +56,9 @@ talaix.com {
 	# Evidence briefs merged into academy.html as the Briefs tab; {query}
 	# keeps deep links to individual briefs working.
 	redir /briefs.html /academy.html?mode=briefs&{query} permanent
+
+	# Funding Intelligence merged into solutions.html as the Funding tab.
+	redir /funding.html /solutions.html?mode=funding&{query} permanent
 }
 
 # Live interactive Dash dashboard

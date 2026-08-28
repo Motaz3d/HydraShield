@@ -63,7 +63,7 @@
             ]
         },
         { id: 'academy', href: 'academy.html', label: 'Academy' },
-        { id: 'funding', href: 'funding.html', label: 'Funding' }
+        { id: 'funding', href: 'solutions.html?mode=funding', label: 'Funding' }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */

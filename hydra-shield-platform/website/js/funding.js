@@ -15,12 +15,12 @@
     function loadHazards() {
         fetchJSON(API + '/v2/hazards').then(function (res) {
             if (!res.ok || !res.body.hazards) {
-                el('hazardChecks').innerHTML =
+                el('fundingHazardChecks').innerHTML =
                     '<span class="muted">Hazard registry unavailable.</span>';
                 return;
             }
             var preselect = (new URLSearchParams(location.search).get('hazards') || '').split(',');
-            el('hazardChecks').innerHTML = res.body.hazards.map(function (h) {
+            el('fundingHazardChecks').innerHTML = res.body.hazards.map(function (h) {
                 var checked = preselect.indexOf(h.id) >= 0 ? ' checked' : '';
                 return '<label style="display:inline-flex;align-items:center;gap:6px;' +
                     'border:1px solid rgba(0,0,0,0.12);border-radius:999px;padding:6px 14px;' +
@@ -29,19 +29,19 @@
                     esc(h.name) + '</label>';
             }).join('');
         }).catch(function () {
-            el('hazardChecks').innerHTML =
+            el('fundingHazardChecks').innerHTML =
                 '<span class="muted">Hazard registry could not be reached.</span>';
         });
     }
 
     function selectedHazards() {
         return Array.prototype.map.call(
-            document.querySelectorAll('#hazardChecks input[type=checkbox]:checked'),
+            document.querySelectorAll('#fundingHazardChecks input[type=checkbox]:checked'),
             function (cb) { return cb.value; });
     }
 
     function renderStatus(kind, html) {
-        el('statusArea').innerHTML = '<div class="notice notice-' + kind + '">' + html + '</div>';
+        el('fundingStatusArea').innerHTML = '<div class="notice notice-' + kind + '">' + html + '</div>';
     }
 
     function match() {
@@ -121,9 +121,9 @@
             '<div class="disclaimer-box" style="margin-top:18px;">' + esc(body.disclaimer) + '</div>';
         if (window.HSConvert) HSConvert.trackAction('funding_viewed', {
             feature: (body.query && body.query.hazards || []).join(',') });
-        if (window.HSConvert) HSConvert.evaluate('statusArea');
+        if (window.HSConvert) HSConvert.evaluate('fundingStatusArea');
         if (window.HSConvert) HSConvert.show({
-            mount: 'statusArea', context: 'funding_monitor',
+            mount: 'fundingStatusArea', context: 'funding_monitor',
             text: 'Calls and programmes change — save this context and get told when to re-check.',
             cta: 'Monitor funding opportunities', href: 'account.html'
         });
