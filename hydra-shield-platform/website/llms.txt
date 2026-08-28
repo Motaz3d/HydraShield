@@ -16,8 +16,7 @@
 - [Insurance & Environmental Risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters (no loss quantification)
 - [Supply Chain & EUDR](https://talaix.com/supplychain.html): origin-claim geographic evidence screening
 - [Environmental Forensics](https://talaix.com/forensics.html): satellite × claims consistency packs for investigators
-- [Academy](https://talaix.com/academy.html): pilot course "Climate Risk Assessment for Financial Institutions" + glossary
-- [Evidence Briefs](https://talaix.com/briefs.html): open-source periodic briefs + framework explainers
+- [Academy](https://talaix.com/academy.html): pilot course "Climate Risk Assessment for Financial Institutions" + glossary + evidence briefs (Briefs tab)
 
 ## Public APIs (read-only, JSON)
 

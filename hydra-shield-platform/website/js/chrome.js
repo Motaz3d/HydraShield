@@ -62,12 +62,7 @@
                 }
             ]
         },
-        {
-            id: 'learn', label: 'Learn', children: [
-                { id: 'academy', href: 'academy.html', label: 'Academy' },
-                { id: 'briefs', href: 'briefs.html', label: 'Briefs' }
-            ]
-        },
+        { id: 'academy', href: 'academy.html', label: 'Academy' },
         { id: 'funding', href: 'funding.html', label: 'Funding' }
     ];
 
@@ -105,7 +100,7 @@
         { heading: 'By sector', items: PRIMARY[2].columns[1].children },
         {
             heading: 'Learn & company', items: [
-                'academy', 'briefs', 'funding', 'account-page'
+                'academy', 'funding', 'account-page'
             ]
         }
     ];

@@ -102,7 +102,7 @@ def test_search_js_contains_required_actions():
     assert "report-builder.html" in js
     assert "map.html?mode=check" in js
     assert "academy.html" in js
-    assert "briefs.html" in js
+    assert "academy.html?mode=briefs" in js
 
 
 def test_search_js_lazy_fetches_glossary_and_briefs():

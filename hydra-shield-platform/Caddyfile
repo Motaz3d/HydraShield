@@ -52,6 +52,10 @@ talaix.com {
 	# tabs of the analysis hub.
 	redir /events.html /intelligence.html?mode=events permanent
 	redir /economy.html /intelligence.html?mode=economy permanent
+
+	# Evidence briefs merged into academy.html as the Briefs tab; {query}
+	# keeps deep links to individual briefs working.
+	redir /briefs.html /academy.html?mode=briefs&{query} permanent
 }
 
 # Live interactive Dash dashboard

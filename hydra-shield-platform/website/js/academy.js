@@ -349,7 +349,25 @@
         });
     }
 
+    function setMode(mode) {
+        var briefs = mode === 'briefs';
+        el('coursePanel').classList.toggle('hidden', briefs);
+        el('briefsPanel').classList.toggle('hidden', !briefs);
+        el('modeCourseBtn').classList.toggle('active', !briefs);
+        el('modeBriefsBtn').classList.toggle('active', briefs);
+        if (window.HS && HS.track) HS.track('learn_mode', { mode: briefs ? 'briefs' : 'course' });
+        if (history.replaceState) {
+            var params = new URLSearchParams(location.search);
+            if (briefs) params.set('mode', 'briefs'); else params.delete('mode');
+            var qs = params.toString();
+            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+        }
+    }
+
     function init() {
+        el('modeCourseBtn').addEventListener('click', function () { setMode('course'); });
+        el('modeBriefsBtn').addEventListener('click', function () { setMode('briefs'); });
+        if (new URLSearchParams(location.search).get('mode') === 'briefs') setMode('briefs');
         Promise.all([loadCourse(), loadGlossary()]).then(function () {
             if (!course) {
                 el('moduleList').innerHTML = '<div class="notice notice-error">Course could not be loaded.</div>';

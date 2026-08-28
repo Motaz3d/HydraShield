@@ -71,7 +71,7 @@
             { id: 'act-reports', label: 'Compose a report', hint: 'Report Builder', href: 'report-builder.html', group: 'Actions', keywords: ['report', 'builder', 'compose'] },
             { id: 'act-mapcheck', label: 'Map-vs-satellite check', hint: 'Map Check', href: 'map.html?mode=check', group: 'Actions', keywords: ['mapcheck', 'satellite', 'osm', 'verify map'] },
             { id: 'act-academy', label: 'Take the Academy course', hint: 'Learn', href: 'academy.html', group: 'Actions', keywords: ['academy', 'course', 'learn', 'training'] },
-            { id: 'act-briefs', label: 'Read evidence briefs', hint: 'Knowledge', href: 'briefs.html', group: 'Actions', keywords: ['briefs', 'evidence', 'knowledge', 'articles'] }
+            { id: 'act-briefs', label: 'Read evidence briefs', hint: 'Knowledge', href: 'academy.html?mode=briefs', group: 'Actions', keywords: ['briefs', 'evidence', 'knowledge', 'articles'] }
         ];
     }
 
@@ -164,7 +164,7 @@
                 id: 'brief-' + b.id,
                 label: b.title,
                 hint: b.kind === 'framework_explainer' ? 'Framework explainer' : 'Evidence brief',
-                href: 'briefs.html?id=' + encodeURIComponent(b.id),
+                href: 'academy.html?mode=briefs&id=' + encodeURIComponent(b.id),
                 group: 'Briefs',
                 keywords: [b.title, b.summary || '', b.kind || '']
             };

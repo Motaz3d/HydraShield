@@ -171,7 +171,9 @@
         loadBriefs().then(function () {
             var params = new URL(location.href).searchParams;
             var id = params.get('id');
-            if (id) openBrief(id);
+            // On the merged Academy page a brief deep-link only opens in
+            // briefs mode (?mode=briefs&id=…).
+            if (id && params.get('mode') === 'briefs') openBrief(id);
         });
     }
 
