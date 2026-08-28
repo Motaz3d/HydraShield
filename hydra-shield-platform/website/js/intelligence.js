@@ -20,6 +20,12 @@
     var currentHazard = null;
     var resolvedLoc = null;   // canonical location from HS.location widget
 
+    // Pseudo-tabs merged into this hub: full tools, not registry hazards.
+    var PSEUDO_TABS = [
+        { id: 'events', name: 'Events' },
+        { id: 'economy', name: 'Economy' }
+    ];
+
     function el(id) { return document.getElementById(id); }
 
     // ------------------------------------------------------------------
@@ -35,9 +41,11 @@
             }
             hazards = res.body.hazards;
             renderTabs();
-            var wanted = preselect && hazards.some(function (h) {
-                return h.id === preselect && h.analysis.available;
-            }) ? preselect : (hazards.filter(function (h) { return h.analysis.available; })[0] || {}).id;
+            var isPseudo = PSEUDO_TABS.some(function (t) { return t.id === preselect; });
+            var wanted = isPseudo ? preselect
+                : (preselect && hazards.some(function (h) {
+                    return h.id === preselect && h.analysis.available;
+                }) ? preselect : (hazards.filter(function (h) { return h.analysis.available; })[0] || {}).id);
             if (wanted) selectHazard(wanted);
         }).catch(function () {
             el('hazardTabs').innerHTML =
@@ -62,13 +70,23 @@
             }
             tabs.appendChild(btn);
         });
+        PSEUDO_TABS.forEach(function (t) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'hazard-tab' + (currentHazard === t.id ? ' active' : '');
+            btn.textContent = t.name;
+            btn.setAttribute('role', 'tab');
+            btn.addEventListener('click', function () { selectHazard(t.id); });
+            tabs.appendChild(btn);
+        });
     }
 
     function selectHazard(hazardId) {
         currentHazard = hazardId;
         renderTabs();
         if (window.HS && HS.track) HS.track('hazard_selected', { hazard: hazardId });
-        var h = hazards.filter(function (x) { return x.id === hazardId; })[0];
+        var isPseudo = PSEUDO_TABS.some(function (t) { return t.id === hazardId; });
+        var h = isPseudo ? null : hazards.filter(function (x) { return x.id === hazardId; })[0];
         var noteHtml = esc(h ? (h.tagline || '') : '');
         // Official sources behind this hazard (from the registry descriptor —
         // the same declarations the map layer panel shows).
@@ -82,11 +100,13 @@
         el('hazardNote').innerHTML = noteHtml;
         el('analysisArea').innerHTML = '';
         el('statusArea').innerHTML = '';
-        // Wildfire tab = the full merged pipeline (spread scenarios, reports,
-        // map, history); every other hazard uses the generic analysis flow.
+        // Panels: wildfire tab = the full merged pipeline; events/economy =
+        // the merged tools; every other hazard uses the generic analysis flow.
         var isWildfire = hazardId === 'wildfire';
         el('wildfireFull').classList.toggle('hidden', !isWildfire);
-        el('genericFlow').classList.toggle('hidden', isWildfire);
+        el('eventsPanel').classList.toggle('hidden', hazardId !== 'events');
+        el('economyPanel').classList.toggle('hidden', hazardId !== 'economy');
+        el('genericFlow').classList.toggle('hidden', isWildfire || isPseudo);
         if (isWildfire && window.HSWildfire) window.HSWildfire.onShow();
         if (history.replaceState) history.replaceState(null, '', '#' + hazardId);
     }
@@ -409,7 +429,8 @@
         var q = params.get('location');
         if (q && el('locWidget_q')) el('locWidget_q').value = q;
         var hash = (location.hash || '').replace('#', '');
-        loadHazards(hash || undefined);
+        // ?mode=events|economy deep-links the merged tools (#hash also works).
+        loadHazards(params.get('mode') || hash || undefined);
     }
 
     init();

@@ -86,10 +86,16 @@
                     'Enter a place name or lat,lon and press Analyze.'
                 ],
                 live: null
+            },
+            eventsLocInput: {
+                tips: ['Search historical hazard events near any place.'],
+                live: 'snapshot'
+            },
+            locInput: {
+                tips: ['Economic exposure is profiled per location — never monetised without a documented basis.'],
+                live: 'snapshot'
             }
         },
-        economy: { locInput: { tips: ['Economic exposure is profiled per location — never monetised without a documented basis.'], live: 'snapshot' } },
-        events: { locInput: { tips: ['Search historical hazard events near any place.'], live: 'snapshot' } },
         solutions: { locInput: { tips: ['Solutions are matched to the exact site — with limitations stated.'], live: 'snapshot' } },
         story: { locInput: { tips: ['Optional: follow the story with a real place you know.'], live: null } },
         'report-builder': {

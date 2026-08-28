@@ -32,7 +32,7 @@
                 return;
             }
             hazards = res.body.hazards;
-            var sel = el('hazardSelect');
+            var sel = el('eventsHazard');
             sel.innerHTML = hazards.map(function (h) {
                 var ok = h.events && h.events.available;
                 return '<option value="' + esc(h.id) + '"' +
@@ -53,7 +53,7 @@
      * observed-events dataset preferred: VIIRS → FIRMS → event → MODIS) —
      * never hardcoded. */
     function buildYearSelector() {
-        var h = hazards.filter(function (x) { return x.id === el('hazardSelect').value; })[0];
+        var h = hazards.filter(function (x) { return x.id === el('eventsHazard').value; })[0];
         var coverage = (h && h.temporal_coverage) || {};
         var currentYear = new Date().getFullYear();
         var keys = Object.keys(coverage);
@@ -90,21 +90,21 @@
     // ------------------------------------------------------------------
 
     function search() {
-        var q = el('locInput').value.trim();
+        var q = el('eventsLocInput').value.trim();
         if (!q) {
             renderStatus('error', 'Enter a location — a place name or lat,lon coordinates.');
             return;
         }
-        var radius = parseFloat(el('radiusInput').value) || 50;
+        var radius = parseFloat(el('eventsRadius').value) || 50;
         var year = parseInt(el('yearSelect').value, 10);
-        var hazard = el('hazardSelect').value;
+        var hazard = el('eventsHazard').value;
         renderStatus('info', 'Resolving location…');
-        el('searchBtn').disabled = true;
+        el('eventsSearchBtn').disabled = true;
         el('eventsArea').innerHTML = '';
 
         HS.resolveLocation(q).then(function (loc) {
             if (!loc.ok) {
-                el('searchBtn').disabled = false;
+                el('eventsSearchBtn').disabled = false;
                 renderStatus('error', loc.error || 'Location could not be resolved.');
                 return;
             }
@@ -114,17 +114,17 @@
                 '&radius_km=' + encodeURIComponent(radius) +
                 (year ? '&year=' + year : '');
             return fetchJSON(url).then(function (res) {
-                el('searchBtn').disabled = false;
+                el('eventsSearchBtn').disabled = false;
                 renderEvents(res.body || {}, res.ok, loc);
             });
         }).catch(function () {
-            el('searchBtn').disabled = false;
+            el('eventsSearchBtn').disabled = false;
             renderStatus('error', 'The events service could not be reached.');
         });
     }
 
     function renderStatus(kind, msg) {
-        el('statusArea').innerHTML =
+        el('eventsStatusArea').innerHTML =
             '<div class="notice notice-' + kind + '">' + esc(msg) + '</div>';
     }
 
@@ -137,7 +137,7 @@
 
         if (body.status === 'key_required') {
             renderStatus('warn', '');
-            el('statusArea').innerHTML =
+            el('eventsStatusArea').innerHTML =
                 '<div class="notice notice-warn"><strong>Observed events require a server-side key.</strong><br>' +
                 esc(body.reason || '') +
                 (body.signup ? ' <a class="text-link" href="' + esc(body.signup) +
@@ -160,7 +160,7 @@
             return;
         }
 
-        el('statusArea').innerHTML =
+        el('eventsStatusArea').innerHTML =
             '<div class="notice notice-info">' + events.length + ' event(s) · ' +
             (body.detection_count != null ? body.detection_count + ' satellite detection(s) · ' : '') +
             esc(loc.name) + ' · year ' + esc(query.year) + ' · ' + esc(query.radius_km) + ' km radius' +
@@ -320,14 +320,16 @@
 
     function init() {
         loadHazards();
-        el('searchBtn').addEventListener('click', search);
-        el('locInput').addEventListener('keydown', function (e) {
+        el('eventsSearchBtn').addEventListener('click', search);
+        el('eventsLocInput').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') search();
         });
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
-        if (q) {
-            el('locInput').value = q;
+        // On the merged intelligence page this panel only auto-runs when
+        // its own mode is the active one (?mode=events).
+        if (q && params.get('mode') === 'events') {
+            el('eventsLocInput').value = q;
             search();
         }
     }

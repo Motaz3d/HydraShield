@@ -45,11 +45,14 @@ def test_location_normalize_place_and_coordinates():
 
 
 def test_location_component_wired_on_all_consumer_pages():
-    pages = {"intelligence.html": "locWidget", "funding.html": "locWidget",
-             "economy.html": "locAssist", "solutions.html": "locAssist",
-             "reports.html": "locAssist"}
-    for page, mount in pages.items():
+    # The economy panel (locAssist) merged into intelligence.html; the
+    # widget mounts are asserted per host page.
+    pages = {"intelligence.html": ["locWidget", "locAssist"],
+             "funding.html": ["locWidget"],
+             "solutions.html": ["locAssist"], "reports.html": ["locAssist"]}
+    for page, mounts in pages.items():
         html = open(os.path.join(ROOT, "website", page),
                     encoding="utf-8").read()
         assert 'js/location.js' in html, page
-        assert f'id="{mount}"' in html, page
+        for mount in mounts:
+            assert f'id="{mount}"' in html, (page, mount)

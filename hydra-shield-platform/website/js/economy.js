@@ -23,7 +23,7 @@
     function loadHazards() {
         fetchJSON(API + '/v2/hazards').then(function (res) {
             if (!res.ok || !res.body.hazards) return;
-            var sel = el('hazardSelect');
+            var sel = el('economyHazard');
             res.body.hazards.forEach(function (h) {
                 if (!h.analysis.available) return;
                 var opt = document.createElement('option');
@@ -35,7 +35,7 @@
     }
 
     function renderStatus(kind, html) {
-        el('statusArea').innerHTML = '<div class="notice notice-' + kind + '">' + html + '</div>';
+        el('economyStatusArea').innerHTML = '<div class="notice notice-' + kind + '">' + html + '</div>';
     }
 
     function search() {
@@ -44,29 +44,29 @@
             renderStatus('error', 'Enter a location — a place name or lat,lon coordinates.');
             return;
         }
-        el('searchBtn').disabled = true;
+        el('economySearchBtn').disabled = true;
         el('economyArea').innerHTML = '';
         renderStatus('info', 'Resolving location…');
 
         HS.resolveLocation(q).then(function (loc) {
             if (!loc.ok) {
-                el('searchBtn').disabled = false;
+                el('economySearchBtn').disabled = false;
                 renderStatus('error', esc(loc.error || 'Location could not be resolved.'));
                 return;
             }
             HS.rememberLocation({ name: loc.name, lat: loc.lat, lon: loc.lon });
             renderStatus('info', 'Building the exposure profile for ' + esc(loc.name) + '…');
-            var radius = parseFloat(el('radiusInput').value) || 5;
-            var hazard = el('hazardSelect').value;
+            var radius = parseFloat(el('economyRadius').value) || 5;
+            var hazard = el('economyHazard').value;
             var url = API + '/v2/economy?lat=' + loc.lat.toFixed(4) +
                 '&lon=' + loc.lon.toFixed(4) + '&radius_km=' + encodeURIComponent(radius) +
                 (hazard ? '&hazard=' + encodeURIComponent(hazard) : '');
             return fetchJSON(url).then(function (res) {
-                el('searchBtn').disabled = false;
+                el('economySearchBtn').disabled = false;
                 renderEconomy(res.body || {}, res.ok, loc);
             });
         }).catch(function () {
-            el('searchBtn').disabled = false;
+            el('economySearchBtn').disabled = false;
             renderStatus('error', 'The economy service could not be reached.');
         });
     }
@@ -248,14 +248,16 @@
 
     function init() {
         loadHazards();
-        el('searchBtn').addEventListener('click', search);
+        el('economySearchBtn').addEventListener('click', search);
         if (window.HS && HS.location) HS.location.enhance('locInput', 'locAssist');
         el('locInput').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') search();
         });
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
-        if (q) {
+        // On the merged intelligence page this panel only auto-runs when
+        // its own mode is the active one (?mode=economy).
+        if (q && params.get('mode') === 'economy') {
             el('locInput').value = q;
             search();
         }

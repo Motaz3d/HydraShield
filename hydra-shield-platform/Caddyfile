@@ -47,6 +47,11 @@ talaix.com {
 
 	# Map Check merged into map.html as a mode; the standalone page is gone.
 	redir /mapcheck.html /map.html?mode=check permanent
+
+	# Events and Economic Intelligence merged into intelligence.html as
+	# tabs of the analysis hub.
+	redir /events.html /intelligence.html?mode=events permanent
+	redir /economy.html /intelligence.html?mode=economy permanent
 }
 
 # Live interactive Dash dashboard

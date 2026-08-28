@@ -10,7 +10,7 @@ import os
 ROOT = os.path.dirname(__file__)
 
 PAGES = (
-    "map.html", "intelligence.html", "economy.html", "events.html",
+    "map.html", "intelligence.html",
     "solutions.html", "report-builder.html", "academy.html", "industries.html",
 )
 
@@ -33,9 +33,12 @@ def test_component_has_three_sections_and_location_contract():
 
 def test_component_covers_the_search_pages():
     js = _read("website/js/search-assist.js")
-    for page in ("map", "intelligence", "economy", "events",
+    for page in ("map", "intelligence",
                  "solutions", "report-builder", "academy", "industries"):
         assert f"{page}:" in js or f"'{page}'" in js, page
+    # The merged events/economy panels keep their assist inside intelligence.
+    assert "eventsLocInput" in js
+    assert "locInput" in js
 
 
 def test_pages_load_the_component():

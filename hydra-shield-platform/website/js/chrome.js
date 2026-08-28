@@ -68,13 +68,7 @@
                 { id: 'briefs', href: 'briefs.html', label: 'Briefs' }
             ]
         },
-        {
-            id: 'explore', label: 'Explore', children: [
-                { id: 'events', href: 'events.html', label: 'Events' },
-                { id: 'funding', href: 'funding.html', label: 'Funding' },
-                { id: 'economy', href: 'economy.html', label: 'Economy' }
-            ]
-        }
+        { id: 'funding', href: 'funding.html', label: 'Funding' }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
@@ -104,7 +98,7 @@
     var FOOTER_GROUPS = [
         {
             heading: 'Analyze', items: [
-                'intelligence', 'map', 'events', 'economy'
+                'intelligence', 'map'
             ]
         },
         { heading: 'Solutions', items: PRIMARY[2].columns[0].children },
