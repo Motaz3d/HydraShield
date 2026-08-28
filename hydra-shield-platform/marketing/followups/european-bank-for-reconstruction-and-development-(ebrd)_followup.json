@@ -1,0 +1,16 @@
+{
+  "organization": "European Bank for Reconstruction and Development (EBRD)",
+  "segment": "investment",
+  "country": "GB",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Position HydraShield's evidence-labelled hazard and solutions intelligence as an appraisal and resil",
+  "calculated_at": "2026-08-22T15:10:20.059681"
+}

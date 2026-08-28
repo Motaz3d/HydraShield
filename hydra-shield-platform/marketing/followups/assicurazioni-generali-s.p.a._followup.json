@@ -1,0 +1,16 @@
+{
+  "organization": "Assicurazioni Generali S.p.A.",
+  "segment": "insurance",
+  "country": "IT",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "enterprise_dashboard",
+  "recommended_message": "Offer HydraShield's evidence-labelled Mediterranean hazard intelligence dashboard as an open-data in",
+  "calculated_at": "2026-08-22T15:10:20.060097"
+}

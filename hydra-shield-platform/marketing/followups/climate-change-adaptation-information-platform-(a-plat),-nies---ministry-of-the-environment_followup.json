@@ -1,0 +1,16 @@
+{
+  "organization": "Climate Change Adaptation Information Platform (A-PLAT), NIES / Ministry of the Environment",
+  "segment": "governments",
+  "country": "JP",
+  "priority": "medium",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-09-01",
+  "days_until_followup": 9,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "monitoring",
+  "recommended_message": "HydraShield's municipal monitoring + SMS alert service gives local adaptation centers an operational",
+  "calculated_at": "2026-08-22T15:10:20.054081"
+}

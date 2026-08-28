@@ -1,0 +1,16 @@
+{
+  "organization": "Coalition for Disaster Resilient Infrastructure (CDRI)",
+  "segment": "infrastructure",
+  "country": "IN",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield's multi-hazard exposure and economic-loss intelligence can feed CDRI's RCBA tool, Disast",
+  "calculated_at": "2026-08-22T15:10:20.059436"
+}

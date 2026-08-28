@@ -1,0 +1,16 @@
+{
+  "organization": "Luxembourg Stock Exchange (LuxSE) — Luxembourg Green Exchange (LGX)",
+  "segment": "investment",
+  "country": "LU",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "Offer LGX's sustainable finance data services an evidence-labelled physical climate risk layer for t",
+  "calculated_at": "2026-08-22T15:10:20.056217"
+}

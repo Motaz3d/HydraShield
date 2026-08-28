@@ -1,0 +1,16 @@
+{
+  "organization": "Metroeconomica",
+  "segment": "environmental_consulting",
+  "country": "ES",
+  "priority": "medium",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-09-01",
+  "days_until_followup": 9,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Angle: feed Metroeconomica's adaptation cost-benefit studies with HydraShield's evidence-labelled hi",
+  "calculated_at": "2026-08-22T15:10:20.053208"
+}

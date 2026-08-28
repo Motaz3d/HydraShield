@@ -1,0 +1,16 @@
+{
+  "organization": "Swiss Re Institute (Swiss Re Ltd)",
+  "segment": "insurance",
+  "country": "CH",
+  "priority": "medium",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-09-01",
+  "days_until_followup": 9,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Propose HydraShield's transparent, evidence-labelled European event catalogue as a complementary ope",
+  "calculated_at": "2026-08-22T15:10:20.058109"
+}

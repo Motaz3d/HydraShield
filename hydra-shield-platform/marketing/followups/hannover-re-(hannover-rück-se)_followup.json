@@ -1,0 +1,16 @@
+{
+  "organization": "Hannover Re (Hannover Rück SE)",
+  "segment": "insurance",
+  "country": "DE",
+  "priority": "medium",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-09-01",
+  "days_until_followup": 9,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "historical_event_intelligence",
+  "recommended_message": "Present HydraShield's evidence-labelled European historical event catalogue as an independent verifi",
+  "calculated_at": "2026-08-22T15:10:20.055706"
+}

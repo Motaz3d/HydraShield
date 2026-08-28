@@ -1,0 +1,16 @@
+{
+  "organization": "Tokio Marine Holdings",
+  "segment": "insurance",
+  "country": "JP",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "climate_risk_intelligence",
+  "recommended_message": "HydraShield can quantify client-level physical climate exposure to support Tokio Marine's 200-compan",
+  "calculated_at": "2026-08-22T15:10:20.056727"
+}

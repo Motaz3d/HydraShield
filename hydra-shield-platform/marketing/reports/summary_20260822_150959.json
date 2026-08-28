@@ -1,0 +1,317 @@
+{
+  "generated_at": "2026-08-22T15:09:59.052424",
+  "report_type": "summary",
+  "total_leads": 66,
+  "total_campaigns": 11,
+  "total_interactions": 66,
+  "status_distribution": {
+    "researched": 66
+  },
+  "priority_distribution": {
+    "medium": 26,
+    "high": 39,
+    "low": 1
+  },
+  "segment_distribution": {
+    "environmental_consulting": 12,
+    "insurance": 15,
+    "governments": 10,
+    "research_centers": 6,
+    "investment": 13,
+    "real_estate": 2,
+    "banking": 1,
+    "municipalities": 2,
+    "engineering_firms": 2,
+    "infrastructure": 3
+  },
+  "top_countries": [
+    [
+      "FR",
+      12
+    ],
+    [
+      "GB",
+      8
+    ],
+    [
+      "LU",
+      7
+    ],
+    [
+      "CH",
+      5
+    ],
+    [
+      "DE",
+      4
+    ],
+    [
+      "CN",
+      4
+    ],
+    [
+      "JP",
+      3
+    ],
+    [
+      "IN",
+      3
+    ],
+    [
+      "BE",
+      3
+    ],
+    [
+      "ES",
+      2
+    ]
+  ],
+  "funnel": {
+    "researched": 66,
+    "qualified": 0,
+    "draft_prepared": 0,
+    "contacted": 0,
+    "responded": 0,
+    "opportunity": 0
+  },
+  "campaigns": [
+    {
+      "id": "A",
+      "name": "Climate risk for insurers",
+      "target_segments": [
+        "insurance"
+      ],
+      "leads_matched": 15,
+      "conversion_goal": "account_created (then alert_created)"
+    },
+    {
+      "id": "B",
+      "name": "Climate exposure for real-estate companies",
+      "target_segments": [
+        "real_estate"
+      ],
+      "leads_matched": 2,
+      "conversion_goal": "report_generated"
+    },
+    {
+      "id": "C",
+      "name": "Climate intelligence for investors",
+      "target_segments": [
+        "investment",
+        "asset_management",
+        "banking"
+      ],
+      "leads_matched": 14,
+      "conversion_goal": "contact_started"
+    },
+    {
+      "id": "D",
+      "name": "Extreme-weather intelligence for municipalities",
+      "target_segments": [
+        "municipalities",
+        "governments"
+      ],
+      "leads_matched": 12,
+      "conversion_goal": "account_created (then alert_created / sms_enabled)"
+    },
+    {
+      "id": "E",
+      "name": "Earth-observation intelligence for researchers",
+      "target_segments": [
+        "research_centers",
+        "universities"
+      ],
+      "leads_matched": 6,
+      "conversion_goal": "API/SDK usage and contact_started"
+    },
+    {
+      "id": "F",
+      "name": "Climate resilience for infrastructure companies",
+      "target_segments": [
+        "energy",
+        "logistics",
+        "ports",
+        "telecom",
+        "data_centers"
+      ],
+      "leads_matched": 0,
+      "conversion_goal": "alert_created"
+    },
+    {
+      "id": "G",
+      "name": "Sustainable solutions intelligence",
+      "target_segments": [
+        "municipalities",
+        "agriculture",
+        "real_estate",
+        "construction"
+      ],
+      "leads_matched": 4,
+      "conversion_goal": "solution_viewed (then account_created)"
+    },
+    {
+      "id": "H",
+      "name": "EU funding & climate programmes",
+      "target_segments": [
+        "governments",
+        "research_centers",
+        "municipalities"
+      ],
+      "leads_matched": 18,
+      "conversion_goal": "contact_started"
+    },
+    {
+      "id": "I",
+      "name": "Climate resilience for construction",
+      "target_segments": [
+        "construction"
+      ],
+      "leads_matched": 0,
+      "conversion_goal": "solution_viewed"
+    },
+    {
+      "id": "J",
+      "name": "Sustainable finance intelligence",
+      "target_segments": [
+        "banking",
+        "investment",
+        "asset_management"
+      ],
+      "leads_matched": 14,
+      "conversion_goal": "contact_started"
+    },
+    {
+      "id": "K",
+      "name": "GIS & Earth-observation community",
+      "target_segments": [
+        "research_centers",
+        "universities",
+        "municipalities"
+      ],
+      "leads_matched": 8,
+      "conversion_goal": "qgis_interest / account_created"
+    }
+  ],
+  "recent_activity": [
+    {
+      "org": "Metroeconomica",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Site describes specialisation i"
+    },
+    {
+      "org": "Munich Re (Münchener Rückversicherungs-Gesellschaft AG)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official NatCatSERVICE product "
+    },
+    {
+      "org": "Carbone 4",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage promotes OCARA adaptat"
+    },
+    {
+      "org": "Ramboll",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage currently highlights c"
+    },
+    {
+      "org": "BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources)."
+    },
+    {
+      "org": "Climate Change Adaptation Information Platform (A-PLAT), NIES / Ministry of the Environment",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources)."
+    },
+    {
+      "org": "Potsdam Institute for Climate Impact Research (PIK)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site lists core topics"
+    },
+    {
+      "org": "Mapfre S.A.",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official sustainability page (S"
+    },
+    {
+      "org": "AECOM",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage features Annual Report"
+    },
+    {
+      "org": "MS&AD Insurance Group Holdings",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources)."
+    },
+    {
+      "org": "Marguerite",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: live portfolio o"
+    },
+    {
+      "org": "Anthesis Group",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: none recorded"
+    },
+    {
+      "org": "Guy Carpenter & Company (Marsh McLennan)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage features the "
+    },
+    {
+      "org": "General Insurance Corporation of India (GIC Re)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources)."
+    },
+    {
+      "org": "Zurich Resilience Solutions (Zurich Insurance Group)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site live, explicitly "
+    },
+    {
+      "org": "Hannover Re (Hannover Rück SE)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage (12 August 20"
+    },
+    {
+      "org": "Ministry of Emergency Management of the PRC",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via Asia commercial-signal research (official sources)."
+    },
+    {
+      "org": "AXA XL (AXA Group P&C and Specialty division)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official homepage highlights Ri"
+    },
+    {
+      "org": "European Environment Agency (EEA)",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Homepage highlights 'Europe's e"
+    },
+    {
+      "org": "Infracapital",
+      "date": "2026-08-18",
+      "type": "discovered",
+      "summary": "Identified via official-source research; signal: Official site: 'built to be ada"
+    }
+  ]
+}

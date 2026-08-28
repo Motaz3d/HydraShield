@@ -1,0 +1,16 @@
+{
+  "organization": "Brookfield (Infrastructure)",
+  "segment": "investment",
+  "country": "CA",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "monitoring",
+  "recommended_message": "Offer continuous multi-hazard monitoring with alerts for Brookfield's European infrastructure assets",
+  "calculated_at": "2026-08-22T15:10:20.057534"
+}

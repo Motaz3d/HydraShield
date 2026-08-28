@@ -1,0 +1,16 @@
+{
+  "organization": "Luxembourg Sustainable Finance Initiative (LSFI)",
+  "segment": "investment",
+  "country": "LU",
+  "priority": "medium",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-09-01",
+  "days_until_followup": 9,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "organization_account",
+  "recommended_message": "Propose HydraShield as a physical climate risk data partner for LSFI's knowledge hub and working gro",
+  "calculated_at": "2026-08-22T15:10:20.060652"
+}

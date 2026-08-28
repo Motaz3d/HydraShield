@@ -1,0 +1,16 @@
+{
+  "organization": "European Commission — DG European Civil Protection and Humanitarian Aid Operations (DG ECHO)",
+  "segment": "governments",
+  "country": "BE",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "alerts_sms",
+  "recommended_message": "Pitch HydraShield's multi-hazard monitoring and SMS alerting as a complementary early-warning and si",
+  "calculated_at": "2026-08-22T15:10:20.057828"
+}

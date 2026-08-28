@@ -1,0 +1,16 @@
+{
+  "organization": "Ardian",
+  "segment": "investment",
+  "country": "FR",
+  "priority": "medium",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-09-01",
+  "days_until_followup": 9,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "api",
+  "recommended_message": "Offer HydraShield's API as a consistent, evidence-labelled physical climate risk layer for Ardian's ",
+  "calculated_at": "2026-08-22T15:10:20.059911"
+}

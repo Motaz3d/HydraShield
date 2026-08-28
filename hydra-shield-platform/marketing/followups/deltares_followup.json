@@ -1,0 +1,16 @@
+{
+  "organization": "Deltares",
+  "segment": "research_centers",
+  "country": "NL",
+  "priority": "high",
+  "current_status": "researched",
+  "last_interaction_type": "discovered",
+  "last_interaction_date": "2026-08-18",
+  "next_followup_date": "2026-08-25",
+  "days_until_followup": 2,
+  "is_overdue": false,
+  "suggested_action": "Qualify: verify current public signal and select contact route",
+  "recommended_product": "custom_analysis",
+  "recommended_message": "Propose a custom analysis or data partnership pilot where HydraShield's evidence-labelled multi-haza",
+  "calculated_at": "2026-08-22T15:10:20.059344"
+}
