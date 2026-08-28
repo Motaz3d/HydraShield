@@ -16,6 +16,8 @@ This script derives (idempotent; safe to re-run after a master changes):
     logo-mark-inverted.png            white T + teal dot, transparent bg
                                       (for the DARK navbar/footer/chrome)
     logo-with-text-inverted.png       same inversion with the wordmark
+    logo-email.png                    mark + wordmark, 400px wide on white
+                                      (transactional-email header lockup)
 
 Inversion rule: navy pixels become white with luminance-derived alpha
 (white background turns transparent, anti-aliased edges keep their
@@ -53,6 +55,22 @@ def _save_favicons() -> None:
     touch.save(_path("apple-touch-icon.png"))
 
 
+def _save_email_logo() -> None:
+    """Email header lockup: wordmark master at 400px wide on white.
+
+    Email clients see a hosted <img>; a flat white background keeps the
+    lockup intact in both light and dark mail themes. 400px covers a
+    200px display width at 2x (retina).
+    """
+    master = Image.open(_path("logo-with-text-master.png")).convert("RGBA")
+    w, h = master.size
+    target_w = 400
+    resized = master.resize((target_w, round(h * target_w / w)), Image.LANCZOS)
+    canvas = Image.new("RGBA", resized.size, (255, 255, 255, 255))
+    canvas.alpha_composite(resized)
+    canvas.convert("RGB").save(_path("logo-email.png"))
+
+
 def _invert_for_dark(master_name: str, out_name: str) -> None:
     """Navy-on-white -> white-on-transparent, teal dot preserved."""
     im = Image.open(_path(master_name)).convert("RGBA")
@@ -85,6 +103,7 @@ def _invert_for_dark(master_name: str, out_name: str) -> None:
 def main() -> None:
     os.makedirs(BRAND_DIR, exist_ok=True)
     _save_favicons()
+    _save_email_logo()
     _invert_for_dark("logo-master.png", "logo-mark-inverted.png")
     _invert_for_dark("logo-with-text-master.png", "logo-with-text-inverted.png")
     for name in sorted(os.listdir(BRAND_DIR)):

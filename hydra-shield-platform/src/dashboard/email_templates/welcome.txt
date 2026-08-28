@@ -3,12 +3,16 @@ Hello{{display_name}},
 
 welcome to Talaix — real-data environmental risk intelligence.
 
-Your email address is now verified and your account is active. You can run
-analyses, generate all three report types, save locations and subscribe to
-threshold alerts.
+Your email address is verified and your account is active. From here you can:
+
+- Run climate-extreme analyses for any location you care about.
+- Generate all three report types, ready to share with your team.
+- Save locations and subscribe to threshold alerts.
 
 Every value Talaix reports is observed, derived or modelled with full
-provenance; unavailable data is stated, never invented.
+provenance. When data is unavailable we say so — nothing is ever invented.
+
+Questions or feedback? Just reply to this email — we read every message.
 
 — The Talaix team
-info@talaix.com
+talaix.com · info@talaix.com
