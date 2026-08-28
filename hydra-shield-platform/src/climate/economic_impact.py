@@ -20,11 +20,10 @@ economic here carries ``confidence: low``.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 from ..dashboard.cache import cached
-from .evidence import EvidenceRecord
+from .evidence import EvidenceRecord, utcnow_iso
 from .exposure_econ import NOT_QUANTIFIED_STATEMENT, build_economic_exposure
 from .ontology import Confidence
 
@@ -40,10 +39,6 @@ OBSERVED_LOSSES_RESEARCH_CANDIDATES = [
 PROJECTIONS_STATEMENT = (
     "Economic projections require scenario-labelled datasets not yet integrated."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 @cached("economic_impact", TTL_ECON_IMPACT)
@@ -126,7 +121,7 @@ def assess_economic_impact(lat: float, lon: float) -> Dict[str, Any]:
     return {
         "status": "ok" if exposure_ok else "partial",
         "location": {"lat": lat, "lon": lon},
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "observed_losses": observed_losses,
         "modelled_estimates": modelled_estimates,
         "projections": projections,

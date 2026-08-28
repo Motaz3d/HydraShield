@@ -12,10 +12,9 @@ No Flask imports.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Tuple
 
-from .evidence import content_hash
+from .evidence import content_hash, utcnow_iso
 from .insurance import build_risk_profile
 from .sustainability import build_sustainability_evidence
 from .verification import verify_asset
@@ -24,7 +23,7 @@ REPORT_KINDS = {"verification", "insurance", "sustainability"}
 
 _ALLOWED_SECTION_KINDS = {"introduction", "body", "gaps", "conclusion"}
 
-_ENGINE_VERSION = "1.0.0"
+ENGINE_VERSION = "1.0.0"
 
 _HONESTY_NOTE = (
     "Engine text is template-composed from the cited evidence only; "
@@ -35,10 +34,6 @@ _INTERCONNECTION_NOTE = (
     "All sections in this draft describe the same underlying engine run; "
     "section source references point to the same verification, profile or report id."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _format_coord(lat: Any, lon: Any) -> str:
@@ -169,7 +164,7 @@ def _build_verification_draft(params: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "kind": "verification",
         "title": title,
-        "engine_version": payload.get("engine_version", _ENGINE_VERSION),
+        "engine_version": payload.get("engine_version", ENGINE_VERSION),
         "payload_id": payload.get("verification_id", ""),
         "disclaimer": payload.get("disclaimer", ""),
         "asset": payload.get("asset"),
@@ -290,7 +285,7 @@ def _build_insurance_draft(params: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "kind": "insurance",
         "title": title,
-        "engine_version": payload.get("engine_version", _ENGINE_VERSION),
+        "engine_version": payload.get("engine_version", ENGINE_VERSION),
         "payload_id": payload.get("profile_id", ""),
         "disclaimer": payload.get("disclaimer", ""),
         "asset": payload.get("asset"),
@@ -420,7 +415,7 @@ def _build_sustainability_draft(params: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "kind": "sustainability",
         "title": title,
-        "engine_version": payload.get("engine_version", _ENGINE_VERSION),
+        "engine_version": payload.get("engine_version", ENGINE_VERSION),
         "payload_id": payload.get("report_id", ""),
         "disclaimer": payload.get("disclaimer", ""),
         "sections": sections,
@@ -462,7 +457,7 @@ def build_draft(kind: str, params: Dict[str, Any]) -> Dict[str, Any]:
         "draft_id": draft_id,
         "kind": result["kind"],
         "title": result["title"],
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": result["engine_version"],
         "payload_id": result["payload_id"],
         "disclaimer": result["disclaimer"],

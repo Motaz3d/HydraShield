@@ -11,10 +11,9 @@ reason; nothing is invented or silently dropped.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from .evidence import content_hash
+from .evidence import content_hash, utcnow_iso
 from .ontology import ClaimStatus, Confidence
 
 ENGINE_VERSION = "1.0.0"
@@ -111,10 +110,6 @@ MONITORING_HINT = (
     "Continuous per-hazard monitoring for verified assets is available via "
     "/api/v2/account/alerts."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _risk_class_display(classes: List[str]) -> str:
@@ -266,7 +261,7 @@ def verify_asset(lat: float, lon: float, name: Optional[str] = None) -> Dict[str
     return {
         "verification_id": verification_id,
         "asset": {"lat": lat, "lon": lon, "name": name},
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "frameworks": FRAMEWORKS,
         "hazard_checks": checks,

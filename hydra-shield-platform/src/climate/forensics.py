@@ -13,13 +13,12 @@ It is an evidence annex for qualified investigators.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from ..dashboard.real_data import fetch_active_fires, fetch_satellite_data, geocode_location
 from ..gis_mapping.forest_loss import fetch_forest_loss
 from ..gis_mapping.landcover import fetch_landcover
-from .evidence import EvidenceRecord, content_hash
+from .evidence import EvidenceRecord, content_hash, utcnow_iso
 
 ENGINE_VERSION = "1.0.0"
 
@@ -150,10 +149,6 @@ _FINANCIAL_DATA_BOUNDARY = (
     "or proceeds-of-crime assessment requires separate financial analysis by an "
     "FIU or competent authority."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _safe_float(value: Any) -> Optional[float]:
@@ -672,7 +667,7 @@ def assess_case(case: Dict[str, Any]) -> Dict[str, Any]:
 
     chain_of_custody = {
         "case_id": case_id,
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "evidence_records": [
             {
@@ -693,7 +688,7 @@ def assess_case(case: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "case_id": case_id,
         "title": title,
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "typology": {
             "id": typology["id"],

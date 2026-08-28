@@ -9,10 +9,10 @@ loss quantification is never invented.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from .evidence import content_hash
+from .engine import ProductEngine
+from .evidence import content_hash, utcnow_iso
 from .verification import verify_asset
 
 ENGINE_VERSION = "1.0.0"
@@ -81,8 +81,18 @@ HONESTY_CONTRACT = (
 )
 
 
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+class InsuranceEngine(ProductEngine):
+    """Reference implementation of the unified product-engine contract
+    (``src/climate/engine.py``) — other product engines migrate to this
+    shape one by one."""
+
+    id = "insurance"
+    name = "Insurance & Environmental Risk"
+    engine_version = ENGINE_VERSION
+    disclaimer = INSURANCE_DISCLAIMER
+
+
+_ENGINE = InsuranceEngine()
 
 
 def _safe_event_summary(event: Dict[str, Any]) -> Dict[str, Any]:
@@ -228,21 +238,21 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
         "perils": perils,
     })[:16]
 
-    return {
-        "profile_id": profile_id,
-        "asset": {"lat": lat, "lon": lon, "name": name},
-        "generated_at": _utcnow_iso(),
-        "engine_version": ENGINE_VERSION,
-        "radius_km": radius_km,
-        "perils": perils,
-        "declared_gaps": declared_gaps,
-        "exposure_summary": exposure_summary,
-        "frameworks": INSURANCE_FRAMEWORKS,
-        "loss_quantification": "not_quantified",
-        "loss_quantification_note": NOT_QUANTIFIED,
-        "disclaimer": INSURANCE_DISCLAIMER,
-        "honesty_contract": HONESTY_CONTRACT,
-    }
+    return _ENGINE.result(
+        summary=exposure_summary,
+        blocks={
+            "profile_id": profile_id,
+            "asset": {"lat": lat, "lon": lon, "name": name},
+            "radius_km": radius_km,
+            "perils": perils,
+            "declared_gaps": declared_gaps,
+            "exposure_summary": exposure_summary,
+            "frameworks": INSURANCE_FRAMEWORKS,
+            "loss_quantification": "not_quantified",
+            "loss_quantification_note": NOT_QUANTIFIED,
+            "honesty_contract": HONESTY_CONTRACT,
+        },
+    ).to_dict()
 
 
 def _trim_profile(profile: Dict[str, Any]) -> Dict[str, Any]:
@@ -302,7 +312,7 @@ def build_portfolio_profile(assets: List[Dict[str, Any]], radius_km: float = 50.
 
     return {
         "portfolio_id": portfolio_id,
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "radius_km": radius_km,
         "frameworks": INSURANCE_FRAMEWORKS,

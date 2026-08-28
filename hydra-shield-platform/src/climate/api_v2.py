@@ -124,6 +124,17 @@ def analyze():
     include_raw = request.args.get("raw") == "1"
     payload = result.to_dict(include_raw=include_raw)
 
+    # Per-user history (signed-in callers only; anonymous are skipped).
+    from ..dashboard.auth_api import record_user_analysis
+
+    record_user_analysis(
+        hazard_id, lat, lon,
+        {"name": name, "raw": include_raw},
+        {"status": payload.get("status"),
+         "level": (payload.get("level") or {}).get("label"),
+         "summary": f"{hazard_id}: {(payload.get('level') or {}).get('label') or payload.get('status')}"},
+    )
+
     # --- ADDITIVE (observatory): record a reproducible analysis run. ---
     # Wrapped so recording can NEVER break analysis; failures are swallowed
     # deliberately (the run record is an audit trail, not the product).

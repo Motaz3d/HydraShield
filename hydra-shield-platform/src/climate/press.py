@@ -12,11 +12,11 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from ..dashboard.real_data import fetch_climate_series, fetch_satellite_data, reverse_geocode
 from ..dashboard.site_image import build_site_context_png, site_context_caption
+from .evidence import utcnow_iso
 from .verification import VERIFICATION_HAZARDS, verify_asset
 
 ENGINE_VERSION = "1.0.0"
@@ -42,10 +42,6 @@ _LABEL_RANK = {
     "low": 1,
     "near": 0,
 }
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _rank_label(label: Optional[str]) -> int:
@@ -369,7 +365,7 @@ def build_press_pack(lat: float, lon: float, name: Optional[str] = None, lang: s
     pack: Dict[str, Any] = {
         "ok": True,
         "pack_id": _pack_id(location, verification, climate),
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "language": lang,
         "tier": "public" if lang == DEFAULT_LANGUAGE else "subscriber",

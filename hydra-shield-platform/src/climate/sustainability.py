@@ -9,10 +9,9 @@ and which it does NOT cover.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from .evidence import content_hash
+from .evidence import content_hash, utcnow_iso
 from .verification import verify_portfolio
 
 ENGINE_VERSION = "1.0.0"
@@ -158,10 +157,6 @@ HONESTY_CONTRACT = (
 )
 
 
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-
-
 def _validate_company(company: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(company, dict):
         raise ValueError("company must be an object")
@@ -258,7 +253,7 @@ def build_sustainability_evidence(company: Dict[str, Any], assets: List[Dict[str
 
     return {
         "report_id": report_id,
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "company": company_block,
         "coverage_map": list(ESRS_COVERAGE),

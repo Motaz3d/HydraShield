@@ -21,17 +21,14 @@ Dependency-free; no I/O.
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
+
+from .evidence import utcnow_iso
 
 VALID_STATUSES = frozenset({
     "observed", "derived", "modelled", "projected", "unavailable",
 })
 VALID_CONFIDENCE = frozenset({"high", "medium", "low"})
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 @dataclass
@@ -59,7 +56,7 @@ class AnalyticalResult:
         if self.confidence not in VALID_CONFIDENCE:
             raise ValueError(f"invalid confidence '{self.confidence}'")
         if self.timestamp_utc is None:
-            self.timestamp_utc = _utcnow_iso()
+            self.timestamp_utc = utcnow_iso()
         if self.status == "unavailable" and not self.limitations:
             raise ValueError("unavailable results must carry a reason in limitations")
 
@@ -152,7 +149,7 @@ def wrap_series(points: List[Dict[str, Any]], **meta: Any) -> Dict[str, Any]:
     return {
         "status": status,
         "source": source,
-        "timestamp_utc": meta.pop("timestamp_utc", None) or _utcnow_iso(),
+        "timestamp_utc": meta.pop("timestamp_utc", None) or utcnow_iso(),
         "method": meta.pop("method", None),
         "confidence": meta.pop("confidence", "medium"),
         "uncertainty": meta.pop("uncertainty", None),

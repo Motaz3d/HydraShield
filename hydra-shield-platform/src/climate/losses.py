@@ -23,10 +23,10 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 from .economic_impact import OBSERVED_LOSSES_STATEMENT
+from .evidence import utcnow_iso
 from .ontology import Confidence
 
 _DEFAULT_REGISTRY = os.path.join(
@@ -39,10 +39,6 @@ _VALID_SOURCE_ACCESS = ("registration_required", "api", "download")
 ESTIMATED_LOSSES_STATEMENT = "No estimated loss figures exist in integrated sources."
 MODELLED_LOSSES_STATEMENT = "No modelled loss figures exist in integrated sources."
 PROJECTED_LOSSES_STATEMENT = "No projected loss figures exist in integrated sources."
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def load_loss_registry(path: str | None = None) -> Dict[str, Any]:
@@ -128,7 +124,7 @@ def loss_summary() -> Dict[str, Any]:
 
     return {
         "status": "ok",
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "observed_losses": observed_losses,
         "estimated_losses": {
             "status": "not_available",

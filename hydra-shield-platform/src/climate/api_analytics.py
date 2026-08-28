@@ -19,21 +19,17 @@ summarises them — no numeric compound/cascade scores, no monetary values.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any, Dict
 
 from flask import Blueprint, jsonify, request
 
 from .api_v2 import _err, _parse_latlon, _rate
+from .evidence import utcnow_iso
 
 analytics_bp = Blueprint("analytics", __name__, url_prefix="/api/v2")
 
 _RATE_MAX = 10
 _RATE_WINDOW = 60.0
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _uncertainty_envelope(
@@ -54,7 +50,7 @@ def _uncertainty_envelope(
 
     return {
         "source": source,
-        "timestamp": _utcnow_iso(),
+        "timestamp": utcnow_iso(),
         "method": method,
         "confidence": confidence,
         "coverage": coverage,

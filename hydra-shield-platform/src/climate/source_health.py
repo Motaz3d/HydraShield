@@ -37,10 +37,10 @@ import threading
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
 
 from ..dashboard.cache import default_cache
+from .evidence import utcnow_iso
 
 #: Platform UA for health probes (identifiable, honest).
 USER_AGENT = "Talaix-SourceHealth/1.0 (+https://talaix.com)"
@@ -54,10 +54,6 @@ DEGRADED_LATENCY_MS = 5000.0
 
 #: Vocabulary for the derived health label.
 VALID_HEALTH = frozenset({"ok", "degraded", "down", "unknown"})
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 class SourceHealthStore:
@@ -206,7 +202,7 @@ def check_integrated_sources(store: Optional[SourceHealthStore] = None) -> dict:
     store = store or SourceHealthStore()
     entries = data_registry.by_status("integrated")
 
-    checked_at = _utcnow_iso()
+    checked_at = utcnow_iso()
     checked = ok_count = 0
     transitions: List[dict] = []
     for entry in entries:

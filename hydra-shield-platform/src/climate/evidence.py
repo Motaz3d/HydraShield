@@ -29,8 +29,13 @@ from typing import Any, Dict, Optional
 from .ontology import ClaimStatus, Confidence, EvidenceClass, TemporalClass
 
 
-def _utcnow_iso() -> str:
+def utcnow_iso() -> str:
+    """UTC timestamp (ISO-8601, ``Z`` suffix) — the single clock shared by
+    every engine and API layer. Import this; never re-declare it."""
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+_utcnow_iso = utcnow_iso  # legacy private alias
 
 
 def content_hash(payload: Any) -> str:

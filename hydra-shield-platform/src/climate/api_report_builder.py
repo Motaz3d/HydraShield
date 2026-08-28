@@ -180,6 +180,14 @@ def export_pdf():
     except Exception as exc:
         return _err(f"PDF generation failed: {exc}", 502)
 
+    from ..dashboard.auth_api import record_user_report
+
+    record_user_report(
+        meta["kind"] or "custom", "multi", meta.get("lat"), meta.get("lon"),
+        {"title": title, "draft_id": meta["draft_id"]},
+        {"edited_count": edited_count, "ai_polished_count": ai_polished_count},
+    )
+
     safe = "".join(c if c.isalnum() else "_" for c in title)[:40]
     return Response(
         pdf,

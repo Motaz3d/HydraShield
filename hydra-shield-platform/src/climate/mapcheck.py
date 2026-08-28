@@ -20,7 +20,7 @@ from typing import Any, Dict, List, Optional, Set
 from ..dashboard.exposure import _post_overpass
 from ..dashboard.real_data import fetch_satellite_data
 from ..gis_mapping.landcover import fetch_landcover
-from .evidence import EvidenceRecord, content_hash
+from .evidence import EvidenceRecord, content_hash, utcnow_iso
 
 # Verdict vocabulary — never use absolute "error" wording.
 VERDICT_CONSISTENT = "consistent"
@@ -61,10 +61,6 @@ HONESTY_CONTRACT = (
     "to consistent, discrepancy_detected, or cannot_assess. No absolute claim "
     "of map error is made."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _current_year() -> int:
@@ -479,7 +475,7 @@ def check_map_vs_satellite(lat: float, lon: float, radius_m: int = 300) -> Dict[
         return {
             "check_id": content_hash({"lat": lat, "lon": lon, "radius_m": radius_m})[:16],
             "location": {"lat": lat, "lon": lon, "radius_m": radius_m},
-            "generated_at": _utcnow_iso(),
+            "generated_at": utcnow_iso(),
             "status": "unavailable",
             "checks": [],
             "discrepancies_count": 0,
@@ -503,7 +499,7 @@ def check_map_vs_satellite(lat: float, lon: float, radius_m: int = 300) -> Dict[
         return {
             "check_id": content_hash({"lat": lat, "lon": lon, "radius_m": radius_m})[:16],
             "location": {"lat": lat, "lon": lon, "radius_m": radius_m},
-            "generated_at": _utcnow_iso(),
+            "generated_at": utcnow_iso(),
             "status": "degraded",
             "checks": [check_b],
             "discrepancies_count": discrepancies,
@@ -531,7 +527,7 @@ def check_map_vs_satellite(lat: float, lon: float, radius_m: int = 300) -> Dict[
     return {
         "check_id": content_hash({"lat": lat, "lon": lon, "radius_m": radius_m})[:16],
         "location": {"lat": lat, "lon": lon, "radius_m": radius_m},
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "status": "ok",
         "checks": checks,
         "discrepancies_count": discrepancies,

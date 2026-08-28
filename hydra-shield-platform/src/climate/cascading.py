@@ -33,11 +33,11 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Sequence
 
 from ..dashboard.cache import cached
 from .compound import extract_light_signals
+from .evidence import utcnow_iso
 from .exposure_econ import build_economic_exposure
 from .ontology import Confidence, EvidenceClass
 
@@ -65,10 +65,6 @@ _INSUFFICIENT_EXPOSURE_STATEMENT = (
 
 _MAX_PATH_EDGES = 3        # hazard -> system -> system -> system
 _MAX_PATHS_PER_HAZARD = 40
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 # ---------------------------------------------------------------------------
@@ -348,7 +344,7 @@ def assess_cascading(
     return {
         "status": status,
         "location": {"lat": lat, "lon": lon},
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "active_hazards": [
             {
                 "hazard": hid,

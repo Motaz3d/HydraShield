@@ -32,7 +32,7 @@ from typing import Any, Dict, List, Optional
 from ..dashboard.real_data import fetch_satellite_data
 from ..gis_mapping.forest_loss import fetch_forest_loss
 from ..gis_mapping.landcover import fetch_landcover
-from .evidence import EvidenceRecord, content_hash
+from .evidence import EvidenceRecord, content_hash, utcnow_iso
 
 ENGINE_VERSION = "1.0.0"
 EUDR_CUTOFF_DATE = "2020-12-31"
@@ -123,10 +123,6 @@ HONESTY_CONTRACT = (
     "snapshot, reports when Sentinel-2 or GFC is unavailable, and never "
     "claims EUDR compliance or deforestation-free status."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def _safe_float(value: Any) -> Optional[float]:
@@ -512,7 +508,7 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
         "commodity_advisory": commodity_advisory,
         "country": country,
         "supplier_declaration": SUPPLIER_DECLARATION,
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "frameworks": SUPPLY_CHAIN_FRAMEWORKS,
         "eudr_cutoff_date": EUDR_CUTOFF_DATE,

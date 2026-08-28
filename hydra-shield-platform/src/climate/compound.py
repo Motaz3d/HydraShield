@@ -39,11 +39,11 @@ number). It is wired into the assessment as the ``dependence`` block.
 
 from __future__ import annotations
 
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, timedelta
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from ..dashboard.cache import cached
-from .evidence import EvidenceRecord
+from .evidence import EvidenceRecord, utcnow_iso
 from .hazards import _series
 from .ontology import ClaimStatus, Confidence, EvidenceClass, TemporalClass
 
@@ -109,10 +109,6 @@ _TYPOLOGY_BASIS = (
     "windows used here are declared Talaix screening choices, not "
     "parameters from the paper."
 )
-
-
-def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 # ---------------------------------------------------------------------------
@@ -454,7 +450,7 @@ def extract_light_signals(
 
     return {
         "location": {"lat": lat, "lon": lon},
-        "generated_at": _utcnow_iso(),
+        "generated_at": utcnow_iso(),
         "as_of": as_of,
         "signals": signals,
         "hazards_unavailable": unavailable,
