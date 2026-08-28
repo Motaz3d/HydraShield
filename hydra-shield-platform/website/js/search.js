@@ -242,6 +242,19 @@
     // Rendering
     // -----------------------------------------------------------------------
 
+    function contextHtml() {
+        /* On an empty query the palette opens with the same assist model as
+         * every search box: where you are searching from + a tip. */
+        var last = (typeof HS !== 'undefined' && HS.lastLocation) ? HS.lastLocation() : null;
+        var from = (last && (last.name || last.lat != null))
+            ? '📍 ' + esc(last.name || (last.lat + ', ' + last.lon))
+            : 'No recent location yet — search a place to set one.';
+        return '<div class="search-context">' +
+            '<div class="search-context-from">Searching from: <strong>' + from + '</strong></div>' +
+            '<div class="search-context-tip">Tip: type a place, a hazard, a portal — or press ↑↓ and Enter to open the first result.</div>' +
+            '</div>';
+    }
+
     function render(query) {
         _filteredItems = filterIndex(_allItems, query);
         if (query && query.trim() && _filteredItems.length === 0) {
@@ -256,6 +269,8 @@
             return;
         }
 
+        var context = (!query || !query.trim()) ? contextHtml() : '';
+
         var groups = {};
         _filteredItems.forEach(function (item, idx) {
             groups[item.group] = groups[item.group] || [];
@@ -263,7 +278,7 @@
             groups[item.group].push(item);
         });
 
-        var html = '';
+        var html = context;
         GROUP_ORDER.forEach(function (g) {
             if (!groups[g]) return;
             html += '<div class="search-group">' +
