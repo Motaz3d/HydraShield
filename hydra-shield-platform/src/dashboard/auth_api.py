@@ -16,6 +16,9 @@ JSON contract.
     GET/POST /api/v2/account/locations · DELETE /api/v2/account/locations/<id>
     GET  /api/v2/account/history
     GET/POST /api/v2/account/alerts · DELETE /api/v2/account/alerts/<id>
+    GET/POST /api/v2/account/portfolios · GET/DELETE /api/v2/account/portfolios/<id>
+    POST /api/v2/account/portfolios/<id>/items
+    DELETE /api/v2/account/portfolios/<id>/items/<item_id>
     GET  /api/v2/account/subscription · POST /api/v2/account/subscribe
     POST /api/v2/account/unsubscribe
     POST /api/v2/account/api-keys (subscriber) · GET /api/v2/account/api-keys
@@ -134,6 +137,34 @@ def _unauthorized():
     if getattr(g, "api_key_mutation_blocked", False):
         return _err("API keys are read-only", 403)
     return _err("Authentication required", 401)
+
+
+def record_user_analysis(hazard, lat, lon, params=None, summary=None) -> None:
+    """Record an analysis run in the signed-in user's history.
+
+    No-op for anonymous callers. History is an audit trail: it must NEVER
+    break the analysis path, so every failure is swallowed here.
+    """
+    try:
+        user = current_user()
+        if user:
+            UserStore().record_analysis(user["id"], hazard, lat, lon, params, summary)
+    except Exception:  # noqa: BLE001 — audit trail, never a failure path
+        pass
+
+
+def record_user_report(report_type, hazard, lat, lon, params=None, report_meta=None) -> None:
+    """Record a generated report in the signed-in user's history.
+
+    No-op for anonymous callers. History is an audit trail: it must NEVER
+    break the report path, so every failure is swallowed here.
+    """
+    try:
+        user = current_user()
+        if user:
+            UserStore().record_report(user["id"], report_type, hazard, lat, lon, params, report_meta)
+    except Exception:  # noqa: BLE001 — audit trail, never a failure path
+        pass
 
 
 def require_role(role: str):
@@ -540,6 +571,92 @@ def delete_alert(alert_id: int):
     if UserStore().delete_alert(g.current_user["id"], alert_id):
         return jsonify({"deleted": True})
     return _err("Alert not found", 404)
+
+
+@auth_bp.get("/account/portfolios")
+@require_role("registered")
+def list_portfolios():
+    return jsonify({"portfolios": UserStore().list_portfolios(g.current_user["id"])})
+
+
+@auth_bp.post("/account/portfolios")
+@require_role("registered")
+def create_portfolio():
+    user = g.current_user
+    if not _tier_rate(user, "v2_portfolios"):
+        return _err("Rate limit exceeded for your tier", 429)
+    data = request.get_json(silent=True) or {}
+    store = UserStore()
+    if len(store.list_portfolios(user["id"])) >= 25:
+        return _err("Portfolio limit reached (25)", 403, upgrade={
+            "required_role": "subscriber",
+            "your_role": user["role"],
+            "unlocks": "Higher portfolio limits.",
+        })
+    result = store.add_portfolio(
+        user["id"],
+        data.get("name"),
+        goal=data.get("goal"),
+        region_name=data.get("region_name"),
+        start_date=data.get("start_date"),
+        end_date=data.get("end_date"),
+    )
+    if "error" in result:
+        return _err(result["error"], 400)
+    return jsonify({"portfolio": result}), 201
+
+
+@auth_bp.get("/account/portfolios/<int:portfolio_id>")
+@require_role("registered")
+def get_portfolio(portfolio_id: int):
+    portfolio = UserStore().get_portfolio(g.current_user["id"], portfolio_id)
+    if portfolio is None:
+        return _err("Portfolio not found", 404)
+    return jsonify({"portfolio": portfolio})
+
+
+@auth_bp.delete("/account/portfolios/<int:portfolio_id>")
+@require_role("registered")
+def delete_portfolio(portfolio_id: int):
+    if UserStore().delete_portfolio(g.current_user["id"], portfolio_id):
+        return jsonify({"deleted": True})
+    return _err("Portfolio not found", 404)
+
+
+@auth_bp.post("/account/portfolios/<int:portfolio_id>/items")
+@require_role("registered")
+def add_portfolio_item(portfolio_id: int):
+    user = g.current_user
+    if not _tier_rate(user, "v2_portfolios"):
+        return _err("Rate limit exceeded for your tier", 429)
+    data = request.get_json(silent=True) or {}
+    lat, lon = data.get("lat"), data.get("lon")
+    try:
+        lat = float(lat) if lat is not None else None
+        lon = float(lon) if lon is not None else None
+    except (TypeError, ValueError):
+        return _err("lat and lon must be numbers", 400)
+    result = UserStore().add_portfolio_item(
+        user["id"],
+        portfolio_id,
+        data.get("kind"),
+        ref_id=data.get("ref_id"),
+        lat=lat,
+        lon=lon,
+        meta=data.get("meta"),
+    )
+    if "error" in result:
+        code = 404 if result["error"] == "Portfolio not found" else 400
+        return _err(result["error"], code)
+    return jsonify({"item": result}), 201
+
+
+@auth_bp.delete("/account/portfolios/<int:portfolio_id>/items/<int:item_id>")
+@require_role("registered")
+def delete_portfolio_item(portfolio_id: int, item_id: int):
+    if UserStore().delete_portfolio_item(g.current_user["id"], portfolio_id, item_id):
+        return jsonify({"deleted": True})
+    return _err("Portfolio item not found", 404)
 
 
 # ---------------------------------------------------------------------------

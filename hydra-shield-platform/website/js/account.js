@@ -117,6 +117,7 @@
             loadSubscription();
             loadApiKeys();
             loadLocations();
+            loadPortfolios();
             loadAlerts();
             loadHistory();
             loadHazards();
@@ -503,6 +504,136 @@
                 status('', '');
                 el('locName').value = ''; el('locLat').value = ''; el('locLon').value = '';
                 loadLocations();
+            });
+        });
+    }
+
+    // ------------------------------------------------------------------
+    // Portfolios — geographic + temporal + goal work containers
+    // ------------------------------------------------------------------
+
+    function loadPortfolios() {
+        fetchJSON(API + '/v2/account/portfolios').then(function (res) {
+            if (res.status === 401) { showView(false); return; }
+            if (!res.ok) {
+                el('portfoliosList').innerHTML =
+                    '<div class="notice notice-error">Portfolios unavailable: ' +
+                    esc(res.body.error || '') + '</div>';
+                return;
+            }
+            renderPortfolios(res.body.portfolios || []);
+        }).catch(function () {
+            el('portfoliosList').innerHTML =
+                '<div class="notice notice-error">Portfolios could not be loaded.</div>';
+        });
+    }
+
+    function renderPortfolios(list) {
+        el('portfolioDetail').innerHTML = '';
+        if (!list.length) {
+            el('portfoliosList').innerHTML =
+                '<div class="notice notice-empty">No portfolios yet. Create one to keep ' +
+                'related analyses, reports and alerts in one context.</div>';
+            return;
+        }
+        el('portfoliosList').innerHTML =
+            '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Name</th><th>Goal</th><th>Region</th><th>Period</th><th>Items</th><th></th></tr>' +
+            '</thead><tbody>' +
+            list.map(function (p) {
+                var period = (p.start_date || '…') + ' → ' + (p.end_date || '…');
+                return '<tr><td><a class="text-link" href="#" data-view-portfolio="' + p.id + '">' +
+                    esc(p.name) + '</a></td>' +
+                    '<td>' + esc(p.goal || '—') + '</td>' +
+                    '<td>' + esc(p.region_name || '—') + '</td>' +
+                    '<td class="muted small">' + esc(period) + '</td>' +
+                    '<td>' + esc(String(p.item_count || 0)) + '</td>' +
+                    '<td><button class="btn-action btn-quiet" data-del-portfolio="' + p.id + '">Delete</button></td></tr>';
+            }).join('') + '</tbody></table></div>';
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-del-portfolio]'), function (btn) {
+                btn.addEventListener('click', function () {
+                    fetchJSON(API + '/v2/account/portfolios/' + btn.getAttribute('data-del-portfolio'),
+                        { method: 'DELETE' }).then(loadPortfolios);
+                });
+            });
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-view-portfolio]'), function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    loadPortfolioDetail(link.getAttribute('data-view-portfolio'));
+                });
+            });
+    }
+
+    function loadPortfolioDetail(id) {
+        fetchJSON(API + '/v2/account/portfolios/' + id).then(function (res) {
+            if (!res.ok) {
+                el('portfolioDetail').innerHTML =
+                    '<div class="notice notice-error">Portfolio could not be loaded.</div>';
+                return;
+            }
+            renderPortfolioDetail(res.body.portfolio);
+        });
+    }
+
+    function renderPortfolioDetail(p) {
+        var items = (p && p.items) || [];
+        var html = '<h3>' + esc(p.name) + ' — items</h3>';
+        if (!items.length) {
+            html += '<div class="notice notice-empty">Nothing saved here yet. Save analyses ' +
+                'from the map or reports from the report builder.</div>';
+        } else {
+            html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>When</th><th>Kind</th><th>Where</th><th>Note</th><th></th></tr></thead><tbody>' +
+                items.map(function (i) {
+                    var where = (i.lat != null && i.lon != null)
+                        ? '<a class="text-link" href="map.html?location=' +
+                          encodeURIComponent(i.lat + ',' + i.lon) + '">' +
+                          esc(Number(i.lat).toFixed(3)) + ', ' + esc(Number(i.lon).toFixed(3)) + '</a>'
+                        : '—';
+                    var meta = i.meta || {};
+                    var note = meta.summary || meta.report_id || meta.name || '';
+                    return '<tr><td class="muted small">' +
+                        esc((i.created_at || '').slice(0, 16).replace('T', ' ')) + '</td>' +
+                        '<td>' + esc(i.kind) + '</td>' +
+                        '<td>' + where + '</td>' +
+                        '<td class="muted small">' + esc(note) + '</td>' +
+                        '<td><button class="btn-action btn-quiet" data-del-pf-item="' + i.id +
+                        '" data-pf="' + p.id + '">Remove</button></td></tr>';
+                }).join('') + '</tbody></table></div>';
+        }
+        el('portfolioDetail').innerHTML = html;
+        Array.prototype.forEach.call(
+            document.querySelectorAll('[data-del-pf-item]'), function (btn) {
+                btn.addEventListener('click', function () {
+                    fetchJSON(API + '/v2/account/portfolios/' + btn.getAttribute('data-pf') +
+                        '/items/' + btn.getAttribute('data-del-pf-item'),
+                        { method: 'DELETE' }).then(function () {
+                            loadPortfolioDetail(btn.getAttribute('data-pf'));
+                            loadPortfolios();
+                        });
+                });
+            });
+    }
+
+    function wirePortfolios() {
+        el('addPfBtn').addEventListener('click', function () {
+            postJSON(API + '/v2/account/portfolios', {
+                name: el('pfName').value || undefined,
+                goal: el('pfGoal').value || undefined,
+                region_name: el('pfRegion').value || undefined,
+                start_date: el('pfStart').value || undefined,
+                end_date: el('pfEnd').value || undefined
+            }).then(function (res) {
+                if (!res.ok) {
+                    status('error', (res.body && res.body.error) || 'Could not create the portfolio.');
+                    return;
+                }
+                status('', '');
+                el('pfName').value = ''; el('pfRegion').value = '';
+                el('pfGoal').value = ''; el('pfStart').value = ''; el('pfEnd').value = '';
+                loadPortfolios();
             });
         });
     }
@@ -1072,6 +1203,7 @@
         wireSubscription();
         wireApiKeys();
         wireLocations();
+        wirePortfolios();
         wireAlerts();
         wireSms();
         prefillRuleFromUrl();

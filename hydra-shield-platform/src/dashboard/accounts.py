@@ -230,6 +230,26 @@ class UserStore:
                     meta_json TEXT,
                     created_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS portfolios (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    name TEXT NOT NULL,
+                    goal TEXT,
+                    region_name TEXT,
+                    start_date TEXT,
+                    end_date TEXT,
+                    created_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS portfolio_items (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    portfolio_id INTEGER NOT NULL,
+                    kind TEXT NOT NULL,
+                    ref_id INTEGER,
+                    lat REAL,
+                    lon REAL,
+                    meta_json TEXT,
+                    created_at TEXT NOT NULL
+                );
                 """
             )
 
@@ -870,6 +890,143 @@ class UserStore:
                 for r in reports
             ],
         }
+
+    # ------------------------------------------------------------------
+    # Portfolios — per-user work containers in a geographic + temporal +
+    # goal context (continuity of analyses, reports, locations, alerts)
+    # ------------------------------------------------------------------
+
+    PORTFOLIO_ITEM_KINDS = frozenset({"location", "analysis", "report", "alert"})
+
+    def add_portfolio(
+        self,
+        user_id: int,
+        name: str,
+        goal: Optional[str] = None,
+        region_name: Optional[str] = None,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+    ) -> Dict:
+        name = (name or "").strip()[:200]
+        if not name:
+            return {"error": "A portfolio name is required"}
+        goal = (goal or "").strip()[:80] or None
+        region_name = (region_name or "").strip()[:200] or None
+        start_date = (start_date or "").strip()[:10] or None
+        end_date = (end_date or "").strip()[:10] or None
+        if start_date and end_date and start_date > end_date:
+            return {"error": "start_date must not be after end_date"}
+        with self._lock, self._connect() as conn:
+            cur = conn.execute(
+                "INSERT INTO portfolios"
+                " (user_id, name, goal, region_name, start_date, end_date, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (user_id, name, goal, region_name, start_date, end_date, _utcnow()),
+            )
+            pid = cur.lastrowid
+        return {
+            "id": pid, "name": name, "goal": goal, "region_name": region_name,
+            "start_date": start_date, "end_date": end_date, "item_count": 0,
+        }
+
+    def list_portfolios(self, user_id: int) -> List[Dict]:
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT p.id, p.name, p.goal, p.region_name, p.start_date, p.end_date,"
+                " p.created_at, COUNT(i.id) AS item_count"
+                " FROM portfolios p"
+                " LEFT JOIN portfolio_items i ON i.portfolio_id = p.id"
+                " WHERE p.user_id = ? GROUP BY p.id ORDER BY p.id",
+                (user_id,),
+            ).fetchall()
+        return [
+            {"id": r[0], "name": r[1], "goal": r[2], "region_name": r[3],
+             "start_date": r[4], "end_date": r[5], "created_at": r[6],
+             "item_count": r[7]}
+            for r in rows
+        ]
+
+    def _owned_portfolio(self, conn, user_id: int, portfolio_id: int):
+        return conn.execute(
+            "SELECT id, name, goal, region_name, start_date, end_date, created_at"
+            " FROM portfolios WHERE id = ? AND user_id = ?",
+            (portfolio_id, user_id),
+        ).fetchone()
+
+    def get_portfolio(self, user_id: int, portfolio_id: int) -> Optional[Dict]:
+        with self._lock, self._connect() as conn:
+            row = self._owned_portfolio(conn, user_id, portfolio_id)
+            if row is None:
+                return None
+            items = conn.execute(
+                "SELECT id, kind, ref_id, lat, lon, meta_json, created_at"
+                " FROM portfolio_items WHERE portfolio_id = ? ORDER BY id",
+                (portfolio_id,),
+            ).fetchall()
+        return {
+            "id": row[0], "name": row[1], "goal": row[2], "region_name": row[3],
+            "start_date": row[4], "end_date": row[5], "created_at": row[6],
+            "items": [
+                {"id": i[0], "kind": i[1], "ref_id": i[2], "lat": i[3], "lon": i[4],
+                 "meta": json.loads(i[5] or "{}"), "created_at": i[6]}
+                for i in items
+            ],
+        }
+
+    def delete_portfolio(self, user_id: int, portfolio_id: int) -> bool:
+        with self._lock, self._connect() as conn:
+            if self._owned_portfolio(conn, user_id, portfolio_id) is None:
+                return False
+            conn.execute(
+                "DELETE FROM portfolio_items WHERE portfolio_id = ?", (portfolio_id,))
+            conn.execute(
+                "DELETE FROM portfolios WHERE id = ? AND user_id = ?",
+                (portfolio_id, user_id),
+            )
+            return True
+
+    def add_portfolio_item(
+        self,
+        user_id: int,
+        portfolio_id: int,
+        kind: str,
+        ref_id: Optional[int] = None,
+        lat: Optional[float] = None,
+        lon: Optional[float] = None,
+        meta: Optional[Dict] = None,
+    ) -> Dict:
+        kind = (kind or "").strip()[:40]
+        if kind not in self.PORTFOLIO_ITEM_KINDS:
+            return {"error": f"kind must be one of {sorted(self.PORTFOLIO_ITEM_KINDS)}"}
+        if (lat is None) != (lon is None):
+            return {"error": "lat and lon must be provided together"}
+        if lat is not None and not (-90.0 <= float(lat) <= 90.0 and -180.0 <= float(lon) <= 180.0):
+            return {"error": "lat/lon out of range"}
+        with self._lock, self._connect() as conn:
+            if self._owned_portfolio(conn, user_id, portfolio_id) is None:
+                return {"error": "Portfolio not found"}
+            cur = conn.execute(
+                "INSERT INTO portfolio_items"
+                " (portfolio_id, kind, ref_id, lat, lon, meta_json, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (portfolio_id, kind, ref_id,
+                 float(lat) if lat is not None else None,
+                 float(lon) if lon is not None else None,
+                 json.dumps(meta or {}, default=str)[:4000], _utcnow()),
+            )
+            item_id = cur.lastrowid
+        return {"id": item_id, "portfolio_id": portfolio_id, "kind": kind,
+                "ref_id": ref_id, "lat": lat, "lon": lon, "meta": meta or {}}
+
+    def delete_portfolio_item(self, user_id: int, portfolio_id: int, item_id: int) -> bool:
+        with self._lock, self._connect() as conn:
+            if self._owned_portfolio(conn, user_id, portfolio_id) is None:
+                return False
+            cur = conn.execute(
+                "DELETE FROM portfolio_items WHERE id = ? AND portfolio_id = ?",
+                (item_id, portfolio_id),
+            )
+            return cur.rowcount > 0
 
     def log_usage(self, user_id: Optional[int], endpoint: str, meta: Optional[Dict] = None) -> None:
         with self._lock, self._connect() as conn:

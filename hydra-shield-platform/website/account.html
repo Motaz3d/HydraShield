@@ -197,6 +197,37 @@
                 </div>
 
                 <div class="panel">
+                    <h2>Portfolios</h2>
+                    <p class="muted small">A portfolio groups your locations, analyses,
+                       reports and alerts around one goal, region and period — so ongoing
+                       work keeps its context.</p>
+                    <div id="portfoliosList"></div>
+                    <div id="portfolioDetail"></div>
+                    <h3>Create a portfolio</h3>
+                    <div class="toolbar">
+                        <div class="form-group"><label for="pfName">Name</label>
+                            <input type="text" id="pfName" placeholder="e.g. Iberia insurance review"></div>
+                        <div class="form-group narrow"><label for="pfGoal">Goal</label>
+                            <select id="pfGoal">
+                                <option value="">—</option>
+                                <option value="insurance_review">Insurance review</option>
+                                <option value="csrd">CSRD / sustainability</option>
+                                <option value="supply_chain">Supply chain</option>
+                                <option value="investment">Investment</option>
+                                <option value="research">Research</option>
+                                <option value="monitoring">Monitoring</option>
+                            </select></div>
+                        <div class="form-group"><label for="pfRegion">Region</label>
+                            <input type="text" id="pfRegion" placeholder="e.g. Andalusia"></div>
+                        <div class="form-group narrow"><label for="pfStart">From</label>
+                            <input type="date" id="pfStart"></div>
+                        <div class="form-group narrow"><label for="pfEnd">To</label>
+                            <input type="date" id="pfEnd"></div>
+                        <button class="btn-action" id="addPfBtn">Create portfolio</button>
+                    </div>
+                </div>
+
+                <div class="panel">
                     <h2>Alerts</h2>
                     <p class="muted small">We re-analyse a watched location periodically and
                        email you when the level crosses your threshold.</p>

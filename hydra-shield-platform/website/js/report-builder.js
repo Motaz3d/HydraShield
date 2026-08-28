@@ -326,6 +326,43 @@
         el('editSummary').textContent = edited + ' of ' + sections.length + ' section' + (sections.length === 1 ? '' : 's') + ' edited — marked in the PDF.';
     }
 
+    function offerPortfolioSave(payload) {
+        var row = el('portfolioRow');
+        fetchJSON(API + '/v2/account/portfolios').then(function (res) {
+            if (!res.ok) return;  // anonymous or unavailable — row stays hidden
+            var portfolios = res.body.portfolios || [];
+            if (!portfolios.length) return;
+            row.style.display = '';
+            el('pfSelect').innerHTML = portfolios.map(function (p) {
+                return '<option value="' + p.id + '">' + esc(p.name) + '</option>';
+            }).join('');
+            el('pfSaveBtn').onclick = function () {
+                el('pfSaveBtn').disabled = true;
+                fetchJSON(API + '/v2/account/portfolios/' + el('pfSelect').value + '/items', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        kind: 'report',
+                        lat: payload.lat != null ? payload.lat : null,
+                        lon: payload.lon != null ? payload.lon : null,
+                        meta: {
+                            title: payload.title,
+                            report_type: payload.kind || 'custom',
+                            draft_id: payload.draft_id || null
+                        }
+                    })
+                }).then(function (res2) {
+                    el('pfSaveBtn').disabled = false;
+                    el('pfSaveNote').textContent = res2.ok
+                        ? 'Saved to the portfolio ✓' : 'Could not save the draft.';
+                }).catch(function () {
+                    el('pfSaveBtn').disabled = false;
+                    el('pfSaveNote').textContent = 'Could not save the draft.';
+                });
+            };
+        });
+    }
+
     function downloadPdf() {
         if (!draft) return;
         el('downloadPdfBtn').disabled = true;
@@ -377,6 +414,7 @@
                 a.remove();
                 URL.revokeObjectURL(url);
                 clearStatus('editorStatus');
+                offerPortfolioSave(payload);
             });
         }).catch(function () {
             el('downloadPdfBtn').disabled = false;

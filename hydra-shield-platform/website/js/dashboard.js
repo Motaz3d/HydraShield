@@ -38,6 +38,12 @@
         return v + (unit || '');
     }
 
+    function esc(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
     function riskColor(cls) {
         return { Low: '#22c55e', Moderate: '#eab308', High: '#f97316', Extreme: '#ef4444' }[cls] || '#94a3b8';
     }
@@ -191,6 +197,74 @@
             : '';
         el('foundPanel').classList.remove('hidden');
         el('foundPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        renderPortfolioSave(r);
+    }
+
+    // ------------------------------------------------------------------
+    // Save-to-portfolio (signed-in users; hidden for anonymous)
+    // ------------------------------------------------------------------
+    function renderPortfolioSave(r) {
+        var card = el('portfolioCard');
+        var box = el('portfolioSave');
+        fetch(API + '/v2/account/portfolios')
+            .then(function (resp) {
+                return resp.json().then(function (j) { return { status: resp.status, body: j }; });
+            })
+            .then(function (res) {
+                if (res.status === 401 || res.status === 403) {
+                    card.classList.remove('hidden');
+                    box.innerHTML = '<span style="color:var(--muted)">Sign in to save this ' +
+                        'analysis into a portfolio and keep working on it.</span> ' +
+                        '<a class="text-link" href="account.html?next=/dashboard.html">Sign in</a>';
+                    return;
+                }
+                if (!res.ok) { return; }
+                var portfolios = res.body.portfolios || [];
+                if (!portfolios.length) {
+                    card.classList.remove('hidden');
+                    box.innerHTML = '<span style="color:var(--muted)">No portfolios yet — ' +
+                        'create one on your <a class="text-link" href="account.html">account page</a>, ' +
+                        'then save this analysis to it.</span>';
+                    return;
+                }
+                var risk = ((r.analysis || {}).risk || {});
+                var summary = 'Risk: ' + (risk.class || '—') +
+                    ' (' + (risk.score != null ? risk.score : '—') + ')';
+                card.classList.remove('hidden');
+                box.innerHTML =
+                    '<div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">' +
+                    '<select id="pfSelect">' + portfolios.map(function (p) {
+                        return '<option value="' + p.id + '">' + esc(p.name) + '</option>';
+                    }).join('') + '</select>' +
+                    '<button class="hist-btn" id="pfSaveBtn" type="button">Save this analysis</button>' +
+                    '<span id="pfSaveNote" style="color:var(--muted);font-size:.85rem;"></span></div>';
+                el('pfSaveBtn').addEventListener('click', function () {
+                    var pid = el('pfSelect').value;
+                    el('pfSaveBtn').disabled = true;
+                    fetch(API + '/v2/account/portfolios/' + pid + '/items', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            kind: 'analysis',
+                            lat: r.location.latitude,
+                            lon: r.location.longitude,
+                            meta: {
+                                summary: summary,
+                                hazard: 'wildfire',
+                                name: r.location.name || null
+                            }
+                        })
+                    }).then(function (resp) {
+                        el('pfSaveBtn').disabled = false;
+                        el('pfSaveNote').textContent = resp.ok
+                            ? 'Saved to the portfolio ✓' : 'Could not save the analysis.';
+                    }).catch(function () {
+                        el('pfSaveBtn').disabled = false;
+                        el('pfSaveNote').textContent = 'Could not save the analysis.';
+                    });
+                });
+            })
+            .catch(function () { /* portfolio hint is optional */ });
     }
 
     function renderFoundSummary(r) {

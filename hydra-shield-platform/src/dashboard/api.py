@@ -379,6 +379,15 @@ def create_app() -> Flask:
                 "quality": "ok",
                 "limitations": None,
             }
+        from .auth_api import record_user_analysis  # lazy: avoid circulars
+
+        risk = ((result.get("analysis") or {}).get("risk") or {})
+        record_user_analysis(
+            "wildfire", round(lat, 4), round(lon, 4),
+            {"location": location or None, "name": name},
+            {"risk_class": risk.get("class"), "risk_score": risk.get("score"),
+             "summary": f"Risk: {risk.get('class') or '—'} ({risk.get('score') or '—'})"},
+        )
         return jsonify(result)
 
     # ------------------------------------------------------------------
@@ -585,6 +594,14 @@ def create_app() -> Flask:
             )
         except Exception:
             pass
+
+        from .auth_api import record_user_report  # lazy: avoid circulars
+
+        record_user_report(
+            report_type, "wildfire", round(lat, 4), round(lon, 4),
+            {"location": location or None, "name": name, "history": bool(history)},
+            {"report_id": report_module.report_content_id(result, report_type)},
+        )
 
         from flask import Response
 
