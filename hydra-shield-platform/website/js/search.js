@@ -69,7 +69,7 @@
             { id: 'act-supplychain', label: 'Screen an origin claim (EUDR)', hint: 'Supply Chain', href: 'supplychain.html', group: 'Actions', keywords: ['supply', 'chain', 'eudr', 'origin', 'deforestation'] },
             { id: 'act-forensics', label: 'Open a forensic case', hint: 'Forensics', href: 'forensics.html', group: 'Actions', keywords: ['forensics', 'case', 'investigation'] },
             { id: 'act-reports', label: 'Compose a report', hint: 'Report Builder', href: 'report-builder.html', group: 'Actions', keywords: ['report', 'builder', 'compose'] },
-            { id: 'act-mapcheck', label: 'Map-vs-satellite check', hint: 'Map Check', href: 'mapcheck.html', group: 'Actions', keywords: ['mapcheck', 'satellite', 'osm', 'verify map'] },
+            { id: 'act-mapcheck', label: 'Map-vs-satellite check', hint: 'Map Check', href: 'map.html?mode=check', group: 'Actions', keywords: ['mapcheck', 'satellite', 'osm', 'verify map'] },
             { id: 'act-academy', label: 'Take the Academy course', hint: 'Learn', href: 'academy.html', group: 'Actions', keywords: ['academy', 'course', 'learn', 'training'] },
             { id: 'act-briefs', label: 'Read evidence briefs', hint: 'Knowledge', href: 'briefs.html', group: 'Actions', keywords: ['briefs', 'evidence', 'knowledge', 'articles'] }
         ];
@@ -105,7 +105,7 @@
             id: 'loc-mapcheck',
             label: 'Map Check ' + displayName,
             hint: 'Last analysed location',
-            href: 'mapcheck.html?location=' + param,
+            href: 'map.html?mode=check&location=' + param,
             group: 'Location',
             keywords: ['mapcheck', displayName]
         });

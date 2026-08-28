@@ -70,7 +70,6 @@
         },
         {
             id: 'explore', label: 'Explore', children: [
-                { id: 'mapcheck', href: 'mapcheck.html', label: 'Map Check' },
                 { id: 'events', href: 'events.html', label: 'Events' },
                 { id: 'funding', href: 'funding.html', label: 'Funding' },
                 { id: 'economy', href: 'economy.html', label: 'Economy' }
@@ -105,7 +104,7 @@
     var FOOTER_GROUPS = [
         {
             heading: 'Analyze', items: [
-                'intelligence', 'map', 'mapcheck', 'events', 'economy'
+                'intelligence', 'map', 'events', 'economy'
             ]
         },
         { heading: 'Solutions', items: PRIMARY[2].columns[0].children },

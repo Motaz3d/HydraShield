@@ -44,6 +44,9 @@ talaix.com {
 	# The full wildfire pipeline merged into intelligence.html (wildfire
 	# tab); the standalone dashboard page is gone.
 	redir /dashboard.html /intelligence.html permanent
+
+	# Map Check merged into map.html as a mode; the standalone page is gone.
+	redir /mapcheck.html /map.html?mode=check permanent
 }
 
 # Live interactive Dash dashboard

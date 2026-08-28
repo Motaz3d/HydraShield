@@ -1682,6 +1682,36 @@ details.expander summary {
     inset: 0;
 }
 
+.map-mode-bar {
+    position: fixed;
+    top: 84px;
+    right: 16px;
+    z-index: 700;
+    display: flex;
+    gap: 4px;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px;
+    padding: 4px;
+    box-shadow: var(--shadow-sm);
+}
+
+.map-mode-bar .hazard-tab {
+    border: none;
+    background: transparent;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.map-mode-bar .hazard-tab.active {
+    background: var(--brand-navy, #1E2C4A);
+    color: #fff;
+}
+
 .map-sidebar-toggle {
     display: none;
     position: absolute;
@@ -1691,6 +1721,7 @@ details.expander summary {
     background: var(--white);
     border: 1px solid rgba(0,0,0,0.15);
     border-radius: var(--radius-sm);
+
     padding: 8px 14px;
     font-weight: 600;
     font-size: 0.85rem;

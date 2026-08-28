@@ -100,7 +100,7 @@ def test_search_js_contains_required_actions():
     assert "supplychain.html" in js
     assert "forensics.html" in js
     assert "report-builder.html" in js
-    assert "mapcheck.html" in js
+    assert "map.html?mode=check" in js
     assert "academy.html" in js
     assert "briefs.html" in js
 

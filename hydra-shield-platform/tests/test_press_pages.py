@@ -40,7 +40,6 @@ def test_sitemap_covers_press_surfaces():
     assert "https://talaix.com/press.html" in sitemap
     assert "https://talaix.com/industries.html" in sitemap
     assert "https://talaix.com/sector.html" in sitemap
-    assert "https://talaix.com/mapcheck.html" in sitemap
     assert "https://talaix.com/report-builder.html" in sitemap
 
 

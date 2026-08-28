@@ -1,4 +1,5 @@
-/* Talaix — Map Check page (mapcheck.html).
+/* Talaix — Map Check mode (map.html?mode=check; merged from the legacy
+ * mapcheck.html page).
  *
  * Cross-checks open map data against satellite observation and renders
  * per-check verdicts with possible causes, evidence details and honest
