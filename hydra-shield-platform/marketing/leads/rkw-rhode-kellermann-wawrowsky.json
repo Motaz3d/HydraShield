@@ -1,0 +1,52 @@
+{
+ "organization": "RKW Rhode Kellermann Wawrowsky",
+ "segment": "consultants",
+ "country": "DE",
+ "region": "",
+ "website": "http://www.rkw-as.de/",
+ "contact_type": "role_based_public",
+ "decision_maker_role": "Chief Sustainability Officer",
+ "identified_problem": "client engagements need defensible, source-cited climate evidence without days of manual research",
+ "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+ "potential_pain": "Needs traceable climate-risk evidence.",
+ "relevant_hazards": [
+  "flood",
+  "wildfire",
+  "heat",
+  "wind",
+  "coastal",
+  "drought"
+ ],
+ "commercial_signals": [],
+ "event_signals": [],
+ "evidence": "multi-hazard screening with source-attached results",
+ "relevant_capability": "audit-grade climate evidence for client deliverables (CSRD, EUDR, site assessments)",
+ "priority": "medium",
+ "recommended_product": "professional_report",
+ "recommended_message": "Offer RKW Rhode Kellermann Wawrowsky a focused pilot that pairs multi-hazard screening with source-attached results with traceable physical-risk evidence.",
+ "fit_score": "Organization with physical assets or responsibilities to screen.",
+ "urgency": "medium",
+ "outreach_status": "researched",
+ "status": "open",
+ "interactions": [
+  {
+   "date": "2026-08-28",
+   "type": "discovered",
+   "summary": "Discovered via Wikidata organization inventory (architectural firm).",
+   "source": "https://www.wikidata.org/wiki/Q1680991"
+  }
+ ],
+ "next_action": "Qualify: verify current public signal and select contact route",
+ "owner": "operator",
+ "source": "https://www.wikidata.org/wiki/Q1680991",
+ "date_checked": "2026-08-28",
+ "wikidata_id": "Q1680991",
+ "concepts": [
+  "architectural firm"
+ ],
+ "inventory_meta": {
+  "concept_label": "architectural firm",
+  "wikidata_id": "Q1680991",
+  "source_url": "https://www.wikidata.org/wiki/Q1680991"
+ }
+}

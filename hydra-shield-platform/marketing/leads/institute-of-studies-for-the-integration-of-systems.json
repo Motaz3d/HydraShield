@@ -1,0 +1,52 @@
+{
+ "organization": "Institute of Studies for the Integration of Systems",
+ "segment": "consultants",
+ "country": "IT",
+ "region": "",
+ "website": "http://www.isinnova.org/",
+ "contact_type": "role_based_public",
+ "decision_maker_role": "Chief Sustainability Officer",
+ "identified_problem": "client engagements need defensible, source-cited climate evidence without days of manual research",
+ "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+ "potential_pain": "Needs traceable climate-risk evidence.",
+ "relevant_hazards": [
+  "flood",
+  "wildfire",
+  "heat",
+  "wind",
+  "coastal",
+  "drought"
+ ],
+ "commercial_signals": [],
+ "event_signals": [],
+ "evidence": "multi-hazard screening with source-attached results",
+ "relevant_capability": "audit-grade climate evidence for client deliverables (CSRD, EUDR, site assessments)",
+ "priority": "medium",
+ "recommended_product": "professional_report",
+ "recommended_message": "Offer Institute of Studies for the Integration of Systems a focused pilot that pairs multi-hazard screening with source-attached results with traceable physical-risk evidence.",
+ "fit_score": "Organization with physical assets or responsibilities to screen.",
+ "urgency": "medium",
+ "outreach_status": "researched",
+ "status": "open",
+ "interactions": [
+  {
+   "date": "2026-08-28",
+   "type": "discovered",
+   "summary": "Discovered via Wikidata organization inventory (consulting company).",
+   "source": "https://www.wikidata.org/wiki/Q28533539"
+  }
+ ],
+ "next_action": "Qualify: verify current public signal and select contact route",
+ "owner": "operator",
+ "source": "https://www.wikidata.org/wiki/Q28533539",
+ "date_checked": "2026-08-28",
+ "wikidata_id": "Q28533539",
+ "concepts": [
+  "consulting company"
+ ],
+ "inventory_meta": {
+  "concept_label": "consulting company",
+  "wikidata_id": "Q28533539",
+  "source_url": "https://www.wikidata.org/wiki/Q28533539"
+ }
+}
