@@ -53,6 +53,15 @@ TARGETS: List[Dict[str, Any]] = [
     {"concept_label": "disaster management agency", "concept_hint": "disaster management agency", "segment": "governments", "apply_to": "ALL"},
     {"concept_label": "university", "concept_hint": "university", "segment": "research_centers", "apply_to": "ALL"},
     {"concept_label": "research institute", "concept_hint": "research institute", "segment": "research_centers", "apply_to": "ALL"},
+    # Consultants — the full professional-services field (engineering,
+    # management, audit, architecture), not only environmental boutiques.
+    # concept_hint is the wbsearchentities label resolved to a Q-id.
+    {"concept_label": "consulting company", "concept_hint": "consulting company", "segment": "consultants", "apply_to": "ALL"},
+    {"concept_label": "management consultancy", "concept_hint": "management consultancy", "segment": "consultants", "apply_to": "ALL"},
+    {"concept_label": "engineering firm", "concept_hint": "engineering firm", "segment": "consultants", "apply_to": "ALL"},
+    {"concept_label": "accounting firm", "concept_hint": "accounting firm", "segment": "consultants", "apply_to": "ALL"},
+    {"concept_label": "audit firm", "concept_hint": "audit firm", "segment": "consultants", "apply_to": "ALL"},
+    {"concept_label": "architectural firm", "concept_hint": "architectural firm", "segment": "consultants", "apply_to": "ALL"},
 ]
 
 # ISO-3166-1 alpha-2 → Wikidata English label (resolved to Q-id at runtime).
@@ -110,6 +119,7 @@ _SEGMENT_ROLE = {
     "real_estate": "Asset Manager",
     "governments": "Climate Policy Officer",
     "research_centers": "Research Director",
+    "consultants": "Chief Sustainability Officer",
 }
 
 _SEGMENT_PRODUCT = {
@@ -119,6 +129,7 @@ _SEGMENT_PRODUCT = {
     "real_estate": "professional_report",
     "governments": "organization_account",
     "research_centers": "organization_account",
+    "consultants": "professional_report",
 }
 
 _SEGMENT_CAPABILITY = {
@@ -128,6 +139,7 @@ _SEGMENT_CAPABILITY = {
     "real_estate": "site screening across six hazards with documented sources",
     "governments": "regional multi-hazard intelligence and annual reports",
     "research_centers": "reproducible, content-hashed hazard analysis and open registries",
+    "consultants": "audit-grade climate evidence for client deliverables (CSRD, EUDR, site assessments)",
 }
 
 _SEGMENT_PROBLEM = {
@@ -137,6 +149,7 @@ _SEGMENT_PROBLEM = {
     "real_estate": "site selection and disclosure need documented climate exposure with sources",
     "governments": "national and regional resilience planning needs traceable multi-hazard evidence",
     "research_centers": "reproducible research requires provenance-carrying analysis and open registries",
+    "consultants": "client engagements need defensible, source-cited climate evidence without days of manual research",
 }
 
 _SEGMENT_PAIN = {

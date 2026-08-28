@@ -740,6 +740,38 @@
       "outreach_style": "technical, collegial",
       "evidence_requirements": "methods + provenance + limitations"
     },
+    "consultants": {
+      "pain_points": [
+        "client engagements need defensible, source-cited climate evidence",
+        "physical-risk sections of deliverables take days of manual research"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal"
+      ],
+      "capabilities": [
+        "multi-hazard analysis",
+        "audit-grade evidence packs",
+        "API",
+        "QGIS integration (roadmap)"
+      ],
+      "decision_maker_roles": [
+        "Chief Sustainability Officer",
+        "CEO"
+      ],
+      "content_topics": [
+        "evidence-labelled analysis for professional-services deliverables",
+        "CSRD / EUDR physical-evidence layer"
+      ],
+      "offer": "professional analysis pilot",
+      "cta": "Analyze a client site",
+      "outreach_style": "technical, collegial",
+      "evidence_requirements": "methods + provenance + limitations"
+    },
     "engineering_firms": {
       "pain_points": [
         "design decisions need site hazard evidence",

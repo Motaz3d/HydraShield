@@ -100,6 +100,7 @@ _CATEGORY_ALIAS = {
     "sustainable_finance": "investment",
     "green_investment": "investment",
     "engineering_firms": "environmental_consulting",
+    "consultants": "environmental_consulting",
 }
 _CATEGORY_KEYS = [k for k, _ in _TARGET_SECTORS]
 

@@ -262,9 +262,11 @@ _TARGET_SECTORS = [
     ("real_estate", "Real estate"),
     ("governments", "Government"),
 ]
-# Municipal leads belong to the Government target sector.
+# Municipal leads belong to the Government target sector; the broad
+# professional-services "consultants" segment rolls up under Consultants.
 _SECTOR_ALIAS = {"municipalities": "governments",
-                 "municipal_climate_adaptation": "governments"}
+                 "municipal_climate_adaptation": "governments",
+                 "consultants": "environmental_consulting"}
 
 _STALE_DAYS = 30
 

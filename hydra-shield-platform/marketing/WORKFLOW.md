@@ -255,6 +255,11 @@ using the public Wikidata SPARQL endpoint, then feeds the marketing workspace.
 | Real estate | real estate company, real estate investment trust |
 | Governments | ministry of the environment, government agency, meteorological service, disaster management agency |
 | Research centers | university, research institute |
+| Consultants | consulting company, management consultancy, engineering firm, accounting firm, audit firm, architectural firm |
+
+Leads from the consultants sweep carry `segment: consultants` and roll up
+under the **Consultants** category in the CRM tree (alias in
+`marketing_crm._CATEGORY_ALIAS` / `admin_intel._SECTOR_ALIAS`).
 
 **Countries** (ISO-3166-1 alpha-2 codes):
 
@@ -356,3 +361,17 @@ risk), does not validate via MX lookup (`dnspython` is not a dependency yet),
 and does not use a global pre-built index like Hunter.io. It only reads pages
 on the supplied domain, so deep pages or sites that block bots will yield
 fewer contacts.
+
+**Bulk discovery.** `scripts/discover_contacts.py` runs the engine over the
+lead base — by default only leads that have an official website and no
+stored contacts yet:
+
+```
+.venv/bin/python scripts/discover_contacts.py --segment consultants --max 100 --sleep 2.0
+.venv/bin/python scripts/discover_contacts.py --country DE --max 50
+```
+
+Contacts are stored with `source: talaix-discovery` and their claim status
+(OBSERVED/INFERRED) preserved. With `AUTO_OUTREACH_ON_CONTACT=1`, genuinely
+new contacts are auto-queued for scheduled outreach — the same rule as
+`import_contacts.py`.
