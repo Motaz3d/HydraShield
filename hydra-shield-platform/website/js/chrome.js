@@ -45,7 +45,8 @@
                         { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
                         { id: 'reports', href: 'reports.html', label: 'Reports & Builder' },
                         { id: 'press', href: 'press.html', label: 'Press' },
-                        { id: 'sector', href: 'sector.html', label: 'Sector Exposure' }
+                        { id: 'sector', href: 'sector.html', label: 'Sector Exposure' },
+                        { id: 'solutions-hub', href: 'solutions.html', label: 'Hazard solutions' }
                     ]
                 },
                 {
@@ -71,7 +72,6 @@
             id: 'explore', label: 'Explore', children: [
                 { id: 'mapcheck', href: 'mapcheck.html', label: 'Map Check' },
                 { id: 'events', href: 'events.html', label: 'Events' },
-                { id: 'solutions-hub', href: 'solutions.html', label: 'Hazard solutions' },
                 { id: 'funding', href: 'funding.html', label: 'Funding' },
                 { id: 'economy', href: 'economy.html', label: 'Economy' }
             ]
@@ -91,6 +91,45 @@
             ALL_LINKS.push(item);
         }
     });
+
+    function linkById(id) {
+        for (var i = 0; i < ALL_LINKS.length; i++) {
+            if (ALL_LINKS[i].id === id) return ALL_LINKS[i];
+        }
+        return null;
+    }
+
+    /* Footer IA: the 26 services are grouped under four headed columns
+     * (Analyze / Solutions / By sector / Learn & company) instead of one
+     * flat list — the same headings the mega-menu uses. */
+    var FOOTER_GROUPS = [
+        {
+            heading: 'Analyze', items: [
+                'intelligence', 'map', 'dashboard-full', 'mapcheck', 'events', 'economy'
+            ]
+        },
+        { heading: 'Solutions', items: PRIMARY[2].columns[0].children },
+        { heading: 'By sector', items: PRIMARY[2].columns[1].children },
+        {
+            heading: 'Learn & company', items: [
+                'academy', 'briefs', 'funding', 'account-page'
+            ]
+        }
+    ];
+
+    var FOOTER_EXTRA = {
+        'dashboard-full': { id: 'dashboard-full', href: 'dashboard.html', label: 'Wildfire analysis (full)' },
+        'account-page': { id: 'account-page', href: 'account.html', label: 'Account' }
+    };
+
+    function footerGroupHtml(group) {
+        var items = group.items.map(function (entry) {
+            return typeof entry === 'string' ? (FOOTER_EXTRA[entry] || linkById(entry)) : entry;
+        }).filter(Boolean);
+        return '<div class="footer-links"><h4>' + group.heading + '</h4><ul>' +
+            items.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
+            '</ul></div>';
+    }
 
     var LEGACY = [
         { href: 'problem.html', label: 'The Problem' },
@@ -186,22 +225,9 @@
             'extremes, their consequences, their economic meaning, and the actions that ' +
             'reduce exposure. Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
-            '<div class="footer-links"><h4>Platform</h4><ul>' +
-            ALL_LINKS.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
-            '<li><a href="account.html">Account</a></li>' +
-            '<li><a href="dashboard.html">Wildfire analysis (full)</a></li>' +
-            '</ul></div>' +
+            FOOTER_GROUPS.map(footerGroupHtml).join('') +
             '<div class="footer-links"><h4>About</h4><ul>' +
             LEGACY.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
-            '</ul></div>' +
-            '<div class="footer-links"><h4>Solutions for</h4><ul>' +
-            '<li><a href="for-banks.html">Banks &amp; lenders</a></li>' +
-            '<li><a href="for-consulting.html">Consultants</a></li>' +
-            '<li><a href="for-investors.html">Investors</a></li>' +
-            '<li><a href="for-insurance.html">Insurance</a></li>' +
-            '<li><a href="for-real-estate.html">Real estate</a></li>' +
-            '<li><a href="for-government.html">Government</a></li>' +
-            '<li><a href="for-journalists.html">Journalists &amp; media</a></li>' +
             '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
             '<p><a href="/sources">Data sources</a></p>' +

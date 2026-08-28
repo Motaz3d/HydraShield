@@ -25,7 +25,10 @@ def test_for_journalists_page_exists_and_links_the_tool():
 def test_journalists_in_nav_sector_column_and_footer():
     chrome = _read("website/js/chrome.js")
     assert "{ id: 'for-journalists', href: 'for-journalists.html', label: 'Journalists & media' }" in chrome
-    assert '<li><a href="for-journalists.html">Journalists &amp; media</a></li>' in chrome
+    # Footer renders its "By sector" column from the same PRIMARY structure,
+    # so the journalists page stays reachable from nav and footer alike.
+    assert "heading: 'By sector'" in chrome
+    assert "PRIMARY[2].columns[1].children" in chrome
 
 
 def test_sitemap_covers_press_surfaces():
