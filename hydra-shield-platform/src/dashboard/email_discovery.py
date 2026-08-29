@@ -231,16 +231,30 @@ def _extract_mailto(html: str, base_url: str, target_domain: str) -> List[Dict]:
     return found
 
 
+def _text_windows(text: str, size: int = 1200, overlap: int = 400):
+    """Yield bounded overlapping windows of ``text``.
+
+    Any plausible email/obfuscated form is far shorter than ``overlap``, so
+    no match is lost at a boundary — and no regex ever sees more than
+    ``size`` chars, which makes quadratic blow-ups on pathological blobs
+    (e.g. a 2 MB run of word-chars and dots) structurally impossible.
+    """
+    step = size - overlap
+    for i in range(0, max(len(text), 1), step):
+        yield text[i:i + size]
+
+
 def _extract_text_emails(html: str, base_url: str, target_domain: str) -> List[Dict]:
     """Extract emails from visible text, including obfuscated forms."""
     text = _strip_tags(html)
     found: List[Dict] = []
+    seen = set()
 
-    # Standard emails.
-    for match in _EMAIL_RE.finditer(text):
-        email = match.group(0).lower().strip()
-        if _is_junk(email, target_domain):
-            continue
+    def _keep(email: str) -> bool:
+        email = email.lower().strip()
+        if not email or email in seen or _is_junk(email, target_domain):
+            return False
+        seen.add(email)
         found.append({
             "email": email,
             "type": _classify_localpart(email.split("@")[0]),
@@ -248,20 +262,22 @@ def _extract_text_emails(html: str, base_url: str, target_domain: str) -> List[D
             "found_on": urlparse(base_url).path or "/",
             "claim_status": "OBSERVED",
         })
+        return True
 
-    # Obfuscated "[at]" / "[dot]" forms.
-    for match in _OBFUSCATED_RE.finditer(text):
-        local, dom, tld = match.groups()
-        email = f"{local.strip()}@{dom.strip()}.{tld.strip()}".lower()
-        if _is_junk(email, target_domain):
-            continue
-        found.append({
-            "email": email,
-            "type": _classify_localpart(email.split("@")[0]),
-            "source_url": base_url,
-            "found_on": urlparse(base_url).path or "/",
-            "claim_status": "OBSERVED",
-        })
+    for window in _text_windows(text):
+        # Cheap gate before any regex: a window that contains neither "@"
+        # nor an "at" marker cannot hold a (standard or obfuscated) email.
+        # On pathological blobs this keeps the whole scan linear.
+        low = window.lower()
+        if "@" in window or "[at]" in low or "(at)" in low or " at " in low:
+            # Standard emails.
+            for match in _EMAIL_RE.finditer(window):
+                _keep(match.group(0))
+
+            # Obfuscated "[at]" / "[dot]" forms.
+            for match in _OBFUSCATED_RE.finditer(window):
+                local, dom, tld = match.groups()
+                _keep(f"{local.strip()}@{dom.strip()}.{tld.strip()}")
 
     return found
 
