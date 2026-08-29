@@ -97,19 +97,35 @@ _HOSTING_CDN_DOMAINS = frozenset({
 })
 
 
+# Hard per-page cap: no single page may stall discovery — neither by
+# download size nor by pathological markup (linear processing below).
+_MAX_HTML_CHARS = 2_000_000
+
+
 def _fetch(url: str, timeout: int = 10) -> Tuple[int, str]:
     """Fetch ``url`` and return (status_code, text).
 
     This is the single network boundary of the module. Tests monkeypatch it.
     Non-2xx statuses still return their body when available; transport errors
-    return (0, "").
+    return (0, ""). Bodies are capped at ``_MAX_HTML_CHARS`` so a pathological
+    page can never stall the pipeline downstream.
     """
     try:
         resp = requests.get(url, timeout=timeout, headers={
             "User-Agent": "TalaixEmailDiscovery/1.0 (operator research; respects robots.txt)",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        })
-        return resp.status_code, resp.text
+        }, stream=True)
+        chunks = []
+        size = 0
+        for chunk in resp.iter_content(chunk_size=65536, decode_unicode=True):
+            if not chunk:
+                break
+            chunks.append(chunk)
+            size += len(chunk)
+            if size >= _MAX_HTML_CHARS:
+                break
+        resp.close()
+        return resp.status_code, "".join(chunks)[:_MAX_HTML_CHARS]
     except Exception:
         return 0, ""
 
@@ -161,10 +177,36 @@ def _classify_localpart(localpart: str) -> str:
     return "unknown"
 
 
+def _strip_block(html: str, tag: str) -> str:
+    """Remove <tag>…</tag> blocks with a linear scan — no regex, so no
+    catastrophic backtracking on pathological pages."""
+    out = []
+    low = html.lower()
+    open_tag = "<" + tag
+    close_tag = "</" + tag + ">"
+    i = 0
+    while True:
+        start = low.find(open_tag, i)
+        if start == -1:
+            out.append(html[i:])
+            return " ".join(out)
+        gt = low.find(">", start)
+        if gt == -1:
+            out.append(html[i:])
+            return " ".join(out)
+        end = low.find(close_tag, gt)
+        out.append(html[i:start])
+        if end == -1:
+            return " ".join(out)
+        i = end + len(close_tag)
+
+
 def _strip_tags(html: str) -> str:
     """Remove <script> and <style> blocks, then crude tag stripping."""
-    text = re.sub(r"<script[^>]*>.*?</script>", " ", html, flags=re.S | re.I)
-    text = re.sub(r"<style[^>]*>.*?</style>", " ", text, flags=re.S | re.I)
+    if len(html) > _MAX_HTML_CHARS:
+        html = html[:_MAX_HTML_CHARS]
+    text = _strip_block(html, "script")
+    text = _strip_block(text, "style")
     text = re.sub(r"<[^>]+>", " ", text)
     return text
 
