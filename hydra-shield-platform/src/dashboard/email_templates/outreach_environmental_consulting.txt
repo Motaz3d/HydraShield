@@ -1,4 +1,4 @@
-Subject: An evidence layer for {{organization}}'s client work
+Subject: An evidence layer for client work at {{organization}}
 
 Hi {{contact_name}},
 
