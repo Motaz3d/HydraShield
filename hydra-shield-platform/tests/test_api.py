@@ -57,6 +57,78 @@ def test_analyze_rejects_bad_coords(client):
 
 
 # --------------------------------------------------------------------------
+# /api/analyze behind the TX-0/TX-1 facade (byte-identical v1 contract)
+# --------------------------------------------------------------------------
+
+_LEGACY_ANALYZE_PAYLOAD = {
+    "location": {"name": "Fake", "latitude": 1.0, "longitude": 2.0},
+    "generated_at": "2026-09-01T00:00:00Z",
+    "fire_danger": {"available": True, "fwi": 22.5, "class": "High"},
+    "analysis": {"risk": {"baseline": 42.0, "class": "Moderate"}},
+    "provenance": {"weather": {"kind": "modeled"}},
+}
+
+
+def test_analyze_flows_through_tx_engine_byte_identical(client, monkeypatch):
+    from flask import jsonify
+
+    from tx_core.engine import TXEngine
+
+    calls = []
+
+    def fake_engine():
+        calls.append(1)
+        return TXEngine(legacy_analysis=lambda lat, lon, name: dict(_LEGACY_ANALYZE_PAYLOAD))
+
+    monkeypatch.setattr("src.dashboard.api._tx_engine", fake_engine)
+
+    # Byte-identical proof: the response must equal a control endpoint that
+    # jsonifies the exact payload the engine produced — nothing added.
+    # (Registered before the app's first request — Flask forbids routing
+    # changes after the app has handled a request.)
+    app = client.application
+
+    @app.route("/api/_tx_control")
+    def _tx_control():
+        return jsonify(_LEGACY_ANALYZE_PAYLOAD)
+
+    resp = client.get("/api/analyze?lat=1.0&lon=2.0")
+    assert resp.status_code == 200
+    assert calls, "the TX facade must be genuinely in the request path"
+    assert resp.get_json() == _LEGACY_ANALYZE_PAYLOAD
+
+    ctrl = app.test_client().get("/api/_tx_control")
+    assert ctrl.status_code == 200
+    assert resp.data == ctrl.data
+
+
+def test_analyze_engine_error_preserves_legacy_404(client, monkeypatch):
+    from tx_core.engine import TXEngine
+
+    monkeypatch.setattr(
+        "src.dashboard.api._tx_engine",
+        lambda: TXEngine(legacy_analysis=lambda *a: {"error": "Coordinates out of range"}),
+    )
+    resp = client.get("/api/analyze?lat=1.0&lon=2.0")
+    assert resp.status_code == 404
+    assert resp.get_json()["error"] == "Coordinates out of range"
+
+
+def test_analyze_engine_exception_preserves_legacy_502(client, monkeypatch):
+    from tx_core.engine import TXEngine
+
+    def boom(*_a):
+        raise RuntimeError("upstream exploded")
+
+    monkeypatch.setattr(
+        "src.dashboard.api._tx_engine", lambda: TXEngine(legacy_analysis=boom)
+    )
+    resp = client.get("/api/analyze?lat=1.0&lon=2.0")
+    assert resp.status_code == 502
+    assert "upstream exploded" in resp.get_json()["error"]
+
+
+# --------------------------------------------------------------------------
 # /api/risk-grid validation
 # --------------------------------------------------------------------------
 

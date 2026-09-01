@@ -156,6 +156,15 @@ def _error(message: str, status: int):
     return jsonify({"error": message, "status": status}), status
 
 
+def _tx_engine():
+    """A fresh TXEngine for the TX-0/TX-1 facade (lazy: tx_core imports
+    nothing heavy at module import time). Tests monkeypatch this factory
+    to inject a network-free engine."""
+    from tx_core.engine import TXEngine
+
+    return TXEngine()
+
+
 # --------------------------------------------------------------------------
 # Application factory
 # --------------------------------------------------------------------------
@@ -358,8 +367,13 @@ def create_app() -> Flask:
                 return _error("Provide ?location=... or ?lat=...&lon=...", 400)
             name = f"{lat:.4f}, {lon:.4f}"
 
+        # TX-0/TX-1 facade: the real-data pipeline now runs behind TXEngine.
+        # legacy_analyze returns the EXACT legacy dict (byte-identical v1
+        # contract — same analyser, same 15-min cache, same error mapping);
+        # tx_meta is a side-channel never injected into the response.
         try:
-            result = _cached_analysis(round(lat, 4), round(lon, 4), name)
+            result, _tx_meta = _tx_engine().legacy_analyze(
+                round(lat, 4), round(lon, 4), name)
         except Exception as exc:
             return _error(f"Analysis failed: {exc}", 502)
         if "error" in result:
@@ -1220,6 +1234,12 @@ def create_app() -> Flask:
     from ..climate.api_sector import sector_screen_bp
 
     app.register_blueprint(sector_screen_bp)
+
+    # TX Engine API (/api/tx/…) — additive TX surface over tx_core; the
+    # existing v1/v2 contracts above are untouched.
+    from .tx_api import tx_bp
+
+    app.register_blueprint(tx_bp)
 
     return app
 
