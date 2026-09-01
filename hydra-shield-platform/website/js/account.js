@@ -83,6 +83,18 @@
         history.replaceState(null, '', location.pathname);
     }
 
+    function notifyCheckoutResult() {
+        var params = new URLSearchParams(location.search);
+        if (params.get('subscribed') === '1') {
+            status('info', 'Welcome to Talaix — your subscription is active.');
+        } else if (params.get('checkout') === 'cancelled') {
+            status('warn', 'Checkout cancelled. You can subscribe at any time.');
+        } else {
+            return;
+        }
+        history.replaceState(null, '', location.pathname);
+    }
+
     function boot() {
         // ?switch=1 — sign the current session out first, then show the
         // sign-in form keeping the destination (?next=) for after re-login.
@@ -100,6 +112,7 @@
                 showView(false);
                 notifyEntryReason();
                 notifyVerifyResult();
+                notifyCheckoutResult();
                 return;
             }
             if (!res.ok) {
@@ -113,6 +126,7 @@
             status('', '');
             showView(true);
             notifyVerifyResult();
+            notifyCheckoutResult();
             renderProfile(res.body);
             loadSubscription();
             loadApiKeys();
@@ -269,11 +283,28 @@
     }
 
     // ------------------------------------------------------------------
-    // Subscription (self-service; recorded, never charged)
+    // Subscription (self-service; billing-aware)
     // ------------------------------------------------------------------
 
+    var billingState = { enabled: false, products: {} };
+
+    function loadBillingConfig() {
+        return fetchJSON(API + '/v2/billing/config').then(function (res) {
+            if (res.ok && res.body) {
+                billingState.enabled = !!res.body.billing_enabled;
+                billingState.products = res.body.products || {};
+            }
+        }).catch(function () {
+            billingState.enabled = false;
+        });
+    }
+
     function loadSubscription() {
-        fetchJSON(API + '/v2/account/subscription').then(function (res) {
+        Promise.all([
+            fetchJSON(API + '/v2/account/subscription'),
+            loadBillingConfig(),
+        ]).then(function (results) {
+            var res = results[0];
             if (res.status === 401) { showView(false); return; }
             if (!res.ok) {
                 el('subscriptionBlock').innerHTML =
@@ -286,6 +317,21 @@
             el('subscriptionBlock').innerHTML =
                 '<div class="notice notice-error">Subscription state could not be loaded.</div>';
         });
+    }
+
+    function _priceLabel(key) {
+        var p = billingState.products[key] || {};
+        var amount = p.amount_eur;
+        if (amount === undefined || amount === null) return '';
+        var interval = p.interval || 'one_time';
+        if (interval === 'one_time') return '€' + amount;
+        return '€' + amount + '/' + interval;
+    }
+
+    function _checkoutButton(tier, interval, label) {
+        return '<button class="btn-action" type="button" data-checkout-tier="' +
+            esc(tier) + '" data-checkout-interval="' + esc(interval) + '">' +
+            esc(label) + '</button>';
     }
 
     function renderSubscription(body) {
@@ -307,38 +353,105 @@
                 ? ''
                 : '<p class="muted small" style="margin-top:10px;">Subscribing unlocks:</p>' +
                   '<ul class="muted small" style="margin:4px 0 0 18px;">' + unlocks + '</ul>');
-        el('subscribeBtn').classList.toggle('hidden', !!sub);
-        el('unsubscribeBtn').classList.toggle('hidden', !sub);
+
+        el('subscriptionLead').textContent = body.billing_note ||
+            'The subscription unlocks API keys and higher limits.';
+
+        var actions = '';
+        if (billingState.enabled && sub && sub.external_ref) {
+            actions = '<button class="btn-action" id="manageSubscriptionBtn" type="button">Manage subscription</button>';
+        } else if (billingState.enabled && !sub) {
+            actions =
+                '<p class="muted small" style="margin:0 0 8px 0;">Subscribe with Stripe:</p>' +
+                '<div style="display:flex;flex-wrap:wrap;gap:8px;">' +
+                _checkoutButton('professional', 'monthly',
+                    'Professional monthly ' + _priceLabel('professional_monthly')) +
+                _checkoutButton('professional', 'yearly',
+                    'Professional yearly ' + _priceLabel('professional_yearly')) +
+                _checkoutButton('business', 'monthly',
+                    'Business monthly ' + _priceLabel('business_monthly')) +
+                _checkoutButton('business', 'yearly',
+                    'Business yearly ' + _priceLabel('business_yearly')) +
+                '</div>';
+        }
+        el('subscriptionActions').innerHTML = actions ||
+            '<button class="btn-action" id="subscribeBtn" type="button">Subscribe</button>' +
+            '<button class="btn-action btn-quiet" id="unsubscribeBtn" type="button">Cancel subscription</button>';
+        if (!billingState.enabled) {
+            // Legacy recorded-not-charged path: toggle visibility after re-rendering.
+            el('subscribeBtn').classList.toggle('hidden', !!sub);
+            el('unsubscribeBtn').classList.toggle('hidden', !sub);
+        }
     }
 
     function wireSubscription() {
-        el('subscribeBtn').addEventListener('click', function () {
-            status('info', 'Activating your subscription…');
-            postJSON(API + '/v2/account/subscribe', {}).then(function (res) {
-                if (res.status === 401) { showView(false); return; }
-                if (!res.ok) {
-                    status('error', (res.body && res.body.error) || 'Subscription failed.');
-                    return;
-                }
-                status('info', (res.body && res.body.already_active)
-                    ? 'Your subscription is already active.'
-                    : 'Subscription active — a confirmation email is on its way.');
-                boot();
-            }).catch(function () { status('error', 'Subscription request failed.'); });
-        });
+        el('subscriptionActions').addEventListener('click', function (e) {
+            var btn = e.target.closest('[data-checkout-tier]');
+            if (btn) {
+                e.preventDefault();
+                var tier = btn.getAttribute('data-checkout-tier');
+                var interval = btn.getAttribute('data-checkout-interval');
+                status('info', 'Starting secure checkout…');
+                postJSON(API + '/v2/billing/checkout', { tier: tier, interval: interval })
+                    .then(function (res) {
+                        if (res.status === 401) { showView(false); return; }
+                        if (!res.ok) {
+                            status('error', (res.body && res.body.error) || 'Checkout failed.');
+                            return;
+                        }
+                        if (res.body && res.body.url) {
+                            window.location.href = res.body.url;
+                        }
+                    }).catch(function () { status('error', 'Checkout request failed.'); });
+                return;
+            }
 
-        el('unsubscribeBtn').addEventListener('click', function () {
-            if (!window.confirm('Cancel your subscription? Your account, saved locations ' +
-                    'and alert rules are kept; the tier returns to the free level.')) return;
-            postJSON(API + '/v2/account/unsubscribe', {}).then(function (res) {
-                if (res.status === 401) { showView(false); return; }
-                if (!res.ok) {
-                    status('error', (res.body && res.body.error) || 'Cancellation failed.');
-                    return;
-                }
-                status('info', 'Subscription cancelled.');
-                boot();
-            }).catch(function () { status('error', 'Cancellation request failed.'); });
+            if (e.target.id === 'manageSubscriptionBtn') {
+                e.preventDefault();
+                status('info', 'Opening subscription management…');
+                postJSON(API + '/v2/billing/portal', {})
+                    .then(function (res) {
+                        if (res.status === 401) { showView(false); return; }
+                        if (!res.ok) {
+                            status('error', (res.body && res.body.error) || 'Could not open portal.');
+                            return;
+                        }
+                        if (res.body && res.body.url) {
+                            window.location.href = res.body.url;
+                        }
+                    }).catch(function () { status('error', 'Portal request failed.'); });
+                return;
+            }
+
+            if (e.target.id === 'subscribeBtn') {
+                status('info', 'Activating your subscription…');
+                postJSON(API + '/v2/account/subscribe', {}).then(function (res) {
+                    if (res.status === 401) { showView(false); return; }
+                    if (!res.ok) {
+                        status('error', (res.body && res.body.error) || 'Subscription failed.');
+                        return;
+                    }
+                    status('info', (res.body && res.body.already_active)
+                        ? 'Your subscription is already active.'
+                        : 'Subscription active — a confirmation email is on its way.');
+                    boot();
+                }).catch(function () { status('error', 'Subscription request failed.'); });
+                return;
+            }
+
+            if (e.target.id === 'unsubscribeBtn') {
+                if (!window.confirm('Cancel your subscription? Your account, saved locations ' +
+                        'and alert rules are kept; the tier returns to the free level.')) return;
+                postJSON(API + '/v2/account/unsubscribe', {}).then(function (res) {
+                    if (res.status === 401) { showView(false); return; }
+                    if (!res.ok) {
+                        status('error', (res.body && res.body.error) || 'Cancellation failed.');
+                        return;
+                    }
+                    status('info', 'Subscription cancelled.');
+                    boot();
+                }).catch(function () { status('error', 'Cancellation request failed.'); });
+            }
         });
     }
 

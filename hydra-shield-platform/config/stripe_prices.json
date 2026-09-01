@@ -1,0 +1,44 @@
+{
+  "professional_monthly": {
+    "price_id": "",
+    "amount_eur": 49,
+    "interval": "month",
+    "product_name": "Talaix Professional (monthly)"
+  },
+  "professional_yearly": {
+    "price_id": "",
+    "amount_eur": 490,
+    "interval": "year",
+    "product_name": "Talaix Professional (yearly)"
+  },
+  "business_monthly": {
+    "price_id": "",
+    "amount_eur": 249,
+    "interval": "month",
+    "product_name": "Talaix Business (monthly)"
+  },
+  "business_yearly": {
+    "price_id": "",
+    "amount_eur": 2490,
+    "interval": "year",
+    "product_name": "Talaix Business (yearly)"
+  },
+  "seat_monthly": {
+    "price_id": "",
+    "amount_eur": 25,
+    "interval": "month",
+    "product_name": "Talaix Business extra seat (monthly)"
+  },
+  "report_decision": {
+    "price_id": "",
+    "amount_eur": 19,
+    "interval": "one_time",
+    "product_name": "Talaix Decision report"
+  },
+  "report_scientific": {
+    "price_id": "",
+    "amount_eur": 39,
+    "interval": "one_time",
+    "product_name": "Talaix Scientific report"
+  }
+}

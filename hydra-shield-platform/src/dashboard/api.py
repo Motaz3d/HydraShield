@@ -1136,6 +1136,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(auth_bp)
 
+    # Stripe billing API (/api/v2/billing/…). Disabled when STRIPE_SECRET_KEY is absent.
+    from .billing import billing_bp
+
+    app.register_blueprint(billing_bp)
+
     # SMS alerting API (/api/v2/alerts…).
     from .sms_api import sms_bp
 

@@ -29,5 +29,8 @@ dash-bootstrap-components>=1.6.0
 flask>=3.0
 requests>=2.31
 
+# Payments/billing
+stripe>=9.0
+
 # PDF reporting (/api/report)
 reportlab>=4.0

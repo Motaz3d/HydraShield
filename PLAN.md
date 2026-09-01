@@ -35,9 +35,17 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Grant classifier — EU + global companies + banks | ⬜ | Foundation exists (`marketing/eu_funding/`, 10 verified Horizon records). Unify: instrument × sector × eligibility × deadline × budget × fit score; expose in Commercial Center |
 | Newsletter (design matching the site) | ⬜ | Built on the existing mailer; own GDPR consent + unsubscribe; inherits site identity (Inter/Space Grotesk, #0EA5E9) |
 | Case studies published | ⬜ | Must be real — candidates exist in repo research (`docs/*_Opportunities.md` location analyses); publish only evidence-backed studies |
-| Pricing clarification | ⬜ | Site currently states (honestly) "no public pricing yet". Decide tier structure/pricing, then publish a clear pricing page — no invented numbers |
+| Pricing clarification | 🔶 | Tiers and prices decided 2026-08-31: `hydra-shield-platform/docs/PRICING.md` (Free / Professional €49/mo launch / Business €249/mo / Government from €4,900/yr / Enterprise from €12,000/yr; pay-per-report €19–39; pilot programme trades nominal price for publishable case studies; recorded-not-charged until billing ships). Remaining: publish the pricing page + update `account.html` wording |
+| Stripe billing integration | 🔶 | Backend blueprint + checkout/portal/webhook + idempotency + data model + frontend buttons + tests are done. Awaiting deploy + real Stripe secrets (`STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, `TALAIX_PUBLIC_BASE_URL`) and `scripts/setup_stripe_products.py` run against the live account. No secrets in Git. |
 | "Where to invest / what to build" service | ⬜ | Core product item: positive siting intelligence (low multi-hazard risk + infrastructure + available funding) for companies, municipalities and governments; fields + environment-compatible technologies per location |
 | Sustainability-report evidence | 🔶 | Platform reports already serve as physical-risk evidence annexes (CSRD/ESRS E1, TCFD/ISSB positioning); labelled screening-level until model validation completes (`docs/VALIDATION.md`) |
+
+## Funders outreach wave 1 (draft, awaiting operator review)
+
+| Item | Status | Notes |
+|---|---|---|
+| Wave-1 draft — 10 funder targets (EIC, LIFE-CINEA, DG ECHO, EUSPA, EEA, Climate-KIC, MITECO, ApC Portugal, Poland MoC, BNDES) | 🔶 | `marketing/outreach/funders_wave1.md`; official recipient emails sourced 2026-08-31 |
+| Preview sample email (EIC( → operator inbox | 🔶 | `scripts/send_preview_funder_wave.py` + `email_templates/outreach_funders.txt`; local run lands in `data/outbox/` — real send on Vultr; 18 mailer tests green |
 
 ## Operating rules (binding)
 

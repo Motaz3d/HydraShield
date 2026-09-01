@@ -11,6 +11,8 @@
 #   SMTP_HOST/PORT/USER/PASSWORD/FROM   transactional email (info@talaix.com)
 #   CONTACT_INBOX                     platform inbox (contact/operator messages)
 #   HYDRASHIELD_SECRET_KEY            HMAC key for session/verification tokens
+#   STRIPE_SECRET_KEY/WEBHOOK_SECRET/PUBLISHABLE_KEY   Stripe billing (api only)
+#   TALAIX_PUBLIC_BASE_URL            public base URL for checkout redirects
 #   SMS_PROVIDER/HTTP_URL/FROM/API_KEY/API_SECRET/AUTH_HEADER  SMS alert provider
 #   HYDRASHIELD_CACHE_DB            cache/watch DB path (default in image)
 #   HYDRASHIELD_POPULATION_DIR      WorldPop raster cache (default /data/population,
@@ -81,6 +83,11 @@ services:
       - CONTACT_INBOX=${CONTACT_INBOX:-}
       - HYDRASHIELD_SECRET_KEY=${HYDRASHIELD_SECRET_KEY:-}
       - HYDRASHIELD_OPERATOR_EMAILS=${HYDRASHIELD_OPERATOR_EMAILS:-}
+      # Stripe billing — values live only in the server .env, never in git.
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY:-}
+      - TALAIX_PUBLIC_BASE_URL=${TALAIX_PUBLIC_BASE_URL:-https://talaix.com}
       # AI gateway (Kimi) — value lives only in the server .env, never in git.
       - KIMI_API_KEY=${KIMI_API_KEY:-}
       - KIMI_PROVIDER=${KIMI_PROVIDER:-code}

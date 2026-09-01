@@ -8,6 +8,10 @@
 pytest==9.1.1
 pypdf>=4.0  # PDF text extraction for report-content tests
 
+# Payments/billing (also in requirements.txt; duplicated here so a bare
+# requirements-dev install is sufficient for tests).
+stripe>=9.0
+
 # Linting & formatting
 black==24.8.0
 flake8==7.1.1

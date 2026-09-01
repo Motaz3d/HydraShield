@@ -645,13 +645,14 @@ class UserStore:
         return {
             "id": row[0], "tier": row[1], "status": row[2],
             "started_at": row[3], "ends_at": row[4],
+            "external_ref": row[5],
         }
 
     def get_active_subscription(self, user_id: int) -> Optional[Dict]:
         """The user's active self-service subscription, else None."""
         with self._lock, self._connect() as conn:
             row = conn.execute(
-                "SELECT id, tier, status, started_at, ends_at FROM subscriptions"
+                "SELECT id, tier, status, started_at, ends_at, external_ref FROM subscriptions"
                 " WHERE owner_user_id = ? AND status = 'active'"
                 " ORDER BY id DESC LIMIT 1",
                 (user_id,),
@@ -668,7 +669,7 @@ class UserStore:
         started = _utcnow()
         with self._lock, self._connect() as conn:
             row = conn.execute(
-                "SELECT id, tier, status, started_at, ends_at FROM subscriptions"
+                "SELECT id, tier, status, started_at, ends_at, external_ref FROM subscriptions"
                 " WHERE owner_user_id = ? AND status = 'active'"
                 " ORDER BY id DESC LIMIT 1",
                 (user_id,),
@@ -702,7 +703,7 @@ class UserStore:
         ended = _utcnow()
         with self._lock, self._connect() as conn:
             row = conn.execute(
-                "SELECT id, tier, status, started_at, ends_at FROM subscriptions"
+                "SELECT id, tier, status, started_at, ends_at, external_ref FROM subscriptions"
                 " WHERE owner_user_id = ? AND status = 'active'"
                 " ORDER BY id DESC LIMIT 1",
                 (user_id,),

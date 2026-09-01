@@ -681,17 +681,31 @@ _SUBSCRIBER_UNLOCKS = [
 ]
 
 
+def _stripe_configured() -> bool:
+    """True when Stripe billing is enabled server-side."""
+    return bool(os.environ.get("STRIPE_SECRET_KEY"))
+
+
 @auth_bp.get("/account/subscription")
 @require_role("registered")
 def get_subscription():
     """Current tier + active subscription state (None when unsubscribed)."""
     user = g.current_user
+    if _stripe_configured():
+        billing_note = (
+            "Subscriptions are managed through Stripe. "
+            "Choose a plan below to start a secure checkout."
+        )
+    else:
+        billing_note = (
+            "Subscriptions are recorded, never charged on this "
+            "platform; no payment data is collected."
+        )
     return jsonify({
         "role": user["role"],
         "subscription": UserStore().get_active_subscription(user["id"]),
         "subscriber_unlocks": _SUBSCRIBER_UNLOCKS,
-        "billing_note": "Subscriptions are recorded, never charged on this "
-                        "platform; no payment data is collected.",
+        "billing_note": billing_note,
     })
 
 
@@ -700,8 +714,23 @@ def get_subscription():
 def subscribe():
     """Activate the self-service subscriber tier. Idempotent: an already
     active subscription returns 200 with the current state. A confirmation
-    email is sent on activation (dev outbox when SMTP is unconfigured)."""
+    email is sent on activation (dev outbox when SMTP is unconfigured).
+
+    When Stripe billing is configured this endpoint is disabled: paid tiers
+    must be started through ``/api/v2/billing/checkout``.
+    """
     user = g.current_user
+    if _stripe_configured():
+        return _err(
+            "Paid subscriptions are handled through Stripe checkout",
+            402,
+            upgrade={
+                "required_role": "subscriber",
+                "your_role": user["role"],
+                "checkout_url": "/api/v2/billing/checkout",
+                "unlocks": "Start a secure Stripe checkout to subscribe.",
+            },
+        )
     if not _tier_rate(user, "v2_subscribe"):
         return _err("Rate limit exceeded for your tier", 429)
     store = UserStore()
