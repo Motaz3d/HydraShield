@@ -155,8 +155,11 @@ def _role(env, email):
     return row[0]
 
 
-def _webhook(client, event_type, data_obj, event_id="evt_1"):
-    payload = json.dumps({"id": event_id, "type": event_type, "data": {"object": data_obj}})
+def _webhook(client, event_type, data_obj, event_id="evt_1", previous=None):
+    data = {"object": data_obj}
+    if previous is not None:
+        data["previous_attributes"] = previous
+    payload = json.dumps({"id": event_id, "type": event_type, "data": data})
     return client.post(
         "/api/v2/billing/webhook",
         data=payload,
@@ -529,3 +532,53 @@ def test_webhook_confirmation_email_failure_does_not_block_activation(
     }, event_id="evt_mailfail")
     assert resp.status_code == 200
     assert _role(env, "mailfail@example.org") == "professional"
+
+
+def _activate(client, env, email, event_id, sub_id="sub_1", tier="professional"):
+    """Register a user and activate a subscription via the webhook."""
+    _auth_headers(client, env, email=email)
+    resp = _webhook(client, "checkout.session.completed", {
+        "id": f"cs_{event_id}",
+        "mode": "subscription",
+        "customer": f"cus_{event_id}",
+        "subscription": sub_id,
+        "client_reference_id": "1",
+        "metadata": {"talaix_user_id": "1", "talaix_tier": tier},
+    }, event_id=event_id)
+    assert resp.status_code == 200
+
+
+def test_webhook_subscription_updated_emails_only_on_cancel_transition(
+        client, env, fake_stripe):
+    _activate(client, env, "cancel@example.org", "evt_c1", sub_id="sub_cancel")
+    update = {
+        "id": "sub_cancel",
+        "status": "active",
+        "cancel_at_period_end": True,
+        "current_period_end": 1893456000,
+        "metadata": {"talaix_tier": "professional"},
+    }
+    # The transition itself (previous_attributes shows the flag change).
+    resp = _webhook(client, "customer.subscription.updated", update,
+                    event_id="evt_upd1", previous={"cancel_at_period_end": False})
+    assert resp.status_code == 200
+    files = sorted(env["outbox"].glob("*subscription_cancellation*.eml"))
+    assert len(files) == 1
+    # Access continues: role and active subscription are kept until period end.
+    assert _role(env, "cancel@example.org") == "professional"
+    assert UserStore(str(env["db"])).get_active_subscription(1)["status"] == "active"
+    # An unrelated later update that keeps the flag is not a new cancellation.
+    resp = _webhook(client, "customer.subscription.updated", update,
+                    event_id="evt_upd2", previous={"billing_cycle_anchor": 1})
+    assert resp.status_code == 200
+    assert len(sorted(env["outbox"].glob("*subscription_cancellation*.eml"))) == 1
+
+
+def test_webhook_subscription_deleted_sends_ended_email(client, env, fake_stripe):
+    _activate(client, env, "ended@example.org", "evt_e1", sub_id="sub_end")
+    resp = _webhook(client, "customer.subscription.deleted",
+                    {"id": "sub_end"}, event_id="evt_del1")
+    assert resp.status_code == 200
+    assert _role(env, "ended@example.org") == "registered"
+    files = sorted(env["outbox"].glob("*subscription_ended*.eml"))
+    assert len(files) == 1

@@ -1,0 +1,12 @@
+Subject: Your Talaix subscription has ended
+Hello{{display_name}},
+
+your Talaix {{tier}} subscription has ended. Thank you for your time
+with us.
+
+Your account, saved locations, alerts and history remain available
+on the free tier. Re-subscribe at any time from your account page:
+https://talaix.com/account.html
+
+— The Talaix team
+info@talaix.com

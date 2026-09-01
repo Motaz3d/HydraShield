@@ -1,0 +1,15 @@
+Subject: Talaix subscription cancellation — access until {{ends_at}}
+Hello{{display_name}},
+
+we have registered the cancellation of your Talaix subscription.
+
+Tier: {{tier}}
+Your access continues until: {{ends_at}}
+
+After that date your account returns to the free tier; your saved
+locations, alerts and history are kept. You can re-subscribe at any
+time from your account page:
+https://talaix.com/account.html
+
+— The Talaix team
+info@talaix.com

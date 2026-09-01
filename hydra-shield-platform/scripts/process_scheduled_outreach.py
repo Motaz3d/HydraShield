@@ -28,7 +28,7 @@ from src.dashboard.mailer import send_mail
 from src.dashboard.marketing_store import MarketingStore
 
 _ADVANCE_FROM = {"researched", "qualified", "draft_prepared"}
-_DAILY_SEND_CAP = int(os.environ.get("DAILY_SEND_CAP") or 200)
+_DAILY_SEND_CAP = int(os.environ.get("DAILY_SEND_CAP") or 20)
 
 
 def _send_one(store: MarketingStore, lead_slug: str, to_email: str, template: str,

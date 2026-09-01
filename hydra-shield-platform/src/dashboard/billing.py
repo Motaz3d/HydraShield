@@ -342,6 +342,23 @@ def _stripe_client():
     return stripe
 
 
+def _display(user: Dict) -> str:
+    """Template display_name fragment: leading space when a name exists."""
+    name = (user.get("display_name") or "").strip()
+    return f" {name}" if name else ""
+
+
+def _send_best_effort(to: str, template: str, context: Dict) -> None:
+    """Transactional billing email that must never break a state change."""
+    try:
+        from . import mailer
+
+        mailer.send_mail(to, template, context)
+    except Exception:
+        log.warning("billing email '%s' failed for %s", template, to,
+                    exc_info=True)
+
+
 # ---------------------------------------------------------------------------
 # Public endpoints
 # ---------------------------------------------------------------------------
@@ -504,7 +521,8 @@ def webhook():
         if event_type == "checkout.session.completed":
             _handle_checkout_session_completed(data_obj)
         elif event_type == "customer.subscription.updated":
-            _handle_subscription_updated(data_obj)
+            _handle_subscription_updated(
+                data_obj, event.get("data", {}).get("previous_attributes"))
         elif event_type == "customer.subscription.deleted":
             _handle_subscription_deleted(data_obj)
         elif event_type == "invoice.payment_succeeded":
@@ -557,25 +575,16 @@ def _handle_checkout_session_completed(session: Dict) -> None:
         _upsert_subscription_from_stripe(
             store, user_id, tier, stripe_sub_id, status, ends_at)
         _promote_user_for_tier(store, user_id, tier)
-        # Confirmation email is best-effort: a paid activation must never
-        # fail (and be retried) because SMTP hiccupped. Failures are logged.
-        try:
-            from . import mailer
-
-            mailer.send_mail(
-                user["email"],
-                "subscription_confirmation_paid",
-                {
-                    "display_name": user.get("display_name") or "",
-                    "tier": tier,
-                    "status": status,
-                    "started_at": _utcnow(),
-                },
-            )
-        except Exception:
-            log.warning(
-                "subscription confirmation email failed for user %s",
-                user_id, exc_info=True)
+        _send_best_effort(
+            user["email"],
+            "subscription_confirmation_paid",
+            {
+                "display_name": _display(user),
+                "tier": tier,
+                "status": status,
+                "started_at": _utcnow(),
+            },
+        )
     elif mode == "payment":
         kind = session.get("metadata", {}).get("talaix_kind", "")
         if kind.startswith("report_"):
@@ -587,7 +596,8 @@ def _handle_checkout_session_completed(session: Dict) -> None:
             )
 
 
-def _handle_subscription_updated(subscription: Dict) -> None:
+def _handle_subscription_updated(
+        subscription: Dict, previous: Optional[Dict] = None) -> None:
     stripe_sub_id = subscription.get("id")
     if not stripe_sub_id:
         return
@@ -604,12 +614,30 @@ def _handle_subscription_updated(subscription: Dict) -> None:
             "UPDATE subscriptions SET tier = ?, status = ?, ends_at = ? WHERE id = ?",
             (tier, status, ends_at, sub["id"]),
         )
-    if tier != sub["tier"]:
+
+    user = store.get_user(sub["owner_user_id"])
+
+    # Cancellation-at-period-end: email exactly on the transition. Stripe
+    # marks changed fields in previous_attributes; an update that does not
+    # change cancel_at_period_end is not a new cancellation.
+    just_canceled = bool(subscription.get("cancel_at_period_end")) and (
+        previous is None or "cancel_at_period_end" in previous)
+    if just_canceled and user:
+        _send_best_effort(
+            user["email"],
+            "subscription_cancellation",
+            {
+                "display_name": _display(user),
+                "tier": tier,
+                "ends_at": ends_at or "the end of the paid period",
+            },
+        )
+
+    if tier != sub["tier"] and user:
         # Sync the role to match the new paid tier, both for upgrades and
         # downgrades, but never touch operator/admin/government roles.
-        user = store.get_user(sub["owner_user_id"])
         protected = {"admin", "municipality", "government"}
-        if user and user["role"] not in protected and tier in _TIER_ROLES:
+        if user["role"] not in protected and tier in _TIER_ROLES:
             new_role = _TIER_ROLES[tier]
             with store._lock, store._connect() as conn:
                 conn.execute("UPDATE users SET role = ? WHERE id = ?",
@@ -634,6 +662,13 @@ def _handle_subscription_deleted(subscription: Dict) -> None:
             ("canceled", ended, sub["id"]),
         )
     _demote_if_subscription_role(store, sub["owner_user_id"], sub["tier"])
+    user = store.get_user(sub["owner_user_id"])
+    if user:
+        _send_best_effort(
+            user["email"],
+            "subscription_ended",
+            {"display_name": _display(user), "tier": sub["tier"]},
+        )
 
 
 def _handle_invoice_payment(invoice: Dict, succeeded: bool) -> None:
