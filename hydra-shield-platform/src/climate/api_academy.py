@@ -8,8 +8,12 @@ Endpoints:
     GET  /courses/<course_id>          Public stripped course content (60/min)
     GET  /glossary                     List all glossary terms (60/min)
     GET  /glossary/<term_id>           One glossary term (60/min)
+    GET  /knowledge?course_id=...     Public knowledge graph for a course (60/min)
+    GET  /learner-model?course_id=... My learner model + reviews (registered+)
     POST /progress                     Grade + persist best score (registered+, 30/min)
     GET  /progress?course_id=...       My progress on a course (registered+)
+    GET  /reviews/due?course_id=...    Due spaced-retrieval reviews (registered+)
+    POST /reviews                     Submit a review session (registered+, 30/min)
     POST /certificate                  Issue Certificate of Completion (registered+)
     GET  /certificate/pdf?course_id=   Download certificate PDF (registered+)
     GET  /certificates/<id>/verify     Public certificate authenticity check (60/min)
@@ -17,6 +21,8 @@ Endpoints:
 
 from __future__ import annotations
 
+import logging
+import time
 from typing import Any, Dict
 
 from flask import Blueprint, Response, jsonify, request
@@ -99,6 +105,61 @@ def get_term(term_id: str):
     return jsonify({"term": term})
 
 
+@academy.get("/knowledge")
+def get_knowledge():
+    """GET /api/v2/academy/knowledge?course_id=... — public knowledge graph."""
+    if not _rate("v2academy_knowledge", 60, 60.0):
+        return _err("Rate limit exceeded", 429)
+    from .academy import get_knowledge as _get_knowledge
+
+    course_id = request.args.get("course_id")
+    if not course_id:
+        return _err("course_id is required", 400)
+
+    knowledge = _get_knowledge(course_id)
+    if knowledge is None:
+        return _err(f"Unknown course '{course_id}'", 404)
+    return jsonify({"knowledge": knowledge})
+
+
+@academy.get("/learner-model")
+@_registered_gate
+def get_learner_model():
+    """GET /api/v2/academy/learner-model?course_id=... — my mastery model."""
+    from ..dashboard.auth_api import current_user
+    from ..dashboard.verification_store import VerificationStore
+    from .academy import due_reviews, get_knowledge, learner_model
+
+    user = current_user()
+    course_id = request.args.get("course_id")
+    if not course_id:
+        return _err("course_id is required", 400)
+
+    knowledge = get_knowledge(course_id)
+    if knowledge is None:
+        return _err(f"Unknown course '{course_id}'", 404)
+
+    store = VerificationStore()
+    attempts = store.get_concept_attempts(user["id"], course_id)
+    attempts_by_concept: Dict[str, list] = {}
+    for a in attempts:
+        attempts_by_concept.setdefault(a["concept_id"], []).append(
+            {"correct": a["correct"]}
+        )
+
+    model = learner_model(knowledge, attempts_by_concept)
+    schedule_rows = store.get_review_schedule(user["id"], course_id)
+    now_ts = int(time.time())
+    due = due_reviews(schedule_rows, now_ts)
+
+    return jsonify({
+        "course_id": course_id,
+        "model": model,
+        "due_reviews": [r["concept_id"] for r in due],
+        "review_schedule": schedule_rows,
+    })
+
+
 # -----------------------------------------------------------------------------
 # Progress and grading
 # -----------------------------------------------------------------------------
@@ -133,7 +194,8 @@ def submit_progress():
     except Exception as exc:
         return _err(f"Grading failed: {exc}", 502)
 
-    VerificationStore().save_progress(
+    store = VerificationStore()
+    store.save_progress(
         user_id=user["id"],
         course_id=course_id,
         module_id=module_id,
@@ -142,7 +204,57 @@ def submit_progress():
         passed=result["passed"],
     )
 
+    # Update concept attempts and spaced-review schedules. Never fail the grade
+    # response if this bookkeeping raises.
+    try:
+        _update_after_quiz(user["id"], course_id, module_id, result)
+    except Exception:
+        logging.exception("Failed to update concept attempts/review schedule")
+
     return jsonify(result)
+
+
+def _update_after_quiz(
+    user_id: int,
+    course_id: str,
+    module_id: str,
+    result: Dict[str, Any],
+) -> None:
+    """Record concept attempts and refresh spaced-retrieval schedules."""
+    from ..dashboard.verification_store import VerificationStore
+    from .academy import get_course, schedule_after_quiz
+
+    store = VerificationStore()
+    course = get_course(course_id)
+    if course is None:
+        return
+
+    module = next(
+        (m for m in course.get("modules", []) if m.get("id") == module_id),
+        None,
+    )
+    if module is None:
+        return
+
+    correct_by_concept: Dict[str, list] = {}
+    attempts: list = []
+    for idx, question in enumerate(module.get("quiz", [])):
+        if idx >= len(result.get("results", [])):
+            continue
+        is_correct = result["results"][idx].get("correct", False)
+        for concept_id in question.get("concepts", []):
+            correct_by_concept.setdefault(concept_id, []).append(is_correct)
+            attempts.append({"concept_id": concept_id, "correct": is_correct})
+
+    if attempts:
+        store.save_concept_attempts(user_id, course_id, attempts)
+
+    existing_rows = store.get_review_schedule(user_id, course_id)
+    existing = {r["concept_id"]: r for r in existing_rows}
+    now_ts = int(time.time())
+    updated = schedule_after_quiz(correct_by_concept, existing, now_ts)
+    if updated:
+        store.upsert_review_schedule(user_id, course_id, updated)
 
 
 @academy.get("/progress")
@@ -159,6 +271,147 @@ def get_progress():
 
     rows = VerificationStore().get_progress(user["id"], course_id)
     return jsonify({"course_id": course_id, "progress": rows})
+
+
+@academy.get("/reviews/due")
+@_registered_gate
+def get_due_reviews():
+    """GET /api/v2/academy/reviews/due?course_id=... — due review questions."""
+    from ..dashboard.auth_api import current_user
+    from ..dashboard.verification_store import VerificationStore
+    from .academy import (
+        due_reviews,
+        get_course,
+        get_knowledge,
+        review_questions_for_concept,
+    )
+
+    user = current_user()
+    course_id = request.args.get("course_id")
+    if not course_id:
+        return _err("course_id is required", 400)
+
+    knowledge = get_knowledge(course_id)
+    if knowledge is None:
+        return _err(f"Unknown course '{course_id}'", 404)
+
+    course = get_course(course_id)
+    if course is None:
+        return _err(f"Unknown course '{course_id}'", 404)
+
+    store = VerificationStore()
+    schedule_rows = store.get_review_schedule(user["id"], course_id)
+    now_ts = int(time.time())
+    due = due_reviews(schedule_rows, now_ts)
+
+    by_id = {n["id"]: n for n in knowledge.get("nodes", [])}
+    items = []
+    for row in due:
+        concept_id = row["concept_id"]
+        concept = by_id.get(concept_id)
+        if concept is None:
+            continue
+        questions = review_questions_for_concept(course, concept_id, concept)
+        if not questions:
+            continue
+        items.append({
+            "concept_id": concept_id,
+            "label": concept.get("label"),
+            "module_id": concept.get("module_id"),
+            "questions": questions,
+        })
+
+    return jsonify({"due": items})
+
+
+@academy.post("/reviews")
+@_registered_gate
+def submit_review():
+    """POST /api/v2/academy/reviews — grade a review session and reschedule."""
+    if not _rate("v2academy_reviews", 30, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from ..dashboard.auth_api import current_user
+    from ..dashboard.verification_store import VerificationStore
+    from .academy import (
+        apply_review,
+        get_course,
+        get_knowledge,
+        grade_review_answers,
+        review_questions_for_concept,
+    )
+
+    user = current_user()
+    data = request.get_json(silent=True) or {}
+    course_id = data.get("course_id")
+    concept_id = data.get("concept_id")
+    answers = data.get("answers")
+
+    if not course_id or not concept_id:
+        return _err("course_id and concept_id are required", 400)
+    if not isinstance(answers, list):
+        return _err("answers must be a list of integers", 400)
+
+    knowledge = get_knowledge(course_id)
+    if knowledge is None:
+        return _err(f"Unknown course '{course_id}'", 404)
+
+    course = get_course(course_id)
+    if course is None:
+        return _err(f"Unknown course '{course_id}'", 404)
+
+    concept = next(
+        (n for n in knowledge.get("nodes", []) if n.get("id") == concept_id),
+        None,
+    )
+    if concept is None:
+        return _err(f"Unknown concept '{concept_id}'", 404)
+
+    questions = review_questions_for_concept(
+        course, concept_id, concept, include_answers=True
+    )
+    if not questions:
+        return _err("No review questions for this concept", 404)
+
+    try:
+        correct_count, total, results = grade_review_answers(questions, answers)
+    except ValueError as exc:
+        return _err(str(exc), 400)
+
+    store = VerificationStore()
+    existing_rows = store.get_review_schedule(user["id"], course_id)
+    existing = next(
+        (r for r in existing_rows if r["concept_id"] == concept_id),
+        None,
+    )
+    if existing is None:
+        from .academy import REVIEW_INITIAL_EASE, REVIEW_INITIAL_INTERVAL
+
+        existing = {
+            "interval_days": REVIEW_INITIAL_INTERVAL,
+            "ease": REVIEW_INITIAL_EASE,
+        }
+
+    now_ts = int(time.time())
+    updated = apply_review(concept_id, results, existing, now_ts)
+    store.upsert_review_schedule(user["id"], course_id, [updated])
+
+    attempts = [{"concept_id": concept_id, "correct": r} for r in results]
+    store.save_concept_attempts(user["id"], course_id, attempts)
+
+    return jsonify({
+        "concept_id": concept_id,
+        "score_correct": correct_count,
+        "score_total": total,
+        "passed": updated.get("passed", False),
+        "schedule": {
+            "concept_id": updated["concept_id"],
+            "interval_days": updated["interval_days"],
+            "ease": updated["ease"],
+            "next_due_ts": updated["next_due_ts"],
+            "last_result": updated["last_result"],
+        },
+    })
 
 
 # -----------------------------------------------------------------------------

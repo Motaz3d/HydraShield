@@ -2815,3 +2815,158 @@ body.search-open {
         height: 40px;
     }
 }
+
+/* ============================================
+   Academy knowledge map
+   ============================================ */
+
+.km-container {
+    overflow-x: auto;
+    padding: 10px 0;
+    background: var(--light-2);
+    border-radius: var(--radius-sm);
+    min-height: 200px;
+}
+
+.km-container svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.km-edge {
+    stroke: #94a3b8;
+    stroke-width: 1.5;
+    stroke-opacity: 0.6;
+}
+
+.km-node {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.km-node rect {
+    stroke-width: 2;
+    stroke: transparent;
+    transition: stroke 0.2s ease, filter 0.2s ease;
+}
+
+.km-node:focus {
+    outline: none;
+}
+
+.km-node:focus-visible rect {
+    stroke: var(--primary);
+    stroke-width: 3;
+}
+
+.km-label {
+    font-family: var(--font-main);
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--dark);
+    pointer-events: none;
+}
+
+.km-status-dot {
+    pointer-events: none;
+}
+
+.km-here-label {
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 700;
+    fill: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    pointer-events: none;
+}
+
+.km-recommended rect {
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-dasharray: 6 4;
+    filter: drop-shadow(0 0 4px rgba(245,158,11,0.35));
+}
+
+.km-dimmed {
+    opacity: 0.15;
+}
+
+.km-mastered rect { fill: rgba(34,197,94,0.18); stroke: #16a34a; }
+.km-mastered .km-status-dot { fill: #16a34a; }
+
+.km-proficient rect { fill: rgba(20,184,166,0.16); stroke: #0d9488; }
+.km-proficient .km-status-dot { fill: #0d9488; }
+
+.km-developing rect { fill: rgba(245,158,11,0.16); stroke: #d97706; }
+.km-developing .km-status-dot { fill: #d97706; }
+
+.km-needs_attention rect { fill: rgba(239,68,68,0.14); stroke: #dc2626; }
+.km-needs_attention .km-status-dot { fill: #dc2626; }
+
+.km-not_started rect { fill: rgba(148,163,184,0.14); stroke: #94a3b8; }
+.km-not_started .km-status-dot { fill: #94a3b8; }
+
+.km-meter {
+    height: 8px;
+    background: var(--light-2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 6px 0;
+}
+
+.km-meter-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.km-meter-fill.km-mastered { background: #16a34a; }
+.km-meter-fill.km-proficient { background: #0d9488; }
+.km-meter-fill.km-developing { background: #d97706; }
+.km-meter-fill.km-needs_attention { background: #dc2626; }
+.km-meter-fill.km-not_started { background: #94a3b8; }
+
+.km-competency {
+    margin-bottom: 12px;
+}
+
+.km-competency-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.km-competency-pct {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: right;
+}
+
+.km-weak-chip {
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-main);
+}
+
+.km-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.km-review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--light-2);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.km-review-panel {
+    margin-top: 14px;
+}

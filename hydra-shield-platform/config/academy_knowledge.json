@@ -1,0 +1,311 @@
+{
+  "version": "2.0.0",
+  "course_id": "climate-risk-finance",
+  "course_title": "Climate Risk Assessment for Financial Institutions",
+  "tagline": "Know where you are. Know what you know. Know what comes next.",
+  "tracks": [
+    { "id": "finance", "label": "Finance & Investment" },
+    { "id": "insurance", "label": "Insurance" },
+    { "id": "government", "label": "Government & Public Sector" },
+    { "id": "technical", "label": "Technical & Earth Observation" }
+  ],
+  "nodes": [
+    {
+      "id": "course_root",
+      "label": "Climate & Environmental Risk for Finance",
+      "kind": "root",
+      "module_id": null,
+      "summary": "The course as one connected system: how environmental evidence becomes decision intelligence for financial institutions.",
+      "prerequisites": [],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "foundations_hub",
+      "label": "Foundations: climate risk in finance",
+      "kind": "module",
+      "module_id": "foundations",
+      "summary": "Why physical and transition climate risks matter to banks, insurers and investors.",
+      "prerequisites": ["course_root"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "risk_in_finance",
+      "label": "Why climate risk matters in finance",
+      "kind": "concept",
+      "module_id": "foundations",
+      "summary": "Climate risk hits capital through physical damage, value loss and transition. Both can strike the same asset together.",
+      "prerequisites": ["course_root"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "physical_vs_transition",
+      "label": "Physical vs transition risk",
+      "kind": "concept",
+      "module_id": "foundations",
+      "summary": "Physical risk is damage from climate events and long-term shifts; transition risk is financial impact from the move to a lower-carbon economy.",
+      "prerequisites": ["risk_in_finance"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "acute_vs_chronic",
+      "label": "Acute vs chronic hazards",
+      "kind": "concept",
+      "module_id": "foundations",
+      "summary": "Acute hazards are event-driven (storms, floods, fires); chronic hazards build slowly (drought, sea-level rise, long-term warming).",
+      "prerequisites": ["physical_vs_transition"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "tcfd_ifrs",
+      "label": "From TCFD to IFRS S2",
+      "kind": "concept",
+      "module_id": "foundations",
+      "summary": "The four TCFD pillars (governance, strategy, risk management, metrics and targets) now live on as the ISSB's IFRS S2 standard.",
+      "prerequisites": ["risk_in_finance"],
+      "tracks": ["finance", "government", "insurance"]
+    },
+    {
+      "id": "supervisory_expectations",
+      "label": "Supervisory expectations: EBA, ECB, EIOPA",
+      "kind": "concept",
+      "module_id": "foundations",
+      "summary": "Supervisors expect regulated firms to identify, measure and disclose climate risk. These are expectations, not optional practice.",
+      "prerequisites": ["tcfd_ifrs"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "eu_framework_hub",
+      "label": "EU framework map",
+      "kind": "module",
+      "module_id": "eu-frameworks",
+      "summary": "A plain-language tour of the EU sustainability regulations shaping financial disclosure and product classification.",
+      "prerequisites": ["foundations_hub"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "eu_taxonomy",
+      "label": "EU Taxonomy",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "A classification system for environmentally sustainable economic activities — a disclosure tool, not a green label.",
+      "prerequisites": ["eu_framework_hub"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "dnsh",
+      "label": "DNSH: Do No Significant Harm",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "A Taxonomy-aligned activity must not significantly harm the other five environmental objectives — including climate adaptation.",
+      "prerequisites": ["eu_taxonomy"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "sfdr_articles",
+      "label": "SFDR disclosure categories",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "Articles 6, 8 and 9 are disclosure categories, not environmental seals. Greenwashing happens when disclosure and reality diverge.",
+      "prerequisites": ["eu_taxonomy"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "csrd_esrs",
+      "label": "CSRD, ESRS and double materiality",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "CSRD expands sustainability reporting under ESRS; double materiality covers both outside-in financial risk and inside-out impact.",
+      "prerequisites": ["eu_taxonomy"],
+      "tracks": ["finance", "government"]
+    },
+    {
+      "id": "eba_pillar3",
+      "label": "EBA Pillar 3 ESG and the Green Asset Ratio",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "Standardised ESG disclosure templates for banks, including the GAR — a quantitative disclosure, not a policy target.",
+      "prerequisites": ["eu_taxonomy"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "eu_green_bonds",
+      "label": "EU Green Bonds and external reviewers",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "European Green Bonds require ESMA-registered external reviewers; an ICMA Second Party Opinion is a different thing.",
+      "prerequisites": ["eu_taxonomy"],
+      "tracks": ["finance", "government"]
+    },
+    {
+      "id": "evidence_hub",
+      "label": "Evidence literacy",
+      "kind": "module",
+      "module_id": "evidence-literacy",
+      "summary": "How to read evidence honestly — and why 'data unavailable' is a legitimate answer in climate finance.",
+      "prerequisites": ["foundations_hub"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "claim_status",
+      "label": "Claim-status vocabulary",
+      "kind": "concept",
+      "module_id": "evidence-literacy",
+      "summary": "OBSERVED, DOCUMENTED, REPORTED, MODELLED, INFERRED, UNKNOWN. UNKNOWN is honest information, not failure.",
+      "prerequisites": ["evidence_hub"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "screening_indicators",
+      "label": "Confidence and screening indicators",
+      "kind": "concept",
+      "module_id": "evidence-literacy",
+      "summary": "Every evidence layer carries confidence and limitations; a screening indicator is a preliminary signal, not a validated model.",
+      "prerequisites": ["claim_status"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "greenwashing",
+      "label": "Greenwashing and the evidence counter-layer",
+      "kind": "concept",
+      "module_id": "evidence-literacy",
+      "summary": "Regulators have fined DWS \u20ac25m and settled with BNY Mellon for $1.5m; physical evidence can support or contradict green claims.",
+      "prerequisites": ["claim_status"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "verify_hub",
+      "label": "Hands-on: verify a financed asset",
+      "kind": "module",
+      "module_id": "verify-asset",
+      "summary": "How to read a Green Finance DNSH evidence report and interpret it in a credit or investment process.",
+      "prerequisites": ["eu_framework_hub", "evidence_hub"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "appendix_a_hazards",
+      "label": "EU Taxonomy Appendix A hazards",
+      "kind": "concept",
+      "module_id": "verify-asset",
+      "summary": "The physical climate hazards that must be considered for the DNSH climate-change adaptation test.",
+      "prerequisites": ["verify_hub"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "dnsh_checklist",
+      "label": "Walking the DNSH checklist",
+      "kind": "concept",
+      "module_id": "verify-asset",
+      "summary": "One row per screened hazard: taxonomy label, claim status, level, confidence, evidence records and limitations.",
+      "prerequisites": ["appendix_a_hazards"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "declared_gaps",
+      "label": "Declared data gaps and credit committees",
+      "kind": "concept",
+      "module_id": "verify-asset",
+      "summary": "A declared gap is as important as a check: it documents the boundary of what is known before a committee decides.",
+      "prerequisites": ["dnsh_checklist"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "report_scope",
+      "label": "What the Green Finance report is — and is not",
+      "kind": "concept",
+      "module_id": "verify-asset",
+      "summary": "A physical-evidence screening layer. Not an SPO, not an ESMA-registered review, not an audit, not a credit rating.",
+      "prerequisites": ["dnsh_checklist"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "disclosures_hub",
+      "label": "Hands-on: read disclosures and risk profiles",
+      "kind": "module",
+      "module_id": "read-disclosures",
+      "summary": "How to cross-read sustainability disclosures and insurance risk profiles for the same underlying exposure.",
+      "prerequisites": ["eu_framework_hub", "evidence_hub"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "esrs_coverage",
+      "label": "ESRS coverage map and boundaries",
+      "kind": "concept",
+      "module_id": "read-disclosures",
+      "summary": "Evidence mapped to ESRS requirements as covered_by_evidence, partial or not_covered — a boundary, not a guarantee.",
+      "prerequisites": ["disclosures_hub"],
+      "tracks": ["finance", "government"]
+    },
+    {
+      "id": "insurance_profile",
+      "label": "Insurance risk profile structure",
+      "kind": "concept",
+      "module_id": "read-disclosures",
+      "summary": "Per-peril current levels and long-term event history — explicitly no loss quantification (no AAL, PML or EP curves).",
+      "prerequisites": ["disclosures_hub"],
+      "tracks": ["insurance", "finance"]
+    },
+    {
+      "id": "lender_vs_insurer",
+      "label": "Lender vs insurer perspective",
+      "kind": "concept",
+      "module_id": "read-disclosures",
+      "summary": "Lenders care about collateral and default; insurers care about claims frequency and severity. Different evidence emphases.",
+      "prerequisites": ["esrs_coverage", "insurance_profile"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "final_hub",
+      "label": "Final assessment",
+      "kind": "module",
+      "module_id": "final-assessment",
+      "summary": "Recap and final quiz across the whole map. Pass every module to receive the Certificate of Completion.",
+      "prerequisites": ["verify_hub", "disclosures_hub"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "decision_application",
+      "label": "Applying evidence to decisions",
+      "kind": "concept",
+      "module_id": "final-assessment",
+      "summary": "Using the full chain — evidence, exposure, financial impact — to support a real credit, investment or insurance decision.",
+      "prerequisites": ["final_hub"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "honesty_contract",
+      "label": "The honesty contract",
+      "kind": "concept",
+      "module_id": "final-assessment",
+      "summary": "Declare what is known, declare what is missing, and never substitute an unavailable dataset with invented certainty.",
+      "prerequisites": ["decision_application"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    }
+  ],
+  "competencies": [
+    {
+      "id": "risk_interpretation",
+      "label": "Risk interpretation",
+      "concepts": ["risk_in_finance", "physical_vs_transition", "acute_vs_chronic", "appendix_a_hazards", "insurance_profile"]
+    },
+    {
+      "id": "regulatory_literacy",
+      "label": "Regulatory literacy",
+      "concepts": ["tcfd_ifrs", "eu_taxonomy", "dnsh", "sfdr_articles", "csrd_esrs", "eba_pillar3", "eu_green_bonds"]
+    },
+    {
+      "id": "evidence_assessment",
+      "label": "Evidence assessment",
+      "concepts": ["claim_status", "screening_indicators", "greenwashing", "declared_gaps", "report_scope"]
+    },
+    {
+      "id": "financial_application",
+      "label": "Financial application",
+      "concepts": ["dnsh_checklist", "esrs_coverage", "lender_vs_insurer", "decision_application"]
+    },
+    {
+      "id": "decision_communication",
+      "label": "Decision communication",
+      "concepts": ["supervisory_expectations", "honesty_contract"]
+    }
+  ]
+}

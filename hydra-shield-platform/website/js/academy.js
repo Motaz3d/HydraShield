@@ -14,6 +14,10 @@
     var glossary = {};
     var progress = {};
     var currentModuleId = null;
+    var knowledge = null;
+    var learnerModel = null;
+    var reviewDue = [];
+    var selectedTrack = 'all';
 
     function renderStatus(mountId, kind, html) {
         el(mountId).innerHTML = '<div class="notice notice-' + esc(kind) + '">' + html + '</div>';
@@ -203,6 +207,7 @@
                 renderModuleList();
                 renderCertificatePanel();
             });
+            refreshLearnerModel();
         }).catch(function () {
             el('submitQuizBtn').disabled = false;
             renderStatus('moduleQuizStatus', 'error', 'The service could not be reached.');
@@ -324,6 +329,433 @@
         el('certificateActions').innerHTML = html;
     }
 
+    function loadKnowledge() {
+        return fetchJSON(API + '/v2/academy/knowledge?course_id=' + COURSE_ID).then(function (res) {
+            if (!res.ok || !res.body || !res.body.knowledge) return null;
+            knowledge = res.body.knowledge;
+            return knowledge;
+        });
+    }
+
+    function loadLearnerModel() {
+        return fetchJSON(API + '/v2/academy/learner-model?course_id=' + COURSE_ID, {
+            credentials: 'same-origin',
+        }).then(function (res) {
+            if (res.status === 401 || res.status === 403) {
+                learnerModel = null;
+                reviewDue = [];
+                return { authRequired: true };
+            }
+            if (!res.ok) return null;
+            learnerModel = res.body.model || null;
+            reviewDue = res.body.due_reviews || [];
+            return learnerModel;
+        });
+    }
+
+    function setAcademyView(view) {
+        var isMap = view === 'map';
+        el('mapPanel').classList.toggle('hidden', !isMap);
+        el('listPanel').classList.toggle('hidden', isMap);
+        el('viewMapBtn').classList.toggle('active', isMap);
+        el('viewListBtn').classList.toggle('active', !isMap);
+        if (window.HS && HS.track) HS.track('academy_view', { view: view });
+    }
+
+    function nodeLevelClass(level) {
+        return 'km-' + (level || 'not_started');
+    }
+
+    function levelLabel(level) {
+        var map = {
+            mastered: 'Mastered',
+            proficient: 'Proficient',
+            developing: 'Developing',
+            needs_attention: 'Needs attention',
+            not_started: 'Not started'
+        };
+        return map[level] || level;
+    }
+
+    function wrapText(text, maxLen) {
+        if (!text) return [''];
+        if (text.length <= maxLen) return [text];
+        var words = text.split(' ');
+        var lines = [''];
+        words.forEach(function (w) {
+            var last = lines[lines.length - 1];
+            if (!last || (last + ' ' + w).length <= maxLen) {
+                lines[lines.length - 1] = last ? last + ' ' + w : w;
+            } else if (lines.length < 2) {
+                lines.push(w);
+            } else {
+                lines[lines.length - 1] = last + '…';
+            }
+        });
+        return lines;
+    }
+
+    function renderTrackChips() {
+        if (!knowledge || !knowledge.tracks) return;
+        var html = '<button class="hazard-tab ' + (selectedTrack === 'all' ? 'active' : '') + '" data-track="all">All tracks</button>';
+        knowledge.tracks.forEach(function (t) {
+            html += '<button class="hazard-tab ' + (selectedTrack === t.id ? 'active' : '') + '" data-track="' + esc(t.id) + '">' + esc(t.label) + '</button>';
+        });
+        el('trackChips').innerHTML = html;
+        el('trackChips').querySelectorAll('button[data-track]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                selectedTrack = btn.getAttribute('data-track');
+                renderTrackChips();
+                renderMap();
+                if (window.HS && HS.track) HS.track('academy_track_filter', { track: selectedTrack });
+            });
+        });
+    }
+
+    function computeDepths(nodes) {
+        var byId = {};
+        nodes.forEach(function (n) { byId[n.id] = n; });
+        var depth = {};
+        function getDepth(id) {
+            if (depth[id] !== undefined) return depth[id];
+            var node = byId[id];
+            if (!node) return 0;
+            var prereqs = node.prerequisites || [];
+            if (!prereqs.length) {
+                depth[id] = 0;
+                return 0;
+            }
+            var max = 0;
+            prereqs.forEach(function (p) {
+                var d = getDepth(p);
+                if (d + 1 > max) max = d + 1;
+            });
+            depth[id] = max;
+            return max;
+        }
+        nodes.forEach(function (n) { getDepth(n.id); });
+        return depth;
+    }
+
+    function renderMap() {
+        if (!knowledge) return;
+        var nodes = knowledge.nodes || [];
+        var conceptsById = {};
+        if (learnerModel && learnerModel.concepts) {
+            learnerModel.concepts.forEach(function (c) { conceptsById[c.id] = c; });
+        }
+        var recommendedId = learnerModel && learnerModel.recommended_next ? learnerModel.recommended_next.concept_id : null;
+        var depths = computeDepths(nodes);
+        var layers = {};
+        nodes.forEach(function (n) {
+            var d = depths[n.id] || 0;
+            layers[d] = layers[d] || [];
+            layers[d].push(n);
+        });
+        var colWidth = 220;
+        var rowHeight = 74;
+        var nodeW = 190;
+        var nodeH = 46;
+        var maxLayer = Object.keys(layers).length ? Math.max.apply(null, Object.keys(layers).map(Number)) : 0;
+        var svgW = (maxLayer + 1) * colWidth + 20;
+        var maxRows = 0;
+        Object.keys(layers).forEach(function (d) {
+            if (layers[d].length > maxRows) maxRows = layers[d].length;
+        });
+        var svgH = Math.max(maxRows * rowHeight + 40, 200);
+
+        var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Knowledge map">';
+        svg += '<defs><marker id="km-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 L2,4 z" fill="#94a3b8"/></marker></defs>';
+
+        var positions = {};
+        Object.keys(layers).forEach(function (d) {
+            var x = parseInt(d, 10) * colWidth + 20;
+            var startY = (svgH - layers[d].length * rowHeight) / 2 + rowHeight / 2;
+            layers[d].forEach(function (n, i) {
+                positions[n.id] = { x: x, y: startY + i * rowHeight };
+            });
+        });
+
+        // edges
+        nodes.forEach(function (n) {
+            var target = positions[n.id];
+            if (!target) return;
+            (n.prerequisites || []).forEach(function (pid) {
+                var source = positions[pid];
+                if (!source) return;
+                svg += '<line x1="' + (source.x + nodeW) + '" y1="' + source.y + '" x2="' + target.x + '" y2="' + target.y + '" class="km-edge" marker-end="url(#km-arrow)"/>';
+            });
+        });
+
+        // nodes
+        nodes.forEach(function (n) {
+            var pos = positions[n.id];
+            if (!pos) return;
+            var concept = conceptsById[n.id];
+            var level = concept ? concept.level : 'not_started';
+            var isRecommended = n.id === recommendedId;
+            var isDimmed = selectedTrack !== 'all' && (n.tracks || []).indexOf(selectedTrack) < 0;
+            var gClass = 'km-node ' + nodeLevelClass(level) + (isRecommended ? ' km-recommended' : '') + (isDimmed ? ' km-dimmed' : '');
+            var aria = esc(n.label) + ' — ' + levelLabel(level);
+            var lines = wrapText(n.label, 22);
+            var textY = pos.y - ((lines.length - 1) * 8) + 4;
+            var textHtml = '';
+            lines.forEach(function (line, i) {
+                textHtml += '<tspan x="' + (pos.x + nodeW / 2) + '" dy="' + (i === 0 ? 0 : 16) + '">' + esc(line) + '</tspan>';
+            });
+            if (isRecommended) {
+                svg += '<text x="' + (pos.x + nodeW / 2) + '" y="' + (pos.y - nodeH / 2 - 8) + '" text-anchor="middle" class="km-here-label">YOU ARE HERE</text>';
+            }
+            svg += '<g tabindex="0" role="button" class="' + gClass + '" data-node="' + esc(n.id) + '" aria-label="' + aria + '">';
+            svg += '<title>' + esc(n.label) + ' — ' + levelLabel(level) + (n.summary ? '\n' + n.summary : '') + '</title>';
+            svg += '<rect x="' + pos.x + '" y="' + (pos.y - nodeH / 2) + '" width="' + nodeW + '" height="' + nodeH + '" rx="10" ry="10"/>';
+            svg += '<circle cx="' + (pos.x + 12) + '" cy="' + pos.y + '" r="4" class="km-status-dot"/>';
+            svg += '<text x="' + (pos.x + nodeW / 2) + '" y="' + textY + '" text-anchor="middle" class="km-label">' + textHtml + '</text>';
+            svg += '</g>';
+        });
+
+        svg += '</svg>';
+        el('knowledgeMap').innerHTML = svg;
+        el('knowledgeMap').querySelectorAll('g[data-node]').forEach(function (g) {
+            function activate() {
+                var nodeId = g.getAttribute('data-node');
+                var node = nodes.find(function (n) { return n.id === nodeId; });
+                if (!node) return;
+                var moduleId = node.module_id;
+                if (!moduleId && node.kind === 'module') moduleId = node.module_id;
+                if (moduleId) {
+                    openModule(moduleId);
+                    if (window.HS && HS.track) HS.track('academy_node_open', { node_id: nodeId, module_id: moduleId });
+                }
+            }
+            g.addEventListener('click', activate);
+            g.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    activate();
+                }
+            });
+        });
+    }
+
+    function renderCompetencyBars() {
+        if (!learnerModel || !learnerModel.competencies) {
+            el('competencyBars').innerHTML = '<p class="muted small">Sign in to see competency progress.</p>';
+            return;
+        }
+        var html = '';
+        learnerModel.competencies.forEach(function (c) {
+            var pct = Math.round((c.mastery || 0) * 100);
+            html += '<div class="km-competency">' +
+                '<div class="km-competency-meta"><span>' + esc(c.label) + '</span>' + HS.chip(c.level, levelLabel(c.level)) + '</div>' +
+                '<div class="km-meter"><div class="km-meter-fill ' + nodeLevelClass(c.level) + '" style="width:' + pct + '%;"></div></div>' +
+                '<div class="km-competency-pct">' + pct + '%</div>' +
+                '</div>';
+        });
+        el('competencyBars').innerHTML = html;
+    }
+
+    function renderOverallMastery() {
+        if (!learnerModel || !learnerModel.overall) {
+            el('overallMastery').innerHTML = '<p class="muted small">Sign in to track your overall mastery.</p>';
+            return;
+        }
+        var o = learnerModel.overall;
+        var pct = Math.round((o.mastery || 0) * 100);
+        el('overallMastery').innerHTML = '<div class="km-competency">' +
+            '<div class="km-competency-meta"><span>Overall mastery</span>' + HS.chip(o.level, levelLabel(o.level)) + '</div>' +
+            '<div class="km-meter"><div class="km-meter-fill ' + nodeLevelClass(o.level) + '" style="width:' + pct + '%;"></div></div>' +
+            '<div class="km-competency-pct">' + pct + '%</div>' +
+            '</div>';
+    }
+
+    function renderWeakAreas() {
+        if (!knowledge) return;
+        if (!learnerModel || !learnerModel.weak_areas || !learnerModel.weak_areas.length) {
+            el('weakAreas').innerHTML = '<p class="muted small">No weak areas right now.</p>';
+            return;
+        }
+        var byId = {};
+        knowledge.nodes.forEach(function (n) { byId[n.id] = n; });
+        var html = '<div class="badge-row">';
+        learnerModel.weak_areas.forEach(function (id) {
+            var n = byId[id];
+            if (!n) return;
+            html += '<button class="chip chip-error km-weak-chip" data-module="' + esc(n.module_id || '') + '">' + esc(n.label) + '</button>';
+        });
+        html += '</div>';
+        el('weakAreas').innerHTML = html;
+        el('weakAreas').querySelectorAll('.km-weak-chip').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var moduleId = btn.getAttribute('data-module');
+                if (moduleId) openModule(moduleId);
+            });
+        });
+    }
+
+    function renderRecommendedNext() {
+        if (!learnerModel || !learnerModel.recommended_next) {
+            el('recommendedNext').innerHTML = '<p class="muted small">Complete more concepts to get a recommendation.</p>';
+            return;
+        }
+        var rec = learnerModel.recommended_next;
+        var byId = {};
+        if (knowledge) knowledge.nodes.forEach(function (n) { byId[n.id] = n; });
+        var moduleId = byId[rec.concept_id] ? byId[rec.concept_id].module_id : null;
+        el('recommendedNext').innerHTML = '<p><strong>' + esc(rec.label) + '</strong><br><span class="muted small">' + esc(rec.reason) + '</span></p>' +
+            (moduleId ? '<button class="btn-action btn-sm" id="recOpenBtn">Open</button>' : '');
+        var openBtn = el('recOpenBtn');
+        if (openBtn) {
+            openBtn.addEventListener('click', function () {
+                openModule(moduleId);
+                if (window.HS && HS.track) HS.track('academy_recommended_open', { concept_id: rec.concept_id });
+            });
+        }
+    }
+
+    function renderDueReviews() {
+        if (!knowledge) return;
+        if (!reviewDue || !reviewDue.length) {
+            el('dueReviews').innerHTML = '<p class="muted small">No reviews due right now.</p>';
+            return;
+        }
+        var byId = {};
+        knowledge.nodes.forEach(function (n) { byId[n.id] = n; });
+        var html = '<div class="km-review-list">';
+        reviewDue.forEach(function (id) {
+            var n = byId[id];
+            if (!n) return;
+            html += '<div class="km-review-item"><span>' + esc(n.label) + '</span><button class="btn-action btn-sm" data-review="' + esc(id) + '">Start review</button></div>';
+        });
+        html += '</div>';
+        el('dueReviews').innerHTML = html;
+        el('dueReviews').querySelectorAll('button[data-review]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                startReview(btn.getAttribute('data-review'));
+            });
+        });
+    }
+
+    function renderPositionPanel() {
+        renderOverallMastery();
+        renderCompetencyBars();
+        renderWeakAreas();
+        renderRecommendedNext();
+        renderDueReviews();
+    }
+
+    function renderMapView() {
+        renderTrackChips();
+        renderMap();
+        renderPositionPanel();
+    }
+
+    function startReview(conceptId) {
+        if (!knowledge) return;
+        var concept = knowledge.nodes.find(function (n) { return n.id === conceptId; });
+        if (!concept) return;
+        fetchJSON(API + '/v2/academy/reviews/due?course_id=' + COURSE_ID, {
+            credentials: 'same-origin',
+        }).then(function (res) {
+            if (res.status === 401 || res.status === 403) {
+                el('dueReviews').innerHTML = '<div class="notice notice-warn">' + authPrompt('review concepts') + '</div>';
+                return;
+            }
+            if (!res.ok) {
+                el('dueReviews').innerHTML = '<div class="notice notice-error">Could not load review questions.</div>';
+                return;
+            }
+            var item = (res.body.due || []).find(function (d) { return d.concept_id === conceptId; });
+            if (!item) {
+                el('dueReviews').innerHTML = '<div class="notice notice-info">This review is no longer due.</div>';
+                return;
+            }
+            renderReviewForm(conceptId, item.label, item.questions);
+        });
+    }
+
+    function renderReviewForm(conceptId, label, questions) {
+        var html = '<div class="panel km-review-panel"><h3>Review: ' + esc(label) + '</h3>';
+        questions.forEach(function (q, idx) {
+            html += '<div class="form-group quiz-question" data-idx="' + idx + '">';
+            html += '<label>' + (idx + 1) + '. ' + esc(q.question) + '</label>';
+            (q.options || []).forEach(function (opt, optIdx) {
+                var name = 'review_q_' + idx;
+                var id = name + '_' + optIdx;
+                html += '<div class="radio-option">' +
+                    '<input type="radio" name="' + name + '" id="' + id + '" value="' + optIdx + '">' +
+                    '<label for="' + id + '">' + esc(opt) + '</label></div>';
+            });
+            html += '</div>';
+        });
+        html += '<button class="btn-action" id="submitReviewBtn">Submit review</button>';
+        html += '<div id="reviewResult"></div></div>';
+        el('dueReviews').innerHTML = html;
+        el('submitReviewBtn').addEventListener('click', function () {
+            submitReview(conceptId, questions);
+        });
+    }
+
+    function submitReview(conceptId, questions) {
+        var answers = [];
+        var complete = true;
+        questions.forEach(function (_, idx) {
+            var selected = document.querySelector('input[name="review_q_' + idx + '"]:checked');
+            if (selected) {
+                answers.push(parseInt(selected.value, 10));
+            } else {
+                complete = false;
+                answers.push(-1);
+            }
+        });
+        if (!complete) {
+            el('reviewResult').innerHTML = '<div class="notice notice-warn">Answer all questions before submitting.</div>';
+            return;
+        }
+        el('submitReviewBtn').disabled = true;
+        fetchJSON(API + '/v2/academy/reviews', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ course_id: COURSE_ID, concept_id: conceptId, answers: answers }),
+        }).then(function (res) {
+            el('submitReviewBtn').disabled = false;
+            if (res.status === 401 || res.status === 403) {
+                el('reviewResult').innerHTML = '<div class="notice notice-warn">' + authPrompt('submit reviews') + '</div>';
+                return;
+            }
+            if (!res.ok || res.body.error) {
+                el('reviewResult').innerHTML = '<div class="notice notice-error">' + esc(res.body.error || 'Review submission failed') + '</div>';
+                return;
+            }
+            var d = res.body;
+            el('reviewResult').innerHTML = '<div class="notice notice-info">' +
+                'Score: ' + d.score_correct + '/' + d.score_total + ' ' +
+                (d.passed ? '<span class="chip chip-observed">PASSED</span>' : '<span class="chip chip-error">KEEP PRACTISING</span>') +
+                '<br><span class="muted small">Next review in ' + d.schedule.interval_days + ' day(s).</span>' +
+                '</div>';
+            refreshLearnerModel();
+        }).catch(function () {
+            el('submitReviewBtn').disabled = false;
+            el('reviewResult').innerHTML = '<div class="notice notice-error">The service could not be reached.</div>';
+        });
+    }
+
+    function refreshLearnerModel() {
+        return loadLearnerModel().then(function (res) {
+            if (res && res.authRequired) {
+                el('overallMastery').innerHTML = '<div class="notice notice-info">' + authPrompt('track your position') + '</div>';
+                el('competencyBars').innerHTML = '';
+                el('weakAreas').innerHTML = '';
+                el('recommendedNext').innerHTML = '';
+                el('dueReviews').innerHTML = '';
+                renderMap();
+                return;
+            }
+            renderMapView();
+        });
+    }
+
     function verifyCertificate() {
         var id = el('verifyCertId').value.trim();
         if (!id) {
@@ -367,17 +799,33 @@
     function init() {
         el('modeCourseBtn').addEventListener('click', function () { setMode('course'); });
         el('modeBriefsBtn').addEventListener('click', function () { setMode('briefs'); });
+        el('viewMapBtn').addEventListener('click', function () { setAcademyView('map'); });
+        el('viewListBtn').addEventListener('click', function () { setAcademyView('list'); });
         if (new URLSearchParams(location.search).get('mode') === 'briefs') setMode('briefs');
-        Promise.all([loadCourse(), loadGlossary()]).then(function () {
+        Promise.all([loadCourse(), loadGlossary(), loadKnowledge()]).then(function () {
             if (!course) {
                 el('moduleList').innerHTML = '<div class="notice notice-error">Course could not be loaded.</div>';
                 return;
             }
             renderModuleList();
             renderGlossary();
+            renderTrackChips();
+            renderMap();
             loadProgress().then(function () {
                 renderModuleList();
                 renderCertificatePanel();
+            });
+            loadLearnerModel().then(function (res) {
+                if (res && res.authRequired) {
+                    el('overallMastery').innerHTML = '<div class="notice notice-info">' + authPrompt('track your position') + '</div>';
+                    el('competencyBars').innerHTML = '';
+                    el('weakAreas').innerHTML = '';
+                    el('recommendedNext').innerHTML = '';
+                    el('dueReviews').innerHTML = '';
+                    renderMap();
+                    return;
+                }
+                renderMapView();
             });
         });
         el('verifyCertBtn').addEventListener('click', verifyCertificate);

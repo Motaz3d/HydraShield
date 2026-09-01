@@ -118,6 +118,33 @@ class VerificationStore:
                 )
                 """
             )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS academy_concept_attempts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    course_id TEXT NOT NULL,
+                    concept_id TEXT NOT NULL,
+                    correct INTEGER NOT NULL,
+                    created_at TEXT NOT NULL
+                )
+                """
+            )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS academy_review_schedule (
+                    user_id INTEGER NOT NULL,
+                    course_id TEXT NOT NULL,
+                    concept_id TEXT NOT NULL,
+                    interval_days INTEGER NOT NULL,
+                    ease REAL NOT NULL,
+                    next_due_ts INTEGER NOT NULL,
+                    last_result INTEGER NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    PRIMARY KEY (user_id, course_id, concept_id)
+                )
+                """
+            )
 
     def save_portfolio(
         self,
@@ -395,6 +422,101 @@ class VerificationStore:
             }
             for r in rows
         ]
+
+    def save_concept_attempts(
+        self,
+        user_id: int,
+        course_id: str,
+        attempts: List[Dict[str, Any]],
+    ) -> None:
+        """Persist per-concept quiz attempts for a user on a course."""
+        if not attempts:
+            return
+        created_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        with self._lock, self._connect() as conn:
+            conn.executemany(
+                "INSERT INTO academy_concept_attempts"
+                " (user_id, course_id, concept_id, correct, created_at)"
+                " VALUES (?, ?, ?, ?, ?)",
+                [
+                    (
+                        int(user_id),
+                        course_id,
+                        a["concept_id"],
+                        1 if a.get("correct") else 0,
+                        created_at,
+                    )
+                    for a in attempts
+                ],
+            )
+
+    def get_concept_attempts(self, user_id: int, course_id: str) -> List[Dict[str, Any]]:
+        """Return all concept attempts for a user on a course, ordered by id."""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT concept_id, correct, created_at"
+                " FROM academy_concept_attempts"
+                " WHERE user_id = ? AND course_id = ?"
+                " ORDER BY id",
+                (int(user_id), course_id),
+            ).fetchall()
+        return [
+            {"concept_id": r[0], "correct": bool(r[1]), "created_at": r[2]}
+            for r in rows
+        ]
+
+    def get_review_schedule(self, user_id: int, course_id: str) -> List[Dict[str, Any]]:
+        """Return spaced-retrieval schedule rows for a user on a course."""
+        with self._lock, self._connect() as conn:
+            rows = conn.execute(
+                "SELECT concept_id, interval_days, ease, next_due_ts, last_result, updated_at"
+                " FROM academy_review_schedule"
+                " WHERE user_id = ? AND course_id = ?",
+                (int(user_id), course_id),
+            ).fetchall()
+        return [
+            {
+                "concept_id": r[0],
+                "interval_days": r[1],
+                "ease": r[2],
+                "next_due_ts": r[3],
+                "last_result": r[4],
+                "updated_at": r[5],
+            }
+            for r in rows
+        ]
+
+    def upsert_review_schedule(
+        self,
+        user_id: int,
+        course_id: str,
+        rows: List[Dict[str, Any]],
+    ) -> None:
+        """Insert or replace spaced-retrieval schedule rows."""
+        if not rows:
+            return
+        updated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        with self._lock, self._connect() as conn:
+            conn.executemany(
+                """
+                INSERT OR REPLACE INTO academy_review_schedule
+                (user_id, course_id, concept_id, interval_days, ease, next_due_ts, last_result, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                [
+                    (
+                        int(user_id),
+                        course_id,
+                        r["concept_id"],
+                        int(r["interval_days"]),
+                        float(r["ease"]),
+                        int(r["next_due_ts"]),
+                        int(r["last_result"]),
+                        updated_at,
+                    )
+                    for r in rows
+                ],
+            )
 
     def save_certificate(
         self,

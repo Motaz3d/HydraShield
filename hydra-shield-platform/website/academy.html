@@ -39,10 +39,37 @@
                 certification. University partnership is planned; not claimed.
             </div>
 
+            <div class="hazard-tabs" id="academyViewTabs" role="tablist" aria-label="Course view" style="margin-bottom:18px;">
+                <button type="button" class="hazard-tab active" id="viewMapBtn" role="tab">Map</button>
+                <button type="button" class="hazard-tab" id="viewListBtn" role="tab">List</button>
+            </div>
+
+            <div id="mapPanel">
+                <div class="panel">
+                    <div id="trackChips" class="toolbar" style="margin-bottom:14px;"></div>
+                    <div id="knowledgeMap" class="km-container"></div>
+                </div>
+
+                <div class="panel" id="positionPanel">
+                    <h2>Your position</h2>
+                    <div id="overallMastery"></div>
+                    <h3>Competencies</h3>
+                    <div id="competencyBars"></div>
+                    <h3>Weak areas</h3>
+                    <div id="weakAreas"></div>
+                    <h3>Recommended next step</h3>
+                    <div id="recommendedNext"></div>
+                    <h3>Due reviews</h3>
+                    <div id="dueReviews"></div>
+                </div>
+            </div>
+
+            <div id="listPanel">
             <div class="panel">
                 <h2>Course: Climate Risk Assessment for Financial Institutions</h2>
                 <p class="muted small" id="courseMeta"></p>
                 <div id="moduleList"></div>
+            </div>
             </div>
 
             <div class="panel" id="moduleReaderPanel" style="display:none;">
