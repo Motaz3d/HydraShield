@@ -482,6 +482,9 @@ def webhook():
         return _err("Invalid signature", 400)
     except ValueError:
         return _err("Invalid payload", 400)
+    if not isinstance(event, dict):
+        # stripe-python >= 15 returns an Event object, not a dict.
+        event = event.to_dict()
 
     event_id = event.get("id")
     if not event_id:
@@ -543,6 +546,9 @@ def _handle_checkout_session_completed(session: Dict) -> None:
             return
         stripe = _stripe_client()
         subscription = stripe.Subscription.retrieve(stripe_sub_id)
+        if not isinstance(subscription, dict):
+            # stripe-python >= 15 returns a Subscription object, not a dict.
+            subscription = subscription.to_dict()
         status = _STRIPE_STATUS_MAP.get(subscription.get("status"), "active")
         ends_at = _subscription_period_end(subscription)
         _upsert_subscription_from_stripe(

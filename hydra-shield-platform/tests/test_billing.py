@@ -93,23 +93,33 @@ def fake_stripe(monkeypatch):
             calls["portal_create"].append(kwargs)
             return SimpleNamespace(url="https://billing.stripe.test/portal")
 
+    class FakeStripeObject:
+        """Mimics stripe-python >= 15: API resources are not dicts; they
+        require .to_dict() (calling .get on them raises AttributeError)."""
+
+        def __init__(self, payload):
+            self._payload = payload
+
+        def to_dict(self):
+            return self._payload
+
     class FakeSubscription:
         @staticmethod
         def retrieve(sub_id):
             calls["subscription_retrieve"].append(sub_id)
-            return {
+            return FakeStripeObject({
                 "id": sub_id,
                 "status": "active",
                 "current_period_end": 1893456000,
                 "items": {"data": [{"current_period_end": 1893456000}]},
-            }
+            })
 
     class FakeWebhook:
         @staticmethod
         def construct_event(payload, sig_header, secret):
             if sig_header == "bad-sig":
                 raise SignatureVerificationError("bad signature")
-            return json.loads(payload)
+            return FakeStripeObject(json.loads(payload))
 
     fake_module = SimpleNamespace(
         error=SimpleNamespace(SignatureVerificationError=SignatureVerificationError),
