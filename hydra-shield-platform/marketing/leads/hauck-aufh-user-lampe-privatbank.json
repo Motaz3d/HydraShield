@@ -6,10 +6,10 @@
   "priority": "medium",
   "urgency": "medium",
   "outreach_status": "researched",
-  "recommended_product": "",
+  "recommended_product": "portfolio_screening",
   "next_action": "Qualify: verify current public signal and select contact route",
-  "identified_problem": "",
-  "relevant_capability": "",
+  "identified_problem": "Banks in Luxembourg are preparing for EBA Pillar 3 ESG disclosures, the ECB's climate-risk expectations and EU Taxonomy GAR reporting — all asking for physical-risk evidence over financed assets and collateral, not portfolio-level estimates.",
+  "relevant_capability": "location-level screening of collateral and financed assets against seven hazards, each value with its source and evidence status — built for credit files, Pillar 3 ESG templates, GAR/DNSH checks and risk-committee packs.",
   "status": "open",
   "interactions": [
     {

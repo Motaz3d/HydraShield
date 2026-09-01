@@ -6,10 +6,10 @@
   "priority": "medium",
   "urgency": "medium",
   "outreach_status": "researched",
-  "recommended_product": "",
+  "recommended_product": "evidence_reports",
   "next_action": "Qualify: verify current public signal and select contact route",
-  "identified_problem": "",
-  "relevant_capability": "",
+  "identified_problem": "Advisory, legal and fund-administration teams in Luxembourg are being pulled into their clients' CSRD/ESRS reporting, EU Taxonomy DNSH checks and SFDR questions — work where every physical-risk figure must be defensible in front of an auditor.",
+  "relevant_capability": "a reusable evidence layer for client engagements: asset-level hazard screening with provenance per figure, delivered as reports or through the documented API and QGIS plugin — ready for audit-facing CSRD and Taxonomy packs.",
   "status": "open",
   "interactions": [
     {
