@@ -6,10 +6,10 @@
   "priority": "medium",
   "urgency": "medium",
   "outreach_status": "researched",
-  "recommended_product": "",
+  "recommended_product": "portfolio_screening",
   "next_action": "Qualify: verify current public signal and select contact route",
-  "identified_problem": "",
-  "relevant_capability": "",
+  "identified_problem": "Fund managers and AIFMs in Luxembourg are now expected to evidence the physical climate exposure of their portfolios: SFDR principal adverse impact indicators, EU Taxonomy DNSH checks, CSRD/ESRS disclosures and CSSF supervision all ask for asset-level physical risk evidence, not generic ESG scores.",
+  "relevant_capability": "asset-level screening of every portfolio location against seven hazards, computed from Earth observation and official open data — each value with its source and evidence status, ready for SFDR/CSRD annexes, DNSH checks and investment-committee packs.",
   "status": "open",
   "interactions": [
     {
