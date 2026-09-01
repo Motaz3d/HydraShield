@@ -24,6 +24,7 @@ Cron (e.g. every 15 minutes):
 from __future__ import annotations
 
 import email
+import email.policy
 import imaplib
 import os
 import re
@@ -211,13 +212,20 @@ def main() -> int:
         msg_ids = data[0].split()
         for msg_id in msg_ids:
             scanned += 1
-            status, msg_data = mail.fetch(msg_id, "(RFC822)")
+            # BODY.PEEK[] — never sets \Seen implicitly. A plain (RFC822)
+            # fetch marks every scanned message as read on the server
+            # (RFC 3501), which made inbox mail look "opened by itself".
+            # Only a matched reply earns the explicit \Seen below.
+            status, msg_data = mail.fetch(msg_id, "(BODY.PEEK[])")
             if status != "OK" or not msg_data:
                 continue
             raw = msg_data[0][1] if isinstance(msg_data[0], tuple) else None
             if raw is None:
                 continue
-            parsed = email.message_from_bytes(raw)
+            # policy.default is required: the legacy compat32 parser returns
+            # a plain Message, which the isinstance gate below rejects —
+            # with it, no message was ever processed at all.
+            parsed = email.message_from_bytes(raw, policy=email.policy.default)
             if not isinstance(parsed, email.message.EmailMessage):
                 continue
             result = _process_message(store, parsed, contacts)

@@ -112,6 +112,58 @@ def test_fresh_unsubscribe_request_is_honored():
     assert mod._has_unsubscribe_keyword("", "أرجو إلغاء الاشتراك من فضلكم") is True
 
 
+def test_reply_check_fetches_with_peek_and_marks_only_matches(env, store, monkeypatch):
+    """RFC 3501: fetching (RFC822) sets \\Seen implicitly — every scanned
+    message looked 'read' in Gmail. The checker must fetch with BODY.PEEK[]
+    and set \\Seen explicitly only on matched replies."""
+    mod = _load_reply_checker()
+    store.add_contacts("test-bank-one", [{"email": "sam@testbankone.com"}])
+
+    raw_match = (b"From: Sam <sam@testbankone.com>\r\n"
+                 b"Subject: Re: hello\r\n\r\nThanks, interested.\r\n")
+    raw_stranger = (b"From: stranger@example.org\r\n"
+                    b"Subject: invoice\r\n\r\nrandom mail\r\n")
+    calls = {"fetch": [], "store": []}
+
+    class _FakeIMAP:
+        def __init__(self, host, port):
+            pass
+
+        def login(self, user, password):
+            pass
+
+        def select(self, folder):
+            pass
+
+        def search(self, charset, criterion):
+            return "OK", [b"1 2"]
+
+        def fetch(self, msg_id, query):
+            calls["fetch"].append(query)
+            raw = raw_match if msg_id == b"1" else raw_stranger
+            return "OK", [(msg_id, raw)]
+
+        def store(self, msg_id, flags, value):
+            calls["store"].append((msg_id, flags, value))
+
+        def close(self):
+            pass
+
+        def logout(self):
+            pass
+
+    monkeypatch.setenv("IMAP_HOST", "imap.example.org")
+    monkeypatch.setenv("IMAP_USER", "info@talaix.com")
+    monkeypatch.setenv("IMAP_PASS", "secret")
+    monkeypatch.setattr(mod.imaplib, "IMAP4_SSL", _FakeIMAP)
+
+    assert mod.main() == 0
+    assert calls["fetch"] == ["(BODY.PEEK[])", "(BODY.PEEK[])"]
+    # Only the matched reply (id 1) is marked Seen; the stranger's mail
+    # keeps its unread state on the server.
+    assert calls["store"] == [(b"1", "+FLAGS", "\\Seen")]
+
+
 # ---------------------------------------------------------------------------
 # Processor: a replied lead's rows are cancelled for real (not reprocessed)
 # ---------------------------------------------------------------------------
