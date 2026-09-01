@@ -129,9 +129,14 @@ def render_template(template: str, context: Optional[Dict] = None) -> Dict[str, 
     def _sub(match: "re.Match") -> str:
         return str(context.get(match.group(1), ""))
 
+    text = _VAR_RE.sub(_sub, body).strip()
+    # Optional variables (e.g. custom_message) often render empty and would
+    # leave a visible double blank gap — collapse 3+ newlines into one
+    # paragraph break.
+    text = re.sub(r"\n{3,}", "\n\n", text)
     return {
         "subject": _VAR_RE.sub(_sub, subject),
-        "text": _VAR_RE.sub(_sub, body).strip() + "\n",
+        "text": text + "\n",
     }
 
 
