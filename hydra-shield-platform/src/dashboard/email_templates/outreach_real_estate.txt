@@ -17,4 +17,4 @@ Send 2–3 site coordinates and we will return a free sample screening report, s
 Would a short call this week be useful?
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

@@ -59,3 +59,20 @@ def test_signature_logo_url_follows_base_url_env(monkeypatch):
     monkeypatch.setenv("HYDRASHIELD_BASE_URL", "https://example.test/")
     assert mailer._signature_logo_url() == \
         "https://example.test/assets/brand/logS100.png"
+
+
+def test_html_linkifies_unsubscribe_and_mutes_footer():
+    text = ("Body paragraph.\n\n---\n"
+            "Not relevant? One click: mailto:info@talaix.com?subject=unsubscribe")
+    html = mailer._minimal_html(text)
+    assert '<a href="mailto:info@talaix.com?subject=unsubscribe"' in html
+    assert 'font-size:12px;color:#64748b' in html  # muted footer
+    assert ">---<" not in html  # the literal marker is not rendered
+
+
+def test_html_linkify_keeps_escaping_safe():
+    html = mailer._minimal_html('<img src=x onerror=alert(1)> https://talaix.com/briefs.html')
+    # the payload survives only as escaped display text, never as live HTML
+    assert "<img src=x" not in html
+    assert '&lt;img src=x onerror=alert(1)&gt;' in html
+    assert '<a href="https://talaix.com/briefs.html"' in html

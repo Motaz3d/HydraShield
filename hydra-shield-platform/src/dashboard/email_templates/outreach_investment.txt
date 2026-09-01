@@ -2,19 +2,19 @@ Subject: Climate evidence behind the assets — {{organization}}
 
 Hi {{contact_name}},
 
-Before capital is committed, the question is simple: what physical climate exposure sits inside this asset, this region, this portfolio — and can anyone prove it?
+Investors and regulators now ask one hard question: what physical climate exposure sits inside the portfolio — and can you prove it?
 
-Talaix is a climate-extreme intelligence platform connecting natural hazards, human exposure and financial impact. We compute evidence for seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, anywhere on Earth. Exposure is mapped per asset: buildings, infrastructure, agriculture, energy, transport, population. Every figure is traceable to its source, with evidence status stated and uncertainty shown instead of hidden — due diligence you can defend in front of an investment committee, and monitoring of the same assets after the investment closes.
+Talaix answers it: seven hazards screened per asset, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
 
 {{identified_problem}}
 
-For {{organization}}, the most relevant part: {{relevant_capability}}
+For {{organization}}: {{relevant_capability}}
 
 {{custom_message}}
 
-Name 2–3 assets or locations and we will return a free sample screening report, so the evidence can be judged directly.
+Name 2–3 assets and we will return a free sample screening report — judge the evidence, not a slide deck.
 
-Would a 20-minute conversation this week be useful?
+Worth a 20-minute call this week?
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

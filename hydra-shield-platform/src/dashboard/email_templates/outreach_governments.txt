@@ -17,4 +17,4 @@ We can run a free pilot over a priority area for {{organization}} and demonstrat
 Would a short call this week be useful?
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

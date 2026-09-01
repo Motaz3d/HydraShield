@@ -11,4 +11,4 @@ If this becomes relevant for {{organization}} — credit files, due diligence, u
 I will not follow up again unless I hear from you.
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

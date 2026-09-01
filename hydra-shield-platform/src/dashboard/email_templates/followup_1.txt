@@ -9,4 +9,4 @@ A short follow-up to my earlier note. The offer stands: name 2–3 locations and
 If the timing is wrong, a one-line reply is enough and I will close the file.
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

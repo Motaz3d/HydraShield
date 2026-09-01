@@ -16,4 +16,4 @@ Kind regards,
 {{signer}}
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

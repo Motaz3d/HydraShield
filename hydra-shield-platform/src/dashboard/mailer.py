@@ -219,15 +219,42 @@ def _signature_html() -> str:
     )
 
 
+_URL_RE = re.compile(r"(https?://[^\s<]+|mailto:[^\s<]+)")
+
+
+def _linkify(escaped: str) -> str:
+    """Turn bare URLs in escaped text into real anchor tags (brand teal).
+    Runs AFTER html.escape, so the markup it injects is the only HTML."""
+    def _anchor(match: "re.Match") -> str:
+        url = match.group(1)
+        return (f'<a href="{url}" style="color:{_BRAND_TEAL}">{url}</a>')
+    return _URL_RE.sub(_anchor, escaped)
+
+
 def _minimal_html(text: str) -> str:
     """Branded HTML alternative: the escaped plain text in the Talaix
     shell (corporate signature with embedded logo, brand navy/teal).
-    No header image — the signature block is the only branding."""
-    paragraphs = "".join(
-        f"<p>{html.escape(p).replace(chr(10), '<br/>')}</p>"
-        for p in text.strip().split("\n\n")
-        if p.strip()
-    )
+    No header image — the signature block is the only branding. URLs
+    become real links; everything below the ``---`` marker (the opt-out
+    line) renders muted, as a footer should."""
+    parts = []
+    muted = False
+    for p in text.strip().split("\n\n"):
+        stripped = p.strip()
+        if not stripped:
+            continue
+        if stripped == "---":
+            muted = True
+            continue  # the literal marker itself looks odd in HTML
+        if stripped.startswith("---\n") or stripped.startswith("---\r\n"):
+            # Templates put the marker on the first line of the footer
+            # paragraph — drop the marker line and mute the rest.
+            muted = True
+            p = stripped.split("\n", 1)[1]
+        body = _linkify(html.escape(p).replace(chr(10), "<br/>"))
+        style = ' style="font-size:12px;color:#64748b"' if muted else ""
+        parts.append(f"<p{style}>{body}</p>")
+    paragraphs = "".join(parts)
     return (
         "<!DOCTYPE html>"
         '<html lang="en"><head><meta charset="utf-8"/>'

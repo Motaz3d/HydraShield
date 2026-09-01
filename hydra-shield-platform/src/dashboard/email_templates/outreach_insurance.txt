@@ -17,4 +17,4 @@ Send 2–3 insured locations and we will return free sample risk profiles for {{
 Would a short call this week be useful?
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

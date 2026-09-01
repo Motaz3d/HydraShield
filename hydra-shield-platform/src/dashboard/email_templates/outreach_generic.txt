@@ -2,19 +2,19 @@ Subject: From environmental evidence to financial intelligence — {{organizatio
 
 Hi {{contact_name}},
 
-I'm reaching out from Talaix — a climate-extreme intelligence platform that connects natural hazards, human exposure and financial impact: what is happening, who and what is exposed, and what it may mean for assets, portfolios and communities.
+What happens physically — flood, fire, heat — is now a financial question: what is exposed, where, and can you prove it?
 
-We compute evidence for seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, for any location on Earth. Alongside each hazard we map the exposure: people and settlements, buildings, infrastructure, agriculture, energy, transport and industry. Every result carries its source, evidence status and limitations; observed data is never mixed with projections, and we do not claim to predict disasters.
+Talaix answers it: seven hazards screened per location, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
 
 {{identified_problem}}
 
-For {{organization}}, the most relevant part: {{relevant_capability}}
+For {{organization}}: {{relevant_capability}}
 
 {{custom_message}}
 
-Rather than a presentation: name 2–3 locations and we will return a free sample evidence report, so you can judge the actual output before any commitment.
+Name 2–3 locations and we will return a free sample evidence report — judge the output before any commitment.
 
-Would a 20-minute conversation this week be useful?
+Worth a 20-minute call this week?
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

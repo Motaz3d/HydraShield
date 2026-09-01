@@ -2,19 +2,19 @@ Subject: Physical evidence behind the loan book — {{organization}}
 
 Hi {{contact_name}},
 
-Banks in {{country}} are being asked the same question by supervisors and reviewers: what physical evidence stands behind the "green" and climate-resilient claims in the loan book?
+Supervisors now ask banks one hard question: what physical evidence stands behind the "green" claims in the loan book?
 
-Talaix is a climate-extreme intelligence platform. We screen each financed asset against seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — computed from Earth observation, official open data and documented historical events, and we map what is exposed: collateral, buildings, infrastructure, population. Every value carries its source, evidence status and declared data gaps — built to sit inside credit files and risk-committee packs, and to support EU Taxonomy DNSH, CSRD and TCFD/ISSB workflows. We sell evidence, not accreditation: not a Second Party Opinion, not an ESMA-registered external review.
+Talaix supplies it: every financed asset screened against seven hazards, from Earth observation and official data — each value with its source and evidence status, ready for credit files, EU Taxonomy DNSH, CSRD and TCFD/ISSB workflows. Evidence, not accreditation.
 
 {{identified_problem}}
 
-For {{organization}}, the most relevant part: {{relevant_capability}}
+For {{organization}}: {{relevant_capability}}
 
 {{custom_message}}
 
-Send three collateral coordinates and we will return a free sample verification report for {{organization}} — no procurement step needed.
+Send three collateral coordinates and we will return a free sample verification report — no procurement step needed.
 
-Would a 20-minute conversation this week be useful?
+Worth a 20-minute call this week?
 
 ---
-If this is not relevant, just reply "unsubscribe" and we will stop.
+Not relevant? One click and we will not write again: {{unsubscribe_url}}
