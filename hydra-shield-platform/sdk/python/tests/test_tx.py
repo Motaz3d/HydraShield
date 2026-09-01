@@ -99,6 +99,12 @@ def test_tx_registry_url(http):
     assert _path(calls[0]) == "/api/tx/registry"
 
 
+def test_tx_products_url(http):
+    calls, _ = http
+    TxClient().products()
+    assert _path(calls[0]) == "/api/tx/products"
+
+
 def test_tx_api_key_header(http):
     calls, _ = http
     TxClient(api_key="hs_test").health()
@@ -122,6 +128,16 @@ def test_tx_analyze_url_full(http):
     assert _path(calls[0]) == (
         "/api/tx/analyze?lat=49.96&lon=6.03&depth=deep"
         "&hazard=wildfire&hazard=flood&name=Clervaux"
+    )
+
+
+def test_tx_analyze_url_with_analyses(http):
+    calls, _ = http
+    TxClient().analyze(49.96, 6.03, hazards=["flood"],
+                       analyses=["insurance", "verification"])
+    assert _path(calls[0]) == (
+        "/api/tx/analyze?lat=49.96&lon=6.03&depth=standard"
+        "&hazard=flood&analysis=insurance&analysis=verification"
     )
 
 
@@ -151,6 +167,16 @@ def test_tx_run_minimal_body_omits_optional_keys(http):
     TxClient().run(1.0, 2.0)
     assert json.loads(calls[0]["data"]) == {"lat": 1.0, "lon": 2.0,
                                             "depth": "standard"}
+
+
+def test_tx_run_body_with_analyses(http):
+    calls, queue = http
+    queue.append({"job_id": "J", "status": "queued"})
+    TxClient().run(1.0, 2.0, analyses=["insurance"])
+    assert json.loads(calls[0]["data"]) == {
+        "lat": 1.0, "lon": 2.0, "depth": "standard",
+        "analyses": ["insurance"],
+    }
 
 
 def test_tx_job_and_result_urls(http):

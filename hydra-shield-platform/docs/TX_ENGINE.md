@@ -35,6 +35,8 @@ tx_core/
 ├── __main__.py          `python -m tx_core`
 └── adapters/            the ONLY place tx_core touches src.*
     ├── climate.py       src.climate (hazards, evidence, ontology, TAM)
+    ├── products.py      src.climate product engines (insurance,
+    │                    verification, sustainability) as TX-2 analyses
     ├── prediction.py    src.prediction (FWI, risk model)   [reserved]
     └── gis.py           src.gis_mapping (indices, landcover) [reserved]
 ```
@@ -52,7 +54,7 @@ Every TX analysis returns one uniform envelope (see `tx_core/models.py`):
 | `location` | `{lat, lon, name}` |
 | `depth` | `quick` \| `standard` \| `deep` |
 | `status` | `ok` \| `partial` \| `unavailable` |
-| `results[]` | one `TxHazardResult` per hazard (status, level, blocks, evidence, provenance) |
+| `results[]` | one `TxHazardResult` per hazard (status, level, blocks, evidence, provenance) **or per requested product analysis**, each stamped `tx_level` |
 | `status_counts` | aggregate of per-hazard statuses |
 | `evidence[]` | flattened evidence records (platform `EvidenceRecord` shape) |
 | `sources[]` | de-duplicated official data sources |
@@ -73,13 +75,21 @@ Advertised TX layers (used progressively; never faked):
 | --- | --- | --- |
 | TX-0 | Retrieval | platform data retrieval (implicit) |
 | TX-1 | Deterministic | hazard screening modules (`src/climate/hazards/*`) |
-| TX-2 | Statistical | reserved (FWI percentile baselines) |
+| TX-2 | Statistical | product engines (`insurance`, `verification`, `sustainability`) registered as location-first TX analyses (`adapters/products.py`) — they run only on explicit request (`analyses=[...]`), land in the same `results[]` stamped `tx_level=2`, and never change a hazard-only `analysis_id` |
 | TX-3 | Spatial | reserved (GIS indices / grids) |
 | TX-4 | Predictive | reserved |
 | TX-5 | ML | reserved (trained models) |
 | TX-6 | Research | reserved |
 | TX-7 | Reasoning | reserved (AI synthesis over TX results only) |
 | TX-8 | Decision Intelligence | reserved |
+
+**Honest scope note:** only engines with a real public *location-first*
+entry point are registered as TX analyses. Claim-first engines (forensics
+`assess_case`, supply-chain `evaluate_claim`) require a case/claim request
+axis that `(lat, lon)` cannot honestly provide — registering them as
+location analyses would fake a capability. They remain available through
+their own v2 endpoints; a future TX case/claim axis can register them
+without pretence.
 
 ## 5. Reproducibility
 
@@ -125,10 +135,11 @@ GET /api/tx/version    engine versions + TX levels
 GET /api/tx/hazards    registered hazard descriptors
 GET /api/tx/sources    official sources
 GET /api/tx/registry   registry digest
-GET /api/tx/analyze    ?lat=&lon=[&hazard=..][&hazard=..][&depth=][&name=]
-POST /api/tx/run       submit a job {lat, lon, [hazards], [depth], [name]}
+GET /api/tx/analyze    ?lat=&lon=[&hazard=..][&analysis=..][&depth=][&name=]
+POST /api/tx/run       submit a job {lat, lon, [hazards], [analyses], [depth], [name]}
 GET /api/tx/jobs/<id>  poll job status + progress
 GET /api/tx/jobs/<id>/result  fetch the TxResult envelope (when succeeded)
+GET /api/tx/products   registered TX product engines (TX-2+ analyses)
 ```
 
 The "site not broken" guarantee is enforced by tests
@@ -172,7 +183,7 @@ Deep analyses can take minutes, so the async surface is job-based (the job
 object shape is the stable contract — see `tx_core/jobs.py`):
 
 ```
-POST /api/tx/run                   {lat, lon, [hazards], [depth], [name]}
+POST /api/tx/run                   {lat, lon, [hazards], [analyses], [depth], [name]}
   -> 202 {job_id, status, poll, result_url, ...}   (new job accepted)
   -> 200 same payload                              (idempotent resubmission)
 GET /api/tx/jobs/<job_id>          status + progress {completed, total}
@@ -268,5 +279,10 @@ plugin guidance.
 3. [DONE] `talaix-sdk` (Python/JS) over the TX API; `tx reproduce`; QGIS
    plugin consuming `/api/tx/analyze` (§6, §9 — `TxClient`/`tx*` JS methods,
    `hydrashield:analyze_tx_point` Processing algorithm).
-4. Register product engines (insurance, forensics, sustainability, supply
-   chain) as TX analyses (TX-2+).
+4. [DONE] Register product engines (insurance, forensics, sustainability,
+   supply chain) as TX analyses (TX-2+) — done for the location-first
+   engines (`insurance`, `verification` as the site-level face of the
+   forensics stack, `sustainability`) via `adapters/products.py` and the
+   `analyses=[...]` request axis on every surface (API, jobs, CLI, SDKs,
+   QGIS). Claim-first engines (forensics cases, supply-chain claims) are
+   honestly NOT location analyses — see the scope note in §4.

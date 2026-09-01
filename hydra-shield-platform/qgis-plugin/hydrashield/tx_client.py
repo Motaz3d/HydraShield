@@ -25,18 +25,25 @@ TX_HAZARDS = [
 #: Depth presets accepted by the TX engine.
 TX_DEPTHS = ["quick", "standard", "deep"]
 
+#: Location-first product engines registered in the TX registry
+#: (GET /api/tx/products) — TX-2+ analyses runnable next to hazards.
+TX_PRODUCTS = ["insurance", "sustainability", "verification"]
+
 
 def tx_analyze_url(lat: float, lon: float,
                    hazards: Optional[List[str]] = None,
                    depth: str = "standard",
                    name: Optional[str] = None,
+                   analyses: Optional[List[str]] = None,
                    base: str = BASE_URL) -> str:
-    """GET /api/tx/analyze URL — repeated ``hazard`` params, TX depth."""
+    """GET /api/tx/analyze URL — repeated ``hazard``/``analysis`` params."""
     from urllib.parse import quote
 
     url = f"{base}/api/tx/analyze?lat={lat:.5f}&lon={lon:.5f}"
     for hazard in hazards or []:
         url += f"&hazard={quote(hazard)}"
+    for analysis in analyses or []:
+        url += f"&analysis={quote(analysis)}"
     url += f"&depth={quote(depth)}"
     if name:
         url += f"&name={quote(name)}"
@@ -72,6 +79,7 @@ def normalize_tx_result(payload: Dict[str, Any]) -> Dict[str, Any]:
             "analysis_id": payload.get("analysis_id"),
             "depth": payload.get("depth"),
             "engine_version": payload.get("engine_version"),
+            "tx_level": result.get("tx_level"),
         })
 
     rows: List[Tuple[str, str]] = [

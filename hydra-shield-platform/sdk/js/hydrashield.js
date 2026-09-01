@@ -159,12 +159,16 @@
             txHazards: function () { return get('/api/tx/hazards'); },
             txSources: function () { return get('/api/tx/sources'); },
             txRegistry: function () { return get('/api/tx/registry'); },
+            txProducts: function () { return get('/api/tx/products'); },
             txAnalyze: function (lat, lon, options) {
                 options = options || {};
                 var params = [['lat', lat], ['lon', lon],
                     ['depth', options.depth || 'standard']];
                 (options.hazards || []).forEach(function (h) {
                     params.push(['hazard', h]);
+                });
+                (options.analyses || []).forEach(function (a) {
+                    params.push(['analysis', a]);
                 });
                 if (options.name) params.push(['name', options.name]);
                 return get('/api/tx/analyze', params);
@@ -175,6 +179,9 @@
                              depth: options.depth || 'standard' };
                 if (options.hazards && options.hazards.length) {
                     body.hazards = options.hazards;
+                }
+                if (options.analyses && options.analyses.length) {
+                    body.analyses = options.analyses;
                 }
                 if (options.name) body.name = options.name;
                 return post('/api/tx/run', body);

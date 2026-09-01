@@ -44,6 +44,20 @@ def test_tx_analyze_url_base_override():
     assert url.startswith("http://localhost:5000/api/tx/analyze")
 
 
+def test_tx_analyze_url_with_analyses():
+    url = tx_client.tx_analyze_url(49.96, 6.03, hazards=["flood"],
+                                   analyses=["insurance", "verification"])
+    assert url == ("https://talaix.com/api/tx/analyze"
+                   "?lat=49.96000&lon=6.03000"
+                   "&hazard=flood&analysis=insurance&analysis=verification"
+                   "&depth=standard")
+
+
+def test_tx_products_registry_ids():
+    assert tx_client.TX_PRODUCTS == ["insurance", "sustainability",
+                                     "verification"]
+
+
 # ---------------------------------------------------------------------------
 # TxResult normalization
 # ---------------------------------------------------------------------------
@@ -65,6 +79,7 @@ ENVELOPE = {
             "evidence": [{"kind": "modeled"}],
             "provenance": {"source": "fake"},
             "unavailable_reason": None,
+            "tx_level": 1,
         },
         {
             "hazard": "dust",
@@ -75,6 +90,7 @@ ENVELOPE = {
             "evidence": [],
             "provenance": {},
             "unavailable_reason": "no coverage at this location",
+            "tx_level": 2,
         },
     ],
     "status_counts": {"ok": 1, "unavailable": 1},
@@ -104,6 +120,8 @@ def test_normalize_tx_result_records():
     assert ok["analysis_id"] == "TX-20260901-abcd1234"
     assert ok["depth"] == "deep"
     assert ok["engine_version"] == "0.1.0"
+    assert ok["tx_level"] == 1
+    assert records[1]["tx_level"] == 2  # product analyses stamped TX-2+
 
 
 def test_normalize_tx_result_unavailable_is_honest():
@@ -148,3 +166,4 @@ def test_processing_provider_registers_tx_algorithm():
     assert "tx_analyze_url" in algorithm
     assert "normalize_tx_result" in algorithm
     assert "http_get_json" in algorithm  # network stays on the worker thread
+    assert "INPUT_ANALYSES" in algorithm  # TX-2+ product analyses selectable

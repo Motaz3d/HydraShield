@@ -51,11 +51,14 @@ def make_job_id(
     lon: float,
     hazards: Optional[List[str]] = None,
     depth: str = "standard",
+    analyses: Optional[List[str]] = None,
 ) -> str:
     """Deterministic, day-scoped job id: ``TXJ-YYYYMMDD-<hex8>``.
 
     Same request on the same UTC day → same id (idempotent submission).
     ``hazards=None`` (all available) is distinct from any explicit list.
+    The ``analyses`` key enters the basis ONLY when non-empty, so existing
+    hazard-only job ids stay byte-stable.
     """
     basis = {
         "lat": round(float(lat), 6),
@@ -64,6 +67,8 @@ def make_job_id(
         "depth": (depth or "standard").lower(),
         "tx_version": TX_VERSION,
     }
+    if analyses:
+        basis["analyses"] = sorted(a.strip().lower() for a in analyses)
     digest = hashlib.sha256(
         repr(sorted(basis.items())).encode("utf-8")
     ).hexdigest()[:8]
@@ -210,18 +215,21 @@ class TxJobRunner:
         hazards: Optional[List[str]] = None,
         depth: str = "standard",
         name: Optional[str] = None,
+        analyses: Optional[List[str]] = None,
     ) -> Tuple[TxJob, bool]:
         """Submit an analysis request; returns ``(job, created)``.
 
         Idempotent: an identical request (same UTC day) returns the existing
         job with ``created=False`` instead of re-running the pipeline.
         """
-        job_id = make_job_id(lat=lat, lon=lon, hazards=hazards, depth=depth)
+        job_id = make_job_id(lat=lat, lon=lon, hazards=hazards, depth=depth,
+                             analyses=analyses)
         request = {
             "lat": float(lat),
             "lon": float(lon),
             "name": name,
             "hazards": list(hazards) if hazards else [],
+            "analyses": list(analyses) if analyses else [],
             "depth": (depth or "standard").lower(),
         }
         job, created = self.store.put_if_absent(TxJob(job_id=job_id, request=request))
@@ -259,6 +267,7 @@ class TxJobRunner:
                 depth=req["depth"],
                 name=req.get("name"),
                 on_hazard=_progress,
+                analyses=req.get("analyses") or None,
             )
             self.store.update(
                 job_id,

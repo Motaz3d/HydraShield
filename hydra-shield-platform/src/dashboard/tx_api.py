@@ -13,10 +13,11 @@ Endpoints:
     GET  /api/tx/hazards    Registered TX hazards (descriptors)
     GET  /api/tx/sources    Official data sources behind TX hazards
     GET  /api/tx/registry   TX Registry digest (models/datasets/sources)
-    GET  /api/tx/analyze    Run a TX analysis (?lat=..&lon=..[&hazard=..][&depth=..])
-    POST /api/tx/run        Submit an analysis job {lat, lon, [hazards], [depth], [name]}
+    GET  /api/tx/analyze    Run a TX analysis (?lat=..&lon=..[&hazard=..][&analysis=..][&depth=..])
+    POST /api/tx/run        Submit an analysis job {lat, lon, [hazards], [analyses], [depth], [name]}
     GET  /api/tx/jobs/<id>  Poll job status + progress
     GET  /api/tx/jobs/<id>/result  Fetch the TxResult envelope (when succeeded)
+    GET  /api/tx/products   Registered TX product engines (TX-2+ analyses)
 
 Honesty contract: TX never invents numbers — hazards without real data are
 reported as ``status="unavailable"`` with a reason, never as fabricated
@@ -100,6 +101,11 @@ def hazards() -> Any:
     return jsonify({"hazards": _engine().hazards()})
 
 
+@tx_bp.get("/products")
+def products() -> Any:
+    return jsonify({"products": _engine().products()})
+
+
 @tx_bp.get("/sources")
 def sources() -> Any:
     return jsonify({"sources": _engine().sources()})
@@ -129,10 +135,19 @@ def analyze() -> Any:
         else:
             hazards = [h for h in hazards_raw if h]
 
+    analyses_raw = (request.args.getlist("analysis")
+                    or request.args.get("analyses"))
+    analyses: Optional[list] = None
+    if analyses_raw:
+        if isinstance(analyses_raw, str):
+            analyses = [a.strip() for a in analyses_raw.split(",") if a.strip()]
+        else:
+            analyses = [a for a in analyses_raw if a]
+
     try:
         result = _engine().analyze(
             lat=lat, lon=lon, hazards=hazards, depth=depth,
-            name=request.args.get("name"),
+            name=request.args.get("name"), analyses=analyses,
         )
     except ValueError as exc:
         return _error(str(exc))
@@ -159,7 +174,7 @@ def _run_request_body() -> Tuple[Optional[Dict[str, Any]], Optional[Any]]:
     body = request.get_json(silent=True)
     if not isinstance(body, dict):
         return None, _error(
-            "JSON body required: {lat, lon, [hazards], [depth], [name]}"
+            "JSON body required: {lat, lon, [hazards], [analyses], [depth], [name]}"
         )
     try:
         lat = float(body.get("lat"))
@@ -184,12 +199,24 @@ def _run_request_body() -> Tuple[Optional[Dict[str, Any]], Optional[Any]]:
             "hazards must be a list of hazard ids or a comma-separated string"
         )
 
+    analyses_raw = body.get("analyses")
+    analyses: Optional[List[str]] = None
+    if isinstance(analyses_raw, str):
+        analyses = [a.strip() for a in analyses_raw.split(",") if a.strip()]
+    elif isinstance(analyses_raw, list):
+        analyses = [str(a) for a in analyses_raw if str(a).strip()]
+    elif analyses_raw is not None:
+        return None, _error(
+            "analyses must be a list of product ids or a comma-separated string"
+        )
+
     name = body.get("name")
     return (
         {
             "lat": lat,
             "lon": lon,
             "hazards": hazards,
+            "analyses": analyses,
             "depth": depth,
             "name": str(name) if name is not None else None,
         },

@@ -49,7 +49,12 @@ class TxRequest:
 
 @dataclass
 class TxHazardResult:
-    """One hazard's result inside a TX analysis."""
+    """One hazard's result inside a TX analysis.
+
+    ``tx_level`` stamps the TX analysis layer the result belongs to
+    (``TX_LEVELS`` in ``tx_core.engine``): 1 for hazard screening modules,
+    2+ for registered product analyses (docs/TX_ENGINE.md §4).
+    """
 
     hazard: str
     status: str                 # ok | partial | unavailable | key_required
@@ -59,6 +64,7 @@ class TxHazardResult:
     evidence: List[Dict[str, Any]] = field(default_factory=list)
     provenance: Dict[str, Any] = field(default_factory=dict)
     unavailable_reason: Optional[str] = None
+    tx_level: Optional[int] = None
 
     @classmethod
     def from_hazard_analysis(cls, analysis: Any) -> "TxHazardResult":
@@ -84,6 +90,7 @@ class TxHazardResult:
             "evidence": self.evidence,
             "provenance": self.provenance,
             "unavailable_reason": self.unavailable_reason,
+            "tx_level": self.tx_level,
         }
         if self.level is not None and hasattr(self.level, "to_dict"):
             d["level"] = self.level.to_dict()

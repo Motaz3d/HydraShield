@@ -48,6 +48,7 @@ def cmd_analyze(args: argparse.Namespace) -> int:
             hazards=args.hazard,
             depth=args.depth,
             name=args.name,
+            analyses=args.analysis,
         )
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
@@ -95,6 +96,22 @@ def cmd_hazards(args: argparse.Namespace) -> int:
         _print_json(descriptors)
         return 0
     _print_text(["Registered TX hazards:", ""] + _hazard_table(descriptors))
+    return 0
+
+
+def cmd_products(args: argparse.Namespace) -> int:
+    engine = TXEngine()
+    descriptors = engine.products()
+    if args.json:
+        _print_json(descriptors)
+        return 0
+    lines = ["Registered TX product engines (TX-2+ analyses):", ""]
+    for d in descriptors:
+        lines.append(
+            f"{d.get('id', '?'):<16} {d.get('name', '?'):<42} "
+            f"tx_level={d.get('tx_level', '?')} v{d.get('engine_version', '?')}"
+        )
+    _print_text(lines)
     return 0
 
 
@@ -254,6 +271,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_analyze.add_argument("--lon", type=float, required=True)
     p_analyze.add_argument("--hazard", action="append", default=None,
                            help="Hazard id (repeatable; default: all)")
+    p_analyze.add_argument("--analysis", action="append", default=None,
+                           help="Product engine id (repeatable; e.g. insurance)")
     p_analyze.add_argument("--depth", choices=DEPTHS, default="standard")
     p_analyze.add_argument("--name", default=None)
     p_analyze.add_argument("--json", action="store_true")
@@ -263,6 +282,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_hazards = sub.add_parser("hazards", help="List registered TX hazards")
     p_hazards.add_argument("--json", action="store_true")
     p_hazards.set_defaults(func=cmd_hazards)
+
+    p_products = sub.add_parser("products", help="List registered TX product engines")
+    p_products.add_argument("--json", action="store_true")
+    p_products.set_defaults(func=cmd_products)
 
     p_sources = sub.add_parser("sources", help="List official TX data sources")
     p_sources.add_argument("--json", action="store_true")

@@ -37,6 +37,7 @@ from ..api_client import http_get_json
 from ..tx_client import (
     TX_DEPTHS,
     TX_HAZARDS,
+    TX_PRODUCTS,
     normalize_tx_result,
     tx_analyze_url,
 )
@@ -45,6 +46,7 @@ from ..tx_client import (
 class AnalyzeTxPointAlgorithm(QgsProcessingAlgorithm):
     INPUT_POINT = "POINT"
     INPUT_HAZARDS = "HAZARDS"
+    INPUT_ANALYSES = "ANALYSES"
     INPUT_DEPTH = "DEPTH"
     INPUT_NAME = "NAME"
     OUTPUT = "OUTPUT"
@@ -79,6 +81,9 @@ class AnalyzeTxPointAlgorithm(QgsProcessingAlgorithm):
             self.INPUT_HAZARDS, "Hazards (none selected = all)",
             options=TX_HAZARDS, allowMultiple=True, optional=True))
         self.addParameter(QgsProcessingParameterEnum(
+            self.INPUT_ANALYSES, "Product analyses (TX-2+ engines)",
+            options=TX_PRODUCTS, allowMultiple=True, optional=True))
+        self.addParameter(QgsProcessingParameterEnum(
             self.INPUT_DEPTH, "Depth", options=TX_DEPTHS, defaultValue=1))
         self.addParameter(QgsProcessingParameterString(
             self.INPUT_NAME, "Place name (optional)", optional=True))
@@ -92,6 +97,9 @@ class AnalyzeTxPointAlgorithm(QgsProcessingAlgorithm):
         selected = self.parameterAsEnums(parameters, self.INPUT_HAZARDS,
                                          context)
         hazards = [TX_HAZARDS[i] for i in selected] or None
+        selected_analyses = self.parameterAsEnums(parameters,
+                                                  self.INPUT_ANALYSES, context)
+        analyses = [TX_PRODUCTS[i] for i in selected_analyses] or None
         depth = TX_DEPTHS[self.parameterAsEnum(parameters, self.INPUT_DEPTH,
                                                context)]
         name = self.parameterAsString(parameters, self.INPUT_NAME,
@@ -109,13 +117,15 @@ class AnalyzeTxPointAlgorithm(QgsProcessingAlgorithm):
                              ("place", QVariant.String),
                              ("analysis_id", QVariant.String),
                              ("depth", QVariant.String),
-                             ("engine_version", QVariant.String)):
+                             ("engine_version", QVariant.String),
+                             ("tx_level", QVariant.Int)):
             fields.append(QgsField(fname, ftype))
         (sink, dest_id) = self.parameterAsSink(
             parameters, self.OUTPUT, context, fields, QgsWkbTypes.Point,
             QgsCoordinateReferenceSystem("EPSG:4326"))
 
-        url = tx_analyze_url(point.y(), point.x(), hazards, depth, name)
+        url = tx_analyze_url(point.y(), point.x(), hazards, depth, name,
+                             analyses)
         feedback.pushInfo(f"Talaix TX request: {url}")
         payload, error = http_get_json(url)
         if error:
@@ -139,7 +149,7 @@ class AnalyzeTxPointAlgorithm(QgsProcessingAlgorithm):
                 rec.get("level_basis"), bool(rec.get("validated")),
                 rec.get("unavailable_reason"), rec.get("name"),
                 rec.get("analysis_id"), rec.get("depth"),
-                rec.get("engine_version"),
+                rec.get("engine_version"), rec.get("tx_level"),
             ])
             sink.addFeature(feature)
 

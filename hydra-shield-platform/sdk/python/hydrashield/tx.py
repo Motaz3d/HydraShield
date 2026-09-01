@@ -123,16 +123,28 @@ class TxClient:
         """GET /api/tx/registry — TX Registry digest."""
         return self._get("/api/tx/registry")
 
+    def products(self):
+        """GET /api/tx/products — registered TX product engines (TX-2+)."""
+        return self._get("/api/tx/products")
+
     # ------------------------------------------------------------------
     # Synchronous analysis (quick/standard depths)
     # ------------------------------------------------------------------
 
     def analyze(self, lat: float, lon: float, hazards: list | None = None,
-                depth: str = "standard", name: str | None = None):
-        """GET /api/tx/analyze — one TxResult envelope, in-request."""
+                depth: str = "standard", name: str | None = None,
+                analyses: list | None = None):
+        """GET /api/tx/analyze — one TxResult envelope, in-request.
+
+        ``analyses`` requests product engines (TX-2+; e.g. ``insurance``)
+        next to hazard modules — product results land in the same
+        ``results[]`` list stamped ``tx_level=2``.
+        """
         params = [("lat", lat), ("lon", lon), ("depth", depth)]
         for hazard in hazards or []:
             params.append(("hazard", hazard))
+        for analysis in analyses or []:
+            params.append(("analysis", analysis))
         if name:
             params.append(("name", name))
         return self._get("/api/tx/analyze", params)
@@ -142,7 +154,8 @@ class TxClient:
     # ------------------------------------------------------------------
 
     def run(self, lat: float, lon: float, hazards: list | None = None,
-            depth: str = "standard", name: str | None = None):
+            depth: str = "standard", name: str | None = None,
+            analyses: list | None = None):
         """POST /api/tx/run — submit an analysis job.
 
         Returns the job payload (``job_id``, ``status``, ``poll``,
@@ -152,6 +165,8 @@ class TxClient:
         body = {"lat": lat, "lon": lon, "depth": depth}
         if hazards:
             body["hazards"] = list(hazards)
+        if analyses:
+            body["analyses"] = list(analyses)
         if name:
             body["name"] = name
         return self._post("/api/tx/run", body)

@@ -24,6 +24,7 @@ from typing import Any, Callable, Dict, List, Optional
 from ._version import TAM_VERSION, TX_VERSION
 from .adapters import climate as adapters  # noqa: F401 — explicit submodule (adapter pkg does not re-export)
 from .adapters import legacy_v1 as legacy_adapters  # noqa: F401
+from .adapters import products as product_adapters  # noqa: F401
 from .models import TxHazardResult, TxLocation, TxResult
 
 #: TX analysis levels (advertised; hazards are progressively upgraded).
@@ -53,6 +54,11 @@ class TXEngine:
         inject a fake here to stay network-free.
     :param hazard_ids: optional ``callable() -> list[str]`` for the set of
         available hazard ids (defaults to the platform registry ids).
+    :param products: optional ``callable(product_id) -> module|None`` used to
+        resolve product engines (TX-2+ analyses); defaults to the platform
+        product registry (``adapters.products``). Tests inject fakes here.
+    :param product_ids: optional ``callable() -> list[str]`` for the set of
+        available product ids (defaults to the platform product registry).
     :param legacy_analysis: optional ``callable(lat, lon, name) -> dict``
         backing the TX-0/TX-1 facade for the legacy v1 /api/analyze pipeline
         (defaults to the real cached pipeline via ``adapters.legacy_v1``).
@@ -65,11 +71,15 @@ class TXEngine:
         registry: Optional[Callable[[str], Optional[Any]]] = None,
         hazard_ids: Optional[Callable[[], List[str]]] = None,
         legacy_analysis: Optional[Callable[[float, float, str], Dict[str, Any]]] = None,
+        products: Optional[Callable[[str], Optional[Any]]] = None,
+        product_ids: Optional[Callable[[], List[str]]] = None,
         version: str = TX_VERSION,
     ) -> None:
         self._registry = registry
         self._hazard_ids = hazard_ids
         self._legacy_analysis = legacy_analysis
+        self._products = products
+        self._product_ids = product_ids
         self.version = version
 
     # -- resolution ---------------------------------------------------------
@@ -79,10 +89,20 @@ class TXEngine:
             return self._registry(hazard_id)
         return adapters.get_hazard_module(hazard_id)
 
+    def _resolve_product(self, product_id: str) -> Optional[Any]:
+        if self._products is not None:
+            return self._products(product_id)
+        return product_adapters.get_product_module(product_id)
+
     def available_hazard_ids(self) -> List[str]:
         if self._hazard_ids is not None:
             return sorted(self._hazard_ids())
         return sorted(adapters.hazard_ids())
+
+    def available_product_ids(self) -> List[str]:
+        if self._product_ids is not None:
+            return sorted(self._product_ids())
+        return sorted(product_adapters.product_ids())
 
     def resolve_hazards(self, hazards: Optional[List[str]]) -> List[str]:
         """The concrete hazard ids to run (unknown ids are dropped, honestly)."""
@@ -91,6 +111,16 @@ class TXEngine:
         if not requested:
             return sorted(available)
         return [h for h in requested if h in available]
+
+    def resolve_products(self, analyses: Optional[List[str]]) -> List[str]:
+        """The concrete product ids to run (unknown ids are dropped, honestly).
+
+        Unlike hazards, products never default to "all": a product analysis
+        runs only when explicitly requested.
+        """
+        requested = [a.strip().lower() for a in (analyses or []) if a and a.strip()]
+        available = set(self.available_product_ids())
+        return [a for a in requested if a in available]
 
     # -- analysis -----------------------------------------------------------
 
@@ -102,6 +132,7 @@ class TXEngine:
         depth: str = "standard",
         name: Optional[str] = None,
         on_hazard: Optional[Callable[[TxHazardResult, int, int], None]] = None,
+        analyses: Optional[List[str]] = None,
     ) -> TxResult:
         """Run a TX analysis at (lat, lon).
 
@@ -114,6 +145,11 @@ class TXEngine:
             used by the TX job runner to expose per-hazard progress while a
             deep analysis is running. Callback errors are swallowed:
             progress bookkeeping must never break an analysis.
+        :param analyses: optional product-analysis ids (TX-2+ product
+            engines such as ``insurance``/``verification``/``sustainability``).
+            Products run only when explicitly requested (never by default),
+            land in the same ``results[]`` list stamped ``tx_level=2``, and
+            unknown ids are dropped honestly.
         """
         if not (-90.0 <= lat <= 90.0) or not (-180.0 <= lon <= 180.0):
             raise ValueError(f"Invalid coordinates: lat={lat}, lon={lon}")
@@ -124,9 +160,20 @@ class TXEngine:
 
         location = TxLocation(lat=lat, lon=lon, name=name)
         chosen = self.resolve_hazards(hazards)
+        chosen_products = self.resolve_products(analyses)
 
         results: List[TxHazardResult] = []
-        for index, hid in enumerate(chosen):
+        total = len(chosen) + len(chosen_products)
+        completed = 0
+
+        def _progress() -> None:
+            if on_hazard is not None:
+                try:
+                    on_hazard(results[-1], completed, total)
+                except Exception:  # noqa: BLE001 — bookkeeping never breaks analysis
+                    pass
+
+        for hid in chosen:
             module = self._resolve(hid)
             if module is None:
                 results.append(
@@ -138,12 +185,16 @@ class TXEngine:
                             "The hazard registry does not contain a module wired to "
                             "real data for this id — TX reports it honestly as unknown."
                         ),
+                        tx_level=1,
                     )
                 )
             else:
                 try:
                     analysis = module.analyze(lat=lat, lon=lon, name=name)
-                    results.append(TxHazardResult.from_hazard_analysis(analysis))
+                    hazard_result = TxHazardResult.from_hazard_analysis(analysis)
+                    if hazard_result.tx_level is None:
+                        hazard_result.tx_level = 1
+                    results.append(hazard_result)
                 except Exception as exc:  # noqa: BLE001 — never invent numbers
                     results.append(
                         TxHazardResult(
@@ -151,17 +202,51 @@ class TXEngine:
                             status="unavailable",
                             summary=f"{hid} analysis failed without producing data.",
                             unavailable_reason=str(exc),
+                            tx_level=1,
                         )
                     )
-            if on_hazard is not None:
+            completed += 1
+            _progress()
+
+        for pid in chosen_products:
+            product = self._resolve_product(pid)
+            if product is None:
+                results.append(
+                    TxHazardResult(
+                        hazard=pid,
+                        status="unavailable",
+                        summary=f"No registered TX product engine for '{pid}'.",
+                        unavailable_reason=(
+                            "The product registry does not contain a location-first "
+                            "engine for this id — TX reports it honestly as unknown."
+                        ),
+                        tx_level=2,
+                    )
+                )
+            else:
                 try:
-                    on_hazard(results[-1], index + 1, len(chosen))
-                except Exception:  # noqa: BLE001 — bookkeeping never breaks analysis
-                    pass
+                    analysis = product.analyze(lat=lat, lon=lon, name=name)
+                    product_result = TxHazardResult.from_hazard_analysis(analysis)
+                    product_result.tx_level = getattr(
+                        product, "tx_level", 2)
+                    results.append(product_result)
+                except Exception as exc:  # noqa: BLE001 — never invent numbers
+                    results.append(
+                        TxHazardResult(
+                            hazard=pid,
+                            status="unavailable",
+                            summary=f"{pid} product analysis failed without producing data.",
+                            unavailable_reason=str(exc),
+                            tx_level=2,
+                        )
+                    )
+            completed += 1
+            _progress()
 
         overall = self._overall_status(results)
         return TxResult(
-            analysis_id=self.analysis_id(lat=lat, lon=lon, hazards=chosen, depth=depth),
+            analysis_id=self.analysis_id(lat=lat, lon=lon, hazards=chosen,
+                                         depth=depth, analyses=chosen_products),
             location=location,
             depth=depth,
             results=results,
@@ -235,6 +320,22 @@ class TXEngine:
             return out
         return adapters.hazard_descriptors()
 
+    def products(self) -> List[Dict[str, Any]]:
+        """Public product-engine descriptors (id/name/kind/tx_level/version).
+
+        Unresolvable products are honestly absent from the list.
+        """
+        out = []
+        for pid in self.available_product_ids():
+            product = self._resolve_product(pid)
+            if product is None:
+                continue
+            try:
+                out.append(product.descriptor())
+            except Exception:  # noqa: BLE001 — honest minimal descriptor
+                out.append({"id": pid, "name": pid, "kind": "product"})
+        return out
+
     def sources(self, hazard_ids: Optional[List[str]] = None) -> List[Dict[str, str]]:
         """De-duplicated official data sources behind the given hazards."""
         ids = hazard_ids or self.available_hazard_ids()
@@ -263,10 +364,13 @@ class TXEngine:
         }
 
     def analysis_id(self, *, lat: float, lon: float, hazards: List[str],
-                    depth: str) -> str:
+                    depth: str,
+                    analyses: Optional[List[str]] = None) -> str:
         """Deterministic, day-scoped analysis id: ``TX-YYYYMMDD-<hex8>``.
 
-        Same inputs on the same UTC day → same id (reproducibility).
+        Same inputs on the same UTC day → same id (reproducibility). The
+        ``analyses`` key enters the basis ONLY when non-empty, so existing
+        hazard-only ids stay byte-stable.
         """
         basis = {
             "lat": round(float(lat), 6),
@@ -276,6 +380,8 @@ class TXEngine:
             "engine_version": self.version,
             "tx_version": TX_VERSION,
         }
+        if analyses:
+            basis["analyses"] = sorted(analyses)
         digest = hashlib.sha256(
             repr(sorted(basis.items())).encode("utf-8")
         ).hexdigest()[:8]

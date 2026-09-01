@@ -57,7 +57,7 @@ test('createClient exposes the full method set', () => {
         'solutions', 'sources', 'health', 'riskGrid', 'riskSnapshot',
         'history', 'reportUrl', 'populationExposure', 'smokeScenario',
         'txHealth', 'txVersion', 'txHazards', 'txSources', 'txRegistry',
-        'txAnalyze', 'txRun', 'txJob', 'txResult', 'txWait'
+        'txProducts', 'txAnalyze', 'txRun', 'txJob', 'txResult', 'txWait'
     ].forEach((m) => assert.strictEqual(typeof c[m], 'function', m));
 });
 
@@ -211,6 +211,22 @@ test('txAnalyze URL defaults', () =>
     HS.createClient({}).txAnalyze(1, 2)
         .then(() => assert.strictEqual(path(calls[0]),
             '/api/tx/analyze?lat=1&lon=2&depth=standard')));
+
+test('txProducts URL', () =>
+    HS.createClient({}).txProducts()
+        .then(() => assert.strictEqual(path(calls[0]), '/api/tx/products')));
+
+test('txAnalyze URL with analyses', () =>
+    HS.createClient({}).txAnalyze(49.96, 6.03,
+        { hazards: ['flood'], analyses: ['insurance', 'verification'] })
+        .then(() => assert.strictEqual(path(calls[0]),
+            '/api/tx/analyze?lat=49.96&lon=6.03&depth=standard' +
+            '&hazard=flood&analysis=insurance&analysis=verification')));
+
+test('txRun body with analyses', () =>
+    HS.createClient({}).txRun(1, 2, { analyses: ['insurance'] })
+        .then(() => assert.deepStrictEqual(JSON.parse(calls[0].options.body),
+            { lat: 1, lon: 2, depth: 'standard', analyses: ['insurance'] })));
 
 test('txRun posts JSON body', () =>
     HS.createClient({}).txRun(49.96, 6.03,

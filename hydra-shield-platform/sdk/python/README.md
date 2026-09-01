@@ -67,12 +67,16 @@ print(result["analysis_id"], result["status"])
 
 | Method | Endpoint |
 |---|---|
-| `health()` / `version()` / `hazards()` / `sources()` / `registry()` | `GET /api/tx/<…>` |
-| `analyze(lat, lon, hazards=None, depth="standard", name=None)` | `GET /api/tx/analyze` |
-| `run(lat, lon, hazards=None, depth="standard", name=None)` | `POST /api/tx/run` |
+| `health()` / `version()` / `hazards()` / `sources()` / `registry()` / `products()` | `GET /api/tx/<…>` |
+| `analyze(lat, lon, hazards=None, depth="standard", name=None, analyses=None)` | `GET /api/tx/analyze` |
+| `run(lat, lon, hazards=None, depth="standard", name=None, analyses=None)` | `POST /api/tx/run` |
 | `job(job_id)` | `GET /api/tx/jobs/<id>` |
 | `result(job_id)` | `GET /api/tx/jobs/<id>/result` |
 | `wait(job_or_id, timeout=600, interval=2, on_poll=None)` | poll → result |
+
+`analyses` requests registered product engines (TX-2+; `insurance`,
+`verification`, `sustainability`) next to hazard modules — product results
+land in the same `results[]` list stamped `tx_level=2`.
 
 A job that is not finished yet makes `result()` raise `TalaixError` with
 HTTP 409; `wait()` raises with the job's real error on failure and HTTP
