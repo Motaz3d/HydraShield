@@ -3,7 +3,7 @@
   "segment": "research_centers",
   "country": "LU",
   "region": "",
-  "website": "https://www.ketterthill.lu/",
+  "website": "https://ketterthill.lu",
   "contact_type": "role_based_public",
   "decision_maker_role": "Research Director",
   "identified_problem": "reproducible research requires provenance-carrying analysis and open registries",

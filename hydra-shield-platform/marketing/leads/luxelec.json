@@ -1,0 +1,24 @@
+{
+  "organization": "Luxelec",
+  "segment": "construction",
+  "country": "LU",
+  "website": "https://luxelec.lu",
+  "priority": "low",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "",
+  "relevant_capability": "",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-08-29",
+      "type": "discovered",
+      "summary": "Imported via operator_luxembourg_2026-08 batch.",
+      "source": "operator-manual-collection"
+    }
+  ],
+  "source": "operator-manual-collection",
+  "date_checked": "2026-08-29"
+}

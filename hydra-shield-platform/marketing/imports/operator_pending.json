@@ -1,0 +1,3501 @@
+{
+ "batch": "operator_pending",
+ "note": "Operator-collected orgs withheld from the committed ledger: honesty contract unmet (see pending_reason per row). Restore by adding evidence (website/country) and re-importing.",
+ "rows": [
+  {
+   "organization": "Moyal-Simon",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://moyal-simon.com",
+   "contacts": [
+    {
+     "email": "p.simon@moyal-simon.com",
+     "person": "Philipp Simon",
+     "role": "Partner"
+    },
+    {
+     "email": "f.zahnd@moyal-simon.com",
+     "person": "Fritz Zahnd",
+     "role": "Attorney At Law"
+    },
+    {
+     "email": "j.warnecke@moyal-simon.com",
+     "person": "Julie Warnecke",
+     "role": "Attorney At Law"
+    },
+    {
+     "email": "m.pillet-carbiener@moyal-simon.com",
+     "person": "Mylène Carbiener",
+     "role": "Partner"
+    },
+    {
+     "email": "info@moyal-simon.com",
+     "person": "",
+     "role": "Support"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Pinsent Masons",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://pinsentmasons.com",
+   "contacts": [
+    {
+     "email": "jennifer.stecker@pinsentmasons.com",
+     "person": "Jennifer Stecker",
+     "role": "Finance Director"
+    },
+    {
+     "email": "charmaine.etienne@pinsentmasons.com",
+     "person": "Charmaine Etienne",
+     "role": "Finance Operations Deputy"
+    },
+    {
+     "email": "sabia.mahmood@pinsentmasons.com",
+     "person": "Sabia Mahmood",
+     "role": "Marketing Communications Executive"
+    },
+    {
+     "email": "sophia.headland@pinsentmasons.com",
+     "person": "Sophia Headland",
+     "role": "Director of Strategic Projects"
+    },
+    {
+     "email": "steve.hancock@pinsentmasons.com",
+     "person": "Steve Hancock",
+     "role": "Finance Director"
+    },
+    {
+     "email": "georgina.thomas@pinsentmasons.com",
+     "person": "Georgina Thomas",
+     "role": "HR Business Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Simmons & Simmons",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://simmons-simmons.com",
+   "contacts": [
+    {
+     "email": "kate.cofman@simmons-simmons.com",
+     "person": "Kate Cofman",
+     "role": "Partner"
+    },
+    {
+     "email": "barry.gross@simmons-simmons.com",
+     "person": "Barry Groß",
+     "role": "Partner"
+    },
+    {
+     "email": "david.blumental@simmons-simmons.com",
+     "person": "David Blumental",
+     "role": "Partner"
+    },
+    {
+     "email": "dennis.fung@simmons-simmons.com",
+     "person": "Dennis Fung",
+     "role": "Chief Operating Officer"
+    },
+    {
+     "email": "heather.rowlands@simmons-simmons.com",
+     "person": "Heather Rowlands",
+     "role": "Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Petit Forestier",
+   "segment": "logistics",
+   "country": "",
+   "website": "https://petitforestier.com",
+   "contacts": [
+    {
+     "email": "communication@petitforestier.com",
+     "person": "",
+     "role": "Corporate Communications"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "GGR Partners",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://ggr-partners.com",
+   "contacts": [
+    {
+     "email": "nicolas@ggr-partners.com",
+     "person": "Nicolas Rasson",
+     "role": "Managing Partner"
+    },
+    {
+     "email": "daniel@ggr-partners.com",
+     "person": "Daniel Braun",
+     "role": "Partner"
+    },
+    {
+     "email": "matthias@ggr-partners.com",
+     "person": "Matthias Gerstlauer",
+     "role": "Partner"
+    },
+    {
+     "email": "mireille@ggr-partners.com",
+     "person": "Mireille Talsma",
+     "role": "Partner"
+    },
+    {
+     "email": "luxembourg@ggr-partners.com",
+     "person": "",
+     "role": "General Contact LU"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Guardian",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://guardian.com",
+   "contacts": [
+    {
+     "email": "mriley@guardian.com",
+     "person": "Michael Riley",
+     "role": "Global Director of Strategic Sourcing"
+    },
+    {
+     "email": "dsingh@guardian.com",
+     "person": "Deepinder Singh",
+     "role": "Director of Procurement"
+    },
+    {
+     "email": "jrende@guardian.com",
+     "person": "Jeff Rende",
+     "role": "Supply Chain Director"
+    },
+    {
+     "email": "kramasamy@guardian.com",
+     "person": "Karthik Ramasamy",
+     "role": "Chief Analytics Officer"
+    },
+    {
+     "email": "aguerrero@guardian.com",
+     "person": "Adriana Guerrero",
+     "role": "HR Business Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Enviri",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://enviri.com",
+   "contacts": [
+    {
+     "email": "ngrasberger@enviri.com",
+     "person": "F. Nicholas Grasberger",
+     "role": "Chairman and CEO"
+    },
+    {
+     "email": "ddunlap@enviri.com",
+     "person": "David Dunlap",
+     "role": "Vice President, Government Relations"
+    },
+    {
+     "email": "dmartin@enviri.com",
+     "person": "David Martin",
+     "role": "Vice President of Investor Relations"
+    },
+    {
+     "email": "mkolinsky@enviri.com",
+     "person": "Michael Kolinsky",
+     "role": "Vice President of Treasury"
+    },
+    {
+     "email": "tvadaketh@enviri.com",
+     "person": "Tom Vadaketh",
+     "role": "Chief Financial Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Hewlett Packard Enterprise",
+   "segment": "technology_providers",
+   "country": "",
+   "website": "https://hpe.com",
+   "contacts": [
+    {
+     "email": "gerald.david@hpe.com",
+     "person": "Gerald David",
+     "role": "Chief Technology Officer"
+    },
+    {
+     "email": "andrew.macpherson@hpe.com",
+     "person": "Andrew Macpherson",
+     "role": "Client Executive"
+    },
+    {
+     "email": "eleonora.echevarria@hpe.com",
+     "person": "Eleonora Echevarria",
+     "role": "Board Member"
+    },
+    {
+     "email": "tim.khoo@hpe.com",
+     "person": "Tim Khoo",
+     "role": "Partner Manager"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Husky",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://husky.co",
+   "contacts": [
+    {
+     "email": "jgalt@husky.co",
+     "person": "John Galt",
+     "role": "CEO"
+    },
+    {
+     "email": "abastien@husky.co",
+     "person": "Aurelien Bastien",
+     "role": "Administrative or engineering (probable)"
+    },
+    {
+     "email": "sales@husky.co",
+     "person": "",
+     "role": "Sales Contact"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Hydro",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://hydro.com",
+   "contacts": [
+    {
+     "email": "nina.schefte@hydro.com",
+     "person": "Nina Schefte",
+     "role": "Head of Sustainability"
+    },
+    {
+     "email": "john.thuestad@hydro.com",
+     "person": "John Thuestad",
+     "role": "Executive VP"
+    },
+    {
+     "email": "ole.reiersen@hydro.com",
+     "person": "Ole Reiersen",
+     "role": "Director of Business Solutions"
+    },
+    {
+     "email": "ryan.modlin@hydro.com",
+     "person": "Ryan Modlin",
+     "role": "Vice President, Government Affairs"
+    },
+    {
+     "email": "vanda.halasz@hydro.com",
+     "person": "Vanda Halász",
+     "role": "Finance Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "HS Hyosung",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://hshyosung.com",
+   "contacts": [
+    {
+     "email": "jacob.kim@hshyosung.com",
+     "person": "Jacob Kim",
+     "role": "Unspecified (initial contact candidate)"
+    },
+    {
+     "email": "minjoonoh@hshyosung.com",
+     "person": "",
+     "role": "Unspecified"
+    },
+    {
+     "email": "taeyoon4@hshyosung.com",
+     "person": "",
+     "role": "Unspecified"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Icarus Shipping",
+   "segment": "logistics",
+   "country": "",
+   "website": "",
+   "contacts": [
+    {
+     "email": "icarus-shipping-sa@hotmail.com",
+     "person": "Hans Danes",
+     "role": "Président – Administrateur délégué"
+    }
+   ],
+   "pending_reason": "no corporate website derivable from contacts"
+  },
+  {
+   "organization": "Indigo Group",
+   "segment": "infrastructure",
+   "country": "",
+   "website": "https://group-indigo.com",
+   "contacts": [
+    {
+     "email": "john.laires@group-indigo.com",
+     "person": "John Laires",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "alexandre.ragot@group-indigo.com",
+     "person": "Alexandre Ragot",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "clement.kerhoas@group-indigo.com",
+     "person": "Clement Kerhoas",
+     "role": "Director – Financial Planning & Analysis"
+    },
+    {
+     "email": "marcelo.nunes@group-indigo.com",
+     "person": "Marcelo Nunes",
+     "role": "Deputy CEO"
+    },
+    {
+     "email": "xavier.heulin@group-indigo.com",
+     "person": "Xavier Heulin",
+     "role": "Deputy CEO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "IL Cosmetics",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://ilcosmetics.com",
+   "contacts": [
+    {
+     "email": "e.borges@ilcosmetics.com",
+     "person": "Emilia Borges",
+     "role": "Director of Quality, Health, Safety, and Environment (QHSE)"
+    },
+    {
+     "email": "b.papazian@ilcosmetics.com",
+     "person": "Bruno Papazian",
+     "role": "Commercial Director"
+    },
+    {
+     "email": "e.bagre@ilcosmetics.com",
+     "person": "Eric Bagre",
+     "role": "Operations Manager"
+    },
+    {
+     "email": "l.maucotel@ilcosmetics.com",
+     "person": "Lisa Maucotel",
+     "role": "Export Sales Coordinator"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Interstream Barging",
+   "segment": "logistics",
+   "country": "",
+   "website": "https://interstreambarging.com",
+   "contacts": [
+    {
+     "email": "bernard.pols@interstreambarging.com",
+     "person": "Bernard Pols",
+     "role": "Human Resources Manager"
+    },
+    {
+     "email": "crewing@interstreambarging.com",
+     "person": "",
+     "role": "Crewing / Operations"
+    },
+    {
+     "email": "info@interstreambarging.com",
+     "person": "",
+     "role": "General"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "ispace Europe",
+   "segment": "technology_providers",
+   "country": "",
+   "website": "https://ispace-inc.com",
+   "contacts": [
+    {
+     "email": "j-lamamy@ispace-inc.com",
+     "person": "Julien Lamamy",
+     "role": "CEO (Europe branch)"
+    },
+    {
+     "email": "a-melchior@ispace-inc.com",
+     "person": "Aurélie Melchior",
+     "role": "Executive Assistant"
+    },
+    {
+     "email": "j-meunier@ispace-inc.com",
+     "person": "Julien Meunier",
+     "role": "Finance Director"
+    },
+    {
+     "email": "j-nozaki@ispace-inc.com",
+     "person": "Jumpei Nozaki",
+     "role": "CFO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "IVC Group",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://ivcgroup.com",
+   "contacts": [
+    {
+     "email": "jerry.depoortere@ivcgroup.com",
+     "person": "Jerry Depoortere",
+     "role": "International Sales Director"
+    },
+    {
+     "email": "joris.cantaert@ivcgroup.com",
+     "person": "Joris Cantaert",
+     "role": "Project Manager"
+    },
+    {
+     "email": "customerservice@ivcgroup.com",
+     "person": "",
+     "role": "General Contact"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Jan De Nul",
+   "segment": "construction",
+   "country": "",
+   "website": "https://jandenul.com",
+   "contacts": [
+    {
+     "email": "david.jonckheere@jandenul.com",
+     "person": "David Jonckheere",
+     "role": "Area Director"
+    },
+    {
+     "email": "hitomi.narita@jandenul.com",
+     "person": "Hitomi Narita",
+     "role": "Director"
+    },
+    {
+     "email": "jhonny.bernal-a@jandenul.com",
+     "person": "Jhonny Bernal A",
+     "role": "Logistics Director"
+    },
+    {
+     "email": "kris.herzele@jandenul.com",
+     "person": "Kris Herzele",
+     "role": "Head of 3D Visualization"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Jindal Films",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://jindalfilms.com",
+   "contacts": [
+    {
+     "email": "markus.berger@jindalfilms.com",
+     "person": "Markus Berger",
+     "role": "CEO"
+    },
+    {
+     "email": "aloys.slenders@jindalfilms.com",
+     "person": "Aloys Slenders",
+     "role": "Site Director"
+    },
+    {
+     "email": "anna.caramia@jindalfilms.com",
+     "person": "Anna Caramia",
+     "role": "HR Business Partner"
+    },
+    {
+     "email": "deepak.goenka@jindalfilms.com",
+     "person": "Deepak Goenka",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "malay.rajoria@jindalfilms.com",
+     "person": "Malay Rajoria",
+     "role": "Vice President – Global Procurement"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "John Zink",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://johnzink.com",
+   "contacts": [
+    {
+     "email": "tim.locke@johnzink.com",
+     "person": "Tim Locke",
+     "role": "Possibly accounts manager or executive"
+    },
+    {
+     "email": "cesar.sanchez@johnzink.com",
+     "person": "Cesar Sanchez",
+     "role": "Possibly sales or solutions executive"
+    },
+    {
+     "email": "william.weimer@johnzink.com",
+     "person": "William Weimer",
+     "role": "Unspecified – manager or executive"
+    },
+    {
+     "email": "info@johnzink.com",
+     "person": "",
+     "role": "General Contact"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "JAO",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://jao.eu",
+   "contacts": [
+    {
+     "email": "frederik@jao.eu",
+     "person": "Frederik Johnsen",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "diana@jao.eu",
+     "person": "Diana Rodrigues",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "emiel@jao.eu",
+     "person": "Emiel Bussé",
+     "role": "Director of Projects"
+    },
+    {
+     "email": "thiago@jao.eu",
+     "person": "Thiago Reis",
+     "role": "Director of Finance"
+    },
+    {
+     "email": "thomas@jao.eu",
+     "person": "Thomas Kieffer",
+     "role": "COO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Allfunds",
+   "segment": "investment",
+   "country": "",
+   "website": "https://allfunds.com",
+   "contacts": [
+    {
+     "email": "andres.sanz@allfunds.com",
+     "person": "Andrés Sanz",
+     "role": "Chief Risk Officer"
+    },
+    {
+     "email": "aamir.patel@allfunds.com",
+     "person": "Aamir Patel",
+     "role": "Head of Client Services"
+    },
+    {
+     "email": "antonio.manso@allfunds.com",
+     "person": "Antonio Manso",
+     "role": "Chief Revenue Officer"
+    },
+    {
+     "email": "javier.montoya@allfunds.com",
+     "person": "Javier Montoya",
+     "role": "Director of Business Process Management"
+    },
+    {
+     "email": "santiago.mingo@allfunds.com",
+     "person": "Santiago Mingo",
+     "role": "Head of Product"
+    },
+    {
+     "email": "victor.montesinos@allfunds.com",
+     "person": "Víctor Montesinos",
+     "role": "Head of IT Systems"
+    },
+    {
+     "email": "vincent.mattera@allfunds.com",
+     "person": "Vincent Mattera",
+     "role": "Sales Director"
+    },
+    {
+     "email": "daniel.veenstra@allfunds.com",
+     "person": "Daniel Veenstra",
+     "role": "Rebate Manager"
+    },
+    {
+     "email": "francy.ramirez@allfunds.com",
+     "person": "Francy Ramirez",
+     "role": "Executive Assistant"
+    },
+    {
+     "email": "monica.perez@allfunds.com",
+     "person": "Monica Perez",
+     "role": "Head of Transfer Agent Relationships"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Allspring Global Investments",
+   "segment": "investment",
+   "country": "",
+   "website": "https://allspringglobal.com",
+   "contacts": [
+    {
+     "email": "jon.baranko@allspringglobal.com",
+     "person": "Jon Baranko",
+     "role": "CIO"
+    },
+    {
+     "email": "bradley.steiner@allspringglobal.com",
+     "person": "Bradley Steiner",
+     "role": "Unspecified"
+    },
+    {
+     "email": "charles.wilson@allspringglobal.com",
+     "person": "Charles Wilson",
+     "role": "Portfolio Management"
+    },
+    {
+     "email": "melissa.murphy@allspringglobal.com",
+     "person": "Melissa Murphy",
+     "role": "Unspecified"
+    },
+    {
+     "email": "richard.peck@allspringglobal.com",
+     "person": "Richard Peck",
+     "role": "Portfolio Manager"
+    },
+    {
+     "email": "scott.eldridge@allspringglobal.com",
+     "person": "Scott Eldridge",
+     "role": "Unspecified"
+    },
+    {
+     "email": "alison.shimada@allspringglobal.com",
+     "person": "Alison Shimada",
+     "role": "Unspecified"
+    },
+    {
+     "email": "francesca.emanuel@allspringglobal.com",
+     "person": "Francesca Emanuel",
+     "role": "Unspecified"
+    },
+    {
+     "email": "kelly.vives@allspringglobal.com",
+     "person": "Kelly Vives",
+     "role": "Unspecified"
+    },
+    {
+     "email": "martha.delgado@allspringglobal.com",
+     "person": "Martha Delgado",
+     "role": "Unspecified"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Capital International (Isle of Man)",
+   "segment": "investment",
+   "country": "",
+   "website": "https://capital-iom.com",
+   "contacts": [
+    {
+     "email": "g.parry@capital-iom.com",
+     "person": "Gavin Parry",
+     "role": "Managing Director"
+    },
+    {
+     "email": "b.wilde@capital-iom.com",
+     "person": "Ben Wilde",
+     "role": "Head of Innovation and Digital Technology"
+    },
+    {
+     "email": "p.atherton@capital-iom.com",
+     "person": "Paul Atherton",
+     "role": "Finance Director"
+    },
+    {
+     "email": "w.alberts@capital-iom.com",
+     "person": "Werner Alberts",
+     "role": "Managing Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Capital Group",
+   "segment": "investment",
+   "country": "",
+   "website": "https://capitalgroup.com",
+   "contacts": [
+    {
+     "email": "katja.wiechers@capitalgroup.com",
+     "person": "Katja Wiechers",
+     "role": "Managing Director"
+    },
+    {
+     "email": "adam.price@capitalgroup.com",
+     "person": "Adam Price",
+     "role": "Managing Director"
+    },
+    {
+     "email": "feike.goudsmit@capitalgroup.com",
+     "person": "Feike Goudsmit",
+     "role": "Managing Director"
+    },
+    {
+     "email": "gregoire.seron@capitalgroup.com",
+     "person": "Grégoire Seron",
+     "role": "Marketing Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "DNCA Investments",
+   "segment": "investment",
+   "country": "",
+   "website": "https://dnca-investments.com",
+   "contacts": [
+    {
+     "email": "xcallens@dnca-investments.com",
+     "person": "Xavier Callens",
+     "role": "Chief Data Officer"
+    },
+    {
+     "email": "fparetti@dnca-investments.com",
+     "person": "Fabrice Paretti",
+     "role": "Head of Data"
+    },
+    {
+     "email": "jpasquier@dnca-investments.com",
+     "person": "Jean-Hugues Pasquier",
+     "role": "Global Product Manager"
+    },
+    {
+     "email": "smaraval-bedu@dnca-investments.com",
+     "person": "Sébastien Maraval-Bedu",
+     "role": "Director of Performance Management"
+    },
+    {
+     "email": "vbriol@dnca-investments.com",
+     "person": "Véronique Briol",
+     "role": "Compliance Director"
+    },
+    {
+     "email": "amontigny@dnca-investments.com",
+     "person": "Adrien Montigny",
+     "role": "Director of Wholesale"
+    },
+    {
+     "email": "jswitten@dnca-investments.com",
+     "person": "Jo Switten",
+     "role": "Business Development Director"
+    },
+    {
+     "email": "ndubuisson@dnca-investments.com",
+     "person": "Nicolas Dubuisson",
+     "role": "Director of Business Development"
+    },
+    {
+     "email": "samzil@dnca-investments.com",
+     "person": "Sarah Amzil",
+     "role": "Head of Engineering"
+    },
+    {
+     "email": "sfaccini@dnca-investments.com",
+     "person": "Sara Faccini",
+     "role": "Director of Client Services"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "MFS Investment Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://mfs.com",
+   "contacts": [
+    {
+     "email": "cconover@mfs.com",
+     "person": "Cort Conover",
+     "role": "Vice President"
+    },
+    {
+     "email": "hdavis@mfs.com",
+     "person": "Hannah Davis",
+     "role": "Vice President of Corporate Communications"
+    },
+    {
+     "email": "hlogan@mfs.com",
+     "person": "Harry Logan",
+     "role": "Director"
+    },
+    {
+     "email": "ilodato@mfs.com",
+     "person": "Inna Lodato",
+     "role": "Vice President of Total Rewards"
+    },
+    {
+     "email": "saraujo@mfs.com",
+     "person": "Sam Araújo",
+     "role": "AVP, Partner Relationships"
+    },
+    {
+     "email": "tchadha@mfs.com",
+     "person": "Tanya Chadha",
+     "role": "Investment Product Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "PIMCO",
+   "segment": "investment",
+   "country": "",
+   "website": "https://pimco.com",
+   "contacts": [
+    {
+     "email": "robert.english@pimco.com",
+     "person": "Robert English",
+     "role": "Managing Director"
+    },
+    {
+     "email": "agnes.crane@pimco.com",
+     "person": "Agnes Crane",
+     "role": "EVP, Corporate Communications"
+    },
+    {
+     "email": "angie.lee@pimco.com",
+     "person": "Angie Lee",
+     "role": "Senior VP, Head of Private Banking"
+    },
+    {
+     "email": "ivan.lee@pimco.com",
+     "person": "Ivan Lee",
+     "role": "Senior VP, Account Management"
+    },
+    {
+     "email": "jamil.baz@pimco.com",
+     "person": "Jamil Baz",
+     "role": "Managing Director"
+    },
+    {
+     "email": "mikko.andersson@pimco.com",
+     "person": "Mikko Andersson",
+     "role": "Senior VP, Account Management"
+    },
+    {
+     "email": "phil.michels@pimco.com",
+     "person": "Phil Michels",
+     "role": "EVP, Global Wealth Management Strategy"
+    },
+    {
+     "email": "barry.lawrence@pimco.com",
+     "person": "Barry Lawrence",
+     "role": "Unspecified"
+    },
+    {
+     "email": "german.ramirez@pimco.com",
+     "person": "German Ramirez",
+     "role": "Senior VP, Quantitative Research"
+    },
+    {
+     "email": "laura.kelly@pimco.com",
+     "person": "Laura Kelly",
+     "role": "Vice President, Account Management"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Savills Investment Management",
+   "segment": "real_estate",
+   "country": "",
+   "website": "https://savillsim.com",
+   "contacts": [
+    {
+     "email": "james.howard@savillsim.com",
+     "person": "James Howard",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "annabelle.ashton@savillsim.com",
+     "person": "Annabelle Ashton",
+     "role": "Fund Finance Manager"
+    },
+    {
+     "email": "clare.sutcliffe@savillsim.com",
+     "person": "Clare Sutcliffe",
+     "role": "Head of Finance"
+    },
+    {
+     "email": "estelle.baillieux@savillsim.com",
+     "person": "Estelle Baillieux",
+     "role": "Director of Fund Finance"
+    },
+    {
+     "email": "kathrin.michalzik@savillsim.com",
+     "person": "Kathrin Michalzik",
+     "role": "Head of Fund Management"
+    },
+    {
+     "email": "marc.gonzalvez@savillsim.com",
+     "person": "Marc Gonzalvez",
+     "role": "Director of Product Strategy"
+    },
+    {
+     "email": "callum.burns@savillsim.com",
+     "person": "Callum Burns",
+     "role": "Director of Development"
+    },
+    {
+     "email": "jonathan.clarke@savillsim.com",
+     "person": "Jonathan Clarke",
+     "role": "Director of Affordable Housing"
+    },
+    {
+     "email": "laurent.vouin@savillsim.com",
+     "person": "Laurent Vouin",
+     "role": "Regional Director"
+    },
+    {
+     "email": "vivian.tan@savillsim.com",
+     "person": "Vivian Tan",
+     "role": "Executive Assistant"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Swiss Life Asset Managers",
+   "segment": "investment",
+   "country": "",
+   "website": "https://swisslife-am.com",
+   "contacts": [
+    {
+     "email": "anders.jakobsen@swisslife-am.com",
+     "person": "Anders Jakobsen",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "christina.landgraf@swisslife-am.com",
+     "person": "Christina Landgraf",
+     "role": "Chief Transformation Officer"
+    },
+    {
+     "email": "benjamin.jonen@swisslife-am.com",
+     "person": "Benjamin Jonen",
+     "role": "Director of Financial Engineering"
+    },
+    {
+     "email": "marcel.schmitt@swisslife-am.com",
+     "person": "Marcel Schmitt",
+     "role": "Head of Real Estate Portfolio Management"
+    },
+    {
+     "email": "patrick.leuthold@swisslife-am.com",
+     "person": "Patrick Leuthold",
+     "role": "Head of Real Estate"
+    },
+    {
+     "email": "stefan.spreiter@swisslife-am.com",
+     "person": "Stefan Spreiter",
+     "role": "Chief Risk Officer"
+    },
+    {
+     "email": "ulrik.oxfeldt@swisslife-am.com",
+     "person": "Ulrik Oxfeldt",
+     "role": "Head of Institutional Sales"
+    },
+    {
+     "email": "albatrim.rexhaj@swisslife-am.com",
+     "person": "Albatrim Rexhaj",
+     "role": "Head of Production"
+    },
+    {
+     "email": "alex.duivelshof@swisslife-am.com",
+     "person": "Alex Duivelshof",
+     "role": "Chief Information Security Officer"
+    },
+    {
+     "email": "bjoern.dernbecher@swisslife-am.com",
+     "person": "Björn Dernbecher",
+     "role": "Head of Tax"
+    },
+    {
+     "email": "fabienne.senn@swisslife-am.com",
+     "person": "Fabienne Senn",
+     "role": "HR Director"
+    },
+    {
+     "email": "mario.giannini@swisslife-am.com",
+     "person": "Mario Giannini",
+     "role": "Deputy General Counsel"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Aberdeen",
+   "segment": "investment",
+   "country": "",
+   "website": "https://aberdeen-asset.com",
+   "contacts": [
+    {
+     "email": "aberdeen.global@aberdeen-asset.com",
+     "person": "",
+     "role": "Management Company – General Contact"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "ACT",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://act.is",
+   "contacts": [
+    {
+     "email": "njain@act.is",
+     "person": "Neha Jain",
+     "role": "Executive Director"
+    },
+    {
+     "email": "lubhi@act.is",
+     "person": "Lena Ubhi",
+     "role": "Global Talent Director"
+    },
+    {
+     "email": "mnielsen@act.is",
+     "person": "Mark Nielsen",
+     "role": "Head of Banking"
+    },
+    {
+     "email": "nkhandelwal@act.is",
+     "person": "Nisha Khandelwal",
+     "role": "Senior Executive"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "ADEPA",
+   "segment": "investment",
+   "country": "",
+   "website": "https://adepa.com",
+   "contacts": [
+    {
+     "email": "f.figueroa@adepa.com",
+     "person": "Francisco Figueroa",
+     "role": "Chief Compliance Officer"
+    },
+    {
+     "email": "a.bardaji@adepa.com",
+     "person": "Alex Bardaji",
+     "role": "Country Manager"
+    },
+    {
+     "email": "c.oraa@adepa.com",
+     "person": "Cristobal Oraa",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "h.bukowski@adepa.com",
+     "person": "Heike Bukowski",
+     "role": "Compliance Manager"
+    },
+    {
+     "email": "w.fontan@adepa.com",
+     "person": "Walter Fontan",
+     "role": "Chief Risk Officer"
+    },
+    {
+     "email": "d.tresoldi@adepa.com",
+     "person": "Daniele Tresoldi",
+     "role": "Global Hub Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "AllianceBernstein",
+   "segment": "investment",
+   "country": "",
+   "website": "https://alliancebernstein.com",
+   "contacts": [
+    {
+     "email": "jenny.zhang@alliancebernstein.com",
+     "person": "Jenny Zhang",
+     "role": "Managing Director"
+    },
+    {
+     "email": "david.kuck@alliancebernstein.com",
+     "person": "David Kuck",
+     "role": "Managing Director"
+    },
+    {
+     "email": "hua.cheng@alliancebernstein.com",
+     "person": "Hua Cheng",
+     "role": "Senior Vice President"
+    },
+    {
+     "email": "shane.mcgrogan@alliancebernstein.com",
+     "person": "Shane Mcgrogan",
+     "role": "Director"
+    },
+    {
+     "email": "thiemo.volkholz@alliancebernstein.com",
+     "person": "Thiemo Volkholz",
+     "role": "Head of Retail"
+    },
+    {
+     "email": "christopher.ryan@alliancebernstein.com",
+     "person": "Christopher Ryan",
+     "role": "Vice President"
+    },
+    {
+     "email": "constantin.andreae@alliancebernstein.com",
+     "person": "Constantin Andreae",
+     "role": "Regional Director"
+    },
+    {
+     "email": "john.tanner@alliancebernstein.com",
+     "person": "John Tanner",
+     "role": "Vice President"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Amundi",
+   "segment": "investment",
+   "country": "",
+   "website": "https://amundi.com",
+   "contacts": [
+    {
+     "email": "info@amundi.com",
+     "person": "",
+     "role": "Management Company / AIFM – General Inquiry"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Andbank",
+   "segment": "banking",
+   "country": "",
+   "website": "https://andbank.com",
+   "contacts": [
+    {
+     "email": "jose.yecora@andbank.com",
+     "person": "José Yécora",
+     "role": "General Director"
+    },
+    {
+     "email": "borja.vega@andbank.com",
+     "person": "Borja Vega",
+     "role": "Private Banking Director"
+    },
+    {
+     "email": "felipe.ferran@andbank.com",
+     "person": "Felipe Ferrán",
+     "role": "Wealth Management Director"
+    },
+    {
+     "email": "josep.casanovas@andbank.com",
+     "person": "Josep Casanovas",
+     "role": "Deputy Director General"
+    },
+    {
+     "email": "marcus.macedo@andbank.com",
+     "person": "Marcus Macedo",
+     "role": "Chief Investment Officer"
+    },
+    {
+     "email": "roger.duran@andbank.com",
+     "person": "Roger Duran",
+     "role": "Global Reporting Director"
+    },
+    {
+     "email": "flora.diaz@andbank.com",
+     "person": "Flora Díaz",
+     "role": "Chief Human Resources Officer"
+    },
+    {
+     "email": "oriol.huguet@andbank.com",
+     "person": "Oriol Huguet",
+     "role": "Managing Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "APIS Asset Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://apis-am.com",
+   "contacts": [
+    {
+     "email": "sl@apis-am.com",
+     "person": "Sandra Lucente",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "info@apis-am.com",
+     "person": "",
+     "role": "Management Company / General Inquiry"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Assenagon",
+   "segment": "investment",
+   "country": "",
+   "website": "https://assenagon.com",
+   "contacts": [
+    {
+     "email": "roya.abbasi@assenagon.com",
+     "person": "Roya Abbasi",
+     "role": "Vice President of ESG and Product Management"
+    },
+    {
+     "email": "aaron.wittmann@assenagon.com",
+     "person": "Aaron Wittmann",
+     "role": "Vice President of Portfolio Management"
+    },
+    {
+     "email": "matthias.kunze@assenagon.com",
+     "person": "Matthias Kunze",
+     "role": "Managing Director"
+    },
+    {
+     "email": "thomas.romig@assenagon.com",
+     "person": "Thomas Romig",
+     "role": "Head of Multi-Asset Investments"
+    },
+    {
+     "email": "tobias.knecht@assenagon.com",
+     "person": "Tobias Knecht",
+     "role": "Managing Director"
+    },
+    {
+     "email": "andre.beier@assenagon.com",
+     "person": "André Beier",
+     "role": "SVP of Sales"
+    },
+    {
+     "email": "andreas.mair@assenagon.com",
+     "person": "Andreas Mair",
+     "role": "Vice President, Product Management"
+    },
+    {
+     "email": "sophia.engel@assenagon.com",
+     "person": "Sophia Engel",
+     "role": "SVP of Human Resources"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Aviva Investors",
+   "segment": "investment",
+   "country": "",
+   "website": "https://avivainvestors.com",
+   "contacts": [
+    {
+     "email": "tom.tayler@avivainvestors.com",
+     "person": "Tom Tayler",
+     "role": "Director of Climate Finance"
+    },
+    {
+     "email": "candice.goodwin@avivainvestors.com",
+     "person": "Candice Goodwin",
+     "role": "Director of Fund Finance"
+    },
+    {
+     "email": "felix.bottomley@avivainvestors.com",
+     "person": "Felix Bottomley",
+     "role": "Head of Compliance"
+    },
+    {
+     "email": "joanne.bailey@avivainvestors.com",
+     "person": "Joanne Bailey",
+     "role": "Director of Financial Reporting"
+    },
+    {
+     "email": "paul.murray@avivainvestors.com",
+     "person": "Paul Murray",
+     "role": "Finance Business Partner"
+    },
+    {
+     "email": "steve.hyndman@avivainvestors.com",
+     "person": "Steve Hyndman",
+     "role": "Director of Risk Management"
+    },
+    {
+     "email": "graham.mudie@avivainvestors.com",
+     "person": "Graham Mudie",
+     "role": "Senior Business Development Director"
+    },
+    {
+     "email": "martin.stearman@avivainvestors.com",
+     "person": "Martin Stearman",
+     "role": "Strategic Business Partner"
+    },
+    {
+     "email": "nick.solomon@avivainvestors.com",
+     "person": "Nick Solomon",
+     "role": "Director of Real Estate Debt"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "BNY",
+   "segment": "banking",
+   "country": "",
+   "website": "https://bny.com",
+   "contacts": [
+    {
+     "email": "daniela.battistoni@bny.com",
+     "person": "Daniela Battistoni",
+     "role": "SVP of Corporate Governance"
+    },
+    {
+     "email": "anthony.morose@bny.com",
+     "person": "Anthony Morose",
+     "role": "Director of Fund Accounting"
+    },
+    {
+     "email": "megha.rathore@bny.com",
+     "person": "Megha Rathore",
+     "role": "Vice President of Surveillance"
+    },
+    {
+     "email": "stuart.wilson@bny.com",
+     "person": "Stuart Wilson",
+     "role": "Director of Risk & Compliance – IM EMEA"
+    },
+    {
+     "email": "wayne.brassington@bny.com",
+     "person": "Wayne Brassington",
+     "role": "Vice President of Change Management"
+    },
+    {
+     "email": "elizabeth.davis@bny.com",
+     "person": "Elizabeth Davis",
+     "role": "Vice President"
+    },
+    {
+     "email": "vinit.shah@bny.com",
+     "person": "Vinit Shah",
+     "role": "Vice President, Internal Audit"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "CA Indosuez Asset Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://ca-indosuez-am.com",
+   "contacts": [
+    {
+     "email": "sebastien.alusse@ca-indosuez-am.com",
+     "person": "Sébastien Alusse",
+     "role": "Managing Director"
+    },
+    {
+     "email": "anne-charlotte.miot@ca-indosuez-am.com",
+     "person": "Anne-Charlotte Miot",
+     "role": "Head of Risk Management"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Candriam",
+   "segment": "investment",
+   "country": "",
+   "website": "https://candriam.com",
+   "contacts": [
+    {
+     "email": "vincent.hamelink@candriam.com",
+     "person": "Vincent Hamelink",
+     "role": "CEO"
+    },
+    {
+     "email": "alain.pignolet@candriam.com",
+     "person": "Alain Pignolet",
+     "role": "Chief Audit Executive"
+    },
+    {
+     "email": "chafic.jabbour@candriam.com",
+     "person": "Chafic Jabbour",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "gonzague.druart@candriam.com",
+     "person": "Gonzague Druart",
+     "role": "Global Head of Compliance & US CCO"
+    },
+    {
+     "email": "fabrice.sauzeau@candriam.com",
+     "person": "Fabrice Sauzeau",
+     "role": "Deputy Head of Insurance & Pension Advisory"
+    },
+    {
+     "email": "nagi.nasr@candriam.com",
+     "person": "Nagi Nasr",
+     "role": "Deputy Head of Investment Solutions"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "CI Fund Services",
+   "segment": "investment",
+   "country": "",
+   "website": "https://ci-fund-services.com",
+   "contacts": [
+    {
+     "email": "ms@ci-fund-services.com",
+     "person": "Michael Sanders",
+     "role": "CEO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Commerz Real",
+   "segment": "real_estate",
+   "country": "",
+   "website": "https://commerzreal.com",
+   "contacts": [
+    {
+     "email": "henning.koch@commerzreal.com",
+     "person": "Henning Koch",
+     "role": "CEO"
+    },
+    {
+     "email": "markus.esser@commerzreal.com",
+     "person": "Markus Eßer",
+     "role": "Head Of Communications"
+    },
+    {
+     "email": "carina.lorenz@commerzreal.com",
+     "person": "Carina Lorenz",
+     "role": "Unspecified"
+    },
+    {
+     "email": "madeleine.hohmann@commerzreal.com",
+     "person": "Madeleine Hohmann",
+     "role": "Sales Support"
+    },
+    {
+     "email": "timo.lutz@commerzreal.com",
+     "person": "Timo Lutz",
+     "role": "Unspecified (possibly project management)"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Corestate Capital",
+   "segment": "real_estate",
+   "country": "",
+   "website": "https://corestate-capital.com",
+   "contacts": [
+    {
+     "email": "ir@corestate-capital.com",
+     "person": "",
+     "role": "Investor Relations"
+    },
+    {
+     "email": "pr@corestate-capital.com",
+     "person": "",
+     "role": "Public Relations"
+    },
+    {
+     "email": "info@corestate-capital.com",
+     "person": "",
+     "role": "General Contact"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Degroof Petercam",
+   "segment": "investment",
+   "country": "",
+   "website": "https://degroofpetercam.com",
+   "contacts": [
+    {
+     "email": "a.fonzi@degroofpetercam.com",
+     "person": "Alessandro Fonzi",
+     "role": "Country Head"
+    },
+    {
+     "email": "a.niehe@degroofpetercam.com",
+     "person": "Alexandra Niehe",
+     "role": "Director of Corporate Communications"
+    },
+    {
+     "email": "m.fritz@degroofpetercam.com",
+     "person": "Fritz Mertens",
+     "role": "Managing Director"
+    },
+    {
+     "email": "a.aboulkhouatem@degroofpetercam.com",
+     "person": "Amal Aboulkhouatem",
+     "role": "Senior Real Estate Analyst"
+    },
+    {
+     "email": "v.koppmair@degroofpetercam.com",
+     "person": "Vincent Koppmair",
+     "role": "Equity Research Analyst"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Eastspring Investments",
+   "segment": "investment",
+   "country": "",
+   "website": "https://eastspring.com",
+   "contacts": [
+    {
+     "email": "mutiara.purba@eastspring.com",
+     "person": "Mutiara Purba",
+     "role": "Head of Distribution"
+    },
+    {
+     "email": "nada.ebranan@eastspring.com",
+     "person": "Nada Ebranan",
+     "role": "Deputy Managing Director"
+    },
+    {
+     "email": "philip.bazany@eastspring.com",
+     "person": "Philip Bazany",
+     "role": "Head of Investment Management"
+    },
+    {
+     "email": "abhinav.shrivastava@eastspring.com",
+     "person": "Abhinav Shrivastava",
+     "role": "Director"
+    },
+    {
+     "email": "jason.chiong@eastspring.com",
+     "person": "Jason Chiong",
+     "role": "Director of Corporate Strategy"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Engelwood",
+   "segment": "investment",
+   "country": "",
+   "website": "https://engelwood.eu",
+   "contacts": [
+    {
+     "email": "contact@engelwood.eu",
+     "person": "Steven Curfs / Jean-Pierre Verlaine",
+     "role": "Chairman of the Executive Committee & Conducting Officer / CEO & Conducting Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Eurizon Capital",
+   "segment": "investment",
+   "country": "",
+   "website": "https://eurizoncapital.com",
+   "contacts": [
+    {
+     "email": "marco.canton@eurizoncapital.com",
+     "person": "Marco Canton",
+     "role": "Director"
+    },
+    {
+     "email": "alessandro.solina@eurizoncapital.com",
+     "person": "Alessandro Solina",
+     "role": "Chief Investment Officer"
+    },
+    {
+     "email": "fabio.iardino@eurizoncapital.com",
+     "person": "Fabio Iardino",
+     "role": "Head of Structured Products"
+    },
+    {
+     "email": "luigi.ajello@eurizoncapital.com",
+     "person": "Luigi Ajello",
+     "role": "Head of Operations and Middle Office Support"
+    },
+    {
+     "email": "paolo.bernardelli@eurizoncapital.com",
+     "person": "Paolo Bernardelli",
+     "role": "Head of Fixed Income and Foreign Exchange"
+    },
+    {
+     "email": "sandro.vesprini@eurizoncapital.com",
+     "person": "Sandro Vesprini",
+     "role": "Finance Director"
+    },
+    {
+     "email": "chiara.carbone@eurizoncapital.com",
+     "person": "Chiara Carbone",
+     "role": "Chief of Staff"
+    },
+    {
+     "email": "claudia.deglialberti@eurizoncapital.com",
+     "person": "Claudia Deglialberti",
+     "role": "Risk Engineering Manager"
+    },
+    {
+     "email": "luisella.calcante@eurizoncapital.com",
+     "person": "Luisella Calcante",
+     "role": "Head of Product"
+    },
+    {
+     "email": "paola.muccio@eurizoncapital.com",
+     "person": "Paola Muccio",
+     "role": "Head of Data Services"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Pictet",
+   "segment": "banking",
+   "country": "",
+   "website": "https://pictet.com",
+   "contacts": [
+    {
+     "email": "jvevert@pictet.com",
+     "person": "Joël Vevert",
+     "role": "Head of Risk and Compliance"
+    },
+    {
+     "email": "proset@pictet.com",
+     "person": "Philippe Roset",
+     "role": "Head of Business Risk"
+    },
+    {
+     "email": "asoria@pictet.com",
+     "person": "Ariel Soria",
+     "role": "Head of Marketing"
+    },
+    {
+     "email": "cmayoux@pictet.com",
+     "person": "Clément Mayoux",
+     "role": "Business Risk Manager EU & UK – VP"
+    },
+    {
+     "email": "gkerouanton@pictet.com",
+     "person": "Gilles Kerouanton",
+     "role": "Head of Operational Risk"
+    },
+    {
+     "email": "jgaspoz@pictet.com",
+     "person": "John Gaspoz",
+     "role": "Vice President of Information Delivery"
+    },
+    {
+     "email": "msiegel@pictet.com",
+     "person": "Marc Siegel",
+     "role": "Head of Compliance"
+    },
+    {
+     "email": "pdiminutto@pictet.com",
+     "person": "Pauline Diminutto",
+     "role": "Senior Vice President, Asset Management"
+    },
+    {
+     "email": "pstadler@pictet.com",
+     "person": "Pierre Stadler",
+     "role": "Executive Director"
+    },
+    {
+     "email": "skissling@pictet.com",
+     "person": "Sacha Kissling",
+     "role": "Head of Institutional Sales Trading"
+    },
+    {
+     "email": "dgoineau@pictet.com",
+     "person": "Diane Goineau",
+     "role": "IT Manager"
+    },
+    {
+     "email": "jburkhardt@pictet.com",
+     "person": "Julien Burkhardt",
+     "role": "Front Desk Manager"
+    },
+    {
+     "email": "mbrun@pictet.com",
+     "person": "Mathieu Brun",
+     "role": "Director of Infrastructure Security"
+    },
+    {
+     "email": "msalzgeber@pictet.com",
+     "person": "Matthias Salzgeber",
+     "role": "Tariff Manager"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "FundRock LIS",
+   "segment": "investment",
+   "country": "",
+   "website": "https://fundrock-lis.com",
+   "contacts": [
+    {
+     "email": "wolfram.huwer@fundrock-lis.com",
+     "person": "Wolfram Huwer",
+     "role": "Senior figure (unspecified)"
+    },
+    {
+     "email": "niels.sauerland@fundrock-lis.com",
+     "person": "Niels Sauerland",
+     "role": "Probably manager or executive"
+    },
+    {
+     "email": "complaintslis@fundrock-lis.com",
+     "person": "",
+     "role": "Support / Complaints"
+    },
+    {
+     "email": "info@fundrock-lis.com",
+     "person": "",
+     "role": "Support"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "FundRock",
+   "segment": "investment",
+   "country": "",
+   "website": "https://fundrock.com",
+   "contacts": [
+    {
+     "email": "gerard-emmanuel.boue@fundrock.com",
+     "person": "Gérard Emmanuel Boué",
+     "role": "Chief Compliance Officer"
+    },
+    {
+     "email": "adam.stoeffler@fundrock.com",
+     "person": "Adam Stoeffler",
+     "role": "Finance Director"
+    },
+    {
+     "email": "david.johnstone@fundrock.com",
+     "person": "David Johnstone",
+     "role": "Vice President of Risk and Compliance"
+    },
+    {
+     "email": "leza.stinton@fundrock.com",
+     "person": "Leza Stinton",
+     "role": "Head of Management Company"
+    },
+    {
+     "email": "miguel.hall@fundrock.com",
+     "person": "Miguel Hall",
+     "role": "Director of Operations"
+    },
+    {
+     "email": "bjorn.moller@fundrock.com",
+     "person": "Bjorn Moller",
+     "role": "Director of CRM"
+    },
+    {
+     "email": "khalil.haddad@fundrock.com",
+     "person": "Khalil Haddad",
+     "role": "Chief Valuation Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "FundsAvenue",
+   "segment": "investment",
+   "country": "",
+   "website": "https://fundsavenue.com",
+   "contacts": [
+    {
+     "email": "lucie.fischbach@fundsavenue.com",
+     "person": "Lucie Fischbach",
+     "role": "Chief Compliance Officer"
+    },
+    {
+     "email": "benoit.joseph@fundsavenue.com",
+     "person": "Benoît Joseph",
+     "role": "Chief Risk Officer"
+    },
+    {
+     "email": "jacques.collins@fundsavenue.com",
+     "person": "Jacques Collins",
+     "role": "Chief Operating Officer"
+    },
+    {
+     "email": "michael.verschuure@fundsavenue.com",
+     "person": "Michael Verschuure",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "herve.coussement@fundsavenue.com",
+     "person": "Hervé Coussement",
+     "role": "Managing Director"
+    },
+    {
+     "email": "hugo.muller@fundsavenue.com",
+     "person": "Hugo Muller",
+     "role": "Principal"
+    },
+    {
+     "email": "jean-jacques.lava@fundsavenue.com",
+     "person": "Jean Lava",
+     "role": "Unspecified"
+    },
+    {
+     "email": "kelly.anckenmann@fundsavenue.com",
+     "person": "Kelly Anckenmann",
+     "role": "Executive Director of Business Development"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Gen2 Fund",
+   "segment": "investment",
+   "country": "",
+   "website": "https://gen2fund.com",
+   "contacts": [
+    {
+     "email": "jwittlieb@gen2fund.com",
+     "person": "Jenna Wittlieb",
+     "role": "Director"
+    },
+    {
+     "email": "bscogin@gen2fund.com",
+     "person": "Bethany Scogin",
+     "role": "Accounting Director"
+    },
+    {
+     "email": "greg.belcham@gen2fund.com",
+     "person": "Greg Belcham",
+     "role": "Director of Architecture"
+    },
+    {
+     "email": "rmessana@gen2fund.com",
+     "person": "Ryan Messana",
+     "role": "Director"
+    },
+    {
+     "email": "atestani@gen2fund.com",
+     "person": "Ashley Testani",
+     "role": "Associate Director"
+    },
+    {
+     "email": "eleonora.cavaleri@gen2fund.com",
+     "person": "Eleonora Cavaleri",
+     "role": "Executive Assistant"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Nomura Global Fund Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://nomura.com",
+   "contacts": [
+    {
+     "email": "info-gfm@nomura.com",
+     "person": "",
+     "role": "General Contact – Nomura Group"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "ICG Asset Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://icgam.com",
+   "contacts": [
+    {
+     "email": "julian.payne@icgam.com",
+     "person": "Julian Payne",
+     "role": "Associate Director of Sustainability"
+    },
+    {
+     "email": "michael.sproul@icgam.com",
+     "person": "Michael Sproul",
+     "role": "Managing Director"
+    },
+    {
+     "email": "rumit.shah@icgam.com",
+     "person": "Rumit Shah",
+     "role": "Head of Private Markets"
+    },
+    {
+     "email": "louise.joubert@icgam.com",
+     "person": "Louise Joubert",
+     "role": "Head of Tax"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "IFM Investment Fund Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://ifm-sa.eu",
+   "contacts": [
+    {
+     "email": "aurelien.dunet@ifm-sa.eu",
+     "person": "Aurelien Dunet",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "augustine.myande@ifm-sa.eu",
+     "person": "Augustine Myande",
+     "role": "Director of Fund Accounting"
+    },
+    {
+     "email": "sophie.leissing@ifm-sa.eu",
+     "person": "Sophie Leissing",
+     "role": "Chief Compliance Officer"
+    },
+    {
+     "email": "contact@ifm-sa.eu",
+     "person": "",
+     "role": "General Contact"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "IntReal",
+   "segment": "real_estate",
+   "country": "",
+   "website": "https://intreal.com",
+   "contacts": [
+    {
+     "email": "hdellemann@intreal.com",
+     "person": "Hannah Dellemann",
+     "role": "Director of Sustainability"
+    },
+    {
+     "email": "rarens@intreal.com",
+     "person": "Regina Arens",
+     "role": "Director of Customer Relationship Management"
+    },
+    {
+     "email": "sschilken@intreal.com",
+     "person": "Stephan Schilken",
+     "role": "Managing Director"
+    },
+    {
+     "email": "rkoemen@intreal.com",
+     "person": "Rudolf Kömen",
+     "role": "Chief Compliance Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "JPMorgan",
+   "segment": "banking",
+   "country": "",
+   "website": "https://jpmorgan.com",
+   "contacts": [
+    {
+     "email": "seema.pandya@jpmorgan.com",
+     "person": "Seema Pandya",
+     "role": "Executive Director"
+    },
+    {
+     "email": "edward.peel@jpmorgan.com",
+     "person": "Edward Peel",
+     "role": "Director of Operations"
+    },
+    {
+     "email": "mark.davino@jpmorgan.com",
+     "person": "Mark Davino",
+     "role": "Managing Director"
+    },
+    {
+     "email": "matt.galton@jpmorgan.com",
+     "person": "Matt Galton",
+     "role": "Executive Director"
+    },
+    {
+     "email": "phillip.gilbert@jpmorgan.com",
+     "person": "Phillip Gilbert",
+     "role": "Managing Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Jupiter Asset Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://jupiteram.com",
+   "contacts": [
+    {
+     "email": "edward.robinson@jupiteram.com",
+     "person": "Edward Robinson",
+     "role": "Director of Advisory Services"
+    },
+    {
+     "email": "john.morrison@jupiteram.com",
+     "person": "John Morrison",
+     "role": "Sales Director"
+    },
+    {
+     "email": "mathias.mueller@jupiteram.com",
+     "person": "Mathias Müller",
+     "role": "Co-Head of Client Group"
+    },
+    {
+     "email": "helen.woodland@jupiteram.com",
+     "person": "Helen Woodland",
+     "role": "Compliance Manager"
+    },
+    {
+     "email": "vilte.narkunaite@jupiteram.com",
+     "person": "Viltė Narkūnaitė",
+     "role": "Digital Marketing Manager"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Langham Hall",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://langhamhall.com",
+   "contacts": [
+    {
+     "email": "keith.mcshea@langhamhall.com",
+     "person": "Keith McShea",
+     "role": "Chairman"
+    },
+    {
+     "email": "clive.griffiths@langhamhall.com",
+     "person": "Clive Griffiths",
+     "role": "Manager"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Montagu",
+   "segment": "investment",
+   "country": "",
+   "website": "https://montagu.com",
+   "contacts": [
+    {
+     "email": "yassine.khechini@montagu.com",
+     "person": "Yassine Khechini",
+     "role": "Conducting Officer: Portfolio Management"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Clearlake Credit",
+   "segment": "investment",
+   "country": "",
+   "website": "https://clearlakecredit.com",
+   "contacts": [
+    {
+     "email": "sascha.regenbrecht@clearlakecredit.com",
+     "person": "Sascha Regenbrecht",
+     "role": "Conducting Officer Risk"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "NSP Group",
+   "segment": "investment",
+   "country": "",
+   "website": "https://nspgroup.com",
+   "contacts": [
+    {
+     "email": "paolo@nspgroup.com",
+     "person": "Paolo Faraone",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "amelie@nspgroup.com",
+     "person": "Amelie Bisthoven",
+     "role": "Director of Business Intelligence"
+    },
+    {
+     "email": "giorgio@nspgroup.com",
+     "person": "Giorgio Rocca",
+     "role": "Head of Wealth Management"
+    },
+    {
+     "email": "romuald@nspgroup.com",
+     "person": "Romuald Renault",
+     "role": "Head of Trading Operations"
+    },
+    {
+     "email": "leonidas@nspgroup.com",
+     "person": "Leonidas Vrachnis",
+     "role": "Deputy Head of Onboarding and CRM"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Ocorian",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://ocorian.com",
+   "contacts": [
+    {
+     "email": "chantal.free@ocorian.com",
+     "person": "Chantal Free",
+     "role": "Chief Executive Officer"
+    },
+    {
+     "email": "chris.mayfield@ocorian.com",
+     "person": "Chris Mayfield",
+     "role": "Director of Business Development"
+    },
+    {
+     "email": "david.hurley@ocorian.com",
+     "person": "David Hurley",
+     "role": "Director of Investor Services"
+    },
+    {
+     "email": "samantha.luyt@ocorian.com",
+     "person": "Samantha Luyt",
+     "role": "Chief Compliance Officer"
+    },
+    {
+     "email": "shane.hollywood@ocorian.com",
+     "person": "Shane Hollywood",
+     "role": "Managing Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Optimum Asset Management",
+   "segment": "investment",
+   "country": "",
+   "website": "https://optimumam.com",
+   "contacts": [
+    {
+     "email": "andre.gretsch@optimumam.com",
+     "person": "André Gretsch",
+     "role": "Managing Partner"
+    },
+    {
+     "email": "enrico.imbraguglio@optimumam.com",
+     "person": "Enrico Imbraguglio",
+     "role": "Managing Director"
+    },
+    {
+     "email": "matteo.santoro@optimumam.com",
+     "person": "Matteo Santoro",
+     "role": "Chief Operating Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Patrizia",
+   "segment": "real_estate",
+   "country": "",
+   "website": "https://patrizia.ag",
+   "contacts": [
+    {
+     "email": "tom.maher@patrizia.ag",
+     "person": "Tom Maher",
+     "role": "Managing Director"
+    },
+    {
+     "email": "mahdi.mokrane@patrizia.ag",
+     "person": "Mahdi Mokrane",
+     "role": "Head of Fund Management"
+    },
+    {
+     "email": "marcus.cieleback@patrizia.ag",
+     "person": "Marcus Cieleback",
+     "role": "Chief Economist"
+    },
+    {
+     "email": "radu.mircea@patrizia.ag",
+     "person": "Radu Mircea",
+     "role": "Chief Investment Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "PGIM",
+   "segment": "investment",
+   "country": "",
+   "website": "https://pgim.com",
+   "contacts": [
+    {
+     "email": "noah.weisberger@pgim.com",
+     "person": "Noah Weisberger",
+     "role": "Managing Director"
+    },
+    {
+     "email": "jeff.conway@pgim.com",
+     "person": "Jeff Conway",
+     "role": "Chief Investment Officer"
+    },
+    {
+     "email": "kaushik.shah@pgim.com",
+     "person": "Kaushik Shah",
+     "role": "Chief Operating Officer"
+    },
+    {
+     "email": "miriam.muller@pgim.com",
+     "person": "Miriam Muller",
+     "role": "Head of Product Development"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Platina Partners",
+   "segment": "investment",
+   "country": "",
+   "website": "https://platinapartners.com",
+   "contacts": [
+    {
+     "email": "thomas.rottner@platinapartners.com",
+     "person": "Thomas Rottner",
+     "role": "Managing Partner"
+    },
+    {
+     "email": "charles.dubar@platinapartners.com",
+     "person": "Charles Dubar",
+     "role": "Partner"
+    },
+    {
+     "email": "marc.harfouche@platinapartners.com",
+     "person": "Marc Harfouche",
+     "role": "Investment Director"
+    },
+    {
+     "email": "marie.sauli@platinapartners.com",
+     "person": "Marie Sauli",
+     "role": "Investment Manager"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Rothschild & Co",
+   "segment": "banking",
+   "country": "",
+   "website": "https://rothschildandco.com",
+   "contacts": [
+    {
+     "email": "antoine.bougnoux@rothschildandco.com",
+     "person": "Antoine Bougnoux",
+     "role": "Managing Director"
+    },
+    {
+     "email": "john.deans@rothschildandco.com",
+     "person": "John Deans",
+     "role": "Head of Corporate Finance"
+    },
+    {
+     "email": "willis.palermo@rothschildandco.com",
+     "person": "Willis Palermo",
+     "role": "Business Development Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Tishman Speyer",
+   "segment": "real_estate",
+   "country": "",
+   "website": "https://tishmanspeyer.com",
+   "contacts": [
+    {
+     "email": "jquill@tishmanspeyer.com",
+     "person": "James Quill",
+     "role": "Managing Director"
+    },
+    {
+     "email": "dvarley@tishmanspeyer.com",
+     "person": "David Varley",
+     "role": "Director of Design and Construction"
+    },
+    {
+     "email": "rsanducci@tishmanspeyer.com",
+     "person": "Rosaria Sanducci",
+     "role": "Senior Director of Finance"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "UBS",
+   "segment": "banking",
+   "country": "",
+   "website": "https://ubs.com",
+   "contacts": [
+    {
+     "email": "antonio.silva@ubs.com",
+     "person": "Antònio Silva",
+     "role": "CEO, Director, Head of Fund Administration"
+    },
+    {
+     "email": "natasha.brilliant@ubs.com",
+     "person": "Natasha Brilliant",
+     "role": "Director of Research"
+    },
+    {
+     "email": "annmarie.roedler@ubs.com",
+     "person": "AnnMarie Roedler",
+     "role": "Business Management"
+    },
+    {
+     "email": "carolyn.reil@ubs.com",
+     "person": "Carolyn Reil",
+     "role": "Director of Strategic Communications"
+    },
+    {
+     "email": "m.ferrante@ubs.com",
+     "person": "Maria Ferrante",
+     "role": "Director, Wealth Strategy"
+    },
+    {
+     "email": "peter.alexopoulos@ubs.com",
+     "person": "Peter Alexopoulos",
+     "role": "Senior Vice President, Wealth Management"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "VP Bank",
+   "segment": "banking",
+   "country": "",
+   "website": "https://vpbank.com",
+   "contacts": [
+    {
+     "email": "alexander.ziehl@vpbank.com",
+     "person": "Alexander Ziehl",
+     "role": "CEO"
+    },
+    {
+     "email": "christine.eng@vpbank.com",
+     "person": "Christine Eng",
+     "role": "Finance Director"
+    },
+    {
+     "email": "daniel.kurmann@vpbank.com",
+     "person": "Daniel Kurmann",
+     "role": "Director of Digital Channels"
+    },
+    {
+     "email": "jane.foo@vpbank.com",
+     "person": "Jane Foo",
+     "role": "Director"
+    },
+    {
+     "email": "philippe.wuest@vpbank.com",
+     "person": "Philippe Wüst",
+     "role": "CFO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Waystone",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://waystone.com",
+   "contacts": [
+    {
+     "email": "jcostello@waystone.com",
+     "person": "Jean Costello",
+     "role": "Executive Director"
+    },
+    {
+     "email": "eryan@waystone.com",
+     "person": "Emma Ryan",
+     "role": "Director of Corporate Services"
+    },
+    {
+     "email": "jbarron@waystone.com",
+     "person": "Josephine Barron",
+     "role": "Director"
+    },
+    {
+     "email": "lpriestley@waystone.com",
+     "person": "Lisa Priestley",
+     "role": "Director of Finance"
+    },
+    {
+     "email": "swallace@waystone.com",
+     "person": "Sarah Wallace",
+     "role": "Director of Operations"
+    },
+    {
+     "email": "glynch@waystone.com",
+     "person": "Geraldine Lynch",
+     "role": "Director of Digital Services"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Apex Group",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://apexgroup.com",
+   "contacts": [
+    {
+     "email": "claude.harvey@apexgroup.com",
+     "person": "Claude Harvey",
+     "role": "Director of Business Development"
+    },
+    {
+     "email": "debbie.lee@apexgroup.com",
+     "person": "Debbie Lee",
+     "role": "Regional Operations Director"
+    },
+    {
+     "email": "kevin.kothari@apexgroup.com",
+     "person": "Kevin Kothari",
+     "role": "Vice President"
+    },
+    {
+     "email": "petya.mladenova@apexgroup.com",
+     "person": "Petya Mladenova",
+     "role": "HR Operations Manager"
+    },
+    {
+     "email": "tauseef.hossain@apexgroup.com",
+     "person": "Tauseef Hossain",
+     "role": "Vice President"
+    },
+    {
+     "email": "trevor.govender@apexgroup.com",
+     "person": "Trevor Govender",
+     "role": "Head of Relationship Management"
+    },
+    {
+     "email": "william.hennessy@apexgroup.com",
+     "person": "William Hennessy",
+     "role": "Senior Vice President"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Banking Circle",
+   "segment": "banking",
+   "country": "",
+   "website": "https://bankingcircle.com",
+   "contacts": [
+    {
+     "email": "mr@bankingcircle.com",
+     "person": "Mishal Ruparel",
+     "role": "Chief Commercial Officer"
+    },
+    {
+     "email": "anders@bankingcircle.com",
+     "person": "Anders K",
+     "role": "Product Owner"
+    },
+    {
+     "email": "eveo@bankingcircle.com",
+     "person": "Eve Ojijo-Grattan",
+     "role": "Director of Employee Experience"
+    },
+    {
+     "email": "michel@bankingcircle.com",
+     "person": "Michel André",
+     "role": "Chief Information Officer"
+    },
+    {
+     "email": "pa@bankingcircle.com",
+     "person": "Memi Spiridaki",
+     "role": "Sales Manager"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Bolder Group",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://boldergroup.com",
+   "contacts": [
+    {
+     "email": "nicolas.charbonnet@boldergroup.com",
+     "person": "Nicolas Charbonnet",
+     "role": "Chief Compliance Officer"
+    },
+    {
+     "email": "milan.orel@boldergroup.com",
+     "person": "Milan Orel",
+     "role": "Head of Funds"
+    },
+    {
+     "email": "ryan.mangal@boldergroup.com",
+     "person": "Ryan Mangal",
+     "role": "Finance Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Carne Group",
+   "segment": "investment",
+   "country": "",
+   "website": "https://carnegroup.com",
+   "contacts": [
+    {
+     "email": "sarah.maguire@carnegroup.com",
+     "person": "Sarah Maguire",
+     "role": "Head of Fund Platforms"
+    },
+    {
+     "email": "dai.kazamatsuri@carnegroup.com",
+     "person": "Dai Kazamatsuri",
+     "role": "Director"
+    },
+    {
+     "email": "galaxy.mayani@carnegroup.com",
+     "person": "Galaxy Mayani",
+     "role": "Director of Risk Management"
+    },
+    {
+     "email": "jennifer.collins@carnegroup.com",
+     "person": "Jennifer Collins",
+     "role": "Director"
+    },
+    {
+     "email": "shammas.mohamed@carnegroup.com",
+     "person": "Mohamed Shammas",
+     "role": "Associate Director of Engineering"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Citco",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://citco.com",
+   "contacts": [
+    {
+     "email": "rmannion@citco.com",
+     "person": "Rachael Mannion",
+     "role": "Vice President of Depositary Services"
+    },
+    {
+     "email": "abaradi@citco.com",
+     "person": "Allen Baradi",
+     "role": "Vice President"
+    },
+    {
+     "email": "bjagani@citco.com",
+     "person": "Bhakti Jagani",
+     "role": "Vice President"
+    },
+    {
+     "email": "camirhanov@citco.com",
+     "person": "Camila Amirhanov",
+     "role": "Vice President"
+    },
+    {
+     "email": "jgudauskas@citco.com",
+     "person": "Justas Gudauskas",
+     "role": "Vice President"
+    },
+    {
+     "email": "jturado@citco.com",
+     "person": "Johnson Turado",
+     "role": "KYC Training Partner"
+    },
+    {
+     "email": "mseso@citco.com",
+     "person": "Matej Seso",
+     "role": "Vice President"
+    },
+    {
+     "email": "pkashyap@citco.com",
+     "person": "Pravin Kashyap",
+     "role": "Assistant Vice President of Learning and Development"
+    },
+    {
+     "email": "prathore@citco.com",
+     "person": "Padmaditya Rathore",
+     "role": "Vice President of Fund Services"
+    },
+    {
+     "email": "slokhande@citco.com",
+     "person": "Sachin Lokhande",
+     "role": "Vice President"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Fund Channel",
+   "segment": "investment",
+   "country": "",
+   "website": "https://fund-channel.com",
+   "contacts": [
+    {
+     "email": "andrew.cleary@fund-channel.com",
+     "person": "Andrew Cleary",
+     "role": "Director of Relationship Management"
+    },
+    {
+     "email": "aida.may@fund-channel.com",
+     "person": "Aida May",
+     "role": "Chief Marketing Officer"
+    },
+    {
+     "email": "manuel.judas@fund-channel.com",
+     "person": "Manuel Judas",
+     "role": "Sales Representative"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "FundsDLT",
+   "segment": "investment",
+   "country": "",
+   "website": "https://fundsdlt.net",
+   "contacts": [
+    {
+     "email": "paolo.brignardello@fundsdlt.net",
+     "person": "Paolo Brignardello",
+     "role": "Chief Client Officer"
+    },
+    {
+     "email": "olivier.portenseigne@fundsdlt.net",
+     "person": "Olivier Portenseigne",
+     "role": "CEO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "IFDS Group",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://ifdsgroup.com",
+   "contacts": [
+    {
+     "email": "fburke@ifdsgroup.com",
+     "person": "Finola Burke",
+     "role": "Managing Director"
+    },
+    {
+     "email": "ajones@ifdsgroup.com",
+     "person": "Alison Jones",
+     "role": "Program Director"
+    },
+    {
+     "email": "ccullen@ifdsgroup.com",
+     "person": "Cliona Cullen",
+     "role": "Vice President"
+    },
+    {
+     "email": "ctorpey@ifdsgroup.com",
+     "person": "Claire Torpey",
+     "role": "Assistant Vice President"
+    },
+    {
+     "email": "dgreengrass@ifdsgroup.com",
+     "person": "Duncan Greengrass",
+     "role": "Assistant Vice President"
+    },
+    {
+     "email": "fdixon@ifdsgroup.com",
+     "person": "Fiona Dixon",
+     "role": "Vice President of Regulatory Change"
+    },
+    {
+     "email": "jgrimes@ifdsgroup.com",
+     "person": "Julie Grimes",
+     "role": "Vice President"
+    },
+    {
+     "email": "kgallagher@ifdsgroup.com",
+     "person": "Kerrie Gallagher",
+     "role": "Vice President, AML Services"
+    },
+    {
+     "email": "lpennisi@ifdsgroup.com",
+     "person": "Luna Pennisi",
+     "role": "Assistant Vice President, Compliance"
+    },
+    {
+     "email": "marce@ifdsgroup.com",
+     "person": "Maria Arce",
+     "role": "Director of Business Development"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "IQ-EQ",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://iqeq.com",
+   "contacts": [
+    {
+     "email": "donal.bannon@iqeq.com",
+     "person": "Donal Bannon",
+     "role": "Director of Investment Management"
+    },
+    {
+     "email": "jagadeesh.velpula@iqeq.com",
+     "person": "Jagadeesh Velpula",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "andre.bonelli@iqeq.com",
+     "person": "Andre Bonelli",
+     "role": "Head of Delivery"
+    },
+    {
+     "email": "graham.fletcher@iqeq.com",
+     "person": "Graham Fletcher",
+     "role": "Director of Fund Operations"
+    },
+    {
+     "email": "kelly.watson@iqeq.com",
+     "person": "Kelly Watson",
+     "role": "Client Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "JTC Group",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://jtcgroup.com",
+   "contacts": [
+    {
+     "email": "neeraj.nawaz@jtcgroup.com",
+     "person": "Neeraj Nawaz",
+     "role": "Director"
+    },
+    {
+     "email": "niamh.hougardy@jtcgroup.com",
+     "person": "Niamh Hougardy",
+     "role": "Director"
+    },
+    {
+     "email": "a.teale@jtcgroup.com",
+     "person": "Anna Teale",
+     "role": "Director of Fund Accounting"
+    },
+    {
+     "email": "lysha.manderson@jtcgroup.com",
+     "person": "Lysha Manderson",
+     "role": "Director of Private Client Services"
+    },
+    {
+     "email": "ryan.steiner@jtcgroup.com",
+     "person": "Ryan Steiner",
+     "role": "Associate Director of Fund Administration"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "SEI",
+   "segment": "investment",
+   "country": "",
+   "website": "https://seic.com",
+   "contacts": [
+    {
+     "email": "bbarone@seic.com",
+     "person": "Brian Barone",
+     "role": "Business Development Director"
+    },
+    {
+     "email": "kpivik@seic.com",
+     "person": "Keith Pivik",
+     "role": "Managing Director"
+    },
+    {
+     "email": "adunaway@seic.com",
+     "person": "Alan Dunaway",
+     "role": "Sales Director"
+    },
+    {
+     "email": "epaglia@seic.com",
+     "person": "Elaine Paglia",
+     "role": "Director of Operations"
+    },
+    {
+     "email": "mmarino@seic.com",
+     "person": "Michael Marino",
+     "role": "Sales Director"
+    },
+    {
+     "email": "cokafor@seic.com",
+     "person": "Charles Okafor",
+     "role": "Business Owner"
+    },
+    {
+     "email": "hsaha@seic.com",
+     "person": "Hridballav Saha",
+     "role": "Director Of Technology"
+    },
+    {
+     "email": "msmargiassi@seic.com",
+     "person": "Michael Smargiassi",
+     "role": "Director"
+    },
+    {
+     "email": "mstewart@seic.com",
+     "person": "Martha Stewart",
+     "role": "Head"
+    },
+    {
+     "email": "smukherjee@seic.com",
+     "person": "Srimoyee Mukherjee",
+     "role": "HR Business Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Trident Trust",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://tridenttrust.com",
+   "contacts": [
+    {
+     "email": "bparty@tridenttrust.com",
+     "person": "Bertrand Party",
+     "role": "Executive Director"
+    },
+    {
+     "email": "iekmekci@tridenttrust.com",
+     "person": "Ismail Ekmekci",
+     "role": "Head of Private Equity"
+    },
+    {
+     "email": "ralderton@tridenttrust.com",
+     "person": "Raymond Alderton",
+     "role": "Head of Risk and Compliance"
+    },
+    {
+     "email": "emoore@tridenttrust.com",
+     "person": "Eva Moore",
+     "role": "Head of Compliance"
+    },
+    {
+     "email": "kdingli@tridenttrust.com",
+     "person": "Karen Dingli",
+     "role": "HR Director"
+    },
+    {
+     "email": "mcaruana@tridenttrust.com",
+     "person": "Maria Caruana",
+     "role": "Director of Corporate Services"
+    },
+    {
+     "email": "sspires@tridenttrust.com",
+     "person": "Sandra Spires",
+     "role": "Marketing Operations Manager"
+    },
+    {
+     "email": "syoung@tridenttrust.com",
+     "person": "Suzanne Young",
+     "role": "Director of Client Services"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "FIS",
+   "segment": "technology_providers",
+   "country": "",
+   "website": "https://fisglobal.com",
+   "contacts": [
+    {
+     "email": "jon.little@fisglobal.com",
+     "person": "Jon Little",
+     "role": "Sales Executive"
+    },
+    {
+     "email": "gia.woodard@fisglobal.com",
+     "person": "Gia Woodard",
+     "role": "Management Director"
+    },
+    {
+     "email": "haley.hart@fisglobal.com",
+     "person": "Haley Hart",
+     "role": "Sales Executive"
+    },
+    {
+     "email": "meredith.blum@fisglobal.com",
+     "person": "Meredith Blum",
+     "role": "Senior Director of Performance"
+    },
+    {
+     "email": "michael.ryan@fisglobal.com",
+     "person": "Michael Ryan",
+     "role": "Country Lead"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Worldline",
+   "segment": "technology_providers",
+   "country": "",
+   "website": "https://worldline.com",
+   "contacts": [
+    {
+     "email": "james.desantos@worldline.com",
+     "person": "James Desantos",
+     "role": "Regional Sales Director"
+    },
+    {
+     "email": "amit.singh@worldline.com",
+     "person": "Amit Singh",
+     "role": "Sales Director"
+    },
+    {
+     "email": "calderon.angela@worldline.com",
+     "person": "Ángela Calderón",
+     "role": "Head Of Vertical Retail Iberia"
+    },
+    {
+     "email": "david.mousty@worldline.com",
+     "person": "David Mousty",
+     "role": "Head of Transformation"
+    },
+    {
+     "email": "info.cetsec@worldline.com",
+     "person": "",
+     "role": "General Contact"
+    },
+    {
+     "email": "jeanneau.caroline@worldline.com",
+     "person": "Caroline Jeanneau",
+     "role": "Director of Product Marketing"
+    },
+    {
+     "email": "marco.aeschbacher@worldline.com",
+     "person": "Marco Aeschbacher",
+     "role": "Head of Product Management"
+    },
+    {
+     "email": "meganc@worldline.com",
+     "person": "Megan Chow",
+     "role": "Director of Operations"
+    },
+    {
+     "email": "michaela.antovova@worldline.com",
+     "person": "Michaela Antovová",
+     "role": "Head of Sales"
+    },
+    {
+     "email": "christine.warner@worldline.com",
+     "person": "Christine Warner",
+     "role": "Director of Career Development"
+    },
+    {
+     "email": "frederic.carbonnell@worldline.com",
+     "person": "Frederic Carbonnell",
+     "role": "Head of HRIS"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "POM Law",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://pomlaw.com",
+   "contacts": [
+    {
+     "email": "ntatin@pomlaw.com",
+     "person": "Nicolas Tatin",
+     "role": "Business Development Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Acolin",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://acolin.com",
+   "contacts": [
+    {
+     "email": "jerome.neri@acolin.com",
+     "person": "Jérôme Neri",
+     "role": "Head of Fund Services"
+    },
+    {
+     "email": "moritz.kraus@acolin.com",
+     "person": "Moritz Kraus",
+     "role": "Director of Client Relations"
+    },
+    {
+     "email": "steffen.hoelscher@acolin.com",
+     "person": "Steffen Hölscher",
+     "role": "Vice President, Business Development"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "AG Law",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://aglaw.com",
+   "contacts": [
+    {
+     "email": "harrison.dans@aglaw.com",
+     "person": "Harrison Dans",
+     "role": "Counsel"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Agama Group",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://agama-group.eu",
+   "contacts": [
+    {
+     "email": "contact@agama-group.eu",
+     "person": "",
+     "role": "Support"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "FE fundinfo",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://fefundinfo.com",
+   "contacts": [
+    {
+     "email": "daniel.smith@fefundinfo.com",
+     "person": "Daniel Smith",
+     "role": "Director of Business Analysis"
+    },
+    {
+     "email": "hamid.rahman@fefundinfo.com",
+     "person": "Hamid Rahman",
+     "role": "Director of Finance"
+    },
+    {
+     "email": "lamia.lamrani@fefundinfo.com",
+     "person": "Lamia Lamrani",
+     "role": "Social Media Manager"
+    },
+    {
+     "email": "parveer.bowal@fefundinfo.com",
+     "person": "Parveer Bowal",
+     "role": "Business Development Manager"
+    },
+    {
+     "email": "richard.fletcher@fefundinfo.com",
+     "person": "Richard Fletcher",
+     "role": "Director of Media Sales"
+    },
+    {
+     "email": "sarah.stewart@fefundinfo.com",
+     "person": "Sarah Stewart",
+     "role": "Business Development Manager"
+    },
+    {
+     "email": "stefan.court@fefundinfo.com",
+     "person": "Stefan Court",
+     "role": "Data Consultant Lead"
+    },
+    {
+     "email": "thomas.weber@fefundinfo.com",
+     "person": "Thomas Weber",
+     "role": "Head of Product Development"
+    },
+    {
+     "email": "will.taplin@fefundinfo.com",
+     "person": "Will Taplin",
+     "role": "Business Development Manager"
+    },
+    {
+     "email": "christine.kiener@fefundinfo.com",
+     "person": "Christine Kiener",
+     "role": ""
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Initio",
+   "segment": "unknown",
+   "country": "LU",
+   "website": "https://initio.eu",
+   "contacts": [
+    {
+     "email": "luxembourg@initio.eu",
+     "person": "",
+     "role": "General Contact"
+    },
+    {
+     "email": "sebastien.bonnet@initio.eu",
+     "person": "Sébastien Bonnet",
+     "role": "CEO"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Leasys Luxembourg",
+   "segment": "logistics",
+   "country": "",
+   "website": "https://leasys.com",
+   "contacts": [
+    {
+     "email": "colin.goodchild@leasys.com",
+     "person": "Colin Goodchild",
+     "role": "Director of Sales"
+    },
+    {
+     "email": "francesca.ubaldi@leasys.com",
+     "person": "Francesca Ubaldi",
+     "role": "Chief Accounting Officer"
+    },
+    {
+     "email": "genevieve.michiels@leasys.com",
+     "person": "Geneviève Michiels",
+     "role": "HR Business Partner"
+    },
+    {
+     "email": "james.russell@leasys.com",
+     "person": "James Russell",
+     "role": "Director of Indirect Sales"
+    },
+    {
+     "email": "jenna.farr@leasys.com",
+     "person": "Jenna Farr",
+     "role": "Quality Manager"
+    },
+    {
+     "email": "laurene.daniel@leasys.com",
+     "person": "Laurène Daniel",
+     "role": "Marketing Director"
+    },
+    {
+     "email": "marco.barbieri@leasys.com",
+     "person": "Marco Barbieri",
+     "role": "Project Director"
+    },
+    {
+     "email": "marta.armada@leasys.com",
+     "person": "Marta Armada",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "simone.coluzzi@leasys.com",
+     "person": "Simone Coluzzi",
+     "role": "Business Partner"
+    },
+    {
+     "email": "yon.thierbach@leasys.com",
+     "person": "Yon Thierbach",
+     "role": "Director of ICT"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Lawyers Worldwide",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://lawyersworldwide.com",
+   "contacts": [
+    {
+     "email": "kpierce@lawyersworldwide.com",
+     "person": "Kim Pierce",
+     "role": "Chief Executive Officer"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Clifford Chance",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://cliffordchance.com",
+   "contacts": [
+    {
+     "email": "edmund.boyo@cliffordchance.com",
+     "person": "Edmund Boyo",
+     "role": "Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Gillessen Frères",
+   "segment": "manufacturing",
+   "country": "",
+   "website": "https://gillessen-freres.eu",
+   "contacts": [
+    {
+     "email": "daniel@gillessen-freres.eu",
+     "person": "Daniel Giebels",
+     "role": "Managing Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Qubic Group",
+   "segment": "technology_providers",
+   "country": "",
+   "website": "https://qubic-group.com",
+   "contacts": [
+    {
+     "email": "dgraham@qubic-group.com",
+     "person": "David Graham",
+     "role": "Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "AMFIE",
+   "segment": "banking",
+   "country": "",
+   "website": "https://amfie.org",
+   "contacts": [
+    {
+     "email": "nicolas.horlait@amfie.org",
+     "person": "Nicolas Horlait",
+     "role": "Managing Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Alpha PE",
+   "segment": "investment",
+   "country": "",
+   "website": "https://alphape.com",
+   "contacts": [
+    {
+     "email": "patrick@alphape.com",
+     "person": "Patrick Herman",
+     "role": "Managing Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Alter Domus",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://alterdomus.com",
+   "contacts": [
+    {
+     "email": "steve.lenard@alterdomus.com",
+     "person": "Steve Lenard",
+     "role": "Managing Director"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Hoogewerf & Co",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://hoogewerf.com",
+   "contacts": [
+    {
+     "email": "francis@hoogewerf.com",
+     "person": "Francis Hoogewerf",
+     "role": "Managing Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Fieldfisher",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://fieldfisher.com",
+   "contacts": [
+    {
+     "email": "christine.phillips@fieldfisher.com",
+     "person": "Christine Phillips",
+     "role": "Finance Partner"
+    },
+    {
+     "email": "miguel.vaz@fieldfisher.com",
+     "person": "Miguel Vaz",
+     "role": "Co-Head of Financial Services"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Linklaters",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://linklaters.com",
+   "contacts": [
+    {
+     "email": "peter.hickman@linklaters.com",
+     "person": "Peter Hickman",
+     "role": "Chief Financial Officer"
+    },
+    {
+     "email": "francisco.duenas@linklaters.com",
+     "person": "Francisco Dueñas",
+     "role": "Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Addleshaw Goddard",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://addleshawgoddard.com",
+   "contacts": [
+    {
+     "email": "danni.davies@addleshawgoddard.com",
+     "person": "Danni Davies",
+     "role": "Director of Real Estate"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "AKD",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://akd.eu",
+   "contacts": [
+    {
+     "email": "rermes@akd.eu",
+     "person": "Ronald Ermes",
+     "role": "Director of Business Services"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "Dechert",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://dechert.com",
+   "contacts": [
+    {
+     "email": "louis.frognet@dechert.com",
+     "person": "Jean-Louis Frognet",
+     "role": "Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "DLA Piper",
+   "segment": "consultants",
+   "country": "",
+   "website": "https://dlapiper.com",
+   "contacts": [
+    {
+     "email": "martin.de.landsheere@dlapiper.com",
+     "person": "Martin de Landsheere",
+     "role": "Partner"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  },
+  {
+   "organization": "BNP Paribas GGP",
+   "segment": "banking",
+   "country": "",
+   "website": "https://ggp.bnpparibas.com",
+   "contacts": [
+    {
+     "email": "ggp-customerservice@ggp.bnpparibas.com",
+     "person": "",
+     "role": "Customer Service"
+    }
+   ],
+   "pending_reason": "no country evidence (generic TLD, no address)"
+  }
+ ]
+}
