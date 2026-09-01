@@ -55,7 +55,9 @@ test('createClient exposes the full method set', () => {
     const c = HS.createClient({});
     ['hazards', 'hazard', 'analyze', 'events', 'event', 'economy',
         'solutions', 'sources', 'health', 'riskGrid', 'riskSnapshot',
-        'history', 'reportUrl', 'populationExposure', 'smokeScenario'
+        'history', 'reportUrl', 'populationExposure', 'smokeScenario',
+        'txHealth', 'txVersion', 'txHazards', 'txSources', 'txRegistry',
+        'txAnalyze', 'txRun', 'txJob', 'txResult', 'txWait'
     ].forEach((m) => assert.strictEqual(typeof c[m], 'function', m));
 });
 
@@ -194,6 +196,94 @@ test('custom element defined only when customElements exists', () => {
 
 test('window.Talaix attached (globalThis under Node)', () => {
     assert.strictEqual(globalThis.Talaix, HS);
+});
+
+/* --- TX Engine API (/api/tx/*) ------------------------------------------ */
+
+test('txAnalyze URL with repeated hazard params', () =>
+    HS.createClient({}).txAnalyze(49.96, 6.03,
+        { hazards: ['wildfire', 'flood'], depth: 'deep', name: 'Clervaux' })
+        .then(() => assert.strictEqual(path(calls[0]),
+            '/api/tx/analyze?lat=49.96&lon=6.03&depth=deep' +
+            '&hazard=wildfire&hazard=flood&name=Clervaux')));
+
+test('txAnalyze URL defaults', () =>
+    HS.createClient({}).txAnalyze(1, 2)
+        .then(() => assert.strictEqual(path(calls[0]),
+            '/api/tx/analyze?lat=1&lon=2&depth=standard')));
+
+test('txRun posts JSON body', () =>
+    HS.createClient({}).txRun(49.96, 6.03,
+        { hazards: ['wildfire'], depth: 'deep', name: 'Clervaux' })
+        .then(() => {
+            assert.strictEqual(path(calls[0]), '/api/tx/run');
+            assert.strictEqual(calls[0].options.method, 'POST');
+            assert.strictEqual(calls[0].options.headers['Content-Type'],
+                'application/json');
+            assert.deepStrictEqual(JSON.parse(calls[0].options.body), {
+                lat: 49.96, lon: 6.03, depth: 'deep',
+                hazards: ['wildfire'], name: 'Clervaux'
+            });
+        }));
+
+test('txRun minimal body omits optional keys', () =>
+    HS.createClient({}).txRun(1, 2)
+        .then(() => assert.deepStrictEqual(JSON.parse(calls[0].options.body),
+            { lat: 1, lon: 2, depth: 'standard' })));
+
+test('txJob and txResult URLs', () => {
+    const c = HS.createClient({});
+    return c.txJob('TXJ-1')
+        .then(() => c.txResult('TXJ-1'))
+        .then(() => {
+            assert.strictEqual(path(calls[0]), '/api/tx/jobs/TXJ-1');
+            assert.strictEqual(path(calls[1]), '/api/tx/jobs/TXJ-1/result');
+        });
+});
+
+test('txWait polls then resolves with the result', () => {
+    queue = [
+        { job_id: 'J1', status: 'running' },
+        { job_id: 'J1', status: 'succeeded' },
+        { analysis_id: 'TX-ok', status: 'ok' }
+    ];
+    const seen = [];
+    return HS.createClient({})
+        .txWait('J1', { interval: 0, onPoll: (s) => seen.push(s.status) })
+        .then((result) => {
+            assert.strictEqual(result.analysis_id, 'TX-ok');
+            assert.deepStrictEqual(seen, ['running', 'succeeded']);
+        });
+});
+
+test('txWait accepts a job payload', () => {
+    queue = [
+        { job_id: 'J1', status: 'succeeded' },
+        { analysis_id: 'TX-x', status: 'ok' }
+    ];
+    return HS.createClient({}).txWait({ job_id: 'J1' }, { interval: 0 })
+        .then((result) => assert.strictEqual(result.analysis_id, 'TX-x'));
+});
+
+test('txWait failed job throws honest TalaixError', () => {
+    queue = [{ job_id: 'J1', status: 'failed', error: 'upstream exploded' }];
+    return HS.createClient({}).txWait('J1', { interval: 0 })
+        .then(() => { throw new Error('should have thrown'); })
+        .catch((err) => {
+            assert.ok(err instanceof HS.TalaixError);
+            assert.ok(err.message.includes('upstream exploded'));
+        });
+});
+
+test('txResult not ready throws TalaixError 409', () => {
+    queue = [{ __status: 409,
+               body: { error: 'Job J1 is not finished (status=running).' } }];
+    return HS.createClient({}).txResult('J1')
+        .then(() => { throw new Error('should have thrown'); })
+        .catch((err) => {
+            assert.ok(err instanceof HS.TalaixError);
+            assert.strictEqual(err.status, 409);
+        });
 });
 
 /* --- Summary ------------------------------------------------------------ */

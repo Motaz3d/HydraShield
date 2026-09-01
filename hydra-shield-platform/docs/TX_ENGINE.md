@@ -100,7 +100,15 @@ python -m tx_core registry --json  # registry digest
 python -m tx_core hazards          # registered hazards
 python -m tx_core sources          # official data sources
 python -m tx_core analyze --lat 41.5 --lon -8.6 --hazard wildfire [--json] [--format md]
+python -m tx_core reproduce result.json [--json]   # replay + verify a saved result
 ```
+
+`tx reproduce` reads a saved TxResult envelope (the output of
+`tx analyze --json` or a `/api/tx/jobs/<id>/result` body), re-runs the
+recorded request (location, hazards, depth) through the engine, and
+verifies reproducibility honestly: per-hazard status equality is the
+substantive check; `analysis_id` equality is reported separately because
+the id is day-scoped. Exit codes: 0 reproduced, 1 diverged, 2 usage error.
 
 Installed package also exposes the `tx` console entry point
 (`pyproject.toml [project.scripts]`).
@@ -209,7 +217,46 @@ suite after changes touching `src/dashboard/api.py`:
 .venv/bin/python -m pytest tests/test_api.py tests/test_climate_core.py -q
 ```
 
-## 9. Roadmap (next phases)
+## 9. Client surfaces (SDK, QGIS) — same engine, every surface
+
+Every client consumes the TX API contracts above — no client re-implements
+analysis, and all clients inherit the honesty contract (unavailable/failed
+states are data, never exceptions or fabrications).
+
+**Python SDK** (`sdk/python/hydrashield/tx.py` — `TxClient`, stdlib-only,
+exported from the `hydrashield` package):
+
+```python
+from hydrashield import TxClient
+
+tx = TxClient()                                   # https://talaix.com
+quick = tx.analyze(49.96, 6.03, hazards=["wildfire"], depth="quick")
+job = tx.run(49.96, 6.03, depth="deep")           # POST /api/tx/run
+result = tx.wait(job["job_id"], on_poll=print)    # poll → TxResult envelope
+```
+
+Introspection (`health/version/hazards/sources/registry`) mirrors the
+REST surface; `run/job/result/wait` implement the standard Job Object.
+Offline tests: `sdk/python/tests/test_tx.py` (re-exported into the main
+suite by `tests/test_sdk_tx.py`).
+
+**JavaScript SDK** (`sdk/js/hydrashield.js`): the same TX surface
+(`txAnalyze`, `txRun`, `txJob`, `txResult`, `txWait` + introspection),
+fetch-based, zero dependencies. Offline tests:
+`node sdk/js/test_hydrashield.node.js`.
+
+**QGIS plugin** (`qgis-plugin/hydrashield/`): the Processing algorithm
+**"Analyze point (Talaix TX Engine)"** (`hydrashield:analyze_tx_point`)
+consumes `GET /api/tx/analyze` and emits one feature per hazard result —
+attributes carry the level, the honesty fields (status, basis, validated,
+unavailable_reason) and the envelope stamps (analysis_id, depth,
+engine_version). URL building and TxResult normalization are pure
+functions (`tx_client.py`) unit-tested outside QGIS
+(`tests/test_qgis_tx_client.py`); the network runs through
+QgsNetworkAccessManager on the Processing worker thread, per official
+plugin guidance.
+
+## 10. Roadmap (next phases)
 
 1. [DONE] Move the `/api/analyze` real-data pipeline behind TX Engine
    (TX-0/TX-1 facade, §7.1 — `TXEngine.legacy_analyze()` + `adapters/legacy_v1.py`;
@@ -218,7 +265,8 @@ suite after changes touching `src/dashboard/api.py`:
    (`tx_core/jobs.py` + §7.2 — deterministic idempotent job ids, per-hazard
    progress, honest failures; in-process phase-1 backend behind replaceable
    store/runner interfaces).
-3. `talaix-sdk` (Python/JS) over the TX API; `tx reproduce`; QGIS plugin
-   consuming `/api/tx/analyze`.
+3. [DONE] `talaix-sdk` (Python/JS) over the TX API; `tx reproduce`; QGIS
+   plugin consuming `/api/tx/analyze` (§6, §9 — `TxClient`/`tx*` JS methods,
+   `hydrashield:analyze_tx_point` Processing algorithm).
 4. Register product engines (insurance, forensics, sustainability, supply
    chain) as TX analyses (TX-2+).

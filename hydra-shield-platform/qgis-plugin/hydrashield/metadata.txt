@@ -2,7 +2,7 @@
 name=Talaix Climate Intelligence
 description=Climate-extreme intelligence from real data: analyze a point against the Talaix API (wildfire, flood, drought, extreme heat, extreme wind, coastal) and browse the hazard registry with official sources and provenance. Core analysis works without an account; saving locations, monitoring and SMS alerts require a free Talaix account; higher limits require a subscription (talaix.com).
 about=Talaix brings together scientific evidence, Earth observation, official open data and historical events to understand environmental extremes, who and what is exposed, the economic implications, and practical resilience actions. This plugin is a client of the public Talaix API: all computation happens server-side, every result carries its evidence class and provenance, and unavailable data is shown as unavailable — never filled in. Levels are screening indicators, not validated predictions. No credentials are required for the free analysis endpoints; an optional API key (subscriber feature) is stored only via the QGIS Authentication System (authcfg), never in project files.
-version=0.1.0
+version=0.2.0
 qgisMinimumVersion=3.40
 qgisMaximumVersion=4.99
 hasProcessingProvider=yes

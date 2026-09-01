@@ -14,7 +14,7 @@
     'use strict';
 
     var DEFAULT_BASE_URL = 'https://talaix.com';
-    var USER_AGENT = 'hydrashield-js-sdk/0.1.0';
+    var USER_AGENT = 'hydrashield-js-sdk/0.2.0';
 
     function TalaixError(status, message) {
         this.name = 'TalaixError';
@@ -69,6 +69,53 @@
                 });
         }
 
+        function post(path, payload) {
+            var headers = { 'Accept': 'application/json',
+                            'Content-Type': 'application/json' };
+            if (apiKey) headers['X-API-Key'] = apiKey;
+            return fetch(url(path), { method: 'POST', headers: headers,
+                                      body: JSON.stringify(payload) })
+                .then(function (resp) {
+                    return resp.text().then(function (text) {
+                        var body = {};
+                        try { body = text ? JSON.parse(text) : {}; } catch (e) { body = {}; }
+                        if (!resp.ok) {
+                            if (body && typeof body === 'object' && 'error' in body) {
+                                throw new TalaixError(resp.status, String(body.error));
+                            }
+                            return body;
+                        }
+                        return body;
+                    });
+                });
+        }
+
+        /* TX Job Object polling: job → (succeeded → result) | failed |
+         * timeout. Never resolves to a fabricated result. */
+        function txWaitPoll(jobId, deadline, intervalMs, onPoll) {
+            var statusUrl = '/api/tx/jobs/' + encodeURIComponent(jobId);
+            return get(statusUrl).then(function (status) {
+                if (onPoll) onPoll(status);
+                if (status.status === 'succeeded') {
+                    return get(statusUrl + '/result');
+                }
+                if (status.status === 'failed') {
+                    throw new TalaixError(409, 'Job ' + jobId + ' failed: ' +
+                        status.error);
+                }
+                if (Date.now() >= deadline) {
+                    throw new TalaixError(408, 'Job ' + jobId +
+                        ' not finished in time (last status: ' +
+                        status.status + ')');
+                }
+                return new Promise(function (resolve) {
+                    setTimeout(resolve, intervalMs);
+                }).then(function () {
+                    return txWaitPoll(jobId, deadline, intervalMs, onPoll);
+                });
+            });
+        }
+
         return {
             baseUrl: baseUrl,
 
@@ -104,6 +151,53 @@
                 ]);
             },
             sources: function () { return get('/api/v2/sources'); },
+
+            /* TX Engine API (/api/tx/*) — uniform TxResult envelope +
+             * the standard Job Object for deep analyses. */
+            txHealth: function () { return get('/api/tx/health'); },
+            txVersion: function () { return get('/api/tx/version'); },
+            txHazards: function () { return get('/api/tx/hazards'); },
+            txSources: function () { return get('/api/tx/sources'); },
+            txRegistry: function () { return get('/api/tx/registry'); },
+            txAnalyze: function (lat, lon, options) {
+                options = options || {};
+                var params = [['lat', lat], ['lon', lon],
+                    ['depth', options.depth || 'standard']];
+                (options.hazards || []).forEach(function (h) {
+                    params.push(['hazard', h]);
+                });
+                if (options.name) params.push(['name', options.name]);
+                return get('/api/tx/analyze', params);
+            },
+            txRun: function (lat, lon, options) {
+                options = options || {};
+                var body = { lat: lat, lon: lon,
+                             depth: options.depth || 'standard' };
+                if (options.hazards && options.hazards.length) {
+                    body.hazards = options.hazards;
+                }
+                if (options.name) body.name = options.name;
+                return post('/api/tx/run', body);
+            },
+            txJob: function (jobId) {
+                return get('/api/tx/jobs/' + encodeURIComponent(String(jobId)));
+            },
+            txResult: function (jobId) {
+                return get('/api/tx/jobs/' + encodeURIComponent(String(jobId)) +
+                    '/result');
+            },
+            /* txWait(jobOrId, {timeout, interval, onPoll}) — seconds. */
+            txWait: function (jobOrId, options) {
+                options = options || {};
+                var jobId = (jobOrId && typeof jobOrId === 'object') ?
+                    jobOrId.job_id : String(jobOrId);
+                var deadline = Date.now() +
+                    (options.timeout === undefined ? 600 : options.timeout) * 1000;
+                var intervalMs =
+                    (options.interval === undefined ? 2 : options.interval) * 1000;
+                return txWaitPoll(jobId, deadline, intervalMs,
+                    options.onPoll || null);
+            },
 
             /* v1 — public wildfire/intelligence endpoints */
             health: function () { return get('/api/health'); },

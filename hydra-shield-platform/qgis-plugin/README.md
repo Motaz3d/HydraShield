@@ -14,6 +14,12 @@ Phase 0. **Not yet submitted to the QGIS plugin repository.**
   to EPSG:4326 first. Output is a one-feature layer carrying hazard,
   status, level, score, summary, basis, validated and unavailable_reason.
   The API's honest states pass through untouched.
+- **`hydrashield:analyze_tx_point` Processing algorithm (TX Engine)** —
+  analyzes a point via `GET /api/tx/analyze` (the TX Engine's uniform
+  envelope): multi-hazard selection (none = all), TX depth presets
+  (quick/standard/deep), and ONE FEATURE PER HAZARD RESULT carrying the
+  level, the honesty fields and the reproducibility stamps (analysis_id,
+  depth, engine_version). See `docs/TX_ENGINE.md` §9.
 
 ## Architecture rules (enforced)
 

@@ -48,6 +48,36 @@ except TalaixError as exc:
 | `population_exposure(lat, lon, radius_km=3)` | `GET /api/population-exposure` |
 | `smoke_scenario(lat, lon, hours=24)` | `GET /api/smoke-scenario` |
 
+## TX Engine client (`TxClient`)
+
+The same package ships a client for the TX Engine API (`/api/tx/*` — the
+uniform TxResult envelope + the standard Job Object for deep analyses;
+see `docs/TX_ENGINE.md`):
+
+```python
+from hydrashield import TxClient
+
+tx = TxClient()                                   # https://talaix.com
+quick = tx.analyze(49.96, 6.03, hazards=["wildfire"], depth="quick")
+
+job = tx.run(49.96, 6.03, depth="deep")           # POST /api/tx/run
+result = tx.wait(job["job_id"], on_poll=print)    # poll → TxResult envelope
+print(result["analysis_id"], result["status"])
+```
+
+| Method | Endpoint |
+|---|---|
+| `health()` / `version()` / `hazards()` / `sources()` / `registry()` | `GET /api/tx/<…>` |
+| `analyze(lat, lon, hazards=None, depth="standard", name=None)` | `GET /api/tx/analyze` |
+| `run(lat, lon, hazards=None, depth="standard", name=None)` | `POST /api/tx/run` |
+| `job(job_id)` | `GET /api/tx/jobs/<id>` |
+| `result(job_id)` | `GET /api/tx/jobs/<id>/result` |
+| `wait(job_or_id, timeout=600, interval=2, on_poll=None)` | poll → result |
+
+A job that is not finished yet makes `result()` raise `TalaixError` with
+HTTP 409; `wait()` raises with the job's real error on failure and HTTP
+408 on timeout — never a fabricated result.
+
 ## Error semantics
 
 - Non-2xx responses with the stable error shape `{"error", "status"}` raise
