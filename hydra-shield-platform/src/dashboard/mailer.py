@@ -57,6 +57,7 @@ _TEMPLATE_NAMES = {
     "admin_notification",
     "operator_notification",
     "subscription_confirmation",
+    "subscription_confirmation_paid",
     "outreach_generic",
     "outreach_banking",
     "outreach_insurance",

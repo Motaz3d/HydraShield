@@ -1,0 +1,16 @@
+Subject: Talaix subscription confirmed — {{tier}}
+Hello{{display_name}},
+
+your Talaix subscription is now active. Thank you.
+
+Tier: {{tier}}
+Status: {{status}}
+Started: {{started_at}}
+
+Your payment was processed securely by Stripe; your receipt
+arrives from Stripe separately. You can manage or cancel your
+subscription at any time from your account page:
+https://talaix.com/account.html
+
+— The Talaix team
+info@talaix.com

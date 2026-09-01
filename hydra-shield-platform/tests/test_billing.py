@@ -508,3 +508,24 @@ def test_webhook_handler_failure_allows_redelivery(client, env, fake_stripe, mon
     resp = _webhook(client, "checkout.session.completed", session_obj, event_id="evt_retry")
     assert resp.status_code == 200
     assert _role(env, "retry@example.org") == "professional"
+
+
+def test_webhook_confirmation_email_failure_does_not_block_activation(
+        client, env, fake_stripe, monkeypatch):
+    """SMTP/render failures must never block or roll back a paid activation."""
+    _auth_headers(client, env, email="mailfail@example.org")
+
+    def boom(to, template, context, **kwargs):
+        raise RuntimeError("SMTP down")
+
+    monkeypatch.setattr("src.dashboard.mailer.send_mail", boom)
+    resp = _webhook(client, "checkout.session.completed", {
+        "id": "cs_mailfail",
+        "mode": "subscription",
+        "customer": "cus_mailfail",
+        "subscription": "sub_mailfail",
+        "client_reference_id": "1",
+        "metadata": {"talaix_user_id": "1", "talaix_tier": "professional"},
+    }, event_id="evt_mailfail")
+    assert resp.status_code == 200
+    assert _role(env, "mailfail@example.org") == "professional"

@@ -16,6 +16,7 @@ Endpoints (all under ``/api/v2/billing``):
 from __future__ import annotations
 
 import json
+import logging
 import os
 import sqlite3
 import threading
@@ -26,6 +27,8 @@ from flask import Blueprint, current_app, g, jsonify, request
 
 from .accounts import ROLE_RANK, DEFAULT_ROLE, UserStore
 from .auth_api import current_user, require_role
+
+log = logging.getLogger(__name__)
 
 billing_bp = Blueprint("billing", __name__, url_prefix="/api/v2/billing")
 
@@ -554,18 +557,25 @@ def _handle_checkout_session_completed(session: Dict) -> None:
         _upsert_subscription_from_stripe(
             store, user_id, tier, stripe_sub_id, status, ends_at)
         _promote_user_for_tier(store, user_id, tier)
-        from . import mailer
+        # Confirmation email is best-effort: a paid activation must never
+        # fail (and be retried) because SMTP hiccupped. Failures are logged.
+        try:
+            from . import mailer
 
-        mailer.send_mail(
-            user["email"],
-            "subscription_confirmation",
-            {
-                "display_name": user.get("display_name") or "",
-                "tier": tier,
-                "status": status,
-                "started_at": _utcnow(),
-            },
-        )
+            mailer.send_mail(
+                user["email"],
+                "subscription_confirmation_paid",
+                {
+                    "display_name": user.get("display_name") or "",
+                    "tier": tier,
+                    "status": status,
+                    "started_at": _utcnow(),
+                },
+            )
+        except Exception:
+            log.warning(
+                "subscription confirmation email failed for user %s",
+                user_id, exc_info=True)
     elif mode == "payment":
         kind = session.get("metadata", {}).get("talaix_kind", "")
         if kind.startswith("report_"):
