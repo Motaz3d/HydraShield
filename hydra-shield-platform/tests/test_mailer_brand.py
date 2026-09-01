@@ -34,7 +34,7 @@ def test_text_part_carries_corporate_signature():
     assert text.endswith(
         "--\nTalaix\nEarth Observation & Environmental Risk\n"
         "Financial Decision Intelligence\n"
-        "Luxembourg-based technology initiative\n"
+        "Luxembourg-based technology team\n"
         "info@talaix.com | talaix.com\n"
     )
 
@@ -44,7 +44,7 @@ def test_html_shell_carries_signature_with_logo():
     assert f"cid:{mailer._SIGNATURE_CID}" in html
     assert "Earth Observation &amp; Environmental Risk" in html
     assert "Financial Decision Intelligence" in html
-    assert "Luxembourg-based technology initiative" in html
+    assert "Luxembourg-based technology team" in html
     assert "mailto:info@talaix.com" in html
 
 

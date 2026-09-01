@@ -150,7 +150,7 @@ _SIGNATURE_LINES = (
     "Talaix",
     "Earth Observation & Environmental Risk",
     "Financial Decision Intelligence",
-    "Luxembourg-based technology initiative",
+    "Luxembourg-based technology team",
     "info@talaix.com | talaix.com",
 )
 _SIGNATURE_TEXT = "--\n" + "\n".join(_SIGNATURE_LINES)
