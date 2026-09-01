@@ -1,0 +1,2459 @@
+# Operator-collected contacts (manual research, pasted by operator 2026-08-29)
+# Format: ## Org | segment=X | country=Y | website=Z   then   Name | email | role | priority
+# priority: high(🎯1/🔥) medium(✅/🎯2/🎯3) low(🟡/⬜/other)
+
+## Loyens & Loeff | segment=consultants | country=LU
+Kim Koops | kim.koops@loyensloeff.com | Partner | high
+Freek Hilberdink | freek.hilberdink@loyensloeff.com | Partner | medium
+Marieke Bakker | marieke.bakker@loyensloeff.com | International Tax Partner | medium
+Abdeslam Benal-Lal | abdeslam.benal-lal@loyensloeff.com | Finance Director | medium
+Linda Sinac | linda.sinac@loyensloeff.com | Chief Marketing Officer | low
+Danielle Veen | danielle.veen@loyensloeff.com | Senior Partner | medium
+
+## Moyal-Simon | segment=consultants
+Philipp Simon | p.simon@moyal-simon.com | Partner | high
+Mylène Carbiener | m.pillet-carbiener@moyal-simon.com | Partner | medium
+Fritz Zahnd | f.zahnd@moyal-simon.com | Attorney At Law | medium
+Julie Warnecke | j.warnecke@moyal-simon.com | Attorney At Law | medium
+ | info@moyal-simon.com | Support | low
+
+## Maples Group | segment=consultants | country=LU
+Robin Harding | robin.harding@maples.com | Partner | high
+Yusuf Ridha | yusuf.ridha@maples.com | Vice President | medium
+Stuart Gallagher | stuart.gallagher@maples.com | Vice President | medium
+John Irwin | john.irwin@maples.com | Vice President of Fiduciary Services | medium
+Clara Scanlon | clara.scanlon@maples.com | Marketing Manager | low
+Jevgenija Jonikova | jevgenija.jonikova@maples.com | Vice President | medium
+Jodie Smith | jodie.smith@maples.com | Vice President | medium
+Nigel Kelly | nigel.kelly@maples.com | Senior Business Development Manager | medium
+Noel Crowley | noel.crowley@maples.com | Senior Vice President | medium
+Nicky Colleran | nicky.colleran@maples.com | Assistant Vice President | medium
+Xuefei Mao | xuefei.mao@maples.com | Vice President | medium
+Nicholas Wong | nicholas.wong@maples.com | Vice President | medium
+Wendy Ebanks | wendy.ebanks@maples.com | Senior Vice President | medium
+Christian Thomas | christian.thomas@maples.com | Partner | medium
+
+## Norton Rose Fulbright | segment=consultants | country=LU
+Thomas Valentine | thomas.valentine@nortonrosefulbright.com | Senior Partner | high
+Anthony Lauriello | anthony.lauriello@nortonrosefulbright.com | Partner | medium
+Grant Weaver | grant.weaver@nortonrosefulbright.com | Partner | medium
+Jorge Neher | jorge.neher@nortonrosefulbright.com | Partner | medium
+Rebecca Calkins | rebecca.calkins@nortonrosefulbright.com | Partner | medium
+Claire Guilbert | claire.guilbert@nortonrosefulbright.com | Partner | medium
+
+## Pinsent Masons | segment=consultants
+Jennifer Stecker | jennifer.stecker@pinsentmasons.com | Finance Director | high
+Sophia Headland | sophia.headland@pinsentmasons.com | Director of Strategic Projects | medium
+Sabia Mahmood | sabia.mahmood@pinsentmasons.com | Marketing Communications Executive | medium
+Charmaine Etienne | charmaine.etienne@pinsentmasons.com | Finance Operations Deputy | medium
+Georgina Thomas | georgina.thomas@pinsentmasons.com | HR Business Partner | low
+Steve Hancock | steve.hancock@pinsentmasons.com | Finance Director | medium
+
+## Simmons & Simmons | segment=consultants
+Kate Cofman | kate.cofman@simmons-simmons.com | Partner | high
+Heather Rowlands | heather.rowlands@simmons-simmons.com | Partner | medium
+David Blumental | david.blumental@simmons-simmons.com | Partner | medium
+Barry Groß | barry.gross@simmons-simmons.com | Partner | medium
+Dennis Fung | dennis.fung@simmons-simmons.com | Chief Operating Officer | medium
+
+## Venkatapen Lawyers | segment=consultants | country=LU
+Donald Venkatapen | dv@venkatapenlawyers.lu | Managing Partner | high
+ | info@venkatapenlawyers.lu | Support | low
+
+## Wilson | segment=consultants | country=LU
+Chris Wilson | chris@wilson.lu | Managing Partner (probable) | high
+
+## Smartec Industrie | segment=unknown | country=LU
+ | secretariat@smartec-industrie.com | Support / Generic | low
+
+## Petit Forestier | segment=unknown
+ | communication@petitforestier.com | Corporate Communications | medium
+
+## Deli Salades | segment=unknown | country=LU
+ | jp@delisalades.lu | Probable owner / general manager | high
+ | production@delisalades.lu | Production | medium
+ | compta@delisalades.lu | Accounting | low
+
+## STI | segment=unknown | country=LU
+Nicolas Ebert | nicolas.ebert@sti.lu | Probable manager | high
+Pierre Blaise | pierre.blaise@sti.lu | Second responsible | medium
+Thierry Grimée | thierry.grimee@sti.lu | Direct contact | medium
+ | prevention@sti.lu | Prevention department | medium
+ | sti.centre@sti.lu | General | low
+
+## FANUC Europe | segment=unknown | country=LU
+Frank Hoellen | frank.hoellen@fanuc.eu | Director of Operations | high
+Elisabeth Weiler | elisabeth.weiler@fanuc.eu | Director of Business Excellence | medium
+Philipp Wanderer | philipp.wanderer@fanuc.eu | Finance Manager | medium
+Fatma Duran | fatma.duran@fanuc.eu | Finance Executive | medium
+Patricia Martin | patricia.martin@fanuc.eu | Head of Human Resources | low
+Marco Ghirardello | marco.ghirardello@fanuc.eu | CEO | high
+Frank Wieland | frank.wieland@fanuc.eu | Vice President, Chief Financial Officer | medium
+Katherine Nowill | katherine.nowill@fanuc.eu | Senior Marketing Manager | medium
+Anne Chaumeret | anne.chaumeret@fanuc.eu | Human Resources Director | medium
+ | info@fanuc.eu | Support | low
+
+## FT-Rail | segment=unknown | country=LU
+Sébastien Doucet | s.doucet@ft-rail.eu | Chief Executive Officer | high
+ | info@ft-rail.eu | Support | low
+
+## Buderus | segment=unknown | country=LU
+Marco Canu | marco.canu@buderus.lu | Head of Industrial Division | high
+Jean-Marc Wetzel | jean-marc.wetzel@buderus.lu | Sales Manager | medium
+ | info@buderus.lu | Support | low
+
+## Flen Health | segment=unknown | country=LU
+Julie Kerckhof | julie.kerckhof@flenhealth.com | Business Strategy Director | high
+Nicolas Deleye | nicolas.deleye@flenhealth.com | Director of Business Development | medium
+Robin Nicholson | robin.nicholson@flenhealth.com | Director of Commercial Operations | medium
+Ewa Rybacka | ewa.rybacka@flenhealth.com | Regulatory Affairs Specialist | medium
+Carole Devaux | carole.devaux@flenhealth.com | HR Specialist | low
+Andy Wilding | andy.wilding@flenhealth.com | Sales Director | high
+Paolo Marenchino | paolo.marenchino@flenhealth.com | Sales Director | high
+Murat Matur | murat.matur@flenhealth.com | IT Director | high
+Carsten Eberhardt | carsten.eberhardt@flenhealth.com | Sales Director | high
+Kelly Hutchinson | kelly.hutchinson@flenhealth.com | Clinical Science Liaison | high
+ | info@flenhealth.com | Support | low
+
+## Galere | segment=unknown | country=BE
+Guillaume Franssen | guillaume.franssen@galere.be | Manager Service | high
+Bénédicte Fraikin | benedicte.fraikin@galere.be | Public Relations Manager | medium
+Eric Smets | eric.smets@galere.be |  | low
+Jerome Gason | jerome.gason@galere.be |  | low
+ | galere@galere.be | General Contact | low
+ | communication@galere.be | Communication | low
+
+## GGR Partners | segment=consultants
+Nicolas Rasson | nicolas@ggr-partners.com | Managing Partner | high
+Mireille Talsma | mireille@ggr-partners.com | Partner | medium
+Daniel Braun | daniel@ggr-partners.com | Partner | medium
+Matthias Gerstlauer | matthias@ggr-partners.com | Partner | medium
+ | luxembourg@ggr-partners.com | General Contact LU | low
+
+## Global Facilities | segment=consultants | country=LU
+Victor Goedert | victor.goedert@globalfacilities.lu | CEO | high
+Frédéric Spet | frederic.spet@globalfacilities.lu | Consulting & Audit Manager | medium
+Matthieu-Valentin Anding | matthieu-valentin.anding@globalfacilities.lu | QHSE Manager | medium
+Christophe Jacob | christophe.jacob@globalfacilities.lu | Executive Committee Member | medium
+David Klein | david.klein@globalfacilities.lu | Digital Transformation Manager | low
+
+## Gradel | segment=unknown | country=LU
+Brad Elsbury | b.elsbury@gradel.lu | Director of Innovation | high
+Pierre Peiffer | p.peiffer@gradel.lu | Key Account Manager | medium
+Leo Basov | l.basov@gradel.lu | Technical management (probable) | medium
+ | job@gradel.lu | Generic Contact | low
+
+## Grant Thornton Luxembourg | segment=consultants | country=LU
+Ralph Bourgnon / Christophe Cryns | contact@lu.gt.com | Administrateur | high
+Odete Barreirinho | odete.barreirinho@lu.gt.com | Assistant Manager, Marketing, Communication & Business Dev. | medium
+Thierry Remacle | thierry.remacle@lu.gt.com | Managing Partner | medium
+
+## Greenfield | segment=consultants | country=LU
+Courtney Charlton | courtney@greenfield.lu | Co-Founder | high
+Christopher Purdy | christopher@greenfield.lu | Client Director | medium
+Pernille Bintz | pernille@greenfield.lu | Finance Manager | medium
+Nicolas Tassin | nicolas@greenfield.lu | Managing Consultant | medium
+Nadine Laar | nadine@greenfield.lu | Managing Consultant Client | medium
+
+## Gio Immobilier | segment=real_estate | country=LU
+Marc Giorgetti | mgiorgetti@gio.lu | Co-CEO | high
+Gilles Poncin | gponcin@gio.lu | Project Director | medium
+ | marketing@gio.lu | Sales/Corporate | medium
+ | immo@gio.lu | Real Estate Projects | medium
+
+## Groupe Morgan Services | segment=consultants | country=FR
+Joëlle Lozopone | j.lozopone@groupe-morgan-services.fr | Recruitment Consultant | medium
+ | recrutement.servon@groupe-morgan-services.fr | Generic Recruitment | low
+ | chalons@groupe-morgan-services.fr | Local branch | low
+
+## Guardian | segment=unknown
+Michael Riley | mriley@guardian.com | Global Director of Strategic Sourcing | high
+Deepinder Singh | dsingh@guardian.com | Director of Procurement | medium
+Jeff Rende | jrende@guardian.com | Supply Chain Director | medium
+Karthik Ramasamy | kramasamy@guardian.com | Chief Analytics Officer | medium
+Adriana Guerrero | aguerrero@guardian.com | HR Business Partner | low
+
+## HKL | segment=unknown | country=LU
+Florian Köhler / Nikolaus Remmel | info@hkl.lu | Gérant administratif / Gérant technique | high
+
+## Reederei Jaegers | segment=unknown | country=DE
+G. Lehmkuhl | glehmkuhl@reederei-jaegers.de | Unspecified (possibly executive) | high
+C. Valentin | cvalentin@reederei-jaegers.de | Unspecified (admin or technical) | medium
+ | info@reederei-jaegers.de | Support | low
+
+## Enviri | segment=unknown
+F. Nicholas Grasberger | ngrasberger@enviri.com | Chairman and CEO | high
+Tom Vadaketh | tvadaketh@enviri.com | Chief Financial Officer | medium
+David Martin | dmartin@enviri.com | Vice President of Investor Relations | medium
+Michael Kolinsky | mkolinsky@enviri.com | Vice President of Treasury | medium
+David Dunlap | ddunlap@enviri.com | Vice President, Government Relations | medium
+
+## Hein Group | segment=unknown | country=LU
+Chris Leick | c.leick@heingroup.lu | Developer | medium
+ | info@heingroup.lu | General Contact | low
+
+## Hein | segment=unknown | country=LU
+Henri Guillaume | henri.guillaume@hein.lu | CEO | high
+Daniel Peltier | daniel.peltier@hein.lu | Administrative (probable) | medium
+ | info@hein.lu | General Contact | low
+
+## Landewyck | segment=unknown | country=LU
+Anne-Sophie Masciocchi | amasciocchi@landewyck.com | Director of Sustainability | high
+Sven Müller | smueller@landewyck.com | Chief Operations Officer | medium
+Marc Scharfe | mscharfe@landewyck.com | Director of Scientific Affairs | medium
+Sylvain Cregut | scregut@landewyck.com | Chief Marketing Officer | medium
+
+## Hewlett Packard Enterprise | segment=unknown
+Gerald David | gerald.david@hpe.com | Chief Technology Officer | high
+Eleonora Echevarria | eleonora.echevarria@hpe.com | Board Member | medium
+Tim Khoo | tim.khoo@hpe.com | Partner Manager | medium
+Andrew Macpherson | andrew.macpherson@hpe.com | Client Executive | medium
+
+## HGK | segment=unknown | country=DE
+Michael Rieck | rieckm@hgk.de | Investment Controlling Manager | high
+Frank Wichter | wichterf@hgk.de | Head of Risk and Compliance | medium
+Ralf Radschun | radschunr@hgk.de | Director of Communications | medium
+ | presse@hgk.de | Public Communication | low
+
+## Hitec | segment=unknown | country=LU
+Philippe Osch | posch@hitec.lu | Chief Executive Officer | high
+Yves Elsen | yves.elsen@hitec.lu | Chairman | medium
+Aurelie Onraet | aurelie.onraet@hitec.lu | QHSE Manager | medium
+Rodolphe Martin | rodolphe.martin@hitec.lu | Chief Business Development Officer | medium
+Philippe Marmann | philippe.marmann@hitec.lu | Director of Manufacturing | medium
+
+## HR Services | segment=consultants | country=LU
+Sandra Sidon | sandra.sidon@hrservices.lu | Executive Coach | medium
+ | info@hrservices.lu | Support | low
+
+## Husky | segment=unknown
+John Galt | jgalt@husky.co | CEO | high
+Aurelien Bastien | abastien@husky.co | Administrative or engineering (probable) | medium
+ | sales@husky.co | Sales Contact | medium
+
+## Hydro | segment=unknown
+Nina Schefte | nina.schefte@hydro.com | Head of Sustainability | high
+John Thuestad | john.thuestad@hydro.com | Executive VP | medium
+Vanda Halász | vanda.halasz@hydro.com | Finance Director | medium
+Ryan Modlin | ryan.modlin@hydro.com | Vice President, Government Affairs | medium
+Ole Reiersen | ole.reiersen@hydro.com | Director of Business Solutions | medium
+
+## HS Hyosung | segment=unknown
+Jacob Kim | jacob.kim@hshyosung.com | Unspecified (initial contact candidate) | high
+ | minjoonoh@hshyosung.com | Unspecified | medium
+ | taeyoon4@hshyosung.com | Unspecified | medium
+
+## Icarus Shipping | segment=unknown
+Hans Danes | icarus-shipping-sa@hotmail.com | Président – Administrateur délégué | high
+
+## IFSB | segment=unknown | country=LU
+Caroline Gontier | c.gontier@ifsb.lu | Sustainability Manager | high
+Aurélien Walter | a.walter@ifsb.lu | Facilities Manager | medium
+Vitor Figueira | v.figueira@ifsb.lu | Construction Technology Manager | medium
+ | contact@ifsb.lu | General Contact | low
+
+## Ilcolux | segment=unknown | country=LU
+ | info@ilcolux.lu | General Contact | high
+ | m.sibenaler@ilcolux.lu | Possibly manager or admin | medium
+
+## Imatec | segment=unknown | country=LU
+Alain Ruspeler | aruspeler@imatec.lu | Managing Director | high
+ | info@imatec.lu | General Contact | medium
+ | secretariat@imatec.lu | Finance/Support | low
+
+## Immobilier Conseil | segment=real_estate | country=LU
+Jérôme Kaiser | jerome.kaiser@ic.lu | Sales Director | high
+Christoph Polis | christoph.polis@ic.lu | Unspecified (possibly admin) | medium
+ | message@ic.lu | Communication | medium
+ | sales@ic.lu | Sales | low
+
+## Indigo Group | segment=unknown
+John Laires | john.laires@group-indigo.com | Chief Executive Officer | high
+Xavier Heulin | xavier.heulin@group-indigo.com | Deputy CEO | medium
+Alexandre Ragot | alexandre.ragot@group-indigo.com | Chief Financial Officer | medium
+Marcelo Nunes | marcelo.nunes@group-indigo.com | Deputy CEO | medium
+Clement Kerhoas | clement.kerhoas@group-indigo.com | Director – Financial Planning & Analysis | medium
+
+## INL | segment=unknown | country=LU
+ | jobs@inl.lu | HR / Unknown | low
+
+## Interact | segment=unknown | country=LU
+Guillaume Henrottay | ghenrottay@interact.lu | Chief Operating Officer | high
+Daniel Eischen | deischen@interact.lu | COO / Executive | medium
+ | info@interact.lu | General Contact | low
+
+## Interfuel | segment=unknown | country=LU
+ | info@interfuel.lu | General Contact – energy sector | high
+
+## IL Cosmetics | segment=unknown
+Emilia Borges | e.borges@ilcosmetics.com | Director of Quality, Health, Safety, and Environment (QHSE) | high
+Eric Bagre | e.bagre@ilcosmetics.com | Operations Manager | medium
+Bruno Papazian | b.papazian@ilcosmetics.com | Commercial Director | medium
+Lisa Maucotel | l.maucotel@ilcosmetics.com | Export Sales Coordinator | medium
+
+## Interstream Barging | segment=unknown
+Bernard Pols | bernard.pols@interstreambarging.com | Human Resources Manager | medium
+ | crewing@interstreambarging.com | Crewing / Operations | medium
+ | info@interstreambarging.com | General | low
+
+## Ireco | segment=unknown | country=LU
+Parissa Rafii / Xavier Simon | office@ireco.lu | CEO / Plant Manager | high
+
+## ispace Europe | segment=unknown
+Julien Lamamy | j-lamamy@ispace-inc.com | CEO (Europe branch) | high
+Jumpei Nozaki | j-nozaki@ispace-inc.com | CFO | medium
+Julien Meunier | j-meunier@ispace-inc.com | Finance Director | medium
+Aurélie Melchior | a-melchior@ispace-inc.com | Executive Assistant | medium
+
+## ISS Luxembourg | segment=unknown | country=LU
+Sylvie Laurent | info.interim@lu.issworld.com | Gérante | high
+
+## iTrust | segment=consultants | country=LU
+Carlo Harpes | harpes@itrust.lu | Managing Director | high
+Marianne Guerin | guerin@itrust.lu | Risk Management | medium
+Ingo Senft | senft@itrust.lu | Chief Administrative Officer | medium
+Guillaume Schaff | schaff@itrust.lu | Global Security Consultant | medium
+
+## IVC Group | segment=unknown
+Jerry Depoortere | jerry.depoortere@ivcgroup.com | International Sales Director | high
+Joris Cantaert | joris.cantaert@ivcgroup.com | Project Manager | medium
+ | customerservice@ivcgroup.com | General Contact | low
+
+## Jan De Nul | segment=unknown
+David Jonckheere | david.jonckheere@jandenul.com | Area Director | high
+Jhonny Bernal A | jhonny.bernal-a@jandenul.com | Logistics Director | medium
+Hitomi Narita | hitomi.narita@jandenul.com | Director | medium
+Kris Herzele | kris.herzele@jandenul.com | Head of 3D Visualization | low
+
+## JDS | segment=unknown | country=LU
+Jean-Nicolas Dann | info@jds.lu | Administrateur délégué | medium
+
+## Jindal Films | segment=unknown
+Markus Berger | markus.berger@jindalfilms.com | CEO | high
+Deepak Goenka | deepak.goenka@jindalfilms.com | Chief Financial Officer | medium
+Malay Rajoria | malay.rajoria@jindalfilms.com | Vice President – Global Procurement | medium
+Aloys Slenders | aloys.slenders@jindalfilms.com | Site Director | medium
+Anna Caramia | anna.caramia@jindalfilms.com | HR Business Partner | medium
+
+## John Zink | segment=unknown
+Tim Locke | tim.locke@johnzink.com | Possibly accounts manager or executive | high
+William Weimer | william.weimer@johnzink.com | Unspecified – manager or executive | medium
+Cesar Sanchez | cesar.sanchez@johnzink.com | Possibly sales or solutions executive | medium
+ | info@johnzink.com | General Contact | low
+
+## JAO | segment=unknown
+Frederik Johnsen | frederik@jao.eu | Chief Executive Officer | high
+Diana Rodrigues | diana@jao.eu | Chief Financial Officer | medium
+Thomas Kieffer | thomas@jao.eu | COO | medium
+Thiago Reis | thiago@jao.eu | Director of Finance | medium
+Emiel Bussé | emiel@jao.eu | Director of Projects | medium
+
+## JS Works | segment=unknown | country=LU
+Jérémy Luxen | info@jsworks.lu | Gérant | medium
+
+## Cajot | segment=unknown | country=LU
+Marco Claus / Axel Burkel | cajot@cajot.lu | Directeur Général / Directeur Technique | high
+
+## Kersting | segment=unknown | country=LU
+Simone Mohr-Kersting | info@kersting.lu | Geschäftsführerin | medium
+
+## Allfunds | segment=investment
+Andrés Sanz | andres.sanz@allfunds.com | Chief Risk Officer | high
+Antonio Manso | antonio.manso@allfunds.com | Chief Revenue Officer | medium
+Víctor Montesinos | victor.montesinos@allfunds.com | Head of IT Systems | medium
+Santiago Mingo | santiago.mingo@allfunds.com | Head of Product | medium
+Aamir Patel | aamir.patel@allfunds.com | Head of Client Services | medium
+Javier Montoya | javier.montoya@allfunds.com | Director of Business Process Management | medium
+Vincent Mattera | vincent.mattera@allfunds.com | Sales Director | medium
+Daniel Veenstra | daniel.veenstra@allfunds.com | Rebate Manager | low
+Monica Perez | monica.perez@allfunds.com | Head of Transfer Agent Relationships | low
+Francy Ramirez | francy.ramirez@allfunds.com | Executive Assistant | low
+
+## Allspring Global Investments | segment=investment
+Jon Baranko | jon.baranko@allspringglobal.com | CIO | high
+Richard Peck | richard.peck@allspringglobal.com | Portfolio Manager | medium
+Charles Wilson | charles.wilson@allspringglobal.com | Portfolio Management | medium
+Scott Eldridge | scott.eldridge@allspringglobal.com | Unspecified | medium
+Melissa Murphy | melissa.murphy@allspringglobal.com | Unspecified | medium
+Bradley Steiner | bradley.steiner@allspringglobal.com | Unspecified | medium
+Francesca Emanuel | francesca.emanuel@allspringglobal.com | Unspecified | low
+Kelly Vives | kelly.vives@allspringglobal.com | Unspecified | low
+Martha Delgado | martha.delgado@allspringglobal.com | Unspecified | low
+Alison Shimada | alison.shimada@allspringglobal.com | Unspecified | low
+
+## CaixaBank Asset Management Luxembourg | segment=investment | country=LU
+I. Najera | inajera@caixabankamlux.com | Unspecified | low
+E. Le Marquis | elemarquis@caixabankamlux.com | Unspecified | low
+
+## Capital International (Isle of Man) | segment=investment
+Gavin Parry | g.parry@capital-iom.com | Managing Director | high
+Werner Alberts | w.alberts@capital-iom.com | Managing Director | medium
+Paul Atherton | p.atherton@capital-iom.com | Finance Director | medium
+Ben Wilde | b.wilde@capital-iom.com | Head of Innovation and Digital Technology | medium
+
+## Capital Group | segment=investment
+Katja Wiechers | katja.wiechers@capitalgroup.com | Managing Director | high
+Feike Goudsmit | feike.goudsmit@capitalgroup.com | Managing Director | medium
+Adam Price | adam.price@capitalgroup.com | Managing Director | medium
+Grégoire Seron | gregoire.seron@capitalgroup.com | Marketing Director | medium
+
+## Danske Bank | segment=banking | country=DK
+Data Protection Function | dpofunction@danskebank.dk | Data Protection – official entry | low
+
+## DNCA Investments | segment=investment
+Xavier Callens | xcallens@dnca-investments.com | Chief Data Officer | high
+Fabrice Paretti | fparetti@dnca-investments.com | Head of Data | medium
+Jean-Hugues Pasquier | jpasquier@dnca-investments.com | Global Product Manager | medium
+Véronique Briol | vbriol@dnca-investments.com | Compliance Director | medium
+Sébastien Maraval-Bedu | smaraval-bedu@dnca-investments.com | Director of Performance Management | medium
+Sara Faccini | sfaccini@dnca-investments.com | Director of Client Services | low
+Nicolas Dubuisson | ndubuisson@dnca-investments.com | Director of Business Development | low
+Adrien Montigny | amontigny@dnca-investments.com | Director of Wholesale | low
+Jo Switten | jswitten@dnca-investments.com | Business Development Director | low
+Sarah Amzil | samzil@dnca-investments.com | Head of Engineering | low
+
+## LHI | segment=investment | country=LU
+LHI Management | lhi-management@lhi.lu | Finance | medium
+
+## MFS Investment Management | segment=investment
+Cort Conover | cconover@mfs.com | Vice President | high
+Harry Logan | hlogan@mfs.com | Director | medium
+Inna Lodato | ilodato@mfs.com | Vice President of Total Rewards | medium
+Hannah Davis | hdavis@mfs.com | Vice President of Corporate Communications | medium
+Tanya Chadha | tchadha@mfs.com | Investment Product Director | medium
+Sam Araújo | saraujo@mfs.com | AVP, Partner Relationships | medium
+
+## PIMCO | segment=investment
+Robert English | robert.english@pimco.com | Managing Director | high
+Jamil Baz | jamil.baz@pimco.com | Managing Director | medium
+Phil Michels | phil.michels@pimco.com | EVP, Global Wealth Management Strategy | medium
+Agnes Crane | agnes.crane@pimco.com | EVP, Corporate Communications | medium
+Ivan Lee | ivan.lee@pimco.com | Senior VP, Account Management | medium
+Mikko Andersson | mikko.andersson@pimco.com | Senior VP, Account Management | medium
+Angie Lee | angie.lee@pimco.com | Senior VP, Head of Private Banking | medium
+German Ramirez | german.ramirez@pimco.com | Senior VP, Quantitative Research | low
+Laura Kelly | laura.kelly@pimco.com | Vice President, Account Management | low
+Barry Lawrence | barry.lawrence@pimco.com | Unspecified | low
+
+## Savills Investment Management | segment=real_estate
+James Howard | james.howard@savillsim.com | Chief Financial Officer | high
+Kathrin Michalzik | kathrin.michalzik@savillsim.com | Head of Fund Management | medium
+Estelle Baillieux | estelle.baillieux@savillsim.com | Director of Fund Finance | medium
+Clare Sutcliffe | clare.sutcliffe@savillsim.com | Head of Finance | medium
+Marc Gonzalvez | marc.gonzalvez@savillsim.com | Director of Product Strategy | medium
+Annabelle Ashton | annabelle.ashton@savillsim.com | Fund Finance Manager | medium
+Callum Burns | callum.burns@savillsim.com | Director of Development | low
+Jonathan Clarke | jonathan.clarke@savillsim.com | Director of Affordable Housing | low
+Laurent Vouin | laurent.vouin@savillsim.com | Regional Director | low
+Vivian Tan | vivian.tan@savillsim.com | Executive Assistant | low
+
+## Creditreform | segment=consultants | country=DE
+ | kontakt@creditreform.de | General Contact / Central Support | medium
+Markus | markus@creditreform.de | Unspecified | low
+ | datenschutz@creditreform.de | Data Privacy / Legal | low
+ | analysen@creditreform.de | Economic / Credit Analysis | medium
+ | presse@creditreform.de | Communication & Media | low
+ | international.service@creditreform.de | Global Client Support | low
+
+## Swiss Life Asset Managers | segment=investment
+Anders Jakobsen | anders.jakobsen@swisslife-am.com | Chief Executive Officer | high
+Stefan Spreiter | stefan.spreiter@swisslife-am.com | Chief Risk Officer | medium
+Benjamin Jonen | benjamin.jonen@swisslife-am.com | Director of Financial Engineering | medium
+Ulrik Oxfeldt | ulrik.oxfeldt@swisslife-am.com | Head of Institutional Sales | medium
+Marcel Schmitt | marcel.schmitt@swisslife-am.com | Head of Real Estate Portfolio Management | medium
+Alex Duivelshof | alex.duivelshof@swisslife-am.com | Chief Information Security Officer | low
+Mario Giannini | mario.giannini@swisslife-am.com | Deputy General Counsel | low
+Björn Dernbecher | bjoern.dernbecher@swisslife-am.com | Head of Tax | low
+Albatrim Rexhaj | albatrim.rexhaj@swisslife-am.com | Head of Production | low
+Fabienne Senn | fabienne.senn@swisslife-am.com | HR Director | low
+Christina Landgraf | christina.landgraf@swisslife-am.com | Chief Transformation Officer | high
+Patrick Leuthold | patrick.leuthold@swisslife-am.com | Head of Real Estate | medium
+
+## 6M Monnet Management | segment=investment | country=LU
+Julien Wolff | julien.wolff@6m.lu | Executive Director | high
+Julie Bourgeois | julie.bourgeois@6m.lu | Chief Compliance Officer | medium
+Robin Ledoux | robin.ledoux@6m.lu | Director of Fund Administration | medium
+Quentin Werlé | quentin.werle@6m.lu | Portfolio Manager | medium
+Christophe Pilz | christophe.pilz@6m.lu | Compliance Manager | medium
+
+## Aberdeen | segment=investment
+ | aberdeen.global@aberdeen-asset.com | Management Company – General Contact | medium
+
+## ACT | segment=consultants
+Neha Jain | njain@act.is | Executive Director | high
+Mark Nielsen | mnielsen@act.is | Head of Banking | medium
+Lena Ubhi | lubhi@act.is | Global Talent Director | medium
+Nisha Khandelwal | nkhandelwal@act.is | Senior Executive | medium
+
+## ADEPA | segment=investment
+Francisco Figueroa | f.figueroa@adepa.com | Chief Compliance Officer | high
+Walter Fontan | w.fontan@adepa.com | Chief Risk Officer | medium
+Cristobal Oraa | c.oraa@adepa.com | Chief Financial Officer | medium
+Heike Bukowski | h.bukowski@adepa.com | Compliance Manager | medium
+Alex Bardaji | a.bardaji@adepa.com | Country Manager | medium
+Daniele Tresoldi | d.tresoldi@adepa.com | Global Hub Director | low
+
+## AllianceBernstein | segment=investment
+Jenny Zhang | jenny.zhang@alliancebernstein.com | Managing Director | high
+David Kuck | david.kuck@alliancebernstein.com | Managing Director | medium
+Hua Cheng | hua.cheng@alliancebernstein.com | Senior Vice President | medium
+Thiemo Volkholz | thiemo.volkholz@alliancebernstein.com | Head of Retail | medium
+Shane Mcgrogan | shane.mcgrogan@alliancebernstein.com | Director | medium
+Christopher Ryan | christopher.ryan@alliancebernstein.com | Vice President | low
+John Tanner | john.tanner@alliancebernstein.com | Vice President | low
+Constantin Andreae | constantin.andreae@alliancebernstein.com | Regional Director | low
+
+## Altum Group | segment=investment | country=LU
+Spencer Daley | spencer.daley@altumgroup.com | Chief Financial Officer | high
+Stephen Brennan | stephen.brennan@altumgroup.com | Director of Compliance | medium
+Sivani Pillay | sivani.pillay@altumgroup.com | Chief Marketing Officer | medium
+Rolf Caspers | rolf.caspers@altumgroup.com | Head of Capital Markets | medium
+Clare Hartnell | clare.hartnell@altumgroup.com | Director | medium
+Peter Messervy-Gross | peter.messervy-gross@altumgroup.com | Chief Information Officer | medium
+Alexandra Fantuz | alexandra.fantuz@altumgroup.com | Director | low
+Daniel Kaiser | daniel.kaiser@altumgroup.com | Associate Director | low
+Stephen McKenna | stephen.mckenna@altumgroup.com | Chief Commercial Officer | high
+ | luxembourg@altumgroup.com | General Contact | medium
+
+## Amundi | segment=investment
+ | info@amundi.com | Management Company / AIFM – General Inquiry | medium
+
+## Andbank | segment=banking
+José Yécora | jose.yecora@andbank.com | General Director | high
+Josep Casanovas | josep.casanovas@andbank.com | Deputy Director General | medium
+Roger Duran | roger.duran@andbank.com | Global Reporting Director | medium
+Marcus Macedo | marcus.macedo@andbank.com | Chief Investment Officer | medium
+Felipe Ferrán | felipe.ferran@andbank.com | Wealth Management Director | medium
+Borja Vega | borja.vega@andbank.com | Private Banking Director | medium
+Oriol Huguet | oriol.huguet@andbank.com | Managing Partner | low
+Flora Díaz | flora.diaz@andbank.com | Chief Human Resources Officer | low
+
+## APIS Asset Management | segment=investment
+Sandra Lucente | sl@apis-am.com | Chief Executive Officer | high
+ | info@apis-am.com | Management Company / General Inquiry | medium
+
+## ARVE / JPartners | segment=consultants | country=LU
+Diane Wolf | wolf@arve.lu | Member of the Board of Directors | high
+ | info@jpartners.lu | Support | medium
+
+## Assenagon | segment=investment
+Roya Abbasi | roya.abbasi@assenagon.com | Vice President of ESG and Product Management | high
+Matthias Kunze | matthias.kunze@assenagon.com | Managing Director | medium
+Thomas Romig | thomas.romig@assenagon.com | Head of Multi-Asset Investments | medium
+Tobias Knecht | tobias.knecht@assenagon.com | Managing Director | medium
+Aaron Wittmann | aaron.wittmann@assenagon.com | Vice President of Portfolio Management | medium
+Andreas Mair | andreas.mair@assenagon.com | Vice President, Product Management | low
+Sophia Engel | sophia.engel@assenagon.com | SVP of Human Resources | low
+André Beier | andre.beier@assenagon.com | SVP of Sales | low
+
+## Aviva Investors | segment=investment
+Tom Tayler | tom.tayler@avivainvestors.com | Director of Climate Finance | high
+Felix Bottomley | felix.bottomley@avivainvestors.com | Head of Compliance | medium
+Candice Goodwin | candice.goodwin@avivainvestors.com | Director of Fund Finance | medium
+Steve Hyndman | steve.hyndman@avivainvestors.com | Director of Risk Management | medium
+Paul Murray | paul.murray@avivainvestors.com | Finance Business Partner | medium
+Joanne Bailey | joanne.bailey@avivainvestors.com | Director of Financial Reporting | medium
+Nick Solomon | nick.solomon@avivainvestors.com | Director of Real Estate Debt | low
+Martin Stearman | martin.stearman@avivainvestors.com | Strategic Business Partner | low
+Graham Mudie | graham.mudie@avivainvestors.com | Senior Business Development Director | low
+
+## BayernInvest Luxembourg | segment=investment | country=LU
+Ralf Rosenbaum | ralf.rosenbaum@bayerninvest.lu | Senior management (probable) | high
+Peter Sasse | peter.sasse@bayerninvest.lu | Chief Legal Officer | medium
+ | info@bayerninvest.lu | Support / General Inquiries | low
+
+## BG Fund Management Luxembourg | segment=investment | country=LU
+Marco Dorazio | marco.dorazio@bgfml.lu | Chief Investment Officer | high
+Marylene Alix | marylene.alix@bgfml.lu | General Manager | medium
+Olivier Arnould | olivier.arnould@bgfml.lu | Chief Operating Officer | medium
+Fabio Pavone | fabio.pavone@bgfml.lu | Manager Marketing | medium
+Nicola Pegoraro | nicola.pegoraro@bgfml.lu | Unspecified | low
+
+## BIL Manage Invest | segment=investment | country=LU
+Alain Bastin | info@bilmanageinvest.com | Chief Executive Officer (via general inbox) | high
+
+## BKN Capital | segment=investment | country=LU
+Andreas Neugebauer / Thomas Liebsch | andreas.neugebauer@bkncapital.lu | Chief Executive Officer / Conducting Officer | high
+ | info@bkncapital.lu | Management Company / General Inquiry | low
+Daniel Binsfeld | daniel@bkncapital.com | Valuation Manager | medium
+Stephanie Kucharski | stephanie@bkncapital.com | Head of Product Management | medium
+
+## BNY | segment=banking
+Daniela Battistoni | daniela.battistoni@bny.com | SVP of Corporate Governance | high
+Stuart Wilson | stuart.wilson@bny.com | Director of Risk & Compliance – IM EMEA | medium
+Wayne Brassington | wayne.brassington@bny.com | Vice President of Change Management | medium
+Anthony Morose | anthony.morose@bny.com | Director of Fund Accounting | medium
+Megha Rathore | megha.rathore@bny.com | Vice President of Surveillance | medium
+Vinit Shah | vinit.shah@bny.com | Vice President, Internal Audit | low
+Elizabeth Davis | elizabeth.davis@bny.com | Vice President | low
+
+## CA Indosuez Asset Management | segment=investment
+Sébastien Alusse | sebastien.alusse@ca-indosuez-am.com | Managing Director | high
+Anne-Charlotte Miot | anne-charlotte.miot@ca-indosuez-am.com | Head of Risk Management | medium
+
+## Candriam | segment=investment
+Vincent Hamelink | vincent.hamelink@candriam.com | CEO | high
+Chafic Jabbour | chafic.jabbour@candriam.com | Chief Executive Officer | medium
+Gonzague Druart | gonzague.druart@candriam.com | Global Head of Compliance & US CCO | medium
+Alain Pignolet | alain.pignolet@candriam.com | Chief Audit Executive | medium
+Nagi Nasr | nagi.nasr@candriam.com | Deputy Head of Investment Solutions | low
+Fabrice Sauzeau | fabrice.sauzeau@candriam.com | Deputy Head of Insurance & Pension Advisory | low
+
+## CBRE Luxembourg | segment=real_estate | country=LU
+Frank Rosenbaum | frank@cbre.lu | Senior Director of Business Development | high
+Thomas Durand | thomas@cbre.lu | Director of Property Management | medium
+Thierry Bauwens | thierry@cbre.lu | Director of Workspace | medium
+Keith Aganan | keith@cbre.lu | Director | low
+Vincent Loeillet | vincent@cbre.lu | Associate Director | low
+Petra Sovová | petra@cbre.lu | HR Business Partner | low
+Jean-François Gillard | jean-francois.gillard@cbre.com | Executive Managing Director | high
+
+## CI Fund Services | segment=investment
+Michael Sanders | ms@ci-fund-services.com | CEO | high
+
+## Commerz Real | segment=real_estate
+Henning Koch | henning.koch@commerzreal.com | CEO | high
+Markus Eßer | markus.esser@commerzreal.com | Head Of Communications | medium
+Madeleine Hohmann | madeleine.hohmann@commerzreal.com | Sales Support | low
+Timo Lutz | timo.lutz@commerzreal.com | Unspecified (possibly project management) | low
+Carina Lorenz | carina.lorenz@commerzreal.com | Unspecified | low
+
+## Corestate Capital | segment=real_estate
+ | ir@corestate-capital.com | Investor Relations | high
+ | pr@corestate-capital.com | Public Relations | medium
+ | info@corestate-capital.com | General Contact | low
+
+## Degroof Petercam | segment=investment
+Alessandro Fonzi | a.fonzi@degroofpetercam.com | Country Head | high
+Alexandra Niehe | a.niehe@degroofpetercam.com | Director of Corporate Communications | medium
+Fritz Mertens | m.fritz@degroofpetercam.com | Managing Director | medium
+Amal Aboulkhouatem | a.aboulkhouatem@degroofpetercam.com | Senior Real Estate Analyst | low
+Vincent Koppmair | v.koppmair@degroofpetercam.com | Equity Research Analyst | low
+
+## DJE Kapital | segment=investment | country=DE
+Jens Ehrhardt | jens.ehrhardt@dje.de | Chief Executive Officer | high
+Andrea Huber | andrea.huber@dje.de | Head of Sales | medium
+Bernhard Lerchl | bernhard.lerchl@dje.de | Director of Institutional Sales | medium
+Soraja Leicht | soraja.leicht@dje.de | Chief Compliance Officer | low
+Natalie Richter | natalie.richter@dje.de | Director of Institutional Clients | low
+
+## Dynasty AM | segment=investment | country=LU
+Philippe Halb | philippe.halb@dynasty-am.lu | Chairman | high
+Laurent Pluchard | laurent.pluchard@dynasty-am.lu | Managing Director | medium
+Henri Rayot | henri.rayot@dynasty-am.lu | Wholesale Sales Manager | medium
+Simon Roger | simon.roger@dynasty-am.lu | Fixed Income Portfolio Manager | low
+Oleg Primachenko | oleg.primachenko@dynasty-am.lu | AML Officer | low
+
+## Eastspring Investments | segment=investment
+Mutiara Purba | mutiara.purba@eastspring.com | Head of Distribution | high
+Philip Bazany | philip.bazany@eastspring.com | Head of Investment Management | medium
+Nada Ebranan | nada.ebranan@eastspring.com | Deputy Managing Director | medium
+Jason Chiong | jason.chiong@eastspring.com | Director of Corporate Strategy | low
+Abhinav Shrivastava | abhinav.shrivastava@eastspring.com | Director | low
+
+## ECE | segment=real_estate | country=LU
+José Maria Ortiz | josemaria.ortiz@ece.com | Managing Director | high
+Martina Winkel | martina.winkel@ece.com | Administrative Assistant | low
+ | info@ecerep.com | Support | medium
+
+## Empira Invest | segment=real_estate | country=LU
+Peter Gillert | peter@empira-invest.lu | Managing Director | high
+Michelle Justen | michelle@empira-invest.lu | Co-Head of Portfolio Management | medium
+ | info@empira-invest.lu | Support / General Contact | low
+
+## Engelwood | segment=investment
+Steven Curfs / Jean-Pierre Verlaine | contact@engelwood.eu | Chairman of the Executive Committee & Conducting Officer / CEO & Conducting Officer | high
+
+## Eurizon Capital | segment=investment
+Marco Canton | marco.canton@eurizoncapital.com | Director | high
+Alessandro Solina | alessandro.solina@eurizoncapital.com | Chief Investment Officer | medium
+Fabio Iardino | fabio.iardino@eurizoncapital.com | Head of Structured Products | medium
+Luigi Ajello | luigi.ajello@eurizoncapital.com | Head of Operations and Middle Office Support | medium
+Claudia Deglialberti | claudia.deglialberti@eurizoncapital.com | Risk Engineering Manager | low
+Chiara Carbone | chiara.carbone@eurizoncapital.com | Chief of Staff | low
+Paola Muccio | paola.muccio@eurizoncapital.com | Head of Data Services | low
+Paolo Bernardelli | paolo.bernardelli@eurizoncapital.com | Head of Fixed Income and Foreign Exchange | medium
+Sandro Vesprini | sandro.vesprini@eurizoncapital.com | Finance Director | medium
+Luisella Calcante | luisella.calcante@eurizoncapital.com | Head of Product | low
+
+## Finance in Motion | segment=investment | country=LU
+Lotta Lindqvist | l.lindqvist@finance-in-motion.com | Senior Key Account Manager Private Equity | high
+Louise Nielsen | l.nielsen@finance-in-motion.com | Manager Marketing & Communication | medium
+ | info@finance-in-motion.com | General Contact | medium
+
+## Franklin Templeton Luxembourg | segment=investment | country=LU
+ | lucs@franklintempleton.com | General Contact | medium
+
+## Pictet | segment=banking
+Philippe Roset | proset@pictet.com | Head of Business Risk | high
+Pierre Stadler | pstadler@pictet.com | Executive Director | medium
+Gilles Kerouanton | gkerouanton@pictet.com | Head of Operational Risk | medium
+Marc Siegel | msiegel@pictet.com | Head of Compliance | medium
+Ariel Soria | asoria@pictet.com | Head of Marketing | medium
+John Gaspoz | jgaspoz@pictet.com | Vice President of Information Delivery | medium
+Matthias Salzgeber | msalzgeber@pictet.com | Tariff Manager | low
+Mathieu Brun | mbrun@pictet.com | Director of Infrastructure Security | low
+Julien Burkhardt | jburkhardt@pictet.com | Front Desk Manager | low
+Diane Goineau | dgoineau@pictet.com | IT Manager | low
+Joël Vevert | jvevert@pictet.com | Head of Risk and Compliance | high
+Pauline Diminutto | pdiminutto@pictet.com | Senior Vice President, Asset Management | medium
+Clément Mayoux | cmayoux@pictet.com | Business Risk Manager EU & UK – VP | medium
+Sacha Kissling | skissling@pictet.com | Head of Institutional Sales Trading | medium
+
+## FundRock LIS | segment=investment
+Wolfram Huwer | wolfram.huwer@fundrock-lis.com | Senior figure (unspecified) | high
+Niels Sauerland | niels.sauerland@fundrock-lis.com | Probably manager or executive | medium
+ | info@fundrock-lis.com | Support | low
+ | complaintslis@fundrock-lis.com | Support / Complaints | low
+
+## FundRock | segment=investment
+Gérard Emmanuel Boué | gerard-emmanuel.boue@fundrock.com | Chief Compliance Officer | high
+David Johnstone | david.johnstone@fundrock.com | Vice President of Risk and Compliance | medium
+Leza Stinton | leza.stinton@fundrock.com | Head of Management Company | medium
+Miguel Hall | miguel.hall@fundrock.com | Director of Operations | medium
+Adam Stoeffler | adam.stoeffler@fundrock.com | Finance Director | medium
+Bjorn Moller | bjorn.moller@fundrock.com | Director of CRM | low
+Khalil Haddad | khalil.haddad@fundrock.com | Chief Valuation Officer | low
+
+## FundsAvenue | segment=investment
+Lucie Fischbach | lucie.fischbach@fundsavenue.com | Chief Compliance Officer | high
+Benoît Joseph | benoit.joseph@fundsavenue.com | Chief Risk Officer | medium
+Michael Verschuure | michael.verschuure@fundsavenue.com | Chief Financial Officer | medium
+Jacques Collins | jacques.collins@fundsavenue.com | Chief Operating Officer | medium
+Kelly Anckenmann | kelly.anckenmann@fundsavenue.com | Executive Director of Business Development | low
+Hervé Coussement | herve.coussement@fundsavenue.com | Managing Director | low
+Hugo Muller | hugo.muller@fundsavenue.com | Principal | low
+Jean Lava | jean-jacques.lava@fundsavenue.com | Unspecified | low
+
+## Gen2 Fund | segment=investment
+Jenna Wittlieb | jwittlieb@gen2fund.com | Director | high
+Ryan Messana | rmessana@gen2fund.com | Director | medium
+Bethany Scogin | bscogin@gen2fund.com | Accounting Director | medium
+Greg Belcham | greg.belcham@gen2fund.com | Director of Architecture | medium
+Ashley Testani | atestani@gen2fund.com | Associate Director | low
+Eleonora Cavaleri | eleonora.cavaleri@gen2fund.com | Executive Assistant | low
+
+## Global Evolution Manco | segment=investment | country=LU
+ | info@globalevolutionmanco.lu | General Contact | low
+
+## Nomura Global Fund Management | segment=investment
+ | info-gfm@nomura.com | General Contact – Nomura Group | low
+
+## Golding Capital Partners | segment=investment | country=LU
+Lukas Eckhardt / Christian Harz | officelux@goldingcapital.com | MD, Head of Risk / Director | medium
+Christian Harz | harz@goldingcapital.com | Director | medium
+Sarah Bartodziej | bartodziej@goldingcapital.com | Vice President of Structuring | medium
+Ralf Stenger | stenger@goldingcapital.com | Vice President of Legal | medium
+Carola Schinke | schinke@goldingcapital.com | Director of Human Resources | medium
+Leopold Köstner | koestner@goldingcapital.com | Director of Private Credit | medium
+Wolf Heselich | wolf@goldingcapital.com | Director | medium
+Matthias Reicherter | reicherter@goldingcapital.com | Chief Investment Officer | medium
+Thomas Lippert | lippert@goldingcapital.com | Chief Compliance Officer | medium
+Florian Hofer | hofer@goldingcapital.com | Managing Director | medium
+Dorothea Sztopko | sztopko@goldingcapital.com | Chief Operating Officer | medium
+
+## Hansainvest Luxembourg | segment=investment | country=LU
+ | info@hansainvest.lu | General Contact / Management Company | medium
+Kai-Oliver Oetjen | kai-oliver.oetjen@hansainvest.de | Head of Fund Administration | medium
+Stefan Thevajegan | stefan.thevajegan@hansainvest.de | Head of Sales | medium
+Björn Grützmacher | bjoern.gruetzmacher@hansainvest.de | Head of Capital Markets Operations | medium
+Martina Heber | martina.heber@hansainvest.de | Compliance Manager | medium
+Boris Wetzk | boris.wetzk@hansainvest.de | Digital Transformation Manager | medium
+Robert Guzialowski | robert.guzialowski@hansainvest.de | Head of Business Development | medium
+Finn Andresen | finn.andresen@hansainvest.de | Marketing Manager | medium
+Lara Bruhn | lara.bruhn@hansainvest.de |  | low
+Lukas Jensen | lukas.jensen@hansainvest.de | Investment Manager | medium
+Finn Pagel | finn.pagel@hansainvest.de | Sales Manager | medium
+
+## Hauck & Aufhäuser Fund Services | segment=investment | country=LU
+ | haig-vorstand@hauck-aufhaeuser.lu | General Management / Board Contact | medium
+
+## Hines | segment=real_estate | country=LU
+Kenneth MacRae | kenneth.macrae@hines.com | Managing Director | high
+
+## ICG Asset Management | segment=investment
+Julian Payne | julian.payne@icgam.com | Associate Director of Sustainability | high
+Michael Sproul | michael.sproul@icgam.com | Managing Director | medium
+Rumit Shah | rumit.shah@icgam.com | Head of Private Markets | medium
+Louise Joubert | louise.joubert@icgam.com | Head of Tax | low
+
+## IM Global Partner | segment=investment | country=LU
+Alexandre Pierron | a.pierron@imgp.com | Conducting Officer | high
+Harold Hadjadj | h.hadjadj@imgp.com | Chief Financial Officer | high
+Baptiste Fullana | b.fullana@imgp.com | Vice President of Research and Investments | high
+David Barfoot | d.barfoot@imgp.com | Director of Distribution | high
+Claire Carr | c.carr@imgp.com | Director of Human Resources | high
+Fabio Palumbo | f.palumbo@imgp.com | Senior Vice President of Client Services | high
+Scott Jones | s.jones@imgp.com | Vice President, Institutional Relationships | high
+Katharine Edmunds | k.edmunds@imgp.com | Vice President of Project Management | high
+Trevor Perry | t.perry@imgp.com | Director of Distribution | high
+Justin Epstein | j.epstein@imgp.com | Director of Fixed Income | high
+Matthieu Beyler | m.beyler@imgp.com | Director of French Speaking Europe | high
+ | contact-lu@imgp.com | General Contact | low
+
+## ING Investment Solutions Luxembourg | segment=investment | country=LU
+Claire Kindig | claire.kindig@ing-isim.lu | Head of Product | high
+Anka Aleksić | anka.aleksic@ing-isim.lu | Marketing Specialist | medium
+ | info@ing-isim.lu | General Contact | low
+
+## IFM Investment Fund Management | segment=investment
+Aurelien Dunet | aurelien.dunet@ifm-sa.eu | Chief Executive Officer | high
+Sophie Leissing | sophie.leissing@ifm-sa.eu | Chief Compliance Officer | medium
+Augustine Myande | augustine.myande@ifm-sa.eu | Director of Fund Accounting | medium
+ | contact@ifm-sa.eu | General Contact | low
+
+## IntReal | segment=real_estate
+Hannah Dellemann | hdellemann@intreal.com | Director of Sustainability | high
+Stephan Schilken | sschilken@intreal.com | Managing Director | medium
+Regina Arens | rarens@intreal.com | Director of Customer Relationship Management | medium
+Rudolf Kömen | rkoemen@intreal.com | Chief Compliance Officer | low
+
+## IPConcept | segment=investment | country=LU
+Patrick Wüest | patrick.wueest@ipconcept.com | Executive Board Member | high
+Walter Forster | walter.forster@ipconcept.com | Executive Board Member | medium
+Jörg Hügel | joerg.huegel@ipconcept.com | Unspecified | low
+Ursula Koch | ursula.koch@ipconcept.com | Unspecified | low
+ | info.lu@ipconcept.com | Support / General | low
+
+## Bank J. Safra Sarasin | segment=banking | country=LU
+Robin Rouger | robin.rouger@jsafrasarasin.com | Executive Director of Sustainable Investment | high
+David Miles | david.miles@jsafrasarasin.com | Head of Institutional and Wholesale | medium
+Robert Boonzaier | robert.boonzaier@jsafrasarasin.com | Managing Director | medium
+Monika Kulisa | monika.kulisa@jsafrasarasin.com | Vice President of Investment Marketing | medium
+Kerem Stricker | kerem.stricker@jsafrasarasin.com | Director | low
+Aydın Gül | aydin.guel@jsafrasarasin.com | Director of Wealth Management | medium
+Michael Bobst | michael.bobst@jsafrasarasin.com | Director of Fixed Income Trading | medium
+Iain Lovie | iain.lovie@jsafrasarasin.com | Executive Director | medium
+Sven Fachin | sven.fachin@jsafrasarasin.com | Assistant Vice President | medium
+Julia Colella | julia.colella@jsafrasarasin.com | Vice President of Client Relations | medium
+Amir Nabi | amir.nabi@jsafrasarasin.com | Executive Director | medium
+Huib Dekker | huib.dekker@jsafrasarasin.com | Executive Director | medium
+Roland Mccomish | roland.mccomish@jsafrasarasin.com | Director of Private Banking | medium
+
+## JPMorgan | segment=banking
+Seema Pandya | seema.pandya@jpmorgan.com | Executive Director | high
+Mark Davino | mark.davino@jpmorgan.com | Managing Director | medium
+Matt Galton | matt.galton@jpmorgan.com | Executive Director | medium
+Edward Peel | edward.peel@jpmorgan.com | Director of Operations | medium
+Phillip Gilbert | phillip.gilbert@jpmorgan.com | Managing Director | low
+
+## Jupiter Asset Management | segment=investment
+Edward Robinson | edward.robinson@jupiteram.com | Director of Advisory Services | high
+Mathias Müller | mathias.mueller@jupiteram.com | Co-Head of Client Group | medium
+John Morrison | john.morrison@jupiteram.com | Sales Director | medium
+Helen Woodland | helen.woodland@jupiteram.com | Compliance Manager | low
+Viltė Narkūnaitė | vilte.narkunaite@jupiteram.com | Digital Marketing Manager | low
+
+## Langham Hall | segment=consultants
+Keith McShea | keith.mcshea@langhamhall.com | Chairman | high
+Clive Griffiths | clive.griffiths@langhamhall.com | Manager | medium
+
+## Lombard Odier | segment=banking | country=LU
+Mark Edmonds | m.edmonds@lombardodier.com | Managing Director | high
+Ludovic Trottier | l.trottier@lombardodier.com | Head of Risk Management | medium
+Torriana Sands | t.sands@lombardodier.com | Client Lifecycle Manager | medium
+Kelly Berquez | k.berquez@lombardodier.com | Head of Legal | medium
+Amer Malik | a.malik@lombardodier.com | Senior Executive Officer | medium
+Yolanda Coury | y.coury@lombardodier.com | Head of External Asset Management | medium
+Christian Wagner | c.wagner@lombardodier.com | Senior Private Banker | medium
+Oscar Gil | o.gil@lombardodier.com | Team Leader | medium
+Philippe Zuberbuhler | p.zuberbuhler@lombardodier.com | Head of Custody | medium
+Kohei Morioka | k.morioka@lombardodier.com | Executive Director | medium
+Roland Egger | r.egger@lombardodier.com | Head of Equities | medium
+
+## Luxcellence | segment=investment | country=LU
+ | info@luxcellence.lu | General Contact / Management Company | low
+
+## Massena Partners | segment=investment | country=LU
+ | e-contacts@massena.lu | General Contact / Management Company | low
+ | e-contact@massena.fr | General Contact Paris | medium
+
+## MCSquare | segment=investment | country=LU
+Monica da Fonseca | mdafonseca@mcsquare.lu | Conducting Officer – Head of Sales and Distribution | high
+Alexandre Hecklen | ahecklen@mcsquare.lu | CEO | medium
+Meray Olivier | omeray@mcsquare.lu | Chief Risk Officer | medium
+Chrys Ibombo | cibombo@mcsquare.lu | Regional Director | medium
+Loïc Vallortigara | lvallortigara@mcsquare.lu | Senior Manager, Middle Office | medium
+Stéphane Dervaux | sdervaux@mcsquare.lu | Investment Manager | medium
+Gajamokan Balasingam | gbalasingam@mcsquare.lu | Senior Investment Manager | medium
+Michele Magliocco | mmagliocco@mcsquare.lu | Senior Investment Associate | medium
+Joëlle Bida | jbida@mcsquare.lu | Finance Officer | medium
+Sameh Zoabi | szoabi@mcsquare.lu | Senior Risk Manager | medium
+Sophie Linster | slinster@mcsquare.lu | Middle Office Agent | medium
+ | info@mcsquare.lu | General Contact / Management Company | medium
+
+## Mediobanca Management Company | segment=investment | country=LU
+Fabio Ventola | fabio.ventola@mediobancamanagementcompany.com | Contact candidate | high
+Yannick Wittrock | yannick.wittrock@mediobancamanagementcompany.com | Contact candidate | medium
+Alexandre Wolf | alexandre.wolf@mediobancamanagementcompany.com | Contact candidate | medium
+ | info@mediobancamanagementcompany.com | Support / General | low
+ | risk@mediobancamanagementcompany.com | Risk Department | low
+ | compliance-risk@mediobancamanagementcompany.com | Compliance / Risk | low
+
+## Montagu | segment=investment
+Yassine Khechini | yassine.khechini@montagu.com | Conducting Officer: Portfolio Management | high
+
+## MUFG Luxembourg | segment=banking | country=LU
+ | info@lu.tr.mufg.jp | General Contact | low
+
+## Credit Suisse Luxembourg | segment=banking | country=LU
+Marcus Ulm | marcus.ulm@credit-suisse.com | CEO | high
+
+## Clearlake Credit | segment=investment
+Sascha Regenbrecht | sascha.regenbrecht@clearlakecredit.com | Conducting Officer Risk | high
+
+## Nordea Luxembourg | segment=banking | country=LU
+Raul Marti | raul.marti@nordea.lu | Possibly senior investments or relations | high
+Paul Malpas | paul.malpas@nordea.lu | Possibly manager or executive | medium
+Morten Demant | morten.demant@nordea.lu | Possibly finance or admin | low
+
+## NSP Group | segment=investment
+Paolo Faraone | paolo@nspgroup.com | Chief Executive Officer | high
+Giorgio Rocca | giorgio@nspgroup.com | Head of Wealth Management | medium
+Romuald Renault | romuald@nspgroup.com | Head of Trading Operations | medium
+Amelie Bisthoven | amelie@nspgroup.com | Director of Business Intelligence | medium
+Leonidas Vrachnis | leonidas@nspgroup.com | Deputy Head of Onboarding and CRM | low
+
+## Ocorian | segment=consultants
+Chantal Free | chantal.free@ocorian.com | Chief Executive Officer | high
+Shane Hollywood | shane.hollywood@ocorian.com | Managing Director | medium
+Samantha Luyt | samantha.luyt@ocorian.com | Chief Compliance Officer | medium
+Chris Mayfield | chris.mayfield@ocorian.com | Director of Business Development | medium
+David Hurley | david.hurley@ocorian.com | Director of Investor Services | medium
+
+## OFI Invest | segment=investment | country=LU
+Arnaud Hirsch | arnaud.hirsch@ofi-invest.com | Directeur Général délégué | high
+ | info@ofilux.lu | General Contact | medium
+
+## Optimum Asset Management | segment=investment
+André Gretsch | andre.gretsch@optimumam.com | Managing Partner | high
+Enrico Imbraguglio | enrico.imbraguglio@optimumam.com | Managing Director | medium
+Matteo Santoro | matteo.santoro@optimumam.com | Chief Operating Officer | medium
+
+## Pandoo | segment=consultants | country=LU
+Sven Rein | sven.rein@pandoo-management.lu | Managing Partner | high
+Sven Rein | sven.rein@pandoo.lu | Managing Partner | medium
+Martine Grün | martine.gruen@pandoo.lu | Partner | medium
+Lina Pedersen | lina.pedersen@pandoo.lu | Director of Administration | medium
+Paulo Martins | paulo.martins@pandoo.lu | Accounting Director | medium
+Johannes Reis | johannes.reis@pandoo.lu | Partner | medium
+John Wantz | john.wantz@pandoo.lu | Partner | medium
+Anja Stenger | anja.stenger@pandoo.lu | Director of Corporate Affairs | medium
+Gunnar Nau | gunnar.nau@pandoo.lu | Chief Compliance Officer | medium
+Karin Droege | karin.droege@pandoo.lu | Executive Assistant | medium
+Frederik Leser | frederik.leser@pandoo.lu | Managing Director | medium
+ | administration@pancura.lu | Support / General Contact | medium
+
+## Patrizia | segment=real_estate
+Tom Maher | tom.maher@patrizia.ag | Managing Director | high
+Marcus Cieleback | marcus.cieleback@patrizia.ag | Chief Economist | medium
+Radu Mircea | radu.mircea@patrizia.ag | Chief Investment Officer | medium
+Mahdi Mokrane | mahdi.mokrane@patrizia.ag | Head of Fund Management | medium
+
+## PGIM | segment=investment
+Noah Weisberger | noah.weisberger@pgim.com | Managing Director | high
+Jeff Conway | jeff.conway@pgim.com | Chief Investment Officer | medium
+Kaushik Shah | kaushik.shah@pgim.com | Chief Operating Officer | medium
+Miriam Muller | miriam.muller@pgim.com | Head of Product Development | low
+
+## Platina Partners | segment=investment
+Thomas Rottner | thomas.rottner@platinapartners.com | Managing Partner | high
+Charles Dubar | charles.dubar@platinapartners.com | Partner | medium
+Marc Harfouche | marc.harfouche@platinapartners.com | Investment Director | medium
+Marie Sauli | marie.sauli@platinapartners.com | Investment Manager | medium
+
+## Praemia REIM | segment=real_estate | country=LU
+Ronan Bodere | ronan.bodere@praemiareim.lu | Managing Director | high
+Laurent Flechet | laurent.flechet@praemiareim.com | Managing Director | medium
+
+## Prime AIFM Luxembourg | segment=investment | country=LU
+Wolfgang Schmid | wolfgang.schmid@primeaifmlux.lu | Conducting Officer, Head of PCAG Lux Branch | high
+Christoph Ludwig | christoph.ludwig@primeaifmlux.lu | Conducting Officer | medium
+
+## Quilvest Capital Partners | segment=investment | country=LU
+ | info.qcpam@quilvestcapital.com | General Contact | low
+Carlos Heneine | cheneine@quilvestcapital.com | CEO | medium
+ | communication@quilvestcapital.com | Communications | medium
+ | investorrelations@quilvestcapital.com | Investor Relations | medium
+ | dpo@quilvestcapital.com | Data Protection Officer | medium
+
+## Rothschild & Co | segment=banking
+Antoine Bougnoux | antoine.bougnoux@rothschildandco.com | Managing Director | high
+Willis Palermo | willis.palermo@rothschildandco.com | Business Development Director | medium
+John Deans | john.deans@rothschildandco.com | Head of Corporate Finance | medium
+
+## Royalton Partners | segment=investment | country=LU
+Nigel Williams | nigel@royalton-partners.com | Chairman | high
+Katherine Ang | katherine@royalton-partners.com | Chief Finance Officer | medium
+Giulia Traverso | giulia@royalton-partners.com | General Counsel | medium
+Roman Babka | roman@royalton-partners.com | Partner | medium
+Helios Mayer | helios@royalton-partners.com | Chief Risk Officer | medium
+José Silva | jose@royalton-partners.com | Valuation Officer | medium
+Bretislav Hudecek | bretislav@royalton-partners.com | IT Manager | medium
+Kristina Asenova | kristina@royalton-partners.com | Finance Manager | medium
+Przemyslaw Bielicki | przemyslaw@royalton-partners.com | Professional Staff | medium
+
+## SMBC Nikko Luxembourg | segment=banking | country=LU
+ | info@smbcnikko-lu.com | General Contact | medium
+
+## Société Générale Luxembourg | segment=banking | country=LU
+Alexandre Cegarra | alexandre.cegarra@socgen.com | CEO | high
+Sébastien Laoureux | sebastien.laoureux@socgen.com | COO | medium
+
+## Tishman Speyer | segment=real_estate
+James Quill | jquill@tishmanspeyer.com | Managing Director | high
+Rosaria Sanducci | rsanducci@tishmanspeyer.com | Senior Director of Finance | medium
+David Varley | dvarley@tishmanspeyer.com | Director of Design and Construction | medium
+
+## TMF Group | segment=consultants | country=LU
+Olga Volkova | olga.volkova@tmf-group.com | Legal and Administrative Officer | medium
+ | legal.fundmanagement@tmf-group.com | General Legal Contact | low
+
+## UBS | segment=banking
+Natasha Brilliant | natasha.brilliant@ubs.com | Director of Research | high
+Carolyn Reil | carolyn.reil@ubs.com | Director of Strategic Communications | medium
+Maria Ferrante | m.ferrante@ubs.com | Director, Wealth Strategy | medium
+Peter Alexopoulos | peter.alexopoulos@ubs.com | Senior Vice President, Wealth Management | low
+Antònio Silva | antonio.silva@ubs.com | CEO, Director, Head of Fund Administration | high
+AnnMarie Roedler | annmarie.roedler@ubs.com | Business Management | medium
+
+## Union Investment Luxembourg | segment=investment | country=LU
+Christian Stoffel | service@union-investment.lu | Head of HR | low
+
+## Universal Investment | segment=investment | country=LU
+ | info@universal-investment.com | General Contact | low
+Christina Hübschen | christina.huebschen@universal-investment.com | Chief Human Resources Officer | medium
+James O'Hare | james.ohare@universal-investment.com | Compliance Manager | medium
+Sebastian Krammer | sebastian.krammer@universal-investment.com | Global Head of HR Operations | medium
+Marius Gräcmann | marius.graecmann@universal-investment.com | Director of Business Management | medium
+Rebin Shamrhabib | rebin.shamrhabib@universal-investment.com | Director of Cost Controlling | medium
+
+## Vault AM | segment=investment | country=LU
+Benoit Carpentiey De Changy | benoit.dechangy@vault-am.lu | CEO | high
+Anne Rollot | anne.rollot@vault-am.lu | Conducting Officer | medium
+ | contact@vault-am.lu | General Contact | low
+
+## Vontobel | segment=banking | country=LU
+Frederik Darras | frederik.darras@vontobel.com | CEO and Board Member & Conducting Officer | high
+ | luxembourg@vontobel.lu | General Contact | low
+Marco Rateitschak | marco.rateitschak@vontobel.com | Head of Sovereign Institutions | medium
+Samba Makalamba | samba.makalamba@vontobel.com | Audit Director | medium
+Jaime Arnold | jaime.arnold@vontobel.com | Relationship Manager | medium
+Peter Loescher | peter.loescher@vontobel.com | Associate Director | medium
+Patrick Michelberger | patrick.michelberger@vontobel.com | Associate Director | medium
+Lucas Preiswerk | lucas.preiswerk@vontobel.com | Regional Director | medium
+Tamara Lüchinger | tamara.luechinger@vontobel.com | Director | medium
+Christian Fiegl | christian.fiegl@vontobel.com | Director of Financial Engineering | medium
+Philippe Bütler | philippe.buetler@vontobel.com | Executive Director | medium
+Judy Mang | judy.mang@vontobel.com | Design Director | medium
+
+## VP Bank | segment=banking
+Alexander Ziehl | alexander.ziehl@vpbank.com | CEO | high
+Philippe Wüst | philippe.wuest@vpbank.com | CFO | medium
+Christine Eng | christine.eng@vpbank.com | Finance Director | medium
+Daniel Kurmann | daniel.kurmann@vpbank.com | Director of Digital Channels | medium
+Jane Foo | jane.foo@vpbank.com | Director | medium
+
+## Waystone | segment=consultants
+Jean Costello | jcostello@waystone.com | Executive Director | high
+Lisa Priestley | lpriestley@waystone.com | Director of Finance | medium
+Josephine Barron | jbarron@waystone.com | Director | medium
+Sarah Wallace | swallace@waystone.com | Director of Operations | medium
+Emma Ryan | eryan@waystone.com | Director of Corporate Services | medium
+Geraldine Lynch | glynch@waystone.com | Director of Digital Services | low
+
+## WRM Group | segment=investment | country=LU
+ | info@wrmgroup.net | General Contact | medium
+
+## ANF Gestion | segment=investment | country=LU
+Ricardo Della Santina Torres / Ricardo Galvão Alvares De Abreu | anf@anfgestion.lu | CEO / Director | high
+ | contact@anfgestion.lu | Support | medium
+
+## Aon Luxembourg | segment=insurance | country=LU
+Simon Demougin | simon.demougin@aon.com | Director | high
+Timothé Perrin | timothe.perrin@aon.com | Client Director | medium
+
+## Apex Group | segment=consultants
+Claude Harvey | claude.harvey@apexgroup.com | Director of Business Development | high
+Petya Mladenova | petya.mladenova@apexgroup.com | HR Operations Manager | medium
+Kevin Kothari | kevin.kothari@apexgroup.com | Vice President | medium
+Tauseef Hossain | tauseef.hossain@apexgroup.com | Vice President | medium
+William Hennessy | william.hennessy@apexgroup.com | Senior Vice President | medium
+Trevor Govender | trevor.govender@apexgroup.com | Head of Relationship Management | medium
+Debbie Lee | debbie.lee@apexgroup.com | Regional Operations Director | medium
+
+## Arkus Financial Services | segment=consultants | country=LU
+Martin Ewen | martin.ewen@arkus-fs.com | Chief Risk Officer | high
+Antonio Schiavone | antonio.schiavone@arkus-fs.com | Head of Risk | medium
+Andrea Brevi | andrea.brevi@arkus-fs.com | Managing Director | medium
+Tanja Ostendorf-Schu | tanja.ostendorf-schu@arkus-fs.com | Chief Compliance Officer | medium
+Jayne Costigan | jayne.costigan@arkus-fs.com | Office Manager | medium
+
+## Attrax | segment=consultants | country=LU
+Valentino Wiesenhof | valentino.wiesenhof@attrax.lu | Deputy Director | high
+Kristina Morova-Utfeld | kristina.morova-utfeld@attrax.lu |  | medium
+ | info@attrax.lu | Support / General Contact | medium
+
+## Avega | segment=consultants | country=LU
+Oliver Collmann | oliver.collmann@avega.lu | Manager | high
+Frederik Stein | frederik.stein@avega.lu | Partner | medium
+Luise Laas | luise.laas@avega.lu | Executive Assistant | medium
+Thomas Weber | thomas.weber@avega.lu | Partner | medium
+Armin Laux | armin.laux@avega.lu | Director of Real Estate Accounting | medium
+Antonia Roth | antonia.roth@avega.lu | Executive Assistant | medium
+Nina Scheid | nina.scheid@avega.lu | Director of Finance and Audit | medium
+Stefan Ruppert | stefan.ruppert@avega.lu | Partner | medium
+Silvia Franzen | silvia.franzen@avega.lu | Executive Assistant | medium
+Isabell Hirsch | isabell.hirsch@avega.lu | HR Business Partner | medium
+Kristian Jensen | kristian.jensen@avega.lu | Chief Legal Officer | medium
+ | info@avega.lu | General Contact | medium
+
+## Aztec Group | segment=consultants | country=LU
+ | enquiries@aztecgroup.eu | General Contact / Inquiries | medium
+
+## Banking Circle | segment=banking
+Mishal Ruparel | mr@bankingcircle.com | Chief Commercial Officer | high
+Anders K | anders@bankingcircle.com | Product Owner | medium
+Eve Ojijo-Grattan | eveo@bankingcircle.com | Director of Employee Experience | medium
+Michel André | michel@bankingcircle.com | Chief Information Officer | medium
+Memi Spiridaki | pa@bankingcircle.com | Sales Manager | medium
+
+## Belasko | segment=consultants | country=LU
+Greg McKenzie | greg.mckenzie@belasko.com | Country Head | high
+
+## Bolder Group | segment=consultants
+Nicolas Charbonnet | nicolas.charbonnet@boldergroup.com | Chief Compliance Officer | high
+Milan Orel | milan.orel@boldergroup.com | Head of Funds | medium
+Ryan Mangal | ryan.mangal@boldergroup.com | Finance Director | medium
+
+## CD Investments | segment=investment | country=LU
+José Femenia | jfemenia@cdinvestments.lu | Managing Director | high
+
+## Carne Group | segment=investment
+Sarah Maguire | sarah.maguire@carnegroup.com | Head of Fund Platforms | high
+Dai Kazamatsuri | dai.kazamatsuri@carnegroup.com | Director | medium
+Galaxy Mayani | galaxy.mayani@carnegroup.com | Director of Risk Management | medium
+Mohamed Shammas | shammas.mohamed@carnegroup.com | Associate Director of Engineering | low
+Jennifer Collins | jennifer.collins@carnegroup.com | Director | medium
+
+## Citco | segment=consultants
+Rachael Mannion | rmannion@citco.com | Vice President of Depositary Services | high
+Bhakti Jagani | bjagani@citco.com | Vice President | medium
+Justas Gudauskas | jgudauskas@citco.com | Vice President | medium
+Matej Seso | mseso@citco.com | Vice President | medium
+Allen Baradi | abaradi@citco.com | Vice President | medium
+Johnson Turado | jturado@citco.com | KYC Training Partner | medium
+Sachin Lokhande | slokhande@citco.com | Vice President | medium
+Camila Amirhanov | camirhanov@citco.com | Vice President | medium
+Padmaditya Rathore | prathore@citco.com | Vice President of Fund Services | medium
+Pravin Kashyap | pkashyap@citco.com | Assistant Vice President of Learning and Development | medium
+
+## Donner & Reuschel Luxembourg | segment=banking | country=LU
+Rolf Brandes | rolf.brandes@donner-reuschel.lu | Managing Director | high
+ | service@donner-reuschel.lu | Support | medium
+
+## Finologee | segment=consultants | country=LU
+Raoul Mulheims | raoul.mulheims@finologee.com | Co-Founder and CEO | high
+Victoria Döringer | victoria.doeringer@finologee.com | Head of Marketing & Institutional Affairs | medium
+
+## Fund Channel | segment=investment
+Andrew Cleary | andrew.cleary@fund-channel.com | Director of Relationship Management | high
+Aida May | aida.may@fund-channel.com | Chief Marketing Officer | medium
+Manuel Judas | manuel.judas@fund-channel.com | Sales Representative | medium
+
+## AtoZ Fund Services | segment=consultants | country=LU
+Jeremie Schäffer | jeremie.schaeffer@atoz-fundservices.lu | Unspecified – technical or admin candidate | medium
+Gaelle Bernard | gaelle.bernard@atoz-fundservices.lu | Unspecified – admin or relations candidate | medium
+Nicolas Cuisset | nicolas.cuisset@atoz-fundservices.lu | Possibly legal or admin | medium
+
+## FundsDLT | segment=investment
+Paolo Brignardello | paolo.brignardello@fundsdlt.net | Chief Client Officer | high
+Olivier Portenseigne | olivier.portenseigne@fundsdlt.net | CEO | medium
+
+## Harmonic Fund Services | segment=consultants | country=LU
+Erik Mossberg | erik.mossberg@harmonic.lu | Luxembourg Contact | high
+Danny Santiago | danny.santiago@harmonic.ky | Cayman Islands Contact | medium
+Daryl O'Brien | daryl.obrien@harmonic.ky | Ireland Contact | medium
+Laurence Tsimaratos | hsa@harmonic.ky | Switzerland Contact | medium
+Ian Hope | ian.hope@harmonic.ky | London Contact | medium
+Chen Feng | chen.feng@harmonic.ky | China Contact | medium
+John Middleton | john.middleton@harmonic.ky | Canada Contact | medium
+
+## Hauck Aufhäuser Lampe Privatbank | segment=banking | country=LU
+ | haas-vorstand@hal-privatbank.com | General Contact / Vorstand | medium
+Axel Janik | axel.janik@hal-privatbank.com | Director of Relationship Management | medium
+Julian Müller | julian.mueller@hal-privatbank.com | Co-Head of Mergers and Acquisitions | medium
+Michael Meißner | michael.meissner@hal-privatbank.com | Finance Director | medium
+Joanna Semkowicz | joanna.semkowicz@hal-privatbank.com | Team Lead | medium
+Piet Wienke | piet.wienke@hal-privatbank.com | Co-Head of Digital Infrastructure | medium
+Julia Eickmeyer | julia.eickmeyer@hal-privatbank.com | Head of Real Assets | medium
+Marcus Heyer | marcus.heyer@hal-privatbank.com | Associate Director of Sales | medium
+Benjamin Schneider | benjamin.schneider@hal-privatbank.com | Director of Technical Services | medium
+Christopher Engelke | christopher.engelke@hal-privatbank.com | Associate Director, Corporate Development | medium
+Franziska Penner | franziska.penner@hal-privatbank.com | Senior Associate | medium
+
+## Hedgeserv | segment=consultants | country=LU
+ | info@hedgeserv.com | General Contact / Info | medium
+
+## IFDS Group | segment=consultants
+Finola Burke | fburke@ifdsgroup.com | Managing Director | high
+Maria Arce | marce@ifdsgroup.com | Director of Business Development | medium
+Kerrie Gallagher | kgallagher@ifdsgroup.com | Vice President, AML Services | medium
+Fiona Dixon | fdixon@ifdsgroup.com | Vice President of Regulatory Change | medium
+Luna Pennisi | lpennisi@ifdsgroup.com | Assistant Vice President, Compliance | medium
+Cliona Cullen | ccullen@ifdsgroup.com | Vice President | medium
+Claire Torpey | ctorpey@ifdsgroup.com | Assistant Vice President | medium
+Duncan Greengrass | dgreengrass@ifdsgroup.com | Assistant Vice President | medium
+Julie Grimes | jgrimes@ifdsgroup.com | Vice President | medium
+Alison Jones | ajones@ifdsgroup.com | Program Director | medium
+
+## Intertrust Group Luxembourg | segment=consultants | country=LU
+ | luxembourg@intertrustgroup.com | General Contact / Support | medium
+
+## IQ-EQ | segment=consultants
+Jagadeesh Velpula | jagadeesh.velpula@iqeq.com | Chief Financial Officer | high
+Donal Bannon | donal.bannon@iqeq.com | Director of Investment Management | high
+Kelly Watson | kelly.watson@iqeq.com | Client Director | medium
+Graham Fletcher | graham.fletcher@iqeq.com | Director of Fund Operations | medium
+Andre Bonelli | andre.bonelli@iqeq.com | Head of Delivery | medium
+
+## JTC Group | segment=consultants
+Neeraj Nawaz | neeraj.nawaz@jtcgroup.com | Director | high
+Niamh Hougardy | niamh.hougardy@jtcgroup.com | Director | high
+Anna Teale | a.teale@jtcgroup.com | Director of Fund Accounting | medium
+Ryan Steiner | ryan.steiner@jtcgroup.com | Associate Director of Fund Administration | medium
+Lysha Manderson | lysha.manderson@jtcgroup.com | Director of Private Client Services | medium
+
+## Liontrust | segment=investment | country=LU
+Sabine De Mornac | sabine.demornac@liontrust.com | Compliance and Risk Officer | medium
+Helen Loveless | helen.loveless@liontrust.co.uk | Content Director | medium
+Magdalena Bui | magdalena.bui@liontrust.co.uk | Executive Assistant | medium
+Robin Geffen | robin.geffen@liontrust.co.uk | Head of Equities | medium
+Bella Robb | bella.robb@liontrust.co.uk | Digital Marketing Specialist | medium
+Chris Simmons | chris.simmons@liontrust.co.uk | Deputy Chief Operating Officer | medium
+Matthew McLoughlin | matthew.mcloughlin@liontrust.co.uk | Chief Commercial Officer | medium
+Stephen Corbett | stephen.corbett@liontrust.co.uk | Head of Investor Relations | medium
+Robert Smith | robert.smith@liontrust.co.uk | Deputy Finance Director | medium
+Anthony Drennan | anthony.drennan@liontrust.co.uk | Regional Sales Manager | medium
+Claude Ewen | claude.ewen@liontrust.co.uk | International Sales Director | medium
+
+## Luxembourg Fund Services | segment=consultants | country=LU
+Marco Paternò Castello | marco.paterno@luxembourgfundservices.lu | Managing Director | high
+Federigo Cannizzaro di Belmontino | federigo.cannizzaro@luxembourgfundservices.lu | General Manager | medium
+Gianluca Benni | gianluca.benni@luxembourgfundservices.lu | Senior Accounting Manager | medium
+Joanna Drozd | joanna.drozd@luxembourgfundservices.lu | Accounting Manager | medium
+ | info@luxembourgfundservices.lu | Support | medium
+
+## Macquarie | segment=banking | country=LU
+John Lee | john.lee@macquarie.com | Head of Legal and Conducting Officer | high
+Margaret Carey | margaret.carey@macquarie.com | Chief Finance Officer | medium
+
+## MEBS | segment=consultants | country=LU
+Emmanuel Bégat | ebegat@mebs.lu | Partner | high
+Paulo Neves | pneves@mebs.lu | Independent Director | medium
+Eric Chinchon | echinchon@mebs.lu | Partner | medium
+Mats Lewicki | mlewicki@mebs.lu | Chief Administrative Officer | medium
+Ruddy Gasparini | rgasparini@mebs.lu | Deputy Chief Financial Officer | medium
+Cyrille Novak | cnovak@mebs.lu | Executive Committee Member | medium
+Violaine Vilair | vvilair@mebs.lu | Chief Financial Officer | medium
+Myriam Detourbet | mdetourbet@mebs.lu | Head of Liquidation Services | medium
+Carl Haße | chasse@mebs.lu | Compliance Manager | medium
+
+## Mourant | segment=consultants | country=LU
+Johan Montfort | johan.montfort@mourant.lu | Director, Fund Administration | high
+Lara Forte | lara.forte@mourant.com | Partner | medium
+Steve Cornick | steve.cornick@mourant.com | Chief Marketing Officer | medium
+Stephen McGrath | stephen.mcgrath@mourant.com | Managing Director | medium
+Claire Fulton | claire.fulton@mourant.com | Partner | medium
+Alice Lai | alice.lai@mourant.com | Associate Director | medium
+Andrew Grant | andrew.grant@mourant.com | Partner | medium
+Iain Lowe | iain.lowe@mourant.com | Senior HR Business Partner | medium
+Melina Howard | melina.howard@mourant.com | Managing Director | medium
+Tiffany Man | tiffany.man@mourant.com | Senior Digital Marketing Manager | medium
+Natalie Keating | natalie.keating@mourant.com | Employer Brand Manager | medium
+
+## Moventum | segment=investment | country=LU
+Louis Wright | louis.wright@moventum.lu | Chief Executive Officer | high
+Andrew Walker | andrew.walker@moventum.lu | Chief Operating Officer | medium
+John Pauly | john.pauly@moventum.lu | Chief Executive Officer | medium
+Dominique Trine | dominique.trine@moventum.lu | Chief Information Officer | medium
+Graham Morrall | graham.morrall@moventum.lu | International Sales Director | medium
+Hannah Fiedler | hannah.fiedler@moventum.lu | HR Business Partner | medium
+Pascal Scholer | pascal.scholer@moventum.lu | SVP of Operations | medium
+Swen Köster | swen.koester@moventum.lu | Head of Sales | medium
+Danijela Skopljak | danijela.skopljak@moventum.lu | International Sales Director | medium
+Pierre Smons | pierre.smons@moventum.lu | Finance Director | medium
+
+## Paragon Consulting & Capital | segment=consultants | country=LU
+Lorna Glynn | lorna.glynn@paragon-cc.lu | Managing Director | high
+ | info@paragon-cc.lu | General Contact (if exists) | medium
+
+## Proximus Luxembourg | segment=unknown | country=LU
+Gérard Hoffmann | gerard.hoffmann@proximus.lu | CEO & Managing Director | high
+Caroline Simoes | caroline.simoes@proximus.lu | Head of Customer Loyalty | medium
+Celine Henck | celine.henck@proximus.lu | Chief Information Security Officer | medium
+Toni Cannito | toni.cannito@proximus.lu | PMO Director | medium
+Jérôme Terrana | jerome.terrana@proximus.lu | Accounting Manager | medium
+Yassine Brahmi | yassine.brahmi@proximus.lu | Service Delivery Manager | medium
+Thomas Garrard | thomas.garrard@proximus.lu | Product Owner | medium
+Sébastien Schuhler | sebastien.schuhler@proximus.lu | Head of IT Service Management | medium
+José Mena | jose.mena@proximus.lu | Chief Accountant | medium
+Vincent Rouault | vincent.rouault@proximus.lu | Trade Marketing Manager | medium
+Henri Tran | henri.tran@proximus.lu | Deputy Director of Finance | medium
+
+## RSM Luxembourg | segment=consultants | country=LU
+Francesco Notarangelo | francesco.notarangelo@rsm.lu | Director | high
+Irene Oryema | irene.oryema@rsm.global | Finance Executive | medium
+Chris MacCallum | chris.maccallum@rsm.global | Deputy Chief Information Security Officer | medium
+Faye Dixon | faye.dixon@rsm.global | Research Assistant | medium
+David Carlisle | david.carlisle@rsm.global | Director of Strategy | medium
+Jorabar Singh | jorabar.singh@rsm.global | Operations Executive | medium
+Rebecca Williams | rebecca.williams@rsm.global | Head of Brand | medium
+Nina Nathan | nina.nathan@rsm.global | HR Director | medium
+Aideen Duddy | aideen.duddy@rsm.global | Executive Assistant | medium
+Robert Coles | robert.coles@rsm.global | Chief Transformation Officer | medium
+William Cheng | william.cheng@rsm.global | Chief Financial Officer | medium
+
+## Saltgate | segment=consultants | country=LU
+ | contactus@saltgate.com | General Contact | medium
+Antonio Pimentel | antonio.pimentel@saltgate.com | Director, Compliance | medium
+Jonathon Woolf | jonathon.woolf@saltgate.com | Director of Innovation | medium
+Jean-François Flamant | jean-francois.flamant@saltgate.com | Depositary Manager | medium
+Alison French | alison.french@saltgate.com | Chief Human Resources Officer | medium
+Catherine Bailey | catherine.bailey@saltgate.com | HR Business Partner | medium
+Michala Wright | michala.wright@saltgate.com | Chief Human Resources Officer | medium
+Lizette Morales | lizette.morales@saltgate.com | Managing Director | medium
+Kevin Pinel | kevin.pinel@saltgate.com | People Partner | medium
+Johanna Karhukorpi | johanna.karhukorpi@saltgate.com | Client Director | medium
+Jean-Philippe Vuillemin | jean-philippe.vuillemin@saltgate.com | Compliance Director | medium
+
+## SEI | segment=investment
+Brian Barone | bbarone@seic.com | Business Development Director | high
+Keith Pivik | kpivik@seic.com | Managing Director | high
+Michael Marino | mmarino@seic.com | Sales Director | medium
+Alan Dunaway | adunaway@seic.com | Sales Director | medium
+Elaine Paglia | epaglia@seic.com | Director of Operations | medium
+Hridballav Saha | hsaha@seic.com | Director Of Technology | low
+Michael Smargiassi | msmargiassi@seic.com | Director | low
+Charles Okafor | cokafor@seic.com | Business Owner | low
+Srimoyee Mukherjee | smukherjee@seic.com | HR Business Partner | low
+Martha Stewart | mstewart@seic.com | Head | low
+
+## SS&C Technologies | segment=consultants | country=LU
+ | investors.luxembourg@sscinc.com | General Contact | medium
+
+## Standish Management | segment=consultants | country=LU
+Valentina Cucchiaro | valentina@standishmanagement.lu | Chief Legal Officer | high
+Maria Geslin | maria@standishmanagement.lu | Compliance Director | medium
+ | office@standishmanagement.lu | General Contact | medium
+ | compliance@standishmanagement.lu | Compliance (Generic) | low
+
+## Stonehage Fleming | segment=investment | country=LU
+ | info@stonehagefleming.com | General Contact | medium
+ | luxembourg@stonehagefleming.com | General Contact (probable) | low
+Nick Smith | nsmith@stonehagefleming.com | Private Equity Partner | medium
+Anna Wetherell | anna.wetherell@stonehagefleming.com | Director of Operations | medium
+Mark Sloan | mark.sloan@stonehagefleming.com | Director, Equity Research | medium
+Gillian Jordan | gillian.jordan@stonehagefleming.com | Head of Family Office | medium
+Andrea Kruger | andrea.kruger@stonehagefleming.com | Director | medium
+Marietjie Geldenhuys | marietjie.geldenhuys@stonehagefleming.com | Associate Director | medium
+Patrick Lynch | patrick.lynch@stonehagefleming.com | Director | medium
+John Ross-Munro | john.ross-munro@stonehagefleming.com | Partner | medium
+Thiam Marais | thiam.marais@stonehagefleming.com | Family Office Partner | medium
+Wayne Elliott | wayne.elliott@stonehagefleming.com | Partner | medium
+
+## Trident Trust | segment=consultants
+Ismail Ekmekci | iekmekci@tridenttrust.com | Head of Private Equity | high
+Bertrand Party | bparty@tridenttrust.com | Executive Director | high
+Raymond Alderton | ralderton@tridenttrust.com | Head of Risk and Compliance | high
+Maria Caruana | mcaruana@tridenttrust.com | Director of Corporate Services | medium
+Sandra Spires | sspires@tridenttrust.com | Marketing Operations Manager | medium
+Karen Dingli | kdingli@tridenttrust.com | HR Director | medium
+Eva Moore | emoore@tridenttrust.com | Head of Compliance | medium
+Suzanne Young | syoung@tridenttrust.com | Director of Client Services | medium
+
+## U.S. Bank Luxembourg | segment=banking | country=LU
+Didier Delvaux | didier.delvaux@usbank.com | Country Head Luxembourg | high
+Luigi Blasi | luigi.blasi@usbank.com | Branch Manager | medium
+ | receptionlux@usbank.com | General Contact | low
+
+## UIBT | segment=banking | country=LU
+Claude Crauser | claude.crauser@uibt.lu | Director, Member of Management | high
+
+## Veralux | segment=consultants | country=LU
+Filippo Campailla | filippo.campailla@veralux.lu | Managing Director – Partner | high
+Massimo Raschella | massimo.raschella@veralux.lu | Head of Accounting & Deputy General Manager | medium
+
+## Victor Buck Services | segment=consultants | country=LU
+Frederic Thibaut | frederic.thibaut@victorbuckservices.com | Sales Manager | high
+Frédéric Charlier | frederic.charlier@victorbuckservices.com | Head of Production | medium
+Stéphanie Brice | stephanie.brice@victorbuckservices.com | Chief Financial Officer | medium
+Joachim Priem | joachim.priem@victorbuckservices.com | Business Development Manager | medium
+
+## FIS | segment=unknown
+Jon Little | jon.little@fisglobal.com | Sales Executive | high
+Haley Hart | haley.hart@fisglobal.com | Sales Executive | medium
+Michael Ryan | michael.ryan@fisglobal.com | Country Lead | medium
+Meredith Blum | meredith.blum@fisglobal.com | Senior Director of Performance | medium
+Gia Woodard | gia.woodard@fisglobal.com | Management Director | medium
+
+## Vistra | segment=consultants | country=LU
+Jan Vanhoutte | jan.vanhoutte@vistra.com | Managing Director & Conducting Officer (AIFM) | high
+
+## Value Partners Services Family | segment=consultants | country=LU
+Xavier Hamori | xavier.hamori@vpsf.lu | Authorized Director | high
+Baptiste Cuffaro | baptiste.cuffaro@valuepartners.lu | Head of Marketing & Communication | medium
+Gregory Centurione | gregory.centurione@valuepartners.lu | CEO | medium
+Antony Bonmariage | antony.bonmariage@valuepartners.lu | Managing Director | medium
+Steve Georges | steve.georges@valuepartners.lu | VAT Director | medium
+Mathieu Ledoux | mathieu.ledoux@valuepartners.lu | Tax Director | medium
+Antonello Caggiano | antonello.caggiano@valuepartners.lu | Head of IT | medium
+Sebastien Denis | sebastien.denis@valuepartners.lu | Director | medium
+Christophe Junger | christophe.junger@valuepartners.lu | Director of Consolidation | medium
+Julien Taminiaux | julien.taminiaux@valuepartners.lu | Director | medium
+Fanny Him | fanny.him@valuepartners.lu | Director | medium
+Alessandro Bertonazzi | alessandro.bertonazzi@valuepartners.lu | Managing Director | medium
+
+## Worldline | segment=unknown
+James Desantos | james.desantos@worldline.com | Regional Sales Director | high
+ | info.cetsec@worldline.com | General Contact | medium
+Ángela Calderón | calderon.angela@worldline.com | Head Of Vertical Retail Iberia | medium
+David Mousty | david.mousty@worldline.com | Head of Transformation | medium
+Frederic Carbonnell | frederic.carbonnell@worldline.com | Head of HRIS | low
+Amit Singh | amit.singh@worldline.com | Sales Director | medium
+Michaela Antovová | michaela.antovova@worldline.com | Head of Sales | medium
+Christine Warner | christine.warner@worldline.com | Director of Career Development | low
+Caroline Jeanneau | jeanneau.caroline@worldline.com | Director of Product Marketing | medium
+Megan Chow | meganc@worldline.com | Director of Operations | medium
+Marco Aeschbacher | marco.aeschbacher@worldline.com | Head of Product Management | medium
+
+## POM Law | segment=consultants
+Nicolas Tatin | ntatin@pomlaw.com | Business Development Director | medium
+
+## Acolin | segment=consultants
+Jérôme Neri | jerome.neri@acolin.com | Head of Fund Services | medium
+Moritz Kraus | moritz.kraus@acolin.com | Director of Client Relations | medium
+Steffen Hölscher | steffen.hoelscher@acolin.com | Vice President, Business Development | medium
+
+## AG Law | segment=consultants
+Harrison Dans | harrison.dans@aglaw.com | Counsel | medium
+
+## Agama Group | segment=unknown
+ | contact@agama-group.eu | Support | medium
+
+## AIQ United | segment=consultants | country=LU | website=www.aiqunited.com
+Peter Kleingarn | peter.kleingarn@aiqunited.com | Managing Partner | medium
+Harald Strelen | harald.strelen@aiqunited.com | Partner | medium
+
+## A&O Shearman | segment=consultants | country=LU | website=www.aoshearman.com
+Hazel Moore | hazel.moore@aoshearman.com | Global Head of Real Estate | medium
+Craig Annis | craig.annis@aoshearman.com | Chief Communications Officer | medium
+Patricia Razquin | patricia.razquin@aoshearman.com | Chief Marketing Officer | medium
+Claire Coppel | claire.coppel@aoshearman.com | Partner | medium
+Samer Eido | samer.eido@aoshearman.com | Finance Partner | medium
+
+## Alpha FMC | segment=consultants | country=LU | website=www.alphafmc.com
+Pierre Bauwens | pierre.bauwens@alphafmc.com | Director | medium
+Emily Wilson | emily.wilson@alphafmc.com | Director of Asset and Wealth Management | medium
+Emmanuel Vinit | emmanuel.vinit@alphafmc.com | Partner | medium
+Wes Norwell | wes.norwell@alphafmc.com | Director | medium
+
+## AlphaOmega | segment=consultants | country=LU | website=www.alphaomega.lu
+Antoine Capone | acapone@alphaomega.lu | Chief Executive Officer | medium
+Xavier Morin | xmorin@alphaomega.lu | Executive Director (Head of Control and Advisory) | medium
+Cédric Plumacher | cplumacher@alphaomega.lu | Director of Data Management | medium
+Sara Buzzerio | sbuzzerio@alphaomega.lu | Director of Business Development | medium
+Yoan Fath | yfath@alphaomega.lu | Head of Front End Development | medium
+Rémi Cerutti | rcerutti@alphaomega.lu | Assistant Manager | medium
+Charles Citton | ccitton@alphaomega.lu | Sales Associate | medium
+
+## Anderson Wise | segment=consultants | country=LU | website=www.andersonwise.com
+Darren Robinson | dr@andersonwise.com | Managing Partner | medium
+David Kitzinger | david.kitzinger@andersonwise.com | Partner | medium
+Valerie Potier | valerie.potier@andersonwise.com | Partner | medium
+Agnieszka Parisse | agnieszka.parisse@andersonwise.com | Partner | medium
+Agathe Schublin | agathe.schublin@andersonwise.com | Business Support Manager | medium
+
+## Andersen Luxembourg | segment=consultants | country=LU | website=www.lu.andersen.com
+Ina Nötzel | ina.noetzel@lu.andersen.com | Managing Director | medium
+Matthias Gutknecht | matthias.gutknecht@lu.andersen.com | Managing Partner | medium
+Cornelius Bechtel | cornelius.bechtel@lu.andersen.com | Corporate Services | medium
+Bob Faber | bob.faber@lu.andersen.com | Corporate Management Services | medium
+Michael Probst | michael.probst@lu.andersen.com | Specialist in International | medium
+
+## Arendt | segment=consultants | country=LU | website=www.arendt-arc.com
+Murielle Bouvry | murielle.bouvry@arendt.com | Executive Assistant | medium
+Stéphanie Misonne | stephanie.misonne@arendt.com | Chief Compliance Officer | medium
+Simon Deux | simon.deux@arendt.com | Director of Platform Services | medium
+Abhishek Dawar | abhishek.dawar@arendt.com | Director of Financial Crime Compliance | medium
+Lynn Alzin | lynn.alzin@arendt.com | Partner | medium
+Alexander Tziovas | alexander.tziovas@arendt.com | Director of Customer Relationship Management | medium
+
+## Ashurst | segment=consultants | country=LU | website=www.ashurst.com
+Isabelle Lentz | isabelle.lentz@ashurst.com | Managing Partner | medium
+Louise Agnew | louise.agnew@ashurst.com | Director of Business Development | medium
+Shetha Al-Hardan | shetha.al-hardan@ashurst.com | Business Development Manager | medium
+
+## Reply Luxembourg | segment=consultants | country=LU
+Thomas Tisserand | t.tisserand@reply.com | Office Manager | medium
+
+## AtoZ | segment=consultants | country=LU | website=www.atoz.lu
+Allan Latassa | allan.latassa@atoz.lu | Tax Director | medium
+Holly Whatling | holly.whatling@atoz.lu | Marketing Director | medium
+Philippe Loux | philippe.loux@atoz.lu | Director | medium
+Rishi Sisodia | rishi.sisodia@atoz.lu | Head of Operations | medium
+Antoine Dupuis | antoine.dupuis@atoz.lu | Tax Partner | medium
+Andreas Medler | andreas.medler@atoz.lu | Tax Partner | medium
+Christina Voigt | christina.leomy-voigt@atoz.lu | Tax Partner | medium
+Laura Tezza | laura.tezza@atoz.lu | Executive Assistant | medium
+Joana Neves | joana.neves@atoz.lu | Indirect Tax Director | medium
+Richard Fauvel | richard.fauvel@atoz.lu | Implementation Director | medium
+Laura Marchal | laura.marchal@atoz.lu | Executive Assistant | medium
+Edward Noonan | edward.noonan@atoz.lu | Owner | medium
+Francis Rodrigues | francis.rodrigues@atoz.lu | Head of Marketing | medium
+Pierre Lusamba | pierre.lusamba@atoz.lu | IT Director | medium
+ | info@atoz.lu | Support | medium
+
+## Corpay | segment=unknown | country=LU | website=www.corpay.com
+Roman Sokolowski | roman.sokolowski@corpay.com | Director | medium
+
+## Asset-Metrix | segment=consultants | country=LU
+Michael Hoffmann | michael.hoffmann@asset-metrix.com | Deputy Chief Operating Officer | medium
+Nuria Miguel | nuria.miguel@asset-metrix.com | HR Business Partner | medium
+Aastha Kloss | aastha.kloss@asset-metrix.com | Chief Information Security Officer | medium
+Christoph Lohrer | christoph.lohrer@asset-metrix.com | Director of Investor Relations | medium
+Sarah Lehr | sarah.lehr@asset-metrix.com | Director of Business Development | medium
+
+## Avanterra | segment=consultants | country=LU | website=www.seqvoia.com
+Nicolas Buck | nicolas.buck@avanterra.com | Co-Founder and CEO | medium
+Gaëlle Glesener | gaelle.glesener@avanterra.com | Director of Client Services | medium
+Walter Lorphelin | walter.lorphelin@avanterra.com | Chief Information Officer | medium
+Brannon Moore | brannon.moore@avanterra.com | Director of Organizational Change | medium
+Kate Loretto | kate.loretto@avanterra.com |  | low
+ | info@avanterra.com | Support | medium
+
+## Inversis | segment=banking | country=LU
+Rosamaria Reig | rosamaria.reig@inversis.com | Head of Innovation / Business Development Manager | medium
+Ana Lledó | ana.lledo@inversis.com | Corporate Director, Business & Institutional Relationships | medium
+Juan José Valle | juan.valle@inversis.com | Corporate Director, Operations & Transformation | medium
+Michele Colavito | michele.colavito@inversis.com | Head, Inversis Italian Office | medium
+Massimoluca Mattioli | massimoluca.mattioli@inversis.com | Head, Inversis Luxembourg Branch | medium
+Klaus Ense | klaus.ense@inversis.com | Business Development Director, Luxembourg Branch | medium
+
+## Baker McKenzie Luxembourg | segment=consultants | country=LU | website=www.bakermckenzie.com
+Laurent Fessmann | laurent.fessmann@bakermckenzie.com | Partner | medium
+
+## Banque de Luxembourg | segment=banking | country=LU | website=www.banquedeluxembourg.com
+Margot Collaert | margot@banquedeluxembourg.com | CEO | medium
+
+## AmCham Luxembourg | segment=unknown | country=LU
+Daniel McKenzie | daniel@amcham.lu | Head of Sales and Marketing | medium
+Jorge Rodrigues | jorge@amcham.lu | Member Relations Manager | medium
+Thierry Heuvel | thierry@amcham.lu | Editor | medium
+Claus Pedersen | claus@amcham.lu | Sales Support | medium
+Anne Perä | anne@amcham.lu | Office Manager | medium
+Sonja Holper | sonja@amcham.lu | Sales and Marketing Manager | medium
+Kevin Chaney | kevin@amcham.lu | Manager | medium
+Jane Mottet | jane@amcham.lu |  | low
+Jean Claude | jean-claude@amcham.lu |  | low
+ | communication@amcham.lu | Support | medium
+
+## Bank of America Luxembourg | segment=banking | country=LU
+Benoit Nevouet | benoit.nevouet@bofa.com | Managing Director | medium
+
+## Banque Internationale à Luxembourg | segment=banking | country=LU
+Raoul Dentzer | raoul.dentzer@bil.com | Head of Banking | medium
+Patrick Lhuillier | patrick.lhuillier@bil.com | Senior HR Business Partner | medium
+Ulrik Folkmann | ulrik.folkmann@bil.com | Senior Relationship Manager | medium
+Christina Mestre-Hans | christina.mestre-hans@bil.com | Implementation Manager | medium
+Peter Clemmensen | peter.clemmensen@bil.com | Senior Client Advisor | medium
+Marc Zago | marc.zago@bil.com | Team Lead | medium
+Vincent Pelletier | vincent.pelletier@bil.com | Corporate Communications Manager | medium
+Aurelie Antunes | aurelie.antunes@bil.com | Senior Development Officer | medium
+Marie Bourlond | marie.bourlond@bil.com |  | low
+ | contact@bil.com | Support | medium
+
+## Creand Wealth Management | segment=banking | country=LU
+Geoffroy G | geoffroy@creand.lu | Head of Market | medium
+Herbert Muck | herbert@creand.lu | Director of Strategy | medium
+Borja Cruz | borja@creand.lu | Wealth Management Director | medium
+Beatrice Vaillant | beatrice@creand.lu | Director of Financial Control | medium
+Antonio Rodriguez | antonio@creand.lu | Chief Risk Officer | medium
+Fulvio Pepe | fulvio@creand.lu | Director of Operations | medium
+Pascual Martínez | pascual@creand.lu | Director of Business Development | medium
+Christophe Langue | christophe@creand.lu | Director of Corporate Services | medium
+Jorge Fernandes | jorge@creand.lu | Deputy Head of Depositary Bank | medium
+Jean-Louis Frey | jean-louis@creand.lu | Chief Compliance Officer | medium
+
+## BMA Risk | segment=consultants | country=LU
+Dominique Marchal | dominique.marchal@bmarisk.com | Partner | medium
+ | contact@bmarisk.com | General Contact | medium
+
+## Barclays Luxembourg | segment=banking | country=LU
+Snorre Tysland | snorre.tysland@barclays.com | Country Chief Executive Officer Luxembourg | medium
+ | corporatebankingluxembourg@barclays.com | General Contact | medium
+
+## Bonn Schmitt | segment=consultants | country=LU
+ | mail@bonnschmitt.net | General Contact | medium
+ | contact@bonnschmitt.net | General Contact | medium
+ | humanresources@bonnschmitt.net | HR / Recruitment | medium
+
+## Cerberus | segment=investment | country=LU
+ | rjschol@cerberuslux.com | General Contact | medium
+Gemma Olley | golley@cerberus.com | Human Resources Business Partner | medium
+Will Hathaway | whathaway@cerberus.com | Assistant Vice President, RMBS Trading | medium
+Wesley Yoo | wyoo@cerberus.com | Vice President | medium
+Lori Brookes | lbrookes@cerberus.com | Director of Operations | medium
+Rick Kamps | rkamps@cerberus.com | Vice President | medium
+Cees Snoek | csnoek@cerberus.com | Senior Vice President of Finance | medium
+Kevin Frankin | kfrankin@cerberus.com | Assistant Vice President, Financial Reporting and Control | medium
+Wouter Grinten | wgrinten@cerberus.com | Vice President, Financial Reporting | medium
+Bas Jong | bjong@cerberus.com | Assistant Vice President | medium
+Jose Ruiz | jruiz@cerberus.com | Senior Vice President | medium
+
+## CS Avocats | segment=consultants | country=LU
+Rémi Chevalier | remichevalier@cs-avocats.lu | Partner | medium
+Olivier Sciales | oliviersciales@cs-avocats.lu | Partner | medium
+Cécile Rechstein | cecilerechstein@cs-avocats.lu | Partner | medium
+Joana Aguiam | joanaaguiam@cs-avocats.lu | Legal Assistant | medium
+Diane Besson | dianebesson@cs-avocats.lu | Associate Attorney | medium
+Alexandra Pham | alexandrapham@cs-avocats.lu | Associate | medium
+Sotiria Chatzaki | sotiriachantzaki@cs-avocats.lu | Associate Director | medium
+William Baptiste | william.jean-baptiste@cs-avocats.lu |  | low
+Sien Vandermeersch | sienvandermeersch@cs-avocats.lu |  | low
+William Jean-Baptiste | williamjeanbaptiste@cs-avocats.lu |  | low
+
+## Clearstream | segment=banking | country=LU
+Aileen McCarthy | aileen.mccarthy@clearstream.com | Vice President of Fund Operations | medium
+Rida Omer | rida.omer@clearstream.com | Vice President, Operations | medium
+Samantha Silveira | samantha.silveira@clearstream.com | Product Owner | medium
+Aleksandra Pfening | aleksandra.pfening@clearstream.com | Director of Issuance Services | medium
+Raida Louati | raida.louati@clearstream.com | Vice President of Client Services | medium
+Peter Higgins | peter.higgins@clearstream.com | Vice President | medium
+Paul Kavanagh | paul.kavanagh@clearstream.com | Global Head of Talent Acquisition | medium
+Peggy Wong | peggy.wong@clearstream.com | Vice President of Customer Service | medium
+Berthold Kracke | berthold.kracke@clearstream.com | Chief Operating Officer | medium
+Louis Sheerin | louis.sheerin@clearstream.com | Unit Head | medium
+
+## LPEA | segment=investment | country=LU
+Claus Mansfeldt | claus.mansfeldt@lpea.lu | President | medium
+Paul Junck | paul.junck@lpea.lu | Managing Director | medium
+Johann Herz | johann.herz@lpea.lu | Director of Events and Communications | medium
+Luis Galveias | luis.galveias@lpea.lu | Chief Operating Officer | medium
+Joana Barreiro | joana.barreiro@lpea.lu | Marketing Officer | medium
+Stephane Pesch | stephane.pesch@lpea.lu | CEO | medium
+Natalia Vieira | natalia.vieira@lpea.lu |  | low
+Francesco Simonetta | francesco.simonetta@lpea.lu |  | low
+Kheira Mahmoudi | kheira.mahmoudi@lpea.lu | Brand Manager | medium
+Evi Gkini | evi.gkini@lpea.lu |  | low
+
+## Castlelake | segment=investment | country=LU
+Joe Baratto | joe.baratto@castlelake.com | Associate Director, Business Intelligence | medium
+Nikki Delisi | nikki.delisi@castlelake.com | Senior Director | medium
+Casey Anderson | casey.anderson@castlelake.com | Associate Director | medium
+Ericka Larson | ericka.larson@castlelake.com | Director of Vendor Management | medium
+Chris Femling | chris.femling@castlelake.com | Associate Director | medium
+Kevin Weir | kevin.weir@castlelake.com | Associate Director, Valuation | medium
+Piotr Andrzejewski | piotr.andrzejewski@castlelake.com | Managing Director | medium
+Jade Plumb | jade.plumb@castlelake.com | Human Resources Director | medium
+Eileen Penner | eileen.penner@castlelake.com | Executive Assistant | medium
+Dusty Dircks | dusty.dircks@castlelake.com | Director | medium
+
+## CM Law | segment=consultants | country=LU
+Raphaël Collin | raphael.collin@cmlaw.lu | Partner | medium
+Catherine Graff | catherine.graff@cmlaw.lu | Partner | medium
+Flavien Carbone | flavien.carbone@cmlaw.lu | Counsel | medium
+Ekaterina Lebedeva | ekaterina.lebedeva@cmlaw.lu |  | low
+Max von Frantzius | max.von.frantzius@cmlaw.lu |  | low
+ | info@cmlaw.lu | General Contact | medium
+
+## CK Partners | segment=consultants | country=LU
+Paul-Sébastien Carteret | carteret@ckpartners.lu | Partner | medium
+Christian Rollmann | rollmann@ckpartners.lu | Senior Counsel | medium
+Bénédicte Lahaye | lahaye@ckpartners.lu | Accounting Secretary | medium
+ | konrad@ckpartners.lu |  | low
+ | clement@ckpartners.lu |  | low
+ | muhadri@ckpartners.lu |  | low
+ | gardelli@ckpartners.lu |  | low
+ | cathiard@ckpartners.lu |  | low
+ | paclot@ckpartners.lu |  | low
+ | info@ckpartners.lu | General Contact | medium
+
+## Debevoise & Plimpton | segment=consultants | country=LU
+Christopher Dortschy | cdortschy@debevoise.com | Partner / International Counsel | medium
+
+## Creatrust | segment=consultants | country=LU
+Etienne Ceulemans | info@creatrust.lu | Director | medium
+ | info@creatrust.com | Support | medium
+ | creacom@creatrust.com | General | medium
+
+## CMS DeBacker Luxembourg | segment=consultants | country=LU
+Rémi Czauderna | remi.czauderna@cms-dblux.com | Business Development Manager | medium
+ | office@cms-dblux.com | General Contact | medium
+
+## Danske Invest | segment=investment | country=LU
+ | danskeinvest@danskeinvest.com | General Contact | medium
+ | dima.luxembourg@danskeinvest.com | General Contact | medium
+
+## Dinamik | segment=consultants | country=LU
+Loïc Dupont | l.dupont@dinamik.lu | Director | medium
+Anne-Marie Marechal | a.marechal@dinamik.lu | Director | medium
+ | contact@dinamik.lu | General Contact | medium
+
+## Deynecourt | segment=consultants | country=LU
+Emmanuelle Bauer | emmanuelle.bauer@deynecourt.com | Partner | medium
+Pierre De Backer | pierre.de.backer@deynecourt.com | Principal | medium
+Ricardo Mimoso | ricardo.mimoso@deynecourt.com | Senior Associate | medium
+Lya Kruger | lya.kruger@deynecourt.com | Office Manager | medium
+ | contact@deynecourt.com | General Contact | medium
+
+## Dentons Luxembourg | segment=consultants | country=LU
+Jean-Luc Fisch | jeanluc.fisch@dentons.com | Partner, Head of Investment Funds and Tax | medium
+ | luxembourg@dentons.com | General Contact | medium
+
+## Deloitte Luxembourg | segment=consultants | country=LU
+Lize Griffiths | lizgriffs@deloitte.lu | Partner | medium
+ | contactlu@deloitte.lu | General Contact | medium
+
+## Ebury Luxembourg | segment=banking | country=LU
+Lamin Jaiteh | lamin.jaiteh@ebury.com | Global Head of Institutional Solutions | medium
+ | info@ebury.lu | Support | medium
+
+## DZ Privatbank | segment=banking | country=LU
+Thomas Vögele | thomas.voegele@dz-privatbank.com | Director of Platform and Project Management | medium
+Axel Steudle | axel.steudle@dz-privatbank.com | Director | medium
+Michael Christmann | michael.christmann@dz-privatbank.com | Product Owner | medium
+Michael Kribs | michael.kribs@dz-privatbank.com | Deputy Chief Internal Auditor | medium
+Michael Stoll | michael.stoll@dz-privatbank.com | Head of Administration | medium
+Christian Weis | christian.weis@dz-privatbank.com | Marketing Director | medium
+Anna Diser | anna.diser@dz-privatbank.com | Director of Governance and Compliance | medium
+Christian Deisenhofer | christian.deisenhofer@dz-privatbank.com | Head of Credit Risk | medium
+Ruth Kremer | ruth.kremer@dz-privatbank.com | Head of Project Portfolio Management | medium
+Andreas Oster | andreas.oster@dz-privatbank.com | Director of Client Services | medium
+ | info@dz-privatbank.com | General Contact | medium
+
+## EFG International | segment=banking | country=LU
+Joseph Wolf | joseph.wolf@efginternational.com | Senior Vice President | medium
+Daniela Häsler | daniela.haesler@efginternational.com | Director of Corporate Communications | medium
+Raaya Carbi | raaya.carbi@efginternational.com | Chief Operating Officer | medium
+Michael Dadoun | michael.dadoun@efginternational.com | Head of Private Banking | medium
+ | mediarelations@efginternational.com | Media Relations | low
+ | investorrelations@efginternational.com | Investor Relations | low
+ | atannous@efginternational.com | Unspecified | low
+Laurent Breulet | laurent.breulet@efgbank.com | Managing Director | medium
+ | infolux@efgbank.com | General Contact | medium
+
+## Luxembourg ERI | segment=unknown | country=LU
+ | luxmkt@lux-eri.lu | General Contact | medium
+
+## FE fundinfo | segment=consultants
+Christine Kiener | christine.kiener@fefundinfo.com |  | low
+Stefan Court | stefan.court@fefundinfo.com | Data Consultant Lead | medium
+Sarah Stewart | sarah.stewart@fefundinfo.com | Business Development Manager | medium
+Parveer Bowal | parveer.bowal@fefundinfo.com | Business Development Manager | medium
+Thomas Weber | thomas.weber@fefundinfo.com | Head of Product Development | medium
+Daniel Smith | daniel.smith@fefundinfo.com | Director of Business Analysis | medium
+Hamid Rahman | hamid.rahman@fefundinfo.com | Director of Finance | medium
+Richard Fletcher | richard.fletcher@fefundinfo.com | Director of Media Sales | medium
+Lamia Lamrani | lamia.lamrani@fefundinfo.com | Social Media Manager | medium
+Will Taplin | will.taplin@fefundinfo.com | Business Development Manager | medium
+
+## Eversheds Sutherland | segment=consultants | country=LU
+Laura Taylor | laurataylor@eversheds-sutherland.com | Partner | medium
+Miriam Ee | miriamee@eversheds-sutherland.com | Partner | medium
+Vasco Hoving | vascohoving@eversheds-sutherland.com | Partner | medium
+Steve Nash | stevenash@eversheds-sutherland.com | Partner | medium
+Mark Chester | markchester@eversheds-sutherland.com | Partner | medium
+Ian Owen | ianowen@eversheds-sutherland.com | Partner | medium
+Virginia Worthy | virginiaworthy@eversheds-sutherland.com | Real Estate Partner | medium
+Kiran Arora | kiranarora@eversheds-sutherland.com | Partner | medium
+Andrew Todd | andrewtodd@eversheds-sutherland.com | Head of Retail | medium
+Rachael Sleigh | rachaelsleigh@eversheds-sutherland.com | Legal Director | medium
+
+## Fund Academy | segment=consultants | country=LU
+Andreas Wäschle | andreas.waeschle@fund-academy.com | Managing Director | medium
+Sandra Weisstanner-Greutmann | sandra.weisstanner@fund-academy.com | Coordination / Zurich | medium
+Christina Riva | christina.riva@fund-academy.com | Coordination / Geneva | medium
+Michael Simard | michael.simard@fund-academy.com | Managing Director (SARL) | medium
+Patrick Stauffer | patrick.stauffer@fund-academy.com | Director Ireland | medium
+
+## Forvis Mazars Luxembourg | segment=consultants | country=LU
+François Gazaix | francois.gazaix@forvismazars.com | Business Owner | medium
+Gregory Schiro | gregory.schiro@forvismazars.com | Director of Threat Operations | medium
+Laetitia Rault | laetitia.rault@forvismazars.com | Healthcare Consultant | medium
+Bertrand Dufaÿ | bertrand.dufay@forvismazars.com | Head of Insurance Consulting | medium
+Erwan Candau | erwan.candau@forvismazars.com | Partner | medium
+Giacomo Muscarella | giacomo.muscarella@forvismazars.com | Audit Partner | medium
+David Githome | david.githome@forvismazars.com | Partner | medium
+Zied Loukil | zied.loukil@forvismazars.com | Partner, Transaction Services | medium
+Ishan Bhowani | ishan.bhowani@forvismazars.com | Director of Public Sector | medium
+Alexandre Poser | alexandre.poser@forvismazars.com | Quantitative Finance Partner | medium
+
+## Ganado Advocates | segment=consultants | country=LU
+Natalia Hernandez | nhernandez@ganadoadvocates.com | Partner | medium
+Danica Elder | delder@ganado.com | Compliance Officer | medium
+George Bugeja | gbugeja@ganado.com | Partner | medium
+Matthew Xerri | mxerri@ganado.com | Partner | medium
+Matthew Brincat | mbrincat@ganado.com | Partner, Employment Law | medium
+Marina Grech | mgrech@ganado.com | Partner | medium
+Lauryn Nwadike | ncurmi@ganado.com | Partner | medium
+James Farrugia | jfarrugia@ganado.com | Partner | medium
+Olga Grech | ogrech@ganado.com | Compliance Officer | medium
+André Zerafa | azerafa@ganado.com | Managing Partner | medium
+Leonard Bonello | lbonello@ganado.com | Partner | medium
+
+## Goodwin | segment=consultants | country=LU
+Sarah Stoiber | sstoiber@goodwinlaw.com | Partner | medium
+Lauren Diaz | ldiaz@goodwinlaw.com | Director of Program Management | medium
+Indira Avdic | iavdic@goodwinlaw.com | Director of Finance and Operations | medium
+John Padro | jpadro@goodwinlaw.com | Partner | medium
+Dianna Lee | diannalee@goodwinlaw.com | Partner | medium
+Amanda Bhalla | abhalla@goodwinlaw.com | Managing Director | medium
+Katherine Murphy | kmurphy@goodwinlaw.com | Partner | medium
+Douglas Doskocil | ddoskocil@goodwinlaw.com | Partner | medium
+Elise Zoli | ezoli@goodwinlaw.com | Partner | medium
+Forrest Hainline | fhainline@goodwinlaw.com | Partner | medium
+
+## Goodman | segment=real_estate | country=LU
+Dominique Prince | dominique.prince@goodman.com | CFO Funds Management | medium
+John Parsons | john.parsons@goodman.com | Senior Vice President | medium
+Takayuki Amano | takayuki.amano@goodman.com | Associate Director | medium
+Bart Manteleers | bart.manteleers@goodman.com | Finance Director | medium
+Gary Wong | gary.wong@goodman.com | Director | medium
+Kimberley Richards | kimberley.richards@goodman.com | Director of Investment Management | medium
+Paul Heslop | paul.heslop@goodman.com | Director of Construction | medium
+Marcel Connelly | marcel.connelly@goodman.com | Director of Business Intelligence | medium
+Milica Nikolic | milica.nikolic@goodman.com | Corporate Finance Manager | medium
+Jonathon Day | jonathon.day@goodman.com | Chief Risk Officer | medium
+Denise Zhang | denise.zhang@goodman.com | Legal Director | medium
+
+## Gisev | segment=consultants | country=LU
+Luca Barlassina | luca@gisev.com | Chief Legal Officer | medium
+ | info@gisev.com | Support | medium
+
+## Harneys | segment=consultants | country=LU
+Ian Gobin | ian.gobin@harneys.com | Partner | medium
+Jonathan Addo | jonathan.addo@harneys.com | Partner | medium
+Erika Sorrentino | erika.sorrentino@harneys.com | Senior Marketing Manager | medium
+James Eggleton | james.eggleton@harneys.com | Partner | medium
+Charl Brand | charl.brand@harneys.com | Partner | medium
+George Apostolou | george.apostolou@harneys.com | Partner | medium
+Charles Moore | charles.moore@harneys.com | Partner | medium
+Nick Hoffman | nick.hoffman@harneys.com | Partner | medium
+Raymond Ng | raymond.ng@harneys.com | Partner | medium
+Nancy Erotocritou | nancy.erotocritou@harneys.com | Partner | medium
+
+## HACA Partners | segment=consultants | country=LU
+François Barret | fbarret@hacapartners.lu | CISO | medium
+Geoffrey Barre | gbarre@hacapartners.lu | Consulting Partner | medium
+Said Hadji | shadji@hacapartners.lu | Co-Founder | medium
+Vincent Kraske | vkraske@hacapartners.lu | Director of Internal Audit | medium
+Avinash Govind | agovind@hacapartners.lu | Marketing Director | medium
+François Maréchal | fmarechal@hacapartners.lu | Partner | medium
+Gustavo Rodrigues | grodrigues@hacapartners.lu | Management Consultant | medium
+Ibra Ndiaye | indiaye@hacapartners.lu | Audit Partner | medium
+Cedric Leroy | cleroy@hacapartners.lu | Compliance Partner | medium
+Cyril Cayez | ccayez@hacapartners.lu | Co-Founder | medium
+
+## ALFI | segment=investment | country=LU
+Luis Salerno | luis.salerno@alfi.lu | Director of Communications | medium
+Serge Weyland | serge.weyland@alfi.lu | CEO | medium
+Corinne Lamesch | corinne.lamesch@alfi.lu | Deputy CEO | medium
+Annie Bazan | annie.bazan@alfi.lu | Senior Events Manager | medium
+David Zackenfels | david.zackenfels@alfi.lu | Unspecified | low
+Stephan Monteiro | stephan.monteiro@alfi.lu | Unspecified | low
+Regine Rugani | regine.rugani@alfi.lu | Unspecified | low
+Alexander Fischer | alexander.fischer@alfi.lu | Unspecified | low
+Marthe Noesen | marthe.noesen@alfi.lu | Unspecified | low
+Karen Tsang | karen.tsang@alfi.lu | Unspecified | low
+
+## Herbert Smith Freehills Luxembourg | segment=consultants | country=LU
+Jean-Dominique Morelli | jean-dominique.morelli@hsf.com | Partner | medium
+ | HerbertSmithFreehillsLuxembourg@hsf.com | General Contact | low
+
+## Innpact | segment=investment | country=LU
+Séverine Schwander | severine.schwander@innpact.com | Associate Director of HR | medium
+Bettina Hertel | bettina.hertel@innpact.com | Associate Director | medium
+Arnaud Gillin | arnaud.gillin@innpact.com | Co-Founder | medium
+Antoine Martel | antoine.martel@innpact.com | Chief Financial Officer | medium
+Pierre Aeby | pierre.aeby@innpact.com | Independent Director | medium
+Christophe Chabaud | christophe.chabaud@innpact.com | Director | medium
+Charles Kirsch | charles.kirsch@innpact.com | Associate Director of Legal | medium
+Adriana Balducci | adriana.balducci@innpact.com | Associate Director of Impact Management | medium
+Corinne Molitor | corinne.molitor@innpact.com | Partner | medium
+Maeva Mouloudj | maeva.mouloudj@innpact.com | HR Business Partner | medium
+
+## Initio | segment=unknown | country=LU
+Sébastien Bonnet | sebastien.bonnet@initio.eu | CEO | medium
+ | luxembourg@initio.eu | General Contact | medium
+
+## ICBC Luxembourg | segment=banking | country=LU
+William De Smet | william.desmet@eu.icbc.com.cn | Deputy Head Financial Institutions Department | medium
+Jing Chen | chen.jing@eu.icbc.com.cn | Head FID | medium
+ | fi@eu.icbc.com.cn | General Contact | medium
+
+## Intesa Sanpaolo Luxembourg | segment=banking | country=LU
+ | contact@intesasanpaololux.com | General Contact | medium
+
+## Investre | segment=real_estate | country=LU
+Georges Bock | georges.bock@investre.eu |  | medium
+Matthieu Boachon | matthieu.boachon@investre.eu |  | medium
+ | info@investre.eu | General Contact | medium
+
+## Kleyr Grasso | segment=consultants | country=LU
+Donata Grasso | donata.grasso@kleyrgrasso.com | Partner | medium
+Philippe Ney | philippe.ney@kleyrgrasso.com | Partner | medium
+Yasmine Poos | yasmine.poos@kleyrgrasso.com | Partner | medium
+François Collot | francois.collot@kleyrgrasso.com | Partner | medium
+Emilie Waty | emilie.waty@kleyrgrasso.com | Partner | medium
+Céline Defay | celine.defay@kleyrgrasso.com | Partner | medium
+Laure Davo | laure.davo@kleyrgrasso.com | Compliance Manager | medium
+Luc Courtois | luc.courtois@kleyrgrasso.com | Partner | medium
+Christian Jungers | christian.jungers@kleyrgrasso.com | Partner | medium
+Delphine Tempé | delphine.tempe@kleyrgrasso.com | Partner | medium
+
+## K&L Gates Luxembourg | segment=consultants | country=LU
+Mathieu Volckrick | mathieu.volckrick@klgates.com | Managing Partner - Investment Funds | medium
+Marion Zeller | marion.zeller@klgates.com | Tax Partner | medium
+Djamila Mansouri | djamila.mansouri@klgates.com | General Contact | medium
+
+## Luther Luxembourg | segment=consultants | country=LU
+Bob Scharfe | luxembourg@luther-lawfirm.com | Managing Partner, Location Head | medium
+
+## Molitor | segment=consultants | country=LU
+Regis Muller | regis.muller@molitorlegal.lu | Partner | medium
+Magalie Eisenkopf | magalie.eisenkopf@molitorlegal.lu | Executive Assistant | medium
+Stéphanie Juan | stephanie.juan@molitorlegal.lu | Partner | medium
+Michel Molitor | michel.molitor@molitorlegal.lu | Partner | medium
+Virginie Liebermann | virginie.liebermann@molitorlegal.lu | Head of Media, Data, Technologies & IP | medium
+Armel Waisse | armel.waisse@molitorlegal.lu | Partner | medium
+Chan Park | chan.park@molitorlegal.lu | Partner | medium
+Philippe Thiebaud | philippe.thiebaud@molitorlegal.lu | Partner | medium
+Cécile Hestin | cecile.hestin@molitorlegal.lu | Corporate Partner | medium
+Andrea Schulze | andrea.schulze@molitorlegal.lu | Administrative Officer | medium
+
+## MUFG Investor Services | segment=banking | country=LU
+Rahul Dixit | richa@mufg-investorservices.com | Associate Director | medium
+Jefferson Oliveira | marios@mufg-investorservices.com | Associate Director, Client Operations | medium
+Chibuzor Nwadu | chibuzor@mufg-investorservices.com | Associate Director | medium
+Cathy Tao | cathy@mufg-investorservices.com | Director of Foreign Exchange Services | medium
+Xiao Liang | xiao@mufg-investorservices.com | Director | medium
+Dustin Abercrombie | dustin@mufg-investorservices.com | Associate Director | medium
+Sana Rafat | sana@mufg-investorservices.com | Associate Director | medium
+Sherie Dawkins | sherie@mufg-investorservices.com | Associate Director | medium
+Sherlyn Wong | sherlyn@mufg-investorservices.com | Director of Client Operations | medium
+Lynn Qiao | lynn@mufg-investorservices.com | Associate Director, Operations | medium
+
+## Morningstar Luxembourg | segment=investment | country=LU
+Renske van Amerongen | renske.vanamerongen@morningstar.com | Senior Marketing Manager Central EMEA | medium
+
+## Morecarrot | segment=unknown | country=LU
+Bernard Lambeau | bernard@morecarrot.com | Managing Partner | medium
+
+## Moonfare | segment=investment | country=LU
+Laurence Boucher | laurence.boucher@moonfare.com | Regulatory Compliance Manager | medium
+
+## MZ Law | segment=consultants | country=LU
+ | contact@mz-law.lu | General Contact | medium
+ | taxlegis@mz-law.lu | General Contact | medium
+
+## Now Partners | segment=consultants | country=LU
+Eric Nolen | eric.nolen@nowpartners.lu | Managing Partner | medium
+Hugo Larguinho Brás | hugo.larguinhobras@nowpartners.lu | Managing Partner | medium
+
+## NautaDutilh Luxembourg | segment=consultants | country=LU
+Josée Weydert | josee.weydert@nautadutilh.com | Managing Partner | medium
+
+## One Group Solutions | segment=consultants | country=LU
+Steve Bernat | steve.bernat@one-gs.com | Group Executive Lead | medium
+Revel Wood | revel.wood@one-gs.com | Founding Partner | medium
+Lesley Carolan | lesley.carolan@one-gs.com | Non-Executive Director | medium
+Jean-Yves Corneau | jean-yves.corneau@one-gs.com | Corporate Services Partner | medium
+Michael Faulkner | michael.faulkner@one-gs.com | Partner | medium
+Sebastiano Giuntini | sebastiano.giuntini@one-gs.com | Fund Manager | medium
+Karim Kouki | karim.kouki@one-gs.com | Fund Manager | medium
+Anne Zanoni | anne.zanoni@one-gs.com | Client Relationship Manager | medium
+Alan Guiney | alan.guiney@one-gs.com | Partner | medium
+Melanie Hopper | melanie.hopper@one-gs.com | Partner | medium
+Daniel Koelzer | daniel.koelzer@one-gs.com | Portfolio Manager | medium
+
+## Oak Hill Advisors | segment=investment | country=LU
+Anna Sofronyuk | asofronyuk@oakhilladvisors.com | Manager, Separately Managed Accounts | medium
+
+## Ogier Luxembourg | segment=consultants | country=LU
+Wilfried Lottin | wilfried.lottin@ogier.com | Managing Director | medium
+Valere Twagirayezu | valere.twagirayezu@ogier.com | Head of Fund Administration | medium
+ | luxembourg.legal@ogier.com | General Contact | medium
+
+## Palana | segment=consultants | country=LU
+Benjamin Collette | bcollette@palana.lu | Partner | medium
+Bastien Collette | bacollette@palana.lu | Partner | medium
+Daniela Jost | djost@palana.lu | Director | medium
+Alice Lehnert | alehnert@palana.lu | Partner | medium
+Bernard Lecaillon | blecaillon@palana.lu | Director | medium
+Romain Fourdin | rfourdin@palana.lu | Director | medium
+Florent Anders | fanders@palana.lu | Senior Manager, ESG Reporting | medium
+
+## Peakside Capital | segment=real_estate | country=LU
+Karol Maziukiewicz | karol.maziukiewicz@peakside.com | CFO | medium
+Fabian Kowalewski | fabian.kowalewski@peakside.com | Director of Leasing and Development | medium
+Roman Skowronski | roman.skowronski@peakside.com | Managing Director | medium
+Frank Schäfer | frank.schaefer@peakside.com | Partner | medium
+Stefan Aumann | stefan.aumann@peakside.com | Managing Partner | medium
+Michał Nawrot | michal.nawrot@peakside.com | Director of Investments | medium
+Simon Lutz | simon.lutz@peakside.com | Partner | medium
+Jakub Budych | jakub.budych@peakside.com | Business Development Director | medium
+Leon Bomhard | leon.bomhard@peakside.com | Vice President | medium
+Yuriy Kravchenko | yuriy.kravchenko@peakside.com | Financial Controller | medium
+Sebastian Junghans | sebastian.junghans@peakside.com | Principal | medium
+
+## Revetas Capital | segment=real_estate | country=LU
+Eric Assimakopoulos | ea@revetas.com | Managing Director | medium
+Inga Heynen | ic@revetas.com | Director of Investments | medium
+Radu Boitan | rb@revetas.com | Senior Partner | medium
+ | info@revetas.com | General Contact | low
+
+## Quintet Private Bank | segment=banking | country=LU
+Nicholas Harvey | nicholas.harvey@quintet.com | Chief Financial Officer | medium
+Renaud Martin | renaud.martin@quintet.com | Director of Enterprise Architecture | medium
+Sabine Sauder | sabine.sauder@quintet.com | Head of Internal Audit | medium
+Charlie Meeks | charlie.meeks@quintet.com | Partner | medium
+Jean Kill | jean.kill@quintet.com | Head of Private Banking | medium
+Simon Spilsbury | simon.spilsbury@quintet.com | Chief Compliance Officer | medium
+Bilal Javaid | bilal.javaid@quintet.com | Chief Commercial Officer | medium
+Lionel Balle | lionel.balle@quintet.com | Head of Fixed Income | medium
+Dirk Rademacher | dirk.rademacher@quintet.com | Executive Director | medium
+Marion Rinke | marion.rinke@quintet.com | Chief Legal Officer | medium
+
+## Quantyx | segment=unknown | country=LU
+Michel Lempicki | mlempicki@quantyx.com | Director | medium
+ | careers@quantyx.com | Human Resources | low
+ | info@quantyx.com | Support | medium
+
+## Sedlo | segment=consultants | country=LU
+Adrian Sedlo | asedlo@sedlo.lu | Partner | medium
+Jade Hamann | jhamann@sedlo.lu | Lawyer | medium
+Altan Karatay | akaratay@sedlo.lu | Attorney at Law | medium
+Pierre Alexandre | palexandre@sedlo.lu | Associate | medium
+ | info@sedlo.lu | General Contact | medium
+
+## SEB Luxembourg | segment=banking | country=LU
+Ole Hamre | ole.hamre@sebgroup.lu |  | medium
+Tore Mauseth | tore.mauseth@sebgroup.lu |  | medium
+Reine Kase | reine.kase@sebgroup.lu |  | medium
+Victor Deoliveira | victor.deoliveira@sebgroup.lu |  | medium
+Edith Peters | edith.peters@sebgroup.lu |  | medium
+
+## Simpson Thacher & Bartlett | segment=consultants | country=LU
+Nadia Bonnet | nadia.bonnet@stblaw.com | Partner | medium
+Josh Buckland | josh.buckland@stblaw.com | Partner | medium
+John Bennett | john.bennett@stblaw.com | Partner | medium
+Jennifer Hobbs | jennifer.hobbs@stblaw.com | Partner | medium
+Michael Simonson | michael.simonson@stblaw.com | Partner | medium
+Michael Köhler | michael.koehler@stblaw.com | Chief Data Officer | medium
+
+## TSP Law | segment=consultants | country=LU
+Nicolas Ronzel | nicolas.ronzel@tsp.law | Partner | medium
+André Pesch | andre.pesch@tsp.law | Principal | medium
+Sabine Brandes | sabine.brandes@tsp.law | Partner | medium
+Laurent Gengler | laurent.gengler@tsp.law | Director | medium
+Aurélie Guerin | aurelie.guerin@tsp.law | M&A Partner | medium
+Juliette Zielinski | juliette.zielinski-vogt@tsp.law | Tax Director | medium
+Thomas Grenier | thomas.grenier@tsp.law | Transfer Pricing Manager | medium
+Sara Freixo | sara.freixo@tsp.law | Associate | medium
+Fanny Franchina | fanny.franchina@tsp.law | Tax Advisor | medium
+Candido Duarte | candido.duarte@tsp.law | Tax Manager | medium
+
+## Swissquote Luxembourg | segment=banking | country=LU
+Angela Fok | angela.fok@swissquote.com | Marketing Manager | medium
+Stefania Grech | stefania.grech@swissquote.com |  | low
+Jesper Lam | jesper.lam@swissquote.com |  | low
+Rafael Weber | rafael.weber@swissquote.com |  | low
+Silvia Gajdosik | silvia.gajdosik@swissquote.com |  | low
+Andrew Mizzi | andrew.zarb.mizzi@swissquote.com |  | low
+Maan Zaineddin | maan.zaineddin@swissquote.com |  | low
+ | clientservices@swissquote.lu | General Contact | medium
+
+## Stibbe Luxembourg | segment=consultants | country=LU
+Jerome Aubertin | jerome.aubertin@stibbe.com | Partner | medium
+Oliver Stevens | oliver.stevens@stibbe.com | Litigation Partner | medium
+Elisabeth Matthys | elisabeth.matthys@stibbe.com | Employment Partner | medium
+Wim Panis | wim.panis@stibbe.com | Tax Partner | medium
+Tom Barkhuysen | tom.barkhuysen@stibbe.com | Partner | medium
+Victorien Hemery | victorien.hemery@stibbe.com | Partner | medium
+Roos Elemans | roos.elemans@stibbe.com | Partner | medium
+Gerald Origer | gerald.origer@stibbe.com | Partner | medium
+Rony Vermeersch | rony.vermeersch@stibbe.com | Partner | medium
+Henk Verstraete | henk.verstraete@stibbe.com | Tax Partner | medium
+Bernard Beerens | bernard.beerens@stibbe.com | Executive Partner | medium
+
+## State Street Luxembourg | segment=banking | country=LU
+ | ssbquerydesk@statestreet.com | General Contact | medium
+
+## STARP | segment=consultants | country=LU
+Kees Hage | kees.hage@starp.lu | Partner | medium
+Tatyana Boger | tatyana.boger@starp.lu | Partner | medium
+ | info@starp.lu | General Contact | medium
+
+## Starwood Capital Luxembourg | segment=real_estate | country=LU
+Joanna Galeza | jgaleza@starwood.com | Tax Manager | medium
+
+## Trustmoore Luxembourg | segment=consultants | country=LU
+Tjebco de Jong | tjebco.dejong@trustmoore.lu | Director Fund Services | medium
+
+## TPG Luxembourg | segment=investment | country=LU
+Alexandra Matias | amatias@tpg.com | Manager | medium
+
+## RBS International Luxembourg | segment=banking | country=LU
+ | lux-reception@rbsint.com | General Contact | medium
+
+## VDB Law | segment=consultants | country=LU
+Denis Bulke | dv@vdblaw.com | Managing Partner | medium
+
+## Van Campen Liem | segment=consultants | country=LU
+Paul Kraan | paul.kraan@vancampenliem.com | Partner | medium
+Svetlana Baraban | svetlana.baraban@vancampenliem.com | Partner | medium
+Tom Mitchell | tom.mitchell@vancampenliem.com | Partner | medium
+Bart Wehmeijer | bart.wehmeijer@vancampenliem.com | Corporate Lawyer | medium
+Christophe Balthazard | christophe.balthazard@vancampenliem.com | Partner | medium
+
+## European Fund Administration | segment=consultants | country=LU
+Etienne Ficht | etienne.ficht@efa.eu | Owner | medium
+Fred Watrin | fred.watrin@efa.eu | Director of Client Services | medium
+Sylvie Evrard | sylvie.evrard@efa.eu | Director of Client Services | medium
+Laurent Bouchet | laurent.bouchet@efa.eu | Head of Product | medium
+Sam Tong | sam.tong@efa.eu | Vice President | medium
+Anke Kneifel | anke.kneifel@efa.eu | Director of Client Relations | medium
+Michael Schulz | michael.schulz@efa.eu | Director of Client Services | medium
+Tony Costanza | tony.costanza@efa.eu | Network Administrator | medium
+Laetitia Michel | laetitia.michel@efa.eu | Reconciliation Manager | medium
+Muriel Oswald | muriel.oswald@efa.eu |  | low
+
+## Zodia Custody | segment=banking | country=LU
+Daniel Soriano | daniel.soriano@zodia.io | Sales Director Europe, Luxembourg | medium
+ | contact@zodia.io | General Contact | medium
+
+## zeb Consulting | segment=consultants | country=LU
+Marco Rubert | marco.rubert@zeb-consulting.com | Head of IT | medium
+Martin Seidenberg | martin.seidenberg@zeb-consulting.com | Partner | medium
+Michael Herkert | michael.herkert@zeb-consulting.com | Partner | medium
+Wolfgang Schlaffer | wolfgang.schlaffer@zeb-consulting.com | Partner | medium
+Helge Böschenbröker | helge.boeschenbroeker@zeb-consulting.com | Managing Director | medium
+Christiane Diekmann | christiane.diekmann@zeb-consulting.com | Chief Marketing Officer | medium
+Stefan Trost | stefan.trost@zeb-consulting.com | Partner | medium
+Robert Ellenbeck | robert.ellenbeck@zeb-consulting.com | Partner | medium
+Andreas Bräutigam | andreas.braeutigam@zeb-consulting.com | Partner | medium
+Gina Waldecker | gina.waldecker@zeb-consulting.com | Partner Assistant | medium
+
+## Wolff Law | segment=consultants | country=LU
+Jean-Claude Wolff | jc@wolff.com | Partner | medium
+Marc Lenaers | marc.lenaers@wolff.com | Partner | medium
+
+## Whitehall Law | segment=consultants | country=LU
+Nuria Martin | nuria.martin@whitehall.lu | Lawyer | medium
+
+## White & Case Luxembourg | segment=consultants | country=LU
+Arnaud Cagi-Nicolau | arnaud.cagi-nicolau@whitecase.com | Partner | medium
+Thomas Glauden | thomas.glauden@whitecase.com | Partner | medium
+
+## Ketterthill | segment=unknown | country=LU
+Jessica Mero | jessica.mero@ketterthill.lu | Finance Director | medium
+Patrick Salmon | patrick.salmon@ketterthill.lu | Chief Security Officer | medium
+Pierre Blonski | pierre.blonski@ketterthill.lu | Medical Biologist | medium
+Serge Vedy | serge.vedy@ketterthill.lu |  | low
+Gregory Auzanneau | gregory.auzanneau@ketterthill.lu | Developer | low
+ | srv.rh@ketterthill.lu | Human Resources | low
+ | info@ketterthill.lu | Support | medium
+
+## Kioes Advisory | segment=consultants | country=LU
+Georges Kioes | georges@kioesadvisory.lu | Non-Executive Director | medium
+
+## Kisch | segment=unknown | country=LU
+ | info@kisch.lu | Support | low
+
+## Koehl | segment=unknown | country=LU
+ | contact@koehl.eu | Support | low
+
+## KONE Luxembourg | segment=unknown | country=LU
+ | luxembourg@kone.com | Support | low
+
+## Kronospan Luxembourg | segment=unknown | country=LU
+ | info@kronospan.lu | Support | low
+
+## Kuehne+Nagel Luxembourg | segment=unknown | country=LU
+ | info.luxembourg@kuehne-nagel.com | Support | low
+
+## Kuhn Construction | segment=real_estate | country=LU
+Roland Kuhn | roland@kuhn.lu | CEO | high
+Marc Quintus | marc.quintus@kuhn.lu | Chief Financial Officer | low
+Gregory Baquet | gregory.baquet@kuhn.lu | Real Estate Sales | low
+ | construction@kuhn.lu | Support | low
+
+## Q8 Kuwait Petroleum Luxembourg | segment=unknown | country=LU
+Fouad Qabazard | fouad.qabazard@q8.com | Director | high
+ | info@q8.lu | Support | low
+
+## Elenz | segment=unknown | country=LU
+Schmitz | schmitz@elenz.net | Unspecified | low
+ | info@elenz.net | Support (general) | low
+ | kalkulation@elenz.net | Pricing / calculations | low
+
+## Flowey | segment=unknown | country=LU
+Pablo Juárez | pablo.juarez@flowey.com | Commercial Director | low
+Ricardo Florio | ricardo.florio@flowey.com | Business Development Director | low
+Stefano Florio | stefano.florio@flowey.com | Finance and HR Director | low
+Olivier Colling | olivier.colling@flowey.com |  | low
+ | info@flowey.com | Support | low
+ | hygiene@flowey.com |  | low
+ | commercial-latam@flowey.com | Sales | low
+ | labo@flowey.com |  | low
+
+## LSC360 | segment=environmental_consulting | country=LU
+ | info@lsc360.lu | Support | low
+
+## Labgroup | segment=unknown | country=LU
+Michel Maggi | mmaggi@labgroup.com | Chief Technology Officer | low
+Gillian Arcone | garcone@labgroup.com | Chief Commercial Officer | low
+Séverine Creola | screola@labgroup.com | Authorized Director | low
+ | administration@labgroup.com | Finance | low
+
+## Laeis | segment=unknown | country=LU
+Ralph Lutz | ralph.lutz@laeis.eu | Managing Director | low
+Anja Schnur | anja.schnur@laeis.eu |  | low
+Bastian Juengling | bastian.juengling@laeis.eu |  | low
+ | info@laeis.eu | Support | low
+
+## Lafayette Luxembourg | segment=unknown | country=LU
+Marie Roth | marie-noelle.roth@lafayette.lu |  | low
+Olivier Caillol | olivier.caillol@lafayette.lu |  | low
+Laetitia Daghmous | laetitia.daghmous@lafayette.lu |  | low
+
+## Air Liquide Luxembourg | segment=unknown | country=LU
+ | info@airliquide.com | Support | low
+
+## Lamesch-Prezero | segment=unknown | country=LU
+Yves Feuillen | yvesfeuillen@lamesch-prezero.lu | Chief Executive Officer | high
+Laurence Abric | laurenceabric@lamesch-prezero.lu | Executive Assistant | low
+ | lamesch@lamesch-prezero.lu | Support | low
+
+## Lavaux | segment=unknown | country=LU
+ | planning@lavaux.lu | Planning Department | low
+ | lavaux.lux@lavaux.lu | Support | low
+
+## Leasys Luxembourg | segment=unknown
+Francesca Ubaldi | francesca.ubaldi@leasys.com | Chief Accounting Officer | low
+Yon Thierbach | yon.thierbach@leasys.com | Director of ICT | low
+Geneviève Michiels | genevieve.michiels@leasys.com | HR Business Partner | low
+Marta Armada | marta.armada@leasys.com | Chief Financial Officer | low
+Laurène Daniel | laurene.daniel@leasys.com | Marketing Director | low
+James Russell | james.russell@leasys.com | Director of Indirect Sales | low
+Colin Goodchild | colin.goodchild@leasys.com | Director of Sales | low
+Jenna Farr | jenna.farr@leasys.com | Quality Manager | low
+Simone Coluzzi | simone.coluzzi@leasys.com | Business Partner | low
+Marco Barbieri | marco.barbieri@leasys.com | Project Director | low
+
+## Legitech | segment=unknown | country=LU
+Christian Bruckmann | christian.bruckmann@legitech.lu | Head of Publishing | low
+Dorian Gregoire | dorian.gregoire@legitech.lu | Chief Publishing Officer | low
+Baptiste Nollevaux | baptiste.nollevaux@legitech.lu | Chief Information Officer | low
+Gilles Loffet | gilles.loffet@legitech.lu | Chief Financial Officer | low
+Samiaa Aznag | samiaa.aznag@legitech.lu | IT Project Manager | low
+Charlotte André | charlotte.andre@legitech.lu | Editorial Assistant | low
+Fidan Xancani | rachel.schumacher@legitech.lu | Sales Assistant | low
+Christophe Meunier | christophe.meunier@legitech.lu | Key Account Manager | low
+Michaël Tabard | michael.tabard@legitech.lu | Key Account Manager | low
+ | clients@legitech.lu | Client Services | low
+
+## Demag Luxembourg | segment=unknown | country=LU
+ | info@demag.lu | Support | low
+
+## LIP Luxembourg | segment=unknown | country=LU
+Yannick Leroy | yannick.leroy@lipluxembourg.lu | Agency Manager | high
+Sandrine Maujean | sandrine.maujean@lipluxembourg.lu | Administrative and Commercial Consultant | low
+ | dudelange@lipluxembourg.lu | Support | low
+
+## Lightbulb | segment=unknown | country=LU
+Marc Marchal | marc@lightbulb.lu | Managing Partner | high
+Johny Goerend | johny@lightbulb.lu | Managing Partner | high
+ | info@lightbulb.lu | Support | low
+ | jobs@lightbulb.lu | Human Resources | low
+
+## Loewe | segment=unknown | country=DE
+ | info@loewe-gmbh.de | Support | low
+ | bewerbung@loewe-gmbh.de | Jobs | low
+ | presse@loewe-gmbh.de | Writing & Communication | low
+
+## Losch Luxembourg | segment=unknown | country=LU
+Olivia Thomas | olivia.thomas@losch.lu | HR Business Partner | low
+Max Stebens | max.stebens@losch.lu | Director of Corporate Social Responsibility | low
+Alex Michels | alex.michels@losch.lu | Chief Operating Officer | low
+Marvin Rassel | marvin.rassel@losch.lu | Head of EV Charging Solutions | low
+Robert Münch | robert.muench@losch.lu | IT Director | low
+Hugo Alves | hugo.alves@losch.lu | Project Manager | low
+Patrícia Silva | patricia.silva@losch.lu | BI Lead | low
+Patrícia Pereira | patricia.pereira@losch.lu | Head of Product | low
+Pascal Seul | pascal.seul@losch.lu | Senior HR Business Partner | low
+Luis Barroso | luis.barroso@losch.lu | Director of IT Operations | low
+ | info@losch.lu | Support | low
+
+## Lehnen Gruppe | segment=unknown | country=DE
+ | f.haubold@lehnen-gruppe.de |  | low
+Bra Waage | waage_bra@lehnen-gruppe.de |  | low
+ | fl-kontakt@lehnen-gruppe.de |  | low
+ | nhw@lehnen-gruppe.de |  | low
+ | datenschutz@lehnen-gruppe.de | Data protection | low
+ | info@lehnen-gruppe.de | Support | low
+ | waage_lhw@lehnen-gruppe.de |  | low
+ | waage_nhw@lehnen-gruppe.de |  | low
+ | lhw@lehnen-gruppe.de |  | low
+ | amm@lehnen-gruppe.de |  | low
+
+## Luwolux | segment=unknown | country=LU
+Andreas Ludt | ludt@luwolux.com | Managing Director | high
+ | wolter@luwolux.com |  | low
+ | info@luwolux.com | Support | low
+ | webmaster@luwolux.com | IT / Engineering | low
+
+## Luxmeca | segment=unknown | country=LU
+ | contact@luxmeca.lu | Support | low
+
+## Luxelec | segment=unknown | country=LU
+ | info@luxelec.lu | Support | low
+
+## Luxembourg Air Ambulance | segment=unknown | country=LU
+Tom Hienckes | tom.hienckes@air-ambulance.com | Business Development Manager | high
+ | alert@air-ambulance.lu | Support | low
+
+## Luxempart | segment=investment | country=LU
+Rudolf Ohnesorge | rudolf.ohnesorge@luxempart.lu | Executive Committee Member | high
+Olaf Kordes | olaf.kordes@luxempart.lu | Managing Director | high
+Kay Ashton | kay.ashton@luxempart.lu | Non-Executive Director | low
+Joy Verlé | joy.verle@luxempart.lu | Executive Committee Member | low
+Louis Kergos | louis.kergos@luxempart.lu | Investment Director | low
+ | luxempart@luxempart.lu | Support | low
+ | investors@luxempart.lu | Finance | low
+ | dataprotection@luxempart.lu | Legal | low
+
+## Luxenergie | segment=unknown | country=LU
+Ragui Bassali | ragui.bassali@luxenergie.lu | Chief Information Security Officer | high
+ | info@luxenergie.lu | Support | low
+ | communication@luxenergie.lu | Communication | low
+
+## Luxforge | segment=unknown | country=LU
+Joël Weber | joel.weber@luxforge.com | Chief Operating Officer | high
+Mario Fickers | mario.fickers@luxforge.com | Project Manager | high
+Monika Isanska | monika.isanska@luxforge.com | Marketing Manager | high
+Elena Schmitz | elena.schmitz@luxforge.com | Project Manager | high
+Gérard Thomas | gerard.thomas@luxforge.com | Purchasing Manager | high
+Dirk Treinen | treinen@luxforge.com | Managing Director | high
+ | info@luxforge.com | Support | low
+ | sales@luxforge.com | Sales | low
+
+## Luxlait | segment=unknown | country=LU
+Gilles Gerard | gilles.gerard@luxlait.lu | Chief Executive Officer | high
+Carole Ladu | carole.ladu@luxlait.lu | Export Assistant | high
+Simon Schmit | simon.schmit@luxlait.lu | Business Development Manager | high
+Claire Vanderhaegen | claire.vanderhaegen@luxlait.lu | Sales Assistant | high
+Yannick Duchambon | yannick.duchambon@luxlait.lu | Sales Manager | high
+Bojidar Loucanov | bojidar.loucanov@luxlait.lu | Business Development Manager | high
+ | info@luxlait.lu | Support | low
+
+## Luxmetering | segment=unknown | country=LU
+Paul Hoffmann | paul.hoffmann@luxmetering.lu | Chief Executive Officer | high
+Alexander Hotz | alexander.hotz@luxmetering.lu | Chief Information Officer | high
+ | info@luxmetering.lu | Support | low
+
+## Plastipak Luxembourg | segment=unknown | country=LU
+Stefan Münch | smuench@plastipak.com | Technical Director | high
+ | info-luxembourg@plastipak.com | Support | low
+
+## Eyesen | segment=unknown | country=LU
+ | info@eyesen.lu | Support | low
+
+## Faymonville | segment=unknown | country=LU
+ | quality@faymonville.com | Support | low
+
+## Fama Plast | segment=unknown | country=LU
+Patric Michelis | fama@pt.lu | Gérant | low
+ | info@famaplast.lu | Support | low
+
+## Ferrac | segment=unknown | country=LU
+Luis Nunes | luis.nunes@ferrac.lu |  | low
+ | contact@ferrac.lu | Support | low
+
+## Fruytier | segment=unknown | country=LU
+ | info@fruytier.com | Support | low
+
+## Fujitsu Luxembourg | segment=unknown | country=LU
+ | info.luxembourg@fujitsu.com | Support | low
+
+## Gandi Luxembourg | segment=unknown | country=LU
+ | gandintlfinance@gandi.net | Finance | low
+
+## Gezim | segment=unknown | country=LU
+ | contact@gezim.lu | Support | low
+
+## Lawyers Worldwide | segment=consultants
+Kim Pierce | kpierce@lawyersworldwide.com | Chief Executive Officer | high
+
+## Clifford Chance | segment=consultants
+Edmund Boyo | edmund.boyo@cliffordchance.com | Partner | high
+
+## Creahaus | segment=unknown | country=LU
+Jérémie Tinelli | jeremie.tinelli@creahaus.lu | Commercial Manager | medium
+
+## Gillessen Frères | segment=unknown
+Daniel Giebels | daniel@gillessen-freres.eu | Managing Partner | medium
+
+## Qubic Group | segment=unknown
+David Graham | dgraham@qubic-group.com | Director | medium
+
+## Tracol | segment=unknown | country=LU
+Nicolas Tarnus | nicolas.tarnus@tracol.lu | Development Director | medium
+
+## AMFIE | segment=banking
+Nicolas Horlait | nicolas.horlait@amfie.org | Managing Director | medium
+
+## Alpha PE | segment=investment
+Patrick Herman | patrick@alphape.com | Managing Partner | medium
+
+## Alter Domus | segment=consultants
+Steve Lenard | steve.lenard@alterdomus.com | Managing Director | high
+
+## Hoogewerf & Co | segment=consultants
+Francis Hoogewerf | francis@hoogewerf.com | Managing Partner | medium
+
+## Fieldfisher | segment=consultants
+Christine Phillips | christine.phillips@fieldfisher.com | Finance Partner | high
+Miguel Vaz | miguel.vaz@fieldfisher.com | Co-Head of Financial Services | medium
+
+## Linklaters | segment=consultants
+Peter Hickman | peter.hickman@linklaters.com | Chief Financial Officer | high
+Francisco Dueñas | francisco.duenas@linklaters.com | Partner | medium
+
+## Addleshaw Goddard | segment=consultants
+Danni Davies | danni.davies@addleshawgoddard.com | Director of Real Estate | medium
+
+## AKD | segment=consultants
+Ronald Ermes | rermes@akd.eu | Director of Business Services | medium
+
+## Dechert | segment=consultants
+Jean-Louis Frognet | louis.frognet@dechert.com | Partner | medium
+
+## DLA Piper | segment=consultants
+Martin de Landsheere | martin.de.landsheere@dlapiper.com | Partner | medium
+
+## Elvinger Hoss | segment=consultants | country=LU
+Thibaut Partsch | thibautpartsch@elvingerhoss.lu | Partner | medium
+
+## GM Construction | segment=real_estate | country=LU
+ | info@gmconstruction.lu | General Contact | medium
+
+## GORH | segment=unknown | country=LU
+Eddy Morgante | luxembourg@gorh.lu | Gérant | medium
+
+## Greiveldinger Entreprise | segment=unknown | country=LU
+Alain Greiveldinger | info@greiveldinger-ent.lu | Gérant | medium
+
+## BNP Paribas GGP | segment=banking
+ | ggp-customerservice@ggp.bnpparibas.com | Customer Service | medium
