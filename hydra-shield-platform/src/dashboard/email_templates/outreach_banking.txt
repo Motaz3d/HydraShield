@@ -1,24 +1,20 @@
-Subject: Physical verification of financed assets — {{organization}}
+Subject: Physical evidence behind the loan book — {{organization}}
 
 Hi {{contact_name}},
 
 Banks in {{country}} are being asked the same question by supervisors and reviewers: what physical evidence stands behind the "green" and climate-resilient claims in the loan book?
 
+Talaix is a climate-extreme intelligence platform. We screen each financed asset against seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — computed from Earth observation, official open data and documented historical events, and we map what is exposed: collateral, buildings, infrastructure, population. Every value carries its source, evidence status and declared data gaps — built to sit inside credit files and risk-committee packs, and to support EU Taxonomy DNSH, CSRD and TCFD/ISSB workflows. We sell evidence, not accreditation: not a Second Party Opinion, not an ESMA-registered external review.
+
 {{identified_problem}}
 
-Talaix's Green Finance Verification screens each financed asset against the EU Taxonomy DNSH hazard vocabulary — flood, wildfire, heat, drought, wind, coastal — from satellite and open data, and issues a per-asset evidence report: claim status, confidence, sources, and declared data gaps. Portfolios run in batch, and monitoring continues after disbursement. We sell evidence, not accreditation: not a Second Party Opinion, not an ESMA-registered external review.
-
-{{relevant_capability}}
+For {{organization}}, the most relevant part: {{relevant_capability}}
 
 {{custom_message}}
 
 Send three collateral coordinates and we will return a free sample verification report for {{organization}} — no procurement step needed.
 
-Would a 20-minute call this week be useful?
-
-Best,
-Motaz Omarien — Talaix
-talaix.com/green-finance.html
+Would a 20-minute conversation this week be useful?
 
 ---
 If this is not relevant, just reply "unsubscribe" and we will stop.

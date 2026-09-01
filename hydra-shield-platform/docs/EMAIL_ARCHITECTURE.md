@@ -146,3 +146,33 @@ automatically.
 
 Sender defaults to `SMTP_FROM` (info@talaix.com); per-template
 alias overrides via `SMTP_FROM_<TEMPLATE>` env (§3).
+
+## 11. Outreach auto-send pipeline (operator-gated)
+
+Cold outreach (sales/funder/media) is **queued by humans or explicit
+opt-in flags, sent only by the cron processor** — never by the web app:
+
+- **Queue paths**: the CRM send/schedule endpoints
+  (`/api/v2/admin/marketing/…`), campaign waves (`followup_1`/`followup_2`),
+  `AUTO_OUTREACH_ON_CONTACT=1` (queue on newly discovered contacts), and
+  the per-lead **Auto-send** toggle (same effect for one lead).
+- **Sender**: `scripts/process_scheduled_outreach.py` via
+  `scripts/email_cron.sh` (every 5 min, overlap-locked). Enforces, on
+  every row: unsubscribe list, replied-lead auto-stop (rows are really
+  cancelled, not re-polled), and the platform-wide daily cap
+  (`DAILY_SEND_CAP`, default 20, counted across all send paths).
+- **Reliability**: a transient SMTP failure reschedules the row
+  (`OUTREACH_RETRY_MINUTES`, default 30) up to `OUTREACH_MAX_ATTEMPTS`
+  (default 3) before it is marked failed. An optional UTC business-hours
+  window (`OUTREACH_WINDOW_START`/`OUTREACH_WINDOW_END`) holds cold mail
+  to professional sending times.
+- **Standards**: every message carries explicit `Date` and `Message-ID`;
+  `outreach_*`/`followup_*` templates also carry `List-Unsubscribe`
+  (mailto to the platform inbox). `scripts/check_replies.py` matches the
+  reply and stops all pending sends; the unsubscribe heuristic judges
+  only the freshly written reply text, never quoted history (our own
+  footer contains the word "unsubscribe").
+- **Wave scripts** (`send_funder_wave1/2.py`, `send_media_wave.py`) are
+  DRY-RUN by default (`--send` to send), skip unsubscribed/replied leads,
+  skip entries already logged as sent (re-run safe), and respect the same
+  daily cap.

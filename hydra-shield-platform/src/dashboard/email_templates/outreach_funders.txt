@@ -1,0 +1,19 @@
+Subject: Open-source climate-risk intelligence — fit with {{programme}}
+
+Hi {{contact_name}},
+
+I'm reaching out from Talaix, a Luxembourg-based technology initiative building evidence-labelled climate and environmental extreme-risk intelligence. Open source is at its core: a Python library, with a QGIS plugin in the pipeline.
+
+Talaix computes seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, and counts what and who is exposed: population and settlements, hospitals and schools, buildings, transport, energy, water, tourism, industry. Every result carries its source, method, resolution and evidence status. Observed data is kept separate from projections; unavailable data is stated, and "no invented figures" is an operating rule, not a slogan. Everything is labelled as a screening indicator, never as a validated prediction. Multi-hazard exposure supports adaptation, civil protection, insurance and disclosure workflows: EU Taxonomy, CSRD, TCFD/ISSB.
+
+{{programme_context}}
+
+{{ask}}
+
+Rather than a slide deck: we can run a free, evidence-cited sample over a priority area of yours, so you can judge the output itself. Would a short call of around twenty minutes this week be useful? We will follow up around {{followup_date}} if we do not hear back.
+
+Kind regards,
+{{signer}}
+
+---
+If this is not relevant, just reply "unsubscribe" and we will stop.

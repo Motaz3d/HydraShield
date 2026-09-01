@@ -1,0 +1,16 @@
+Subject: Pre-submission inquiry — {{paper_short}} ({{journal_name}})
+
+Dear Editor,
+
+I am {{signer_intro}} of Talaix (talaix.com), a Luxembourg-based technology initiative working at the intersection of Earth observation, environmental risk and financial decision-making. I am writing to ask whether the following planned contribution would fall within the scope of {{journal_name}}.
+
+Working title: "{{paper_title}}"
+
+{{paper_description}}
+
+{{scope_question}}
+
+Thank you for your time and consideration.
+
+Kind regards,
+{{signer}}

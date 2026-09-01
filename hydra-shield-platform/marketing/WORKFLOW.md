@@ -68,13 +68,18 @@ traffic sources, devices & languages and risk interests. Aggregate counts
 only — analytics sessions are pseudonymous hashes.
 
 **Auto-send.** The operator clicks send; individual sends are always
-operator-initiated. Each lead can be opted into auto-send for scheduled/bulk
-flows (`POST /lead/<slug>/auto-send`). The message is rendered from the sector
-templates in `src/dashboard/email_templates/outreach_*.txt` (falling back to
-`outreach_generic.txt`), merged with the lead's country, identified problem,
-capability, custom note and an unsubscribe footer. Without `SMTP_HOST`
-configured, email goes to the dev outbox (`HYDRASHIELD_OUTBOX_DIR`) and the UI
-says so; with SMTP env set, delivery uses STARTTLS.
+operator-initiated. Each lead can be opted into auto-send
+(`POST /lead/<slug>/auto-send`): newly discovered/imported contacts for that
+lead then get one scheduled outreach email each automatically (the
+workspace-wide equivalent is `AUTO_OUTREACH_ON_CONTACT=1`). Actual sending
+stays with the cron processor — daily cap, unsubscribe list and duplicate
+protection apply exactly as for operator-queued mail. The message is rendered
+from the sector templates in `src/dashboard/email_templates/outreach_*.txt`
+(falling back to `outreach_generic.txt`), merged with the lead's country,
+identified problem, capability, custom note and an unsubscribe footer (plus a
+`List-Unsubscribe` header). Without `SMTP_HOST` configured, email goes to the
+dev outbox (`HYDRASHIELD_OUTBOX_DIR`) and the UI says so; with SMTP env set,
+delivery uses STARTTLS.
 
 **Daily send cap.** A hard cap (default 20, override with `DAILY_SEND_CAP`)
 counts immediate sends and scheduled sends per calendar day. When the cap is
@@ -87,9 +92,12 @@ leads are marked `skipped_unsubscribed` rather than sent or failed. Every
 outreach template includes an unsubscribe footer.
 
 **Scheduled sending.** Queue future emails with `send_at` (ISO, must be
-future). A cron job sends due rows, skips unsubscribed leads, enforces the
-daily cap, logs an `email` interaction, and advances `outreach_status` to
-`contacted` when it was `researched`, `qualified` or `draft_prepared`:
+future). A cron job sends due rows, skips unsubscribed leads, cancels rows
+for replied leads, enforces the daily cap, retries transient failures
+(`OUTREACH_MAX_ATTEMPTS`/`OUTREACH_RETRY_MINUTES`), honours the optional UTC
+send window (`OUTREACH_WINDOW_START`/`OUTREACH_WINDOW_END`), logs an `email`
+interaction, and advances `outreach_status` to `contacted` when it was
+`researched`, `qualified` or `draft_prepared`:
 
 ```
 */5 * * * * cd <repo>/hydra-shield-platform && .venv/bin/python scripts/process_scheduled_outreach.py

@@ -1,16 +1,12 @@
-Subject: Re: Physical climate-risk evidence for {{organization}}
+Subject: Re: environmental evidence for {{organization}}
 
 Hi {{contact_name}},
 
-I sent a note last week about physical climate-risk evidence for {{organization}} — flood, wildfire, heat, drought, wind and coastal layers built from real Earth-observation data.
-
-If timing was bad, no problem. If the topic is relevant, I would be glad to send a free sample evidence report for two or three locations so you can see exactly what the data looks like before any call.
+A short follow-up to my earlier note. The offer stands: name 2–3 locations and we will return a free sample evidence report — seven hazards, mapped exposure of people, buildings and infrastructure, every value with its source and evidence status, so you can see exactly what Talaix produces before any call.
 
 {{custom_message}}
 
-Best,
-Motaz Omarien — Talaix
-talaix.com
+If the timing is wrong, a one-line reply is enough and I will close the file.
 
 ---
 If this is not relevant, just reply "unsubscribe" and we will stop.

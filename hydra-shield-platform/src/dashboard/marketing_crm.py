@@ -126,14 +126,16 @@ def _outreach_template_and_context(lead: Dict, data: Dict):
         template = "outreach_generic"
 
     context = {
-        "contact_name": (data.get("contact_name") or "").strip(),
+        # Never render "Hi ," — fall back to a neutral greeting when the
+        # contact name is unknown.
+        "contact_name": (data.get("contact_name") or "").strip() or "there",
         "organization": lead.get("organization") or "",
         "country": lead.get("country") or "",
         "identified_problem": lead.get("identified_problem") or "",
         "relevant_capability": lead.get("relevant_capability") or "",
         "recommended_product": lead.get("recommended_product") or "",
         "custom_message": (data.get("custom_message") or "").strip(),
-        "unsubscribe_url": "",
+        "unsubscribe_url": mailer.unsubscribe_mailto(),
     }
     return template, context
 

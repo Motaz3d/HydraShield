@@ -3,7 +3,8 @@ Talaix marketing automation — automatic follow-up flows on top of the CRM.
 
 Two flows, built on the existing machinery (never a parallel send path):
 
-1. **New-contact follow-up** (opt-in via ``AUTO_OUTREACH_ON_CONTACT=1``):
+1. **New-contact follow-up** (opt-in via ``AUTO_OUTREACH_ON_CONTACT=1`` for
+   the whole workspace, or the per-lead **Auto-send** toggle in the CRM):
    when contacts are imported or discovered for a lead, one *scheduled*
    outreach email is queued per new contact. Sending stays with the cron
    processor (``scripts/process_scheduled_outreach.py``), so the daily cap,
@@ -55,16 +56,20 @@ def queue_outreach_for_new_contacts(
 ) -> int:
     """Queue one scheduled outreach email per new contact for ``lead_slug``.
 
-    Respects the enabled flag, exclusions and the unsubscribe list, and
-    skips addresses that already have a pending scheduled row. Returns the
-    number of rows queued.
+    Active when the workspace-wide ``AUTO_OUTREACH_ON_CONTACT`` flag is set
+    or the lead's own auto-send toggle is on. Respects exclusions and the
+    unsubscribe list, and skips addresses that already have a pending
+    scheduled row. Returns the number of rows queued.
     """
-    if not auto_outreach_enabled() or not contacts:
+    if not contacts:
         return 0
     from .marketing_crm import _leads_by_slug, _outreach_template_and_context
 
     lead = _leads_by_slug().get(lead_slug)
     if lead is None or lead.get("excluded") or store.is_unsubscribed(lead_slug):
+        return 0
+    state = store.get_state(lead_slug) or {}
+    if not auto_outreach_enabled() and not state.get("auto_send"):
         return 0
 
     pending = {
@@ -91,10 +96,12 @@ def queue_outreach_for_new_contacts(
             pending.add(email)
             queued += 1
     if queued:
+        trigger = ("AUTO_OUTREACH_ON_CONTACT" if auto_outreach_enabled()
+                   else "per-lead auto-send")
         store.add_interaction(
             lead_slug,
             summary=f"Auto-queued outreach to {queued} new contact(s) "
-                    f"(AUTO_OUTREACH_ON_CONTACT).",
+                    f"({trigger}).",
             type="note",
         )
     return queued

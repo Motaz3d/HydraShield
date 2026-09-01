@@ -1,22 +1,20 @@
-Subject: Evidence behind the green claims in {{organization}}'s portfolio
+Subject: Climate evidence behind the assets — {{organization}}
 
 Hi {{contact_name}},
 
+Before capital is committed, the question is simple: what physical climate exposure sits inside this asset, this region, this portfolio — and can anyone prove it?
+
+Talaix is a climate-extreme intelligence platform connecting natural hazards, human exposure and financial impact. We compute evidence for seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, anywhere on Earth. Exposure is mapped per asset: buildings, infrastructure, agriculture, energy, transport, population. Every figure is traceable to its source, with evidence status stated and uncertainty shown instead of hidden — due diligence you can defend in front of an investment committee, and monitoring of the same assets after the investment closes.
+
 {{identified_problem}}
 
-Talaix physically verifies the assets behind green claims. For investors, that means per-asset DNSH hazard screening from satellite and open data for pre-investment due diligence, CSRD/ESRS evidence packs with an explicit coverage map (covered / partial / not covered — boundaries declared, not hidden), and continuous monitoring of the same assets after the investment closes.
-
-{{relevant_capability}}
+For {{organization}}, the most relevant part: {{relevant_capability}}
 
 {{custom_message}}
 
-Send two or three asset coordinates from the {{organization}} portfolio and we will return a free sample verification, so the evidence can be judged directly.
+Name 2–3 assets or locations and we will return a free sample screening report, so the evidence can be judged directly.
 
-Would a 20-minute call this week be useful?
-
-Best,
-Motaz Omarien — Talaix
-talaix.com/green-finance.html
+Would a 20-minute conversation this week be useful?
 
 ---
 If this is not relevant, just reply "unsubscribe" and we will stop.

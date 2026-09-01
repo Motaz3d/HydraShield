@@ -149,6 +149,12 @@ class MarketingStore:
             if "verification" not in contact_cols:
                 conn.execute(
                     "ALTER TABLE lead_contacts ADD COLUMN verification TEXT")
+            sched_cols = {r[1] for r in conn.execute(
+                "PRAGMA table_info(scheduled_outreach)").fetchall()}
+            if "attempts" not in sched_cols:
+                conn.execute(
+                    "ALTER TABLE scheduled_outreach"
+                    " ADD COLUMN attempts INTEGER DEFAULT 0")
             # Campaign waves (Phase 18).
             tables = {r[0] for r in conn.execute(
                 "SELECT name FROM sqlite_master WHERE type='table'").fetchall()}
@@ -389,6 +395,7 @@ class MarketingStore:
             "error": row[8],
             "created_at": row[9],
             "sent_at": row[10],
+            "attempts": row[11] or 0,
         }
 
     def schedule_send(
@@ -450,7 +457,8 @@ class MarketingStore:
         with self._lock, self._connect() as conn:
             rows = conn.execute(
                 "SELECT id, lead_slug, to_email, contact_name, template,"
-                " context_json, send_at, status, error, created_at, sent_at"
+                " context_json, send_at, status, error, created_at, sent_at,"
+                " COALESCE(attempts, 0)"
                 f" FROM scheduled_outreach{where} ORDER BY send_at ASC, id ASC",
                 params,
             ).fetchall()
@@ -462,7 +470,8 @@ class MarketingStore:
         with self._lock, self._connect() as conn:
             row = conn.execute(
                 "SELECT id, lead_slug, to_email, contact_name, template,"
-                " context_json, send_at, status, error, created_at, sent_at"
+                " context_json, send_at, status, error, created_at, sent_at,"
+                " COALESCE(attempts, 0)"
                 " FROM scheduled_outreach WHERE id = ?",
                 (scheduled_id,),
             ).fetchone()
@@ -513,6 +522,29 @@ class MarketingStore:
                 ("cancelled", lead_slug, "scheduled"),
             )
             return cur.rowcount
+
+    def reschedule_scheduled(
+        self,
+        scheduled_id: int,
+        send_at: str,
+        error: Optional[str] = None,
+    ) -> Optional[Dict]:
+        """Push a still-scheduled row to a later send_at after a transient
+        failure, incrementing its attempts counter. Returns the row, or None
+        when the row is unknown or no longer scheduled."""
+        if not _SEND_AT_RE.match(send_at or ""):
+            return None
+        row = self.get_scheduled(scheduled_id)
+        if row is None or row.get("status") != "scheduled":
+            return None
+        error = (error or "")[:500]
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE scheduled_outreach SET send_at = ?, error = ?,"
+                " attempts = COALESCE(attempts, 0) + 1 WHERE id = ?",
+                (send_at, error, scheduled_id),
+            )
+        return self.get_scheduled(scheduled_id)
 
     # ------------------------------------------------------------------
     # Campaign waves (periodic outreach)

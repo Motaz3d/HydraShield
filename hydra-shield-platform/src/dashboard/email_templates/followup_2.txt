@@ -1,18 +1,14 @@
-Subject: One last thought on climate-risk evidence for {{organization}}
+Subject: One last thought — {{organization}}
 
 Hi {{contact_name}},
 
-I will keep this brief. Talaix publishes open evidence briefs and framework explainers on how physical climate-risk data is used for green finance, CSRD/ESRS reporting and insurance underwriting: https://talaix.com/briefs.html
+I will keep this brief. One thing worth keeping: Talaix publishes its full source registry publicly — every dataset we use is listed with its status, so any evidence we send can be checked independently. We also publish open evidence briefs on how physical climate-risk data is used in green finance, CSRD/ESRS reporting and insurance underwriting: https://talaix.com/briefs.html
 
-If {{organization}} is working on any of those areas, the briefs are a useful starting point — no call required.
+If this becomes relevant for {{organization}} — credit files, due diligence, underwriting, disclosure or resilience planning — the door is open: 2–3 locations is all we need for a free sample.
 
 {{custom_message}}
 
 I will not follow up again unless I hear from you.
-
-Best,
-Motaz Omarien — Talaix
-talaix.com
 
 ---
 If this is not relevant, just reply "unsubscribe" and we will stop.

@@ -1,22 +1,20 @@
-Subject: Physical-risk profile for {{organization}}'s assets
+Subject: Site-level climate evidence for {{organization}}
 
 Hi {{contact_name}},
 
+Acquisition, planning and disclosure decisions all rest on one question: what do we actually know about this site's physical climate exposure — and can we show it in the file?
+
+Talaix is a climate-extreme intelligence platform. We compute seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, for any site on Earth. We map what is exposed around each site: buildings, transport, energy, water, population. Reports carry source, evidence status and limitations per block — ready for acquisition screening, planning support and disclosure files, with monitoring of assets after handover.
+
 {{identified_problem}}
 
-Talaix profiles individual properties against flood, wildfire, heat, drought, wind and coastal hazards using satellite and open data: current levels, historical events, confidence, and declared data gaps. Real estate and engineering teams use it for acquisition screening, insurance negotiations and planning timelines.
-
-{{relevant_capability}}
+For {{organization}}, the most relevant part: {{relevant_capability}}
 
 {{custom_message}}
 
-Send us one asset's coordinates and we will return a free physical-risk profile for {{organization}} to evaluate.
+Send 2–3 site coordinates and we will return a free sample screening report, so you can see exactly what would go into your files.
 
 Would a short call this week be useful?
-
-Best,
-Motaz Omarien — Talaix
-talaix.com/insurance.html
 
 ---
 If this is not relevant, just reply "unsubscribe" and we will stop.

@@ -2,21 +2,19 @@ Subject: An evidence layer for {{organization}}'s client work
 
 Hi {{contact_name}},
 
+Consulting work is only as strong as the evidence behind it: every figure you put in front of a client may need to be defended — source, method, limitation.
+
+Talaix is a climate-extreme intelligence platform. We compute seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, with mapped exposure: population, buildings, infrastructure, agriculture, energy, transport, industry. Provenance is attached per block, observed is kept separate from modelled, and the full analysis depth is available through our documented API and QGIS plugin — including CSRD/ESRS evidence packs and EU Taxonomy DNSH vocabulary where your clients' auditors ask for it.
+
 {{identified_problem}}
 
-Consultants use Talaix as the physical-evidence layer under their client deliverables: CSRD/ESRS evidence packs with an explicit coverage map, per-asset verification reports in EU Taxonomy DNSH vocabulary, and EUDR origin screening for supply-chain claims. Everything is source-cited and reproducible, and gaps are declared, never invented — which is exactly what your clients' auditors ask for.
-
-{{relevant_capability}}
+For {{organization}}, the most relevant part: {{relevant_capability}}
 
 {{custom_message}}
 
-We can run a free evaluation on one of your client sites, so {{organization}} can test the fit before any partnership conversation.
+Pick 2–3 locations from a current engagement and we will return a free sample evidence report, so {{organization}} can test the output against its own standards.
 
 Would a 20-minute call this week be useful?
-
-Best,
-Motaz Omarien — Talaix
-talaix.com/sustainability.html
 
 ---
 If this is not relevant, just reply "unsubscribe" and we will stop.

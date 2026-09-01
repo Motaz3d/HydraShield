@@ -40,6 +40,35 @@ from src.dashboard.marketing_store import MarketingStore  # noqa: E402
 
 _UNSUBSCRIBE_KEYWORDS = ("unsubscribe", "إلغاء الاشتراك")
 
+# Lines that mark the start of quoted history in a reply. Everything at or
+# below the first marker is the original message echoed back — our own
+# footer contains the word "unsubscribe", so scanning quoted text would
+# mark every replying lead as unsubscribed.
+_QUOTE_STARTERS = (
+    "-----original message-----",
+    "from:",  # quoted header block of the original
+    "________________________________",  # Outlook divider
+)
+_QUOTE_WROTE_RE = re.compile(r"^on .+wrote:.*$", re.IGNORECASE)
+
+
+def _top_reply_text(body: str) -> str:
+    """Keep only the freshly written part of a reply: drop ">"-quoted lines
+    and everything below the first quote separator. The unsubscribe heuristic
+    must judge the sender's own words, never our echoed footer."""
+    kept = []
+    for line in (body or "").splitlines():
+        stripped = line.strip()
+        low = stripped.lower()
+        if stripped.startswith(">"):
+            continue
+        if _QUOTE_WROTE_RE.match(stripped):
+            break
+        if any(low.startswith(marker) for marker in _QUOTE_STARTERS):
+            break
+        kept.append(line)
+    return "\n".join(kept)
+
 
 def _env() -> Dict[str, Optional[str]]:
     return {
@@ -87,7 +116,9 @@ def _body_text(msg: email.message.EmailMessage) -> str:
 
 
 def _has_unsubscribe_keyword(subject: str, body: str) -> bool:
-    combined = f"{subject or ''}\n{body or ''}".lower()
+    # Subject in full + only the freshly written top of the body (quoted
+    # history is stripped — it contains our own unsubscribe footer).
+    combined = f"{subject or ''}\n{_top_reply_text(body)}".lower()
     return any(kw.lower() in combined for kw in _UNSUBSCRIBE_KEYWORDS)
 
 
