@@ -96,7 +96,7 @@
                 note: 'Evidence inputs for underwriting judgement — screening indicators, not loss guarantees.'
             },
             cards: [
-                ['📜 Historical hazard profile', 'Documented events and past conditions from authoritative archives — satellite detections, reanalysis climatologies — labelled HISTORICAL, never blended with projections.'],
+                ['📜 Historical hazard profile', 'Documented events and past conditions from authoritative archives — satellite records and long-term weather history — labelled HISTORICAL, never blended with projections.'],
                 ['🏙️ Exposure intelligence', 'Population, buildings, critical facilities and sector context around the insured asset, from real mapped data with completeness caveats.'],
                 ['🧭 Uncertainty, stated', 'Claim status on every figure: OBSERVED / DOCUMENTED / REPORTED / MODELLED / INFERRED / UNKNOWN. Unknown is a first-class answer.'],
                 ['🛡️ Resilience evidence', 'Solutions intelligence connects the hazard evidence to feasible resilience measures — with limitations and sources.']
@@ -132,7 +132,7 @@
                 note: 'Climate-evidence intelligence — not financial, investment or legal advice. Figures are traceable to sources or honestly not quantified.'
             },
             cards: [
-                ['📍 Asset & location risk', 'Per-location screening across wildfire, flood, drought, heat, wind, coastal exposure and tropical cyclones — from real datasets, with climatology baselines named.'],
+                ['📍 Asset & location risk', 'Per-location screening across wildfire, flood, drought, heat, wind, coastal exposure and tropical cyclones — from real datasets, each compared against local historical norms.'],
                 ['📚 Historical evidence', 'What actually happened at or near the asset: documented events with sources, kept structurally separate from modelled interpretation.'],
                 ['🏙️ Exposure', 'Population, built-up area, critical facilities and sector context counted from real mapped data — with completeness caveats.'],
                 ['🔍 Honest uncertainty', 'Screening indicators are labelled as such; monetary exposure is reported as not-quantified unless a documented valuation basis exists. No fabricated figures, ever.'],
@@ -228,12 +228,11 @@
         government: {
             tab: 'Government',
             badge: 'For government & municipalities',
-            title: 'Your territory, your evidence',
-            sub: 'Wildfire, flood, drought, heat, wind, coastal exposure and tropical cyclones across your ' +
-                 'territory — with the population, infrastructure and economic activity in ' +
-                 'their path, the resilience options that fit, the funding programmes that ' +
-                 'may apply, and monitoring that keeps watch for you. Every figure traceable ' +
-                 'to an official source.',
+            title: 'Understand risk across your territory',
+            sub: 'Wildfire, flood, drought, heat, wind and coastal risk across your territory — ' +
+                 'with the people, infrastructure and economic activity in their path, the ' +
+                 'resilience options that fit, the funding programmes that may apply, and ' +
+                 'monitoring that keeps watch for you. Every figure traceable to an official source.',
             actions: [
                 ['intelligence.html', 'btn btn-primary', 'Analyze your territory — free'],
                 ['contact.html', 'btn btn-outline', 'Contact the public-sector team']
@@ -256,7 +255,7 @@
                 title: 'From hazard to funded, monitored action',
                 subtitle: 'One evidence chain, built for public decisions.',
                 cards: [
-                    ['1 · Territorial risk', 'Run your municipality or region: seven hazards computed from real datasets — wildfire danger, river discharge, drought deficit, heat and wind against climatology, coastal exposure. Screening levels, honestly labelled. <a class="text-link" href="intelligence.html">Analyze your territory →</a>'],
+                    ['1 · Territorial risk', 'Run your municipality or region: seven risks computed from real datasets — wildfire, flood, drought, heat, wind and coastal exposure, each compared against local history. Screening levels, honestly labelled. <a class="text-link" href="intelligence.html">Analyze your territory →</a>'],
                     ['2 · Who and what is exposed', 'Population and settlements, hospitals, schools, fire stations, transport, energy and water — counted from real mapped data with completeness caveats stated, never estimated silently. <a class="text-link" href="map.html">See it on the map →</a>'],
                     ['3 · Economic exposure', 'Which sectors and assets sit in exposed areas — structured exposure profiles for budget and planning conversations. Where no documented valuation basis exists, we say so instead of inventing figures. <a class="text-link" href="intelligence.html?mode=economy">Explore exposure →</a>'],
                     ['4 · Resilience solutions', 'Site-fitted options — nature-based, engineering, monitoring — each with limitations, maturity and maintenance stated. No solution is presented as guaranteed prevention. <a class="text-link" href="solutions.html">Match solutions →</a>'],
@@ -276,7 +275,7 @@
         }
     };
 
-    var SECTOR_ORDER = ['banks', 'insurance', 'investors', 'real-estate', 'consulting', 'government'];
+    var SECTOR_ORDER = ['banks', 'government', 'insurance', 'investors', 'real-estate', 'consulting'];
 
     /* ---------------- interactive hub (ported from audience.js) -------- */
 

@@ -1,10 +1,11 @@
 # Talaix
 
-> Talaix is an environmental evidence platform: it computes physical
-> climate-risk evidence (flood, wildfire, heat, drought, wind, coastal)
-> from real Earth-observation and open-data sources, and packages it for
-> green finance verification, CSRD sustainability reporting, insurance
-> underwriting, EUDR supply-chain screening and environmental forensics.
+> Talaix is an environmental & risk intelligence platform: it turns Earth
+> observation, environmental data and historical events into clear,
+> audit-ready risk evidence for lending, investment, insurance and
+> public-sector decisions — green finance verification, CSRD sustainability
+> reporting, insurance screening, EUDR supply-chain checks and
+> environmental forensics.
 > Honesty contract: unavailable data is declared, never invented; every
 > claim carries an evidence status (OBSERVED / DOCUMENTED / REPORTED /
 > MODELLED / INFERRED / UNKNOWN).

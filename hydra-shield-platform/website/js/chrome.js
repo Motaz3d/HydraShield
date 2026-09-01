@@ -208,9 +208,10 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
-            '<p>Climate Extreme Intelligence: the best available evidence on environmental ' +
-            'extremes, their consequences, their economic meaning, and the actions that ' +
-            'reduce exposure. Real data only — unavailable is stated, never filled in.</p>' +
+            '<p>Environmental &amp; Risk Intelligence: clear, traceable evidence on the ' +
+            'environmental risks around any place, asset or territory — and what they mean ' +
+            'for lending, investment, insurance and public decisions. Real data only — ' +
+            'unavailable is stated, never filled in.</p>' +
             '</div>' +
             FOOTER_GROUPS.map(footerGroupHtml).join('') +
             '<div class="footer-links"><h4>About</h4><ul>' +
