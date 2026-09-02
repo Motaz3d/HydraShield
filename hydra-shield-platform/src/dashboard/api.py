@@ -1203,6 +1203,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(forensics_bp)
 
+    # Environmental Licensing Advisory API (/api/v2/licensing/…).
+    from ..climate.api_licensing import licensing as licensing_bp
+
+    app.register_blueprint(licensing_bp)
+
     # Talaix Academy API (/api/v2/academy/…).
     from ..climate.api_academy import academy as academy_bp
 

@@ -259,7 +259,7 @@ using the public Wikidata SPARQL endpoint, then feeds the marketing workspace.
 |---|---|
 | Banking | bank, central bank |
 | Insurance | insurance company |
-| Investment | investment company, asset management company, pension fund, sovereign wealth fund |
+| Investment | investment company, asset management company, investment bank, hedge fund, private equity firm, venture capital firm, pension fund, sovereign wealth fund |
 | Real estate | real estate company, real estate investment trust |
 | Governments | ministry of the environment, government agency, meteorological service, disaster management agency |
 | Research centers | university, research institute |
@@ -273,6 +273,8 @@ under the **Consultants** category in the CRM tree (alias in
 
 - East Asia: CN, JP, KR, TW, HK, MN
 - Southeast Asia: SG, ID, MY, TH, VN, PH, MM, KH, LA, BN, TL
+- South Asia: IN
+- Latin America: BR
 - Europe focus: LU, BE, NL, DE, FR, CH, AT, DK, FI, SE, NO, PL, CZ, HR, RO, PT, ES, IT, GR, GB
 
 **Website rule (honesty HARD):**

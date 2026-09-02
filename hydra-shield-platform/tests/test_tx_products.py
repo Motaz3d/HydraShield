@@ -183,7 +183,7 @@ def test_products_descriptors_and_ghost_absent():
 def test_default_product_registry_resolves_real_engines():
     engine = TXEngine()  # no injection: default adapter path
     ids = engine.available_product_ids()
-    assert ids == ["insurance", "sustainability", "verification"]
+    assert ids == ["insurance", "licensing", "sustainability", "verification"]
     assert engine.resolve_products(["insurance", "does-not-exist"]) == ["insurance"]
     for pid in ids:
         module = product_adapters.get_product_module(pid)

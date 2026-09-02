@@ -149,6 +149,71 @@
         </div>
     </section>
 
+    <!-- Interactive dossier builder -->
+    <section class="content-section" id="dossier-builder">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Build your evidence base</span>
+                <h2 class="section-title">Run the licensing engine on your site</h2>
+                <p class="section-subtitle">
+                    The same screening evidence the advisory workflow reviews into the
+                    delivered branded dossier — generated live by the TX engine
+                    (product <code>licensing</code>, TX-2).
+                </p>
+            </div>
+
+            <div class="panel">
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="licSide">Which side of the table are you on?</label>
+                        <select id="licSide"></select>
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="licTypology">Project typology</label>
+                        <select id="licTypology"></select>
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="licPermitType">Permit / consent type</label>
+                        <select id="licPermitType"></select>
+                    </div>
+                </div>
+                <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="licSiteInput">Site location (place name or lat,lon)</label>
+                        <input type="text" id="licSiteInput" placeholder="e.g. 39.62, 22.39 or Almería, Spain">
+                    </div>
+                    <div class="form-group" style="width:120px;">
+                        <label for="licRadiusInput">Radius (km)</label>
+                        <input type="number" id="licRadiusInput" value="25" min="1" max="200">
+                    </div>
+                    <div class="form-group" style="flex:1; min-width:200px;">
+                        <label for="licJurisdiction">Jurisdiction (optional)</label>
+                        <input type="text" id="licJurisdiction" placeholder="Country / municipality">
+                    </div>
+                </div>
+                <div id="licSiteAssist"></div>
+                <div class="form-group">
+                    <label for="licTitle">Project title (optional)</label>
+                    <input type="text" id="licTitle" placeholder="e.g. Helios 50 MW solar plant">
+                </div>
+                <div class="form-group">
+                    <label for="licDescription">Project description (optional, free-text context)</label>
+                    <textarea id="licDescription" rows="3" placeholder="Briefly describe the development or investment: footprint, capacity, water needs, timeline…"></textarea>
+                </div>
+                <div class="toolbar" style="gap:12px;">
+                    <button class="btn-action" id="buildDossierBtn">Build evidence base</button>
+                </div>
+                <div id="licStatus"></div>
+                <div id="licResult"></div>
+            </div>
+
+            <p class="muted small" style="margin-top: 12px;">
+                Every finding below is labelled with its evidence type. Missing data is
+                declared as <span class="chip chip-unknown">UNKNOWN</span> — never filled in.
+            </p>
+        </div>
+    </section>
+
     <!-- How it works -->
     <section class="content-section">
         <div class="container">
@@ -209,8 +274,8 @@
                 evidence-backed pre-draft dossier can contain.
             </p>
             <div class="cta-actions">
-                <a href="contact.html" class="btn btn-light">Request a licensing dossier</a>
-                <a href="reports.html" class="btn btn-outline-light">Explore reports</a>
+                <a href="#dossier-builder" class="btn btn-light">Build your evidence base</a>
+                <a href="contact.html" class="btn btn-outline-light">Request the full dossier</a>
             </div>
             <p class="muted small" style="margin-top: 20px; opacity: 0.85;">
                 Or write directly to <a href="mailto:info@talaix.com" style="color: inherit; text-decoration: underline;">info@talaix.com</a>.
@@ -220,6 +285,9 @@
 
     <div id="site-footer"></div>
 
+    <script src="js/api.js"></script>
     <script src="js/chrome.js"></script>
+    <script src="js/location.js" defer></script>
+    <script src="js/licensing.js" defer></script>
 </body>
 </html>

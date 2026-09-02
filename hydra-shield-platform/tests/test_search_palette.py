@@ -50,12 +50,15 @@ def test_harness_filter_index():
     assert "Map Check" in map_labels
 
     # Fallback actions for unmatched queries.
-    assert len(out["fallback"]) == 2
+    assert len(out["fallback"]) == 3
     assert out["fallback"][0]["label"] == "Search map for 'Ljubljana'"
     assert out["fallback"][1]["label"] == "Verify 'Ljubljana'"
+    assert out["fallback"][2]["label"] == "Analyze 'Ljubljana' (Intelligence)"
+    assert out["fallback"][2]["href"] == "intelligence.html?location=Ljubljana"
     no_match_labels = [e["label"] for e in out["no_match"]]
     assert "Search map for 'Ljubljana'" in no_match_labels
     assert "Verify 'Ljubljana'" in no_match_labels
+    assert "Analyze 'Ljubljana' (Intelligence)" in no_match_labels
 
     # Cap of 7 per group.
     assert len(out["capped"]) == 7
@@ -77,6 +80,19 @@ def test_harness_filter_index():
     assert "Map-vs-satellite check" in actions
     assert "Take the Academy course" in actions
     assert "Read evidence briefs" in actions
+
+    # Hazard items link to Intelligence with the hazard tab preselected.
+    haz = out["hazard_items"]
+    assert [h["id"] for h in haz] == ["haz-wildfire", "haz-flood"]
+    assert haz[0]["label"] == "Wildfire"
+    assert haz[0]["href"] == "intelligence.html?mode=wildfire"
+    assert all(h["group"] == "Hazards" for h in haz)
+
+    # Only integrated sources become items — never candidates or rejected.
+    srcs = out["source_items"]
+    assert [s["label"] for s in srcs] == ["NASA FIRMS"]
+    assert srcs[0]["href"] == "https://firms.modaps.eosdis.nasa.gov"
+    assert srcs[0]["group"] == "Sources"
 
 
 # -----------------------------------------------------------------------------
@@ -130,3 +146,28 @@ def test_style_css_has_search_classes():
     assert ".search-item.active" in css
     assert ".search-footer" in css
     assert ".nav-search" in css
+
+
+def test_search_js_has_type_tabs_and_panels():
+    js = _read(os.path.join(JS, "search.js"))
+    assert "search-types" in js
+    assert "search-type-tab" in js
+    assert "search-panel" in js
+    assert "role=\"tablist\"" in js
+    assert "_setType: setType" in js
+    assert "'Hazards'" in js
+    assert "'Sources'" in js
+
+
+def test_search_js_lazy_fetches_hazards_and_sources():
+    js = _read(os.path.join(JS, "search.js"))
+    assert "/v2/hazards" in js
+    assert "/api/sources" in js
+
+
+def test_style_css_has_search_type_classes():
+    css = _read(os.path.join(WEBSITE, "css", "style.css"))
+    assert ".search-types" in css
+    assert ".search-type-tab" in css
+    assert ".search-type-tab.active" in css
+    assert ".search-panel" in css

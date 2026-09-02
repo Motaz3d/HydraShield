@@ -42,11 +42,15 @@
   "date_checked": "2026-08-27",
   "wikidata_id": "Q110823353",
   "concepts": [
-    "bank"
+    "bank",
+    "investment bank"
   ],
   "inventory_meta": {
     "concept_label": "bank",
     "wikidata_id": "Q110823353",
     "source_url": "https://www.wikidata.org/wiki/Q110823353"
-  }
+  },
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q110823353"
+  ]
 }

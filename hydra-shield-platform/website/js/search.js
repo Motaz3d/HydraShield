@@ -1,9 +1,11 @@
 /* Talaix — site-wide command-palette quick search.
  *
  * Opened from the navbar search button or via Cmd/Ctrl+K (and '/' when not
- * typing in an input). Searches static navigation, portal actions, the
- * glossary and evidence briefs. Only real content is returned; there are no
- * fake results.
+ * typing in an input). A row of clickable search-type tabs filters the
+ * results and opens per-type advanced options; the free-text input always
+ * accepts anything. Searches static navigation, portal actions, hazards,
+ * data sources, the glossary and evidence briefs. Only real content is
+ * returned; there are no fake results.
  *
  * This file is loaded dynamically by chrome.js after the nav is rendered.
  * It must run without api.js, so it only uses platform fetch and the
@@ -17,16 +19,33 @@
         : '/api';
 
     var MAX_PER_GROUP = 7;
-    var GROUP_ORDER = ['Navigation', 'Actions', 'Location', 'Glossary', 'Briefs'];
+    var GROUP_ORDER = ['Navigation', 'Actions', 'Location', 'Hazards', 'Glossary', 'Briefs', 'Sources'];
+
+    /* Clickable search types: 'all' shows every group; any other id is a
+     * group name from GROUP_ORDER and filters the palette to that group. */
+    var TYPES = [
+        { id: 'all', label: 'All' },
+        { id: 'Navigation', label: 'Pages' },
+        { id: 'Actions', label: 'Actions' },
+        { id: 'Location', label: 'Location' },
+        { id: 'Hazards', label: 'Hazards' },
+        { id: 'Glossary', label: 'Glossary' },
+        { id: 'Briefs', label: 'Briefs' },
+        { id: 'Sources', label: 'Data sources' }
+    ];
 
     var _container = null;
     var _input = null;
     var _resultsEl = null;
+    var _typesEl = null;
     var _allItems = [];
     var _filteredItems = [];
     var _activeIndex = -1;
+    var _activeType = 'all';
     var _glossary = null;
     var _briefs = null;
+    var _hazards = null;
+    var _sources = null;
     var _openedOnce = false;
 
     function esc(s) {
@@ -139,6 +158,14 @@
                 href: 'green-finance.html?location=' + encodeURIComponent(q),
                 group: 'Actions',
                 keywords: ['verify', q]
+            },
+            {
+                id: 'fb-analyze',
+                label: "Analyze '" + q + "' (Intelligence)",
+                hint: 'New location',
+                href: 'intelligence.html?location=' + encodeURIComponent(q),
+                group: 'Actions',
+                keywords: ['analyze', 'intelligence', 'hazard', q]
             }
         ];
     }
@@ -171,13 +198,51 @@
         });
     }
 
+    /* payload: the /api/v2/hazards contract ({hazards: [...]}) or a bare
+     * array. Each entry opens the Intelligence page with that hazard's tab
+     * preselected (?mode= is honoured by intelligence.js). */
+    function buildHazardItems(payload) {
+        var hazards = Array.isArray(payload) ? payload : (payload && payload.hazards) || [];
+        return hazards.map(function (h) {
+            return {
+                id: 'haz-' + h.id,
+                label: h.name || h.id,
+                hint: h.tagline || 'Hazard analysis',
+                href: 'intelligence.html?mode=' + encodeURIComponent(h.id),
+                group: 'Hazards',
+                keywords: [h.id, h.name || '', h.tagline || '', 'hazard', 'analysis']
+            };
+        });
+    }
+
+    /* payload: the /api/sources contract ({sources: [...]}) or a bare array.
+     * Only integrated sources are listed — candidates and rejected sources
+     * are audit metadata, not site capabilities. */
+    function buildSourceItems(payload) {
+        var sources = Array.isArray(payload) ? payload : (payload && payload.sources) || [];
+        return sources.filter(function (s) {
+            return !s.status || s.status === 'integrated';
+        }).map(function (s, i) {
+            return {
+                id: 'src-' + i,
+                label: s.name,
+                hint: s.provider || s.kind || 'Data source',
+                href: s.url || '/api/sources',
+                group: 'Sources',
+                keywords: [s.name || '', s.provider || '', s.kind || '', s.purpose || '', 'data', 'source', 'dataset']
+            };
+        });
+    }
+
     function rebuildIndex() {
         _allItems = []
             .concat(buildNavigationItems())
             .concat(buildActionItems())
             .concat(buildLocationItems())
+            .concat(buildHazardItems(_hazards))
             .concat(buildGlossaryItems())
-            .concat(buildBriefItems());
+            .concat(buildBriefItems())
+            .concat(buildSourceItems(_sources));
     }
 
     // -----------------------------------------------------------------------
@@ -226,13 +291,17 @@
     }
 
     function loadDynamicData() {
-        if (_glossary && _briefs) return Promise.resolve();
+        if (_glossary && _briefs && _hazards && _sources) return Promise.resolve();
         return Promise.all([
             fetchJSON(API + '/v2/academy/glossary'),
-            fetchJSON(API + '/v2/briefs')
+            fetchJSON(API + '/v2/briefs'),
+            fetchJSON(API + '/v2/hazards'),
+            fetchJSON(API + '/sources')
         ]).then(function (results) {
             if (results[0]) _glossary = results[0];
             if (results[1]) _briefs = results[1];
+            if (results[2]) _hazards = results[2];
+            if (results[3]) _sources = results[3];
             rebuildIndex();
             if (_input) render(_input.value);
         });
@@ -255,9 +324,35 @@
             '</div>';
     }
 
+    /* Per-type advanced-options panels, shown on an empty query when a
+     * specific type tab is active: a short capability brief plus the group's
+     * items. Descriptions state only what the site really does. */
+    var TYPE_PANELS = {
+        Navigation: { title: 'Pages', desc: 'Every portal and page on the platform.' },
+        Actions: { title: 'Portal actions', desc: 'Start a real workflow: verify an asset, build a CSRD report, profile insurance risk, screen a supply chain.' },
+        Location: { title: 'Location search', desc: 'Type any place name or lat,lon — the map, verification and profiling portals accept it directly.' },
+        Hazards: { title: 'Hazard intelligence', desc: 'Per-hazard screening analysis computed from real, documented datasets. Pick a hazard to open its pipeline.' },
+        Glossary: { title: 'Evidence vocabulary', desc: 'Every term links the discipline and dataset behind it.' },
+        Briefs: { title: 'Evidence briefs', desc: 'Framework explainers and briefs grounded in documented sources.' },
+        Sources: { title: 'Data sources', desc: 'The integrated public datasets behind the numbers this site shows.' }
+    };
+
+    function typePanelHtml(type) {
+        var p = TYPE_PANELS[type];
+        if (!p) return '';
+        return '<div class="search-panel">' +
+            '<div class="search-panel-title">' + esc(p.title) + '</div>' +
+            '<div class="search-panel-desc">' + esc(p.desc) + '</div>' +
+            '</div>';
+    }
+
     function render(query) {
         _filteredItems = filterIndex(_allItems, query);
+        if (_activeType !== 'all') {
+            _filteredItems = _filteredItems.filter(function (e) { return e.group === _activeType; });
+        }
         if (query && query.trim() && _filteredItems.length === 0) {
+            /* Free text stays actionable whatever type is selected. */
             _filteredItems = buildFallbackItems(query);
         }
         _activeIndex = _filteredItems.length ? 0 : -1;
@@ -269,7 +364,10 @@
             return;
         }
 
-        var context = (!query || !query.trim()) ? contextHtml() : '';
+        var context = '';
+        if (!query || !query.trim()) {
+            context = _activeType === 'all' ? contextHtml() : typePanelHtml(_activeType);
+        }
 
         var groups = {};
         _filteredItems.forEach(function (item, idx) {
@@ -358,19 +456,42 @@
             '<circle cx="11" cy="11" r="8"></circle>' +
             '<line x1="21" y1="21" x2="16.65" y2="16.65"></line>' +
             '</svg>' +
-            '<input type="text" class="search-input" id="searchInput" placeholder="Search pages, actions, glossary, briefs…" autocomplete="off" aria-autocomplete="list" aria-controls="searchResults">' +
+            '<input type="text" class="search-input" id="searchInput" placeholder="Search anything — pages, actions, hazards, sources…" autocomplete="off" aria-autocomplete="list" aria-controls="searchResults">' +
             '</div>' +
+            '<div class="search-types" id="searchTypes" role="tablist" aria-label="Search types"></div>' +
             '<div class="search-results" id="searchResults" role="listbox"></div>' +
-            '<div class="search-footer">↑↓ navigate · Enter open · Esc close · Cmd/Ctrl+K</div>' +
+            '<div class="search-footer">↑↓ navigate · Enter open · Esc close · tabs filter by type · Cmd/Ctrl+K</div>' +
             '</div>';
         document.body.appendChild(_container);
 
         _input = _container.querySelector('#searchInput');
         _resultsEl = _container.querySelector('#searchResults');
+        _typesEl = _container.querySelector('#searchTypes');
+        renderTypes();
 
         _container.querySelector('.search-backdrop').addEventListener('click', close);
         _input.addEventListener('input', function () { render(_input.value); });
         _input.addEventListener('keydown', onKeyDown);
+    }
+
+    function renderTypes() {
+        if (!_typesEl) return;
+        _typesEl.innerHTML = TYPES.map(function (t) {
+            var active = t.id === _activeType;
+            return '<button type="button" class="search-type-tab' + (active ? ' active' : '') + '" role="tab" aria-selected="' + active + '" data-type="' + esc(t.id) + '">' + esc(t.label) + '</button>';
+        }).join('');
+        _typesEl.querySelectorAll('.search-type-tab').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                setType(btn.getAttribute('data-type'));
+                if (_input) _input.focus();
+            });
+        });
+    }
+
+    function setType(typeId) {
+        _activeType = typeId || 'all';
+        renderTypes();
+        render(_input ? _input.value : '');
     }
 
     function onKeyDown(ev) {
@@ -404,6 +525,8 @@
             rebuildIndex();
             loadDynamicData().catch(function () { /* keep static index */ });
         }
+        _activeType = 'all';
+        renderTypes();
         render('');
         setTimeout(function () { _input && _input.focus(); }, 10);
     }
@@ -460,6 +583,9 @@
         // Internal helpers exposed for the Node harness.
         _buildActionItems: buildActionItems,
         _buildLocationItems: buildLocationItems,
-        _buildFallbackItems: buildFallbackItems
+        _buildFallbackItems: buildFallbackItems,
+        _buildHazardItems: buildHazardItems,
+        _buildSourceItems: buildSourceItems,
+        _setType: setType
     };
 })();

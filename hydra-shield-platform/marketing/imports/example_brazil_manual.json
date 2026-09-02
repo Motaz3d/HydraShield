@@ -1,0 +1,25 @@
+{
+  "batch": "brazil-manual-research",
+  "imported_at": "2026-09-02",
+  "note": "مسار البحث اليدوي البرازيلي — يملؤه المشغّل البشري. هذا الملف قالب (example_*) والمستورِد يتجاوزه دائماً؛ بعد التعبئة احفظ نسخة باسم brazil_manual_YYYYMMDD.json ثم شغّل: .venv/bin/python scripts/import_contacts.py وأعد بناء الموجة: .venv/bin/python scripts/build_asia_wave1.py. أدلة مقترحة للبحث: ANBIMA (anbima.com.br — دليل مديري الأصول الأعضاء)، ABVCAP (abvcap.com.br — دليل الملكية الخاصة ورأس المال الجريء)، CFA Society Brazil، وأدلة الاستشارات في ساو باولو. القواعد الملزمة: الموقع الرسمي فقط، والبريد من صفحة عامة على نطاق الشركة نفسها مع source_url، ولا عنوان مُخمن. كل صف يحتاج source_url + تاريخ فحص حقيقي.",
+  "contacts": [
+    {
+      "organization": "REPLACE — اسم الشركة كما في الدليل الرسمي",
+      "country": "BR",
+      "segment": "investment",
+      "website": "https://REPLACE — الموقع الرسمي",
+      "email": "REPLACE — بريد منشور على الموقع الرسمي نفسه",
+      "person": null,
+      "role": "Investment Director",
+      "email_type": "general",
+      "source_url": "https://REPLACE — الصفحة التي ظهر فيها البريد حرفياً",
+      "source_type": "official",
+      "verification": "public_official",
+      "priority": "high",
+      "recommended_product": "api",
+      "identified_problem": "due diligence lacks traceable climate evidence and portfolio concentration is under-measured",
+      "relevant_capability": "multi-location exposure screening and monitoring",
+      "date_checked": "2026-09-XX"
+    }
+  ]
+}

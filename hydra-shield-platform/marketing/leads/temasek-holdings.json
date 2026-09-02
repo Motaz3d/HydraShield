@@ -48,5 +48,8 @@
     "concept_label": "sovereign wealth fund",
     "wikidata_id": "Q762479",
     "source_url": "https://www.wikidata.org/wiki/Q762479"
-  }
+  },
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q762479"
+  ]
 }

@@ -29,6 +29,9 @@ JUNK_LOCALPARTS = frozenset({
     "noreply", "no-reply", "donotreply", "do-not-reply",
     "mailer-daemon", "postmaster", "webmaster", "hostmaster",
     "abuse", "bounce", "sentry", "example", "test", "admin",
+    # Security/incident desks — never a business contact.
+    "phishing", "report-phishing", "spoof", "fraud", "security",
+    "infosec", "soc", "cert", "incident",
 })
 
 _ROLE_LOCALPARTS = {

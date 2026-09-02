@@ -64,7 +64,7 @@ out.empty = HS.filterIndex(entries, '');
 out.verify = HS.filterIndex(entries, 'verify');
 out.map = HS.filterIndex(entries, 'map');
 
-// 3. Unknown query with fallback actions.
+// 3. Unknown query with three fallback actions (map, verify, analyze).
 const fallback = HS._buildFallbackItems('Ljubljana');
 out.fallback = fallback;
 out.no_match = HS.filterIndex(entries.concat(fallback), 'Ljubljana');
@@ -82,5 +82,18 @@ out.location_actions = HS._buildLocationItems();
 // 6. Action list is non-empty and contains expected portals.
 const actions = HS._buildActionItems();
 out.action_labels = actions.map((a) => a.label);
+
+// 7. Hazard items built from the /api/v2/hazards contract.
+out.hazard_items = HS._buildHazardItems({ hazards: [
+    { id: 'wildfire', name: 'Wildfire', tagline: 'Fire danger screening' },
+    { id: 'flood', name: 'Flood', tagline: 'Flood exposure screening' }
+] });
+
+// 8. Source items: candidates/rejected are audit metadata, not capabilities.
+out.source_items = HS._buildSourceItems({ sources: [
+    { name: 'NASA FIRMS', provider: 'NASA', url: 'https://firms.modaps.eosdis.nasa.gov', status: 'integrated', kind: 'satellite' },
+    { name: 'Candidate Feed', provider: 'X', url: 'https://example.com', status: 'candidate' },
+    { name: 'Rejected Feed', provider: 'Y', url: 'https://y.example.com', status: 'rejected' }
+] });
 
 console.log(JSON.stringify(out));

@@ -1,0 +1,52 @@
+{
+  "organization": "8i Ventures",
+  "segment": "investment",
+  "country": "IN",
+  "region": "",
+  "website": "https://www.8ivc.com",
+  "contact_type": "role_based_public",
+  "decision_maker_role": "Investment Director",
+  "identified_problem": "due diligence lacks traceable climate evidence and portfolio concentration is under-measured",
+  "climate_exposure": "Physical assets and operations exposed to climate hazards.",
+  "potential_pain": "Needs documented exposure context for held assets and new acquisitions.",
+  "relevant_hazards": [
+    "flood",
+    "wildfire",
+    "heat",
+    "wind",
+    "coastal",
+    "drought"
+  ],
+  "commercial_signals": [],
+  "event_signals": [],
+  "evidence": "multi-location exposure screening and historical event context",
+  "relevant_capability": "multi-location exposure screening and monitoring",
+  "priority": "medium",
+  "recommended_product": "api",
+  "recommended_message": "Offer 8i Ventures a focused pilot that pairs multi-location exposure screening and historical event context with traceable physical-risk evidence.",
+  "fit_score": "Investor or asset manager with portfolio locations to screen.",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-02",
+      "type": "discovered",
+      "summary": "Discovered via Wikidata organization inventory (venture capital firm).",
+      "source": "https://www.wikidata.org/wiki/Q135293753"
+    }
+  ],
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "owner": "operator",
+  "source": "https://www.wikidata.org/wiki/Q135293753",
+  "date_checked": "2026-09-02",
+  "wikidata_id": "Q135293753",
+  "concepts": [
+    "venture capital firm"
+  ],
+  "inventory_meta": {
+    "concept_label": "venture capital firm",
+    "wikidata_id": "Q135293753",
+    "source_url": "https://www.wikidata.org/wiki/Q135293753"
+  }
+}

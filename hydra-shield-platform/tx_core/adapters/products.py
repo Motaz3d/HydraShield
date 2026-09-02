@@ -1,6 +1,7 @@
 """
 Adapter over the platform's location-first product engines
-(``src.climate.insurance`` / ``verification`` / ``sustainability``).
+(``src.climate.insurance`` / ``verification`` / ``sustainability`` /
+``licensing``).
 
 TX never re-implements a product engine — this module wraps each engine's
 existing public entry point behind the same narrow surface the hazard
@@ -28,7 +29,7 @@ from types import SimpleNamespace
 from typing import Any, Callable, Dict, List, Optional
 
 #: Registered location-first product engines (registry order).
-PRODUCT_IDS = ("insurance", "verification", "sustainability")
+PRODUCT_IDS = ("insurance", "licensing", "verification", "sustainability")
 
 #: TX analysis level for product analyses (TX-2 STATISTICAL and up —
 #: products combine hazard modules into decision-facing envelopes).
@@ -157,6 +158,15 @@ class _VerificationProduct:
         }
 
 
+def _licensing_status(payload: Dict[str, Any]) -> str:
+    """Derive an honest status from the dossier's own hazard screenings."""
+    checks = (payload.get("evidence_base") or {}).get("hazard_exposure") or []
+    assessed = [c for c in checks if c.get("status") != "unavailable"]
+    if not checks or not assessed:
+        return "unavailable"
+    return "ok" if len(assessed) == len(checks) else "partial"
+
+
 class _SustainabilityProduct:
     """``src.climate.sustainability.build_sustainability_evidence`` — run
     as a single-site screen: the company block is a *display label* (the
@@ -204,8 +214,50 @@ class _SustainabilityProduct:
         }
 
 
+class _LicensingProduct:
+    """``src.climate.licensing.build_licensing_dossier`` — the location-first
+    pre-draft environmental licensing evidence dossier. TX runs the default
+    applicant-side screen; the full request axis (side/typology/permit type)
+    is exposed via ``POST /api/v2/licensing/dossier``."""
+
+    id = "licensing"
+    tx_level = PRODUCT_TX_LEVEL
+
+    def analyze(self, lat: float, lon: float, name: Optional[str] = None,
+                **kw: Any) -> Any:
+        from src.climate.licensing import build_licensing_dossier
+
+        payload = build_licensing_dossier(
+            lat=float(lat), lon=float(lon), name=name)
+        status = _licensing_status(payload)
+        return _namespace(
+            self.id, payload,
+            status=status,
+            summary=payload.get("summary", ""),
+            unavailable_reason=(
+                None if status != "unavailable"
+                else "No hazard could be screened with real data at this location."
+            ),
+        )
+
+    def sources(self) -> List[Dict[str, str]]:
+        return []
+
+    def descriptor(self) -> Dict[str, Any]:
+        from src.climate.licensing import ENGINE_VERSION
+
+        return {
+            "id": self.id,
+            "name": "Environmental Licensing Dossier",
+            "kind": "product",
+            "tx_level": self.tx_level,
+            "engine_version": ENGINE_VERSION,
+        }
+
+
 _PRODUCTS: Dict[str, Callable[[], Any]] = {
     "insurance": _InsuranceProduct,
+    "licensing": _LicensingProduct,
     "verification": _VerificationProduct,
     "sustainability": _SustainabilityProduct,
 }

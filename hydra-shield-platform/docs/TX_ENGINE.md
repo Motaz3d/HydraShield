@@ -36,7 +36,7 @@ tx_core/
 └── adapters/            the ONLY place tx_core touches src.*
     ├── climate.py       src.climate (hazards, evidence, ontology, TAM)
     ├── products.py      src.climate product engines (insurance,
-    │                    verification, sustainability) as TX-2 analyses
+    │                    verification, sustainability, licensing) as TX-2 analyses
     ├── prediction.py    src.prediction (FWI, risk model)   [reserved]
     └── gis.py           src.gis_mapping (indices, landcover) [reserved]
 ```
@@ -75,7 +75,7 @@ Advertised TX layers (used progressively; never faked):
 | --- | --- | --- |
 | TX-0 | Retrieval | platform data retrieval (implicit) |
 | TX-1 | Deterministic | hazard screening modules (`src/climate/hazards/*`) |
-| TX-2 | Statistical | product engines (`insurance`, `verification`, `sustainability`) registered as location-first TX analyses (`adapters/products.py`) — they run only on explicit request (`analyses=[...]`), land in the same `results[]` stamped `tx_level=2`, and never change a hazard-only `analysis_id` |
+| TX-2 | Statistical | product engines (`insurance`, `verification`, `sustainability`, `licensing`) registered as location-first TX analyses (`adapters/products.py`) — they run only on explicit request (`analyses=[...]`), land in the same `results[]` stamped `tx_level=2`, and never change a hazard-only `analysis_id` |
 | TX-3 | Spatial | reserved (GIS indices / grids) |
 | TX-4 | Predictive | reserved |
 | TX-5 | ML | reserved (trained models) |
@@ -282,7 +282,8 @@ plugin guidance.
 4. [DONE] Register product engines (insurance, forensics, sustainability,
    supply chain) as TX analyses (TX-2+) — done for the location-first
    engines (`insurance`, `verification` as the site-level face of the
-   forensics stack, `sustainability`) via `adapters/products.py` and the
+   forensics stack, `sustainability`, `licensing` as the site-level
+   licensing dossier) via `adapters/products.py` and the
    `analyses=[...]` request axis on every surface (API, jobs, CLI, SDKs,
    QGIS). Claim-first engines (forensics cases, supply-chain claims) are
    honestly NOT location analyses — see the scope note in §4.

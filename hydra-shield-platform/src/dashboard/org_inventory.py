@@ -43,6 +43,10 @@ TARGETS: List[Dict[str, Any]] = [
     {"concept_label": "insurance company", "concept_hint": "insurance company", "segment": "insurance", "apply_to": "ALL"},
     {"concept_label": "investment company", "concept_hint": "investment company", "segment": "investment", "apply_to": "ALL"},
     {"concept_label": "asset management company", "concept_hint": "asset management company", "segment": "investment", "apply_to": "ALL"},
+    {"concept_label": "investment bank", "concept_hint": "investment bank", "segment": "investment", "apply_to": "ALL"},
+    {"concept_label": "hedge fund", "concept_hint": "hedge fund", "segment": "investment", "apply_to": "ALL"},
+    {"concept_label": "private equity firm", "concept_hint": "private equity firm", "segment": "investment", "apply_to": "ALL"},
+    {"concept_label": "venture capital firm", "concept_hint": "venture capital firm", "segment": "investment", "apply_to": "ALL"},
     {"concept_label": "pension fund", "concept_hint": "pension fund", "segment": "investment", "apply_to": "ALL"},
     {"concept_label": "sovereign wealth fund", "concept_hint": "sovereign wealth fund", "segment": "investment", "apply_to": "ALL"},
     {"concept_label": "real estate company", "concept_hint": "real estate company", "segment": "real_estate", "apply_to": "ALL"},
@@ -85,6 +89,10 @@ COUNTRIES: Dict[str, str] = {
     "LA": "Laos",
     "BN": "Brunei",
     "TL": "East Timor",
+    # South Asia
+    "IN": "India",
+    # Latin America
+    "BR": "Brazil",
     # Europe focus
     "LU": "Luxembourg",
     "BE": "Belgium",

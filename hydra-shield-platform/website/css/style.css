@@ -2778,6 +2778,60 @@ body.search-open {
     text-align: center;
 }
 
+/* Search-type tabs: clickable filters under the palette input */
+.search-types {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--light-2);
+}
+
+.search-type-tab {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: var(--white);
+    font-family: var(--font-main);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-type-tab:hover {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+}
+
+.search-type-tab.active {
+    background: var(--dark);
+    color: var(--white);
+    border-color: var(--dark);
+}
+
+/* Per-type advanced-options panel (empty query, specific type active) */
+.search-panel {
+    margin: 8px 8px 4px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--light);
+}
+
+.search-panel-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.search-panel-desc {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
 .nav-search {
     display: flex;
     align-items: center;

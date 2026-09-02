@@ -1,85 +1,60 @@
 {
-  "generated_at": "2026-08-28T13:29:28.237772+02:00",
+  "generated_at": "2026-09-02T14:52:19.469725+02:00",
   "parameters": {
-    "countries": "ALL",
+    "countries": [
+      "SG",
+      "HK",
+      "JP",
+      "KR",
+      "CN",
+      "TW",
+      "IN",
+      "BR"
+    ],
     "concepts": [
-      "consulting company",
-      "management consultancy",
-      "engineering firm",
-      "accounting firm",
-      "audit firm",
-      "architectural firm"
+      "investment bank",
+      "hedge fund",
+      "private equity firm",
+      "venture capital firm"
     ],
     "limit_per_query": 200
   },
   "totals": {
-    "queries": 216,
-    "hits": 1768,
-    "unique_orgs": 1723,
-    "with_website": 865,
-    "without_website": 858
+    "queries": 32,
+    "hits": 9,
+    "unique_orgs": 8,
+    "with_website": 5,
+    "without_website": 3
   },
   "per_concept": {
-    "consulting company": {
-      "queries": 37,
-      "hits": 181,
-      "unique": 181,
-      "with_website": 149
+    "investment bank": {
+      "queries": 8,
+      "hits": 2,
+      "unique": 2,
+      "with_website": 1
     },
-    "management consultancy": {
-      "queries": 37,
-      "hits": 5,
-      "unique": 5,
-      "with_website": 4
-    },
-    "engineering firm": {
-      "queries": 37,
-      "hits": 0,
-      "unique": 0,
+    "hedge fund": {
+      "queries": 8,
+      "hits": 1,
+      "unique": 1,
       "with_website": 0
     },
-    "accounting firm": {
-      "queries": 37,
-      "hits": 0,
-      "unique": 0,
-      "with_website": 0
+    "private equity firm": {
+      "queries": 8,
+      "hits": 1,
+      "unique": 1,
+      "with_website": 1
     },
-    "audit firm": {
-      "queries": 37,
-      "hits": 0,
-      "unique": 0,
-      "with_website": 0
-    },
-    "architectural firm": {
-      "queries": 37,
-      "hits": 1538,
-      "unique": 1538,
-      "with_website": 713
+    "venture capital firm": {
+      "queries": 8,
+      "hits": 4,
+      "unique": 4,
+      "with_website": 3
     }
   },
-  "skipped": [
-    {
-      "kind": "country",
-      "code": "TL",
-      "label": "East Timor",
-      "reason": "Could not resolve country to a Wikidata Q-id"
-    }
-  ],
-  "capped_queries": [
-    {
-      "concept": "architectural firm",
-      "country": "NL",
-      "limit": 200,
-      "reason": "Query hit the LIMIT cap; result may be incomplete"
-    },
-    {
-      "concept": "architectural firm",
-      "country": "DE",
-      "limit": 200,
-      "reason": "Query hit the LIMIT cap; result may be incomplete"
-    }
-  ],
-  "created": 849,
-  "merged": 16,
-  "pending": 858
+  "skipped": [],
+  "capped_queries": [],
+  "created": 4,
+  "merged": 1,
+  "pending": 3
 }

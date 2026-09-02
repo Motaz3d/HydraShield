@@ -48,5 +48,8 @@
     "concept_label": "investment company",
     "wikidata_id": "Q130491452",
     "source_url": "https://www.wikidata.org/wiki/Q130491452"
-  }
+  },
+  "inventory_of": [
+    "https://www.wikidata.org/wiki/Q130491452"
+  ]
 }
