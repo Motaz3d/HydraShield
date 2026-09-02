@@ -31,6 +31,7 @@
         { id: 'intelligence', href: 'intelligence.html', label: 'Investment Analysis' },
         { id: 'map', href: 'map.html', label: 'Maps' },
         { id: 'invest', href: 'solutions.html', label: 'Where to Invest' },
+        { id: 'sector', href: 'sector.html', label: 'Sector Exposure' },
         { id: 'reports', href: 'reports.html', label: 'Reports' },
         { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' },
         {
@@ -70,8 +71,7 @@
     var FOOTER_GROUPS = [
         {
             heading: 'Analyze', items: [
-                'intelligence', 'map', 'invest',
-                { id: 'sector', href: 'sector.html', label: 'Sector Exposure' }
+                'intelligence', 'map', 'invest', 'sector'
             ]
         },
         {
