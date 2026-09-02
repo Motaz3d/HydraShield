@@ -1,22 +1,22 @@
 {
-  "registry_id": "loss_data_registry_v1",
-  "version": "1.0.0",
-  "description": "Registry of documented disaster-loss data sources (candidates and integrations) for Talaix. Tracks which loss datasets are reviewed, their access conditions and their integration status. No loss figures are stored here unless a source is integrated with a stated method and licence.",
+  "registry_id": "loss_data_registry_v2",
+  "version": "2.0.0",
+  "description": "Registry of documented disaster-loss data sources (candidates, integrations and planned) for Talaix. Tracks which loss datasets are reviewed or integrated, their access conditions and their integration status. No loss figures are stored here unless a source is integrated with a stated method and licence; figures from the live NOAA integration are computed at query time.",
   "separation_note": "Observed, estimated, modelled and projected loss figures are strictly separated categories. A figure may appear only in the category its source documents, with the source's method stated; categories are never merged into a single number.",
-  "no_figures_note": "No documented loss figures exist in integrated sources as of this registry version; observed_events is deliberately empty.",
+  "no_figures_note": "Observed loss figures are computed at query time from the integrated NOAA NCEI source and from any operator-provided staged export files (EM-DAT, DesInventar). The observed_events list remains deliberately empty because live aggregation is the serving path; staged exports are parsed from data/emdat_export.csv and data/desinventar_exports/.",
   "sources": [
     {
       "id": "emdat",
       "name": "EM-DAT International Disaster Database",
       "provider": "Centre for Research on the Epidemiology of Disasters (CRED), UCLouvain",
-      "url": "https://www.emdat.be/",
+      "url": "https://public.emdat.be/",
       "access": "registration_required",
       "license_note": "Free for non-commercial research use after registration; redistribution restricted — check EM-DAT terms before integration.",
       "coverage": "Global disaster events with documented human and economic loss figures",
       "temporal_coverage": "1900 to present (event-based)",
       "granularity": "event level, country attribution",
       "status": "candidate",
-      "status_note": "URL verified reachable (HTTP 200, 2026-08-17). Registration flow not yet completed; not integrated."
+      "status_note": "Staged-ingest path: operator downloads an export from https://public.emdat.be after registration and saves it as data/emdat_export.csv. The parser reads documented deaths and event counts when present; no live API integration because the public GraphQL endpoint requires authenticated queries and EM-DAT terms restrict redistribution. Not integrated live (2026-09-02)."
     },
     {
       "id": "desinventar",
@@ -29,7 +29,7 @@
       "temporal_coverage": "Varies by country; multi-decadal for several national databases",
       "granularity": "event level, sub-national (municipal/provincial) for many countries",
       "status": "candidate",
-      "status_note": "URL verified reachable (HTTP 200, 2026-08-17). Country coverage and formats not yet assessed; not integrated."
+      "status_note": "Staged-ingest path: operator downloads per-country CSV exports and saves them in data/desinventar_exports/. The parser reads record counts and any documented loss columns. No discoverable unauthenticated machine endpoint; not integrated live (2026-09-02)."
     },
     {
       "id": "undrr",
@@ -75,13 +75,14 @@
       "name": "NOAA Billion-Dollar Weather and Climate Disasters",
       "provider": "NOAA National Centers for Environmental Information (NCEI)",
       "url": "https://www.ncei.noaa.gov/access/billions/",
-      "access": "download",
-      "license_note": "US government public data; cite NCEI as source.",
+      "api_or_download_url": "https://services3.arcgis.com/0Fs3HcaFfvzXvm7w/arcgis/rest/services/USA_Billion_Dollar_Disasters_view/FeatureServer",
+      "access": "api",
+      "license_note": "US government public data; cite NOAA NCEI as source.",
       "coverage": "United States only — weather and climate disasters with losses >= 1 billion USD (CPI-adjusted)",
-      "temporal_coverage": "1980 to present (event-based, updated annually)",
-      "granularity": "event level, US national/regional attribution",
-      "status": "candidate",
-      "status_note": "URL verified reachable (HTTP 200, 2026-08-17). US-only coverage — must never be presented as global; not integrated."
+      "temporal_coverage": "1980 to 2021 (state-level costs and event counts)",
+      "granularity": "event level aggregated to state-level costs/event counts",
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-02 via public ArcGIS REST query of USA_Billion_Dollar_Disasters_view (layer 0 state costs, layer 1 state frequency). US-only national totals are computed by Talaix as sums across states; multi-state events may be summed across affected states. Must never be presented as global."
     },
     {
       "id": "munichre_natcat",
@@ -93,8 +94,8 @@
       "coverage": "Global natural-catastrophe loss database (insured and overall losses)",
       "temporal_coverage": "1980 to present (event-based)",
       "granularity": "event level, country attribution",
-      "status": "candidate",
-      "status_note": "URL verified reachable (HTTP 200, 2026-08-17). Commercial product; no licence in place; not integrated."
+      "status": "planned",
+      "status_note": "Commercial licence to be procured after first platform revenue (operator decision 2026-09-02)."
     },
     {
       "id": "swissre_sigma",
@@ -106,8 +107,8 @@
       "coverage": "Global natural-catastrophe and man-made loss statistics (insured and overall losses)",
       "temporal_coverage": "1970 to present (annual sigma reports)",
       "granularity": "event level within reports; annual aggregates",
-      "status": "candidate",
-      "status_note": "URL verified reachable; returns HTTP 403 to scripted clients (bot protection) — domain confirmed live (2026-08-17). Not integrated."
+      "status": "planned",
+      "status_note": "Commercial licence to be procured after first platform revenue (operator decision 2026-09-02)."
     }
   ],
   "observed_events": []

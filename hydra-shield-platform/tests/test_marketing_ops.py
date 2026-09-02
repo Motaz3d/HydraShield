@@ -226,13 +226,18 @@ def test_excluded_lead_badged_and_restorable(client, env):
 
 
 def test_activity_signals_carry_honest_staleness():
+    from datetime import datetime, timedelta
     from src.dashboard.admin_intel import _latest_signals
 
+    # Dates are generated relative to "now" so the staleness window
+    # (_STALE_DAYS) keeps the same meaning regardless of when tests run.
+    recent = (datetime.utcnow() - timedelta(days=1)).strftime("%Y-%m-%d")
+    today = datetime.utcnow().strftime("%Y-%m-%d")
     signals = [
         {"organization": "Acme", "signal_type": "funding_signal",
          "date_observed": "2020-01-01", "date_checked": "2020-01-02"},
         {"organization": "Acme", "signal_type": "hiring",
-         "date_observed": "2026-08-01", "date_checked": "2026-08-02"},
+         "date_observed": recent, "date_checked": today},
         {"organization": "OldCo", "signal_type": "funding_signal",
          "date_observed": "2020-05-01", "date_checked": "2020-05-02"},
     ]

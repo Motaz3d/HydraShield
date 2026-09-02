@@ -47,6 +47,16 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Wave-1 draft — 10 funder targets (EIC, LIFE-CINEA, DG ECHO, EUSPA, EEA, Climate-KIC, MITECO, ApC Portugal, Poland MoC, BNDES) | 🔶 | `marketing/outreach/funders_wave1.md`; official recipient emails sourced 2026-08-31 |
 | Preview sample email (EIC( → operator inbox | 🔶 | `scripts/send_preview_funder_wave.py` + `email_templates/outreach_funders.txt`; local run lands in `data/outbox/` — real send on Vultr; 18 mailer tests green |
 
+## Repositioning — financial/investment product (operator decision 2026-09-02)
+
+| Item | Status | Notes |
+|---|---|---|
+| Site IA + homepage → financial/investment identity | 🔶 | Implemented 2026-09-02 (new nav, money-first homepage, wildfire pages hidden/relocated); full suite 1420 green — pending deploy |
+| Reports engine front-and-centre | 🔶 | Implemented 2026-09-02 (top-level nav, finance-first order, wildfire PDFs archived) — pending deploy |
+| Environmental Licensing advisory page | 🔶 | Implemented 2026-09-02: `licensing.html` live (advisory, not a legal permit) — pending deploy |
+| Documented loss figures — free open sources | 🔶 | Implemented 2026-09-02: NOAA NCEI integrated live; EM-DAT/DesInventar staged ingest (`data/`); `/api/v2/losses/summary` verified — pending deploy |
+| Commercial loss-DB licences (Munich Re NatCatSERVICE, Swiss Re sigma) | ⬜ | Procure after first platform revenue; registry entries marked `planned` |
+
 ## Operating rules (binding)
 
 - No fabricated content: leads, grants, case studies and prices enter only

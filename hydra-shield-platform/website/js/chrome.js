@@ -11,9 +11,9 @@
  * highlights the active item from <body data-page>. This file is the single
  * source of truth for site navigation — an IA change is one edit here.
  *
- * Primary nav — grouped so the bar stays readable (single source of truth):
- * Intelligence · Map · Solutions ▾ · Learn ▾ · Explore ▾ + Account.
- * The legacy marketing pages stay reachable from the footer.
+ * Primary nav: Investment Analysis · Maps · Where to Invest · Reports ·
+ * Environmental Licensing · Compliance ▾ + Account.
+ * Legacy marketing pages stay reachable from the footer.
  */
 (function () {
     'use strict';
@@ -26,44 +26,23 @@
         ? 'http://localhost:8051/api'
         : '/api';
 
-    /* Top level: single links + groups (dropdowns on desktop, expanded
-     * sections inside the mobile menu). IA: one Solutions mega-menu holds
-     * the portals BY SOLUTION and BY SECTOR side by side — the same tool
-     * may appear under several paths on purpose; repetition across entry
-     * portals is a feature of the information architecture, not a bug. */
+    /* Top level: single links + dropdown groups. */
     var PRIMARY = [
-        { id: 'intelligence', href: 'intelligence.html', label: 'Intelligence' },
-        { id: 'map', href: 'map.html', label: 'Map' },
+        { id: 'intelligence', href: 'intelligence.html', label: 'Investment Analysis' },
+        { id: 'map', href: 'map.html', label: 'Maps' },
+        { id: 'invest', href: 'solutions.html', label: 'Where to Invest' },
+        { id: 'reports', href: 'reports.html', label: 'Reports' },
+        { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' },
         {
-            id: 'solutions', label: 'Solutions', mega: true, columns: [
-                {
-                    heading: 'By solution', children: [
-                        { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
-                        { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
-                        { id: 'insurance', href: 'insurance.html', label: 'Insurance Risk' },
-                        { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
-                        { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
-                        { id: 'reports', href: 'reports.html', label: 'Reports & Builder' },
-                        { id: 'press', href: 'press.html', label: 'Press' },
-                        { id: 'sector', href: 'sector.html', label: 'Sector Exposure' },
-                        { id: 'solutions-hub', href: 'solutions.html', label: 'Hazard solutions' }
-                    ]
-                },
-                {
-                    heading: 'By sector', children: [
-                        { id: 'for-banks', href: 'industries.html?sector=banks', label: 'Banks & lenders' },
-                        { id: 'for-insurance', href: 'industries.html?sector=insurance', label: 'Insurance' },
-                        { id: 'for-investors', href: 'industries.html?sector=investors', label: 'Investors' },
-                        { id: 'for-real-estate', href: 'industries.html?sector=real-estate', label: 'Real estate' },
-                        { id: 'for-consulting', href: 'industries.html?sector=consulting', label: 'Consultants & auditors' },
-                        { id: 'for-government', href: 'industries.html?sector=government', label: 'Government' },
-                        { id: 'for-journalists', href: 'press.html', label: 'Journalists & media' }
-                    ]
-                }
+            id: 'compliance', label: 'Compliance', children: [
+                { id: 'compliance-hub', href: 'compliance.html', label: 'Overview' },
+                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
+                { id: 'insurance', href: 'insurance.html', label: 'Insurance Risk' },
+                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
+                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
+                { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
             ]
-        },
-        { id: 'academy', href: 'academy.html', label: 'Academy' },
-        { id: 'funding', href: 'solutions.html?mode=funding', label: 'Funding' }
+        }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
@@ -87,20 +66,37 @@
         return null;
     }
 
-    /* Footer IA: the services are grouped under four headed columns
-     * (Analyze / Solutions / By sector / Learn & company) instead of one
-     * flat list — the same headings the mega-menu uses. */
+    /* Footer IA: grouped under four headed columns. */
     var FOOTER_GROUPS = [
         {
             heading: 'Analyze', items: [
-                'intelligence', 'map'
+                'intelligence', 'map', 'invest',
+                { id: 'sector', href: 'sector.html', label: 'Sector Exposure' }
             ]
         },
-        { heading: 'Solutions', items: PRIMARY[2].columns[0].children },
-        { heading: 'By sector', items: PRIMARY[2].columns[1].children },
+        {
+            heading: 'Products', items: [
+                'reports',
+                { id: 'reportbuilder', href: 'report-builder.html', label: 'Report Builder' },
+                'licensing', 'compliance-hub'
+            ]
+        },
+        {
+            heading: 'By sector', items: [
+                { id: 'for-banks', href: 'industries.html?sector=banks', label: 'Banks & lenders' },
+                { id: 'for-insurance', href: 'industries.html?sector=insurance', label: 'Insurance' },
+                { id: 'for-investors', href: 'industries.html?sector=investors', label: 'Investors' },
+                { id: 'for-real-estate', href: 'industries.html?sector=real-estate', label: 'Real estate' },
+                { id: 'for-consulting', href: 'industries.html?sector=consulting', label: 'Consultants & auditors' },
+                { id: 'for-government', href: 'industries.html?sector=government', label: 'Government' }
+            ]
+        },
         {
             heading: 'Learn & company', items: [
-                'academy', 'funding', 'account-page'
+                { id: 'academy', href: 'academy.html', label: 'Academy' },
+                { id: 'funding', href: 'solutions.html?mode=funding', label: 'Funding' },
+                { id: 'press', href: 'press.html', label: 'Press' },
+                'account-page'
             ]
         }
     ];
@@ -124,8 +120,8 @@
         { href: 'technology.html', label: 'Technology' },
         { href: 'applications.html', label: 'Applications' },
         { href: 'roadmap.html', label: 'Roadmap' },
-        { href: 'story.html', label: 'Story' },
         { href: 'privacy.html', label: 'Privacy' },
+        { href: 'sources.html', label: 'Sources' },
         { href: 'contact.html', label: 'Contact' }
     ];
 
@@ -208,10 +204,10 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
-            '<p>Environmental &amp; Risk Intelligence: clear, traceable evidence on the ' +
-            'environmental risks around any place, asset or territory — and what they mean ' +
-            'for lending, investment, insurance and public decisions. Real data only — ' +
-            'unavailable is stated, never filled in.</p>' +
+            '<p>Natural-hazard and climate-extreme intelligence for financial decisions: ' +
+            'documented evidence on lives at risk and money at stake around any place, ' +
+            'asset or territory — for investors, banks, insurers and governments. ' +
+            'Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
             FOOTER_GROUPS.map(footerGroupHtml).join('') +
             '<div class="footer-links"><h4>About</h4><ul>' +

@@ -26,13 +26,14 @@ def test_for_journalists_redirects_into_press():
 
 def test_industries_hub_in_nav_sector_column_and_footer():
     chrome = _read("website/js/chrome.js")
-    # The sector column lists every industry (into the consolidated hub);
-    # journalists land on the press tool directly.
+    # The footer's "By sector" column lists every industry (into the
+    # consolidated hub); journalists land on the press tool via "Learn &
+    # company".
     assert "{ id: 'for-banks', href: 'industries.html?sector=banks', label: 'Banks & lenders' }" in chrome
-    assert "{ id: 'for-journalists', href: 'press.html', label: 'Journalists & media' }" in chrome
-    # Footer renders its "By sector" column from the same PRIMARY structure.
+    assert "{ id: 'press', href: 'press.html', label: 'Press' }" in chrome
+    # Footer renders a "By sector" column with the industries hub links.
     assert "heading: 'By sector'" in chrome
-    assert "PRIMARY[2].columns[1].children" in chrome
+    assert "industries.html?sector=government" in chrome
 
 
 def test_sitemap_covers_press_surfaces():

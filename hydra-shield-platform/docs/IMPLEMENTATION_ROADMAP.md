@@ -139,12 +139,27 @@ on an external key/account.
 
 ## Stage 9 — Financial & insurance intelligence (evidence stage)
 
+- [DONE] Free loss-data integration (2026-09-02): NOAA NCEI Billion-Dollar
+  Weather and Climate Disasters wired via the public ArcGIS feature service
+  (`USA_Billion_Dollar_Disasters_view`). `src/climate/losses.py` now serves
+  documented US national aggregates (1980-2021, CPI-adjusted) tagged with
+  source, reference period, geographic scope and licence note. The
+  `observed_losses` block in `src/climate/economic_impact.py` surfaces these
+  figures for US queries and remains honestly unavailable outside US coverage.
+- [DONE] `GET /api/v2/losses/summary` added for the homepage loss-data card,
+  returning the contract `{status, items[{label,value,unit,source,
+  reference_period}], disclaimer}` with real figures or an honest unavailable
+  reason.
+- [DONE] Staged-ingest paths documented for EM-DAT (`data/emdat_export.csv`)
+  and DesInventar (`data/desinventar_exports/`) — parsed when operator
+  provides exports, unavailable with reason when absent.
+- [DONE] Commercial sources (Munich Re NatCatSERVICE, Swiss Re sigma) marked
+  `planned` with status note: "Commercial licence to be procured after first
+  platform revenue (operator decision 2026-09-02)".
 - [LATER] Evidence pack assembly per asset/location (exposure profile +
   hazard frequency + resilience profile + uncertainty) with disclaimers;
   scenario-exposure slot wired to the projected-data stage.
 - [LATER] Adaptation cost ranges from sourced KB figures only.
-- [RESEARCH] Documented valuation/loss datasets (e.g. EM-DAT access
-  terms) before any monetary figure ever appears. [CREDENTIAL] possibly.
 
 ## Stage 10 — Platform & API infrastructure
 

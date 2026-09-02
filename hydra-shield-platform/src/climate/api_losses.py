@@ -4,18 +4,20 @@ any existing endpoint).
 
 Exposes:
 
-- ``GET /api/v2/losses``         — the loss summary (observed / estimated /
-  modelled / projected strictly separated; observed unavailable — no
-  documented loss figures in integrated sources)
-- ``GET /api/v2/losses/sources`` — the registry's candidate source records
-  (EM-DAT, DesInventar, World Bank/GFDRR, NOAA, Munich Re, Swiss Re) with
-  access and licence conditions
+- ``GET /api/v2/losses``         — the full loss summary (observed / estimated /
+  modelled / projected strictly separated; observed now carries real documented
+  figures from integrated free sources when available)
+- ``GET /api/v2/losses/summary`` — flat headline figures for the homepage:
+  ``{"status":"ok","items":[{"label","value","unit","source",
+  "reference_period"}...],"disclaimer"}``
+- ``GET /api/v2/losses/sources`` — the registry source records (integrated,
+  planned and candidate) with access and licence conditions
 
 The blueprint is deliberately NOT registered here — the lead registers it
 in ``src/dashboard/api.py``.
 
-Honesty contract: no loss figures are served anywhere — the registry holds
-candidate sources only; every block says so explicitly.
+Honesty contract: every served figure is documented with source,
+reference_period, geographic scope and licence note; no figure is invented.
 """
 
 from __future__ import annotations
@@ -34,9 +36,10 @@ _RATE_WINDOW = 60.0
 def losses():
     """Loss summary: /api/v2/losses
 
-    Observed losses unavailable — no documented loss figures in integrated
-    sources; estimated / modelled / projected each not_available. The
-    registry metadata and the strict-separation note are included.
+    Observed losses now include real documented figures from integrated free
+    sources when available; estimated / modelled / projected each remain
+    not_available. The registry metadata and the strict-separation note are
+    included.
     """
     if not _rate("v2losses", _RATE_MAX, _RATE_WINDOW):
         return _err("Rate limit exceeded", 429)
@@ -49,11 +52,30 @@ def losses():
     return jsonify(payload)
 
 
+@losses_bp.get("/losses/summary")
+def losses_summary():
+    """Flat headline loss figures: /api/v2/losses/summary
+
+    Returns the homepage contract:
+        {"status":"ok","items":[{"label":str,"value":str,"unit":str,
+         "source":str,"reference_period":str}...],"disclaimer":str}
+    or {"status":"unavailable","items":[],"disclaimer":str} when no
+    documented figures are available.
+    """
+    if not _rate("v2lossessummary", _RATE_MAX, _RATE_WINDOW):
+        return _err("Rate limit exceeded", 429)
+
+    from .losses import loss_summary_items
+
+    payload = loss_summary_items()
+    return jsonify(payload)
+
+
 @losses_bp.get("/losses/sources")
 def losses_sources():
-    """Candidate loss-data sources: /api/v2/losses/sources
+    """Loss-data source registry: /api/v2/losses/sources
 
-    The registry's source records (candidates — none integrated) with
+    The registry's source records (integrated, planned and candidate) with
     provider, official URL, access mode, licence note, coverage and status.
     """
     if not _rate("v2lossessources", _RATE_MAX, _RATE_WINDOW):
@@ -63,6 +85,9 @@ def losses_sources():
 
     registry = load_loss_registry()
     sources = registry.get("sources") or []
+    statuses = {"integrated": [], "planned": [], "candidate": []}
+    for src in sources:
+        statuses.get(src.get("status"), []).append(src.get("id"))
     return jsonify({
         "sources": sources,
         "source_count": len(sources),
@@ -71,7 +96,11 @@ def losses_sources():
             "version": registry.get("version"),
             "config": "config/loss_registry.json",
         },
-        "note": "All listed sources are candidates — none is integrated and "
-                "no loss figures are served. Access and licence conditions "
-                "are stated per source.",
+        "integrated": statuses["integrated"],
+        "planned": statuses["planned"],
+        "candidate": statuses["candidate"],
+        "note": "Sources are integrated only when wired into a real pipeline; "
+                "planned sources await commercial licences; candidates are "
+                "reviewed entry points. Access and licence conditions are "
+                "stated per source; no invented figures are served.",
     })

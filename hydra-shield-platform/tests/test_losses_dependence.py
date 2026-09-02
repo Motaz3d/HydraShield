@@ -373,34 +373,88 @@ _EXPECTED_SOURCE_IDS = {
 }
 
 
-def test_loss_registry_loads_candidates_only():
+_NOAA_SAMPLE_FEATURES = {
+    "features": [
+        {"attributes": {
+            "STATE_NAME": "California", "STATE_ABBR": "CA",
+            "drought": 100.0, "DroughtEvents": 2,
+            "flooding": 200.0, "FloodingEvents": 3,
+            "freeze": 0.0, "FreezeEvents": 0,
+            "severe_storm": 150.0, "SevereStormEvents": 4,
+            "tropical_cyclone": 0.0, "TropicalCycloneEvents": 0,
+            "wildfire": 500.0, "WildfireEvents": 10,
+            "winter_storm": 50.0, "WinterStormEvents": 1,
+        }},
+        {"attributes": {
+            "STATE_NAME": "Texas", "STATE_ABBR": "TX",
+            "drought": 300.0, "DroughtEvents": 5,
+            "flooding": 400.0, "FloodingEvents": 6,
+            "freeze": 100.0, "FreezeEvents": 2,
+            "severe_storm": 250.0, "SevereStormEvents": 7,
+            "tropical_cyclone": 800.0, "TropicalCycloneEvents": 8,
+            "wildfire": 200.0, "WildfireEvents": 4,
+            "winter_storm": 100.0, "WinterStormEvents": 3,
+        }},
+    ]
+}
+
+
+def _mock_noaa_costs():
+    return _NOAA_SAMPLE_FEATURES
+
+
+def test_loss_registry_statuses_are_honest():
     registry = losses_module.load_loss_registry()
     assert losses_module.validate_loss_registry(registry) == []
     assert registry["observed_events"] == []
     sources = registry["sources"]
     assert {s["id"] for s in sources} == _EXPECTED_SOURCE_IDS
+    statuses = {s["id"]: s["status"] for s in sources}
+    assert statuses["noaa_billions"] == "integrated"
+    assert statuses["munichre_natcat"] == "planned"
+    assert statuses["swissre_sigma"] == "planned"
     for src in sources:
-        assert src["status"] == "candidate"
         assert src["url"].startswith("https://")
         assert src["access"] in ("registration_required", "api", "download")
         assert src["provider"] and src["coverage"] and src["status_note"]
     assert "strictly separated" in registry["separation_note"]
 
 
-def test_loss_summary_separation_and_exact_statement():
+def test_loss_summary_separation_and_honest_figures(monkeypatch):
+    monkeypatch.setattr(
+        losses_module, "_fetch_noaa_billions_state_costs", _mock_noaa_costs)
     summary = losses_module.loss_summary()
     observed = summary["observed_losses"]
-    assert observed["status"] == "unavailable"
-    assert observed["statement"] == "No documented loss figures in integrated sources."
+    assert observed["status"] == "ok"
+    assert observed["figure_count"] == 4
+    assert "noaa_billions" in observed["sources_integrated"]
     assert set(observed["sources_reviewed"]) == _EXPECTED_SOURCE_IDS
+
+    # Every figure carries the honesty tags.
+    for fig in observed["figures"]:
+        assert fig["claim_status"] == "DOCUMENTED"
+        assert fig["source"] == "noaa_billions"
+        assert fig["reference_period"] == "1980-2021"
+        assert fig["geographic_scope"] == "United States"
+        assert fig["licence_note"]
+        assert fig["method"]
+
+    # Aggregated totals from the fixture (costs in $Millions -> billions).
+    labels = {f["label"]: f["value"] for f in observed["figures"]}
+    assert labels["Total US billion-dollar disaster costs"] == 3.15  # 3150M / 1000
+    assert labels["US billion-dollar wildfire costs"] == 0.7         # 700M / 1000
+    assert labels["Total US billion-dollar disaster events"] == 55
+    assert labels["US billion-dollar wildfire events"] == 14
+
     for block in ("estimated_losses", "modelled_losses", "projected_losses"):
         assert summary[block]["status"] == "not_available"
         assert summary[block]["statement"]
     meta = summary["registry"]
     assert meta["source_count"] == len(_EXPECTED_SOURCE_IDS)
     assert meta["observed_event_count"] == 0
-    assert meta["sources_by_status"] == {"candidate": len(_EXPECTED_SOURCE_IDS)}
-    # No monetary figure leaks anywhere in the payload.
+    assert meta["sources_by_status"]["integrated"] >= 1
+    assert meta["sources_by_status"]["planned"] == 2
+    # No raw dollar/euro symbol leaks anywhere in the payload.
     blob = json.dumps(summary)
     assert "€" not in blob and "$" not in blob
 
@@ -419,17 +473,52 @@ def client():
         yield c
 
 
-def test_losses_endpoint(client):
+def test_losses_endpoint(client, monkeypatch):
+    monkeypatch.setattr(
+        losses_module, "_fetch_noaa_billions_state_costs", _mock_noaa_costs)
     resp = client.get("/api/v2/losses")
     assert resp.status_code == 200
     data = resp.get_json()
-    assert data["observed_losses"]["status"] == "unavailable"
-    assert data["observed_losses"]["statement"] == (
-        "No documented loss figures in integrated sources.")
-    assert set(data["observed_losses"]["sources_reviewed"]) == _EXPECTED_SOURCE_IDS
+    assert data["observed_losses"]["status"] == "ok"
+    assert data["observed_losses"]["figure_count"] == 4
+    assert "noaa_billions" in data["observed_losses"]["sources_integrated"]
     for block in ("estimated_losses", "modelled_losses", "projected_losses"):
         assert data[block]["status"] == "not_available"
     assert data["separation_note"]
+
+
+def test_losses_summary_endpoint(client, monkeypatch):
+    monkeypatch.setattr(
+        losses_module, "_fetch_noaa_billions_state_costs", _mock_noaa_costs)
+    resp = client.get("/api/v2/losses/summary")
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert data["status"] == "ok"
+    assert isinstance(data["items"], list)
+    assert len(data["items"]) == 4
+    for item in data["items"]:
+        assert isinstance(item["label"], str)
+        assert isinstance(item["value"], str)
+        assert isinstance(item["unit"], str)
+        assert isinstance(item["source"], str)
+        assert isinstance(item["reference_period"], str)
+        assert item["source"] == "noaa_billions"
+    assert isinstance(data["disclaimer"], str)
+    assert "US-only" in data["disclaimer"]
+
+
+def test_losses_summary_unavailable_when_no_source(client, monkeypatch):
+    monkeypatch.setattr(
+        losses_module, "_fetch_noaa_billions_state_costs",
+        lambda: {"error": "upstream test failure"})
+    monkeypatch.setattr(losses_module, "_load_staged_emdat", lambda: ([], "no file"))
+    monkeypatch.setattr(losses_module, "_load_staged_desinventar", lambda: ([], "no dir"))
+    resp = client.get("/api/v2/losses/summary")
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert data["status"] == "unavailable"
+    assert data["items"] == []
+    assert isinstance(data["disclaimer"], str)
 
 
 def test_losses_sources_endpoint(client):
@@ -439,7 +528,8 @@ def test_losses_sources_endpoint(client):
     sources = data["sources"]
     assert data["source_count"] == len(_EXPECTED_SOURCE_IDS)
     assert {s["id"] for s in sources} == _EXPECTED_SOURCE_IDS
+    assert "noaa_billions" in data["integrated"]
+    assert {"munichre_natcat", "swissre_sigma"} <= set(data["planned"])
     for src in sources:
-        assert src["status"] == "candidate"
         assert src["url"].startswith("https://")
-    assert "none is integrated" in data["note"]
+    assert "no invented figures" in data["note"]

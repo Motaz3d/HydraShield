@@ -58,7 +58,7 @@ def test_reports_portal_has_real_examples():
 
 def test_reports_portal_preserves_legacy_section():
     html = _read(os.path.join(WEBSITE, "reports.html"))
-    assert "Classic wildfire reports (legacy)" in html
+    assert "Classic wildfire reports (archive)" in html
     assert "legacy" in html.lower()
     assert 'id="legacyLocInput"' in html
     assert 'id="legacyReportActions"' in html
