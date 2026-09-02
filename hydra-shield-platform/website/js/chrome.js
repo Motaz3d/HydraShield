@@ -299,36 +299,14 @@
         });
     }
 
-    /* Auth-aware nav: when a session cookie is present, append a "Sign out"
-     * action next to the Account link so visitors can leave their session
-     * from any page. Guests keep the plain Account link. */
+    /* Auth-aware nav: session state only toggles .guest-only/.user-only
+     * visibility. The sign-out action lives inside the Account page —
+     * a permanent exit prompt in the top nav is an indirect invitation
+     * to leave, so the menu never renders one. */
     function reflectSession() {
-        function go() { location.href = 'account.html'; }
         fetch(API + '/v2/account', { credentials: 'same-origin' })
             .then(function (r) { return r.ok ? r.json() : null; })
-            .then(function (account) {
-                reflectCta(!!account);
-                if (!account) return;
-                var navLinks = document.getElementById('navLinks');
-                if (!navLinks || document.getElementById('navSignOut')) return;
-                var li = document.createElement('li');
-                li.className = 'nav-signout';
-                var a = document.createElement('a');
-                a.href = 'account.html';
-                a.id = 'navSignOut';
-                a.textContent = 'Sign out';
-                a.addEventListener('click', function (ev) {
-                    ev.preventDefault();
-                    fetch(API + '/v2/auth/logout', {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: '{}'
-                    }).then(go, go);
-                });
-                li.appendChild(a);
-                navLinks.appendChild(li);
-            })
+            .then(function (account) { reflectCta(!!account); })
             .catch(function () { /* guest or API unreachable — keep default nav */ });
     }
 

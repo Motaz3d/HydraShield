@@ -63,6 +63,17 @@ def test_sector_exposure_merged_into_intelligence_hub():
     assert "{ id: 'sector', name: 'Sector Exposure' }" in js
 
 
+def test_sign_out_lives_in_account_page_not_nav():
+    """Design rule: the top nav never renders a permanent sign-out prompt —
+    an always-visible exit is an indirect invitation to leave. Signing out
+    happens from the Profile panel inside the Account page."""
+    chrome = _read("website/js/chrome.js")
+    assert "navSignOut" not in chrome
+    assert "Sign out" not in chrome
+    acct = _read("website/account.html")
+    assert 'id="logoutBtn"' in acct
+
+
 def test_map_act_on_point_links_press_pack():
     mapjs = _read("website/js/map.js")
     assert "press.html?location=" in mapjs
