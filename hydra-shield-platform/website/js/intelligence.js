@@ -23,7 +23,8 @@
     // Pseudo-tabs merged into this hub: full tools, not registry hazards.
     var PSEUDO_TABS = [
         { id: 'events', name: 'Events' },
-        { id: 'economy', name: 'Economy' }
+        { id: 'economy', name: 'Economy' },
+        { id: 'sector', name: 'Sector Exposure' }
     ];
 
     function el(id) { return document.getElementById(id); }
@@ -106,8 +107,10 @@
         el('wildfireFull').classList.toggle('hidden', !isWildfire);
         el('eventsPanel').classList.toggle('hidden', hazardId !== 'events');
         el('economyPanel').classList.toggle('hidden', hazardId !== 'economy');
+        el('sectorPanel').classList.toggle('hidden', hazardId !== 'sector');
         el('genericFlow').classList.toggle('hidden', isWildfire || isPseudo);
         if (isWildfire && window.HSWildfire) window.HSWildfire.onShow();
+        if (hazardId === 'sector' && window.HS && HS.sector) HS.sector.init(el('sectorPanel'));
         if (history.replaceState) history.replaceState(null, '', '#' + hazardId);
     }
 

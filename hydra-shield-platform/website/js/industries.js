@@ -136,7 +136,7 @@
                 ['📚 Historical evidence', 'What actually happened at or near the asset: documented events with sources, kept structurally separate from modelled interpretation.'],
                 ['🏙️ Exposure', 'Population, built-up area, critical facilities and sector context counted from real mapped data — with completeness caveats.'],
                 ['🔍 Honest uncertainty', 'Screening indicators are labelled as such; monetary exposure is reported as not-quantified unless a documented valuation basis exists. No fabricated figures, ever.'],
-                ['🏭 Sector Exposure Screening', 'Screen any asset against agriculture, real estate, tourism, energy, logistics, mining and forestry sensitivity profiles — with physical trajectory and official crime statistics where openly available. <a class="text-link" href="sector.html">Open Sector Exposure →</a>']
+                ['🏭 Sector Exposure Screening', 'Screen any asset against agriculture, real estate, tourism, energy, logistics, mining and forestry sensitivity profiles — with physical trajectory and official crime statistics where openly available. <a class="text-link" href="intelligence.html#sector">Open Sector Exposure →</a>']
             ],
             disclaimer: 'Talaix provides climate-evidence intelligence. It does not provide financial, investment or legal advice, and nothing here is a recommendation to buy or sell any asset.',
             cta: ['Put your assets under evidence watch',

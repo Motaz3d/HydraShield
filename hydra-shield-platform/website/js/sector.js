@@ -1,8 +1,12 @@
-/* Talaix — Sector Exposure Screening page (sector.html).
+/* Talaix — Sector Exposure Screening (merged into the Intelligence hub).
  *
- * Renders the sector sensitivity x hazard x trajectory x crime screen from
- * /api/v2/sector-screen. All language stays in screening-evidence territory:
- * no investment verdicts, no loss predictions, no financial metrics.
+ * Lazy initializer exposed as HS.sector.init(mountEl). The first time the
+ * Sector Exposure pseudo-tab is selected in intelligence.html this module
+ * renders the full panel (controls + results) into #sectorPanel and loads the
+ * hazard registry so per-sector hazard names can link back to their real
+ * hazard analysis tabs.
+ *
+ * Backend used: GET /api/v2/sector-screen/?lat=&lon=&sectors=
  */
 (function () {
     'use strict';
@@ -21,17 +25,51 @@
         { id: 'forestry_timber', label: 'Forestry & timber' }
     ];
 
+    var E = {
+        locInput: 'sec-loc-input',
+        locAssist: 'sec-loc-assist',
+        chips: 'sec-chips',
+        runBtn: 'sec-run-btn',
+        status: 'sec-status',
+        result: 'sec-result'
+    };
+
+    var initialized = false;
     var selected = {};
     SECTORS.forEach(function (s) { selected[s.id] = true; });
 
-    function el(id) { return document.getElementById(id); }
+    var hazards = [];
+    var hazardByName = {};   // lower-cased name/id -> hazard id
+
+    function el(name) { return document.getElementById(E[name]); }
+
+    function loadHazards() {
+        fetchJSON(API + '/v2/hazards').then(function (res) {
+            if (!res.ok || !res.body.hazards) return;
+            hazards = res.body.hazards;
+            hazards.forEach(function (h) {
+                if (!h.id) return;
+                hazardByName[h.id.toLowerCase()] = h.id;
+                if (h.name) hazardByName[h.name.toLowerCase()] = h.id;
+            });
+        }).catch(function () { /* hazard rows render as plain text */ });
+    }
+
+    function hazardLink(name) {
+        if (!name) return '—';
+        var id = hazardByName[name.toLowerCase()];
+        if (id) {
+            return '<a class="text-link" href="intelligence.html#' + esc(id) + '">' + esc(name) + '</a>';
+        }
+        return esc(name);
+    }
 
     function renderStatus(kind, html) {
-        el('sectorStatus').innerHTML = '<div class="notice notice-' + esc(kind) + '">' + html + '</div>';
+        el('status').innerHTML = '<div class="notice notice-' + esc(kind) + '">' + html + '</div>';
     }
 
     function clearStatus() {
-        el('sectorStatus').innerHTML = '';
+        el('status').innerHTML = '';
     }
 
     function renderChips() {
@@ -40,8 +78,8 @@
             return '<button type="button" class="sector-chip' + (on ? ' active' : '') + '" data-id="' + esc(s.id) + '">' +
                 esc(s.label) + '</button>';
         }).join('');
-        el('sectorChips').innerHTML = html;
-        el('sectorChips').querySelectorAll('.sector-chip').forEach(function (btn) {
+        el('chips').innerHTML = html;
+        el('chips').querySelectorAll('.sector-chip').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 selected[btn.getAttribute('data-id')] = !selected[btn.getAttribute('data-id')];
                 renderChips();
@@ -54,7 +92,7 @@
     }
 
     function runScreen() {
-        var input = el('sectorLocInput').value.trim();
+        var input = el('locInput').value.trim();
         var active = SECTORS.filter(function (s) { return selected[s.id]; }).map(function (s) { return s.id; });
         if (!input) {
             renderStatus('error', 'Enter a location — a place name or lat,lon coordinates.');
@@ -64,13 +102,13 @@
             renderStatus('error', 'Select at least one sector.');
             return;
         }
-        el('sectorRunBtn').disabled = true;
+        el('runBtn').disabled = true;
         clearStatus();
         renderStatus('info', 'Resolving location and building the sector screen…');
 
         HS.resolveLocation(input).then(function (loc) {
             if (!loc.ok) {
-                el('sectorRunBtn').disabled = false;
+                el('runBtn').disabled = false;
                 renderStatus('error', esc(loc.error || 'Location could not be resolved.'));
                 return;
             }
@@ -79,7 +117,7 @@
                 '&sectors=' + encodeURIComponent(active.join(',')) +
                 '&name=' + encodeURIComponent(loc.name);
             return fetchJSON(url).then(function (res) {
-                el('sectorRunBtn').disabled = false;
+                el('runBtn').disabled = false;
                 if (!res.ok) {
                     renderStatus('error', esc((res.body && res.body.error) || 'Screen failed'));
                     return;
@@ -87,7 +125,7 @@
                 renderScreen(res.body, loc);
             });
         }).catch(function () {
-            el('sectorRunBtn').disabled = false;
+            el('runBtn').disabled = false;
             renderStatus('error', 'The screening service could not be reached.');
         });
     }
@@ -115,7 +153,7 @@
                 '<table class="sector-table"><thead><tr><th>Hazard</th><th>Weight</th><th>Level</th><th>Status</th></tr></thead><tbody>';
             (sector.hazard_exposures || []).forEach(function (h) {
                 html += '<tr>' +
-                    '<td>' + esc(h.hazard) + '</td>' +
+                    '<td>' + hazardLink(h.hazard) + '</td>' +
                     '<td>' + esc(h.weight) + '</td>' +
                     '<td>' + esc(h.level_label || '—') + '</td>' +
                     '<td>' + chip(h.claim_status, h.claim_status) + '</td>' +
@@ -224,27 +262,67 @@
             '<p class="muted small">' + esc(screen.honesty_contract || '') + '</p>' +
             '</div>';
 
-        el('sectorResult').innerHTML = html;
+        el('result').innerHTML = html;
     }
 
-    function init() {
+    function renderPanel() {
+        return '<div class="panel">' +
+            '<h2>Sector Exposure Screening</h2>' +
+            '<p class="page-lead">' +
+            'Physical evidence for investors, property owners and governments: ' +
+            'sector-hazard sensitivity, current location-level hazards, and the ' +
+            'physical trajectory over time — with official crime statistics only ' +
+            'where an open official source exists.' +
+            '</p>' +
+            '<div class="notice notice-warn">' +
+            '<strong>Not investment advice.</strong> This page provides physical-risk ' +
+            'screening evidence only. It is not a valuation, not a prediction, and not ' +
+            'a recommendation to invest, divest or transact. Crime figures come from ' +
+            'official statistics only where an open source exists.' +
+            '</div>' +
+            '</div>' +
+            '<div class="panel">' +
+            '<h3>Screen a location</h3>' +
+            '<div class="toolbar" style="align-items:flex-start; flex-wrap:wrap;">' +
+            '<div class="form-group" style="flex:1; min-width:220px;">' +
+            '<label for="' + E.locInput + '">Location</label>' +
+            '<input type="text" id="' + E.locInput + '" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">' +
+            '</div>' +
+            '<div id="' + E.locAssist + '" style="flex-basis:100%;"></div>' +
+            '<div class="form-group" style="min-width:220px;">' +
+            '<label>Sectors</label>' +
+            '<div id="' + E.chips + '" class="sector-chips"></div>' +
+            '</div>' +
+            '<button class="btn-action" id="' + E.runBtn + '" style="margin-top:24px;">Run screen</button>' +
+            '</div>' +
+            '<div id="' + E.status + '"></div>' +
+            '</div>' +
+            '<div id="' + E.result + '"></div>';
+    }
+
+    function init(mount) {
+        if (initialized) return;
+        initialized = true;
+        mount.innerHTML = renderPanel();
+
         renderChips();
-        el('sectorRunBtn').addEventListener('click', runScreen);
-        el('sectorLocInput').addEventListener('keydown', function (e) {
+        el('runBtn').addEventListener('click', runScreen);
+        el('locInput').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') runScreen();
         });
+        if (window.HS && HS.location) {
+            HS.location.enhance(E.locInput, E.locAssist);
+        }
+        loadHazards();
 
         var params = new URLSearchParams(location.search);
-        var locParam = params.get('location');
-        if (locParam) {
-            el('sectorLocInput').value = locParam;
+        var q = params.get('location');
+        if (q) {
+            el('locInput').value = q;
             runScreen();
         }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    window.HS = window.HS || {};
+    window.HS.sector = { init: init };
 })();
