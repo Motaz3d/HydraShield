@@ -40,8 +40,27 @@ def test_sitemap_covers_press_surfaces():
     sitemap = _read("website/sitemap.xml")
     assert "https://talaix.com/press.html" in sitemap
     assert "https://talaix.com/industries.html" in sitemap
-    assert "https://talaix.com/sector.html" in sitemap
+    assert "https://talaix.com/intelligence.html" in sitemap
     assert "https://talaix.com/report-builder.html" in sitemap
+    # Retired URL: merged into the intelligence hub (redirect only), so it
+    # must not stay in the sitemap.
+    assert "https://talaix.com/sector.html" not in sitemap
+
+
+def test_sector_exposure_merged_into_intelligence_hub():
+    """Sector Exposure merged into intelligence.html as a hub tab: the old
+    URL permanently redirects (Caddyfile), the static stub covers non-Caddy
+    previews, and the primary nav drops the standalone entry (6 -> 5)."""
+    caddy = _read("Caddyfile")
+    assert "redir /sector.html /intelligence.html?mode=sector" in caddy
+    stub = _read("website/sector.html")
+    assert "intelligence.html" in stub and "#sector" in stub
+    chrome = _read("website/js/chrome.js")
+    assert "href: 'sector.html'" not in chrome
+    hub = _read("website/intelligence.html")
+    assert 'id="sectorPanel"' in hub
+    js = _read("website/js/intelligence.js")
+    assert "{ id: 'sector', name: 'Sector Exposure' }" in js
 
 
 def test_map_act_on_point_links_press_pack():

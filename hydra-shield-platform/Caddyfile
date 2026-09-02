@@ -53,6 +53,10 @@ talaix.com {
 	redir /events.html /intelligence.html?mode=events permanent
 	redir /economy.html /intelligence.html?mode=economy permanent
 
+	# Sector Exposure merged into intelligence.html as the Sector tab of
+	# the analysis hub; {query} keeps ?location= deep links working.
+	redir /sector.html /intelligence.html?mode=sector&{query} permanent
+
 	# Evidence briefs merged into academy.html as the Briefs tab; {query}
 	# keeps deep links to individual briefs working.
 	redir /briefs.html /academy.html?mode=briefs&{query} permanent
