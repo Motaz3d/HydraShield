@@ -44,7 +44,7 @@ DRAFT_STATUSES = ["draft", "reviewed", "queued", "published", "retired"]
 INTERACTION_TYPES = ["discovered", "researched", "qualified", "contacted",
                      "replied", "meeting", "demo", "proposal",
                      "report_requested", "trial", "customer", "subscription",
-                     "renewal", "lost", "follow_up"]
+                     "renewal", "lost", "follow_up", "corrected"]
 REQUIRED_LEAD_FIELDS = ("organization", "segment", "country", "website",
                         "source", "date_checked")
 REQUIRED_SIGNAL_FIELDS = ("id", "organization", "sector", "country",
