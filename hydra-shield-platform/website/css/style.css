@@ -2131,8 +2131,30 @@ details.expander summary {
 .sa-dropdown .sa-live-item:hover { text-decoration: underline; }
 .sa-dropdown .sa-live-note { color: var(--muted); font-size: 0.84rem; }
 
+/* Dynamic context line (e.g. active hazard) */
+.sa-dropdown .sa-context { color: var(--muted); font-size: 0.84rem; }
+.sa-dropdown .sa-context strong { color: var(--text); }
+
+/* Quick picks: chips that fill the input on click */
+.sa-dropdown .sa-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.sa-dropdown .sa-chip {
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(14,165,233,0.3);
+    background: rgba(14,165,233,0.07);
+    font-family: var(--font-main);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sa-dropdown .sa-chip:hover { background: rgba(14,165,233,0.16); border-color: rgba(14,165,233,0.5); }
+
 /* Anchor contexts for the absolutely-positioned dropdown */
-.toolbar, .hub-try-form, .search-row, .map-sidebar, .form-group { position: relative; }
+.toolbar, .hub-try-form, .search-row, .map-sidebar, .form-group, .analyze-bar, .live-row { position: relative; }
 .risk-badge-High { background: #f97316; }
 .risk-badge-Extreme { background: #ef4444; color: #fff; }
 
