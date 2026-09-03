@@ -1,12 +1,16 @@
 /* Talaix — the Map (map.html).
  *
- * The map is the core product: full-viewport Leaflet + a control sidebar.
- * Hazard selector from GET /api/v2/hazards (availability honoured), year
- * selector derived from each hazard's temporal_coverage (never hardcoded),
- * and a lazy layer panel grouped HAZARD / ENVIRONMENT / EVIDENCE /
- * EXPOSURE. Every layer shows legend, source, resolution, status, temporal
- * class and provenance; every fetch renders honest loading / empty /
- * unavailable / key_required / error states. No invented data anywhere.
+ * The map is the core product: a compact Leaflet canvas (reduced height,
+ * not full-viewport) next to a simplified control sidebar, with a
+ * collapsible "Advanced analysis & tools" strip below for deeper work
+ * (multi-hazard snapshot, site comparison, share/export, plain-language
+ * glossary). Hazard selector from GET /api/v2/hazards (availability
+ * honoured, retried on failure), year selector derived from each hazard's
+ * temporal_coverage (never hardcoded), and a lazy layer panel with
+ * collapsible groups HAZARD / ENVIRONMENT / EVIDENCE / EXPOSURE. Every
+ * layer shows legend, source, resolution, status, temporal class and
+ * provenance; every fetch renders honest loading / empty / unavailable /
+ * key_required / error states. No invented data anywhere.
  *
  * Endpoints used:
  *   GET /api/v2/hazards · GET /api/v2/hazards/<id>
@@ -40,6 +44,7 @@
     var centreStatusAutoSet = false;   // true when locStatus shows the auto-updated centre place
     var centreChip = null;
     var cursorChip = null;
+    var initialYear = null;            // ?year= URL param, applied once options exist
 
     function el(id) { return document.getElementById(id); }
 
@@ -249,10 +254,12 @@
     // Hazard + year selectors
     // ------------------------------------------------------------------
 
-    function loadHazards(preselect) {
+    function loadHazards(preselect, attempt) {
+        attempt = attempt || 1;
         fetchJSON(API + '/v2/hazards').then(function (res) {
             if (!res.ok || !res.body.hazards) {
-                el('hazardStatus').textContent = 'Hazard registry unavailable — layers cannot be built.';
+                hazardRegistryFailed(preselect, attempt,
+                    'Hazard registry unavailable — layers cannot be built.');
                 return;
             }
             hazards = res.body.hazards;
@@ -271,8 +278,32 @@
             sel.addEventListener('change', function () { selectHazard(sel.value); });
             selectHazard(sel.value);
         }).catch(function () {
-            el('hazardStatus').textContent = 'Hazard registry could not be reached.';
+            hazardRegistryFailed(preselect, attempt, 'Hazard registry could not be reached.');
         });
+    }
+
+    /* The registry is the root of every layer — retry automatically with
+     * backoff, then offer a manual Retry instead of leaving a dead page. */
+    function hazardRegistryFailed(preselect, attempt, message) {
+        var status = el('hazardStatus');
+        if (attempt < 3) {
+            status.textContent = message + ' Retrying…';
+            setTimeout(function () { loadHazards(preselect, attempt + 1); }, 1500 * attempt);
+            return;
+        }
+        status.textContent = '';
+        var span = document.createElement('span');
+        span.textContent = message + ' ';
+        status.appendChild(span);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-quiet adv-btn';
+        btn.style.padding = '4px 10px';
+        btn.textContent = 'Retry';
+        btn.addEventListener('click', function () { loadHazards(preselect, 1); });
+        status.appendChild(btn);
+        el('layerPanel').innerHTML =
+            '<div class="layer-state" style="padding-left:0;">Layers cannot be built until the hazard registry responds.</div>';
     }
 
     function selectHazard(hazardId) {
@@ -282,17 +313,34 @@
         buildYearSelector(h ? h.temporal_coverage : {});
         fetchJSON(API + '/v2/hazards/' + encodeURIComponent(hazardId)).then(function (res) {
             if (!res.ok) {
-                el('layerPanel').innerHTML =
-                    '<div class="notice notice-error">Layer definitions unavailable: ' +
-                    esc(res.body.error || 'unknown hazard') + '</div>';
+                layerDefsFailed(hazardId,
+                    'Layer definitions unavailable: ' + (res.body.error || 'unknown hazard'));
                 return;
             }
             hazardDetail = res.body;
             buildLayerPanel(hazardDetail);
         }).catch(function () {
-            el('layerPanel').innerHTML =
-                '<div class="notice notice-error">Layer definitions could not be reached.</div>';
+            layerDefsFailed(hazardId, 'Layer definitions could not be reached.');
         });
+    }
+
+    /* Layer-definition fetch failed: show the honest state with a manual
+     * retry instead of a dead panel. */
+    function layerDefsFailed(hazardId, message) {
+        var panel = el('layerPanel');
+        panel.innerHTML = '';
+        var notice = document.createElement('div');
+        notice.className = 'notice notice-error';
+        notice.style.marginBottom = '0';
+        notice.textContent = message + ' ';
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-quiet adv-btn';
+        btn.style.padding = '4px 10px';
+        btn.textContent = 'Retry';
+        btn.addEventListener('click', function () { selectHazard(hazardId); });
+        notice.appendChild(btn);
+        panel.appendChild(notice);
     }
 
     /* Years from the hazard's declared temporal_coverage — never hardcoded.
@@ -332,6 +380,17 @@
             el('yearStatus').textContent = 'No historical coverage declared for this hazard.';
         }
         el('yearSelect').innerHTML = html;
+        // A ?year= deep-link applies once this hazard's options exist.
+        if (initialYear) {
+            var ys = el('yearSelect');
+            for (var i = 0; i < ys.options.length; i++) {
+                if (ys.options[i].value === initialYear) {
+                    ys.value = initialYear;
+                    break;
+                }
+            }
+            initialYear = null;
+        }
     }
 
     // ------------------------------------------------------------------
@@ -345,6 +404,7 @@
         layers = [];
         if (legendControl) { legendControl.remove(); legendControl = null; }
         if (targetBox) { /* keep the target marker across hazards */ }
+        renderEvidenceSummary();
     }
 
     /* Platform-wide layers appended to the hazard's declared map_layers. */
@@ -448,12 +508,31 @@
         var order = GROUP_ORDER.filter(function (g) { return groups[g]; })
             .concat(Object.keys(groups).filter(function (g) { return GROUP_ORDER.indexOf(g) < 0; }));
 
-        order.forEach(function (g) {
-            var title = document.createElement('div');
-            title.className = 'layer-group-title';
-            title.textContent = g;
-            panel.appendChild(title);
-            groups[g].forEach(function (spec) { panel.appendChild(layerRow(spec)); });
+        order.forEach(function (g, gi) {
+            var hasDefaultOn = groups[g].some(function (s) { return s.default_on; });
+            var open = hasDefaultOn || gi === 0;
+
+            var toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'layer-group-toggle';
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.innerHTML = '<span class="group-arrow" aria-hidden="true">▸</span>' +
+                '<span>' + esc(g) + '</span>' +
+                '<span class="group-count">' + groups[g].length + '</span>';
+
+            var body = document.createElement('div');
+            body.className = 'layer-group-body';
+            body.hidden = !open;
+            groups[g].forEach(function (spec) { body.appendChild(layerRow(spec)); });
+
+            toggle.addEventListener('click', function () {
+                var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+                body.hidden = isOpen;
+            });
+
+            panel.appendChild(toggle);
+            panel.appendChild(body);
         });
 
         // Default-on layers (per each hazard's layer spec; the fire-danger
@@ -464,6 +543,7 @@
                 enableLayer(rec);
             }
         });
+        renderEvidenceSummary();
     }
 
     function layerRow(spec) {
@@ -494,6 +574,11 @@
             label.classList.add('disabled');
         }
 
+        // Evidence class at a glance (observed / modelled / scenario …) so
+        // the panel never hides what kind of evidence a layer is.
+        var temporalChip = document.createElement('span');
+        temporalChip.innerHTML = chip(spec.temporal || 'OBSERVED');
+
         var infoBtn = document.createElement('button');
         infoBtn.type = 'button';
         infoBtn.className = 'layer-info-btn';
@@ -502,6 +587,7 @@
 
         row.appendChild(cb);
         row.appendChild(label);
+        row.appendChild(temporalChip);
         row.appendChild(infoBtn);
         wrap.appendChild(row);
 
@@ -576,6 +662,7 @@
                 disableLayer(rec);
             }
         });
+        renderEvidenceSummary();
     }
 
     // ------------------------------------------------------------------
@@ -586,17 +673,37 @@
         rec.active = true;
         if (!rec.leafletLayer) rec.leafletLayer = L.layerGroup();
         rec.leafletLayer.addTo(map);
-        loadLayer(rec, false);
+        var p = loadLayer(rec, false);
+        if (p && p.then) p.then(rebuildLegend);
+        renderEvidenceSummary();
     }
 
     function disableLayer(rec) {
         rec.active = false;
         if (rec.leafletLayer) map.removeLayer(rec.leafletLayer);
         setState(rec, '');
-        if (rec.spec.layer_id === 'wildfire.danger_grid' && legendControl) {
-            legendControl.remove();
-            legendControl = null;
-        }
+        rebuildLegend();
+        renderEvidenceSummary();
+    }
+
+    /* Compact evidence readout in the advanced-strip toggle bar: how many
+     * active layers are observed / modelled / scenario, so the evidence
+     * mix is visible without opening anything. */
+    function renderEvidenceSummary() {
+        var box = el('mapAdvEvidence');
+        if (!box) return;
+        var counts = {};
+        layers.forEach(function (rec) {
+            if (!rec.active) return;
+            var t = rec.spec.temporal || 'OBSERVED';
+            counts[t] = (counts[t] || 0) + 1;
+        });
+        var parts = Object.keys(counts).map(function (t) {
+            return counts[t] + ' ' + t.toLowerCase().replace('_', ' ');
+        });
+        box.textContent = parts.length
+            ? 'Active evidence: ' + parts.join(' · ') + ' — screening only'
+            : 'No active layers';
     }
 
     function setState(rec, html) {
@@ -667,25 +774,36 @@
             rec.loaded = true;
             setState(rec, 'Grid: FWI from Open-Meteo daily data (cell ~' +
                 esc(g.grid.cell_size_km) + ' km), slope from DEM. Current conditions; cached 1 h.');
-            updateLegend(rec);
+            rebuildLegend();
         }).catch(function () {
             if (rec.active) setState(rec, 'Fire-danger grid request failed.');
         });
     }
 
-    /* On-map legend built from the layer's declared classes. */
-    function updateLegend(rec) {
+    /* On-map legend built from every active, loaded layer that declares a
+     * legend — one block per layer, rebuilt on enable/disable/load. */
+    function rebuildLegend() {
         if (legendControl) { legendControl.remove(); legendControl = null; }
-        if (rec.spec.layer_id !== 'wildfire.danger_grid' || !rec.spec.legend) return;
-        var legend = rec.spec.legend;
+        var withLegend = layers.filter(function (rec) {
+            return rec.active && rec.loaded && rec.spec.legend;
+        });
+        if (!withLegend.length) return;
         legendControl = L.control({ position: 'bottomright' });
         legendControl.onAdd = function () {
             var div = L.DomUtil.create('div', 'map-legend');
-            div.innerHTML = '<div class="legend-title">Fire danger (FWI-based)</div>' +
-                Object.keys(legend).map(function (k) {
-                    return '<div class="swatch"><i style="background:' + esc(legend[k]) + '"></i>' + esc(k) + '</div>';
-                }).join('') +
-                '<div style="margin-top:4px;color:#64748b;">Composite indicator — not a probability of fire.</div>';
+            div.innerHTML = withLegend.map(function (rec) {
+                var isGrid = rec.spec.layer_id === 'wildfire.danger_grid';
+                var title = isGrid ? 'Fire danger (FWI-based)'
+                    : String(rec.spec.label).split('(')[0].trim();
+                return '<div class="legend-block">' +
+                    '<div class="legend-title">' + esc(title) + '</div>' +
+                    Object.keys(rec.spec.legend).map(function (k) {
+                        return '<div class="swatch"><i style="background:' +
+                            esc(rec.spec.legend[k]) + '"></i>' + esc(k) + '</div>';
+                    }).join('') +
+                    (isGrid ? '<div class="legend-note">Composite indicator — not a probability of fire.</div>' : '') +
+                    '</div>';
+            }).join('');
             return div;
         };
         legendControl.addTo(map);
@@ -1151,6 +1269,263 @@
     }
 
     // ------------------------------------------------------------------
+    // Advanced strip (snapshot / compare / share & export)
+    // ------------------------------------------------------------------
+
+    function truncate(s, n) {
+        s = String(s || '');
+        return s.length > n ? s.slice(0, n - 1) + '…' : s;
+    }
+
+    /* Multi-hazard snapshot: screen the map centre against every available
+     * hazard so the user can decide which layers are worth switching on. */
+    function runSnapshot() {
+        var btn = el('advSnapshotBtn');
+        var out = el('advSnapshotResult');
+        var c = currentCenter();
+        var available = hazards.filter(function (h) { return h.analysis && h.analysis.available; });
+        if (!available.length) {
+            out.innerHTML = '<div class="notice notice-warn" style="margin-bottom:0;">' +
+                'The hazard registry is not loaded — no snapshot without it. Retry the registry from the sidebar status.</div>';
+            return;
+        }
+        btn.disabled = true;
+        out.innerHTML = '<div class="layer-state" style="padding-left:0;">Screening ' +
+            available.length + ' hazard(s) at ' + c.lat.toFixed(3) + ', ' + c.lon.toFixed(3) + '…</div>';
+        var jobs = available.map(function (h) {
+            return fetchJSON(API + '/v2/analyze?hazard=' + encodeURIComponent(h.id) +
+                '&lat=' + c.lat.toFixed(4) + '&lon=' + c.lon.toFixed(4))
+                .then(function (res) { return { h: h, res: res }; })
+                .catch(function () { return { h: h, res: null }; });
+        });
+        Promise.all(jobs).then(function (rows) {
+            btn.disabled = false;
+            out.innerHTML = rows.map(function (row) {
+                return snapshotRow(row.h, row.res);
+            }).join('') +
+                '<p class="muted small" style="margin:8px 0 0;">Point screening at the map centre — ' +
+                'not a spatial assessment. “Layers →” loads that hazard’s layers in the sidebar.</p>';
+            if (window.HS && HS.track) HS.track('map_snapshot', { hazards: available.length });
+        });
+    }
+
+    function snapshotRow(h, res) {
+        var name = '<span class="snap-name">' + esc(h.name) + '</span>';
+        var link = '<a class="text-link snap-link" href="map.html?hazard=' + encodeURIComponent(h.id) +
+            '" data-hazard="' + esc(h.id) + '">Layers →</a>';
+        var body, status, detail;
+        if (!res) {
+            status = chip('error', 'request failed');
+            detail = 'The analysis service could not be reached.';
+        } else {
+            body = res.body || {};
+            if (res.status === 503 || body.status === 'unavailable' || body.status === 'key_required') {
+                status = chip(body.status === 'key_required' ? 'key_required' : 'unavailable');
+                detail = esc(body.unavailable_reason || body.error || 'Unavailable for this hazard.');
+            } else if (!res.ok || body.error) {
+                status = chip('error');
+                detail = esc(body.error || 'Analysis failed.');
+            } else {
+                var lvl = body.level || {};
+                var label = lvl.label
+                    ? '<b>' + esc(lvl.label) + '</b>' +
+                      (lvl.score != null ? ' (' + esc(lvl.score) + (lvl.score_max ? '/' + esc(lvl.score_max) : '') + ')' : '')
+                    : 'n/a';
+                status = label;
+                detail = esc(truncate(body.summary || '—', 150));
+            }
+        }
+        return '<div class="adv-snap-row">' + name + status +
+            '<span class="snap-summary">' + detail + '</span>' + link + '</div>';
+    }
+
+    /* Site comparison: the selected hazard at the map centre vs a second
+     * site — a quick screening before a full insurance profile. */
+    function runCompare() {
+        var q = el('advCompareInput').value.trim();
+        var out = el('advCompareResult');
+        if (!q) {
+            out.innerHTML = '<div class="notice notice-warn" style="margin-bottom:0;">Enter a second site to compare with the map centre.</div>';
+            return;
+        }
+        if (!hazardDetail || !hazardDetail.id) {
+            out.innerHTML = '<div class="notice notice-warn" style="margin-bottom:0;">Hazard definitions are not loaded yet — retry shortly.</div>';
+            return;
+        }
+        var btn = el('advCompareBtn');
+        var hazardId = hazardDetail.id;
+        var c = currentCenter();
+        btn.disabled = true;
+        out.innerHTML = '<div class="layer-state" style="padding-left:0;">Resolving ' + esc(q) + '…</div>';
+        HS.resolveLocation(q).then(function (loc) {
+            if (!loc.ok) {
+                btn.disabled = false;
+                out.innerHTML = '<div class="notice notice-error" style="margin-bottom:0;">' +
+                    esc(loc.error || 'Location could not be resolved.') + '</div>';
+                return;
+            }
+            out.innerHTML = '<div class="layer-state" style="padding-left:0;">Comparing ' +
+                esc(hazardDetail.name || hazardId) + ' at both sites…</div>';
+            var analyzeAt = function (lat, lon) {
+                return fetchJSON(API + '/v2/analyze?hazard=' + encodeURIComponent(hazardId) +
+                    '&lat=' + lat.toFixed(4) + '&lon=' + lon.toFixed(4))
+                    .catch(function () { return null; });
+            };
+            Promise.all([analyzeAt(c.lat, c.lon), analyzeAt(loc.lat, loc.lon)]).then(function (results) {
+                btn.disabled = false;
+                out.innerHTML = '<table class="adv-compare-table"><thead><tr>' +
+                    '<th>Site</th><th>Level</th><th>Summary</th></tr></thead><tbody>' +
+                    compareRow('Map centre (' + c.lat.toFixed(3) + ', ' + c.lon.toFixed(3) + ')', results[0]) +
+                    compareRow(esc(loc.name), results[1]) +
+                    '</tbody></table>' +
+                    '<p class="muted small" style="margin:8px 0 0;">Point screening for ' +
+                    esc(hazardDetail.name || hazardId) +
+                    ' — verify with a full profile before any underwriting decision.</p>';
+                if (window.HS && HS.track) HS.track('map_compare', { hazard: hazardId });
+            });
+        }).catch(function () {
+            btn.disabled = false;
+            out.innerHTML = '<div class="notice notice-error" style="margin-bottom:0;">The analysis service could not be reached.</div>';
+        });
+    }
+
+    function compareRow(site, res) {
+        if (!res) {
+            return '<tr><td>' + site + '</td><td colspan="2">' + chip('error', 'request failed') + '</td></tr>';
+        }
+        var body = res.body || {};
+        if (res.status === 503 || body.status === 'unavailable' || body.status === 'key_required') {
+            return '<tr><td>' + site + '</td><td colspan="2">' +
+                chip(body.status === 'key_required' ? 'key_required' : 'unavailable') + ' ' +
+                esc(body.unavailable_reason || body.error || 'Unavailable for this hazard.') + '</td></tr>';
+        }
+        if (!res.ok || body.error) {
+            return '<tr><td>' + site + '</td><td colspan="2">' + chip('error') + ' ' +
+                esc(body.error || 'Analysis failed.') + '</td></tr>';
+        }
+        var lvl = body.level || {};
+        var label = lvl.label
+            ? '<b>' + esc(lvl.label) + '</b>' +
+              (lvl.score != null ? ' (' + esc(lvl.score) + (lvl.score_max ? '/' + esc(lvl.score_max) : '') + ')' : '')
+            : 'n/a';
+        return '<tr><td>' + site + '</td><td>' + label + '</td><td>' +
+            esc(truncate(body.summary || '—', 180)) + '</td></tr>';
+    }
+
+    /* Shareable view URL: location + hazard + year restore the current view. */
+    function viewUrl() {
+        var c = currentCenter();
+        var params = new URLSearchParams();
+        params.set('location', c.lat.toFixed(4) + ',' + c.lon.toFixed(4));
+        if (hazardDetail && hazardDetail.id) params.set('hazard', hazardDetail.id);
+        var y = el('yearSelect').value;
+        if (y && y !== 'current') params.set('year', y);
+        return location.origin + location.pathname + '?' + params.toString();
+    }
+
+    function copyText(text, okMsg) {
+        var out = el('advShareStatus');
+        var done = function () {
+            out.innerHTML = '<div class="notice notice-info" style="margin-bottom:0;">' + esc(okMsg) + '</div>';
+        };
+        var fail = function () {
+            out.innerHTML = '<div class="notice notice-warn" style="margin-bottom:0;">' +
+                'Copy failed — copy it manually:<br><code>' + esc(text) + '</code></div>';
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, fail);
+            return;
+        }
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            if (document.execCommand('copy')) done(); else fail();
+        } catch (e) { fail(); }
+        document.body.removeChild(ta);
+    }
+
+    /* GeoJSON export of the active, loaded layers only — each feature keeps
+     * the layer id, temporal class and source it came from. */
+    function exportGeoJSON() {
+        var out = el('advShareStatus');
+        var feats = [];
+        layers.forEach(function (rec) {
+            if (!rec.active || !rec.loaded || !rec.leafletLayer) return;
+            var gj;
+            try { gj = rec.leafletLayer.toGeoJSON(); } catch (e) { return; }
+            var list = gj.type === 'FeatureCollection' ? gj.features : [gj];
+            list.forEach(function (f) {
+                f.properties = f.properties || {};
+                f.properties.talaix_layer = rec.spec.layer_id;
+                f.properties.talaix_temporal = rec.spec.temporal || 'OBSERVED';
+                f.properties.talaix_source = rec.spec.source || '';
+                feats.push(f);
+            });
+        });
+        if (!feats.length) {
+            out.innerHTML = '<div class="notice notice-warn" style="margin-bottom:0;">' +
+                'Nothing to export — enable at least one spatial layer first. ' +
+                'Declared layers without a wired spatial product export nothing.</div>';
+            return;
+        }
+        var fc = {
+            type: 'FeatureCollection',
+            generator: 'Talaix map — open-source screening evidence, verify before use',
+            exported_at: new Date().toISOString(),
+            features: feats
+        };
+        var blob = new Blob([JSON.stringify(fc, null, 2)], { type: 'application/geo+json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'talaix-map-' + (hazardDetail ? hazardDetail.id : 'layers') +
+            '-' + new Date().toISOString().slice(0, 10) + '.geojson';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+        out.innerHTML = '<div class="notice notice-info" style="margin-bottom:0;">Exported ' +
+            feats.length + ' feature(s) from the active layers.</div>';
+        if (window.HS && HS.track) HS.track('map_export_geojson', { features: feats.length });
+    }
+
+    function initAdvancedStrip() {
+        var toggle = el('mapAdvToggle');
+        var body = el('mapAdvBody');
+        toggle.addEventListener('click', function () {
+            var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+            body.hidden = isOpen;
+        });
+
+        el('advSnapshotBtn').addEventListener('click', runSnapshot);
+        el('advSnapshotResult').addEventListener('click', function (e) {
+            var a = e.target.closest ? e.target.closest('[data-hazard]') : null;
+            if (!a) return;
+            e.preventDefault();
+            var id = a.getAttribute('data-hazard');
+            if (hazards.some(function (h) { return h.id === id && h.analysis.available; })) {
+                el('hazardSelect').value = id;
+                selectHazard(id);
+            }
+        });
+        el('advCompareBtn').addEventListener('click', runCompare);
+        el('advCompareInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') runCompare();
+        });
+        el('advShareLinkBtn').addEventListener('click', function () {
+            copyText(viewUrl(), 'View link copied — it restores location, hazard, year and mode.');
+        });
+        el('advCopyCoordsBtn').addEventListener('click', function () {
+            var c = currentCenter();
+            copyText(c.lat.toFixed(5) + ', ' + c.lon.toFixed(5), 'Map-centre coordinates copied.');
+        });
+        el('advExportBtn').addEventListener('click', exportGeoJSON);
+        renderEvidenceSummary();
+    }
+
+    // ------------------------------------------------------------------
     // Location search
     // ------------------------------------------------------------------
 
@@ -1220,6 +1595,9 @@
         el('mapCheckPanel').classList.toggle('hidden', !check);
         el('modeExploreBtn').classList.toggle('active', !check);
         el('modeCheckBtn').classList.toggle('active', check);
+        // The head intro describes Explore; Map Check has its own heading.
+        var head = document.querySelector('.map-page-head');
+        if (head) head.classList.toggle('check-mode', check);
         if (!check && map) {
             // The map canvas was hidden — Leaflet needs a size recalc.
             setTimeout(function () { map.invalidateSize(); }, 0);
@@ -1235,6 +1613,15 @@
 
     function init() {
         initMap();
+        initAdvancedStrip();
+
+        // The canvas height is viewport-relative (clamp) — keep Leaflet's
+        // size in sync when the window is resized.
+        var resizeTimer = null;
+        window.addEventListener('resize', function () {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () { if (map) map.invalidateSize(); }, 200);
+        });
 
         el('modeExploreBtn').addEventListener('click', function () { setMode('explore'); });
         el('modeCheckBtn').addEventListener('click', function () { setMode('check'); });
@@ -1256,8 +1643,9 @@
         });
         el('evidenceFilter').addEventListener('change', applyEvidenceFilter);
 
-        // URL params: ?location=… · ?hazard=… · ?mode=check
+        // URL params: ?location=… · ?hazard=… · ?year=… · ?mode=check
         var params = new URLSearchParams(location.search);
+        initialYear = params.get('year');
         loadHazards(params.get('hazard') || undefined);
         var q = params.get('location');
         if (q) {

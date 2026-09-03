@@ -140,22 +140,28 @@ Errors:
 
 ## Frontend
 
-`website/mapcheck.html` + `website/js/mapcheck.js` provide:
+Map Check lives inside `website/map.html` as a mode (`map.html?mode=check`),
+merged from the legacy standalone `mapcheck.html`; `website/js/mapcheck.js`
+provides:
 
 - Location input (place name or `lat,lon`) with the shared location component.
 - Radius selector (50–2000 m, default 300).
+- Pre-loaded one-click examples (Clervaux, Serra da Estrela, Attica) so a
+  first-time visitor sees a real check before typing anything.
 - Per-check two-column card: "Map says" vs "Satellite shows".
 - Verdict chip (`consistent` green, `discrepancy_detected` amber,
   `cannot_assess` grey).
 - Basis line, possible-causes list, expandable evidence table.
 - Recommendations panel + "Why discrepancies happen" explainer + audience
   note card linking to Green Finance and Insurance products.
+- Post-result "Need this documented?" panel linking the checked coordinates
+  into the Insurance profile, Green Finance check and contact page.
 
 Navigation:
 
 - `website/js/chrome.js` — Map Check is the first item under **Explore**.
 - `website/js/map.js` — the map "Act on this point" panel links to
-  `mapcheck.html?location=lat,lon`.
+  `map.html?mode=check&location=lat,lon`.
 
 ## Engine location
 

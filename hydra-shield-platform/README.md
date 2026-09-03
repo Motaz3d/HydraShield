@@ -25,7 +25,8 @@ claims no validated prevention capability (see `docs/PRODUCT_STORY.md`).
 `docs/ANALYTICAL_MODEL.md` · `docs/PORTFOLIO.md` ·
 `docs/ECONOMIC_INTELLIGENCE.md` · `docs/FINANCIAL_INTELLIGENCE.md` ·
 `docs/SOLUTIONS_INTELLIGENCE.md` · `docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md` ·
-`docs/IMPLEMENTATION_ROADMAP.md` · `docs/QGIS_INTEGRATION_ARCHITECTURE.md`
+`docs/IMPLEMENTATION_ROADMAP.md` · `docs/QGIS_INTEGRATION_ARCHITECTURE.md` ·
+`docs/MAP_PAGE.md` · `docs/MAP_CHECK.md`
 
 **Business/operations docs:**
 `docs/SOLUTIONS_INTELLIGENCE.md` · `docs/PRODUCT_ANALYTICS.md` ·

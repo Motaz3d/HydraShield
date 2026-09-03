@@ -19,53 +19,136 @@
 <body data-page="map">
     <div id="site-header"></div>
 
-    <div class="map-mode-bar" role="tablist" aria-label="Map modes">
-        <button type="button" class="hazard-tab active" id="modeExploreBtn" role="tab">Explore</button>
-        <button type="button" class="hazard-tab" id="modeCheckBtn" role="tab">Map Check</button>
-    </div>
-
-    <div id="mapExplore">
-        <div class="map-shell">
-            <aside class="map-sidebar" id="mapSidebar">
-                <h2>Location</h2>
-                <div style="display:flex;gap:6px;">
-                    <input type="text" id="locInput" placeholder="Place name or lat,lon"
-                           aria-label="Place name or coordinates">
-                    <button class="btn-action" id="locBtn" style="padding:9px 14px;">Go</button>
-                </div>
-                <div class="layer-state" id="locStatus" style="padding-left:0;"></div>
-
-                <h2>Hazard</h2>
-                <select id="hazardSelect" aria-label="Hazard"></select>
-                <div class="layer-state" id="hazardStatus" style="padding-left:0;"></div>
-
-                <h2>Year</h2>
-                <select id="yearSelect" aria-label="Year"></select>
-                <div class="layer-state" id="yearStatus" style="padding-left:0;"></div>
-
-                <h2>Evidence filter</h2>
-                <select id="evidenceFilter" aria-label="Evidence filter">
-                    <option value="all" selected>All evidence</option>
-                    <option value="observed">Observed only (observed / historical)</option>
-                    <option value="modelled">Modelled only (forecast / projected / scenario)</option>
-                </select>
-
-                <h2>Layers</h2>
-                <div id="layerPanel">
-                    <div class="layer-state" style="padding-left:0;">Loading layer definitions…</div>
-                </div>
-            </aside>
-
-            <div class="map-canvas">
-                <button class="map-sidebar-toggle" id="sidebarToggle" aria-label="Toggle layers panel">☰ Layers</button>
-                <div id="map" role="application" aria-label="Talaix intelligence map"></div>
+    <main class="page-main map-page">
+        <div class="container map-page-head">
+            <div class="map-head-text" id="mapHeadIntro">
+                <h1>Risk &amp; Evidence Map</h1>
+                <p class="page-lead">
+                    Screening layers from open sources only — every layer declares its
+                    source, resolution and evidence status. Nothing here is a probability
+                    of loss; it is evidence to verify. Not sure a map can be trusted?
+                    Run <strong>Map Check</strong> — it cross-checks what open maps say
+                    against what satellites actually observe.
+                </p>
+            </div>
+            <div class="map-mode-bar" role="tablist" aria-label="Map modes">
+                <button type="button" class="hazard-tab active" id="modeExploreBtn" role="tab">Explore</button>
+                <button type="button" class="hazard-tab" id="modeCheckBtn" role="tab"
+                        title="Cross-check open maps against satellite observation">Map Check</button>
             </div>
         </div>
-    </div>
 
-    <!-- Map Check (merged from the legacy mapcheck.html page) -->
-    <div id="mapCheckPanel" class="hidden">
-        <main class="page-main">
+        <div id="mapExplore" class="container">
+            <div class="map-shell">
+                <aside class="map-sidebar" id="mapSidebar">
+                    <h2>Location</h2>
+                    <div style="display:flex;gap:6px;">
+                        <input type="text" id="locInput" placeholder="Place name or lat,lon"
+                               aria-label="Place name or coordinates">
+                        <button class="btn-action" id="locBtn" style="padding:9px 14px;">Go</button>
+                    </div>
+                    <div class="layer-state" id="locStatus" style="padding-left:0;"></div>
+
+                    <h2>Hazard</h2>
+                    <select id="hazardSelect" aria-label="Hazard"></select>
+                    <div class="layer-state" id="hazardStatus" style="padding-left:0;"></div>
+
+                    <h2>Year</h2>
+                    <select id="yearSelect" aria-label="Year"></select>
+                    <div class="layer-state" id="yearStatus" style="padding-left:0;"></div>
+
+                    <h2>Evidence filter</h2>
+                    <select id="evidenceFilter" aria-label="Evidence filter">
+                        <option value="all" selected>All evidence</option>
+                        <option value="observed">Observed only (observed / historical)</option>
+                        <option value="modelled">Modelled only (forecast / projected / scenario)</option>
+                    </select>
+
+                    <h2>Layers</h2>
+                    <div id="layerPanel">
+                        <div class="layer-state" style="padding-left:0;">Loading layer definitions…</div>
+                    </div>
+                </aside>
+
+                <div class="map-canvas">
+                    <button class="map-sidebar-toggle" id="sidebarToggle" aria-label="Toggle layers panel">☰ Layers</button>
+                    <div id="map" role="application" aria-label="Talaix intelligence map"></div>
+                </div>
+            </div>
+
+            <!-- Advanced strip: collapsed by default; the toggle bar doubles as
+                 the evidence-status readout for the active layers. -->
+            <div class="map-adv" id="mapAdv">
+                <button type="button" class="map-adv-toggle" id="mapAdvToggle"
+                        aria-expanded="false" aria-controls="mapAdvBody">
+                    <span class="map-adv-arrow" aria-hidden="true">▸</span>
+                    <span class="map-adv-title">Advanced analysis &amp; tools</span>
+                    <span class="map-adv-evidence" id="mapAdvEvidence"></span>
+                </button>
+
+                <div class="map-adv-body" id="mapAdvBody" hidden>
+                    <section class="map-adv-section">
+                        <h3>Multi-hazard snapshot — map centre</h3>
+                        <p class="muted small">
+                            Screens the current map centre against every available hazard
+                            (point screening, not a spatial grid). Use it to decide which
+                            hazard layers are worth switching on.
+                        </p>
+                        <button type="button" class="btn-quiet adv-btn" id="advSnapshotBtn">Run snapshot</button>
+                        <div id="advSnapshotResult" class="adv-result"></div>
+                    </section>
+
+                    <section class="map-adv-section">
+                        <h3>Compare with another location</h3>
+                        <p class="muted small">
+                            Compares the selected hazard at the map centre with a second
+                            site — a quick screening before a full insurance profile.
+                        </p>
+                        <div class="adv-inline-form">
+                            <input type="text" id="advCompareInput"
+                                   placeholder="Second site — place name or lat,lon"
+                                   aria-label="Second site to compare with the map centre">
+                            <button type="button" class="btn-quiet adv-btn" id="advCompareBtn">Compare</button>
+                        </div>
+                        <div id="advCompareResult" class="adv-result"></div>
+                    </section>
+
+                    <section class="map-adv-section">
+                        <h3>Share &amp; export</h3>
+                        <div class="adv-inline-form">
+                            <button type="button" class="btn-quiet adv-btn" id="advShareLinkBtn">Copy view link</button>
+                            <button type="button" class="btn-quiet adv-btn" id="advCopyCoordsBtn">Copy centre coordinates</button>
+                            <button type="button" class="btn-quiet adv-btn" id="advExportBtn">Export active layers (GeoJSON)</button>
+                        </div>
+                        <div id="advShareStatus" class="adv-result"></div>
+                        <p class="muted small" style="margin-bottom:0;">
+                            The view link restores location, hazard, year and mode.
+                            GeoJSON contains the currently active layers only — each
+                            feature keeps the layer it came from.
+                        </p>
+                    </section>
+
+                    <section class="map-adv-section">
+                        <h3>Key terms in plain language</h3>
+                        <dl class="adv-terms">
+                            <dt>Observed vs modelled</dt>
+                            <dd>Observed = measured (satellite scene, recorded event). Modelled = computed from a model (forecast, projection, scenario). The filter on the left separates the two — they are never mixed silently.</dd>
+                            <dt>FWI (Fire Weather Index)</dt>
+                            <dd>A weather-driven index of how easily fire could spread today. It says nothing about ignition or probability of loss.</dd>
+                            <dt>NDMI / NDVI</dt>
+                            <dd>Satellite vegetation signals from Sentinel-2. NDMI ≈ fuel moisture (dry vs moist), NDVI ≈ greenness. A 10 m pixel can see a park, not a single tree.</dd>
+                            <dt>FIRMS</dt>
+                            <dd>NASA's near-real-time active-fire detections. A hotspot is a heat detection, not a fire perimeter.</dd>
+                            <dt>ESA WorldCover</dt>
+                            <dd>A global 10 m land-cover map used in Map Check to cross-verify what open maps claim.</dd>
+                        </dl>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Check (merged from the legacy mapcheck.html page) -->
+        <div id="mapCheckPanel" class="hidden">
             <div class="container">
                 <h1>Map Check</h1>
                 <p class="page-lead">
@@ -99,6 +182,12 @@
                             <input type="number" id="radiusInput" value="300" min="50" max="2000" step="50">
                         </div>
                         <button class="btn-action" id="runMapcheckBtn">Run Map Check</button>
+                    </div>
+                    <div class="muted small" id="mapcheckExamples" style="margin:-6px 0 12px;">
+                        Try an example:
+                        <button type="button" class="link-btn" data-example="Clervaux, Luxembourg">Clervaux, Luxembourg</button> ·
+                        <button type="button" class="link-btn" data-example="Serra da Estrela, Portugal">Serra da Estrela, Portugal</button> ·
+                        <button type="button" class="link-btn" data-example="Attica, Greece">Attica, Greece</button>
                     </div>
                     <div id="mapcheckLocAssist"></div>
                     <div id="mapcheckStatus"></div>
@@ -152,8 +241,8 @@
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

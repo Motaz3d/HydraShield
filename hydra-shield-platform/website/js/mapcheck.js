@@ -184,6 +184,18 @@
                 '</ul></div>';
         }
 
+        // Conversion path at the moment of peak interest: a discrepancy was
+        // just found (or ruled out) — offer the documented-evidence routes.
+        var coord = body.location.lat + ',' + body.location.lon;
+        html += '<div class="panel mapcheck-cta"><h3>Need this documented?</h3>' +
+            '<p class="muted small" style="margin-bottom:0;">A discrepancy is a diligence flag, not a final answer. ' +
+            'Turn it into evidence: cross-check the ' +
+            '<a class="text-link" href="insurance.html?location=' + encodeURIComponent(coord) + '">Insurance profile</a>, ' +
+            'run the ' +
+            '<a class="text-link" href="green-finance.html?location=' + encodeURIComponent(coord) + '">Green Finance check</a>, ' +
+            'or <a class="text-link" href="contact.html">talk to the team</a> about a documented report for this location.</p>' +
+            '</div>';
+
         html += '<div class="disclaimer-box">' + esc(body.disclaimer) + '</div>';
 
         el('mapcheckResult').innerHTML = html;
@@ -230,6 +242,19 @@
 
     function init() {
         el('runMapcheckBtn').addEventListener('click', runMapCheck);
+
+        // Pre-loaded examples: one click fills the input and runs the check,
+        // so a first-time visitor sees a real result before typing anything.
+        var examples = el('mapcheckExamples');
+        if (examples) {
+            examples.addEventListener('click', function (e) {
+                var b = e.target.closest ? e.target.closest('[data-example]') : null;
+                if (!b) return;
+                el('mapcheckLocInput').value = b.getAttribute('data-example');
+                runMapCheck();
+            });
+        }
+
         if (window.HS && HS.location) {
             HS.location.enhance('mapcheckLocInput', 'mapcheckLocAssist');
         }

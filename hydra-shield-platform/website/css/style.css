@@ -1622,20 +1622,50 @@ details.expander summary {
 
 /* ============================================
    Map page (map.html — the map is the product)
+   Compact layout: page head (title + mode tabs),
+   a reduced-height map next to the control
+   sidebar, then a collapsible advanced strip.
    ============================================ */
 
-.map-shell {
+.map-page {
+    padding-top: 96px;
+}
+
+.map-page-head {
     display: flex;
-    height: calc(100vh - 72px);
-    margin-top: 72px;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.map-page-head .map-head-text {
+    flex: 1 1 480px;
+}
+
+.map-page-head .page-lead {
+    margin-bottom: 18px;
+}
+
+.map-page-head.check-mode .map-head-text {
+    display: none;
+}
+
+.map-shell {
+    --map-h: clamp(400px, 58vh, 640px);
+    display: flex;
+    align-items: stretch;
 }
 
 .map-sidebar {
     width: 350px;
     flex: none;
     overflow-y: auto;
+    max-height: var(--map-h);
     background: var(--white);
-    border-right: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-right: none;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
     padding: 18px;
     z-index: 500;
 }
@@ -1675,6 +1705,11 @@ details.expander summary {
 .map-canvas {
     flex: 1;
     position: relative;
+    height: var(--map-h);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-left: none;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    overflow: hidden;
 }
 
 .map-canvas #map {
@@ -1683,10 +1718,7 @@ details.expander summary {
 }
 
 .map-mode-bar {
-    position: fixed;
-    top: 84px;
-    right: 16px;
-    z-index: 700;
+    flex: none;
     display: flex;
     gap: 4px;
     background: var(--white);
@@ -1737,6 +1769,264 @@ details.expander summary {
     text-transform: uppercase;
     margin: 14px 0 4px;
 }
+
+/* Collapsible layer groups: the group title is a button with an arrow;
+   the group body expands/collapses (progressive disclosure). */
+.layer-group-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 14px 0 4px;
+    font-family: var(--font-main);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: left;
+}
+
+.layer-group-toggle:hover {
+    color: var(--dark);
+}
+
+.layer-group-toggle .group-arrow {
+    display: inline-block;
+    font-size: 0.66rem;
+    transition: transform 0.15s ease;
+}
+
+.layer-group-toggle[aria-expanded="true"] .group-arrow {
+    transform: rotate(90deg);
+}
+
+.layer-group-toggle .group-count {
+    margin-left: auto;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-light);
+    opacity: 0.75;
+}
+
+.layer-group-body[hidden] {
+    display: none;
+}
+
+/* Evidence-class chip shown inline on each layer row. */
+.layer-row .chip {
+    flex: none;
+    font-size: 0.6rem;
+    padding: 1px 7px;
+    margin-top: 2px;
+}
+
+/* ============================================
+   Advanced strip (map.html): collapsed bar that
+   expands into advanced analysis & tools.
+   ============================================ */
+
+.map-adv {
+    margin-top: 12px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.map-adv-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: var(--light);
+    border: none;
+    padding: 12px 16px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark);
+    cursor: pointer;
+    text-align: left;
+}
+
+.map-adv-toggle:hover {
+    background: var(--light-2);
+}
+
+.map-adv-arrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--text-light);
+    transition: transform 0.15s ease;
+}
+
+.map-adv-toggle[aria-expanded="true"] .map-adv-arrow {
+    transform: rotate(90deg);
+}
+
+.map-adv-evidence {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-light);
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.map-adv-body {
+    padding: 6px 18px 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.map-adv-section h3 {
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    color: var(--dark);
+    margin: 14px 0 6px;
+}
+
+.map-adv-section .muted.small {
+    margin: 0 0 10px;
+}
+
+.adv-btn {
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-main);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.adv-inline-form {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.adv-inline-form input[type="text"] {
+    flex: 1 1 200px;
+    padding: 8px 12px;
+    border: 2px solid var(--light-2);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-main);
+    font-size: 0.88rem;
+    background: var(--light);
+}
+
+.adv-inline-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+}
+
+.adv-result {
+    margin-top: 10px;
+    font-size: 0.85rem;
+}
+
+.adv-result:empty {
+    margin-top: 0;
+}
+
+.adv-snap-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--light-2);
+}
+
+.adv-snap-row .snap-name {
+    flex: none;
+    min-width: 110px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.adv-snap-row .snap-summary {
+    flex: 1;
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+.adv-snap-row .snap-link {
+    flex: none;
+    font-size: 0.78rem;
+}
+
+.adv-compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+}
+
+.adv-compare-table th,
+.adv-compare-table td {
+    text-align: left;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--light-2);
+    vertical-align: top;
+}
+
+.adv-compare-table th {
+    color: var(--text-light);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.adv-terms {
+    margin: 0;
+}
+
+.adv-terms dt {
+    font-weight: 700;
+    font-size: 0.84rem;
+    color: var(--dark);
+    margin-top: 10px;
+}
+
+.adv-terms dd {
+    margin: 3px 0 0;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+/* Text-button that looks like a link (examples, inline triggers). */
+.link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: var(--primary-dark, #0369a1);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.link-btn:hover {
+    color: var(--primary, #0ea5e9);
+}
+
+/* Post-result conversion panel (Map Check → documented evidence). */
+.mapcheck-cta {
+    border-left: 3px solid var(--primary, #0ea5e9);
+}
+
 
 .layer-row {
     display: flex;
@@ -1843,20 +2133,40 @@ details.expander summary {
     display: inline-block;
 }
 
+/* Multi-layer legend: one block per active layer that declares a legend. */
+.map-legend .legend-block + .legend-block {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.map-legend .legend-note {
+    margin-top: 4px;
+    color: #64748b;
+}
+
 @media (max-width: 900px) {
     /* Stack map over controls so the sidebar never overlays the map. */
+    .map-page {
+        padding-top: 84px;
+    }
+
+    .map-page-head {
+        flex-direction: column;
+    }
+
     .map-shell {
         position: relative;
         flex-direction: column;
-        height: auto;
-        min-height: calc(100vh - 72px);
     }
 
     .map-canvas {
         flex: none;
-        height: 58vh;
+        height: 52vh;
         min-height: 320px;
         position: relative;
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
 
     .map-sidebar {
@@ -1869,8 +2179,9 @@ details.expander summary {
         transform: none;
         transition: none;
         box-shadow: none;
-        border-right: none;
-        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-top: none;
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
         z-index: auto;
         max-height: none;
         overflow-y: visible;
@@ -1881,6 +2192,14 @@ details.expander summary {
     }
 
     .map-sidebar-toggle {
+        display: none;
+    }
+
+    .map-adv-body {
+        grid-template-columns: 1fr;
+    }
+
+    .map-adv-evidence {
         display: none;
     }
 
