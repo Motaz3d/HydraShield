@@ -168,10 +168,22 @@ opt-in flags, sent only by the cron processor** — never by the web app:
   to professional sending times.
 - **Standards**: every message carries explicit `Date` and `Message-ID`;
   `outreach_*`/`followup_*` templates also carry `List-Unsubscribe`
-  (mailto to the platform inbox). `scripts/check_replies.py` matches the
-  reply and stops all pending sends; the unsubscribe heuristic judges
-  only the freshly written reply text, never quoted history (our own
-  footer contains the word "unsubscribe").
+  (mailto to the platform inbox). `scripts/check_replies.py` classifies
+  each matched reply before acting: machine acknowledgements (RFC 3834
+  `Auto-Submitted`, autoresponder headers, stock phrases such as
+  "system generated auto reply" / "out of office") are logged as notes
+  only — they never stop outreach. Genuine human replies stop all pending
+  sends and are forwarded to the operator inbox via
+  `mailer.operator_notify` (sender, subject, fresh-text snippet). The
+  unsubscribe heuristic judges only the freshly written reply text, never
+  quoted history (our own footer contains the word "unsubscribe").
+- **Bounce guard**: delivery-failure notices are matched to the failed
+  recipient (body address, never the MTA sender), logged as `bounce`,
+  the contact is marked `invalid` (wave selection skips it) and pending
+  sends to that address are cancelled. A rolling 7-day bounce rate
+  (`data/bounce_guard.json`) over 5% with ≥10 sends triggers a one-time
+  operator email recommending Hunter.io verification — the agreed
+  adoption trigger (`marketing/strategy/send_plan_2026-09.md` §7).
 - **Wave scripts** (`send_funder_wave1/2.py`, `send_media_wave.py`) are
   DRY-RUN by default (`--send` to send), skip unsubscribed/replied leads,
   skip entries already logged as sent (re-run safe), and respect the same

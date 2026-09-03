@@ -35,7 +35,7 @@ LEAD_STATUSES = ("open", "won", "lost")
 LEAD_PRIORITIES = ("high", "medium", "low")
 INTERACTION_TYPES = ("email", "call", "meeting", "demo", "note", "linkedin",
                      "followup", "proposal", "subscription", "trial", "renewal",
-                     "reply", "unsubscribe", "registered")
+                     "reply", "unsubscribe", "registered", "bounce")
 SCHEDULED_STATUSES = ("scheduled", "sent", "failed", "cancelled", "skipped_unsubscribed")
 WAVE_STATUSES = ("pending", "sent", "failed", "cancelled", "skipped_unsubscribed")
 

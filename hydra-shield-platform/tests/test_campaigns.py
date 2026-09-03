@@ -405,7 +405,7 @@ def test_process_message_logs_reply_and_auto_stops(env):
 
     contacts = mod._load_contacts(store)
     result = mod._process_message(store, msg, contacts)
-    assert result == ("campaign-bank-one", True, False)
+    assert result == ("campaign-bank-one", "reply", False)
 
     state = store.get_state("campaign-bank-one")
     assert state["outreach_status"] == "replied"
@@ -432,11 +432,218 @@ def test_process_message_unsubscribe_heuristic(env):
 
     contacts = mod._load_contacts(store)
     result = mod._process_message(store, msg, contacts)
-    assert result == ("campaign-bank-one", True, True)
+    assert result == ("campaign-bank-one", "reply", True)
 
     assert store.is_unsubscribed("campaign-bank-one")
     interactions = store.list_interactions("campaign-bank-one")
     assert any(i["type"] == "unsubscribe" for i in interactions)
+
+
+def test_process_message_auto_reply_header_does_not_stop_outreach(env):
+    """A machine acknowledgement (RFC 3834) is not a human reply: it must be
+    logged for the record but never set 'replied' nor cancel pending sends."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "auto@example.com"}])
+
+    mod = _load_check_replies()
+    msg = EmailMessage()
+    msg["From"] = "SGX <auto@example.com>"
+    msg["Subject"] = "CRS0389850 - Climate evidence behind the assets"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg["Auto-Submitted"] = "auto-replied"
+    msg.set_content("Thank you for writing to SGX. We will respond to your "
+                    "CDP query within 3-5 business days.")
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "auto_reply", False)
+
+    state = store.get_state("campaign-bank-one")
+    assert not state or state.get("outreach_status") != "replied"
+    interactions = store.list_interactions("campaign-bank-one")
+    assert all(i["type"] == "note" for i in interactions)
+    assert any("Auto-reply" in i["summary"] for i in interactions)
+
+
+def test_process_message_auto_reply_body_phrase_does_not_stop_outreach(env):
+    """Stock auto-acknowledgement wording without headers is still a machine
+    reply — outreach continues and the unsubscribe heuristic never runs."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "bot@example.com"}])
+
+    mod = _load_check_replies()
+    msg = EmailMessage()
+    msg["From"] = "Bot <bot@example.com>"
+    msg["Subject"] = "Re: introduction"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    # Contains the word "unsubscribe" inside a quoted footer AND an
+    # auto-acknowledgement phrase: neither may change lead state.
+    msg.set_content(
+        "This is a system generated auto reply.\n\n"
+        "On Mon, 1 Sep 2026, Talaix <info@talaix.com> wrote:\n"
+        '> reply "unsubscribe" to opt out.\n'
+    )
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "auto_reply", False)
+
+    state = store.get_state("campaign-bank-one")
+    assert not state or state.get("outreach_status") != "replied"
+    assert not store.is_unsubscribed("campaign-bank-one")
+
+
+def test_process_message_notifies_operator_on_human_reply(env, monkeypatch):
+    """A genuine reply must be surfaced to the operator inbox."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "human@example.com"}])
+
+    mod = _load_check_replies()
+    calls = []
+    monkeypatch.setattr(
+        mod.mailer, "operator_notify",
+        lambda subject, message, kind="general": calls.append(
+            {"subject": subject, "message": message, "kind": kind}))
+
+    msg = EmailMessage()
+    msg["From"] = "Human <human@example.com>"
+    msg["Subject"] = "Re: introduction"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg.set_content("Interesting — can we get a demo next week?")
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "reply", False)
+
+    assert len(calls) == 1
+    assert calls[0]["kind"] == "lead_reply"
+    assert "human@example.com" in calls[0]["message"]
+    assert "demo next week" in calls[0]["message"]
+
+
+def test_process_message_no_operator_notification_on_auto_reply(env, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "ooo@example.com"}])
+
+    mod = _load_check_replies()
+    calls = []
+    monkeypatch.setattr(
+        mod.mailer, "operator_notify",
+        lambda subject, message, kind="general": calls.append(subject))
+
+    msg = EmailMessage()
+    msg["From"] = "OOO <ooo@example.com>"
+    msg["Subject"] = "Automatic reply: introduction"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg.set_content("I am out of office until Monday.")
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "auto_reply", False)
+    assert calls == []
+
+
+# ---------------------------------------------------------------------------
+# Bounce guard (delivery failures + Hunter.io alert trigger)
+# ---------------------------------------------------------------------------
+
+
+def test_process_message_bounce_invalidates_contact_and_cancels(env, tmp_path, monkeypatch):
+    """A delivery-failure notice names the failed recipient in its body:
+    log a 'bounce', mark that contact invalid, cancel its pending sends."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    monkeypatch.setenv("BOUNCE_GUARD_FILE", str(tmp_path / "guard.json"))
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "gone@example.com"}])
+    row = store.schedule_send(
+        lead_slug="campaign-bank-one",
+        to_email="gone@example.com",
+        contact_name="there",
+        template="outreach_banking",
+        context={"organization": "Campaign Bank One"},
+        send_at="2099-01-01T00:00:00",
+    )
+
+    mod = _load_check_replies()
+    msg = EmailMessage()
+    msg["From"] = "Mail Delivery System <MAILER-DAEMON@mx.example.com>"
+    msg["Subject"] = "Delivery Status Notification (Failure)"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg.set_content(
+        "This is an automatically generated Delivery Status Notification.\n"
+        "Delivery to the following recipient failed permanently:\n"
+        "    gone@example.com\n"
+        "550 5.1.1 The email account that you tried to reach does not exist.\n"
+    )
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "bounce", False)
+
+    contact = store.list_contacts("campaign-bank-one")[0]
+    assert contact["verification"] == "invalid"
+    assert store.get_scheduled(row["id"])["status"] == "cancelled"
+    interactions = store.list_interactions("campaign-bank-one")
+    assert any(i["type"] == "bounce" for i in interactions)
+    # A bounce is not a reply: status untouched.
+    state = store.get_state("campaign-bank-one")
+    assert not state or state.get("outreach_status") != "replied"
+
+
+def test_bounce_guard_alerts_once_over_threshold(env, tmp_path, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    monkeypatch.setenv("BOUNCE_GUARD_FILE", str(tmp_path / "guard.json"))
+    store = MarketingStore(str(env["db"]))
+    mod = _load_check_replies()
+    calls = []
+    monkeypatch.setattr(
+        mod.mailer, "operator_notify",
+        lambda subject, message, kind="general": calls.append(
+            {"subject": subject, "kind": kind}))
+
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    state = {"days": {today: {"sent": 20, "bounces": 2}},  # 10% > 5%
+             "hunter_notified": False}
+    assert mod.maybe_alert_hunter(state) is True
+    assert len(calls) == 1 and calls[0]["kind"] == "bounce_guard"
+    assert "Hunter" in calls[0]["subject"]
+    # Once per episode: a second evaluation does not re-notify.
+    assert mod.maybe_alert_hunter(state) is False
+    assert len(calls) == 1
+    # Rate back under the threshold re-arms the alert for the next episode.
+    state["days"][today]["bounces"] = 0
+    assert mod.maybe_alert_hunter(state) is False
+    assert state["hunter_notified"] is False
+
+
+def test_bounce_guard_silent_below_threshold_and_small_sample(env, tmp_path, monkeypatch):
+    monkeypatch.setenv("BOUNCE_GUARD_FILE", str(tmp_path / "guard.json"))
+    mod = _load_check_replies()
+    calls = []
+    monkeypatch.setattr(
+        mod.mailer, "operator_notify",
+        lambda subject, message, kind="general": calls.append(subject))
+
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    # Exactly 5% is not over the threshold.
+    assert mod.maybe_alert_hunter(
+        {"days": {today: {"sent": 20, "bounces": 1}},
+         "hunter_notified": False}) is False
+    # 33% but only 6 sends — below the minimum sample, no alarm.
+    assert mod.maybe_alert_hunter(
+        {"days": {today: {"sent": 6, "bounces": 2}},
+         "hunter_notified": False}) is False
+    assert calls == []
 
 
 # ---------------------------------------------------------------------------
