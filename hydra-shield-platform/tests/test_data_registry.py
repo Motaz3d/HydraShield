@@ -432,10 +432,15 @@ def test_chains_reference_existing_registry_ids():
 def test_chains_declared_gaps():
     gaps = {n for n, c in ingestion.PROVIDER_CHAINS.items()
             if c.single_provider_gap}
-    assert gaps == {"discharge", "soil_moisture"}
+    assert gaps == {"soil_moisture"}
     for name in gaps:
         assert "SINGLE-PROVIDER GAP" in \
             ingestion.PROVIDER_CHAINS[name].comparison_note
+    # discharge gap closed 2026-09 (GEOGLOWS wired as second model provider,
+    # reported side by side, never merged)
+    discharge = ingestion.PROVIDER_CHAINS["discharge"]
+    assert discharge.providers == ["glofas-openmeteo", "geoglows"]
+    assert "never merged" in discharge.comparison_note
     # fires chain: VIIRS and MODIS reported per sensor, never merged
     fires = ingestion.PROVIDER_CHAINS["fires"]
     assert set(fires.providers) == {"firms-viirs", "firms-modis"}
@@ -446,9 +451,11 @@ def test_api_ingestion_chains(client):
     resp = client.get("/api/v2/ingestion/chains")
     assert resp.status_code == 200
     body = resp.get_json()
-    assert set(body["single_provider_gaps"]) == {"discharge", "soil_moisture"}
+    assert set(body["single_provider_gaps"]) == {"soil_moisture"}
     chains = body["chains"]
     assert chains["weather_daily"]["primary"] == "open-meteo-forecast"
     assert chains["weather_daily"]["fallbacks"] == ["era5-archive"]
     assert chains["exposure"]["fallbacks"] == ["overpass"]
-    assert chains["discharge"]["single_provider_gap"] is True
+    assert chains["discharge"]["single_provider_gap"] is False
+    assert chains["discharge"]["fallbacks"] == ["geoglows"]
+    assert chains["soil_moisture"]["single_provider_gap"] is True

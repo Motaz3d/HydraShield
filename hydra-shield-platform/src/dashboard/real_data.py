@@ -138,22 +138,20 @@ def reverse_geocode(lat: float, lon: float) -> Dict:
 
 
 # --------------------------------------------------------------------------
-# Active tropical cyclones — GDACS (UN-OCHA / EU JRC), global, no key
+# GDACS multi-hazard event lists (UN-OCHA / EU JRC), global, no key
 # --------------------------------------------------------------------------
 
-@cached("gdacs_tc", TTL_WEATHER_CURRENT)
-def fetch_active_cyclones() -> Dict:
-    """
-    Active / ongoing tropical cyclones worldwide.
+def _fetch_gdacs_event_list(event_types: str) -> Dict:
+    """GDACS current events of the given types (``TC``, ``FL``, ``VO``, …).
 
     Source: GDACS (Global Disaster Alert and Coordination System — UN-OCHA
-    / EU JRC) event-list API, GeoJSON FeatureCollection of current ``TC``
-    events with alert level, affected countries, validity window and the
+    / EU JRC) event-list API, GeoJSON FeatureCollection of current events
+    with alert level, affected countries, validity window and the
     originating warning centre (``properties.source``, e.g. JTWC). Free,
-    no key. Honest error dict on failure — never an invented storm list.
+    no key. Honest error dict on failure — never an invented event list.
     """
     url = ("https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
-           "?eventtypes=TC")
+           f"?eventtypes={event_types}")
     # NOTE: the GDACS edge blocks the branded Talaix User-Agent (HTTP
     # 403 to any UA containing the brand string, live-checked 2026-08-22),
     # so this request goes out with the default urllib UA. No Accept-based
@@ -170,6 +168,200 @@ def fetch_active_cyclones() -> Dict:
         "features": data["features"],
         "source": "GDACS — Global Disaster Alert and Coordination System (UN-OCHA / EU JRC)",
         "request_url": url,
+    }
+
+
+@cached("gdacs_tc", TTL_WEATHER_CURRENT)
+def fetch_active_cyclones() -> Dict:
+    """Active / ongoing tropical cyclones worldwide (GDACS ``TC`` feed)."""
+    return _fetch_gdacs_event_list("TC")
+
+
+@cached("gdacs_fl", TTL_WEATHER_CURRENT)
+def fetch_gdacs_floods() -> Dict:
+    """Current flood alerts worldwide (GDACS ``FL`` feed)."""
+    return _fetch_gdacs_event_list("FL")
+
+
+@cached("gdacs_vo", TTL_WEATHER_CURRENT)
+def fetch_gdacs_volcanoes() -> Dict:
+    """Current volcanic-activity alerts worldwide (GDACS ``VO`` feed)."""
+    return _fetch_gdacs_event_list("VO")
+
+
+# --------------------------------------------------------------------------
+# NASA EONET v3 — open natural-event catalogue, global, no key
+# --------------------------------------------------------------------------
+
+EONET_SOURCE = "NASA EONET — Earth Observatory Natural Event Tracker"
+
+
+@cached("eonet_wildfires", TTL_WEATHER_CURRENT)
+def fetch_eonet_wildfires(days: int = 60, limit: int = 300) -> Dict:
+    """
+    Open wildfire events from NASA EONET v3 (free, no key).
+
+    Returns flattened platform records (id, title, latest position/date,
+    magnitude) — distances are computed by the caller. EONET aggregates
+    incident reports from official sources (InciWeb, FIRMS, …): it is an
+    independent second event source next to NASA FIRMS and is always
+    reported separately, never merged. Honest error dict on failure.
+    """
+    url = ("https://eonet.gsfc.nasa.gov/api/v3/events"
+           f"?category=wildfires&status=open&days={int(days)}&limit={int(limit)}")
+    try:
+        data = _get_json(url, timeout=20.0)
+    except RuntimeError as exc:
+        return {"error": f"EONET event catalogue unavailable: {exc}"}
+    raw_events = data.get("events")
+    if not isinstance(raw_events, list):
+        return {"error": "EONET returned an unexpected payload"}
+    events = []
+    for ev in raw_events:
+        geom = ev.get("geometry") or []
+        if not geom:
+            continue
+        latest = geom[-1]  # EONET geometry is chronological; last = latest
+        coords = latest.get("coordinates") or []
+        if len(coords) < 2:
+            continue
+        events.append({
+            "id": ev.get("id"),
+            "title": ev.get("title") or "Wildfire",
+            "lat": float(coords[1]),
+            "lon": float(coords[0]),
+            "date": latest.get("date"),
+            "magnitude_value": latest.get("magnitudeValue"),
+            "magnitude_unit": latest.get("magnitudeUnit"),
+            "closed": ev.get("closed"),
+            "link": ev.get("link"),
+        })
+    return {
+        "events": events,
+        "source": EONET_SOURCE,
+        "request_url": url,
+        "note": ("Incident-report catalogue (positions are the latest reported "
+                 "point per incident) — independent of FIRMS detections; "
+                 "reported separately, never merged."),
+    }
+
+
+# --------------------------------------------------------------------------
+# GEOGLOWS ECMWF Streamflow Service — modelled river discharge, global, no key
+# --------------------------------------------------------------------------
+
+GEOGLOWS_API = "https://geoglows.ecmwf.int/api/v2"
+GEOGLOWS_SOURCE = "GEOGLOWS ECMWF Streamflow Service (modelled, per river reach)"
+
+
+def _geoglows_river_id(lat: float, lon: float) -> Dict:
+    """Resolve the nearest GEOGLOWS river reach id for a point."""
+    url = f"{GEOGLOWS_API}/getriverid?lat={lat}&lon={lon}"
+    try:
+        data = _get_json(url, timeout=20.0)
+    except RuntimeError as exc:
+        return {"error": f"GEOGLOWS reach lookup unavailable: {exc}"}
+    rid = data.get("river_id")
+    if not isinstance(rid, int):
+        return {"error": "GEOGLOWS returned no river reach for this coordinate"}
+    return {"river_id": rid, "request_url": url}
+
+
+def _geoglows_csv(url: str) -> Dict:
+    """GET a GEOGLOWS CSV product; honest error dict on failure."""
+    try:
+        text = _get_text(url, timeout=60.0)
+    except RuntimeError as exc:
+        return {"error": f"GEOGLOWS product unavailable: {exc}"}
+    if text.lstrip().startswith("{"):
+        # The service answers JSON {"error": …} for bad requests.
+        try:
+            return {"error": f"GEOGLOWS error: {json.loads(text).get('error', text[:120])}"}
+        except ValueError:
+            return {"error": f"GEOGLOWS error: {text[:120]}"}
+    return {"csv": text}
+
+
+@cached("geoglows_discharge", TTL_CLIMATE_SERIES)
+def fetch_geoglows_discharge(lat: float, lon: float, start: str, end: str) -> Dict:
+    """
+    Daily modelled river discharge (m³/s) from the GEOGLOWS ECMWF
+    Streamflow Service — the declared second discharge provider next to
+    GloFAS (both are hydrological MODELS: reported side by side, never
+    merged; see the ingestion discharge chain).
+
+    Returns the reach's daily retrospective series clipped to
+    ``start``–``end`` (the retrospective archive starts in 1940), the
+    15-day forecast daily medians when available, and the resolved
+    ``river_id``. Honest error dict on failure — never an invented series.
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    if not _valid_range(start, end):
+        return {"error": "Invalid date range (expected ISO start_date <= end_date)"}
+
+    rid = _geoglows_river_id(lat, lon)
+    if "error" in rid:
+        return {"error": rid["error"], "source": GEOGLOWS_SOURCE}
+    river_id = rid["river_id"]
+
+    retro = _geoglows_csv(f"{GEOGLOWS_API}/retrospectivedaily/{river_id}")
+    if "error" in retro:
+        return {"error": retro["error"], "source": GEOGLOWS_SOURCE}
+
+    times: List[str] = []
+    values: List[Optional[float]] = []
+    reader = csv.reader(io.StringIO(retro["csv"]))
+    rows = list(reader)
+    for row in rows[1:]:
+        if len(row) < 2:
+            continue
+        day = row[0][:10]
+        if day < start or day > end:
+            continue
+        try:
+            values.append(float(row[1]))
+        except ValueError:
+            values.append(None)
+        times.append(day)
+    if not times or all(v is None for v in values):
+        return {
+            "error": "GEOGLOWS returned no retrospective discharge in the requested window",
+            "source": GEOGLOWS_SOURCE,
+            "river_id": river_id,
+        }
+
+    forecast = None
+    fc = _geoglows_csv(f"{GEOGLOWS_API}/forecast/{river_id}")
+    if "csv" in fc:
+        daily: Dict[str, List[float]] = {}
+        for row in list(csv.reader(io.StringIO(fc["csv"])))[1:]:
+            if len(row) < 3:
+                continue
+            day = row[0][:10]
+            try:
+                daily.setdefault(day, []).append(float(row[2]))  # flow_median
+            except ValueError:
+                continue
+        if daily:
+            forecast = {
+                "daily_median_m3s": [
+                    {"date": d, "discharge_m3s": round(sum(v) / len(v), 2)}
+                    for d, v in sorted(daily.items())
+                ],
+                "method": "Daily mean of the 3-hourly ensemble-median forecast (15-day horizon).",
+            }
+
+    return {
+        "time": times,
+        "river_discharge": values,
+        "units": "m³/s",
+        "source": GEOGLOWS_SOURCE,
+        "river_id": river_id,
+        "forecast": forecast,
+        "request_url": rid["request_url"],
+        "note": ("Hydrological model output (GEOGLOWS/ECMWF), not gauge "
+                 "observations — reported alongside GloFAS, never merged."),
     }
 
 

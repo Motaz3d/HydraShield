@@ -13,8 +13,10 @@ provides the validators any ingestion path must pass:
 - :func:`quality_score` — a DECLARED simple heuristic (high/medium/low)
   over check results; documented, not a validated metric
 
-Scope honesty: single-provider chains (discharge, soil_moisture) are
-declared gaps, not hidden ones.
+Scope honesty: the remaining single-provider chain (soil_moisture) is a
+declared gap, not a hidden one. The discharge gap was closed 2026-09 by
+wiring GEOGLOWS as the second (independent, modelled) provider; gauge
+observations remain a declared candidate gap.
 """
 
 from __future__ import annotations
@@ -107,14 +109,16 @@ PROVIDER_CHAINS: Dict[str, ProviderChain] = {
     ),
     "discharge": ProviderChain(
         variable="discharge",
-        providers=["glofas-openmeteo"],
+        providers=["glofas-openmeteo", "geoglows"],
         primary="glofas-openmeteo",
-        fallbacks=[],
+        fallbacks=["geoglows"],
         comparison_note=(
-            "SINGLE-PROVIDER GAP (declared): GloFAS modelled discharge via "
-            "Open-Meteo only — no independent discharge source is wired. "
-            "USGS Water Services (usgs-water, US-only) is the declared "
-            "fallback candidate in the data registry."),
+            "Two independent hydrological MODELS: GloFAS (Copernicus EMS/JRC "
+            "via Open-Meteo, primary) and GEOGLOWS (ECMWF Streamflow Service, "
+            "wired 2026-09) — reported side by side over aligned dates in the "
+            "flood analysis, never merged. Gauge observations remain a "
+            "declared gap: USGS Water Services (usgs-water, US-only) is the "
+            "gauge candidate in the data registry."),
     ),
     "soil_moisture": ProviderChain(
         variable="soil_moisture",

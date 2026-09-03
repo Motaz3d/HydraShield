@@ -1,5 +1,5 @@
 {
-  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation.",
+  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation. 2026-09-03 (gradual engine wiring): gdacs-events (flood FL + volcanic VO event layers), nasa-eonet (wildfire second independent event source) and geoglows (second discharge provider — declared single-provider discharge gap closed) moved from candidate to integrated with full data-quality profiles.",
   "audit_date": "2026-08-17",
   "observatory_note": "Entries are catalog records — status integrated/candidate/rejected; nothing here implies the data is wired into analysis unless status=integrated.",
   "datasets": [
@@ -3819,9 +3819,19 @@
       "access_method": "api",
       "api_or_download_url": "https://www.gdacs.org/gdacsapi/",
       "commercial_use": "allowed_with_attribution",
-      "status": "candidate",
-      "status_note": "Candidate: extend GDACS wiring beyond the integrated cyclone feed.",
-      "catalog_group": "hazard_disaster"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (gradual engine wiring): the GDACS multi-hazard event list feeds the flood events layer (FL), the volcanic events layer (VO) and the already-integrated cyclone monitoring (TC) via fetch_gdacs_floods / fetch_gdacs_volcanoes / fetch_active_cyclones in src/dashboard/real_data.py.",
+      "catalog_group": "hazard_disaster",
+      "data_quality_profile": {
+        "freshness": "Near-real-time event list (continuous)",
+        "completeness": "Alert-level monitoring context only — not event archives, not forecasts; historical per-year queries answer honestly unavailable.",
+        "spatial_resolution_note": "Event locations (warning-centre issues)",
+        "temporal_resolution_note": "Current/ongoing events, updated continuously",
+        "provenance_note": "Integrated 2026-09-03: GDACS event-list API (geteventlist/SEARCH) — the TC path has been live since 2026-08-22; FL/VO wired 2026-09-03 through the same endpoint pattern.",
+        "validation": "Endpoint pattern proven in production by the cyclone module since 2026-08-22; offline unit tests cover the FL/VO flattening and events contracts (tests/test_multi_source_wave.py).",
+        "coverage_note": "Global; flood (FL) and volcanic (VO) alert feeds.",
+        "licensing_note": "GDACS terms (open with attribution); commercial use allowed with attribution."
+      }
     },
     {
       "id": "goes-r",
@@ -4803,9 +4813,19 @@
       "access_method": "api",
       "api_or_download_url": "https://geoglows.ecmwf.int/",
       "commercial_use": "allowed_with_attribution",
-      "status": "candidate",
-      "status_note": "Candidate: second discharge provider (closes the declared single-provider gap).",
-      "catalog_group": "environment"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (gradual engine wiring): second, independent discharge provider in the flood analysis (fetch_geoglows_discharge in src/dashboard/real_data.py) — compared side by side with GloFAS over aligned dates, never merged; closes the declared single-provider discharge gap (see /api/v2/ingestion/chains).",
+      "catalog_group": "environment",
+      "data_quality_profile": {
+        "freshness": "Daily retrospective (archive from 1940) + 15-day forecast",
+        "completeness": "Modelled streamflow per reach; no gauge observations; reach granularity means small streams may carry near-zero flows.",
+        "spatial_resolution_note": "River reaches (~150k segments worldwide)",
+        "temporal_resolution_note": "Daily retrospective; 3-hourly forecast",
+        "provenance_note": "Integrated 2026-09-03: GEOGLOWS v2 API verified live — getriverid by coordinate, retrospectivedaily (1940→present) and forecast products.",
+        "validation": "v2 API verified live 2026-09-03 (reach lookup + retrospective + forecast for a Luxembourg reach); offline unit tests cover CSV parsing and the side-by-side comparison block (tests/test_multi_source_wave.py).",
+        "coverage_note": "Global river network; retrospective from 1940.",
+        "licensing_note": "Open (attribution requested); commercial use allowed with attribution."
+      }
     },
     {
       "id": "overture-maps",
@@ -5367,6 +5387,53 @@
         "licensing_note": "Landsat data are in the public domain (USGS); commercial use allowed."
       },
       "catalog_group": "earth_observation"
+    },
+    {
+      "id": "nasa-eonet",
+      "name": "NASA EONET — Earth Observatory Natural Event Tracker",
+      "provider": "NASA Earth Observatory (GSFC)",
+      "provider_class": "scientific_agency",
+      "url": "https://eonet.gsfc.nasa.gov/",
+      "license": "NASA open data",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Open incidents (rolling window ~60 days) + closed-event archive",
+      "spatial_resolution": "Latest reported position per incident",
+      "temporal_resolution": "Continuously updated",
+      "update_frequency": "Continuous",
+      "variables": [
+        "wildfire incidents",
+        "severe storms",
+        "volcanoes",
+        "sea/lake ice",
+        "earthquakes",
+        "floods",
+        "drought"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "cyclone",
+        "wind"
+      ],
+      "provenance": "Catalogued and integrated 2026-09-03 (gradual engine wiring): EONET v3 events API live-checked 2026-09-03 — real open wildfire incidents returned.",
+      "quality": "Incident-report catalogue (one latest position per incident) — not a detection archive like FIRMS; curated from official sources (InciWeb, FIRMS, …).",
+      "access_method": "api",
+      "api_or_download_url": "https://eonet.gsfc.nasa.gov/api/v3/events",
+      "commercial_use": "allowed",
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (gradual engine wiring): EONET v3 open wildfire incidents feed the wildfire events payload as the independent second event source next to NASA FIRMS (reported separately, never merged) via fetch_eonet_wildfires in src/dashboard/real_data.py.",
+      "data_quality_profile": {
+        "freshness": "Continuously updated incident catalogue (open events)",
+        "completeness": "Incident-report catalogue — one latest position per incident; not a detection archive like FIRMS.",
+        "spatial_resolution_note": "Latest reported point per incident",
+        "temporal_resolution_note": "Open incidents (~last 60 days window)",
+        "provenance_note": "Integrated 2026-09-03: EONET v3 events API (category=wildfires, status=open) live-checked 2026-09-03 — real incidents returned.",
+        "validation": "API live-checked 2026-09-03; offline unit tests cover the flattening and the never-merged contract (tests/test_multi_source_wave.py).",
+        "coverage_note": "Global; open wildfire incidents.",
+        "licensing_note": "NASA open data; commercial use allowed."
+      },
+      "catalog_group": "hazard_disaster"
     }
   ]
 }

@@ -583,3 +583,13 @@ Admin aggregates — `admin` tier required, aggregate counts only:
   energy, evidence registries — URL-audited, nothing newly wired except
   the integrated `landsat-c2-l2` optical-satellite fallback via Planetary
   Computer STAC); `catalog_group` labels on every record.
+- **2026-09-03 (2)** — Gradual engine wiring, wave 1: GDACS multi-hazard
+  feeds wired (flood `FL` events layer + volcanic `VO` events layer —
+  volcanic *analysis* stays honestly unavailable); NASA EONET wired as
+  the wildfire's independent second event source (`eonet` section in the
+  events payload, never merged with FIRMS); GEOGLOWS wired as the second
+  discharge provider in flood analysis (side-by-side comparison with
+  GloFAS, never merged — the declared single-provider discharge gap is
+  closed; `soil_moisture` remains the only declared single-provider gap).
+  `gdacs-events`, `nasa-eonet`, `geoglows` are now `integrated` in the
+  Data Observatory (168 datasets, 20 integrated).

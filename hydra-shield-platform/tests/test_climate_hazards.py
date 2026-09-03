@@ -371,6 +371,21 @@ def _flood_fakes(monkeypatch):
             "note": "Hydrological model output (GloFAS), not gauge observations.",
         },
     )
+    # Second discharge provider (GEOGLOWS) — offline fake, same shape as the
+    # real fetcher; the core GloFAS assertions above are unchanged.
+    monkeypatch.setattr(
+        real_data, "fetch_geoglows_discharge",
+        lambda lat, lon, start, end: {
+            "time": times, "river_discharge": [8.0] * (days - 2) + [300.0, 300.0],
+            "units": "m³/s",
+            "source": real_data.GEOGLOWS_SOURCE,
+            "river_id": 230285584,
+            "forecast": {"daily_median_m3s": [{"date": times[-1], "discharge_m3s": 12.0}],
+                         "method": "fake"},
+            "request_url": "https://geoglows.ecmwf.int/api/v2/getriverid?fake=1",
+            "note": "Hydrological model output (GEOGLOWS/ECMWF), not gauge observations.",
+        },
+    )
     archive_end = today - timedelta(days=5)
     ptimes = _daily_dates(archive_end, days)
     precip = [2.0] * (days - 2) + [60.0, 1.0]
@@ -753,22 +768,31 @@ def test_registry_lists_all_nine_hazards():
 
 
 def test_expansion_hazards_are_honestly_unavailable():
-    """Dust and volcanic are registered expansion candidates: real sources,
-    but analysis and events honestly unavailable until a real pipeline is
-    wired in — never fake availability."""
-    for hid in ("dust", "volcanic"):
-        module = registry.get(hid)
-        d = module.descriptor()
-        assert d["analysis"]["available"] is False
-        assert d["analysis"]["reason"], hid
-        assert d["events"]["available"] is False
-        assert d["events"]["reason"], hid
-        assert d["sources"], hid
-        # analyze() must return the honest unavailable path, not numbers.
-        result = module.analyze(37.0, 15.0)
-        assert result.status == "unavailable"
-        assert result.unavailable_reason
-        assert result.level is None
+    """Dust is a registered expansion candidate: real sources, but analysis
+    and events honestly unavailable until a real pipeline is wired in.
+    Volcanic analysis is likewise unavailable (GVP path is bot-protected) —
+    while its *events* layer went live 2026-09 via the GDACS VO feed."""
+    module = registry.get("dust")
+    d = module.descriptor()
+    assert d["analysis"]["available"] is False
+    assert d["analysis"]["reason"]
+    assert d["events"]["available"] is False
+    assert d["events"]["reason"]
+    assert d["sources"]
+    result = module.analyze(37.0, 15.0)
+    assert result.status == "unavailable"
+    assert result.unavailable_reason
+
+    vmod = registry.get("volcanic")
+    vd = vmod.descriptor()
+    assert vd["analysis"]["available"] is False
+    assert vd["analysis"]["reason"]
+    assert vd["events"]["available"] is True   # GDACS VO monitoring (2026-09)
+    assert vd["sources"]
+    result = vmod.analyze(37.0, 15.0)
+    assert result.status == "unavailable"
+    assert result.unavailable_reason
+    assert result.level is None
 
 
 def test_registry_descriptors_carry_enabled_sources_provenance():
@@ -831,8 +855,9 @@ def test_v2_hazards_lists_all_nine(client):
 
 def test_v2_hazards_descriptor_contract(client):
     """Endpoint-level descriptor contract (Section: hazard registry):
-    HTTP 200 JSON, nine hazards (seven active + dust/volcanic honestly
-    unavailable), and per hazard: id, name, enabled state, analysis/events
+    HTTP 200 JSON, nine hazards (seven active + dust unavailable analysis,
+    volcanic with live GDACS events but honestly unavailable analysis),
+    and per hazard: id, name, enabled state, analysis/events
     availability, temporal coverage, official sources with URLs, and
     provenance."""
     resp = client.get("/api/v2/hazards")

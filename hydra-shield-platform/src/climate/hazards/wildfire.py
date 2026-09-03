@@ -29,7 +29,9 @@ class WildfireModule(HazardModule):
 
     def events_availability(self) -> Tuple[bool, Optional[str]]:
         if not os.environ.get("FIRMS_MAP_KEY"):
-            return False, "NASA FIRMS key (FIRMS_MAP_KEY) not configured — observed fire events unavailable."
+            return False, ("NASA FIRMS key (FIRMS_MAP_KEY) not configured — "
+                           "per-year observed fire history unavailable; current "
+                           "open incidents ARE live via NASA EONET (no key).")
         return True, None
 
     def temporal_coverage(self) -> Dict[str, Dict[str, str]]:
@@ -104,6 +106,8 @@ class WildfireModule(HazardModule):
 
     # -- events ------------------------------------------------------------
 
+    _EONET_EVENTS_RADIUS_KM = 500.0
+
     def events(
         self,
         lat: float,
@@ -114,7 +118,48 @@ class WildfireModule(HazardModule):
     ) -> Dict[str, Any]:
         from ..fire_events import derive_fire_events  # lazy: network + FIRMS
 
-        return derive_fire_events(lat=lat, lon=lon, radius_km=radius_km, year=year, **kw)
+        result = derive_fire_events(lat=lat, lon=lon, radius_km=radius_km, year=year, **kw)
+        result["eonet"] = self._eonet_section(lat, lon, year)
+        return result
+
+    def _eonet_section(self, lat: float, lon: float, year: Optional[int]) -> Dict[str, Any]:
+        """NASA EONET open wildfire incidents near the point — an
+        independent second event source (incident reports, not FIRMS
+        detections); always reported separately, never merged."""
+        from ...dashboard import real_data as rd
+        from ._gdacs import haversine_km
+
+        feed = rd.fetch_eonet_wildfires()
+        if "error" in feed:
+            return {"status": "unavailable", "reason": feed["error"],
+                    "source": None, "events": []}
+        radius = self._EONET_EVENTS_RADIUS_KM
+        incidents = []
+        for ev in feed["events"]:
+            d = haversine_km(lat, lon, ev["lat"], ev["lon"])
+            if d > radius:
+                continue
+            if year is not None and (ev.get("date") or "")[:4] != str(year):
+                continue
+            incidents.append({
+                "id": ev["id"],
+                "name": ev["title"],
+                "lat": ev["lat"],
+                "lon": ev["lon"],
+                "latest_report_date": ev.get("date"),
+                "magnitude_value": ev.get("magnitude_value"),
+                "magnitude_unit": ev.get("magnitude_unit"),
+                "distance_km": round(d, 1),
+                "link": ev.get("link"),
+            })
+        incidents.sort(key=lambda e: e["distance_km"])
+        return {
+            "status": "ok",
+            "source": feed["source"],
+            "coverage": f"Open wildfire incidents worldwide (last ~60 days), within {radius:.0f} km",
+            "note": feed.get("note"),
+            "events": incidents,
+        }
 
     # -- map layers --------------------------------------------------------
 
@@ -151,13 +196,25 @@ class WildfireModule(HazardModule):
                 temporal=TemporalClass.HISTORICAL.value,
             ).to_dict(),
             LayerSpec(
+                layer_id="wildfire.eonet",
+                label="Open wildfire incidents (NASA EONET)",
+                group="EVIDENCE",
+                kind="points",
+                endpoint="/api/v2/events?hazard=wildfire&lat={lat}&lon={lon}&radius_km={r}",
+                source="NASA EONET — incident reports, independent of FIRMS, never merged",
+                url="https://eonet.gsfc.nasa.gov/",
+                resolution="Latest reported position per incident",
+                status="available",
+                temporal=TemporalClass.OBSERVED.value,
+            ).to_dict(),
+            LayerSpec(
                 layer_id="wildfire.ndmi",
-                label="Vegetation moisture (NDMI, Sentinel-2)",
+                label="Vegetation moisture (NDMI, Sentinel-2 / Landsat)",
                 group="ENVIRONMENT",
                 kind="raster",
-                source="Copernicus Sentinel-2 L2A via Element84 STAC",
+                source="Copernicus Sentinel-2 L2A via Element84 STAC; USGS/NASA Landsat C2 L2 fallback via Planetary Computer STAC",
                 url="https://sentiwiki.copernicus.eu/web/s2-mission",
-                resolution="10 m",
+                resolution="10 m (Sentinel-2) / 30 m (Landsat fallback)",
                 temporal=TemporalClass.OBSERVED.value,
             ).to_dict(),
         ]

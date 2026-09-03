@@ -7,6 +7,12 @@ Real-data analyses only:
   Open-Meteo Flood API (Copernicus EMS / EC JRC): current value (model
   nowcast), percentile within the location's own multi-year series, and
   high-discharge spell detection (declared threshold).
+- **Second discharge provider (2026-09 wiring)** — GEOGLOWS ECMWF
+  Streamflow Service: the reach's own retrospective series and 15-day
+  forecast medians, compared side by side with GloFAS over aligned dates
+  (never merged). Closes the declared single-provider discharge gap.
+- **Current flood alerts (2026-09 wiring)** — GDACS ``FL`` event feed for
+  the events layer (monitoring context, not a forecast).
 - **Extreme precipitation** — ERA5 daily precipitation via the Open-Meteo
   archive: event totals (rolling sums), antecedent precipitation index
   (declared decay), percentile vs the location's own record.
@@ -65,6 +71,7 @@ class FloodModule(HazardModule):
         location = {"lat": lat, "lon": lon, "name": name}
 
         discharge = rd.fetch_flood_discharge(lat, lon, hist_start, today.isoformat())
+        geoglows = rd.fetch_geoglows_discharge(lat, lon, hist_start, today.isoformat())
         precip = rd.fetch_daily_climate(
             lat, lon, hist_start, archive_end, ["precipitation_sum"]
         )
@@ -111,6 +118,36 @@ class FloodModule(HazardModule):
             )
         evidence.append(rec.to_dict())
         provenance["river_discharge"] = rec.to_dict()
+
+        # -- second discharge provider (GEOGLOWS — corroboration, never merged)
+        blocks["river_discharge_geoglows"] = self._geoglows_block(
+            geoglows, discharge, today)
+        if blocks["river_discharge_geoglows"].get("status") == "ok":
+            rec = EvidenceRecord(
+                EvidenceClass.OPEN_DATA_OFFICIAL.value,
+                ClaimStatus.MODELLED.value,
+                TemporalClass.HISTORICAL.value,
+                geoglows["source"],
+                dataset="GEOGLOWS daily river discharge (retrospective + 15-day forecast)",
+                provider_url="https://geoglows.ecmwf.int/",
+                link=geoglows.get("request_url"),
+                location={"lat": lat, "lon": lon},
+                reference_period={"start": hist_start, "end": today.isoformat()},
+                method=(
+                    "Latest value and percentile within the reach's own "
+                    "retrospective daily series; side-by-side comparison with "
+                    "GloFAS over aligned dates — never merged."
+                ),
+                resolution="GEOGLOWS river reaches (~150k segments)",
+                limitations="Hydrological model output, not gauge observations.",
+                content_hash=content_hash(
+                    {"river_id": geoglows.get("river_id"),
+                     "time": geoglows["time"],
+                     "river_discharge": geoglows["river_discharge"]}
+                ),
+            )
+            evidence.append(rec.to_dict())
+            provenance["river_discharge_geoglows"] = rec.to_dict()
 
         # -- extreme precipitation --------------------------------------
         pr_block, pr_level_input = self._precip_block(precip, hist_start, archive_end)
@@ -175,8 +212,10 @@ class FloodModule(HazardModule):
 
         blocks["declared_limitations"] = (
             "Foundation analysis: NO flood-extent maps, NO flood forecasts, NO depth "
-            "grids. Discharge is GloFAS hydrological model output; precipitation is ERA5 "
-            "reanalysis; terrain is context only (not a hydraulic model)."
+            "grids. Discharge is GloFAS and GEOGLOWS hydrological model output "
+            "(two independent models reported side by side, never merged); "
+            "precipitation is ERA5 reanalysis; terrain is context only "
+            "(not a hydraulic model)."
         )
 
         # -- level + status ----------------------------------------------
@@ -443,7 +482,119 @@ class FloodModule(HazardModule):
             parts.append("partial: some data sources unavailable")
         return "; ".join(parts) + "." if parts else "Flood analysis complete."
 
-    # -- map layers --------------------------------------------------------
+    @staticmethod
+    def _geoglows_block(
+        geoglows: Dict, glofas: Dict, today: date
+    ) -> Dict[str, Any]:
+        """Second-provider discharge block (GEOGLOWS) + side-by-side
+        comparison with the primary GloFAS series — never merged."""
+        if "error" in geoglows:
+            return {
+                "status": "unavailable",
+                "reason": geoglows["error"],
+                "source": geoglows.get("source"),
+            }
+
+        times: List[str] = geoglows["time"]
+        values: List[Optional[float]] = geoglows["river_discharge"]
+        valid = [(t, v) for t, v in zip(times, values) if v is not None]
+        if not valid:
+            return {"status": "unavailable",
+                    "reason": "GEOGLOWS series is empty."}
+
+        latest_date, latest_val = valid[-1]
+        pct = _series.percentile_rank(values, latest_val)
+        record_max_date, record_max = max(valid, key=lambda tv: tv[1])
+
+        comparison = None
+        if "error" not in glofas:
+            g_times: List[str] = glofas.get("time") or []
+            g_vals: List[Optional[float]] = glofas.get("river_discharge") or []
+            g_by_date = dict(zip(g_times, g_vals))
+            geo_by_date = dict(zip(times, values))
+            common = sorted(set(g_by_date) & set(geo_by_date))[-365:]
+            if common:
+                from .. import ingestion
+                comparison = ingestion.compare_sources(
+                    [g_by_date[d] for d in common],
+                    [geo_by_date[d] for d in common],
+                    tolerance=max(1.0, 0.2 * (record_max or 1.0)),
+                )
+                comparison["aligned_days"] = len(common)
+                comparison["window"] = f"last {min(len(common), 365)} shared days"
+
+        return {
+            "status": "ok",
+            "claim_status": ClaimStatus.MODELLED.value,
+            "role": ("Second, independent discharge provider — corroboration "
+                     "context reported side by side with GloFAS; the two model "
+                     "series are compared, never merged. The screening level "
+                     "above stays GloFAS-based."),
+            "river_id": geoglows.get("river_id"),
+            "latest": {
+                "date": latest_date,
+                "discharge_m3s": round(latest_val, 2),
+                "temporal": TemporalClass.HISTORICAL.value,
+            },
+            "percentile_of_latest": pct,
+            "days_in_series": len(valid),
+            "series_start": valid[0][0],
+            "record_max": {"date": record_max_date, "discharge_m3s": round(record_max, 2)},
+            "forecast": geoglows.get("forecast"),
+            "glofas_comparison": comparison,
+            "source": geoglows["source"],
+            "units": geoglows.get("units", "m³/s"),
+            "note": geoglows.get("note"),
+        }
+
+    # -- events (map layer feed: current GDACS flood alerts) ----------------
+
+    def events(
+        self,
+        lat: float,
+        lon: float,
+        radius_km: float = 50.0,
+        year: Optional[int] = None,
+        **kw: Any,
+    ) -> Dict[str, Any]:
+        """Current GDACS flood alerts near a point (monitoring context).
+
+        A ``year`` query asks for a historical flood-event archive — honestly
+        unavailable (the GloFAS/GEOGLOWS retrospective series are analysis
+        inputs, not an event list)."""
+        if year is not None:
+            return {
+                "hazard": self.id,
+                "status": "unavailable",
+                "reason": ("A historical flood-event archive is not wired in — "
+                           "GDACS covers current alerts only and the discharge "
+                           "retrospectives are analysis series, not an event "
+                           "list. No per-year history is invented."),
+                "events": [],
+            }
+        from ...dashboard import real_data as rd
+        from ._gdacs import flatten_gdacs_event
+
+        feed = rd.fetch_gdacs_floods()
+        if "error" in feed:
+            return {"hazard": self.id, "status": "unavailable",
+                    "reason": feed["error"], "events": []}
+        radius = min(max(float(radius_km), 50.0), 3000.0)
+        events = [e for e in
+                  (flatten_gdacs_event(f, lat, lon, "FL") for f in feed["features"])
+                  if e is not None and e["distance_km"] <= radius]
+        events.sort(key=lambda e: e["distance_km"])
+        return {
+            "hazard": self.id,
+            "status": "ok",
+            "radius_km": radius,
+            "coverage": "GDACS current flood alerts (worldwide, live)",
+            "note": ("Official flood-alert monitoring context — not a flood "
+                     "forecast, not an extent map."),
+            "source": feed["source"],
+            "events": events,
+        }
+
 
     def map_layers(self, **kw: Any) -> list:
         return [
@@ -484,5 +635,22 @@ class FloodModule(HazardModule):
                 resolution="feature-level",
                 status="available",
                 temporal=TemporalClass.OBSERVED.value,
+            ).to_dict(),
+            LayerSpec(
+                layer_id="flood.gdacs_active",
+                label="Current flood alerts (GDACS monitoring)",
+                group="HAZARD",
+                kind="points",
+                endpoint="/api/v2/events?hazard=flood&lat={lat}&lon={lon}&radius_km=3000",
+                legend={"Red alert": "#ef4444", "Orange alert": "#f97316",
+                        "Green alert": "#22c55e"},
+                source="GDACS — Global Disaster Alert and Coordination System (UN-OCHA / EU JRC)",
+                url="https://www.gdacs.org/",
+                resolution="Latest official alert positions (warning-centre issues)",
+                status="available",
+                temporal=TemporalClass.OBSERVED.value,
+                provenance={"note": ("Current flood-alert monitoring context from "
+                                     "the official warning centres via GDACS — "
+                                     "not a flood forecast, not an extent map.")},
             ).to_dict(),
         ]

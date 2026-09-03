@@ -45,7 +45,7 @@ when wired to at least one real, documented data source. Current registry:
 | Hazard | Status | Primary real sources (key-free unless noted) |
 |---|---|---|
 | Wildfire | **operational** | Open-Meteo + ERA5, Sentinel-2 (Element84 STAC), ESA WorldCover, EU-DEM/SRTM, NASA FIRMS (**free key**), OSM/ohsome |
-| Flood | foundation | Open-Meteo Flood API (GloFAS river discharge, Copernicus EMS/JRC), ERA5 precipitation (accumulation + antecedent index), DEM (flow-relevant terrain), OSM waterway context |
+| Flood | foundation | Open-Meteo Flood API (GloFAS river discharge, Copernicus EMS/JRC) + GEOGLOWS ECMWF streamflow as second provider (side-by-side, never merged), ERA5 precipitation (accumulation + antecedent index), DEM (flow-relevant terrain), OSM waterway context, GDACS FL current flood alerts (events layer) |
 | Drought | foundation | ERA5/ERA5-Land via Open-Meteo archive: precipitation deficit, standardized anomaly (declared method), soil moisture (0–7 cm), ET₀, NDMI (Sentinel-2), WorldCover agriculture exposure |
 | Extreme heat | foundation | ERA5 daily Tmax series: percentile vs same-location climatology, heatwave spell detection (WMO-style ≥5 days above climatological threshold, declared method) |
 | Extreme wind | foundation | ERA5/Open-Meteo daily wind gust maxima: percentile vs climatology, storm spell detection |
@@ -171,16 +171,19 @@ with provider, resolution, update frequency, license, limitations and
 
 The registry also carries two expansion hazards with real sources but no
 integrated pipeline yet — they appear in `/api/v2/hazards` with
-`analysis.available: false` and `events.available: false` and the reason
-stated, never as working features:
+`analysis.available: false` and the reason stated, never as working
+features:
 
 - **dust** (dust / sandstorm) — candidate sources: CAMS (requires ADS
   credentials) and WMO SDS-WAS. Regional terms (Sirocco, Khamsin, dust
   transport) are related but not identical; any pipeline must classify by
-  the source's own terminology.
-- **volcanic** — candidate source: Smithsonian/USGS Global Volcanism
-  Program (bot-protected for automated access; needs a dataset export
-  path). Talaix never predicts eruptions; future capability is
-  monitoring / historical evidence / exposure only.
+  the source's own terminology. Analysis and events both unavailable.
+- **volcanic** — the **events layer went live 2026-09** via the GDACS
+  ``VO`` feed (current volcanic-activity alerts worldwide — monitoring
+  context only, `events.available: true`). **Analysis stays honestly
+  unavailable**: the authoritative historical source (Smithsonian/USGS
+  Global Volcanism Program) is bot-protected for automated access and
+  needs a dataset export path. Talaix never predicts eruptions; current
+  capability is alert-monitoring context only.
 
-Enabling either requires a real, tested fetch path first.
+Enabling dust or volcanic analysis requires a real, tested fetch path first.
