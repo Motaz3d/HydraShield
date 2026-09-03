@@ -57,6 +57,14 @@
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
                     </tr>
                     <tr>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">USGS/NASA Landsat Collection 2 L2</a></b><br><small>via Planetary Computer STAC</small></td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Real optical imagery: NDVI / NDMI / NDWI (QA_PIXEL cloud mask)</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Fallback when Sentinel-2 has no usable scene — the delivering sensor is named per result</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Latest cloud-free scene (16-day revisit per satellite)</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">30 m</td>
+                        <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Observed</td>
+                    </tr>
+                    <tr>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);"><b><a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Copernicus C3S ERA5</a></b><br><small>via Open-Meteo archive</small></td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Historical daily weather reanalysis</td>
                         <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);">Climatologies, hazard history, "What changed?", validation features</td>
@@ -149,6 +157,11 @@
                         <li><b>Copernicus Sentinel-3</b> — land surface temperature</li>
                         <li><b>GHSL</b> (JRC) — global settlement and built-up grids</li>
                     </ul>
+                    <p>The wider evaluation catalogue — global and national open-data portals,
+                       hazard archives, earth-observation programmes, climate, environment and
+                       evidence registries — lives in the <a href="/sources">Data Observatory</a>
+                       (<a href="/api/v2/registry" target="_blank" rel="noopener">/api/v2/registry</a>),
+                       grouped by category with honest statuses.</p>
                 </div>
                 <div class="content-card">
                     <h3>🔍 Provenance by design</h3>

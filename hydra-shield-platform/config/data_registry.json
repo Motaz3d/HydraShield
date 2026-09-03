@@ -1,5 +1,5 @@
 {
-  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them).",
+  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation.",
   "audit_date": "2026-08-17",
   "observatory_note": "Entries are catalog records — status integrated/candidate/rejected; nothing here implies the data is wired into analysis unless status=integrated.",
   "datasets": [
@@ -42,7 +42,8 @@
         "validation": "STAC catalog live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "Global land; 2015 (Sentinel-2A operational) to present.",
         "licensing_note": "Copernicus free and open data policy; commercial use allowed."
-      }
+      },
+      "catalog_group": "earth_observation"
     },
     {
       "id": "open-meteo-forecast",
@@ -87,7 +88,8 @@
         "validation": "Forecast endpoint live-called 2026-08-17 (see provenance); consumed by the FWI adapter whose equations are unit-verified against the cffdrs reference implementation (model_registry fwi_system_v1).",
         "coverage_note": "Global; current conditions and forecast (up to ~16 days); recent past days on request.",
         "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "climate"
     },
     {
       "id": "era5-archive",
@@ -130,7 +132,8 @@
         "validation": "Archive endpoint live-called 2026-08-17 (see provenance); feeds the platform validation pipeline (status_note; scripts/run_validation.py).",
         "coverage_note": "Global; 1940 to ~5 days before present.",
         "licensing_note": "Copernicus C3S terms; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "climate"
     },
     {
       "id": "opentopodata-eudem",
@@ -169,7 +172,8 @@
         "validation": "Endpoint live-called 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "Europe (EEA member and cooperating countries).",
         "licensing_note": "EU-DEM: EEA/Copernicus terms; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "earth_observation"
     },
     {
       "id": "srtm",
@@ -208,7 +212,8 @@
         "validation": "Endpoint live-called 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "60°N–56°S.",
         "licensing_note": "SRTM: NASA open; commercial use allowed."
-      }
+      },
+      "catalog_group": "earth_observation"
     },
     {
       "id": "esa-worldcover",
@@ -244,7 +249,8 @@
         "validation": "Data-access page live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "Global.",
         "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "earth_observation"
     },
     {
       "id": "firms-viirs",
@@ -283,7 +289,8 @@
         "validation": "API path live-checked 2026-08-17 (see provenance); key-gated — currently unavailable in deployment (no FIRMS_MAP_KEY configured, see status_note); consumed by the validation pipeline when configured (scripts/run_validation.py).",
         "coverage_note": "Global; NRT archive (rolling, short window); full VIIRS archive from 2012.",
         "licensing_note": "NASA open data; commercial use allowed; API key registration required."
-      }
+      },
+      "catalog_group": "earth_observation"
     },
     {
       "id": "firms-modis",
@@ -322,7 +329,8 @@
         "validation": "API path live-checked 2026-08-17 (see provenance); key-gated — currently unavailable in deployment (no FIRMS_MAP_KEY configured, see status_note); reported alongside — never silently merged with — firms-viirs.",
         "coverage_note": "Global; NRT archive (rolling, short window); full MODIS archive from 2000 (Terra) / 2002 (Aqua).",
         "licensing_note": "NASA open data; commercial use allowed; API key registration required."
-      }
+      },
+      "catalog_group": "earth_observation"
     },
     {
       "id": "worldpop",
@@ -361,7 +369,8 @@
         "validation": "Download host data.worldpop.org live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "Global (per-country rasters).",
         "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "socio_economic"
     },
     {
       "id": "ohsome",
@@ -406,7 +415,8 @@
         "validation": "ohsome metadata endpoint live-checked 2026-08-17 (see provenance); cross-checked against Overpass (same underlying OSM data — reported per path, never silently merged).",
         "coverage_note": "Global (completeness varies); OSM history since 2007; ohsome extract lags ~3 weeks.",
         "licensing_note": "ODbL; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "socio_economic"
     },
     {
       "id": "overpass",
@@ -451,7 +461,8 @@
         "validation": "overpass-api.de status endpoint live-checked 2026-08-17 (see provenance); cross-checked against ohsome (same underlying OSM data — reported per path, never silently merged).",
         "coverage_note": "Global (completeness varies); current OSM database state (minutely diffs).",
         "licensing_note": "ODbL; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "socio_economic"
     },
     {
       "id": "nominatim",
@@ -493,7 +504,8 @@
         "validation": "Service root live-checked 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "Global; current OSM database state.",
         "licensing_note": "ODbL; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "socio_economic"
     },
     {
       "id": "glofas-openmeteo",
@@ -529,7 +541,8 @@
         "validation": "Flood endpoint live-called 2026-08-17 (see provenance); SINGLE-PROVIDER chain — declared gap: no independent discharge source wired (status_note).",
         "coverage_note": "Global (modelled river network); 1984 to near-real-time nowcast + short forecast.",
         "licensing_note": "CC-BY 4.0 (GloFAS: Copernicus EMS terms); commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "climate"
     },
     {
       "id": "open-meteo-marine",
@@ -566,7 +579,8 @@
         "validation": "Marine endpoint live-called 2026-08-17 (see provenance); no further dataset-specific validation declared in this catalog record.",
         "coverage_note": "Global ocean; near-real-time nowcast + short forecast.",
         "licensing_note": "CC-BY 4.0; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "climate"
     },
     {
       "id": "era5-land",
@@ -603,7 +617,8 @@
         "validation": "Archive endpoint live-called 2026-08-17 (see provenance); SINGLE-PROVIDER chain — declared gap: no independent soil-moisture source wired (status_note).",
         "coverage_note": "Global land; 1950 to ~5 days before present.",
         "licensing_note": "Copernicus C3S terms; commercial use allowed with attribution."
-      }
+      },
+      "catalog_group": "climate"
     },
     {
       "id": "ghsl",
@@ -632,7 +647,8 @@
       "api_or_download_url": "https://ghsl.jrc.ec.europa.eu/download.php",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (cross-check layer for population/built-up exposure) — nothing wired to it."
+      "status_note": "Candidate (cross-check layer for population/built-up exposure) — nothing wired to it.",
+      "catalog_group": "socio_economic"
     },
     {
       "id": "gpw-v4",
@@ -660,7 +676,8 @@
       "api_or_download_url": "https://doi.org/10.7927/H4JW8BX5",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (fallback/cross-check only) — no added value over WorldPop+GHSL for the current pipeline; nothing wired to it."
+      "status_note": "Candidate (fallback/cross-check only) — no added value over WorldPop+GHSL for the current pipeline; nothing wired to it.",
+      "catalog_group": "socio_economic"
     },
     {
       "id": "eurostat-geostat",
@@ -688,7 +705,8 @@
       "api_or_download_url": "https://ec.europa.eu/eurostat/web/gisco",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (European reference cross-check) — nothing wired to it."
+      "status_note": "Candidate (European reference cross-check) — nothing wired to it.",
+      "catalog_group": "socio_economic"
     },
     {
       "id": "cams",
@@ -716,7 +734,8 @@
       "api_or_download_url": "https://ads.atmosphere.copernicus.eu/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (smoke context + validation target once credentials are configured) — nothing wired to it."
+      "status_note": "Candidate (smoke context + validation target once credentials are configured) — nothing wired to it.",
+      "catalog_group": "environment"
     },
     {
       "id": "noaa-hysplit",
@@ -743,7 +762,8 @@
       "api_or_download_url": "https://www.ready.noaa.gov/HYSPLIT.php",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate (optional offline/reference comparison; would replace — not complement — the screening transport model) — nothing wired to it."
+      "status_note": "Candidate (optional offline/reference comparison; would replace — not complement — the screening transport model) — nothing wired to it.",
+      "catalog_group": "environment"
     },
     {
       "id": "blitzortung",
@@ -769,7 +789,8 @@
       "api_or_download_url": "https://www.blitzortung.org/",
       "commercial_use": "restricted",
       "status": "rejected",
-      "status_note": "Rejected for now (access/licence barrier); declared as a known gap in the ignition indicator."
+      "status_note": "Rejected for now (access/licence barrier); declared as a known gap in the ignition indicator.",
+      "catalog_group": "environment"
     },
     {
       "id": "effis-gwis",
@@ -797,7 +818,8 @@
       "api_or_download_url": "https://effis.jrc.ec.europa.eu/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (reference comparison + burned-area perimeters once a real access path exists) — nothing wired to it."
+      "status_note": "Candidate (reference comparison + burned-area perimeters once a real access path exists) — nothing wired to it.",
+      "catalog_group": "hazard_disaster"
     },
     {
       "id": "cdse",
@@ -827,7 +849,8 @@
       "api_or_download_url": "https://dataspace.copernicus.eu/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate (would enable Sentinel-1 SAR gap-filling and Sentinel-3 LST) — nothing wired to it."
+      "status_note": "Candidate (would enable Sentinel-1 SAR gap-filling and Sentinel-3 LST) — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "sentinel-1",
@@ -856,7 +879,8 @@
       "api_or_download_url": "https://dataspace.copernicus.eu/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — all-weather radar gap-filling under cloud; nothing wired to it."
+      "status_note": "Candidate — all-weather radar gap-filling under cloud; nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "sentinel-3-slstr",
@@ -884,7 +908,8 @@
       "api_or_download_url": "https://dataspace.copernicus.eu/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — nothing wired to it."
+      "status_note": "Candidate — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "sentinel-5p",
@@ -912,7 +937,8 @@
       "api_or_download_url": "https://dataspace.copernicus.eu/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate (smoke-transport cross-check) — nothing wired to it."
+      "status_note": "Candidate (smoke-transport cross-check) — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "clms-burnt-area",
@@ -938,7 +964,8 @@
       "api_or_download_url": "https://land.copernicus.eu/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (validation + recovery architecture) — nothing wired to it."
+      "status_note": "Candidate (validation + recovery architecture) — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "modis-mcd64a1",
@@ -964,7 +991,8 @@
       "api_or_download_url": "https://lpdaac.usgs.gov/products/mcd64a1v061/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate (validation) — nothing wired to it."
+      "status_note": "Candidate (validation) — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "gfw-fires",
@@ -990,7 +1018,8 @@
       "api_or_download_url": "https://www.globalforestwatch.org/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate (redundant with FIRMS; backup only) — nothing wired to it."
+      "status_note": "Candidate (redundant with FIRMS; backup only) — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "fy-satellites",
@@ -1016,7 +1045,8 @@
       "api_or_download_url": "https://www.nsmc.org.cn/",
       "commercial_use": "restricted",
       "status": "rejected",
-      "status_note": "Rejected for now (access/license barriers; no gap it uniquely fills for current European pilot areas)."
+      "status_note": "Rejected for now (access/license barriers; no gap it uniquely fills for current European pilot areas).",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "tpdc",
@@ -1042,7 +1072,8 @@
       "api_or_download_url": "https://data.tpdc.ac.cn/",
       "commercial_use": "restricted",
       "status": "rejected",
-      "status_note": "Rejected for now (coverage mismatch)."
+      "status_note": "Rejected for now (coverage mismatch).",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "copernicus-dem",
@@ -1069,7 +1100,8 @@
       "api_or_download_url": "https://registry.opendata.aws/copernicus-dem/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (global DEM upgrade) — nothing wired to it."
+      "status_note": "Candidate (global DEM upgrade) — nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "noaa-ncei",
@@ -1102,7 +1134,8 @@
       "api_or_download_url": "https://www.ncei.noaa.gov/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "noaa-cdo",
@@ -1132,7 +1165,8 @@
       "api_or_download_url": "https://www.ncei.noaa.gov/cdo-web/webservices/v2",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "climate"
     },
     {
       "id": "usgs-water",
@@ -1161,7 +1195,8 @@
       "api_or_download_url": "https://waterservices.usgs.gov/nwis/iv/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — declared future fallback for the single-provider discharge chain (US coverage only); nothing wired to it."
+      "status_note": "Candidate — declared future fallback for the single-provider discharge chain (US coverage only); nothing wired to it.",
+      "catalog_group": "environment"
     },
     {
       "id": "usgs-earthquake",
@@ -1188,7 +1223,8 @@
       "api_or_download_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — catalogued for situational-awareness context only: earthquakes are not a climate hazard and sit outside the hazard registry (hazard_relevance intentionally empty); nothing wired to it."
+      "status_note": "Candidate — catalogued for situational-awareness context only: earthquakes are not a climate hazard and sit outside the hazard registry (hazard_relevance intentionally empty); nothing wired to it.",
+      "catalog_group": "hazard_disaster"
     },
     {
       "id": "nasa-earthdata",
@@ -1217,7 +1253,8 @@
       "api_or_download_url": "https://www.earthdata.nasa.gov/",
       "commercial_use": "allowed",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "ecmwf-opencharts",
@@ -1248,7 +1285,8 @@
       "api_or_download_url": "https://www.ecmwf.int/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "climate"
     },
     {
       "id": "eea-discomap",
@@ -1277,7 +1315,8 @@
       "api_or_download_url": "https://discomap.eea.europa.eu/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "environment"
     },
     {
       "id": "copernicus-cds-ads",
@@ -1309,7 +1348,8 @@
       "api_or_download_url": "https://cds.climate.copernicus.eu/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — direct CDS access would remove the Open-Meteo intermediary for ERA5; nothing wired to it."
+      "status_note": "Candidate — direct CDS access would remove the Open-Meteo intermediary for ERA5; nothing wired to it.",
+      "catalog_group": "climate"
     },
     {
       "id": "cems-efas",
@@ -1337,7 +1377,8 @@
       "api_or_download_url": "https://european-flood.emergency.copernicus.eu/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — European counterpart to GloFAS for the discharge chain; nothing wired to it."
+      "status_note": "Candidate — European counterpart to GloFAS for the discharge chain; nothing wired to it.",
+      "catalog_group": "hazard_disaster"
     },
     {
       "id": "cma-data",
@@ -1368,7 +1409,8 @@
       "api_or_download_url": "https://data.cma.cn/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "cma-nmic",
@@ -1399,7 +1441,8 @@
       "api_or_download_url": "https://www.nmic.cn/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — URL unreachable from build environment at audit date (kept official URL); nothing wired to it."
+      "status_note": "Candidate — URL unreachable from build environment at audit date (kept official URL); nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "jma",
@@ -1429,7 +1472,8 @@
       "api_or_download_url": "https://www.data.jma.go.jp/obd/stats/etrn/index.php",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "kma",
@@ -1458,7 +1502,8 @@
       "api_or_download_url": "https://data.kma.go.kr/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — commercial-use terms unclear from public pages at audit date; nothing wired to it."
+      "status_note": "Candidate — commercial-use terms unclear from public pages at audit date; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "bom",
@@ -1490,7 +1535,8 @@
       "api_or_download_url": "https://www.bom.gov.au/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it."
+      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "imd",
@@ -1521,7 +1567,8 @@
       "api_or_download_url": "https://mausam.imd.gov.in/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "worldbank-cckp",
@@ -1551,7 +1598,8 @@
       "api_or_download_url": "https://climateknowledgeportal.worldbank.org/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it."
+      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it.",
+      "catalog_group": "climate"
     },
     {
       "id": "ocha-hdx",
@@ -1582,7 +1630,8 @@
       "api_or_download_url": "https://data.humdata.org/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "hazard_disaster"
     },
     {
       "id": "wmo-oscar",
@@ -1614,7 +1663,8 @@
       "api_or_download_url": "https://space.oscar.wmo.int/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — observing-capability metadata (which satellites measure what); nothing wired to it."
+      "status_note": "Candidate — observing-capability metadata (which satellites measure what); nothing wired to it.",
+      "catalog_group": "earth_observation"
     },
     {
       "id": "metoffice",
@@ -1645,7 +1695,8 @@
       "api_or_download_url": "https://www.metoffice.gov.uk/services/data",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "dwd",
@@ -1677,7 +1728,8 @@
       "api_or_download_url": "https://opendata.dwd.de/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "meteofrance",
@@ -1709,7 +1761,8 @@
       "api_or_download_url": "https://donneespubliques.meteofrance.fr/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "fao-giews",
@@ -1737,7 +1790,8 @@
       "api_or_download_url": "https://www.fao.org/giews/",
       "commercial_use": "restricted",
       "status": "candidate",
-      "status_note": "Candidate — drought/agricultural impact context; FAO licence is non-commercial; nothing wired to it."
+      "status_note": "Candidate — drought/agricultural impact context; FAO licence is non-commercial; nothing wired to it.",
+      "catalog_group": "hazard_disaster"
     },
     {
       "id": "reliefweb",
@@ -1770,7 +1824,8 @@
       "api_or_download_url": "https://api.reliefweb.int/v1/reports",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate (DOCUMENTED events only — never scientific evidence) — nothing wired to it."
+      "status_note": "Candidate (DOCUMENTED events only — never scientific evidence) — nothing wired to it.",
+      "catalog_group": "hazard_disaster"
     },
     {
       "id": "eccc",
@@ -1802,7 +1857,8 @@
       "api_or_download_url": "https://dd.weather.gc.ca/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "saws",
@@ -1834,7 +1890,8 @@
       "api_or_download_url": "https://www.weathersa.co.za/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — commercial-use terms unclear from public pages at audit date; nothing wired to it."
+      "status_note": "Candidate — commercial-use terms unclear from public pages at audit date; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "ncm-uae",
@@ -1865,7 +1922,8 @@
       "api_or_download_url": "https://www.ncm.gov.ae/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "inmet",
@@ -1897,7 +1955,8 @@
       "api_or_download_url": "https://portal.inmet.gov.br/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — portal erroring from build environment at audit date (kept official URL); nothing wired to it."
+      "status_note": "Candidate — portal erroring from build environment at audit date (kept official URL); nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "smn-mexico",
@@ -1930,7 +1989,8 @@
       "api_or_download_url": "https://smn.conagua.gob.mx/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — URL unreachable (timeout) from build environment at audit date (kept official URL); nothing wired to it."
+      "status_note": "Candidate — URL unreachable (timeout) from build environment at audit date (kept official URL); nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "smn-argentina",
@@ -1962,7 +2022,8 @@
       "api_or_download_url": "https://www.smn.gob.ar/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it."
+      "status_note": "Candidate — URL bot-protected from build environment at audit date (kept official URL); nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "dmc-chile",
@@ -1993,7 +2054,8 @@
       "api_or_download_url": "https://climatologia.meteochile.gob.cl/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "senamhi",
@@ -2024,7 +2086,8 @@
       "api_or_download_url": "https://www.senamhi.gob.pe/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "marocmeteo",
@@ -2056,7 +2119,8 @@
       "api_or_download_url": "https://www.marocmeteo.ma/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "ncm-saudi",
@@ -2087,7 +2151,8 @@
       "api_or_download_url": "https://www.ncm.gov.sa/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "mss-singapore",
@@ -2117,7 +2182,8 @@
       "api_or_download_url": "https://www.weather.gov.sg/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "bmkg",
@@ -2151,7 +2217,8 @@
       "api_or_download_url": "https://data.bmkg.go.id/",
       "commercial_use": "unknown",
       "status": "candidate",
-      "status_note": "Candidate — catalog record only; nothing wired to it."
+      "status_note": "Candidate — catalog record only; nothing wired to it.",
+      "catalog_group": "national_service"
     },
     {
       "id": "gdacs-tc",
@@ -2191,7 +2258,3115 @@
         "validation": "API contract covered by offline tests (mocked feed); live path checked 2026-08-22.",
         "coverage_note": "Global — all tropical-cyclone basins.",
         "licensing_note": "GDACS open access; attribution shown on the layer."
-      }
+      },
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "data-europa-eu",
+      "name": "European Data Portal (data.europa.eu)",
+      "provider": "European Commission (publications office)",
+      "provider_class": "government",
+      "url": "https://data.europa.eu/",
+      "license": "CC-BY 4.0 (metadata); per-dataset licences",
+      "geographic_coverage": "Europe (EU/EEA)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous harvesting from EU member-state catalogues",
+      "variables": [
+        "dataset metadata (DCAT-AP)",
+        "high-value datasets: geospatial, earth observation, meteorological, statistics, companies, mobility"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Catalogue of catalogues — the discovery layer for European open data; per-dataset quality varies.",
+      "access_method": "api",
+      "api_or_download_url": "https://data.europa.eu/api/hub/search/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: DCAT/SPARQL harvester entry point for all EU national portals; feeds registry auto-discovery.",
+      "catalog_group": "global_portal"
+    },
+    {
+      "id": "data-gov-us",
+      "name": "US Data.gov catalogue",
+      "provider": "US General Services Administration",
+      "provider_class": "government",
+      "url": "https://catalog.data.gov/",
+      "license": "Per-dataset (US Government works largely public domain)",
+      "geographic_coverage": "United States",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous harvesting from federal agencies",
+      "variables": [
+        "dataset metadata (CKAN)",
+        "hundreds of thousands of federal datasets across all domains"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Federal catalogue (>500k datasets); agency endpoints (NOAA/USGS/NASA/EPA/FEMA) carry the authoritative data.",
+      "access_method": "api",
+      "api_or_download_url": "https://catalog.data.gov/api/3/action/package_search",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: CKAN harvester entry point for US federal sources.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-uk",
+      "name": "UK data.gov.uk",
+      "provider": "UK Government Digital Service",
+      "provider_class": "government",
+      "url": "https://www.data.gov.uk/",
+      "license": "Open Government Licence v3 (most datasets)",
+      "geographic_coverage": "United Kingdom",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "environment, land & property, transport, health, economy"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue; OGL covers most Crown copyright data.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.data.gov.uk/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: UK national discovery layer (met/environment/land/property feeds).",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gouv-fr",
+      "name": "data.gouv.fr",
+      "provider": "DINUM (French Government)",
+      "provider_class": "government",
+      "url": "https://www.data.gouv.fr/",
+      "license": "Licence Ouverte 2.0 (most datasets)",
+      "geographic_coverage": "France",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata (udata API)",
+        "national open data incl. IGN, Météo-France partners, cadastre"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue with a documented public API (udata).",
+      "access_method": "api",
+      "api_or_download_url": "https://www.data.gouv.fr/api/1/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: French national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "govdata-de",
+      "name": "GovData — German open-data portal",
+      "provider": "German Federal Government (FITKO)",
+      "provider_class": "government",
+      "url": "https://www.govdata.de/",
+      "license": "Datenlizenz Deutschland (dl-de/by-2-0, dl-de/zero-2-0)",
+      "geographic_coverage": "Germany",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata (DCAT-AP.de)",
+        "federal + state + municipal open data"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); URL reachability check failed from the audit network 2026-09-03 (possible geo/TLS restriction) — verify at next audit. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue (CKAN-based); exact harvest endpoint to confirm at wiring.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.govdata.de/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: German national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "datos-gob-es",
+      "name": "datos.gob.es",
+      "provider": "Spanish Government (Red.es)",
+      "provider_class": "government",
+      "url": "https://datos.gob.es/",
+      "license": "Per-dataset (open licences, attribution typical)",
+      "geographic_coverage": "Spain",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "AEMET partners, IGN, cadastre, environment"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue (DCAT-AP-ES).",
+      "access_method": "download",
+      "api_or_download_url": "https://datos.gob.es/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Spanish national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "open-canada",
+      "name": "Open Government — Canada",
+      "provider": "Government of Canada (Treasury Board)",
+      "provider_class": "government",
+      "url": "https://open.canada.ca/",
+      "license": "Open Government Licence — Canada",
+      "geographic_coverage": "Canada",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata (CKAN)",
+        "federal open data incl. ECCC, NRCan, StatCan"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue (CKAN API).",
+      "access_method": "api",
+      "api_or_download_url": "https://open.canada.ca/data/api/3/action/package_search",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Canadian national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-au",
+      "name": "data.gov.au",
+      "provider": "Australian Government (Digital Transformation Agency)",
+      "provider_class": "government",
+      "url": "https://data.gov.au/",
+      "license": "CC-BY 4.0 (most datasets)",
+      "geographic_coverage": "Australia",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata (CKAN)",
+        "BOM, Geoscience Australia, ABS datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue (CKAN API).",
+      "access_method": "api",
+      "api_or_download_url": "https://data.gov.au/data/api/3/action/package_search",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Australian national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-go-jp",
+      "name": "data.go.jp",
+      "provider": "Japanese Government (Digital Agency)",
+      "provider_class": "government",
+      "url": "https://www.data.go.jp/",
+      "license": "Per-dataset (open with attribution typical)",
+      "geographic_coverage": "Japan",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "JMA, GSI, MLIT, statistics datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.data.go.jp/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Japanese national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-go-kr",
+      "name": "Korea Public Data Portal (data.go.kr)",
+      "provider": "Korean Government (MOIS)",
+      "provider_class": "government",
+      "url": "https://www.data.go.kr/",
+      "license": "Korea Open Government Licence (KOGL)",
+      "geographic_coverage": "South Korea",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "KMA, KEIS, national statistics datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue; per-dataset APIs require a free portal key.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.data.go.kr/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Korean national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-in",
+      "name": "Open Government Data Platform India",
+      "provider": "Government of India (MeitY/NIC)",
+      "provider_class": "government",
+      "url": "https://www.data.gov.in/",
+      "license": "Government Open Data License — India",
+      "geographic_coverage": "India",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "IMD partners, agriculture, water, health datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue; resource APIs require a free portal key.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.data.gov.in/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Indian national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "dados-gov-br",
+      "name": "dados.gov.br",
+      "provider": "Brazilian Federal Government (CGU/INDe)",
+      "provider_class": "government",
+      "url": "https://dados.gov.br/",
+      "license": "Per-dataset (open licences, attribution typical)",
+      "geographic_coverage": "Brazil",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata (CKAN)",
+        "INMET, ANA, IBGE datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue (CKAN-based).",
+      "access_method": "api",
+      "api_or_download_url": "https://dados.gov.br/dados/api/publico/conjuntos-dados",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: Brazilian national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "datos-gob-mx",
+      "name": "datos.gob.mx",
+      "provider": "Mexican Government (Digital Government Unit)",
+      "provider_class": "government",
+      "url": "https://datos.gob.mx/",
+      "license": "Libre Uso MX",
+      "geographic_coverage": "Mexico",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "CONAGUA, INEGI, civil-protection datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue.",
+      "access_method": "download",
+      "api_or_download_url": "https://datos.gob.mx/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: Mexican national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-sa",
+      "name": "Saudi Open Data Platform",
+      "provider": "SDAIA (Saudi Data & AI Authority)",
+      "provider_class": "government",
+      "url": "https://data.gov.sa/",
+      "license": "Saudi open-data terms — verify per dataset",
+      "geographic_coverage": "Saudi Arabia",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "NCM partners, statistics, environment datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); URL reachability check failed from the audit network 2026-09-03 (possible geo/TLS restriction) — verify at next audit. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue for Saudi government open data.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.gov.sa/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: Saudi national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-qa",
+      "name": "Qatar Open Data Portal",
+      "provider": "State of Qatar (MCIT)",
+      "provider_class": "government",
+      "url": "https://data.gov.qa/",
+      "license": "Per-dataset — verify per dataset",
+      "geographic_coverage": "Qatar",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "planning, statistics, environment datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); URL reachability check failed from the audit network 2026-09-03 (possible geo/TLS restriction) — verify at next audit. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue for Qatari government open data.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.gov.qa/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: Qatari national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-jo",
+      "name": "Jordan Open Data Portal",
+      "provider": "Hashemite Kingdom of Jordan (MODEE)",
+      "provider_class": "government",
+      "url": "https://data.gov.jo/",
+      "license": "Per-dataset — verify per dataset",
+      "geographic_coverage": "Jordan",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "meteorological, water, statistics datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); URL reachability check failed from the audit network 2026-09-03 (possible geo/TLS restriction) — verify at next audit. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue for Jordanian government open data.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.gov.jo/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: Jordanian national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-ma",
+      "name": "data.gov.ma",
+      "provider": "Kingdom of Morocco (ADD)",
+      "provider_class": "government",
+      "url": "https://data.gov.ma/",
+      "license": "Per-dataset — verify per dataset",
+      "geographic_coverage": "Morocco",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "DGM partners, agriculture, statistics datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue for Moroccan government open data.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.gov.ma/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: Moroccan national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "data-gov-tn",
+      "name": "data.gov.tn",
+      "provider": "Republic of Tunisia",
+      "provider_class": "government",
+      "url": "https://data.gov.tn/",
+      "license": "Per-dataset — verify per dataset",
+      "geographic_coverage": "Tunisia",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata",
+        "INM partners, statistics datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "National catalogue for Tunisian government open data.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.gov.tn/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: Tunisian national discovery layer.",
+      "catalog_group": "national_portal"
+    },
+    {
+      "id": "openafrica",
+      "name": "openAFRICA",
+      "provider": "Code for Africa (non-profit)",
+      "provider_class": "community",
+      "url": "https://open.africa/",
+      "license": "Per-dataset (open licences)",
+      "geographic_coverage": "Africa (multi-country)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "dataset metadata (CKAN)",
+        "African government + civil-society datasets"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Largest independent African open-data repository (CKAN).",
+      "access_method": "api",
+      "api_or_download_url": "https://open.africa/api/3/action/package_search",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: African discovery layer, complementing national portals.",
+      "catalog_group": "global_portal"
+    },
+    {
+      "id": "worldbank-data",
+      "name": "World Bank Open Data / Data Catalog",
+      "provider": "World Bank",
+      "provider_class": "un_agency",
+      "url": "https://data.worldbank.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "1960 to present (varies)",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual (mostly)",
+      "update_frequency": "Quarterly/annual updates",
+      "variables": [
+        "development indicators",
+        "poverty",
+        "climate",
+        "infrastructure",
+        "population"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative socio-economic baseline; country granularity limits parcel-scale use.",
+      "access_method": "api",
+      "api_or_download_url": "https://api.worldbank.org/v2/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: exposure/vulnerability + economic-impact context per country.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "imf-data",
+      "name": "IMF Data (SDMX)",
+      "provider": "International Monetary Fund",
+      "provider_class": "un_agency",
+      "url": "https://data.imf.org/",
+      "license": "IMF data terms (free with attribution)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Monthly/quarterly/annual",
+      "update_frequency": "Continuous",
+      "variables": [
+        "GDP",
+        "inflation",
+        "fiscal indicators",
+        "balance of payments",
+        "commodity prices"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Macro-financial context for impact modelling; no spatial granularity below country.",
+      "access_method": "api",
+      "api_or_download_url": "https://data.imf.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: economic-impact and sovereign-risk context (SDMX 2.1/3.0).",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "oecd-data",
+      "name": "OECD Data Explorer (SDMX)",
+      "provider": "OECD",
+      "provider_class": "government",
+      "url": "https://data-explorer.oecd.org/",
+      "license": "OECD data terms (free with attribution)",
+      "geographic_coverage": "OECD members + partners",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Country (some regional)",
+      "temporal_resolution": "Annual (mostly)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "economy",
+        "employment",
+        "environment",
+        "innovation",
+        "regional statistics"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Intergovernmental statistics; SDMX API verified reachable 2026-09-03 (sdmx.oecd.org).",
+      "access_method": "api",
+      "api_or_download_url": "https://sdmx.oecd.org/public/rest/v1/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: structural economic + environmental indicators.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "eurostat",
+      "name": "Eurostat dissemination database",
+      "provider": "European Commission (Eurostat)",
+      "provider_class": "government",
+      "url": "https://ec.europa.eu/eurostat",
+      "license": "Eurostat data terms (free with attribution)",
+      "geographic_coverage": "EU/EEA + candidates",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Country + NUTS regions",
+      "temporal_resolution": "Varies (monthly–annual)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "regional statistics",
+        "population",
+        "economy",
+        "environment",
+        "energy"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative EU statistics down to NUTS-3; JSON-stat API.",
+      "access_method": "api",
+      "api_or_download_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: EU regional exposure/vulnerability baseline.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "un-data",
+      "name": "UNdata",
+      "provider": "UN Statistics Division",
+      "provider_class": "un_agency",
+      "url": "https://data.un.org/",
+      "license": "UN data terms (free with attribution)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual (mostly)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "UN system statistics",
+        "population",
+        "energy",
+        "environment",
+        "trade"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Aggregates UN agency statistics; country granularity.",
+      "access_method": "download",
+      "api_or_download_url": "https://data.un.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: UN-system socio-economic context.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "un-comtrade",
+      "name": "UN Comtrade",
+      "provider": "UN Statistics Division",
+      "provider_class": "un_agency",
+      "url": "https://comtradeplus.un.org/",
+      "license": "UN Comtrade terms (free tier; premium bulk)",
+      "geographic_coverage": "Global (country pairs)",
+      "temporal_coverage": "1962 to present",
+      "spatial_resolution": "Country pairs",
+      "temporal_resolution": "Monthly/annual",
+      "update_frequency": "Continuous",
+      "variables": [
+        "merchandise trade flows",
+        "commodity detail (HS)"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Trade-flow context for supply-chain exposure; free tier rate-limited.",
+      "access_method": "api",
+      "api_or_download_url": "https://comtradeplus.un.org/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: supply-chain exposure to hazard-hit regions.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "ilostat",
+      "name": "ILOSTAT",
+      "provider": "International Labour Organization",
+      "provider_class": "un_agency",
+      "url": "https://ilostat.ilo.org/",
+      "license": "ILO data terms (free with attribution)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual (mostly)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "employment",
+        "wages",
+        "working conditions",
+        "social protection"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Labour-market baseline for socio-economic impact; SDMX access documented.",
+      "access_method": "download",
+      "api_or_download_url": "https://ilostat.ilo.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: employment exposure in impact models.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "faostat",
+      "name": "FAOSTAT",
+      "provider": "Food and Agriculture Organization (UN)",
+      "provider_class": "un_agency",
+      "url": "https://www.fao.org/faostat/",
+      "license": "CC BY-NC-SA 3.0 IGO",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "1961 to present",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual",
+      "update_frequency": "Continuous",
+      "variables": [
+        "crop production",
+        "food security",
+        "land use",
+        "emissions (agriculture)"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood",
+        "heat"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Agriculture exposure baseline; NC licence blocks direct commercial reuse.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.fao.org/faostat/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: agricultural exposure (drought/flood) — licence restricts commercial reuse.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "unhcr-data",
+      "name": "UNHCR Refugee Data Finder",
+      "provider": "UN Refugee Agency",
+      "provider_class": "un_agency",
+      "url": "https://data.unhcr.org/",
+      "license": "UNHCR data terms (free with attribution)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "1951 to present (varies)",
+      "spatial_resolution": "Country / settlement",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "refugees",
+        "IDPs",
+        "statelessness",
+        "displacement flows"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Displacement baseline for humanitarian exposure; API root returns 403 (protected) — verify endpoint at wiring.",
+      "access_method": "api",
+      "api_or_download_url": "https://api.unhcr.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: displacement exposure for disaster/conflict impact.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "who-gho",
+      "name": "WHO Global Health Observatory",
+      "provider": "World Health Organization",
+      "provider_class": "un_agency",
+      "url": "https://www.who.int/data/gho",
+      "license": "WHO data terms (free with attribution)",
+      "geographic_coverage": "Global (194 member states)",
+      "temporal_coverage": "Varies by indicator",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual (mostly)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "mortality",
+        "disease burden",
+        "environmental health",
+        "water & sanitation"
+      ],
+      "hazard_relevance": [
+        "heat",
+        "flood",
+        "drought"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Health-impact layer (heat/flood/drought morbidity); OData API documented (ghoapi.azureedge.net — timed out from audit network 2026-09-03).",
+      "access_method": "api",
+      "api_or_download_url": "https://www.who.int/data/gho",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: population-health impact layer.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "un-wpp",
+      "name": "UN World Population Prospects",
+      "provider": "UN Population Division",
+      "provider_class": "un_agency",
+      "url": "https://population.un.org/wpp/",
+      "license": "UN data terms (free with attribution)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "1950 to present + projections to 2100",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual",
+      "update_frequency": "Revisions every ~2 years",
+      "variables": [
+        "population estimates",
+        "projections",
+        "age structure",
+        "urbanisation"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative demographic baseline + projections for long-horizon exposure.",
+      "access_method": "download",
+      "api_or_download_url": "https://population.un.org/wpp/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: demographic exposure under scenario horizons.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "google-data-commons",
+      "name": "Data Commons",
+      "provider": "Google (with published sources)",
+      "provider_class": "commercial",
+      "url": "https://datacommons.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (multi-resolution)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Country/region/city",
+      "temporal_resolution": "Varies",
+      "update_frequency": "Continuous",
+      "variables": [
+        "unified statistical knowledge graph",
+        "demographics",
+        "economy",
+        "environment"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Aggregates public sources into one queryable graph — always trace to the original source for evidence use.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://datacommons.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: cross-source discovery + sanity checks (API requires free key).",
+      "catalog_group": "global_portal"
+    },
+    {
+      "id": "em-dat",
+      "name": "EM-DAT International Disaster Database",
+      "provider": "CRED / UCLouvain",
+      "provider_class": "scientific_agency",
+      "url": "https://www.emdat.be/",
+      "license": "EM-DAT terms (free for science/non-profit; commercial licence required)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "1900 to present",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Event-based",
+      "update_frequency": "Continuous",
+      "variables": [
+        "disaster events",
+        "deaths",
+        "affected people",
+        "economic losses"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Reference loss archive for validation; country granularity; commercial use requires a CRED licence.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.emdat.be/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: historical loss baseline for model validation (staged ingest already declared in loss_registry).",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "desinventar",
+      "name": "DesInventar disaster-loss methodology",
+      "provider": "UNDRR",
+      "provider_class": "un_agency",
+      "url": "https://www.desinventar.org/",
+      "license": "Open (attribution requested)",
+      "geographic_coverage": "Multi-country (subnational)",
+      "temporal_coverage": "Varies by country (decades)",
+      "spatial_resolution": "Subnational administrative units",
+      "temporal_resolution": "Event-based",
+      "update_frequency": "Continuous",
+      "variables": [
+        "disaster events",
+        "deaths",
+        "losses",
+        "local-scale records"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Subnational loss granularity complements EM-DAT; coverage depends on national implementations.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.desinventar.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: subnational loss history (staged ingest already declared in loss_registry).",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "thinkhazard",
+      "name": "ThinkHazard! (GFDRR/World Bank)",
+      "provider": "World Bank GFDRR",
+      "provider_class": "un_agency",
+      "url": "https://thinkhazard.org/",
+      "license": "CC-BY 4.0 (with source attribution)",
+      "geographic_coverage": "Global (admin-1/2)",
+      "temporal_coverage": "Current susceptibility screening",
+      "spatial_resolution": "Subnational administrative units",
+      "temporal_resolution": "Static screening levels",
+      "update_frequency": "Periodic",
+      "variables": [
+        "hazard susceptibility levels",
+        "11 hazard types",
+        "recommendations"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Screening-level multi-hazard classification, not event data; useful cross-check for our own scoring.",
+      "access_method": "download",
+      "api_or_download_url": "https://thinkhazard.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: independent cross-check of Talaix hazard screening levels.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "preventionweb",
+      "name": "PreventionWeb (UNDRR)",
+      "provider": "UNDRR",
+      "provider_class": "un_agency",
+      "url": "https://www.preventionweb.net/",
+      "license": "UNDRR terms (free with attribution)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Continuous",
+      "spatial_resolution": "n/a (knowledge base)",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "disaster-risk knowledge",
+        "policy documents",
+        "research",
+        "news"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "DRR knowledge base; documents, not measurements.",
+      "access_method": "api",
+      "api_or_download_url": "https://www.preventionweb.net/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: DRR context + documentation layer.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "emsc",
+      "name": "EMSC-CSEM real-time earthquake services",
+      "provider": "European-Mediterranean Seismological Centre",
+      "provider_class": "scientific_agency",
+      "url": "https://www.emsc-csem.org/",
+      "license": "EMSC data terms (open for research with attribution)",
+      "geographic_coverage": "Global (Euro-Med focus)",
+      "temporal_coverage": "Real-time + historical archive",
+      "spatial_resolution": "Event locations",
+      "temporal_resolution": "Near-real-time (minutes)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "earthquake events",
+        "magnitude",
+        "focal parameters",
+        "felt reports"
+      ],
+      "hazard_relevance": [
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Independent complement to USGS ComCat — multi-source seismic evidence; FDSN event service verified reachable 2026-09-03.",
+      "access_method": "api",
+      "api_or_download_url": "https://www.seismicportal.eu/fdsnws/event/1/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: second seismic source (never merged with USGS — reported per provider).",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "gem-openquake",
+      "name": "Global Earthquake Model (GEM) hazard products",
+      "provider": "GEM Foundation (non-profit)",
+      "provider_class": "community",
+      "url": "https://www.globalquakemodel.org/",
+      "license": "CC-BY-SA 4.0 (most products)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "2023 global hazard model",
+      "spatial_resolution": "Grid (varies by product)",
+      "temporal_resolution": "Static model releases",
+      "update_frequency": "Periodic model updates",
+      "variables": [
+        "seismic hazard maps",
+        "ground-shaking exceedance",
+        "exposure models"
+      ],
+      "hazard_relevance": [
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Physics-based hazard susceptibility (not event feed); share-alike licence.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.globalquakemodel.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: seismic susceptibility layer for a future earthquake hazard module.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "isc",
+      "name": "ISC Bulletin",
+      "provider": "International Seismological Centre",
+      "provider_class": "scientific_agency",
+      "url": "https://www.isc.ac.uk/",
+      "license": "ISC data terms (free for research; commercial use restricted)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "1904 to present (reviewed bulletin ~2 years behind)",
+      "spatial_resolution": "Event locations",
+      "temporal_resolution": "Event-based",
+      "update_frequency": "Continuous",
+      "variables": [
+        "earthquake hypocentres",
+        "magnitudes",
+        "station readings"
+      ],
+      "hazard_relevance": [
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Definitive reviewed seismic bulletin; latency of ~2 years for reviewed data.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.isc.ac.uk/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: authoritative historical seismicity for validation.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "gvp-volcanoes",
+      "name": "Smithsonian Global Volcanism Program",
+      "provider": "Smithsonian Institution",
+      "provider_class": "scientific_agency",
+      "url": "https://volcano.si.edu/",
+      "license": "Smithsonian terms (open with citation)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Holocene + Pleistocene record; weekly activity reports",
+      "spatial_resolution": "Volcano features",
+      "temporal_resolution": "Event-based + weekly reports",
+      "update_frequency": "Weekly",
+      "variables": [
+        "volcano profiles",
+        "eruption history",
+        "weekly volcanic activity"
+      ],
+      "hazard_relevance": [
+        "volcanic"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative volcano reference; already declared as the volcanic module's candidate source.",
+      "access_method": "download",
+      "api_or_download_url": "https://volcano.si.edu/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: documented source for the (currently unavailable) volcanic hazard module.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "noaa-storm-events",
+      "name": "NOAA NCEI Storm Events Database",
+      "provider": "NOAA NCEI (US)",
+      "provider_class": "government",
+      "url": "https://www.ncei.noaa.gov/stormevents/",
+      "license": "US Government (open)",
+      "geographic_coverage": "United States",
+      "temporal_coverage": "1950 to present",
+      "spatial_resolution": "County / event track",
+      "temporal_resolution": "Event-based",
+      "update_frequency": "Monthly updates (lag of months)",
+      "variables": [
+        "storm events",
+        "tornadoes",
+        "hail",
+        "wind",
+        "flood losses",
+        "deaths/injuries"
+      ],
+      "hazard_relevance": [
+        "wind",
+        "flood",
+        "heat",
+        "wildfire",
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Documented US event/loss archive; NWS-reported, county granularity.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.ncei.noaa.gov/stormevents/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: US loss/event validation records.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "ibtracs",
+      "name": "NOAA IBTrACS global tropical-cyclone best tracks",
+      "provider": "NOAA NCEI + WMO",
+      "provider_class": "government",
+      "url": "https://www.ncei.noaa.gov/products/international-best-track-archive",
+      "license": "US Government (open)",
+      "geographic_coverage": "Global (all cyclone basins)",
+      "temporal_coverage": "1848 to present",
+      "spatial_resolution": "Storm tracks (3-hourly positions)",
+      "temporal_resolution": "Event-based",
+      "update_frequency": "Continuous",
+      "variables": [
+        "cyclone tracks",
+        "intensity",
+        "central pressure",
+        "wind radii"
+      ],
+      "hazard_relevance": [
+        "cyclone",
+        "coastal",
+        "wind",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Consolidated best-track archive; already declared in the cyclone module as the future archive source.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.ncei.noaa.gov/products/international-best-track-archive",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: cyclone track archive for the (monitoring-only) cyclone module.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "ifrc-go",
+      "name": "IFRC GO platform",
+      "provider": "International Federation of Red Cross and Red Crescent Societies",
+      "provider_class": "community",
+      "url": "https://go.ifrc.org/",
+      "license": "IFRC terms (open with attribution)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Real-time + archive",
+      "spatial_resolution": "Event/country",
+      "temporal_resolution": "Near-real-time",
+      "update_frequency": "Continuous",
+      "variables": [
+        "emergency appeals",
+        "field reports",
+        "surge deployments",
+        "DREF operations"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Operational humanitarian situation data; API verified reachable 2026-09-03 (goadmin.ifrc.org).",
+      "access_method": "api",
+      "api_or_download_url": "https://goadmin.ifrc.org/api/v2/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: humanitarian response context for active events.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "acled",
+      "name": "ACLED conflict & protest events",
+      "provider": "ACLED (non-profit research organisation)",
+      "provider_class": "commercial",
+      "url": "https://acleddata.com/",
+      "license": "ACLED terms (registration; commercial licence for commercial use)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "1997 to present (varies by region)",
+      "spatial_resolution": "Event locations (lat/lon)",
+      "temporal_resolution": "Weekly updates",
+      "update_frequency": "Weekly",
+      "variables": [
+        "political violence events",
+        "protests",
+        "actors",
+        "fatalities"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Granular conflict-event data; free for non-commercial, commercial licence required.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://acleddata.com/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: conflict/security context layer for exposure.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "ucdp",
+      "name": "UCDP — Uppsala Conflict Data Program",
+      "provider": "Uppsala University",
+      "provider_class": "scientific_agency",
+      "url": "https://ucdp.uu.se/",
+      "license": "UCDP terms (free with citation)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "1946 to present",
+      "spatial_resolution": "Event locations",
+      "temporal_resolution": "Annual releases (+ monthly candidate events)",
+      "update_frequency": "Annual",
+      "variables": [
+        "armed-conflict events",
+        "deaths",
+        "actors",
+        "georeferenced events (GED)"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Academic reference conflict dataset; annual cadence.",
+      "access_method": "download",
+      "api_or_download_url": "https://ucdp.uu.se/downloads/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: conflict-history context layer.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "gtd",
+      "name": "Global Terrorism Database (START)",
+      "provider": "University of Maryland START Center",
+      "provider_class": "scientific_agency",
+      "url": "https://www.start.umd.edu/gtd/",
+      "license": "GTD terms of use (no redistribution; research use)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "1970 to ~2020",
+      "spatial_resolution": "Event locations",
+      "temporal_resolution": "Annual releases",
+      "update_frequency": "Annual",
+      "variables": [
+        "terrorism incidents",
+        "casualties",
+        "targets",
+        "perpetrators"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Research-grade terrorism archive; licence forbids redistribution.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.start.umd.edu/gtd/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: security-context reference (licence-limited).",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "usdm",
+      "name": "US Drought Monitor",
+      "provider": "USDA / NOAA / Univ. of Nebraska-Lincoln",
+      "provider_class": "government",
+      "url": "https://droughtmonitor.unl.edu/",
+      "license": "US Government / open (attribution requested)",
+      "geographic_coverage": "United States",
+      "temporal_coverage": "2000 to present",
+      "spatial_resolution": "County-level categories",
+      "temporal_resolution": "Weekly",
+      "update_frequency": "Weekly",
+      "variables": [
+        "drought categories (D0–D4)",
+        "percent area affected"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "wildfire",
+        "heat"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Expert-assessed drought classification; US-only.",
+      "access_method": "download",
+      "api_or_download_url": "https://droughtmonitor.unl.edu/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: US drought classification cross-check.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "edo",
+      "name": "Copernicus European Drought Observatory (EDO/GDO)",
+      "provider": "EU JRC (Copernicus EMS)",
+      "provider_class": "eu_copernicus",
+      "url": "https://drought.emergency.copernicus.eu/",
+      "license": "Copernicus free and open data policy",
+      "geographic_coverage": "Europe (GDO: global)",
+      "temporal_coverage": "2002 to present (indicators)",
+      "spatial_resolution": "Grid (~5–10 km)",
+      "temporal_resolution": "10-day composites",
+      "update_frequency": "Every 10 days",
+      "variables": [
+        "combined drought indicator",
+        "soil-moisture anomaly",
+        "precipitation deficit",
+        "vegetation stress"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "wildfire",
+        "heat"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Modelled drought indicators; screening-level.",
+      "access_method": "download",
+      "api_or_download_url": "https://drought.emergency.copernicus.eu/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: drought indicator cross-check for the drought module.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "gdacs-events",
+      "name": "GDACS multi-hazard event feed (beyond cyclones)",
+      "provider": "UN OCHA / EU JRC",
+      "provider_class": "un_agency",
+      "url": "https://www.gdacs.org/",
+      "license": "GDACS terms (open with attribution)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Real-time + archive since ~2004",
+      "spatial_resolution": "Event locations",
+      "temporal_resolution": "Near-real-time",
+      "update_frequency": "Continuous",
+      "variables": [
+        "earthquake alerts",
+        "flood alerts",
+        "volcano alerts",
+        "drought alerts",
+        "tsunami alerts"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought",
+        "cyclone",
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Multi-hazard alert feed; the platform already integrates the cyclone component (gdacs-tc) — this entry covers the remaining hazard feeds. API verified reachable 2026-09-03.",
+      "access_method": "api",
+      "api_or_download_url": "https://www.gdacs.org/gdacsapi/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: extend GDACS wiring beyond the integrated cyclone feed.",
+      "catalog_group": "hazard_disaster"
+    },
+    {
+      "id": "goes-r",
+      "name": "NOAA GOES-R series (GOES-East/West) on AWS",
+      "provider": "NOAA (via AWS Open Data)",
+      "provider_class": "government",
+      "url": "https://registry.opendata.aws/noaa-goes/",
+      "license": "NOAA open data",
+      "geographic_coverage": "Americas (full-disk hemispheric)",
+      "temporal_coverage": "2016 (GOES-16) to present",
+      "spatial_resolution": "0.5–2 km (ABI)",
+      "temporal_resolution": "5–15 minutes",
+      "update_frequency": "Continuous",
+      "variables": [
+        "ABI radiances",
+        "fire/hot-spot products",
+        "cloud",
+        "lightning (GLM)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "wind",
+        "cyclone",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Geostationary high-cadence imagery; real value is fire/weather nowcasting, not parcel analysis.",
+      "access_method": "download",
+      "api_or_download_url": "https://registry.opendata.aws/noaa-goes/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: nowcasting layer (fires, storms) at 5–15 min cadence.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "eumetsat",
+      "name": "EUMETSAT Data Store (Meteosat/Metop)",
+      "provider": "EUMETSAT (intergovernmental)",
+      "provider_class": "government",
+      "url": "https://data.eumetsat.int/",
+      "license": "EUMETSAT data policy (free registration; attribution)",
+      "geographic_coverage": "Europe/Africa (full-disk)",
+      "temporal_coverage": "Meteosat archive decades; near-real-time",
+      "spatial_resolution": "1–3 km (SEVIRI)",
+      "temporal_resolution": "15 minutes (10 min rapid scan)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "SEVIRI radiances",
+        "cloud products",
+        "fire products",
+        "atmospheric composition (Sentinel-4/5)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "heat",
+        "dust"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Geostationary coverage of Europe/Africa at high cadence; free registration required.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://data.eumetsat.int/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: nowcasting + dust for Europe/Africa/Middle East.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "himawari",
+      "name": "JMA Himawari-8/9 (via JAXA P-Tree)",
+      "provider": "JMA / JAXA",
+      "provider_class": "government",
+      "url": "https://www.eorc.jaxa.jp/ptree/",
+      "license": "JAXA P-Tree terms (free registration; research use)",
+      "geographic_coverage": "Asia-Pacific (full-disk)",
+      "temporal_coverage": "2015 (Himawari-8) to present",
+      "spatial_resolution": "0.5–2 km (AHI)",
+      "temporal_resolution": "10 minutes",
+      "update_frequency": "Continuous",
+      "variables": [
+        "AHI radiances",
+        "cloud",
+        "fire/hot spots",
+        "aerosol"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "cyclone",
+        "wind",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Geostationary Asia-Pacific coverage; P-Tree terms limit redistribution.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.eorc.jaxa.jp/ptree/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: Asia-Pacific nowcasting layer.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "jaxa-alos",
+      "name": "JAXA ALOS-2 (PALSAR-2) + AW3D30 global DSM",
+      "provider": "JAXA",
+      "provider_class": "scientific_agency",
+      "url": "https://www.eorc.jaxa.jp/ALOS-2/",
+      "license": "JAXA terms (research use; AW3D30 free)",
+      "geographic_coverage": "Global land",
+      "temporal_coverage": "2014 (ALOS-2) to present; AW3D30 static",
+      "spatial_resolution": "10 m (PALSAR-2) / 30 m (AW3D30)",
+      "temporal_resolution": "14-day revisit (tasked)",
+      "update_frequency": "Continuous",
+      "variables": [
+        "L-band SAR backscatter",
+        "global 30 m DSM",
+        "forest/non-forest",
+        "global wetland"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "wildfire",
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "L-band SAR penetrates canopy/cloud; archive access via JAXA AUIG (registration).",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.eorc.jaxa.jp/ALOS-2/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: SAR complement (flood mapping, forest structure).",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "gpm-imerg",
+      "name": "NASA GPM IMERG precipitation",
+      "provider": "NASA / JAXA",
+      "provider_class": "scientific_agency",
+      "url": "https://gpm.nasa.gov/data/imerg",
+      "license": "NASA open data (Earthdata login)",
+      "geographic_coverage": "Global (60°N–60°S)",
+      "temporal_coverage": "2000 to present",
+      "spatial_resolution": "0.1° (~11 km)",
+      "temporal_resolution": "30 minutes (latency hours–months by run)",
+      "update_frequency": "Half-hourly",
+      "variables": [
+        "precipitation rate",
+        "accumulated precipitation"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Satellite precipitation estimate — modelled, not gauge; ERA5 already integrated for analysis.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://gpm.nasa.gov/data/imerg",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: satellite precipitation cross-check (flood/drought).",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "smap",
+      "name": "NASA SMAP soil moisture",
+      "provider": "NASA JPL",
+      "provider_class": "scientific_agency",
+      "url": "https://smap.jpl.nasa.gov/",
+      "license": "NASA open data (Earthdata login)",
+      "geographic_coverage": "Global land",
+      "temporal_coverage": "2015 to present",
+      "spatial_resolution": "9–36 km",
+      "temporal_resolution": "2–3 day revisit",
+      "update_frequency": "Continuous",
+      "variables": [
+        "surface soil moisture",
+        "freeze/thaw state"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood",
+        "wildfire"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Coarse-resolution soil moisture; ERA5-Land 0–7 cm already integrated at finer granularity.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://smap.jpl.nasa.gov/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: independent soil-moisture cross-check.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "grace-fo",
+      "name": "NASA GRACE / GRACE-FO terrestrial water storage",
+      "provider": "NASA / GFZ",
+      "provider_class": "scientific_agency",
+      "url": "https://gracefo.jpl.nasa.gov/",
+      "license": "NASA open data (Earthdata login)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "2002 to present (with gap 2017–2018)",
+      "spatial_resolution": "~300 km",
+      "temporal_resolution": "Monthly",
+      "update_frequency": "Monthly",
+      "variables": [
+        "terrestrial water storage anomaly",
+        "groundwater trends"
+      ],
+      "hazard_relevance": [
+        "drought"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Very coarse; useful only for continental groundwater/drought trends.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://gracefo.jpl.nasa.gov/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: long-horizon groundwater/drought context.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "swot",
+      "name": "NASA/CNES SWOT surface-water topography",
+      "provider": "NASA / CNES",
+      "provider_class": "scientific_agency",
+      "url": "https://swot.jpl.nasa.gov/",
+      "license": "NASA open data (Earthdata login)",
+      "geographic_coverage": "Global (rivers, lakes, oceans)",
+      "temporal_coverage": "2022 to present",
+      "spatial_resolution": "~100 m (water-surface elevation)",
+      "temporal_resolution": "21-day repeat",
+      "update_frequency": "Continuous",
+      "variables": [
+        "water-surface elevation",
+        "river width",
+        "lake storage change"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought",
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "New-generation hydrology altimetry; short record so far.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://swot.jpl.nasa.gov/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: river/lake storage change for flood/drought context.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "viirs-dnb-eog",
+      "name": "NOAA/CIRES EOG VIIRS nighttime lights",
+      "provider": "NOAA Earth Observation Group (Colorado School of Mines)",
+      "provider_class": "government",
+      "url": "https://eogdata.mines.edu/products/vnl/",
+      "license": "EOG terms (free registration; attribution)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "2012 to present",
+      "spatial_resolution": "~500 m",
+      "temporal_resolution": "Nightly (cloud-masked composites)",
+      "update_frequency": "Daily/monthly/annual composites",
+      "variables": [
+        "nighttime radiance",
+        "human-settlement activity proxy",
+        "gas-flare detections"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Night-light proxy for economic activity/urbanisation; not a hazard measurement.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://eogdata.mines.edu/products/vnl/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: exposure/economic-activity proxy layer.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "planetary-computer",
+      "name": "Microsoft Planetary Computer (STAC catalogue)",
+      "provider": "Microsoft",
+      "provider_class": "commercial",
+      "url": "https://planetarycomputer.microsoft.com/",
+      "license": "Per-dataset licences (catalogue)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "Landsat C2 L2",
+        "Sentinel-2",
+        "MODIS",
+        "ESA WorldCover",
+        "CHIRPS",
+        "DEMs",
+        "climate projections"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "STAC catalogue of open environmental datasets with free SAS-signed reads — the platform's Landsat integration already runs through it (landsat-c2-l2).",
+      "access_method": "stac",
+      "api_or_download_url": "https://planetarycomputer.microsoft.com/api/stac/v1",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: catalogue harvester for additional collections beyond the integrated Landsat path.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "opentopography",
+      "name": "OpenTopography",
+      "provider": "UCSD / NSF",
+      "provider_class": "scientific_agency",
+      "url": "https://opentopography.org/",
+      "license": "Open with attribution (API key for bulk)",
+      "geographic_coverage": "Global (varies by dataset)",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "1–30 m (lidar/DEMs)",
+      "temporal_resolution": "Static",
+      "update_frequency": "Continuous (new datasets)",
+      "variables": [
+        "high-resolution DEMs",
+        "lidar point clouds",
+        "topographic derivatives"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "coastal",
+        "wildfire"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Finest public terrain data where available; coverage is uneven.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://opentopography.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: high-resolution terrain upgrade path (flood/coastal).",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "nasadem",
+      "name": "NASADEM global DEM",
+      "provider": "NASA JPL / LP DAAC",
+      "provider_class": "scientific_agency",
+      "url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-nasadem-hgt-001",
+      "license": "NASA open data (Earthdata login)",
+      "geographic_coverage": "Global (60°N–56°S)",
+      "temporal_coverage": "Static (2000 baseline, reprocessed 2020)",
+      "spatial_resolution": "30 m (1 arc-second)",
+      "temporal_resolution": "Static",
+      "update_frequency": "Static",
+      "variables": [
+        "elevation",
+        "slope",
+        "aspect (derivable)"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "coastal",
+        "wildfire"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Reprocessed SRTM; SRTM 90 m already integrated via OpenTopoData — this is the 30 m upgrade path.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-nasadem-hgt-001",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: 30 m global terrain upgrade (flood/slope terms).",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "copernicus-marine",
+      "name": "Copernicus Marine Service",
+      "provider": "Mercator Ocean International (Copernicus)",
+      "provider_class": "eu_copernicus",
+      "url": "https://marine.copernicus.eu/",
+      "license": "Copernicus free and open data policy (free registration)",
+      "geographic_coverage": "Global oceans",
+      "temporal_coverage": "1993 reanalysis to present + forecast",
+      "spatial_resolution": "1/12°–1/4°",
+      "temporal_resolution": "Daily",
+      "update_frequency": "Daily",
+      "variables": [
+        "sea-surface temperature",
+        "sea-level anomaly",
+        "currents",
+        "waves",
+        "sea ice"
+      ],
+      "hazard_relevance": [
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative ocean state; registration (free) required.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://marine.copernicus.eu/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: ocean-state layer for the coastal module.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "chirps",
+      "name": "UCSB CHIRPS precipitation archive",
+      "provider": "UC Santa Barbara Climate Hazards Center (with USGS)",
+      "provider_class": "scientific_agency",
+      "url": "https://www.chc.ucsb.edu/data/chirps",
+      "license": "Public domain",
+      "geographic_coverage": "Global land (50°N–50°S)",
+      "temporal_coverage": "1981 to present",
+      "spatial_resolution": "0.05° (~5 km)",
+      "temporal_resolution": "Daily/pentadal/monthly",
+      "update_frequency": "Continuous (lag of days–weeks)",
+      "variables": [
+        "precipitation",
+        "drought monitoring precipitation anomalies"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Long satellite+gauge precipitation record; complements ERA5 archive.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.chc.ucsb.edu/data/chirps",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: independent precipitation climatology cross-check.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "aws-open-data",
+      "name": "Registry of Open Data on AWS",
+      "provider": "Amazon Web Services",
+      "provider_class": "commercial",
+      "url": "https://registry.opendata.aws/",
+      "license": "Per-dataset licences (catalogue)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Varies by dataset",
+      "update_frequency": "Continuous",
+      "variables": [
+        "catalogue of cloud-hosted open datasets (GOES, Landsat, Sentinel, terrain, climate)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Catalogue, not a dataset — discovery layer for cloud-optimised open data.",
+      "access_method": "download",
+      "api_or_download_url": "https://registry.opendata.aws/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: discovery layer for cloud-native datasets.",
+      "catalog_group": "earth_observation"
+    },
+    {
+      "id": "cmip6-esgf",
+      "name": "CMIP6 climate projections (ESGF)",
+      "provider": "WCRP / ESGF federation",
+      "provider_class": "scientific_agency",
+      "url": "https://esgf-node.llnl.gov/projects/cmip6/",
+      "license": "Creative Commons (CC-BY-SA / CC-BY-NC-SA varies by modelling centre)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Historical 1850–2014 + scenarios to 2100",
+      "spatial_resolution": "~100 km (model-dependent)",
+      "temporal_resolution": "Monthly/daily",
+      "update_frequency": "Static archive",
+      "variables": [
+        "temperature",
+        "precipitation",
+        "extreme indices",
+        "sea-level drivers"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Multi-model projection ensemble; coarse grids, scenario uncertainty — projections only, never observations.",
+      "access_method": "download",
+      "api_or_download_url": "https://esgf-node.llnl.gov/projects/cmip6/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: long-horizon scenario layer (PROJECTED temporal class).",
+      "catalog_group": "climate"
+    },
+    {
+      "id": "ipcc-atlas",
+      "name": "IPCC WGI Interactive Atlas",
+      "provider": "IPCC Working Group I",
+      "provider_class": "scientific_agency",
+      "url": "https://interactive-atlas.ipcc.ch/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (regions)",
+      "temporal_coverage": "1995–2014 baseline + scenarios to 2100",
+      "spatial_resolution": "Regions / model grids",
+      "temporal_resolution": "Static",
+      "update_frequency": "Static (per assessment cycle)",
+      "variables": [
+        "climate-impact-driver changes",
+        "temperature/precipitation projections"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Assessment-synthesis projections; regional granularity.",
+      "access_method": "download",
+      "api_or_download_url": "https://interactive-atlas.ipcc.ch/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: citable scenario layer for long-horizon reports.",
+      "catalog_group": "climate"
+    },
+    {
+      "id": "noaa-gml",
+      "name": "NOAA Global Monitoring Laboratory",
+      "provider": "NOAA GML (US)",
+      "provider_class": "government",
+      "url": "https://gml.noaa.gov/",
+      "license": "NOAA open data",
+      "geographic_coverage": "Global (observatory network)",
+      "temporal_coverage": "Decades (station-dependent)",
+      "spatial_resolution": "Station observations",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "greenhouse-gas concentrations",
+        "aerosols",
+        "radiation"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Reference GHG observations; station network, not gridded.",
+      "access_method": "download",
+      "api_or_download_url": "https://gml.noaa.gov/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: atmospheric-composition reference layer.",
+      "catalog_group": "climate"
+    },
+    {
+      "id": "climate-trace",
+      "name": "Climate TRACE emissions inventory",
+      "provider": "Climate TRACE coalition (non-profit)",
+      "provider_class": "community",
+      "url": "https://climatetrace.org/",
+      "license": "Open (attribution requested)",
+      "geographic_coverage": "Global (facility + country)",
+      "temporal_coverage": "2015 to present",
+      "spatial_resolution": "Facility-level + country",
+      "temporal_resolution": "Monthly/annual",
+      "update_frequency": "Periodic",
+      "variables": [
+        "GHG emissions by sector",
+        "facility-level emitters",
+        "power-plant emissions"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Satellite+model emissions estimates; independent of national reporting.",
+      "access_method": "download",
+      "api_or_download_url": "https://climatetrace.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: emissions/exposure context (ESG angle).",
+      "catalog_group": "climate"
+    },
+    {
+      "id": "wri-aqueduct",
+      "name": "WRI Aqueduct water-risk atlas",
+      "provider": "World Resources Institute",
+      "provider_class": "community",
+      "url": "https://www.wri.org/aqueduct",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Baseline + projections to 2080",
+      "spatial_resolution": "Sub-basin",
+      "temporal_resolution": "Static releases",
+      "update_frequency": "Periodic",
+      "variables": [
+        "water stress",
+        "flood risk",
+        "drought risk",
+        "water depletion"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Screening-level water-risk scores at sub-basin granularity.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.wri.org/aqueduct",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: water-risk cross-check for drought/flood modules.",
+      "catalog_group": "climate"
+    },
+    {
+      "id": "berkeley-earth",
+      "name": "Berkeley Earth temperature record",
+      "provider": "Berkeley Earth (non-profit)",
+      "provider_class": "scientific_agency",
+      "url": "https://berkeleyearth.org/data/",
+      "license": "Berkeley Earth terms (verify commercial terms)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "1750 to present (land)",
+      "spatial_resolution": "Station/gridded (1°)",
+      "temporal_resolution": "Monthly",
+      "update_frequency": "Monthly",
+      "variables": [
+        "surface-air temperature",
+        "temperature anomalies"
+      ],
+      "hazard_relevance": [
+        "heat"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Independent temperature reconstruction; commercial terms to verify.",
+      "access_method": "download",
+      "api_or_download_url": "https://berkeleyearth.org/data/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: independent temperature cross-check for the heat module.",
+      "catalog_group": "climate"
+    },
+    {
+      "id": "gbif",
+      "name": "GBIF — Global Biodiversity Information Facility",
+      "provider": "GBIF Secretariat (intergovernmental)",
+      "provider_class": "scientific_agency",
+      "url": "https://www.gbif.org/",
+      "license": "CC0 / CC-BY / CC-BY-NC (per dataset)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Historical collections to present",
+      "spatial_resolution": "Occurrence points",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "species occurrences",
+        "ecosystem observations"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Occurrence data; licence varies per dataset (NC subsets restrict commercial use). API verified reachable 2026-09-03.",
+      "access_method": "api",
+      "api_or_download_url": "https://api.gbif.org/v1/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: ecological context for land/ecology layers.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "iucn-redlist",
+      "name": "IUCN Red List of Threatened Species",
+      "provider": "IUCN",
+      "provider_class": "community",
+      "url": "https://www.iucnredlist.org/",
+      "license": "IUCN terms (free for non-commercial)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Assessment archive",
+      "spatial_resolution": "Species ranges",
+      "temporal_resolution": "Assessment cycles",
+      "update_frequency": "Periodic",
+      "variables": [
+        "species threat status",
+        "range maps",
+        "habitat preferences"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Conservation status; non-commercial terms.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.iucnredlist.org/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: protected-species context (environmental licensing angle).",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "protected-planet",
+      "name": "Protected Planet (WDPA)",
+      "provider": "UNEP-WCMC + IUCN",
+      "provider_class": "un_agency",
+      "url": "https://www.protectedplanet.net/",
+      "license": "WDPA terms (free for non-commercial)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Continuously updated",
+      "spatial_resolution": "Protected-area polygons",
+      "temporal_resolution": "Monthly releases",
+      "update_frequency": "Monthly",
+      "variables": [
+        "protected-area boundaries",
+        "conservation designations"
+      ],
+      "hazard_relevance": [
+        "wildfire"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative protected-area register; commercial use requires UNEP-WCMC licence.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.protectedplanet.net/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: protected-area constraints for siting/licensing.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "openaq",
+      "name": "OpenAQ air-quality archive",
+      "provider": "OpenAQ (non-profit)",
+      "provider_class": "community",
+      "url": "https://openaq.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (station network)",
+      "temporal_coverage": "2013 to present",
+      "spatial_resolution": "Station observations",
+      "temporal_resolution": "Hourly",
+      "update_frequency": "Continuous",
+      "variables": [
+        "PM2.5",
+        "PM10",
+        "NO2",
+        "O3",
+        "SO2",
+        "CO"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "heat",
+        "dust"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Reference/station air-quality archive; v3 API requires a free key (v2 retired — HTTP 410 verified 2026-09-03).",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://api.openaq.org/v3/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: smoke/air-quality exposure layer.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "e-prtr",
+      "name": "European pollutant register (E-PRTR / IED portal)",
+      "provider": "European Environment Agency / European Commission",
+      "provider_class": "government",
+      "url": "https://industry.eea.europa.eu/",
+      "license": "EEA data terms (free with attribution)",
+      "geographic_coverage": "EU/EEA",
+      "temporal_coverage": "2001 to present",
+      "spatial_resolution": "Facility-level",
+      "temporal_resolution": "Annual",
+      "update_frequency": "Annual",
+      "variables": [
+        "pollutant releases",
+        "industrial facilities",
+        "emissions to air/water/soil"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Facility-level industrial emissions; EU-only.",
+      "access_method": "download",
+      "api_or_download_url": "https://industry.eea.europa.eu/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: industrial-facility exposure context.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "hydrosheds",
+      "name": "HydroSHEDS hydrological basins & river network",
+      "provider": "USGS / WWF / TNC consortium",
+      "provider_class": "scientific_agency",
+      "url": "https://www.hydrosheds.org/",
+      "license": "HydroSHEDS licence (free for non-commercial)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Static (SRTM-era topography)",
+      "spatial_resolution": "~500 m (15 arc-second)",
+      "temporal_resolution": "Static",
+      "update_frequency": "Static",
+      "variables": [
+        "river networks",
+        "catchment boundaries",
+        "flow accumulation"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Standard hydrographic scaffold; non-commercial licence.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.hydrosheds.org/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: catchment topology for flood context.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "gems-water",
+      "name": "UNEP GEMS/Water (GEMStat)",
+      "provider": "UN Environment Programme (ICWRGC host)",
+      "provider_class": "un_agency",
+      "url": "https://gemstat.org/",
+      "license": "GEMStat terms (scientific/non-commercial use)",
+      "geographic_coverage": "Global (station network)",
+      "temporal_coverage": "1965 to present (varies)",
+      "spatial_resolution": "Station observations",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Periodic",
+      "variables": [
+        "surface-water quality",
+        "nutrients",
+        "contaminants"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Reference water-quality archive; non-commercial terms.",
+      "access_method": "download",
+      "api_or_download_url": "https://gemstat.org/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: water-quality context layer.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "soilgrids",
+      "name": "ISRIC SoilGrids 250 m",
+      "provider": "ISRIC — World Soil Information",
+      "provider_class": "scientific_agency",
+      "url": "https://soilgrids.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global land",
+      "temporal_coverage": "Static (current snapshot)",
+      "spatial_resolution": "250 m",
+      "temporal_resolution": "Static",
+      "update_frequency": "Periodic releases",
+      "variables": [
+        "soil texture",
+        "organic carbon",
+        "pH",
+        "bulk density",
+        "water retention"
+      ],
+      "hazard_relevance": [
+        "drought",
+        "flood",
+        "wildfire"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Modelled soil properties; screening-level. REST API verified reachable 2026-09-03 (rest.isric.org).",
+      "access_method": "api",
+      "api_or_download_url": "https://rest.isric.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: soil/permeability layer (flood infiltration, drought).",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "gebco",
+      "name": "GEBCO global ocean & land terrain",
+      "provider": "GEBCO (IHO/IOC)",
+      "provider_class": "scientific_agency",
+      "url": "https://www.gebco.net/",
+      "license": "Public domain (grid)",
+      "geographic_coverage": "Global oceans + land",
+      "temporal_coverage": "Annual grid releases",
+      "spatial_resolution": "15 arc-second (~450 m)",
+      "temporal_resolution": "Annual",
+      "update_frequency": "Annual",
+      "variables": [
+        "bathymetry",
+        "ocean depth",
+        "coastal terrain"
+      ],
+      "hazard_relevance": [
+        "coastal",
+        "flood"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Reference bathymetry; coastal-risk relevance (tsunami/storm-surge screening).",
+      "access_method": "download",
+      "api_or_download_url": "https://www.gebco.net/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: bathymetric layer for coastal module.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "emodnet",
+      "name": "EMODnet European marine data",
+      "provider": "European Commission (DG MARE)",
+      "provider_class": "government",
+      "url": "https://emodnet.ec.europa.eu/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "European seas",
+      "temporal_coverage": "Varies by dataset",
+      "spatial_resolution": "Varies by dataset",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "bathymetry",
+        "seabed habitats",
+        "ocean chemistry",
+        "human activities at sea"
+      ],
+      "hazard_relevance": [
+        "coastal"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "European marine observation network data.",
+      "access_method": "download",
+      "api_or_download_url": "https://emodnet.ec.europa.eu/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: European marine/coastal context.",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "geoglows",
+      "name": "GEOGLOWS global streamflow forecasts",
+      "provider": "Group on Earth Observations (with ECMWF)",
+      "provider_class": "scientific_agency",
+      "url": "https://geoglows.ecmwf.int/",
+      "license": "Open (attribution requested)",
+      "geographic_coverage": "Global (river network)",
+      "temporal_coverage": "1979 retrospective to present + 15-day forecast",
+      "spatial_resolution": "River reaches (~150k segments)",
+      "temporal_resolution": "Daily forecast",
+      "update_frequency": "Daily",
+      "variables": [
+        "river discharge forecasts",
+        "retrospective discharge"
+      ],
+      "hazard_relevance": [
+        "flood",
+        "drought"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Modelled streamflow per reach; complements GloFAS (already integrated via Open-Meteo).",
+      "access_method": "api",
+      "api_or_download_url": "https://geoglows.ecmwf.int/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: second discharge provider (closes the declared single-provider gap).",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "overture-maps",
+      "name": "Overture Maps Foundation",
+      "provider": "Overture Maps Foundation (Linux Foundation)",
+      "provider_class": "community",
+      "url": "https://overturemaps.org/",
+      "license": "CDLA-Permissive 2.0",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Current snapshot",
+      "spatial_resolution": "Feature-level",
+      "temporal_resolution": "Monthly releases",
+      "update_frequency": "Monthly",
+      "variables": [
+        "buildings",
+        "roads",
+        "places",
+        "administrative boundaries"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Conflated open map features complementing OSM (already integrated).",
+      "access_method": "download",
+      "api_or_download_url": "https://overturemaps.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: second built-environment exposure source (never merged with OSM — reported per provider).",
+      "catalog_group": "environment"
+    },
+    {
+      "id": "global-energy-monitor",
+      "name": "Global Energy Monitor trackers",
+      "provider": "Global Energy Monitor (non-profit)",
+      "provider_class": "community",
+      "url": "https://globalenergymonitor.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (facility-level)",
+      "temporal_coverage": "Current + announced projects",
+      "spatial_resolution": "Facility-level",
+      "temporal_resolution": "Periodic releases",
+      "update_frequency": "Periodic",
+      "variables": [
+        "power-plant registry",
+        "coal/gas/oil infrastructure",
+        "renewables pipelines",
+        "mining"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Facility-level energy infrastructure; research-grade curation.",
+      "access_method": "download",
+      "api_or_download_url": "https://globalenergymonitor.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: energy-infrastructure exposure + transition-risk context.",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "ember",
+      "name": "Ember electricity data",
+      "provider": "Ember (non-profit think tank)",
+      "provider_class": "community",
+      "url": "https://ember-energy.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (country/regional)",
+      "temporal_coverage": "2000 to present",
+      "spatial_resolution": "Country / bidding zone",
+      "temporal_resolution": "Monthly",
+      "update_frequency": "Monthly",
+      "variables": [
+        "electricity generation mix",
+        "demand",
+        "carbon intensity",
+        "capacity"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Curated electricity statistics; API verified reachable 2026-09-03 (api.ember-energy.org).",
+      "access_method": "api",
+      "api_or_download_url": "https://api.ember-energy.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: grid-carbon context for siting/ESG reports.",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "iea",
+      "name": "IEA data & statistics",
+      "provider": "International Energy Agency",
+      "provider_class": "government",
+      "url": "https://www.iea.org/data-and-statistics",
+      "license": "IEA terms (largely licensed; CC-BY for some)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "Varies",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual/monthly",
+      "update_frequency": "Continuous",
+      "variables": [
+        "energy balances",
+        "electricity",
+        "renewables",
+        "emissions"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative energy statistics; much of it licence-restricted.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.iea.org/data-and-statistics",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: energy context (licence-gated).",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "irena",
+      "name": "IRENA renewable-energy statistics",
+      "provider": "International Renewable Energy Agency",
+      "provider_class": "government",
+      "url": "https://www.irena.org/Data",
+      "license": "IRENA terms (free with attribution)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "2000 to present",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual",
+      "update_frequency": "Annual",
+      "variables": [
+        "renewable capacity",
+        "generation",
+        "investment"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Renewables baseline for siting intelligence.",
+      "access_method": "download",
+      "api_or_download_url": "https://www.irena.org/Data",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: renewables context for the planned siting-intelligence service.",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "entsoe",
+      "name": "ENTSO-E Transparency Platform",
+      "provider": "ENTSO-E (European TSO association)",
+      "provider_class": "community",
+      "url": "https://transparency.entsoe.eu/",
+      "license": "ENTSO-E terms (free registration; reuse terms to verify)",
+      "geographic_coverage": "Europe",
+      "temporal_coverage": "2015 to present",
+      "spatial_resolution": "Bidding zones",
+      "temporal_resolution": "Hourly",
+      "update_frequency": "Continuous",
+      "variables": [
+        "load",
+        "generation by type",
+        "cross-border flows",
+        "prices"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Operational grid data for Europe; free registration; commercial reuse terms to verify.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://transparency.entsoe.eu/",
+      "commercial_use": "unknown",
+      "status": "candidate",
+      "status_note": "Candidate: grid-stress context for infrastructure exposure.",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "eia",
+      "name": "US EIA open data",
+      "provider": "US Energy Information Administration",
+      "provider_class": "government",
+      "url": "https://www.eia.gov/opendata/",
+      "license": "US Government (open)",
+      "geographic_coverage": "United States (+ international series)",
+      "temporal_coverage": "Varies by series",
+      "spatial_resolution": "State/national",
+      "temporal_resolution": "Hourly–annual by series",
+      "update_frequency": "Continuous",
+      "variables": [
+        "electricity",
+        "fuel",
+        "emissions",
+        "prices"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "US energy reference; free API key required (registration).",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.eia.gov/opendata/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: US energy context.",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "open-power-system-data",
+      "name": "Open Power System Data",
+      "provider": "OPSD community (non-profit project)",
+      "provider_class": "community",
+      "url": "https://open-power-system-data.org/",
+      "license": "Open licences (per package)",
+      "geographic_coverage": "Europe (focus)",
+      "temporal_coverage": "Varies by package",
+      "spatial_resolution": "Country/plant",
+      "temporal_resolution": "Static packages",
+      "update_frequency": "Periodic",
+      "variables": [
+        "power plants",
+        "time series (load, generation)",
+        "capacity"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Curated open power-system packages.",
+      "access_method": "download",
+      "api_or_download_url": "https://open-power-system-data.org/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: European power-system context.",
+      "catalog_group": "energy_infrastructure"
+    },
+    {
+      "id": "bis-data",
+      "name": "BIS data portal (SDMX)",
+      "provider": "Bank for International Settlements",
+      "provider_class": "government",
+      "url": "https://data.bis.org/",
+      "license": "BIS terms (free with attribution)",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "Varies by series",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Quarterly/monthly",
+      "update_frequency": "Continuous",
+      "variables": [
+        "credit",
+        "property prices",
+        "exchange rates",
+        "banking statistics"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Macro-financial context; SDMX API verified reachable 2026-09-03 (stats.bis.org).",
+      "access_method": "api",
+      "api_or_download_url": "https://stats.bis.org/api/v1/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: financial-conditions context for impact/economic models.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "ecb-data",
+      "name": "ECB Data Portal (SDMX)",
+      "provider": "European Central Bank",
+      "provider_class": "government",
+      "url": "https://data.ecb.europa.eu/",
+      "license": "ECB terms (free with attribution)",
+      "geographic_coverage": "Euro area / EU",
+      "temporal_coverage": "Varies by series",
+      "spatial_resolution": "Country/euro area",
+      "temporal_resolution": "Daily–quarterly",
+      "update_frequency": "Continuous",
+      "variables": [
+        "monetary statistics",
+        "rates",
+        "securities",
+        "banking supervision data"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Euro-area financial context.",
+      "access_method": "api",
+      "api_or_download_url": "https://data.ecb.europa.eu/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: euro-area financial context.",
+      "catalog_group": "international_org"
+    },
+    {
+      "id": "opencorporates",
+      "name": "OpenCorporates company registry",
+      "provider": "OpenCorporates Ltd",
+      "provider_class": "commercial",
+      "url": "https://opencorporates.com/",
+      "license": "OpenCorporates terms (free tier; commercial licences)",
+      "geographic_coverage": "Global (200+ jurisdictions)",
+      "temporal_coverage": "Current registry snapshots",
+      "spatial_resolution": "Legal entities",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "company registrations",
+        "officers",
+        "jurisdictions",
+        "corporate networks"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Largest open company-data aggregation; provenance-linked to primary registries.",
+      "access_method": "api",
+      "api_or_download_url": "https://api.opencorporates.com/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: entity verification for asset/counterparty records (Evidence layer).",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "opensanctions",
+      "name": "OpenSanctions",
+      "provider": "OpenSanctions (company; data from public sources)",
+      "provider_class": "commercial",
+      "url": "https://www.opensanctions.org/",
+      "license": "OpenSanctions terms (free for non-commercial; commercial subscription)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Continuously updated",
+      "spatial_resolution": "Entities/persons",
+      "temporal_resolution": "Daily",
+      "update_frequency": "Daily",
+      "variables": [
+        "sanctions lists",
+        "PEPs",
+        "debarments",
+        "entity graph"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Consolidated sanctions/PEP screening data with provenance; commercial use requires subscription.",
+      "access_method": "registration_required",
+      "api_or_download_url": "https://www.opensanctions.org/",
+      "commercial_use": "restricted",
+      "status": "candidate",
+      "status_note": "Candidate: counterparty screening for commercial reports (Evidence layer).",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "gleif",
+      "name": "GLEIF LEI reference data",
+      "provider": "Global Legal Entity Identifier Foundation (non-profit)",
+      "provider_class": "community",
+      "url": "https://www.gleif.org/",
+      "license": "GLEIF terms (data freely available)",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Continuously updated",
+      "spatial_resolution": "Legal entities",
+      "temporal_resolution": "Daily",
+      "update_frequency": "Daily",
+      "variables": [
+        "Legal Entity Identifiers",
+        "entity legal forms",
+        "ownership consolidation"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative LEI reference; free REST API (api.gleif.org).",
+      "access_method": "api",
+      "api_or_download_url": "https://www.gleif.org/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: legal-entity resolution for asset ownership records.",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "sec-edgar",
+      "name": "US SEC EDGAR filings",
+      "provider": "US Securities and Exchange Commission",
+      "provider_class": "government",
+      "url": "https://www.sec.gov/edgar",
+      "license": "US Government (public domain)",
+      "geographic_coverage": "United States",
+      "temporal_coverage": "1994 to present",
+      "spatial_resolution": "Company filings",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "corporate filings",
+        "10-K/10-Q",
+        "XBRL company facts"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Authoritative US corporate disclosure; fair-access rate limits apply.",
+      "access_method": "api",
+      "api_or_download_url": "https://www.sec.gov/edgar",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: disclosure cross-check for listed counterparties (Evidence layer).",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "wikidata",
+      "name": "Wikidata (SPARQL)",
+      "provider": "Wikimedia Foundation",
+      "provider_class": "community",
+      "url": "https://www.wikidata.org/",
+      "license": "CC0",
+      "geographic_coverage": "Global",
+      "temporal_coverage": "Continuously updated",
+      "spatial_resolution": "Entities/places",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "places",
+        "organizations",
+        "infrastructure",
+        "geographic relations"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Community knowledge graph — discovery/cross-reference only, never sole evidence.",
+      "access_method": "api",
+      "api_or_download_url": "https://query.wikidata.org/sparql",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: entity/place cross-referencing in the evidence graph.",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "crossref",
+      "name": "Crossref REST API",
+      "provider": "Crossref (non-profit membership organisation)",
+      "provider_class": "community",
+      "url": "https://www.crossref.org/",
+      "license": "Metadata largely CC0",
+      "geographic_coverage": "Global (scholarly)",
+      "temporal_coverage": "Centuries of publications",
+      "spatial_resolution": "Publications",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "DOIs",
+        "publications",
+        "citations",
+        "funders",
+        "retractions"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Scholarly metadata for the scientific-evidence layer. API verified reachable 2026-09-03.",
+      "access_method": "api",
+      "api_or_download_url": "https://api.crossref.org/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: scientific-evidence links (DOI-level citations in reports).",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "openalex",
+      "name": "OpenAlex scholarly index",
+      "provider": "OurResearch (non-profit)",
+      "provider_class": "community",
+      "url": "https://openalex.org/",
+      "license": "CC0",
+      "geographic_coverage": "Global (scholarly)",
+      "temporal_coverage": "Continuously updated",
+      "spatial_resolution": "Publications/authors/institutions",
+      "temporal_resolution": "Continuous",
+      "update_frequency": "Continuous",
+      "variables": [
+        "publications",
+        "authors",
+        "institutions",
+        "topics",
+        "citations"
+      ],
+      "hazard_relevance": [],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Open scholarly knowledge graph. API verified reachable 2026-09-03.",
+      "access_method": "api",
+      "api_or_download_url": "https://api.openalex.org/",
+      "commercial_use": "allowed",
+      "status": "candidate",
+      "status_note": "Candidate: scientific-evidence discovery for methods/validation claims.",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "owid",
+      "name": "Our World in Data",
+      "provider": "Our World in Data (non-profit, Oxford)",
+      "provider_class": "community",
+      "url": "https://ourworldindata.org/",
+      "license": "CC-BY 4.0",
+      "geographic_coverage": "Global (country-level)",
+      "temporal_coverage": "Long-run historical series",
+      "spatial_resolution": "Country",
+      "temporal_resolution": "Annual (mostly)",
+      "update_frequency": "Periodic",
+      "variables": [
+        "energy",
+        "health",
+        "environment",
+        "disasters (curated)"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "flood",
+        "drought",
+        "heat",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "provenance": "Catalogued 2026-09-03 (Talaix Data Observatory global open-data extension); portal URL reachability-checked 2026-09-03. Not wired into any pipeline — candidate for evaluation.",
+      "quality": "Curated research-grade visualisations/datasets; country granularity.",
+      "access_method": "download",
+      "api_or_download_url": "https://ourworldindata.org/",
+      "commercial_use": "allowed_with_attribution",
+      "status": "candidate",
+      "status_note": "Candidate: curated long-run context series.",
+      "catalog_group": "evidence_knowledge"
+    },
+    {
+      "id": "landsat-c2-l2",
+      "name": "USGS/NASA Landsat Collection 2 Level-2 (via Microsoft Planetary Computer STAC)",
+      "provider": "USGS / NASA (catalog: Microsoft Planetary Computer)",
+      "provider_class": "scientific_agency",
+      "url": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2",
+      "license": "Landsat data are in the public domain (USGS)",
+      "geographic_coverage": "Global land",
+      "temporal_coverage": "1982 (Landsat 4–5 TM) to present; OLI/TIRS (Landsat 8/9) since 2013",
+      "spatial_resolution": "30 m (visible/NIR/SWIR)",
+      "temporal_resolution": "16-day revisit per satellite (~8 days combined Landsat 8+9)",
+      "update_frequency": "New scenes continuously; STAC publication lag of days",
+      "variables": [
+        "surface reflectance",
+        "NDVI",
+        "NDMI",
+        "NDWI",
+        "QA_PIXEL cloud/cirrus/shadow/snow/fill mask"
+      ],
+      "hazard_relevance": [
+        "wildfire",
+        "drought",
+        "flood"
+      ],
+      "provenance": "Integrated 2026-09-03: Planetary Computer STAC search → SAS-signed windowed COG reads verified end-to-end (HTTP 206 range read) 2026-09-03. The Element84 Earth Search catalog indexes the same scenes but its asset hrefs point at the requester-pays usgs-landsat bucket (anonymous reads refused, HTTP 403 verified 2026-09-03) — hence the Planetary Computer path.",
+      "quality": "Coarser than Sentinel-2 (30 m vs 10 m); 16-day revisit per satellite; optical sensor — unusable under persistent cloud cover. Wired as fallback when Sentinel-2 has no usable scene.",
+      "access_method": "stac",
+      "api_or_download_url": "https://planetarycomputer.microsoft.com/api/stac/v1",
+      "commercial_use": "allowed",
+      "status": "integrated",
+      "status_note": "Integrated: optical-satellite fallback in analysis — src/dashboard/real_data.py fetch_satellite_data tries Sentinel-2 first, then src/gis_mapping/landsat_data.py LandsatDataAccess (NDVI/NDMI/NDWI at 30 m); the micro-area block names the sensor that actually delivered the scene.",
+      "data_quality_profile": {
+        "freshness": "16-day revisit per satellite (~8 days combined Landsat 8+9); STAC publication lag of days",
+        "completeness": "Coarser than Sentinel-2 (30 m vs 10 m); optical sensor — unusable under persistent cloud cover; used only as fallback when Sentinel-2 has no usable scene.",
+        "spatial_resolution_note": "30 m (visible/NIR/SWIR bands)",
+        "temporal_resolution_note": "16-day revisit per satellite (~8 days combined Landsat 8+9)",
+        "provenance_note": "Integrated 2026-09-03: Planetary Computer STAC + SAS-signed reads verified end-to-end (HTTP 206); Earth Search usgs-landsat bucket is requester-pays (403 anonymous), hence the PC path.",
+        "validation": "Access path verified live 2026-09-03 (STAC search, SAS signing, windowed range read); offline unit tests cover band mapping, QA_PIXEL masking, scale/offset fallback and the fetch_satellite_data fallback chain (tests/test_landsat_data.py).",
+        "coverage_note": "Global land; Collection 2 Level-2 surface reflectance (1982–present; OLI/TIRS since 2013).",
+        "licensing_note": "Landsat data are in the public domain (USGS); commercial use allowed."
+      },
+      "catalog_group": "earth_observation"
     }
   ]
 }

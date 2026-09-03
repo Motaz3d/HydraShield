@@ -27,6 +27,7 @@
 ## Public APIs (read-only, JSON)
 
 - [Data-source registry](https://talaix.com/api/sources): every data source evaluated — integrated / candidate / rejected
+- [Data Observatory](https://talaix.com/api/v2/registry): the full global open-data catalogue (167 datasets — portals, hazard archives, earth observation, climate, environment, energy, evidence), grouped by catalog_group; `?status=` `?hazard=` `?provider_class=` filters
 - [Hazard registry](https://talaix.com/api/v2/hazards): registered hazard modules with temporal coverage and sources
 - [Frameworks reference](https://talaix.com/api/v2/sustainability/frameworks): CSRD/ESRS, EU Taxonomy, SB 253/261, CSDS coverage map
 - [Briefs API](https://talaix.com/api/v2/briefs): published evidence briefs and explainers

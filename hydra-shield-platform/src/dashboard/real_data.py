@@ -631,7 +631,7 @@ def classify_source_label(kind: str) -> str:
         "reanalysis": "Reanalysis (ERA5)",
         "dem": "DEM",
         "model": "Model-derived",
-        "satellite": "Satellite observation (Sentinel-2)",
+        "satellite": "Satellite observation (Sentinel-2, Landsat fallback)",
         "fire": "Active fire detection (NASA FIRMS)",
     }
     return labels.get(kind, kind)
@@ -639,25 +639,32 @@ def classify_source_label(kind: str) -> str:
 
 def fetch_satellite_data(lat: float, lon: float, days_back: int = 30) -> Dict:
     """
-    Fetch the latest real Sentinel-2 observation for a location.
+    Fetch the latest real optical-satellite observation for a location.
 
-    Goes to the Copernicus data access module, which queries a public STAC
-    catalog for real Level-2A scenes and computes NDVI/NDMI/NDWI from the
-    actual spectral bands. Returns an ``error`` entry when no usable scene
-    exists (e.g. persistent cloud cover) — nothing is fabricated.
+    Sentinel-2 (10 m) via the Copernicus data access module first; when no
+    usable Sentinel-2 scene exists (persistent cloud, revisit gap), falls
+    back to Landsat Collection 2 Level-2 (30 m) via the Planetary Computer
+    STAC — the observation's ``source`` field always names the sensor that
+    actually delivered the scene. Returns an ``error`` entry only when both
+    sensors have nothing usable — nothing is fabricated.
     """
     from ..gis_mapping.copernicus_data import CopernicusDataAccess
+    from ..gis_mapping.landsat_data import LandsatDataAccess
 
     try:
-        copernicus_access = CopernicusDataAccess()
-        observation = copernicus_access.get_latest_observation(
+        observation = CopernicusDataAccess().get_latest_observation(
             lat, lon, days_back=days_back, max_cloud_cover=40.0
         )
+        if observation is None:
+            # Sentinel-2 gap (cloud cover / revisit) — try Landsat C2 L2.
+            observation = LandsatDataAccess().get_latest_observation(
+                lat, lon, days_back=days_back, max_cloud_cover=40.0
+            )
 
         if observation is None:
             return {
-                "error": "No recent cloud-free Sentinel-2 scene available",
-                "source": "Sentinel-2 L2A (Earth Search STAC)",
+                "error": "No recent cloud-free Sentinel-2 or Landsat scene available",
+                "source": "Sentinel-2 L2A / Landsat C2 L2 (public STAC)",
                 "note": "Cloud cover or revisit gap may prevent observation in this area",
             }
 
@@ -678,7 +685,7 @@ def fetch_satellite_data(lat: float, lon: float, days_back: int = 30) -> Dict:
     except Exception as exc:
         return {
             "error": f"Satellite data fetch failed: {exc}",
-            "source": "Sentinel-2 L2A (Earth Search STAC)",
+            "source": "Sentinel-2 L2A / Landsat C2 L2 (public STAC)",
         }
 
 

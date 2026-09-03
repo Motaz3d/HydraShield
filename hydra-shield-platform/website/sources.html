@@ -27,6 +27,19 @@
             </p>
             <div id="statusArea"></div>
             <div id="sourcesArea"></div>
+
+            <h2 style="margin-top:2.5rem;">Global Open-Data Observatory</h2>
+            <p class="page-lead">
+                The wider catalogue the analytical engine draws on: global and
+                national open-data portals, international organisations, hazard
+                and disaster archives, earth-observation programmes, climate and
+                environment datasets, and entity/evidence registries. Candidates
+                are catalogued for evaluation — nothing is claimed as used unless
+                its status is <em>integrated</em>. Machine-readable form:
+                <a href="/api/v2/registry" target="_blank" rel="noopener">/api/v2/registry</a>.
+            </p>
+            <div id="obsStatusArea"></div>
+            <div id="obsArea"></div>
         </div>
     </main>
 
@@ -70,6 +83,73 @@
         }).catch(function () {
             document.getElementById('statusArea').innerHTML =
                 '<div class="notice notice-error">Source registry could not be reached.</div>';
+        });
+
+        /* ---- Global Open-Data Observatory (/api/v2/registry) ---- */
+        var GROUP_LABELS = {
+            core: 'Core platform datasets',
+            global_portal: 'Global & regional data catalogues',
+            national_portal: 'National open-data portals',
+            national_service: 'National met & geo services',
+            international_org: 'International organisations',
+            hazard_disaster: 'Hazard, disaster & conflict',
+            earth_observation: 'Earth observation & satellite',
+            climate: 'Climate & projections',
+            environment: 'Environment, water & biodiversity',
+            socio_economic: 'Population & socio-economic exposure',
+            energy_infrastructure: 'Energy & infrastructure',
+            evidence_knowledge: 'Entity, evidence & knowledge'
+        };
+        var GROUP_ORDER = [
+            'global_portal', 'national_portal', 'national_service',
+            'international_org', 'hazard_disaster', 'earth_observation',
+            'climate', 'environment', 'socio_economic',
+            'energy_infrastructure', 'evidence_knowledge', 'core'
+        ];
+        fetchJSON(API + '/v2/registry').then(function (res) {
+            if (!res.ok || !res.body.datasets) {
+                document.getElementById('obsStatusArea').innerHTML =
+                    '<div class="notice notice-error">Data observatory unavailable.</div>';
+                return;
+            }
+            var entries = res.body.datasets;
+            var grouped = {};
+            entries.forEach(function (d) {
+                var g = d.catalog_group || 'core';
+                (grouped[g] = grouped[g] || []).push(d);
+            });
+            document.getElementById('obsStatusArea').innerHTML =
+                '<div class="notice notice-info">' + entries.length +
+                ' catalogued datasets · integrated means wired into a live pipeline,' +
+                ' candidate means catalogued for evaluation only</div>';
+            document.getElementById('obsArea').innerHTML =
+                GROUP_ORDER.filter(function (g) { return grouped[g]; })
+                .map(function (g) {
+                    var rows = grouped[g].slice().sort(function (a, b) {
+                        return (statusOrder[a.status] || 9) - (statusOrder[b.status] || 9) ||
+                            a.name.localeCompare(b.name);
+                    });
+                    return '<h3 style="margin:1.5rem 0 0.5rem;">' +
+                        esc(GROUP_LABELS[g] || g) + ' (' + rows.length + ')</h3>' +
+                        '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+                        '<th>Dataset</th><th>Status</th><th>Provider</th><th>Coverage</th>' +
+                        '<th>Resolution</th><th>License</th><th>Hazards</th><th>Link</th>' +
+                        '</tr></thead><tbody>' +
+                        rows.map(function (d) {
+                            return '<tr><td><strong>' + esc(d.name) + '</strong></td>' +
+                                '<td>' + esc(d.status) + '</td>' +
+                                '<td>' + esc(d.provider || '—') + '</td>' +
+                                '<td>' + esc(d.geographic_coverage || '—') + '</td>' +
+                                '<td>' + esc(d.spatial_resolution || '—') + '</td>' +
+                                '<td>' + esc(d.license || '—') + '</td>' +
+                                '<td>' + esc((d.hazard_relevance || []).join(', ') || '—') + '</td>' +
+                                '<td><a class="text-link" href="' + esc(d.url) +
+                                '" target="_blank" rel="noopener">official →</a></td></tr>';
+                        }).join('') + '</tbody></table></div>';
+                }).join('');
+        }).catch(function () {
+            document.getElementById('obsStatusArea').innerHTML =
+                '<div class="notice notice-error">Data observatory could not be reached.</div>';
         });
     })();
     </script>

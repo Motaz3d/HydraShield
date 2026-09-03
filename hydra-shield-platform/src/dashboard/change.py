@@ -203,12 +203,13 @@ def build_change_block(
     ndmi_note = None
     if satellite and "error" not in (satellite or {}) and satellite.get("observation_date"):
         ndmi_note = (
-            "NDMI change unavailable: only one recent cloud-free Sentinel-2 "
-            f"scene ({str(satellite['observation_date'])[:10]}); no time series "
+            "NDMI change unavailable: only one recent cloud-free optical "
+            f"satellite scene ({str(satellite['observation_date'])[:10]}); no time series "
             "is interpolated."
         )
     else:
-        ndmi_note = "NDMI change unavailable: no recent cloud-free Sentinel-2 scene."
+        ndmi_note = ("NDMI change unavailable: no recent cloud-free "
+                     "Sentinel-2 or Landsat scene.")
 
     return {
         "available": True,

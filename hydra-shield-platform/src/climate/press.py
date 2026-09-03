@@ -129,11 +129,12 @@ _TEMPLATES = {
             "{taxonomy_label}: {level} level — {summary}"
         ),
         "satellite_available": (
-            "Latest cloud-free Sentinel-2 observation on {date} reported NDVI "
+            "Latest cloud-free optical satellite observation on {date} reported NDVI "
             "{ndvi} (source: {source})."
         ),
         "satellite_unavailable": (
-            "No recent cloud-free Sentinel-2 observation is available for this point."
+            "No recent cloud-free Sentinel-2 or Landsat observation is available "
+            "for this point."
         ),
         "site_context": (
             "Site context image: {caption}"

@@ -93,6 +93,14 @@ def test_registry_status_counts():
     assert s["total"] == sum(s["by_status"].values())
 
 
+def test_registry_catalog_group_vocabulary():
+    """Every record carries a catalog_group from the declared vocabulary —
+    the /sources page groups by it and the API filters on it."""
+    for entry in data_registry.all():
+        assert entry.get("catalog_group") in data_registry.VALID_CATALOG_GROUPS, \
+            f"{entry['id']}: bad catalog_group {entry.get('catalog_group')!r}"
+
+
 def test_new_global_candidates_present_as_candidates():
     for cid in _NEW_CANDIDATE_IDS:
         entry = data_registry.get(cid)
@@ -181,9 +189,17 @@ def test_api_registry_filters(client):
     assert datasets
     assert all(e["provider_class"] == "un_agency" for e in datasets)
 
+    resp = client.get("/api/v2/registry?catalog_group=national_portal")
+    assert resp.status_code == 200
+    datasets = resp.get_json()["datasets"]
+    assert datasets
+    assert all(e["catalog_group"] == "national_portal" for e in datasets)
+
     resp = client.get("/api/v2/registry?status=nonsense")
     assert resp.status_code == 400
     resp = client.get("/api/v2/registry?provider_class=nonsense")
+    assert resp.status_code == 400
+    resp = client.get("/api/v2/registry?catalog_group=nonsense")
     assert resp.status_code == 400
 
 

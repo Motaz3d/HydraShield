@@ -497,7 +497,7 @@ _OBSERVATORY_NOTE = (
 
 @v2.get("/registry")
 def data_observatory():
-    """The Data Observatory: /api/v2/registry?status=…&hazard=…&provider_class=…
+    """The Data Observatory: /api/v2/registry?status=…&hazard=…&provider_class=…&catalog_group=…
 
     Catalog records of datasets. Filters are exact-match on status and
     provider_class, and membership-match on hazard_relevance for hazard.
@@ -515,6 +515,7 @@ def data_observatory():
     status = (request.args.get("status") or "").strip().lower()
     hazard = (request.args.get("hazard") or "").strip().lower()
     provider_class = (request.args.get("provider_class") or "").strip().lower()
+    catalog_group = (request.args.get("catalog_group") or "").strip().lower()
     if status:
         if status not in data_registry.VALID_STATUSES:
             return _err(f"Unknown status '{status}'.", 400)
@@ -525,6 +526,11 @@ def data_observatory():
         if provider_class not in data_registry.VALID_PROVIDER_CLASSES:
             return _err(f"Unknown provider_class '{provider_class}'.", 400)
         entries = [e for e in entries if e["provider_class"] == provider_class]
+    if catalog_group:
+        if catalog_group not in data_registry.VALID_CATALOG_GROUPS:
+            return _err(f"Unknown catalog_group '{catalog_group}'.", 400)
+        entries = [e for e in entries
+                   if e.get("catalog_group") == catalog_group]
 
     return jsonify({
         "datasets": entries,
@@ -533,6 +539,7 @@ def data_observatory():
             "status": status or None,
             "hazard": hazard or None,
             "provider_class": provider_class or None,
+            "catalog_group": catalog_group or None,
         },
         "observatory_note": _OBSERVATORY_NOTE,
     })

@@ -102,6 +102,7 @@ hydra-shield-platform/
 ### `src/gis_mapping/`
 - **`indices.py`** — Spectral index computation (NDVI, NDMI, NDWI) from Sentinel-2 bands.
 - **`copernicus_data.py`** — REAL Sentinel-2 Level-2A access via the Element84 Earth Search public STAC catalog (no credentials): scene search, windowed COG band reads (B03/B04/B08/B11 + SCL cloud mask), NDVI/NDMI/NDWI computation and overlay grids.
+- **`landsat_data.py`** — REAL Landsat Collection 2 Level-2 access via the Microsoft Planetary Computer public STAC catalog (no credentials; SAS-signed windowed COG reads): Landsat band mapping (red/NIR/green/SWIR1), QA_PIXEL cloud masking, 30 m NDVI/NDMI/NDWI — wired as the optical fallback in `fetch_satellite_data` when Sentinel-2 has no usable scene.
 - **`landcover.py`** — ESA WorldCover 10 m land-cover lookup (public COG bucket) and fuel-model mapping.
 - **`data_fusion.py`** — Cloud cover mitigation via dynamic Sentinel-1 SAR + ERA5-Land reanalysis fusion with adaptive weighting based on data quality, weather conditions, and terrain type.
 - **`mapping.py`** — Critical Protection Zone (CPZ) computation around vulnerable assets.

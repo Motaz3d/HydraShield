@@ -284,10 +284,14 @@ records — provider, provider_class, url, license, geographic/temporal
 coverage, spatial/temporal resolution, update frequency, variables,
 hazard relevance, provenance, quality, access method, api/download URL,
 commercial-use constraints, status (`integrated | candidate | rejected`)
-+ status note. Filters: `?status=`, `?hazard=`, `?provider_class=`
-(400 on bad vocabulary). A catalog record never implies the data is wired
-into analysis unless `status=integrated` (see `observatory_note` in the
-response). 60/min.
++ status note. Filters: `?status=`, `?hazard=`, `?provider_class=`,
+`?catalog_group=` (400 on bad vocabulary). A catalog record never implies
+the data is wired into analysis unless `status=integrated` (see
+`observatory_note` in the response). Every record also carries a `catalog_group` label
+(`global_portal | national_portal | national_service | international_org |
+hazard_disaster | earth_observation | climate | environment |
+socio_economic | energy_infrastructure | evidence_knowledge`) used for
+registry navigation (the `/sources` page groups by it). 60/min.
 
 ### `GET /api/v2/models` · `GET /api/v2/models/<model_id>`
 
@@ -573,3 +577,9 @@ Admin aggregates — `admin` tier required, aggregate counts only:
   evaluation runs (`/evaluations`) + model lifecycle states, Source
   Intelligence (`/source-health`), reproducible analysis runs
   (`/analysis-runs`), Loss Data Registry (`/losses`).
+- **2026-09-03** — Data Observatory global open-data extension: 167
+  datasets (98 new candidates — national/global portals, international
+  organisations, hazard archives, earth observation, climate, environment,
+  energy, evidence registries — URL-audited, nothing newly wired except
+  the integrated `landsat-c2-l2` optical-satellite fallback via Planetary
+  Computer STAC); `catalog_group` labels on every record.

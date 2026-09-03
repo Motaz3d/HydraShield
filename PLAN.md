@@ -22,9 +22,9 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Item | Status | Notes |
 |---|---|---|
 | Global coverage statement on homepage | ✅ | Hero states global coverage with the honest terrain caveat |
-| Actual data coverage | ✅ | Core integrated datasets are global (Sentinel-2, Open-Meteo, ERA5/-Land, FIRMS VIIRS/MODIS, WorldPop, OSM, GloFAS, ESA WorldCover); elevation 25 m Europe / 90 m for 60°N–56°S (SRTM); per-dataset coverage in the data registry (67 sources) and on `sources.html` |
+| Actual data coverage | ✅ | Core integrated datasets are global (Sentinel-2 + Landsat C2 L2 fallback, Open-Meteo, ERA5/-Land, FIRMS VIIRS/MODIS, WorldPop, OSM, GloFAS, ESA WorldCover); elevation 25 m Europe / 90 m for 60°N–56°S (SRTM); per-dataset coverage in the data registry (167 datasets, grouped by catalog_group) and on `sources.html` |
 | Clarify coverage scope across all pages | 🔶 | Homepage done; extend to `technology.html` / `for-*` pages where relevant |
-| National open-data + geo portal connectors | ⬜ | Per-country open data (national geo portals, Copernicus/EEA) feeding the analytical models, documented in provenance |
+| National open-data + geo portal connectors | 🔶 | 2026-09-03: 98 global sources catalogued as candidates in the Data Observatory (national portals incl. EU/US/UK/FR/DE/ES/CA/AU/JP/KR/IN/BR/MX/SA/QA/JO/MA/TN, international orgs, hazard archives, EO, climate, environment, energy, evidence registries) — URLs audited; nothing wired into models yet |
 
 ## Go-to-market
 

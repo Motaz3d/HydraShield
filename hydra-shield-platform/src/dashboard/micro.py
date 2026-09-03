@@ -38,8 +38,8 @@ _RESOLUTION_TABLE = [
 _COARSE_NOTE = (
     "Weather, fire danger (FWI) and soil moisture are ~11 km model-grid "
     "data: they describe the regional conditions, not a street, building or "
-    "individual parcel. Micro-area statements rely on the 10 m satellite "
-    "scene and 10 m land cover only."
+    "individual parcel. Micro-area statements rely on the 10–30 m satellite "
+    "scene (Sentinel-2, Landsat fallback) and 10 m land cover only."
 )
 
 
@@ -96,19 +96,29 @@ def build_micro_area_block(analysis: Dict) -> Dict:
         ndmi_stats = _grid_stats(satellite.get("ndmi_grid"))
         extent = _extent_m(satellite.get("grid_bounds"))
 
+    # Name the sensor that actually delivered the scene — Sentinel-2 (10 m)
+    # primary, Landsat C2 L2 (30 m) fallback — never a fixed label.
+    sat_source = str(satellite.get("source") or "")
+    sensor = "Landsat C2 L2" if "Landsat" in sat_source else "Sentinel-2"
+    try:
+        scene_res = float(satellite.get("resolution_m") or 10.0)
+    except (TypeError, ValueError):
+        scene_res = 10.0
+    res_label = f"{scene_res:g} m"
+
     variability_note = None
     if ndmi_stats is not None:
         if ndmi_stats["range"] >= 0.3:
             variability_note = (
                 f"High within-scene NDMI variability ({ndmi_stats['range']:.2f} over "
                 f"{ndmi_stats['cells']} measured cells): vegetation moisture is "
-                "heterogeneous at 10 m scale — micro-area differences are real "
+                f"heterogeneous at {res_label} scale — micro-area differences are real "
                 "and locally relevant."
             )
         else:
             variability_note = (
                 f"Within-scene NDMI variability is low ({ndmi_stats['range']:.2f}): "
-                "vegetation moisture is fairly uniform at 10 m scale."
+                f"vegetation moisture is fairly uniform at {res_label} scale."
             )
 
     return {
@@ -124,16 +134,16 @@ def build_micro_area_block(analysis: Dict) -> Dict:
             "resolution": terrain.get("resolution") if "error" not in terrain else None,
         },
         "micro_context": {
-            "scope": "micro (10 m)",
-            "layers": ["Sentinel-2 NDVI/NDMI", "ESA WorldCover"],
+            "scope": f"micro ({res_label})",
+            "layers": [f"{sensor} NDVI/NDMI", "ESA WorldCover"],
             "scene_available": scene_available,
             "scene_extent_m": extent,
             "ndmi_variability": ndmi_stats,
             "variability_note": variability_note,
             "unavailable_note": (
                 None if scene_available else
-                "No recent cloud-free Sentinel-2 scene — micro-area vegetation "
-                "information is unavailable, not estimated."
+                "No recent cloud-free Sentinel-2 or Landsat scene — micro-area "
+                "vegetation information is unavailable, not estimated."
             ),
         },
         "land_cover_resolution": (

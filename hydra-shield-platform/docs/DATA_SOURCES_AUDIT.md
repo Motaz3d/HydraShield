@@ -2,6 +2,23 @@
 
 **Date:** 2026-08-17 · **Registry:** `config/source_registry.json` (served at `GET /api/sources`)
 
+> **2026-09-03 addendum — global open-data extension.** The audit below covers
+> the 2026-08-17 pipeline-source evaluation and remains unchanged as a dated
+> record. On 2026-09-03 the **Data Observatory** (`config/data_registry.json`,
+> served at `GET /api/v2/registry`) was extended from 68 to **167 datasets**:
+> 98 new candidates across global/national open-data portals, international
+> organisations, hazard & disaster archives, earth-observation programmes,
+> climate, environment, energy and evidence/knowledge registries (URLs
+> reachability-checked 2026-09-03; four national portals marked
+> pending-verification in their provenance). Every record now carries a
+> `catalog_group` label; the `/sources` page renders the full catalogue
+> grouped by it. The same day, **`landsat-c2-l2`** (USGS/NASA Landsat
+> Collection 2 Level-2 via Microsoft Planetary Computer STAC, no credentials)
+> was **integrated** as the optical-satellite fallback in
+> `fetch_satellite_data` (Sentinel-2 first, Landsat at 30 m when Sentinel-2
+> has no usable scene; verified end-to-end: STAC search → SAS-signed windowed
+> reads → HTTP 206).
+
 ## Method
 
 Every candidate dataset was evaluated against: scientific quality, spatial

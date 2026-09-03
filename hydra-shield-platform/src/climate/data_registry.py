@@ -55,6 +55,15 @@ VALID_COMMERCIAL_USE = frozenset({
     "allowed", "allowed_with_attribution", "restricted", "unknown",
 })
 
+#: Registry navigation vocabulary (optional per-entry ``catalog_group``
+#: label, used by the /sources page grouping and the ?catalog_group= filter).
+VALID_CATALOG_GROUPS = frozenset({
+    "global_portal", "national_portal", "national_service",
+    "international_org", "hazard_disaster", "earth_observation", "climate",
+    "environment", "socio_economic", "energy_infrastructure",
+    "evidence_knowledge",
+})
+
 VALID_MODEL_STATUSES = frozenset({
     "not_validated", "validation_in_progress", "validated_screening",
     "validated_operational", "deprecated",
