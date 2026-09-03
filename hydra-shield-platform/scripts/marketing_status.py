@@ -666,8 +666,12 @@ def cmd_procurement() -> int:
 # Hazard-driven marketing (the commercial intelligence engine)
 # ---------------------------------------------------------------------------
 
-_PRIORITY_SEGMENTS = ("environmental_consulting", "investment", "insurance",
-                      "governments", "real_estate", "research_centers")
+# Send-plan 2026-09 sector order: European insurance first (50-60% of
+# daily sends), then banking (25-30%), then investment and consultants
+# (the rest); governments last.
+_PRIORITY_SEGMENTS = ("insurance", "banking", "investment",
+                      "environmental_consulting", "consultants",
+                      "governments")
 
 
 def _snapshot_areas():
