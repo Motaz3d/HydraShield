@@ -64,6 +64,16 @@ def test_reports_portal_preserves_legacy_section():
     assert 'id="legacyReportActions"' in html
 
 
+def test_reports_portal_has_anonymized_case_studies():
+    html = _read(os.path.join(WEBSITE, "reports.html"))
+    assert "How the reports were used in real decisions" in html
+    assert "Credit decision" in html
+    assert "underwriting referral" in html
+    assert "CSRD / ESRS E1" in html
+    assert html.count("Anonymized") >= 3
+    assert "customer's written approval" in html
+
+
 def test_reports_js_targets_legacy_dom_ids():
     js = _read(os.path.join(JS, "reports.js"))
     assert "legacyLocInput" in js
