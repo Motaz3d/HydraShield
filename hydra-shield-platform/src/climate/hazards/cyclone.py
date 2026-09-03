@@ -10,16 +10,19 @@ Real wired source (live-checked 2026-08-22):
   (JTWC, NHC, …). Free, no key. Powers ``analyze`` (monitoring context
   around a point) and the active-storms map layer.
 
-Documented candidate (not wired — heavy archive ETL):
+Documented archive (wired 2026-09 — prepared dataset):
 
 - **NOAA IBTrACS** (International Best Track Archive for Climate
   Stewardship) — the analysis-grade global archive of historical cyclone
-  tracks (1842 → present). Integrated later as a prepared dataset; until
-  then historical-track queries answer honestly unavailable.
+  tracks. The platform keeps a local copy of the ``last3years`` CSV
+  (~10 MB, refreshed monthly) and serves documented tracks near a point
+  (``events?year=…`` and the ``historical_tracks`` analysis block).
+  Deeper history (since1980 / full archive) is a declared follow-up.
 
 Discipline: Talaix does not predict cyclone tracks or landfall.
 This module reports official monitoring context (where active storms are,
-how far, at which alert level) — never an invented forecast.
+how far, at which alert level) and documented historical tracks — never an
+invented forecast.
 """
 
 from __future__ import annotations
@@ -87,8 +90,8 @@ class CycloneModule(HazardModule):
         return {
             "GDACS active-storm monitoring (UN-OCHA / EU JRC)": {
                 "start": "current/ongoing events", "end": "present (live)"},
-            "NOAA IBTrACS historical tracks (candidate)": {
-                "start": "1842", "end": "present — archive ETL not wired"},
+            "NOAA IBTrACS historical tracks (prepared local copy)": {
+                "start": "last 3 seasons", "end": "present — refreshed monthly"},
         }
 
     # -- analysis ---------------------------------------------------------
@@ -138,14 +141,37 @@ class CycloneModule(HazardModule):
                          "impact forecast is made."),
                 "source": feed["source"],
             },
-            "historical_tracks": {
-                "status": "unavailable",
-                "reason": ("Historical cyclone tracks require the NOAA IBTrACS "
-                           "archive (documented candidate, 1842 → present) — its "
-                           "dataset pipeline is not wired in yet. No historical "
-                           "frequency is invented."),
-            },
         }
+
+        # -- historical tracks (IBTrACS prepared archive, wired 2026-09) ----
+        from .. import ibtracs
+        hist = ibtracs.storms_near(lat, lon, radius_km=_REGION_KM)
+        if "error" in hist:
+            blocks["historical_tracks"] = {
+                "status": "unavailable",
+                "reason": hist["error"],
+            }
+        else:
+            blocks["historical_tracks"] = {
+                "status": "ok",
+                "claim_status": ClaimStatus.DOCUMENTED.value,
+                "temporal": TemporalClass.HISTORICAL.value,
+                "seasons_covered": hist["coverage"]["seasons"],
+                "storms_within_region": hist["total_matching"],
+                "storms": [
+                    {k: s[k] for k in ("sid", "name", "season", "basin",
+                                       "max_wind_kt", "min_pres_mb",
+                                       "peak_sshs", "closest_approach_km")}
+                    for s in hist["storms"][:10]
+                ],
+                "method": ("IBTrACS best-track archive (prepared local copy, "
+                           "last 3 seasons): storms whose track passes within "
+                           f"{_REGION_KM:.0f} km; closest approach is the "
+                           "great-circle minimum over all track points."),
+                "note": ("Documented historical tracks — frequency context "
+                         "only, never a seasonal forecast."),
+                "source": ibtracs.IBTRACS_SOURCE,
+            }
 
         rec = EvidenceRecord.open_data(
             feed["source"],
@@ -163,6 +189,20 @@ class CycloneModule(HazardModule):
         rec.content_hash = content_hash(
             {"storms": [(s["id"], s["lat"], s["lon"]) for s in storms]})
         evidence = [rec.to_dict()]
+        provenance = {"active_monitoring": rec.to_dict()}
+        if blocks["historical_tracks"].get("status") == "ok":
+            hist_rec = EvidenceRecord.open_data(
+                ibtracs.IBTRACS_SOURCE,
+                status=ClaimStatus.DOCUMENTED.value,
+                temporal=TemporalClass.HISTORICAL.value,
+                location=location,
+                method="IBTrACS best-track proximity query (closest approach over track points).",
+                limitations="Prepared file covers the last 3 seasons only.",
+            )
+            hist_rec.content_hash = content_hash(
+                {"sids": [s["sid"] for s in hist["storms"]]})
+            evidence.append(hist_rec.to_dict())
+            provenance["historical_tracks"] = hist_rec.to_dict()
         return HazardAnalysis(
             hazard=self.id,
             location=location,
@@ -171,7 +211,7 @@ class CycloneModule(HazardModule):
             level=level,
             blocks=blocks,
             evidence=evidence,
-            provenance={"active_monitoring": rec.to_dict()},
+            provenance=provenance,
         )
 
     def _level(self, nearest: Optional[Dict[str, Any]]) -> HazardLevel:
@@ -227,19 +267,30 @@ class CycloneModule(HazardModule):
         year: Optional[int] = None,
         **kw: Any,
     ) -> Dict[str, Any]:
-        """Active/ongoing cyclone events near a point (GDACS monitoring).
+        """Active/ongoing cyclone events near a point (GDACS monitoring);
+        historical season tracks from the IBTrACS prepared archive.
 
-        A ``year`` query asks for the historical archive — honestly
-        unavailable until the IBTrACS pipeline is wired in."""
+        A ``year`` query returns that season's documented tracks near the
+        point (IBTrACS, last 3 seasons in the prepared file)."""
         if year is not None:
+            from .. import ibtracs
+            hist = ibtracs.storms_near(lat, lon, year=year, radius_km=max(
+                min(float(radius_km), _EVENTS_RADIUS_KM), 50.0))
+            if "error" in hist:
+                return {"hazard": self.id, "status": "unavailable",
+                        "reason": hist["error"], "events": []}
             return {
                 "hazard": self.id,
-                "status": "unavailable",
-                "reason": ("Historical cyclone seasons require the NOAA IBTrACS "
-                           "archive (documented candidate) — not yet integrated. "
-                           "GDACS monitoring covers current/ongoing events only, "
-                           "so no per-year history is invented."),
-                "events": [],
+                "status": "ok",
+                "year": year,
+                "coverage": (f"IBTrACS documented best tracks, season {year} "
+                             f"(prepared file seasons {hist['coverage']['seasons'][0]}"
+                             f"–{hist['coverage']['seasons'][-1]})"),
+                "note": ("Documented historical tracks — closest approach over "
+                         "all track points; never a seasonal forecast."),
+                "source": ibtracs.IBTRACS_SOURCE,
+                "events": hist["storms"],
+                "total_matching": hist["total_matching"],
             }
         from ...dashboard import real_data as rd
 
@@ -290,13 +341,15 @@ class CycloneModule(HazardModule):
                 label="Historical cyclone tracks (NOAA IBTrACS)",
                 group="EVIDENCE",
                 kind="geojson",
+                endpoint="/api/v2/events?hazard=cyclone&lat={lat}&lon={lon}&radius_km=1000&year={year}",
                 source="NOAA NCEI — International Best Track Archive (IBTrACS)",
                 url="https://www.ncei.noaa.gov/products/international-best-track-archive",
-                resolution="6-hourly best-track positions, global basins, 1842 → present",
-                status="unavailable",
+                resolution="3-hourly best-track positions; prepared file covers the last 3 seasons",
+                status="available",
                 temporal=TemporalClass.HISTORICAL.value,
-                provenance={"note": ("Documented candidate — the archive ETL is not "
-                                     "wired in, so no historical tracks are shown "
-                                     "yet rather than simulated.")},
+                provenance={"note": ("Documented best-track archive — the platform "
+                                     "serves seasons from its prepared local copy "
+                                     "(last 3 years, refreshed monthly); deeper "
+                                     "history is a declared follow-up.")},
             ).to_dict(),
         ]

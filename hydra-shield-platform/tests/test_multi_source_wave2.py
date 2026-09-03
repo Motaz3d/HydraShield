@@ -283,7 +283,8 @@ def test_dust_events_via_eonet(monkeypatch):
 
     layers = {l["layer_id"]: l for l in module.map_layers()}
     assert layers["dust.eonet"]["status"] == "available"
-    assert layers["dust.forecast"]["status"] == "unavailable"
+    # CAMS pipeline wired but key-gated without credentials (FIRMS pattern)
+    assert layers["dust.forecast"]["status"] == "key_required"
 
 
 # ---------------------------------------------------------------------------

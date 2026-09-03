@@ -1,5 +1,5 @@
 {
-  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation. 2026-09-03 (gradual engine wiring): gdacs-events (flood FL + volcanic VO event layers), nasa-eonet (wildfire second independent event source) and geoglows (second discharge provider — declared single-provider discharge gap closed) moved from candidate to integrated with full data-quality profiles. 2026-09-03 (gradual wiring wave 2): usgs-water (gauge observations in flood analysis, US-only honest coverage), usgs-earthquake (new earthquake hazard module — documented seismicity, never prediction) and emsc (second seismic source) moved from candidate to integrated; nasa-eonet extended to the dust events layer (dustHaze).",
+  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation. 2026-09-03 (gradual engine wiring): gdacs-events (flood FL + volcanic VO event layers), nasa-eonet (wildfire second independent event source) and geoglows (second discharge provider — declared single-provider discharge gap closed) moved from candidate to integrated with full data-quality profiles. 2026-09-03 (gradual wiring wave 2): usgs-water (gauge observations in flood analysis, US-only honest coverage), usgs-earthquake (new earthquake hazard module — documented seismicity, never prediction) and emsc (second seismic source) moved from candidate to integrated; nasa-eonet extended to the dust events layer (dustHaze). 2026-09-03 (late wave): ibtracs (prepared best-track archive for cyclone historical tracks) and cams (key-gated dust AOD pipeline, activates with CAMS_ADS_KEY) moved to integrated; gem-openquake re-evaluated — no point-query API, stays candidate with concrete findings.",
   "audit_date": "2026-08-17",
   "observatory_note": "Entries are catalog records — status integrated/candidate/rejected; nothing here implies the data is wired into analysis unless status=integrated.",
   "datasets": [
@@ -733,9 +733,19 @@
       "access_method": "registration_required",
       "api_or_download_url": "https://ads.atmosphere.copernicus.eu/",
       "commercial_use": "allowed_with_attribution",
-      "status": "candidate",
-      "status_note": "Candidate (smoke context + validation target once credentials are configured) — nothing wired to it.",
-      "catalog_group": "environment"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (late wave, key-gated like NASA FIRMS): the ADS retrieve/v1 pipeline is fully wired (src/climate/cams.py — job submission, polling, NetCDF asset, nearest-grid-cell extraction for dust AOD 550 nm at 0 h + 24 h lead) and ACTIVATES when CAMS_ADS_URL / CAMS_ADS_KEY are configured in the server .env; without them the dust module answers honestly key_required/unavailable.",
+      "catalog_group": "environment",
+      "data_quality_profile": {
+        "freshness": "Daily global forecast cycles (0 h analysis + lead times)",
+        "completeness": "Modelled aerosol optical depth at the nearest grid cell — not a ground measurement; no health or visibility assessment is made.",
+        "spatial_resolution_note": "~40 km model grid (nearest cell)",
+        "temporal_resolution_note": "Daily cycles; 0 h + 24 h lead served",
+        "provenance_note": "Integrated 2026-09-03: ADS retrieve/v1 endpoint shape verified unauthenticated (401 contract; retired /api/v2 confirmed gone). Live round-trip requires credentials — declared everywhere the result surfaces.",
+        "validation": "Offline tests cover the full job choreography (execution → poll → asset) and point extraction (tests/test_late_wave.py); live ADS retrieval activates with CAMS_ADS_KEY and is not claimed verified without it.",
+        "coverage_note": "Global; dust AOD at 550 nm.",
+        "licensing_note": "Copernicus terms (free registration); commercial use allowed with attribution."
+      }
     },
     {
       "id": "noaa-hysplit",
@@ -3507,7 +3517,7 @@
       "api_or_download_url": "https://www.globalquakemodel.org/",
       "commercial_use": "allowed_with_attribution",
       "status": "candidate",
-      "status_note": "Candidate: seismic susceptibility layer for a future earthquake hazard module.",
+      "status_note": "Candidate — evaluated 2026-09-03: the 2023 Global Seismic Hazard Map is distributed as large raster archives via GEM's Nextcloud shares (cloud.openquake.org); no public point-query API and no public WMS were found at probe time. Wiring requires a prepared-dataset ETL (download mosaic → local raster query) — declared follow-up; the earthquake module currently reports documented seismicity (USGS ComCat + EMSC) without a probabilistic layer.",
       "catalog_group": "hazard_disaster"
     },
     {
@@ -3633,9 +3643,19 @@
       "access_method": "download",
       "api_or_download_url": "https://www.ncei.noaa.gov/products/international-best-track-archive",
       "commercial_use": "allowed",
-      "status": "candidate",
-      "status_note": "Candidate: cyclone track archive for the (monitoring-only) cyclone module.",
-      "catalog_group": "hazard_disaster"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (late wave): prepared-dataset path — the platform keeps a local copy of the IBTrACS last3years CSV (~10 MB, refreshed monthly, size-guarded) in data/ibtracs/ and serves documented historical cyclone tracks near a point via src/climate/ibtracs.py (events?year=… and the cyclone historical_tracks analysis block). Deeper history (since1980 / full archive) is a declared follow-up.",
+      "catalog_group": "hazard_disaster",
+      "data_quality_profile": {
+        "freshness": "Prepared file refreshed monthly (last 3 seasons)",
+        "completeness": "Prepared local copy covers the last 3 cyclone seasons worldwide — deeper history answers with an explicit coverage note, never invented tracks.",
+        "spatial_resolution_note": "3-hourly best-track positions (all basins)",
+        "temporal_resolution_note": "3-hourly track points per storm",
+        "provenance_note": "Integrated 2026-09-03: NOAA NCEI CSV download verified live (10,267,409 bytes); parsing and proximity query verified on real data (SHAKHTI 2025, NI, 74 kt).",
+        "validation": "Download + parse + proximity query verified live 2026-09-03; offline unit tests cover parsing, season filtering, closest-approach and the coverage honesty path (tests/test_late_wave.py).",
+        "coverage_note": "Global basins; last 3 seasons in the prepared file.",
+        "licensing_note": "US Government work (public domain); commercial use allowed."
+      }
     },
     {
       "id": "ifrc-go",

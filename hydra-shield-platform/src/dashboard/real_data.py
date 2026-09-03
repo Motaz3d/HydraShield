@@ -326,6 +326,58 @@ def fetch_usgs_gauges(lat: float, lon: float, radius_km: float = 100.0) -> Dict:
     }
 
 
+@cached("usgs_gauge_history", TTL_CLIMATE_SERIES)
+def fetch_usgs_gauge_history(site_code: str, start: str, end: str) -> Dict:
+    """
+    Daily mean discharge (dv service, parameter 00060) for one USGS gauge
+    over a date window. Free, no key. Provisional-recent values keep their
+    qualifier flags. Honest error dict on failure.
+    """
+    if not site_code:
+        return {"error": "No gauge site_code given"}
+    url = ("https://waterservices.usgs.gov/nwis/dv/?format=json"
+           f"&sites={urllib.parse.quote(str(site_code))}"
+           f"&parameterCd=00060&startDT={start}&endDT={end}")
+    try:
+        data = _get_json(url, timeout=30.0)
+    except RuntimeError as exc:
+        return {"error": f"USGS daily-values service unavailable: {exc}"}
+    series = ((data.get("value") or {}).get("timeSeries")) or []
+    if not series:
+        return {"error": f"USGS returned no daily series for gauge {site_code}"}
+    ts = series[0]
+    times: List[str] = []
+    values: List[Optional[float]] = []
+    provisional = 0
+    try:
+        for point in ts["values"][0]["value"]:
+            times.append(point["dateTime"][:10])
+            try:
+                values.append(float(point["value"]))
+            except (TypeError, ValueError):
+                values.append(None)
+            if "P" in (point.get("qualifiers") or []):
+                provisional += 1
+    except (KeyError, IndexError, TypeError):
+        return {"error": f"USGS daily series malformed for gauge {site_code}"}
+    if not times:
+        return {"error": f"USGS daily series empty for gauge {site_code}"}
+    return {
+        "site_code": site_code,
+        "name": (ts.get("sourceInfo") or {}).get("siteName"),
+        "time": times,
+        "discharge_m3s": [None if v is None else round(v * _FT3_TO_M3, 3)
+                          for v in values],
+        "provisional_days": provisional,
+        "units": "m³/s (converted from ft³/s, declared factor)",
+        "source": USGS_WATER_SOURCE,
+        "request_url": url,
+        "note": ("Daily mean GAUGE observations (USGS dv); recent days may be "
+                 "provisional (flagged). Observed counterpart to the modelled "
+                 "series — reported side by side, never merged."),
+    }
+
+
 # --------------------------------------------------------------------------
 # Earthquake catalogues — USGS ComCat + EMSC, global, no key
 # --------------------------------------------------------------------------

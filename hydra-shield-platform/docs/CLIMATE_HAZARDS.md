@@ -51,6 +51,8 @@ when wired to at least one real, documented data source. Current registry:
 | Extreme heat | foundation | ERA5 daily Tmax series: percentile vs same-location climatology, heatwave spell detection (WMO-style ≥5 days above climatological threshold, declared method) |
 | Extreme wind | foundation | ERA5/Open-Meteo daily wind gust maxima: percentile vs climatology, storm spell detection |
 | Coastal / sea | foundation | Open-Meteo Marine API (wave height/period, observed + forecast), DEM coastal elevation, OSM coastline/infrastructure exposure; sea-level rise only as labelled `PROJECTED/SCENARIO` with published-source figures |
+| Tropical cyclones | foundation | GDACS active-storm monitoring (UN-OCHA / EU JRC) + NOAA IBTrACS documented historical tracks (prepared local copy, last 3 seasons) — monitoring + documented history, never track/landfall prediction |
+| Dust / sandstorm | events live; analysis key-gated | NASA EONET dustHaze open incidents (events layer, live); CAMS dust AOD pipeline wired — activates with `CAMS_ADS_URL`/`CAMS_ADS_KEY` (key-gated like FIRMS) |
 | Other hazards | gated | added only when a real documented source is integrated |
 
 **No fake placeholders.** A hazard without a real wired source does not
@@ -177,11 +179,14 @@ features:
 
 - **dust** (dust / sandstorm) — the **events layer went live 2026-09** via
   NASA EONET ``dustHaze`` (open incidents, monitoring context only,
-  `events.available: true`). **Analysis stays honestly unavailable**:
-  CAMS requires ADS credentials (``CAMS_ADS_URL`` / ``CAMS_ADS_KEY``);
-  WMO SDS-WAS is a candidate reference. Regional terms (Sirocco, Khamsin,
-  dust transport) are related but not identical; any pipeline must
-  classify by the source's own terminology.
+  `events.available: true`). The **CAMS analysis pipeline is wired** the
+  same day (ADS ``retrieve/v1``, dust AOD at 0 h + 24 h lead,
+  ``src/climate/cams.py``) and is key-gated exactly like NASA FIRMS: it
+  activates when ``CAMS_ADS_URL`` / ``CAMS_ADS_KEY`` are configured;
+  without them analysis answers honestly unavailable. WMO SDS-WAS is a
+  candidate reference. Regional terms (Sirocco, Khamsin, dust transport)
+  are related but not identical; any pipeline classifies by the source's
+  own terminology.
 - **volcanic** — the **events layer went live 2026-09** via the GDACS
   ``VO`` feed (current volcanic-activity alerts worldwide — monitoring
   context only, `events.available: true`). **Analysis stays honestly

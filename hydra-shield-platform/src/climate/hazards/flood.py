@@ -155,7 +155,14 @@ class FloodModule(HazardModule):
 
         # -- gauge observations (USGS — OBSERVED, US-only honest coverage) --
         gauges = rd.fetch_usgs_gauges(lat, lon)
-        blocks["river_discharge_gauges"] = self._gauges_block(gauges, lat, lon)
+        gauges_block = self._gauges_block(gauges, lat, lon)
+        if gauges_block.get("status") == "ok":
+            nearest = gauges_block["nearest_gauges"][0]
+            hist = rd.fetch_usgs_gauge_history(
+                nearest["site_code"],
+                (today - timedelta(days=365)).isoformat(), today.isoformat())
+            gauges_block["nearest_gauge_history"] = self._gauge_history_block(hist)
+        blocks["river_discharge_gauges"] = gauges_block
         if blocks["river_discharge_gauges"].get("status") == "ok":
             rec = EvidenceRecord(
                 EvidenceClass.OPEN_DATA_OFFICIAL.value,
@@ -605,6 +612,39 @@ class FloodModule(HazardModule):
             "nearest_gauges": ranked,
             "source": gauges["source"],
             "note": gauges.get("note"),
+        }
+
+    @staticmethod
+    def _gauge_history_block(hist: Dict) -> Dict[str, Any]:
+        """One-year observed daily series for the nearest gauge — latest
+        value, percentile within its own record, trend; never merged with
+        the modelled series."""
+        if "error" in hist:
+            return {"status": "unavailable", "reason": hist["error"]}
+        times: List[str] = hist["time"]
+        values: List[Optional[float]] = hist["discharge_m3s"]
+        valid = [(t, v) for t, v in zip(times, values) if v is not None]
+        if not valid:
+            return {"status": "unavailable",
+                    "reason": "Gauge daily series empty in window."}
+        latest_date, latest_val = valid[-1]
+        pct = _series.percentile_rank(values, latest_val)
+        max_date, max_val = max(valid, key=lambda tv: tv[1])
+        last30 = [v for _t, v in valid[-30:]]
+        return {
+            "status": "ok",
+            "claim_status": ClaimStatus.OBSERVED.value,
+            "site_code": hist["site_code"],
+            "name": hist.get("name"),
+            "window": {"start": valid[0][0], "end": latest_date,
+                       "days": len(valid)},
+            "latest": {"date": latest_date, "discharge_m3s": latest_val,
+                       "percentile_in_own_year": pct},
+            "year_max": {"date": max_date, "discharge_m3s": max_val},
+            "last30d_mean_m3s": round(sum(last30) / len(last30), 2),
+            "provisional_days": hist.get("provisional_days"),
+            "note": hist.get("note"),
+            "source": hist["source"],
         }
 
     # -- events (map layer feed: current GDACS flood alerts) ----------------

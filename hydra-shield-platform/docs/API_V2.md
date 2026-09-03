@@ -604,3 +604,15 @@ Admin aggregates — `admin` tier required, aggregate counts only:
   GEOGLOWS + USGS layers added to the flood map panel.
   `usgs-water`, `usgs-earthquake`, `emsc` are now `integrated`
   (23 integrated datasets).
+- **2026-09-03 (4)** — Late wave: **IBTrACS** prepared archive wired —
+  historical cyclone tracks near a point (`events?year=…` + the cyclone
+  `historical_tracks` analysis block; local `last3years` CSV refreshed
+  monthly). **USGS dv** daily gauge history enriches the flood gauge
+  block (latest observed discharge, percentile within own record —
+  observed counterpart to the models, never merged). **CAMS dust**
+  pipeline wired key-gated (`src/climate/cams.py` — ADS `retrieve/v1`,
+  dust AOD 550 nm at 0 h + 24 h lead; activates with `CAMS_ADS_URL` /
+  `CAMS_ADS_KEY`, honestly key_required without them).
+  **GEM/OpenQuake** re-evaluated: no public point-query API or WMS —
+  stays a documented candidate (prepared-dataset ETL declared).
+  `ibtracs`, `cams` are now `integrated` (25 integrated datasets).

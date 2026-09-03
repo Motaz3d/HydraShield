@@ -5,9 +5,11 @@ state until a real pipeline is wired in.
 Candidate real sources (documented, live-checked 2026-08-18):
 
 - **CAMS** (Copernicus Atmosphere Monitoring Service) — dust aerosol
-  optical depth / particulate forecasts; requires free ADS credentials
-  (``CAMS_ADS_URL`` / ``CAMS_ADS_KEY`` — see .env.example). Not wired
-  until those credentials exist.
+  optical depth forecast at the analysis point. The fetch pipeline is
+  WIRED (2026-09): ADS ``retrieve/v1`` job → NetCDF → nearest grid cell
+  (0 h + 24 h lead), key-gated exactly like NASA FIRMS — it activates
+  when ``CAMS_ADS_URL`` / ``CAMS_ADS_KEY`` are configured (see
+  .env.example); without them the module answers honestly unavailable.
 - **WMO SDS-WAS** (Sand and Dust Storm Warning Advisory and Assessment
   System, Barcelona Dust Centre) — regional dust model evaluation and
   guidance; reference source, not an integrated fetch path.
@@ -16,7 +18,7 @@ Wired source (2026-09, gradual engine wiring):
 
 - **NASA EONET ``dustHaze``** — open dust & haze incidents worldwide (free,
   no key). Powers the ``events`` layer — current incident monitoring
-  context only. Analysis stays unavailable until CAMS credentials exist.
+  context only. Analysis activates with CAMS credentials.
 
 Terminology discipline: "dust storm", "sandstorm", "Sirocco",
 "Khamseen/Khamsin" and "desert dust transport" are regional/technical
@@ -46,15 +48,15 @@ class DustModule(HazardModule):
     # -- availability (honest) ------------------------------------------
 
     def availability(self) -> Tuple[bool, Optional[str]]:
-        if not (os.environ.get("CAMS_ADS_URL") and os.environ.get("CAMS_ADS_KEY")):
+        from .. import cams
+        if cams.credentials() is None:
             return False, ("Dust analysis requires CAMS (Copernicus Atmosphere "
                            "Monitoring Service) credentials (CAMS_ADS_URL / "
-                           "CAMS_ADS_KEY) — not configured. No dust values are "
-                           "produced without a real source.")
-        # Credentials present but the fetch path is not implemented yet.
-        return False, ("CAMS credentials detected but the dust fetch pipeline "
-                       "is not yet integrated — dust analysis remains "
-                       "unavailable rather than simulated.")
+                           "CAMS_ADS_KEY) — not configured. The fetch pipeline "
+                           "is wired (ADS retrieve/v1) and activates once the "
+                           "key is present. No dust values are produced "
+                           "without a real source.")
+        return True, None
 
     def events_availability(self) -> Tuple[bool, Optional[str]]:
         return True, None
@@ -69,16 +71,85 @@ class DustModule(HazardModule):
                 "start": "per SDS-WAS documentation", "end": "present"},
         }
 
-    # -- core operations (honest unavailable) ----------------------------
+    # -- core operations --------------------------------------------------
 
     def analyze(self, lat: float, lon: float, name: Optional[str] = None, **kw: Any) -> HazardAnalysis:
         available, reason = self.availability()
+        if not available:
+            return HazardAnalysis(
+                hazard=self.id,
+                location={"lat": lat, "lon": lon, "name": name},
+                status="unavailable",
+                summary="Dust analysis is not available yet.",
+                unavailable_reason=reason,
+            )
+
+        from .. import cams
+        from ..evidence import EvidenceRecord
+        from ..ontology import ClaimStatus
+
+        location = {"lat": lat, "lon": lon, "name": name}
+        aod = cams.fetch_cams_dust_aod(lat, lon)
+        if aod.get("key_required") or "error" in aod:
+            rec = EvidenceRecord.unknown(
+                "CAMS — Copernicus Atmosphere Monitoring Service",
+                why=aod.get("error", "CAMS unavailable"))
+            return HazardAnalysis(
+                hazard=self.id,
+                location=location,
+                status="unavailable",
+                summary="CAMS dust data is unavailable right now.",
+                blocks={"dust_aod": {"status": "unavailable",
+                                     "reason": aod.get("error")}},
+                evidence=[rec.to_dict()],
+                provenance={"dust_aod": rec.to_dict()},
+                unavailable_reason=aod.get("error"),
+            )
+
+        blocks = {
+            "dust_aod": {
+                "status": "ok",
+                "claim_status": ClaimStatus.MODELLED.value,
+                "dataset": aod["dataset"],
+                "variable": aod["variable"],
+                "date": aod["date"],
+                "aod_analysis": aod["aod_analysis"],
+                "band_analysis": aod["band_analysis"],
+                "aod_lead24": aod["aod_lead24"],
+                "band_lead24": aod["band_lead24"],
+                "grid": aod["grid"],
+                "note": aod["note"],
+                "source": aod["source"],
+            },
+            "declared_limitations": (
+                "CAMS modelled dust AOD at the nearest grid cell only: NO "
+                "ground-level PM measurement, NO health or visibility "
+                "assessment; screening labels are declared in "
+                "src/climate/cams.py. Air-quality context belongs to measured "
+                "sources (OpenAQ, national stations) once wired."
+            ),
+        }
+        rec = EvidenceRecord.open_data(
+            aod["source"],
+            status=ClaimStatus.MODELLED.value,
+            temporal="FORECAST",
+            dataset=aod["dataset"],
+            location=location,
+            method=("ADS retrieve/v1 job → NetCDF → nearest grid cell per "
+                    "lead time (0 h analysis + 24 h lead)."),
+            limitations="Modelled aerosol optical depth, not a ground measurement.",
+        )
         return HazardAnalysis(
             hazard=self.id,
-            location={"lat": lat, "lon": lon, "name": name},
-            status="unavailable",
-            summary="Dust analysis is not available yet.",
-            unavailable_reason=reason,
+            location=location,
+            status="ok",
+            summary=(f"CAMS dust AOD (550 nm) at this point: "
+                     f"{aod['aod_analysis']} — {aod['band_analysis']} "
+                     f"(24 h lead: {aod['aod_lead24']} — {aod['band_lead24']}). "
+                     "Modelled, screening-level."),
+            blocks=blocks,
+            evidence=[rec.to_dict()],
+            provenance={"dust_aod": rec.to_dict()},
         )
 
     # -- events (live: NASA EONET dustHaze incidents) ---------------------
@@ -168,9 +239,11 @@ class DustModule(HazardModule):
                 kind="raster",
                 source="CAMS — Copernicus Atmosphere Monitoring Service",
                 url="https://ads.atmosphere.copernicus.eu/",
-                status="unavailable",
+                status="available" if _ok else "key_required",
                 temporal=TemporalClass.FORECAST.value,
-                provenance={"note": reason},
+                provenance={"note": reason if not _ok else (
+                    "ADS retrieve/v1 pipeline wired — dust AOD at the analysis "
+                    "point (0 h + 24 h lead), screening labels declared.")},
             ).to_dict(),
             LayerSpec(
                 layer_id="dust.sds_was",

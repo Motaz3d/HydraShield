@@ -704,11 +704,16 @@ def _cyclone_feed(*features):
 
 def test_cyclone_analyze_nearest_storm_and_level(monkeypatch):
     from src.climate.hazards.cyclone import CycloneModule
+    from src.climate import ibtracs
     monkeypatch.setattr(real_data, "fetch_active_cyclones", lambda: _cyclone_feed(
         _tc_feature(name="Tropical Cyclone NEAR-26", alert="Red", lat=37.5, lon=15.5),
         _tc_feature(eventid=2, episodeid=1, name="Tropical Cyclone FAR-26",
                     alert="Orange", lat=25.0, lon=25.0),
     ))
+    # Archive unavailable → historical block degrades honestly (deterministic,
+    # independent of any prepared local file on the test machine).
+    monkeypatch.setattr(ibtracs, "storms_near",
+                        lambda *a, **k: {"error": "IBTrACS download failed: boom"})
     result = CycloneModule().analyze(37.0, 15.0)
     assert result.status == "ok"
     nearest = result.blocks["active_monitoring"]["nearest"]
@@ -717,6 +722,24 @@ def test_cyclone_analyze_nearest_storm_and_level(monkeypatch):
     assert "Extreme" in result.level.label  # Red alert within 300 km
     assert result.blocks["historical_tracks"]["status"] == "unavailable"
     assert result.evidence and result.provenance
+
+    # Archive present → documented historical tracks in the same analysis.
+    monkeypatch.setattr(ibtracs, "storms_near", lambda *a, **k: {
+        "status": "ok",
+        "storms": [{"sid": "X", "name": "HISTSTORM", "season": 2024,
+                    "basin": "NI", "start": "a", "end": "b",
+                    "max_wind_kt": 65.0, "min_pres_mb": 980.0,
+                    "peak_sshs": 1.0, "closest_approach_km": 42.0,
+                    "closest_point": {}, "track": []}],
+        "total_matching": 1,
+        "coverage": {"seasons": [2023, 2024, 2025, 2026],
+                     "source": ibtracs.IBTRACS_SOURCE}})
+    result = CycloneModule().analyze(37.0, 15.0)
+    hist = result.blocks["historical_tracks"]
+    assert hist["status"] == "ok"
+    assert hist["claim_status"] == "DOCUMENTED"
+    assert hist["storms"][0]["name"] == "HISTSTORM"
+    assert "historical_tracks" in result.provenance
 
 
 def test_cyclone_analyze_no_active_storms(monkeypatch):
@@ -736,14 +759,41 @@ def test_cyclone_analyze_honest_unavailable(monkeypatch):
     assert result.unavailable_reason
 
 
-def test_cyclone_events_year_query_is_honestly_unavailable(monkeypatch):
+def test_cyclone_events_year_query_via_ibtracs(monkeypatch):
+    """Since the 2026-09 late wave, year queries serve the IBTrACS prepared
+    archive; a year outside the file answers honestly unavailable."""
     from src.climate.hazards.cyclone import CycloneModule
+    from src.climate import ibtracs
     monkeypatch.setattr(real_data, "fetch_active_cyclones",
                         lambda: _cyclone_feed(_tc_feature(lat=37.2, lon=15.2)))
     module = CycloneModule()
+
+    def _fake_near(lat, lon, year=None, radius_km=500.0, max_storms=25):
+        return {"status": "ok",
+                "storms": [{"sid": "X", "name": "TEST", "season": year,
+                            "basin": "NI", "start": "a", "end": "b",
+                            "max_wind_kt": 50.0, "min_pres_mb": 990.0,
+                            "peak_sshs": 1.0, "closest_approach_km": 12.0,
+                            "closest_point": {}, "track": []}],
+                "total_matching": 1,
+                "coverage": {"seasons": [2023, 2024, 2025, 2026],
+                             "source": ibtracs.IBTRACS_SOURCE}}
+
+    monkeypatch.setattr(ibtracs, "storms_near", _fake_near)
     hist = module.events(37.0, 15.0, radius_km=500, year=2024)
+    assert hist["status"] == "ok"
+    assert hist["year"] == 2024
+    assert hist["events"][0]["name"] == "TEST"
+    assert "IBTrACS" in hist["coverage"]
+
+    monkeypatch.setattr(
+        ibtracs, "storms_near",
+        lambda *a, **k: {"error": "Season 1999 is outside the prepared "
+                                  "IBTrACS file (seasons 2023–2026)."})
+    hist = module.events(37.0, 15.0, radius_km=500, year=1999)
     assert hist["status"] == "unavailable"
     assert "IBTrACS" in hist["reason"]
+
     cur = module.events(37.0, 15.0, radius_km=500)
     assert cur["status"] == "ok"
     assert len(cur["events"]) == 1
