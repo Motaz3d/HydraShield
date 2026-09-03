@@ -3,19 +3,23 @@ Talaix Insurance & Environmental Risk engine.
 
 No Flask imports. Combines current per-peril hazard levels (via the Green
 Finance Verification engine) with long-term historical event records from each
-hazard module's ``events()`` API. The product is explicitly a data layer:
-loss quantification is never invented.
+hazard module's ``events()`` API, and quantifies the actuarial layer
+(``src/climate/actuarial.py``): event-frequency estimates with exact Poisson
+intervals, exceedance probabilities, return periods and severity statistics —
+all derived from real observed data, never invented. Monetary loss
+quantification remains out of scope (``loss_quantification = not_quantified``).
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+from . import actuarial
 from .engine import ProductEngine
 from .evidence import content_hash, utcnow_iso
 from .verification import verify_asset
 
-ENGINE_VERSION = "1.0.0"
+ENGINE_VERSION = "1.1.0"
 
 INSURANCE_PERILS: Dict[str, Dict[str, Any]] = {
     "flood": {"label": "Flood (riverine / pluvial)"},
@@ -115,8 +119,12 @@ def _safe_event_summary(event: Dict[str, Any]) -> Dict[str, Any]:
     return summary
 
 
-def _events_for_peril(module: Any, hazard_id: str, lat: float, lon: float, radius_km: float) -> Dict[str, Any]:
-    """Run one hazard module's events() and map to the insurance vocabulary."""
+def _events_for_peril(module: Any, hazard_id: str, lat: float, lon: float, radius_km: float) -> Tuple[Dict[str, Any], Sequence[Dict[str, Any]]]:
+    """Run one hazard module's events() and map to the insurance vocabulary.
+
+    Returns ``(events_block, raw_events)`` — the raw records feed the
+    actuarial severity extraction (never the trimmed 5-event summary).
+    """
     try:
         result = module.events(lat, lon, radius_km=radius_km)
     except Exception as exc:  # noqa: BLE001 — honesty path below
@@ -125,7 +133,7 @@ def _events_for_peril(module: Any, hazard_id: str, lat: float, lon: float, radiu
             "events_count": 0,
             "events_summary": [],
             "events_reason": f"events() raised {type(exc).__name__}: {exc}",
-        }
+        }, []
 
     status = result.get("status")
     if status in ("unavailable", "key_required"):
@@ -134,7 +142,7 @@ def _events_for_peril(module: Any, hazard_id: str, lat: float, lon: float, radiu
             "events_count": 0,
             "events_summary": [],
             "events_reason": result.get("reason") or result.get("unavailable_reason") or f"{hazard_id} events unavailable",
-        }
+        }, []
 
     events = result.get("events") or []
     return {
@@ -142,7 +150,7 @@ def _events_for_peril(module: Any, hazard_id: str, lat: float, lon: float, radiu
         "events_count": len(events),
         "events_summary": [_safe_event_summary(e) for e in events[:5]],
         "events_reason": None,
-    }
+    }, events
 
 
 def _temporal_coverage(module: Any) -> Optional[Dict[str, Any]]:
@@ -184,8 +192,11 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
                 "events_summary": [],
                 "events_reason": f"{hazard_id} module is not registered in this deployment.",
             }
+            raw_events: Sequence[Dict[str, Any]] = []
+            coverage = None
         else:
-            events_block = _events_for_peril(module, hazard_id, lat, lon, radius_km)
+            events_block, raw_events = _events_for_peril(module, hazard_id, lat, lon, radius_km)
+            coverage = _temporal_coverage(module)
 
         if events_block["events_status"] in ("unavailable", "key_required"):
             declared_gaps.append({
@@ -198,6 +209,16 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
             events_available_count += 1
 
         level = current.get("level") or {}
+        peril_actuarial = actuarial.build_peril_actuarial(
+            hazard_id=hazard_id,
+            peril_label=config["label"],
+            events_status=events_block["events_status"],
+            events_count=events_block["events_count"],
+            events=raw_events,
+            temporal_coverage=coverage,
+            radius_km=radius_km,
+            current_level=(level.get("label") or None),
+        )
         perils.append({
             "hazard": hazard_id,
             "peril": config["label"],
@@ -212,7 +233,8 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
             "events_count": events_block["events_count"],
             "events_summary": events_block["events_summary"],
             "events_reason": events_block["events_reason"],
-            "temporal_coverage": _temporal_coverage(module) if module else None,
+            "temporal_coverage": coverage,
+            "actuarial": peril_actuarial,
         })
 
     assessed_perils = [p for p in perils if p["claim_status"] != "UNKNOWN"]
@@ -238,6 +260,13 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
         "perils": perils,
     })[:16]
 
+    account_actuarial = actuarial.build_account_actuarial(
+        [p["actuarial"] for p in perils],
+        peril_levels={
+            p["hazard"]: p["current_level"] for p in perils if p["current_level"] != "—"
+        },
+    )
+
     return _ENGINE.result(
         summary=exposure_summary,
         blocks={
@@ -247,6 +276,8 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
             "perils": perils,
             "declared_gaps": declared_gaps,
             "exposure_summary": exposure_summary,
+            "actuarial_summary": account_actuarial,
+            "actuarial_reference": actuarial.actuarial_reference(),
             "frameworks": INSURANCE_FRAMEWORKS,
             "loss_quantification": "not_quantified",
             "loss_quantification_note": NOT_QUANTIFIED,
@@ -262,6 +293,7 @@ def _trim_profile(profile: Dict[str, Any]) -> Dict[str, Any]:
         lvl = p.get("current_level")
         if lvl and lvl != "—":
             peril_levels[p["hazard"]] = lvl
+    account = profile.get("actuarial_summary") or {}
     return {
         "asset": profile.get("asset"),
         "ok": True,
@@ -272,6 +304,14 @@ def _trim_profile(profile: Dict[str, Any]) -> Dict[str, Any]:
             1 for p in profile.get("perils", []) if p.get("events_status") == "ok"
         ),
         "declared_gaps_count": len(profile.get("declared_gaps", [])),
+        "actuarial": {
+            "status": account.get("status"),
+            "perils_quantified": account.get("perils_quantified", 0),
+            "expected_annual_events_all_perils": account.get("expected_annual_events_all_perils"),
+            "any_peril_annual_exceedance_probability": account.get("any_peril_annual_exceedance_probability"),
+            "any_peril_return_period_years": account.get("any_peril_return_period_years"),
+            "dominant_peril": account.get("dominant_peril"),
+        },
     }
 
 
@@ -305,6 +345,18 @@ def build_portfolio_profile(assets: List[Dict[str, Any]], radius_km: float = 50.
             })
 
     ok_count = sum(1 for r in results if r.get("ok"))
+    quantified_sites = sum(
+        1 for r in results
+        if r.get("ok") and (r.get("actuarial") or {}).get("perils_quantified", 0) > 0
+    )
+    portfolio_aep = 1.0
+    any_aep_known = False
+    for r in results:
+        aep = (r.get("actuarial") or {}).get("any_peril_annual_exceedance_probability")
+        if aep is not None:
+            any_aep_known = True
+            portfolio_aep *= 1.0 - aep
+    portfolio_aep = 1.0 - portfolio_aep if any_aep_known else None
     portfolio_id = content_hash({
         "results": [{"profile_id": r.get("profile_id"), "ok": r.get("ok")} for r in results],
         "radius_km": radius_km,
@@ -325,6 +377,13 @@ def build_portfolio_profile(assets: List[Dict[str, Any]], radius_km: float = 50.
             "ok_count": ok_count,
             "level_distribution": level_distribution,
             "total_declared_gaps": total_gaps,
+            "actuarial": {
+                "sites_with_quantified_perils": quantified_sites,
+                "any_site_any_peril_aep": (
+                    round(portfolio_aep, 5) if portfolio_aep is not None else None
+                ),
+                "independence_caveat": actuarial.INDEPENDENCE_CAVEAT,
+            },
         },
         "results": results,
     }

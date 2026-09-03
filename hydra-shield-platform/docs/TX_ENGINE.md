@@ -75,7 +75,7 @@ Advertised TX layers (used progressively; never faked):
 | --- | --- | --- |
 | TX-0 | Retrieval | platform data retrieval (implicit) |
 | TX-1 | Deterministic | hazard screening modules (`src/climate/hazards/*`) |
-| TX-2 | Statistical | product engines (`insurance`, `verification`, `sustainability`, `licensing`) registered as location-first TX analyses (`adapters/products.py`) — they run only on explicit request (`analyses=[...]`), land in the same `results[]` stamped `tx_level=2`, and never change a hazard-only `analysis_id` |
+| TX-2 | Statistical | product engines (`insurance`, `verification`, `sustainability`, `licensing`) registered as location-first TX analyses (`adapters/products.py`) — they run only on explicit request (`analyses=[...]`), land in the same `results[]` stamped `tx_level=2`, and never change a hazard-only `analysis_id`. The `insurance` product embeds the actuarial layer (`src/climate/actuarial.py`): exact Poisson frequency intervals, exceedance probabilities, return periods, severity statistics, collective-risk moments and the EN/AR actuarial reference — all inside `results[].blocks`, so every TX consumer (API, CLI, SDK, QGIS) receives it unchanged |
 | TX-3 | Spatial | reserved (GIS indices / grids) |
 | TX-4 | Predictive | reserved |
 | TX-5 | ML | reserved (trained models) |

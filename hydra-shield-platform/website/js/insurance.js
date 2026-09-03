@@ -87,6 +87,177 @@
         return html;
     }
 
+    function pct(x, digits) {
+        if (x === null || x === undefined) return '—';
+        return (x * 100).toFixed(digits === undefined ? 1 : digits) + '%';
+    }
+
+    function _primarySeverityMetric(sev) {
+        if (!sev || !sev.metrics) return null;
+        var keys = Object.keys(sev.metrics);
+        if (!keys.length) return null;
+        keys.sort(function (a, b) {
+            var A = sev.metrics[a], B = sev.metrics[b];
+            return (B.n - A.n) || (B.mean - A.mean);
+        });
+        return { key: keys[0], stats: sev.metrics[keys[0]] };
+    }
+
+    function renderPerilActuarial(act) {
+        if (!act) return '';
+        var html = '<p class="muted small" style="margin-top:8px;"><strong>Actuarial screening:</strong></p>';
+        if (act.status !== 'ok') {
+            return html + '<p class="muted small">Unavailable: ' + esc(act.unavailable_reason || 'no actuarial estimate.') + '</p>';
+        }
+        var f = act.frequency || {};
+        html += '<div class="table-scroll"><table class="kv-table">' +
+            '<tr><th>Annual frequency λ̂</th><td>' + esc(f.lambda_per_year) +
+            ' <span class="muted small">(90% CI ' + esc(f.ci_lower) + '–' + esc(f.ci_upper) + ' · ' + esc(f.tier) + ')</span></td></tr>' +
+            '<tr><th>Annual exceedance probability</th><td>' + pct(act.annual_exceedance_probability) +
+            ' <span class="muted small">(upper bound ' + pct(act.annual_exceedance_probability_ci_upper) + ')</span></td></tr>' +
+            '<tr><th>Return period</th><td>' + (act.return_period_years != null ? esc(act.return_period_years) + ' years' : '—') + '</td></tr>' +
+            '<tr><th>Horizon probabilities</th><td>' +
+            '5y ' + pct((act.horizon_probabilities || {})['5y'], 0) + ' · ' +
+            '10y ' + pct((act.horizon_probabilities || {})['10y'], 0) + ' · ' +
+            '25y ' + pct((act.horizon_probabilities || {})['25y'], 0) + '</td></tr>' +
+            '</table></div>';
+
+        var sev = act.severity || {};
+        var primary = _primarySeverityMetric(sev);
+        if (primary) {
+            html += '<p class="muted small"><strong>Severity (' + esc(primary.key) + '):</strong> ' +
+                'n=' + esc(primary.stats.n) + ', mean=' + esc(primary.stats.mean) +
+                ', max=' + esc(primary.stats.max) + ', cv=' + esc(primary.stats.cv) +
+                ' <span class="muted">(dataset units, non-monetary)</span></p>';
+        }
+        if (act.severity_fit && act.severity_fit.status === 'ok') {
+            var fitLine = act.severity_fit.fits.map(function (f) {
+                return esc(f.distribution) + ' (AIC ' + esc(f.aic) + ', KS ' + esc(f.ks_statistic) + ')';
+            }).join(' · ');
+            html += '<p class="muted small"><strong>Severity fit:</strong> ' + fitLine +
+                ' — preferred: <strong>' + esc(act.severity_fit.preferred) + '</strong> (lowest AIC)</p>';
+        }
+        if (act.trend) {
+            if (act.trend.status === 'ok') {
+                html += '<p class="muted small"><strong>Frequency trend:</strong> ' + esc(act.trend.direction) +
+                    ' — ×' + esc(act.trend.annual_multiplier) + '/yr (p=' + esc(act.trend.p_value) + '); ' +
+                    'λ at latest record year ' + esc(act.trend.lambda_current_year) +
+                    ' vs record average ' + esc(act.trend.lambda_average) + '</p>';
+            } else {
+                html += '<p class="muted small"><strong>Frequency trend:</strong> unavailable — ' +
+                    esc(act.trend.unavailable_reason || '') + '</p>';
+            }
+        }
+        if (act.collective_risk && act.collective_risk.expected_annual_index != null) {
+            html += '<p class="muted small"><strong>Collective risk (compound Poisson):</strong> ' +
+                'E[S]=' + esc(act.collective_risk.expected_annual_index) + ', σ(S)=' + esc(act.collective_risk.std_annual_index) +
+                ' <span class="muted">(' + esc(act.collective_risk.unit) + ')</span></p>';
+        }
+        (act.notes || []).forEach(function (n) {
+            html += '<p class="muted small"><em>' + esc(n) + '</em></p>';
+        });
+        (act.assumptions || []).forEach(function (a) {
+            html += '<p class="muted small"><em>Assumption: ' + esc(a) + '</em></p>';
+        });
+        return html;
+    }
+
+    function renderActuarialAccount(profile) {
+        var a = profile.actuarial_summary;
+        if (!a) return '';
+        var html = '<div class="panel"><h3>Actuarial screening</h3>';
+        if (a.text) html += '<p class="muted small">' + esc(a.text) + '</p>';
+
+        var ins = a.insurability || {};
+        if (ins.status === 'ok') {
+            html += '<p style="margin:6px 0;"><strong>Insurability screen:</strong> ' + chip(ins.attention_band) +
+                ' <span class="muted small">attention score ' + esc(ins.attention_score) + '/100 · ' +
+                'confidence ' + esc(ins.confidence) + ' · data adequacy ' + pct(ins.data_adequacy, 0) + '</span><br>' +
+                '<span class="muted small">' + esc(ins.band_meaning) + ' ' + esc(ins.note || '') + '</span></p>';
+        } else if (ins.unavailable_reason) {
+            html += '<p class="muted small">Insurability screen unavailable: ' + esc(ins.unavailable_reason) + '</p>';
+        }
+
+        var trends = a.significant_trends || {};
+        if (Object.keys(trends).length) {
+            html += '<p class="muted small"><strong>Significant frequency trends (p&lt;0.05):</strong> ' +
+                Object.keys(trends).map(function (h) {
+                    return esc(h) + ' ' + esc(trends[h].direction) + ' (×' + esc(trends[h].annual_multiplier) + '/yr)';
+                }).join('; ') + '.</p>';
+        }
+
+        html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Peril</th><th>λ̂ /yr (90% CI)</th><th>Tier</th><th>AEP</th><th>Return period</th>' +
+            '<th>10-yr horizon</th><th>Trend</th><th>Severity mean</th><th>E[S] /yr</th>' +
+            '</tr></thead><tbody>';
+        (profile.perils || []).forEach(function (p) {
+            var act = p.actuarial || {};
+            if (act.status !== 'ok') {
+                html += '<tr><td>' + esc(p.peril) + '</td><td colspan="8">' +
+                    chip(act.status || 'unavailable') + ' <span class="muted small">' +
+                    esc(act.unavailable_reason || '') + '</span></td></tr>';
+                return;
+            }
+            var f = act.frequency || {};
+            var trendCell = '<span class="muted">n/a</span>';
+            if (act.trend && act.trend.status === 'ok') {
+                trendCell = esc(act.trend.direction) + ' ×' + esc(act.trend.annual_multiplier);
+            }
+            var primary = _primarySeverityMetric(act.severity || {});
+            var sevCell = primary ? esc(primary.stats.mean) + ' <span class="muted small">' + esc(primary.key) + '</span>' : '—';
+            var esCell = (act.collective_risk && act.collective_risk.expected_annual_index != null)
+                ? esc(act.collective_risk.expected_annual_index) : '—';
+            html += '<tr>' +
+                '<td>' + esc(p.peril) + '</td>' +
+                '<td>' + esc(f.lambda_per_year) + ' <span class="muted small">(' + esc(f.ci_lower) + '–' + esc(f.ci_upper) + ')</span></td>' +
+                '<td>' + esc(f.tier) + '</td>' +
+                '<td>' + pct(act.annual_exceedance_probability) + '</td>' +
+                '<td>' + (act.return_period_years != null ? esc(act.return_period_years) + ' yrs' : '—') + '</td>' +
+                '<td>' + pct((act.horizon_probabilities || {})['10y'], 0) + '</td>' +
+                '<td>' + trendCell + '</td>' +
+                '<td>' + sevCell + '</td>' +
+                '<td>' + esCell + '</td>' +
+                '</tr>';
+        });
+        html += '</tbody></table></div>';
+
+        var caveats = (a.assumptions || []).concat(a.independence_caveat ? [a.independence_caveat] : []);
+        if (caveats.length) {
+            html += '<details class="expander" style="margin-top:8px;"><summary><strong>Assumptions &amp; caveats</strong></summary><ul class="muted small">';
+            caveats.forEach(function (c) { html += '<li>' + esc(c) + '</li>'; });
+            html += '</ul></details>';
+        }
+        html += renderActuarialReference(profile.actuarial_reference);
+        html += '</div>';
+        return html;
+    }
+
+    function renderActuarialReference(ref) {
+        if (!ref) return '';
+        var html = '<details class="expander" style="margin-top:8px;">' +
+            '<summary><strong>Actuarial reference — formulas &amp; terminology (EN / AR)</strong> ' +
+            '<span class="muted small">' + esc(ref.formula_count) + ' formulas · ' + esc(ref.term_count) + ' terms</span></summary>';
+        html += '<p class="muted small">' + esc(ref.note || '') + '</p>';
+        html += '<h4>Formulas</h4><div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Name</th><th>الاسم</th><th>Formula</th><th>Use</th></tr></thead><tbody>';
+        (ref.formulas || []).forEach(function (f) {
+            html += '<tr><td>' + esc(f.name_en) + '</td><td>' + esc(f.name_ar) + '</td>' +
+                '<td><code>' + esc(f.formula) + '</code></td><td class="muted small">' + esc(f.use_en) + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+        html += '<h4>Terminology</h4><div class="table-scroll"><table class="data-table"><thead><tr>' +
+            '<th>Category</th><th>Term</th><th>المصطلح</th><th>Definition</th><th>التعريف</th></tr></thead><tbody>';
+        (ref.glossary || []).forEach(function (t) {
+            var cat = (ref.categories && ref.categories[t.category]) || {};
+            html += '<tr><td class="muted small">' + esc(cat.en || t.category) + '</td>' +
+                '<td>' + esc(t.term_en) + '</td><td>' + esc(t.term_ar) + '</td>' +
+                '<td class="muted small">' + esc(t.def_en) + '</td>' +
+                '<td class="muted small">' + esc(t.def_ar) + '</td></tr>';
+        });
+        html += '</tbody></table></div></details>';
+        return html;
+    }
+
     function renderProfile(profile, loc) {
         var asset = profile.asset || {};
         var html = '';
@@ -118,6 +289,8 @@
         });
         html += '</tbody></table></div></div>';
 
+        html += renderActuarialAccount(profile);
+
         html += '<div class="panel"><h3>Per-peril details</h3>';
         (profile.perils || []).forEach(function (p) {
             html += '<details class="expander">';
@@ -132,6 +305,7 @@
             if (p.temporal_coverage) {
                 html += '<p class="muted small"><strong>Temporal coverage:</strong> ' + esc(JSON.stringify(p.temporal_coverage)) + '</p>';
             }
+            html += renderPerilActuarial(p.actuarial);
             if ((p.limitations || []).length) {
                 html += '<div class="notice notice-warn" style="margin-top:8px;">';
                 p.limitations.forEach(function (lim) { html += esc(lim) + '<br>'; });
@@ -224,6 +398,16 @@
             esc(data.ok_count) + ' of ' + esc(data.count) + ' assets OK</p>';
 
         var ps = data.portfolio_summary || {};
+        var pact = ps.actuarial || {};
+        if (pact.sites_with_quantified_perils !== undefined) {
+            html += '<p class="muted small"><strong>Actuarial screen:</strong> ' +
+                esc(pact.sites_with_quantified_perils) + ' site(s) with quantified perils' +
+                (pact.any_site_any_peril_aep != null
+                    ? ' · any-site/any-peril AEP ' + (pact.any_site_any_peril_aep * 100).toFixed(1) + '%'
+                    : '') +
+                (pact.independence_caveat ? '<br><em>' + esc(pact.independence_caveat) + '</em>' : '') +
+                '</p>';
+        }
         html += '<h4>Per-peril level distribution</h4>';
         var dist = ps.level_distribution || {};
         var hasDist = Object.keys(dist).length > 0;
@@ -243,7 +427,8 @@
 
         html += '<h4>Per-asset results</h4>';
         html += '<div class="table-scroll"><table class="data-table"><thead><tr>' +
-            '<th>Asset</th><th>OK</th><th>Peril levels</th><th>Events available</th><th>Profile id</th>' +
+            '<th>Asset</th><th>OK</th><th>Peril levels</th><th>Events available</th>' +
+            '<th>Any-peril AEP</th><th>Dominant peril</th><th>Profile id</th>' +
             '</tr></thead><tbody>';
         (data.results || []).forEach(function (r) {
             var asset = r.asset || {};
@@ -251,11 +436,18 @@
             var levels = Object.keys(r.peril_levels || {}).map(function (h) {
                 return esc(h) + ': ' + esc(r.peril_levels[h]);
             }).join(', ') || '—';
+            var ra = r.actuarial || {};
+            var aepCell = ra.any_peril_annual_exceedance_probability != null
+                ? (ra.any_peril_annual_exceedance_probability * 100).toFixed(1) + '%' : '—';
+            var domCell = (ra.dominant_peril && ra.dominant_peril.hazard)
+                ? esc(ra.dominant_peril.hazard) : '—';
             html += '<tr>' +
                 '<td>' + esc(siteLabel) + '</td>' +
                 '<td>' + (r.ok ? '<span class="chip chip-observed">YES</span>' : '<span class="chip chip-error">NO</span>') + '</td>' +
                 '<td>' + levels + '</td>' +
                 '<td>' + esc(r.events_available_count) + '</td>' +
+                '<td>' + aepCell + '</td>' +
+                '<td>' + domCell + '</td>' +
                 '<td>' + esc(r.profile_id || '—') + '</td>' +
                 '</tr>';
         });

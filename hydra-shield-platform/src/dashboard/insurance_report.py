@@ -26,7 +26,7 @@ from .verification_report import (
     _xml,
 )
 
-REPORT_ENGINE_VERSION = "1.0.0"
+REPORT_ENGINE_VERSION = "1.1.0"
 
 
 def _footer(canvas, doc):
@@ -82,6 +82,73 @@ def _events_summary_list(events: List[Dict[str, Any]]) -> str:
     return "<br/>".join(f"• {_xml(part)}" for part in parts)
 
 
+def _pct(x: Any, digits: int = 1) -> str:
+    if x is None:
+        return "—"
+    try:
+        return f"{float(x) * 100:.{digits}f}%"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def _primary_severity_metric(sev: Dict[str, Any]) -> Any:
+    metrics = (sev or {}).get("metrics") or {}
+    if not metrics:
+        return None
+    key = max(metrics, key=lambda k: (metrics[k].get("n", 0), metrics[k].get("mean", 0)))
+    return key, metrics[key]
+
+
+def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
+    rows = [[
+        "Peril", "λ̂ /yr (90% CI)", "Tier", "AEP", "Return period",
+        "10-yr horizon", "Trend", "Severity mean", "E[S] /yr",
+    ]]
+    for p in perils:
+        act = p.get("actuarial") or {}
+        if act.get("status") != "ok":
+            rows.append([
+                _xml(p.get("peril")),
+                f"{_xml(act.get('status', 'unavailable'))} — see details",
+                "—", "—", "—", "—", "—", "—", "—",
+            ])
+            continue
+        f = act.get("frequency") or {}
+        trend = act.get("trend") or {}
+        trend_cell = (
+            f"{trend.get('direction')} ×{trend.get('annual_multiplier')}"
+            if trend.get("status") == "ok" else "n/a"
+        )
+        primary = _primary_severity_metric(act.get("severity") or {})
+        sev_cell = f"{primary[1].get('mean')} ({primary[0]})" if primary else "—"
+        cr = act.get("collective_risk") or {}
+        rp = act.get("return_period_years")
+        rows.append([
+            _xml(p.get("peril")),
+            f"{_xml(f.get('lambda_per_year'))} ({_xml(f.get('ci_lower'))}–{_xml(f.get('ci_upper'))})",
+            _xml(f.get("tier")),
+            _pct(act.get("annual_exceedance_probability")),
+            f"{_xml(rp)} yrs" if rp is not None else "—",
+            _pct((act.get("horizon_probabilities") or {}).get("10y"), 0),
+            _xml(trend_cell),
+            _xml(sev_cell),
+            _xml(cr.get("expected_annual_index", "—")),
+        ])
+    t = Table(rows, colWidths=(26 * mm, 26 * mm, 15 * mm, 14 * mm, 17 * mm, 16 * mm, 22 * mm, 20 * mm, 14 * mm),
+              repeatRows=1)
+    t.setStyle(TableStyle([
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, -1), 7.5),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#0f172a")),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#e2e8f0")),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+        ("TOPPADDING", (0, 0), (-1, -1), 4),
+    ]))
+    return t
+
+
 def build_insurance_pdf(profile: Dict[str, Any]) -> bytes:
     """Build the Insurance Environmental Risk Profile PDF as bytes."""
     if not _HAS_REPORTLAB:
@@ -124,6 +191,41 @@ def build_insurance_pdf(profile: Dict[str, Any]) -> bytes:
     story.append(Paragraph("Per-peril overview", _S))
     story.append(_peril_overview_table(perils))
 
+    # ---- Actuarial screening ---------------------------------------------------
+    account = profile.get("actuarial_summary") or {}
+    if account:
+        story.append(Paragraph("Actuarial screening (non-monetary)", _S))
+        if account.get("text"):
+            story.append(Paragraph(_xml(account["text"]), _B))
+        ins = account.get("insurability") or {}
+        if ins.get("status") == "ok":
+            story.append(Paragraph(
+                f"<b>Insurability screen:</b> {_xml(ins.get('attention_band'))} — "
+                f"attention score {_xml(ins.get('attention_score'))}/100, "
+                f"confidence {_xml(ins.get('confidence'))}, "
+                f"data adequacy {_pct(ins.get('data_adequacy'), 0)}. "
+                f"{_xml(ins.get('band_meaning'))}",
+                _B,
+            ))
+            story.append(Paragraph(f"<i>{_xml(ins.get('note'))}</i>", _SM))
+        trends = account.get("significant_trends") or {}
+        if trends:
+            story.append(Paragraph(
+                "<b>Significant frequency trends (p&lt;0.05):</b> "
+                + "; ".join(
+                    f"{_xml(h)} {_xml(t.get('direction'))} "
+                    f"(×{_xml(t.get('annual_multiplier'))}/yr)"
+                    for h, t in trends.items()
+                ) + ".",
+                _B,
+            ))
+        story.append(_actuarial_account_table(perils))
+        caveats = list(account.get("assumptions") or [])
+        if account.get("independence_caveat"):
+            caveats.append(account["independence_caveat"])
+        for c in caveats:
+            story.append(Paragraph(f"<i>{_xml(c)}</i>", _SM))
+
     # ---- Per-peril details ---------------------------------------------------
     story.append(Paragraph("Per-peril details", _S))
     for p in perils:
@@ -149,6 +251,47 @@ def build_insurance_pdf(profile: Dict[str, Any]) -> bytes:
         if p.get("temporal_coverage"):
             story.append(Paragraph(
                 f"<b>Dataset temporal coverage:</b> {_xml(p['temporal_coverage'])}",
+                _SM,
+            ))
+        act = p.get("actuarial") or {}
+        if act.get("status") == "ok":
+            f = act.get("frequency") or {}
+            rp = act.get("return_period_years")
+            story.append(Paragraph(
+                f"<b>Actuarial:</b> λ̂ {_xml(f.get('lambda_per_year'))}/yr "
+                f"(90% CI {_xml(f.get('ci_lower'))}–{_xml(f.get('ci_upper'))}, "
+                f"{_xml(f.get('tier'))}); AEP {_pct(act.get('annual_exceedance_probability'))}"
+                + (f"; return period {_xml(rp)} yrs" if rp is not None else "")
+                + ".",
+                _SM,
+            ))
+            trend = act.get("trend") or {}
+            if trend.get("status") == "ok":
+                story.append(Paragraph(
+                    f"<b>Frequency trend:</b> {_xml(trend.get('direction'))}, "
+                    f"×{_xml(trend.get('annual_multiplier'))}/yr "
+                    f"(p={_xml(trend.get('p_value'))}); λ at latest record year "
+                    f"{_xml(trend.get('lambda_current_year'))} vs record average "
+                    f"{_xml(trend.get('lambda_average'))}.",
+                    _SM,
+                ))
+            fit = act.get("severity_fit") or {}
+            if fit.get("status") == "ok":
+                story.append(Paragraph(
+                    f"<b>Severity fit ({_xml(fit.get('severity_metric'))}):</b> "
+                    + "; ".join(
+                        f"{_xml(fl.get('distribution'))} (AIC {_xml(fl.get('aic'))}, "
+                        f"KS {_xml(fl.get('ks_statistic'))})"
+                        for fl in (fit.get("fits") or [])
+                    ) + f" — preferred: {_xml(fit.get('preferred'))}. "
+                    f"<i>{_xml(fit.get('note'))}</i>",
+                    _SM,
+                ))
+            for note in (act.get("notes") or []):
+                story.append(Paragraph(f"<i>{_xml(note)}</i>", _SM))
+        elif act.get("unavailable_reason"):
+            story.append(Paragraph(
+                f"<b>Actuarial:</b> unavailable — {_xml(act['unavailable_reason'])}",
                 _SM,
             ))
         if p.get("limitations"):
