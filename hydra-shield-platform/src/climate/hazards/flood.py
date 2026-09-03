@@ -11,6 +11,10 @@ Real-data analyses only:
   Streamflow Service: the reach's own retrospective series and 15-day
   forecast medians, compared side by side with GloFAS over aligned dates
   (never merged). Closes the declared single-provider discharge gap.
+- **Gauge observations (2026-09 wiring)** — USGS Water Services (NWIS
+  instantaneous streamflow): real measured discharge at the nearest active
+  gauges — US network only; outside it the analysis states the coverage
+  limit explicitly. Reported alongside the modelled series, never merged.
 - **Current flood alerts (2026-09 wiring)** — GDACS ``FL`` event feed for
   the events layer (monitoring context, not a forecast).
 - **Extreme precipitation** — ERA5 daily precipitation via the Open-Meteo
@@ -149,6 +153,29 @@ class FloodModule(HazardModule):
             evidence.append(rec.to_dict())
             provenance["river_discharge_geoglows"] = rec.to_dict()
 
+        # -- gauge observations (USGS — OBSERVED, US-only honest coverage) --
+        gauges = rd.fetch_usgs_gauges(lat, lon)
+        blocks["river_discharge_gauges"] = self._gauges_block(gauges, lat, lon)
+        if blocks["river_discharge_gauges"].get("status") == "ok":
+            rec = EvidenceRecord(
+                EvidenceClass.OPEN_DATA_OFFICIAL.value,
+                ClaimStatus.OBSERVED.value,
+                TemporalClass.OBSERVED.value,
+                gauges["source"],
+                dataset="USGS NWIS instantaneous streamflow (parameter 00060)",
+                provider_url="https://waterservices.usgs.gov/",
+                link=gauges.get("request_url"),
+                location={"lat": lat, "lon": lon},
+                method=("Nearest active USGS stream gauges with latest "
+                        "instantaneous discharge (ft³/s → m³/s, declared "
+                        "factor); reported alongside the modelled series, "
+                        "never merged."),
+                resolution="Gauge points (US network)",
+                limitations="United States coverage only.",
+            )
+            evidence.append(rec.to_dict())
+            provenance["river_discharge_gauges"] = rec.to_dict()
+
         # -- extreme precipitation --------------------------------------
         pr_block, pr_level_input = self._precip_block(precip, hist_start, archive_end)
         blocks["extreme_precipitation"] = pr_block
@@ -213,7 +240,8 @@ class FloodModule(HazardModule):
         blocks["declared_limitations"] = (
             "Foundation analysis: NO flood-extent maps, NO flood forecasts, NO depth "
             "grids. Discharge is GloFAS and GEOGLOWS hydrological model output "
-            "(two independent models reported side by side, never merged); "
+            "(two independent models reported side by side, never merged); USGS "
+            "gauge observations (US-only) are the measured counterpart; "
             "precipitation is ERA5 reanalysis; terrain is context only "
             "(not a hydraulic model)."
         )
@@ -547,6 +575,38 @@ class FloodModule(HazardModule):
             "note": geoglows.get("note"),
         }
 
+    @staticmethod
+    def _gauges_block(gauges: Dict, lat: float, lon: float) -> Dict[str, Any]:
+        """USGS stream-gauge observations block (OBSERVED, US-only).
+
+        Outside the US network the answer is an explicit no_coverage state —
+        never an error, never zero."""
+        if "error" in gauges:
+            return {"status": "unavailable", "reason": gauges["error"],
+                    "source": gauges.get("source")}
+        if gauges.get("status") == "no_coverage":
+            return {"status": "no_coverage",
+                    "note": gauges.get("note"),
+                    "source": gauges.get("source")}
+        from ._gdacs import haversine_km
+        ranked = sorted(
+            gauges["gauges"],
+            key=lambda g: haversine_km(lat, lon, g["lat"], g["lon"]))[:5]
+        for g in ranked:
+            g["distance_km"] = round(
+                haversine_km(lat, lon, g["lat"], g["lon"]), 1)
+        return {
+            "status": "ok",
+            "claim_status": ClaimStatus.OBSERVED.value,
+            "role": ("Real gauge observations (USGS NWIS) — the measured "
+                     "counterpart to the GloFAS/GEOGLOWS modelled series; "
+                     "reported alongside them, never merged."),
+            "gauges_within_box": len(gauges["gauges"]),
+            "nearest_gauges": ranked,
+            "source": gauges["source"],
+            "note": gauges.get("note"),
+        }
+
     # -- events (map layer feed: current GDACS flood alerts) ----------------
 
     def events(
@@ -611,6 +671,36 @@ class FloodModule(HazardModule):
                 status="available",
                 temporal=TemporalClass.OBSERVED.value,
                 default_on=True,
+            ).to_dict(),
+            LayerSpec(
+                layer_id="flood.geoglows",
+                label="River discharge — second model (GEOGLOWS)",
+                group="HAZARD",
+                kind="points",
+                endpoint="/api/v2/analyze?hazard=flood&lat={lat}&lon={lon}",
+                source="GEOGLOWS ECMWF Streamflow Service (modelled, per river reach)",
+                url="https://geoglows.ecmwf.int/",
+                resolution="GEOGLOWS river reaches (~150k segments)",
+                status="available",
+                temporal=TemporalClass.HISTORICAL.value,
+                provenance={"note": ("Second, independent discharge model — reported "
+                                     "side by side with GloFAS in the analysis "
+                                     "payload, never merged.")},
+            ).to_dict(),
+            LayerSpec(
+                layer_id="flood.usgs_gauges",
+                label="Stream gauges — observed (USGS, US only)",
+                group="EVIDENCE",
+                kind="points",
+                endpoint="/api/v2/analyze?hazard=flood&lat={lat}&lon={lon}",
+                source="USGS Water Services (NWIS instantaneous values — gauge observations)",
+                url="https://waterservices.usgs.gov/",
+                resolution="Gauge points (US network)",
+                status="available",
+                temporal=TemporalClass.OBSERVED.value,
+                provenance={"note": ("Real gauge observations — the measured "
+                                     "counterpart to the modelled series; US "
+                                     "coverage only (stated explicitly elsewhere).")},
             ).to_dict(),
             LayerSpec(
                 layer_id="flood.precipitation",

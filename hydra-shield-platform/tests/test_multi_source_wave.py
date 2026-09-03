@@ -177,6 +177,13 @@ def _mount_flood(monkeypatch, geoglows=None):
     monkeypatch.setattr(
         real_data, "fetch_geoglows_discharge",
         lambda lat, lon, start, end: geoglows if geoglows is not None else _geoglows_series())
+    monkeypatch.setattr(
+        real_data, "fetch_usgs_gauges",
+        lambda lat, lon, radius_km=100.0: {
+            "status": "no_coverage", "gauges": [],
+            "source": real_data.USGS_WATER_SOURCE,
+            "note": "No active USGS stream gauges within the search box — coverage statement.",
+        })
 
 
 def test_flood_analyze_includes_geoglows_second_provider(monkeypatch):
@@ -378,7 +385,7 @@ def test_geoglows_discharge_error_paths(monkeypatch):
 
 def test_discharge_chain_gap_closed_soil_moisture_gap_declared():
     discharge = ingestion.PROVIDER_CHAINS["discharge"]
-    assert discharge.providers == ["glofas-openmeteo", "geoglows"]
+    assert discharge.providers == ["glofas-openmeteo", "geoglows", "usgs-water"]
     assert discharge.single_provider_gap is False
     assert "never merged" in discharge.comparison_note
     gaps = {n for n, c in ingestion.PROVIDER_CHAINS.items()

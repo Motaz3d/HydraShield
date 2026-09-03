@@ -45,7 +45,8 @@ when wired to at least one real, documented data source. Current registry:
 | Hazard | Status | Primary real sources (key-free unless noted) |
 |---|---|---|
 | Wildfire | **operational** | Open-Meteo + ERA5, Sentinel-2 (Element84 STAC), ESA WorldCover, EU-DEM/SRTM, NASA FIRMS (**free key**), OSM/ohsome |
-| Flood | foundation | Open-Meteo Flood API (GloFAS river discharge, Copernicus EMS/JRC) + GEOGLOWS ECMWF streamflow as second provider (side-by-side, never merged), ERA5 precipitation (accumulation + antecedent index), DEM (flow-relevant terrain), OSM waterway context, GDACS FL current flood alerts (events layer) |
+| Flood | foundation | Open-Meteo Flood API (GloFAS river discharge, Copernicus EMS/JRC) + GEOGLOWS ECMWF streamflow as second model (side-by-side, never merged) + USGS stream gauges (OBSERVED, US-only), ERA5 precipitation (accumulation + antecedent index), DEM (flow-relevant terrain), OSM waterway context, GDACS FL current flood alerts (events layer) |
+| Earthquake | foundation | USGS ANSS ComCat (documented seismicity, events) + EMSC second source (never merged) — documented context, never an earthquake forecast; GEM/OpenQuake probabilistic hazard is a candidate |
 | Drought | foundation | ERA5/ERA5-Land via Open-Meteo archive: precipitation deficit, standardized anomaly (declared method), soil moisture (0–7 cm), ET₀, NDMI (Sentinel-2), WorldCover agriculture exposure |
 | Extreme heat | foundation | ERA5 daily Tmax series: percentile vs same-location climatology, heatwave spell detection (WMO-style ≥5 days above climatological threshold, declared method) |
 | Extreme wind | foundation | ERA5/Open-Meteo daily wind gust maxima: percentile vs climatology, storm spell detection |
@@ -174,10 +175,13 @@ integrated pipeline yet — they appear in `/api/v2/hazards` with
 `analysis.available: false` and the reason stated, never as working
 features:
 
-- **dust** (dust / sandstorm) — candidate sources: CAMS (requires ADS
-  credentials) and WMO SDS-WAS. Regional terms (Sirocco, Khamsin, dust
-  transport) are related but not identical; any pipeline must classify by
-  the source's own terminology. Analysis and events both unavailable.
+- **dust** (dust / sandstorm) — the **events layer went live 2026-09** via
+  NASA EONET ``dustHaze`` (open incidents, monitoring context only,
+  `events.available: true`). **Analysis stays honestly unavailable**:
+  CAMS requires ADS credentials (``CAMS_ADS_URL`` / ``CAMS_ADS_KEY``);
+  WMO SDS-WAS is a candidate reference. Regional terms (Sirocco, Khamsin,
+  dust transport) are related but not identical; any pipeline must
+  classify by the source's own terminology.
 - **volcanic** — the **events layer went live 2026-09** via the GDACS
   ``VO`` feed (current volcanic-activity alerts worldwide — monitoring
   context only, `events.available: true`). **Analysis stays honestly

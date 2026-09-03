@@ -1053,7 +1053,8 @@
       "hazards_addressed": [
         "wind",
         "flood",
-        "coastal"
+        "coastal",
+        "earthquake"
       ],
       "economic_sectors": [
         "energy",
@@ -1071,7 +1072,7 @@
         "requires_water": false,
         "requires_urban": false
       },
-      "mechanism": "Locating new assets outside documented hazard footprints avoids exposure rather than defending against it; benefit declared qualitative.",
+      "mechanism": "Locating new assets outside documented hazard footprints — including documented seismicity zones (USGS ComCat seismic context) — avoids exposure rather than defending against it; benefit declared qualitative.",
       "expected_benefit": {
         "quantified": false,
         "quantification_note": "avoided-loss accounting requires a documented valuation method — not integrated"

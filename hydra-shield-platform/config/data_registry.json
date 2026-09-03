@@ -1,5 +1,5 @@
 {
-  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation. 2026-09-03 (gradual engine wiring): gdacs-events (flood FL + volcanic VO event layers), nasa-eonet (wildfire second independent event source) and geoglows (second discharge provider — declared single-provider discharge gap closed) moved from candidate to integrated with full data-quality profiles.",
+  "description": "Talaix Data Observatory — the data registry. Catalog records of datasets: status integrated | candidate | rejected. 'integrated' means the source is wired into a live pipeline path (status_note says where); 'candidate' means catalogued for evaluation — nothing is wired to it; 'rejected' means evaluated and declined with reason. Entries carry no implication of use unless status=integrated. Built 2026-08-17 from config/source_registry.json (29 source entries transformed; the two dual-dataset entries — EU-DEM+SRTM terrain, FIRMS VIIRS+MODIS, OSM ohsome+Overpass — were split into one record per dataset+access path, giving 32 transformed records) plus 23 new authoritative global candidates. Extended 2026-08-17 (second pass) with 12 further national-service candidates (eccc, saws, ncm-uae, inmet, smn-mexico, smn-argentina, dmc-chile, senamhi, marocmeteo, ncm-saudi, mss-singapore, bmkg — URLs reachability-checked at audit date, results in each entry's provenance) and data_quality_profile objects on every integrated entry (freshness/completeness/resolution/provenance/validation/coverage/licensing — facts from the entry itself; candidates carry no profile: nothing is wired to them). Extended 2026-09-03 (global open-data pass): +94 catalog records — global/regional data catalogues and national open-data portals (EU, US, UK, FR, DE, ES, CA, AU, JP, KR, IN, BR, MX, SA, QA, JO, MA, TN, openAFRICA), international organisations (World Bank, IMF, OECD, Eurostat, UN, ILO, FAO, UNHCR, WHO, UN WPP, BIS, ECB), hazard & disaster archives (EM-DAT, DesInventar, ThinkHazard, PreventionWeb, EMSC, GEM, ISC, GVP, NOAA Storm Events, IBTrACS, IFRC GO, ACLED, UCDP, GTD, USDM, EDO, GDACS multi-hazard), new earth-observation sources (GOES-R, EUMETSAT, Himawari, ALOS-2, GPM IMERG, SMAP, GRACE-FO, SWOT, VIIRS night lights, Planetary Computer, OpenTopography, NASADEM, Copernicus Marine, CHIRPS, AWS Open Data), climate (CMIP6, IPCC Atlas, NOAA GML, Climate TRACE, WRI Aqueduct, Berkeley Earth), environment (GBIF, IUCN, WDPA, OpenAQ, E-PRTR, HydroSHEDS, GEMStat, SoilGrids, GEBCO, EMODnet, GEOGLOWS, Overture Maps), energy/economy (GEM, Ember, IEA, IRENA, ENTSO-E, EIA, OPSD) and evidence/knowledge (OpenCorporates, OpenSanctions, GLEIF, SEC EDGAR, Wikidata, Crossref, OpenAlex, OWID) — all candidates (nothing wired), URLs reachability-checked 2026-09-03 except four national portals (govdata-de, data-gov-sa, data-gov-qa, data-gov-jo) where the check failed from the audit network (noted in their provenance). Also integrated: landsat-c2-l2 (USGS/NASA Landsat Collection 2 Level-2 via Microsoft Planetary Computer STAC) as the optical-satellite fallback in fetch_satellite_data, verified end-to-end 2026-09-03. New candidates carry a catalog_group label for registry navigation. 2026-09-03 (gradual engine wiring): gdacs-events (flood FL + volcanic VO event layers), nasa-eonet (wildfire second independent event source) and geoglows (second discharge provider — declared single-provider discharge gap closed) moved from candidate to integrated with full data-quality profiles. 2026-09-03 (gradual wiring wave 2): usgs-water (gauge observations in flood analysis, US-only honest coverage), usgs-earthquake (new earthquake hazard module — documented seismicity, never prediction) and emsc (second seismic source) moved from candidate to integrated; nasa-eonet extended to the dust events layer (dustHaze).",
   "audit_date": "2026-08-17",
   "observatory_note": "Entries are catalog records — status integrated/candidate/rejected; nothing here implies the data is wired into analysis unless status=integrated.",
   "datasets": [
@@ -1194,9 +1194,19 @@
       "access_method": "api",
       "api_or_download_url": "https://waterservices.usgs.gov/nwis/iv/",
       "commercial_use": "allowed",
-      "status": "candidate",
-      "status_note": "Candidate — declared future fallback for the single-provider discharge chain (US coverage only); nothing wired to it.",
-      "catalog_group": "environment"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (gradual wiring wave 2): real gauge observations (NWIS instantaneous streamflow, parameter 00060) feed the flood analysis river_discharge_gauges block via fetch_usgs_gauges in src/dashboard/real_data.py — US network only; outside it the analysis states the coverage limit explicitly. Reported alongside the GloFAS/GEOGLOWS modelled series, never merged.",
+      "catalog_group": "environment",
+      "data_quality_profile": {
+        "freshness": "Instantaneous values (15–60 min typical)",
+        "completeness": "United States network only — outside it the platform answers with an explicit no_coverage state, never an error.",
+        "spatial_resolution_note": "Gauge points (active USGS network)",
+        "temporal_resolution_note": "Instantaneous (sub-hourly) latest values",
+        "provenance_note": "Integrated 2026-09-03: IV service verified live (bBox query, 63 active gauges in a test box; site/geometry/value structure confirmed).",
+        "validation": "API verified live 2026-09-03; offline unit tests cover parsing, ft³/s→m³/s conversion and the no_coverage honesty path (tests/test_multi_source_wave2.py).",
+        "coverage_note": "United States (all active stream gauges, parameter 00060).",
+        "licensing_note": "US Government work (public domain); commercial use allowed."
+      }
     },
     {
       "id": "usgs-earthquake",
@@ -1222,9 +1232,19 @@
       "access_method": "api",
       "api_or_download_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
       "commercial_use": "allowed",
-      "status": "candidate",
-      "status_note": "Candidate — catalogued for situational-awareness context only: earthquakes are not a climate hazard and sit outside the hazard registry (hazard_relevance intentionally empty); nothing wired to it.",
-      "catalog_group": "hazard_disaster"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (gradual wiring wave 2): USGS ANSS ComCat (FDSN event web service) powers the new earthquake hazard module — documented seismicity analysis and the events layer via fetch_usgs_earthquakes in src/dashboard/real_data.py. Monitoring/historical context only — never an earthquake forecast.",
+      "catalog_group": "hazard_disaster",
+      "data_quality_profile": {
+        "freshness": "Near-real-time catalogue (minutes for reviewed events)",
+        "completeness": "Catalog completeness varies by region and magnitude; query windows are capped (latest 200–300 events) — window counts, not complete rates.",
+        "spatial_resolution_note": "Event hypocentres (global)",
+        "temporal_resolution_note": "Event-based; instrumental-catalog era archive",
+        "provenance_note": "Integrated 2026-09-03: ComCat FDSN query verified live 2026-09-03 (GeoJSON, bounded windows).",
+        "validation": "API verified live 2026-09-03; offline unit tests cover flattening, windowing and the never-a-forecast contract (tests/test_multi_source_wave2.py).",
+        "coverage_note": "Global; magnitude-filtered windows by radius and date.",
+        "licensing_note": "US Government work (public domain); commercial use allowed."
+      }
     },
     {
       "id": "nasa-earthdata",
@@ -3447,9 +3467,19 @@
       "access_method": "api",
       "api_or_download_url": "https://www.seismicportal.eu/fdsnws/event/1/",
       "commercial_use": "allowed_with_attribution",
-      "status": "candidate",
-      "status_note": "Candidate: second seismic source (never merged with USGS — reported per provider).",
-      "catalog_group": "hazard_disaster"
+      "status": "integrated",
+      "status_note": "Integrated 2026-09-03 (gradual wiring wave 2): EMSC FDSN event service (SeismicPortal) is the independent second seismic source in the earthquake module via fetch_emsc_earthquakes in src/dashboard/real_data.py — reported separately from USGS ComCat, never merged.",
+      "catalog_group": "hazard_disaster",
+      "data_quality_profile": {
+        "freshness": "Near-real-time (minutes)",
+        "completeness": "Euro-Med focus; independent of USGS — reported per source.",
+        "spatial_resolution_note": "Event hypocentres",
+        "temporal_resolution_note": "Event-based; real-time catalogue",
+        "provenance_note": "Integrated 2026-09-03: FDSN event query verified live 2026-09-03 (M3.7 France event returned).",
+        "validation": "API verified live 2026-09-03; offline unit tests cover flattening and the second-source contract (tests/test_multi_source_wave2.py).",
+        "coverage_note": "Global with Euro-Med focus.",
+        "licensing_note": "EMSC data terms (open for research with attribution); commercial use allowed with attribution."
+      }
     },
     {
       "id": "gem-openquake",
@@ -5422,14 +5452,14 @@
       "api_or_download_url": "https://eonet.gsfc.nasa.gov/api/v3/events",
       "commercial_use": "allowed",
       "status": "integrated",
-      "status_note": "Integrated 2026-09-03 (gradual engine wiring): EONET v3 open wildfire incidents feed the wildfire events payload as the independent second event source next to NASA FIRMS (reported separately, never merged) via fetch_eonet_wildfires in src/dashboard/real_data.py.",
+      "status_note": "Integrated 2026-09-03 (gradual engine wiring): EONET v3 open incidents feed (1) the wildfire events payload as the independent second event source next to NASA FIRMS (fetch_eonet_wildfires) and (2) the dust events layer via the dustHaze category (fetch_eonet_dust_haze) — both in src/dashboard/real_data.py; always reported separately, never merged.",
       "data_quality_profile": {
         "freshness": "Continuously updated incident catalogue (open events)",
         "completeness": "Incident-report catalogue — one latest position per incident; not a detection archive like FIRMS.",
         "spatial_resolution_note": "Latest reported point per incident",
         "temporal_resolution_note": "Open incidents (~last 60 days window)",
         "provenance_note": "Integrated 2026-09-03: EONET v3 events API (category=wildfires, status=open) live-checked 2026-09-03 — real incidents returned.",
-        "validation": "API live-checked 2026-09-03; offline unit tests cover the flattening and the never-merged contract (tests/test_multi_source_wave.py).",
+        "validation": "API live-checked 2026-09-03 (wildfires + dustHaze categories); offline unit tests cover the flattening and the never-merged contract (tests/test_multi_source_wave.py, tests/test_multi_source_wave2.py).",
         "coverage_note": "Global; open wildfire incidents.",
         "licensing_note": "NASA open data; commercial use allowed."
       },

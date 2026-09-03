@@ -386,6 +386,16 @@ def _flood_fakes(monkeypatch):
             "note": "Hydrological model output (GEOGLOWS/ECMWF), not gauge observations.",
         },
     )
+    # USGS stream gauges (OBSERVED, US-only) — offline no-coverage fake for
+    # the non-US test locations used below.
+    monkeypatch.setattr(
+        real_data, "fetch_usgs_gauges",
+        lambda lat, lon, radius_km=100.0: {
+            "status": "no_coverage", "gauges": [],
+            "source": real_data.USGS_WATER_SOURCE,
+            "note": "No active USGS stream gauges within the search box — coverage statement.",
+        },
+    )
     archive_end = today - timedelta(days=5)
     ptimes = _daily_dates(archive_end, days)
     precip = [2.0] * (days - 2) + [60.0, 1.0]
@@ -758,26 +768,24 @@ def test_cyclone_feed_filters_non_tc_eventtypes(monkeypatch):
 # ---------------------------------------------------------------------------
 
 
-def test_registry_lists_all_nine_hazards():
+def test_registry_lists_all_ten_hazards():
     ids = registry.ids()
     assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind",
-                        "coastal", "dust", "volcanic", "cyclone"}
+                        "coastal", "earthquake", "dust", "volcanic", "cyclone"}
     for module in registry.all_modules():
         d = module.descriptor()
         assert d["temporal_coverage"], module.id
 
 
 def test_expansion_hazards_are_honestly_unavailable():
-    """Dust is a registered expansion candidate: real sources, but analysis
-    and events honestly unavailable until a real pipeline is wired in.
-    Volcanic analysis is likewise unavailable (GVP path is bot-protected) —
-    while its *events* layer went live 2026-09 via the GDACS VO feed."""
+    """Dust and volcanic keep honestly unavailable *analysis* (CAMS needs
+    credentials; GVP is bot-protected) — while their *events* layers are
+    live since 2026-09: dust via NASA EONET dustHaze, volcanic via GDACS VO."""
     module = registry.get("dust")
     d = module.descriptor()
     assert d["analysis"]["available"] is False
     assert d["analysis"]["reason"]
-    assert d["events"]["available"] is False
-    assert d["events"]["reason"]
+    assert d["events"]["available"] is True    # EONET dustHaze (2026-09)
     assert d["sources"]
     result = module.analyze(37.0, 15.0)
     assert result.status == "unavailable"
@@ -845,26 +853,26 @@ def client(tmp_path, monkeypatch):
     return app.test_client()
 
 
-def test_v2_hazards_lists_all_nine(client):
+def test_v2_hazards_lists_all_ten(client):
     resp = client.get("/api/v2/hazards")
     assert resp.status_code == 200
     ids = [h["id"] for h in resp.get_json()["hazards"]]
     assert set(ids) == {"wildfire", "flood", "drought", "heat", "wind",
-                        "coastal", "dust", "volcanic", "cyclone"}
+                        "coastal", "earthquake", "dust", "volcanic", "cyclone"}
 
 
 def test_v2_hazards_descriptor_contract(client):
     """Endpoint-level descriptor contract (Section: hazard registry):
-    HTTP 200 JSON, nine hazards (seven active + dust unavailable analysis,
-    volcanic with live GDACS events but honestly unavailable analysis),
-    and per hazard: id, name, enabled state, analysis/events
+    HTTP 200 JSON, ten hazards (eight active incl. earthquake + dust/volcanic
+    with honestly unavailable analysis but live event feeds), and per
+    hazard: id, name, enabled state, analysis/events
     availability, temporal coverage, official sources with URLs, and
     provenance."""
     resp = client.get("/api/v2/hazards")
     assert resp.status_code == 200
     assert resp.content_type.startswith("application/json")
     hazards = resp.get_json()["hazards"]
-    assert len(hazards) == 9
+    assert len(hazards) == 10
     for h in hazards:
         assert h["id"] and h["name"] and h["tagline"]
         assert h["enabled"] is True

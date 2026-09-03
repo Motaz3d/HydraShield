@@ -27,13 +27,19 @@ _HTTPS_RE = re.compile(r"^https://[a-z0-9.-]+\.[a-z]{2,}(/|$)", re.IGNORECASE)
 
 #: Authoritative global entries added on top of the transformed sources —
 #: all must be present as catalog records with status "candidate".
+#: (usgs-water, usgs-earthquake, emsc were catalogued here as candidates and
+#: WIRED in the 2026-09 gradual engine wiring — asserted integrated below.)
 _NEW_CANDIDATE_IDS = (
-    "noaa-ncei", "noaa-cdo", "usgs-water", "usgs-earthquake",
+    "noaa-ncei", "noaa-cdo",
     "nasa-earthdata", "ecmwf-opencharts", "eea-discomap",
     "copernicus-cds-ads", "cems-efas", "cma-data", "cma-nmic", "jma",
     "kma", "bom", "imd", "worldbank-cckp", "ocha-hdx", "wmo-oscar",
     "metoffice", "dwd", "meteofrance", "fao-giews", "reliefweb",
 )
+
+#: Candidates from the original 2026-08-17 list that have since been wired
+#: into the engine (gradual wiring waves 1–2, 2026-09).
+_WIRED_FORMER_CANDIDATE_IDS = ("usgs-water", "usgs-earthquake", "emsc")
 
 #: Ids the transformed source_registry entries must have produced (the two
 #: dual-dataset entries were split per dataset+access path).
@@ -107,6 +113,11 @@ def test_new_global_candidates_present_as_candidates():
         assert entry is not None, f"missing candidate '{cid}'"
         assert entry["status"] == "candidate", \
             f"{cid}: expected candidate, got {entry['status']}"
+    for wid in _WIRED_FORMER_CANDIDATE_IDS:
+        entry = data_registry.get(wid)
+        assert entry is not None, f"missing '{wid}'"
+        assert entry["status"] == "integrated", \
+            f"{wid}: expected integrated after wiring, got {entry['status']}"
 
 
 def test_transformed_sources_present_with_statuses():
@@ -436,10 +447,10 @@ def test_chains_declared_gaps():
     for name in gaps:
         assert "SINGLE-PROVIDER GAP" in \
             ingestion.PROVIDER_CHAINS[name].comparison_note
-    # discharge gap closed 2026-09 (GEOGLOWS wired as second model provider,
-    # reported side by side, never merged)
+    # discharge gap closed 2026-09 (GEOGLOWS second model + USGS gauge
+    # observations wired — reported side by side, never merged)
     discharge = ingestion.PROVIDER_CHAINS["discharge"]
-    assert discharge.providers == ["glofas-openmeteo", "geoglows"]
+    assert discharge.providers == ["glofas-openmeteo", "geoglows", "usgs-water"]
     assert "never merged" in discharge.comparison_note
     # fires chain: VIIRS and MODIS reported per sensor, never merged
     fires = ingestion.PROVIDER_CHAINS["fires"]
@@ -457,5 +468,5 @@ def test_api_ingestion_chains(client):
     assert chains["weather_daily"]["fallbacks"] == ["era5-archive"]
     assert chains["exposure"]["fallbacks"] == ["overpass"]
     assert chains["discharge"]["single_provider_gap"] is False
-    assert chains["discharge"]["fallbacks"] == ["geoglows"]
+    assert chains["discharge"]["fallbacks"] == ["geoglows", "usgs-water"]
     assert chains["soil_moisture"]["single_provider_gap"] is True

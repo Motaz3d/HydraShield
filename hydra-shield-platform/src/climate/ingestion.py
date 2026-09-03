@@ -109,16 +109,17 @@ PROVIDER_CHAINS: Dict[str, ProviderChain] = {
     ),
     "discharge": ProviderChain(
         variable="discharge",
-        providers=["glofas-openmeteo", "geoglows"],
+        providers=["glofas-openmeteo", "geoglows", "usgs-water"],
         primary="glofas-openmeteo",
-        fallbacks=["geoglows"],
+        fallbacks=["geoglows", "usgs-water"],
         comparison_note=(
             "Two independent hydrological MODELS: GloFAS (Copernicus EMS/JRC "
             "via Open-Meteo, primary) and GEOGLOWS (ECMWF Streamflow Service, "
             "wired 2026-09) — reported side by side over aligned dates in the "
-            "flood analysis, never merged. Gauge observations remain a "
-            "declared gap: USGS Water Services (usgs-water, US-only) is the "
-            "gauge candidate in the data registry."),
+            "flood analysis, never merged. USGS Water Services (usgs-water, "
+            "wired 2026-09) adds real GAUGE observations — US network only; "
+            "outside the US the analysis says so explicitly. Models and "
+            "gauges are reported per provider, never merged."),
     ),
     "soil_moisture": ProviderChain(
         variable="soil_moisture",

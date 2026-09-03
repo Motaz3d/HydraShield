@@ -74,11 +74,15 @@ hydra-shield-platform/
   context; evidence attached per event; years never hardcoded.
 - **`registry.py` + `hazards/`** — hazard plugin architecture. A hazard is
   registered only when wired to real, documented data sources:
-  `wildfire.py` (wraps the proven engine), `flood.py` (GloFAS discharge +
-  extreme precipitation), `drought.py` (precipitation anomaly, soil
+  `wildfire.py` (wraps the proven engine), `flood.py` (GloFAS + GEOGLOWS
+  discharge side-by-side, USGS gauges, extreme precipitation, GDACS FL
+  alerts), `drought.py` (precipitation anomaly, soil
   moisture, ET₀ balance), `heat.py`/`wind.py` (climatological percentiles +
   spell detection), `coastal.py` (marine waves + elevation screening +
-  labelled sea-level projections).
+  labelled sea-level projections), `earthquake.py` (USGS ComCat documented
+  seismicity + EMSC second source — never a forecast), `cyclone.py`
+  (GDACS TC monitoring), `volcanic.py`/`dust.py` (live GDACS VO / EONET
+  dustHaze event feeds; analysis honestly unavailable).
 - **`fire_events.py`** — historical wildfire event intelligence: real NASA
   FIRMS detections clustered into event records + ERA5 observed conditions +
   modelled FWI context + lessons extracted strictly from the event's data.

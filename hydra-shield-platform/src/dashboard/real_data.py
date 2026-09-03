@@ -196,19 +196,12 @@ def fetch_gdacs_volcanoes() -> Dict:
 EONET_SOURCE = "NASA EONET — Earth Observatory Natural Event Tracker"
 
 
-@cached("eonet_wildfires", TTL_WEATHER_CURRENT)
-def fetch_eonet_wildfires(days: int = 60, limit: int = 300) -> Dict:
-    """
-    Open wildfire events from NASA EONET v3 (free, no key).
-
-    Returns flattened platform records (id, title, latest position/date,
-    magnitude) — distances are computed by the caller. EONET aggregates
-    incident reports from official sources (InciWeb, FIRMS, …): it is an
-    independent second event source next to NASA FIRMS and is always
-    reported separately, never merged. Honest error dict on failure.
-    """
+def _fetch_eonet_category(category: str, days: int, limit: int) -> Dict:
+    """EONET v3 open events of one category, flattened to platform records
+    (id, title, latest position/date, magnitude). Distances are computed by
+    the caller. Honest error dict on failure."""
     url = ("https://eonet.gsfc.nasa.gov/api/v3/events"
-           f"?category=wildfires&status=open&days={int(days)}&limit={int(limit)}")
+           f"?category={category}&status=open&days={int(days)}&limit={int(limit)}")
     try:
         data = _get_json(url, timeout=20.0)
     except RuntimeError as exc:
@@ -227,7 +220,7 @@ def fetch_eonet_wildfires(days: int = 60, limit: int = 300) -> Dict:
             continue
         events.append({
             "id": ev.get("id"),
-            "title": ev.get("title") or "Wildfire",
+            "title": ev.get("title") or category,
             "lat": float(coords[1]),
             "lon": float(coords[0]),
             "date": latest.get("date"),
@@ -243,6 +236,219 @@ def fetch_eonet_wildfires(days: int = 60, limit: int = 300) -> Dict:
         "note": ("Incident-report catalogue (positions are the latest reported "
                  "point per incident) — independent of FIRMS detections; "
                  "reported separately, never merged."),
+    }
+
+
+@cached("eonet_wildfires", TTL_WEATHER_CURRENT)
+def fetch_eonet_wildfires(days: int = 60, limit: int = 300) -> Dict:
+    """
+    Open wildfire events from NASA EONET v3 (free, no key).
+
+    EONET aggregates incident reports from official sources (InciWeb,
+    FIRMS, …): it is an independent second event source next to NASA FIRMS
+    and is always reported separately, never merged.
+    """
+    return _fetch_eonet_category("wildfires", days, limit)
+
+
+@cached("eonet_dust_haze", TTL_WEATHER_CURRENT)
+def fetch_eonet_dust_haze(days: int = 60, limit: int = 100) -> Dict:
+    """Open dust & haze incidents from NASA EONET v3 (free, no key)."""
+    return _fetch_eonet_category("dustHaze", days, limit)
+
+
+# --------------------------------------------------------------------------
+# USGS Water Services — real stream-gauge observations (US), no key
+# --------------------------------------------------------------------------
+
+USGS_WATER_SOURCE = "USGS Water Services (NWIS instantaneous values — gauge observations)"
+_FT3_TO_M3 = 0.0283168466
+
+
+@cached("usgs_gauges", TTL_WEATHER_CURRENT)
+def fetch_usgs_gauges(lat: float, lon: float, radius_km: float = 100.0) -> Dict:
+    """
+    Active USGS stream gauges with the latest discharge reading near a
+    point (parameter 00060, instantaneous values). Free, no key.
+
+    Coverage honesty: the USGS network covers the United States — outside
+    it the answer is an explicit ``no_coverage`` status, never an error and
+    never zero. Distances are computed by the caller; gauges come back
+    unsorted (the API has no distance ordering). Values are converted
+    ft³/s → m³/s (declared factor).
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    half = max(0.2, min(float(radius_km), 500.0)) / 111.32
+    bbox = f"{lon - half:.4f},{lat - half:.4f},{lon + half:.4f},{lat + half:.4f}"
+    url = ("https://waterservices.usgs.gov/nwis/iv/?format=json"
+           f"&bBox={bbox}&parameterCd=00060&siteStatus=active")
+    try:
+        data = _get_json(url, timeout=25.0)
+    except RuntimeError as exc:
+        return {"error": f"USGS Water Services unavailable: {exc}"}
+    series = ((data.get("value") or {}).get("timeSeries")) or []
+    gauges = []
+    for ts in series:
+        try:
+            info = ts["sourceInfo"]
+            geo = info["geoLocation"]["geogLocation"]
+            point = ts["values"][0]["value"][0]
+            gauges.append({
+                "site_code": info["siteCode"][0]["value"],
+                "name": info["siteName"],
+                "lat": float(geo["latitude"]),
+                "lon": float(geo["longitude"]),
+                "latest_value": float(point["value"]),
+                "latest_m3s": round(float(point["value"]) * _FT3_TO_M3, 2),
+                "datetime": point["dateTime"],
+                "unit_raw": ts["variable"]["unit"]["unitCode"],
+            })
+        except (KeyError, IndexError, TypeError, ValueError):
+            continue
+    if not gauges:
+        return {
+            "status": "no_coverage",
+            "gauges": [],
+            "source": USGS_WATER_SOURCE,
+            "note": ("No active USGS stream gauges within the search box — "
+                     "the USGS network covers the United States; this is a "
+                     "coverage statement, not an error."),
+        }
+    return {
+        "status": "ok",
+        "gauges": gauges,
+        "source": USGS_WATER_SOURCE,
+        "request_url": url,
+        "note": ("Real gauge observations (USGS NWIS), not model output — "
+                 "reported alongside the GloFAS/GEOGLOWS modelled series, "
+                 "never merged."),
+    }
+
+
+# --------------------------------------------------------------------------
+# Earthquake catalogues — USGS ComCat + EMSC, global, no key
+# --------------------------------------------------------------------------
+
+USGS_EQ_SOURCE = "USGS Earthquake Hazards (ANSS ComCat)"
+EMSC_SOURCE = "EMSC-CSEM real-time earthquake services (FDSN)"
+
+
+@cached("usgs_earthquakes", TTL_WEATHER_CURRENT)
+def fetch_usgs_earthquakes(
+    lat: float, lon: float, radius_km: float = 500.0,
+    min_magnitude: float = 2.5, limit: int = 200,
+    start: Optional[str] = None, end: Optional[str] = None,
+) -> Dict:
+    """
+    Earthquakes near a point from the USGS ANSS Comprehensive Catalog
+    (FDSN event web service, GeoJSON). Free, no key. Ordered by time
+    (latest first). ``start``/``end`` (ISO dates) bound the catalog window
+    when given. Honest error dict on failure — never invented events.
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    query = {
+        "format": "geojson",
+        "latitude": lat, "longitude": lon,
+        "maxradiuskm": min(float(radius_km), 2000.0),
+        "minmagnitude": float(min_magnitude),
+        "limit": int(limit),
+        "orderby": "time",
+    }
+    if start:
+        query["starttime"] = start
+    if end:
+        query["endtime"] = end
+    params = urllib.parse.urlencode(query)
+    url = f"https://earthquake.usgs.gov/fdsnws/event/1/query?{params}"
+    try:
+        data = _get_json(url, timeout=25.0)
+    except RuntimeError as exc:
+        return {"error": f"USGS earthquake catalogue unavailable: {exc}"}
+    features = data.get("features")
+    if not isinstance(features, list):
+        return {"error": "USGS returned an unexpected payload"}
+    events = []
+    for f in features:
+        p = f.get("properties") or {}
+        coords = (f.get("geometry") or {}).get("coordinates") or []
+        if len(coords) < 3 or p.get("mag") is None:
+            continue
+        events.append({
+            "id": f.get("id"),
+            "mag": float(p["mag"]),
+            "place": p.get("place") or "",
+            "time": p.get("time"),  # epoch ms
+            "lat": float(coords[1]),
+            "lon": float(coords[0]),
+            "depth_km": float(coords[2]),
+            "mag_type": p.get("magType"),
+            "url": p.get("url"),
+            "tsunami_flag": p.get("tsunami"),
+            "significance": p.get("sig"),
+        })
+    return {
+        "events": events,
+        "count": len(events),
+        "source": USGS_EQ_SOURCE,
+        "request_url": url,
+        "note": ("Documented catalogue (real events, authoritative agency) — "
+                 "monitoring/historical context, never an earthquake forecast."),
+    }
+
+
+@cached("emsc_earthquakes", TTL_WEATHER_CURRENT)
+def fetch_emsc_earthquakes(
+    lat: float, lon: float, radius_deg: float = 5.0,
+    min_magnitude: float = 2.5, limit: int = 100,
+) -> Dict:
+    """
+    Earthquakes near a point from the EMSC FDSN event service (SeismicPortal).
+    Free, no key. Independent second seismic source next to USGS — always
+    reported separately, never merged. Honest error dict on failure.
+    """
+    if not _valid_point(lat, lon):
+        return {"error": "Coordinates out of range"}
+    params = urllib.parse.urlencode({
+        "format": "json",
+        "lat": lat, "lon": lon,
+        "maxradius": min(float(radius_deg), 20.0),
+        "minmag": float(min_magnitude),
+        "limit": int(limit),
+    })
+    url = f"https://www.seismicportal.eu/fdsnws/event/1/query?{params}"
+    try:
+        data = _get_json(url, timeout=25.0)
+    except RuntimeError as exc:
+        return {"error": f"EMSC event service unavailable: {exc}"}
+    features = data.get("features")
+    if not isinstance(features, list):
+        return {"error": "EMSC returned an unexpected payload"}
+    events = []
+    for f in features:
+        p = f.get("properties") or {}
+        coords = (f.get("geometry") or {}).get("coordinates") or []
+        if len(coords) < 2 or p.get("mag") is None:
+            continue
+        events.append({
+            "id": p.get("unid") or f.get("id"),
+            "mag": float(p["mag"]),
+            "place": p.get("flynn_region") or "",
+            "time": p.get("time"),  # ISO string
+            "lat": float(coords[1]),
+            "lon": float(coords[0]),
+            "depth_km": float(coords[2]) if len(coords) > 2 and coords[2] is not None else None,
+            "mag_type": p.get("magtype"),
+            "url": "https://www.seismicportal.eu/",
+        })
+    return {
+        "events": events,
+        "count": len(events),
+        "source": EMSC_SOURCE,
+        "request_url": url,
+        "note": ("Independent second seismic source — reported separately from "
+                 "USGS ComCat, never merged."),
     }
 
 

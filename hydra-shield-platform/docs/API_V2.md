@@ -593,3 +593,14 @@ Admin aggregates — `admin` tier required, aggregate counts only:
   closed; `soil_moisture` remains the only declared single-provider gap).
   `gdacs-events`, `nasa-eonet`, `geoglows` are now `integrated` in the
   Data Observatory (168 datasets, 20 integrated).
+- **2026-09-03 (3)** — Gradual engine wiring, wave 2: **new `earthquake`
+  hazard module** (USGS ANSS ComCat primary + EMSC second source,
+  reported separately — documented seismicity context, never an
+  earthquake forecast; the hazard registry now lists ten hazards);
+  **USGS Water Services** stream gauges wired into the flood analysis as
+  the OBSERVED discharge counterpart (US-only, explicit `no_coverage`
+  state elsewhere); **dust events** live via NASA EONET `dustHaze`
+  (dust analysis stays unavailable — CAMS credentials);
+  GEOGLOWS + USGS layers added to the flood map panel.
+  `usgs-water`, `usgs-earthquake`, `emsc` are now `integrated`
+  (23 integrated datasets).

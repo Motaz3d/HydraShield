@@ -39,6 +39,7 @@ def _build() -> Dict[str, HazardModule]:
         (".hazards.heat", "HeatModule"),
         (".hazards.wind", "WindModule"),
         (".hazards.coastal", "CoastalModule"),
+        (".hazards.earthquake", "EarthquakeModule"),
         (".hazards.dust", "DustModule"),
         (".hazards.volcanic", "VolcanicModule"),
         (".hazards.cyclone", "CycloneModule"),

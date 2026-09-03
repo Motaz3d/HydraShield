@@ -40,6 +40,8 @@ def test_hazard_types_are_the_registered_set():
         "heat",
         "wind",
         "coastal",
+        # geophysical hazard — wired 2026-09 (USGS ComCat + EMSC)
+        "earthquake",
         # expansion candidates (registered with honest unavailable states)
         "dust",
         "volcanic",
