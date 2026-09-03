@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 Civil-protection and resilience planning needs answers in plain terms: what is happening, who and what is exposed, and where should prevention budgets go first?
 
-Talaix is a climate-extreme intelligence platform for governments and municipalities. We compute seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, and we count the exposure: population and settlements, hospitals and schools, buildings, transport, energy, water. Monitored areas carry watch status with email/SMS alerts, and historical event evidence supports prevention programmes. Sources and evidence status are stated with every result — defensible where public mandates demand it.
+Talaix is a climate-extreme intelligence platform for governments and municipalities. We compute eight hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure, tropical cyclones and earthquakes — from Earth observation, official open data and documented historical events, and we count the exposure: population and settlements, hospitals and schools, buildings, transport, energy, water. Monitored areas carry watch status with email/SMS alerts, and historical event evidence supports prevention programmes. Sources and evidence status are stated with every result — defensible where public mandates demand it.
 
 {{identified_problem}}
 

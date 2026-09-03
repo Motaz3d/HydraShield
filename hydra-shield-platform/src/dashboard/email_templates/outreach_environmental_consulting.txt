@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 Consulting is only as strong as the evidence behind it — every figure you hand a client may need defending in front of an auditor.
 
-Talaix is that evidence layer: seven hazards screened per asset, from Earth observation and official data, with provenance per figure. CSRD/ESRS and EU Taxonomy DNSH vocabulary included.
+Talaix is that evidence layer: eight hazards screened per asset, from Earth observation and official data, with provenance per figure. CSRD/ESRS and EU Taxonomy DNSH vocabulary included.
 
 {{identified_problem}}
 

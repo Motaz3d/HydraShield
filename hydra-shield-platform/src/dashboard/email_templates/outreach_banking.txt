@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 Supervisors now ask banks one hard question: what physical evidence stands behind the "green" claims in the loan book?
 
-Talaix supplies it: every financed asset screened against seven hazards, from Earth observation and official data — each value with its source and evidence status, ready for credit files, EU Taxonomy DNSH, CSRD and TCFD/ISSB workflows. Evidence, not accreditation.
+Talaix supplies it: every financed asset screened against eight hazards, from Earth observation and official data — each value with its source and evidence status, ready for credit files, EU Taxonomy DNSH, CSRD and TCFD/ISSB workflows. Evidence, not accreditation.
 
 {{identified_problem}}
 

@@ -2,7 +2,7 @@ Subject: Re: environmental evidence for {{organization}}
 
 Hi {{contact_name}},
 
-A short follow-up to my earlier note. The offer stands: name 2–3 locations and we will return a free sample evidence report — seven hazards, mapped exposure of people, buildings and infrastructure, every value with its source and evidence status, so you can see exactly what Talaix produces before any call.
+A short follow-up to my earlier note. The offer stands: name 2–3 locations and we will return a free sample evidence report — eight hazards, mapped exposure of people, buildings and infrastructure, every value with its source and evidence status, so you can see exactly what Talaix produces before any call.
 
 {{custom_message}}
 

@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 Acquisition, planning and disclosure decisions all rest on one question: what do we actually know about this site's physical climate exposure — and can we show it in the file?
 
-Talaix is a climate-extreme intelligence platform. We compute seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events, for any site on Earth. We map what is exposed around each site: buildings, transport, energy, water, population. Reports carry source, evidence status and limitations per block — ready for acquisition screening, planning support and disclosure files, with monitoring of assets after handover.
+Talaix is a climate-extreme intelligence platform. We compute eight hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure, tropical cyclones and earthquakes — from Earth observation, official open data and documented historical events, for any site on Earth. We map what is exposed around each site: buildings, transport, energy, water, population. Reports carry source, evidence status and limitations per block — ready for acquisition screening, planning support and disclosure files, with monitoring of assets after handover.
 
 {{identified_problem}}
 

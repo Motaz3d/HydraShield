@@ -169,7 +169,7 @@
                 note: 'Exposure screening from real mapped data — completeness caveats are stated, never hidden.'
             },
             cards: [
-                ['🏠 Location screening', 'Per-location screening across all seven hazards — one place, one evidence base, one consistent answer format.'],
+                ['🏠 Location screening', 'Per-location screening across all eight hazards — one place, one evidence base, one consistent answer format.'],
                 ['📚 What happened there', 'Historical events near the property from authoritative datasets — labelled, sourced, and separated from models.'],
                 ['🏙️ Context', 'Population, settlements and critical facilities around the location, counted from real mapped data.'],
                 ['🌱 What can be done', 'Solutions matched to the exact place — with limitations stated, and potential funding programmes where they exist.']
@@ -255,7 +255,7 @@
                 title: 'From hazard to funded, monitored action',
                 subtitle: 'One evidence chain, built for public decisions.',
                 cards: [
-                    ['1 · Territorial risk', 'Run your municipality or region: seven risks computed from real datasets — wildfire, flood, drought, heat, wind and coastal exposure, each compared against local history. Screening levels, honestly labelled. <a class="text-link" href="intelligence.html">Analyze your territory →</a>'],
+                    ['1 · Territorial risk', 'Run your municipality or region: eight risks computed from real datasets — wildfire, flood, drought, heat, wind, coastal exposure, tropical cyclones and earthquakes, each compared against local history. Screening levels, honestly labelled. <a class="text-link" href="intelligence.html">Analyze your territory →</a>'],
                     ['2 · Who and what is exposed', 'Population and settlements, hospitals, schools, fire stations, transport, energy and water — counted from real mapped data with completeness caveats stated, never estimated silently. <a class="text-link" href="map.html">See it on the map →</a>'],
                     ['3 · Economic exposure', 'Which sectors and assets sit in exposed areas — structured exposure profiles for budget and planning conversations. Where no documented valuation basis exists, we say so instead of inventing figures. <a class="text-link" href="intelligence.html?mode=economy">Explore exposure →</a>'],
                     ['4 · Resilience solutions', 'Site-fitted options — nature-based, engineering, monitoring — each with limitations, maturity and maintenance stated. No solution is presented as guaranteed prevention. <a class="text-link" href="solutions.html">Match solutions →</a>'],
@@ -390,7 +390,7 @@
             '<div class="table-scroll"><table class="data-table"><thead>' +
             '<tr><th></th><th>Free (no account)</th><th>Free account</th><th>Organization</th></tr>' +
             '</thead><tbody>' +
-            '<tr><th>Territory analysis, seven hazards</th><td>✓</td><td>✓</td><td>✓</td></tr>' +
+            '<tr><th>Territory analysis, eight hazards</th><td>✓</td><td>✓</td><td>✓</td></tr>' +
             '<tr><th>Maps, historical events, exposure, solutions, funding, reports</th><td>✓</td><td>✓</td><td>✓</td></tr>' +
             '<tr><th>Saved territories &amp; analysis history</th><td>—</td><td>✓</td><td>✓</td></tr>' +
             '<tr><th>Monitoring rules &amp; SMS/email alerts</th><td>—</td><td>✓ (2 places)</td><td>✓ many places</td></tr>' +

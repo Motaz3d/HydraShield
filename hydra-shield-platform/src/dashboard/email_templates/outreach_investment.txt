@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 Investors and regulators now ask one hard question: what physical climate exposure sits inside the portfolio — and can you prove it?
 
-Talaix answers it: seven hazards screened per asset, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
+Talaix answers it: eight hazards screened per asset, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
 
 {{identified_problem}}
 

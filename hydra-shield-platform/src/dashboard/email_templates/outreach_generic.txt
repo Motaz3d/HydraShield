@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 What happens physically — flood, fire, heat — is now a financial question: what is exposed, where, and can you prove it?
 
-Talaix answers it: seven hazards screened per location, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
+Talaix answers it: eight hazards screened per location, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
 
 {{identified_problem}}
 

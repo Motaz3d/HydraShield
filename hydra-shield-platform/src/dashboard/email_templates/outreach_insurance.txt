@@ -4,7 +4,7 @@ Hi {{contact_name}},
 
 Underwriting and portfolio teams keep facing the same gap: climate scores without the underlying evidence — no source, no event history, no stated uncertainty.
 
-Talaix is a climate-extreme intelligence platform. Per location, we compute seven hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure and tropical cyclones — from Earth observation, official open data and documented historical events by year, and we map insured exposure: buildings, infrastructure, agriculture, energy, population. Portfolios can be queried through our API. We deliberately do not quantify losses (no AAL/PML): this is the evidence layer before your catastrophe models — every result carries its source and evidence status, and gaps are declared, never filled.
+Talaix is a climate-extreme intelligence platform. Per location, we compute eight hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure, tropical cyclones and earthquakes — from Earth observation, official open data and documented historical events by year, and we map insured exposure: buildings, infrastructure, agriculture, energy, population. Portfolios can be queried through our API. We deliberately do not quantify losses (no AAL/PML): this is the evidence layer before your catastrophe models — every result carries its source and evidence status, and gaps are declared, never filled.
 
 European supervisors now expect exactly this kind of documented physical-risk evidence — EIOPA climate stress-test exercises and Solvency II ORSA work. Our profiles supply that evidence layer: they inform your internal models, they do not replace them.
 
