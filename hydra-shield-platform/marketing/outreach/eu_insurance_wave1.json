@@ -1,0 +1,210 @@
+[
+  {
+    "slug": "assuranceforeningen-skuld",
+    "organization": "Assuranceforeningen Skuld",
+    "country": "NO",
+    "to_email": "matias.boe.olsen@skuld.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T12:54:00"
+  },
+  {
+    "slug": "futur",
+    "organization": "Futur",
+    "country": "SE",
+    "to_email": "kundservice@futur.se",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T12:59:00"
+  },
+  {
+    "slug": "barmer-ersatzkasse",
+    "organization": "Barmer Ersatzkasse",
+    "country": "DE",
+    "to_email": "interest@barmer.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:05:00"
+  },
+  {
+    "slug": "bertelsmann-bkk",
+    "organization": "Bertelsmann BKK",
+    "country": "DE",
+    "to_email": "datenschutz@bertelsmann-bkk.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:10:00"
+  },
+  {
+    "slug": "betriebskrankenkasse-evm",
+    "organization": "Betriebskrankenkasse EVM",
+    "country": "DE",
+    "to_email": "info@evm.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:15:00"
+  },
+  {
+    "slug": "betriebskrankenkasse-firmus",
+    "organization": "Betriebskrankenkasse Firmus",
+    "country": "DE",
+    "to_email": "impressum@bkk-firmus.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:20:00"
+  },
+  {
+    "slug": "betriebskrankenkasse-linde",
+    "organization": "Betriebskrankenkasse Linde",
+    "country": "DE",
+    "to_email": "info@bkk-linde.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:25:00"
+  },
+  {
+    "slug": "wiener-st-dtische-versicherung",
+    "organization": "Wiener Städtische Versicherung",
+    "country": "AT",
+    "to_email": "kundenservice@wienerstaedtische.at",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:30:00"
+  },
+  {
+    "slug": "swiss-mobiliar-insurance-cooperative",
+    "organization": "Swiss Mobiliar insurance cooperative",
+    "country": "CH",
+    "to_email": "info@mobiliar.ch",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:35:00"
+  },
+  {
+    "slug": "beazley-plc",
+    "organization": "Beazley plc",
+    "country": "GB",
+    "to_email": "info@beazley.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:40:00"
+  },
+  {
+    "slug": "q138967495",
+    "organization": "Q138967495",
+    "country": "DK",
+    "to_email": "post@thistedforsikring.dk",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:45:00"
+  },
+  {
+    "slug": "genertel",
+    "organization": "Genertel",
+    "country": "IT",
+    "to_email": "ertel@pec.genertel.it",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:50:00"
+  },
+  {
+    "slug": "mutua-madrile-a",
+    "organization": "Mutua Madrileña",
+    "country": "ES",
+    "to_email": "dpo@mutua.es",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T07:55:00"
+  },
+  {
+    "slug": "athora-netherlands",
+    "organization": "Athora Netherlands",
+    "country": "NL",
+    "to_email": "info@athora.nl",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:00:00"
+  },
+  {
+    "slug": "veritas",
+    "organization": "Veritas",
+    "country": "FI",
+    "to_email": "elakeneuvonta@veritas.fi",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:05:00"
+  },
+  {
+    "slug": "granne-forsikring",
+    "organization": "Granne Forsikring",
+    "country": "NO",
+    "to_email": "post@granne.no",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:10:00"
+  },
+  {
+    "slug": "groupama",
+    "organization": "Groupama",
+    "country": "FR",
+    "to_email": "contactdpo@groupama.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:15:00"
+  },
+  {
+    "slug": "royal-automobile-club-of-catalonia",
+    "organization": "Royal Automobile Club of Catalonia",
+    "country": "ES",
+    "to_email": "inforacc@racc.es",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:20:00"
+  },
+  {
+    "slug": "la-bressane",
+    "organization": "La Bressane",
+    "country": "FR",
+    "to_email": "contact@la-bressane.fr",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:25:00"
+  },
+  {
+    "slug": "bee-diseases-insurance-ltd",
+    "organization": "Bee Diseases Insurance Ltd",
+    "country": "GB",
+    "to_email": "claims@beediseasesinsurance.co.uk",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:30:00"
+  },
+  {
+    "slug": "sara-assicurazioni",
+    "organization": "Sara Assicurazioni",
+    "country": "IT",
+    "to_email": "info@sara.it",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:35:00"
+  },
+  {
+    "slug": "ennia",
+    "organization": "ENNIA",
+    "country": "NL",
+    "to_email": "curacao@ennia.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:40:00"
+  },
+  {
+    "slug": "umas-mutua-de-seguros",
+    "organization": "UMAS mutua de seguros",
+    "country": "ES",
+    "to_email": "comercial@umas.es",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:45:00"
+  },
+  {
+    "slug": "q101627756",
+    "organization": "Q101627756",
+    "country": "NL",
+    "to_email": "info@nh1816.nl",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:50:00"
+  },
+  {
+    "slug": "q122460511",
+    "organization": "Q122460511",
+    "country": "NL",
+    "to_email": "info@care4life.nl",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T07:55:00"
+  },
+  {
+    "slug": "q18011733",
+    "organization": "Q18011733",
+    "country": "NL",
+    "to_email": "debiteuren@bovemij.nl",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:00:00"
+  }
+]

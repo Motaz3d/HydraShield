@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "deutsche-bank-ag",
+    "organization": "Deutsche Bank AG",
+    "country": "DE",
+    "to_email": "deutsche.bank@db.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:05:00"
+  },
+  {
+    "slug": "berliner-sparkasse",
+    "organization": "Berliner Sparkasse",
+    "country": "DE",
+    "to_email": "info@berliner-sparkasse.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:10:00"
+  },
+  {
+    "slug": "braunschweigische-landessparkasse",
+    "organization": "Braunschweigische Landessparkasse",
+    "country": "DE",
+    "to_email": "kundenservice@blsk.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:15:00"
+  },
+  {
+    "slug": "f-rde-sparkasse",
+    "organization": "Förde Sparkasse",
+    "country": "DE",
+    "to_email": "info@foerde-sparkasse.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:20:00"
+  },
+  {
+    "slug": "german-federal-bank",
+    "organization": "German Federal Bank",
+    "country": "DE",
+    "to_email": "info@bundesbank.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:25:00"
+  },
+  {
+    "slug": "kreis-und-stadtsparkasse-wasserburg-am-inn",
+    "organization": "Kreis- und Stadtsparkasse Wasserburg am Inn",
+    "country": "DE",
+    "to_email": "info@sparkasse-wasserburg.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:05:00"
+  },
+  {
+    "slug": "de-nederlandsche-bank",
+    "organization": "De Nederlandsche Bank",
+    "country": "NL",
+    "to_email": "omwisselverzoek@dnb.nl",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:10:00"
+  },
+  {
+    "slug": "evi-van-lanschot",
+    "organization": "Evi van Lanschot",
+    "country": "NL",
+    "to_email": "klantenservice@evivanlanschot.nl",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:15:00"
+  },
+  {
+    "slug": "nederlandse-waterschapsbank",
+    "organization": "Nederlandse Waterschapsbank",
+    "country": "NL",
+    "to_email": "persinfo@nwbbank.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:20:00"
+  },
+  {
+    "slug": "banca-360-credito-cooperativo-fvg-societ-cooperativa",
+    "organization": "Banca 360 Credito Cooperativo FVG - Società cooperativa",
+    "country": "IT",
+    "to_email": "banca@pec.banca360fvg.it",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:25:00"
+  },
+  {
+    "slug": "banca-adria-colli-euganei",
+    "organization": "Banca Adria Colli Euganei",
+    "country": "IT",
+    "to_email": "info@bancadriacollieuganei.it",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:05:00"
+  },
+  {
+    "slug": "banca-centro-emilia",
+    "organization": "Banca Centro Emilia",
+    "country": "IT",
+    "to_email": "email@bancacentroemilia.it",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:10:00"
+  }
+]

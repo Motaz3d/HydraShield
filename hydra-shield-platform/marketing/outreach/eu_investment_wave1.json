@@ -1,0 +1,82 @@
+[
+  {
+    "slug": "lindhorst-group",
+    "organization": "Lindhorst Group",
+    "country": "DE",
+    "to_email": "info@lindhorst-gruppe.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:30:00"
+  },
+  {
+    "slug": "munich-private-equity",
+    "organization": "Munich Private Equity",
+    "country": "DE",
+    "to_email": "info@munich-pe.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:35:00"
+  },
+  {
+    "slug": "revisio-family-office",
+    "organization": "Revisio Family Office",
+    "country": "DE",
+    "to_email": "info@revisio-family.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-03T13:40:00"
+  },
+  {
+    "slug": "adelphi-research-gemeinnutzige-gmbh",
+    "organization": "adelphi research gemeinnützige GmbH",
+    "country": "DE",
+    "to_email": "office@adelphi.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:30:00"
+  },
+  {
+    "slug": "5g-automotive-association",
+    "organization": "5G Automotive Association",
+    "country": "DE",
+    "to_email": "secretariat@5gaa.org",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:35:00"
+  },
+  {
+    "slug": "amunt",
+    "organization": "AMUNT",
+    "country": "DE",
+    "to_email": "email@amunt.info",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-04T08:40:00"
+  },
+  {
+    "slug": "architekt-ralf-schulte-ladbeck",
+    "organization": "Architekt Ralf Schulte-Ladbeck",
+    "country": "DE",
+    "to_email": "info@architekten-asl.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:15:00"
+  },
+  {
+    "slug": "astoc-architetcs-and-planners",
+    "organization": "ASTOC Architetcs and Planners",
+    "country": "DE",
+    "to_email": "info@astoc.de",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:20:00"
+  },
+  {
+    "slug": "private-corner",
+    "organization": "Private Corner",
+    "country": "FR",
+    "to_email": "contact@private-corner.eu",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:25:00"
+  },
+  {
+    "slug": "i-care-by-bearingpoint",
+    "organization": "I Care by BearingPoint",
+    "country": "FR",
+    "to_email": "contact@i-care-consult.com",
+    "claim_status": "OBSERVED",
+    "send_at": "2026-09-05T08:30:00"
+  }
+]
