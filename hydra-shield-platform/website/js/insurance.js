@@ -516,7 +516,12 @@
 
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
-        if (q && el('assetLocInput')) el('assetLocInput').value = q;
+        if (q && el('assetLocInput')) {
+            el('assetLocInput').value = q;
+            // Arriving with a location means the user already chose the asset —
+            // run the assessment straight away instead of stopping at a form.
+            assessAsset();
+        }
     }
 
     init();

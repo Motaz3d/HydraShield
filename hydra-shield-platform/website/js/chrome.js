@@ -11,8 +11,8 @@
  * highlights the active item from <body data-page>. This file is the single
  * source of truth for site navigation — an IA change is one edit here.
  *
- * Primary nav: Investment Analysis · Maps · Where to Invest · Reports ·
- * Environmental Licensing · Compliance ▾ + Account.
+ * Primary nav: Insurance & Reinsurance · Investment Analysis · Maps ·
+ * Where to Invest · Reports · Environmental Licensing · Compliance ▾ + Account.
  * Legacy marketing pages stay reachable from the footer.
  */
 (function () {
@@ -28,6 +28,7 @@
 
     /* Top level: single links + dropdown groups. */
     var PRIMARY = [
+        { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
         { id: 'intelligence', href: 'intelligence.html', label: 'Investment Analysis' },
         { id: 'map', href: 'map.html', label: 'Maps' },
         { id: 'invest', href: 'solutions.html', label: 'Where to Invest' },
@@ -37,7 +38,6 @@
             id: 'compliance', label: 'Compliance', children: [
                 { id: 'compliance-hub', href: 'compliance.html', label: 'Overview' },
                 { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
-                { id: 'insurance', href: 'insurance.html', label: 'Insurance Risk' },
                 { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
                 { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
                 { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
@@ -76,6 +76,7 @@
         },
         {
             heading: 'Products', items: [
+                'insurance',
                 'reports',
                 { id: 'reportbuilder', href: 'report-builder.html', label: 'Report Builder' },
                 'licensing', 'compliance-hub'
@@ -204,9 +205,9 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
-            '<p>Natural-hazard and climate-extreme intelligence for financial decisions: ' +
-            'documented evidence on lives at risk and money at stake around any place, ' +
-            'asset or territory — for investors, banks, insurers and governments. ' +
+            '<p>Natural-hazard and climate-extreme intelligence for insurance and financial decisions: ' +
+            'documented evidence on lives at risk and money at stake around any insured asset, ' +
+            'place or territory — for insurers, reinsurers, investors, banks and governments. ' +
             'Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
             FOOTER_GROUPS.map(footerGroupHtml).join('') +

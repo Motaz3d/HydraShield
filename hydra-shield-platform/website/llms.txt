@@ -1,25 +1,25 @@
 # Talaix
 
 > Talaix is a natural-hazard and climate-extreme intelligence platform for
-> finance and investment: it turns Earth observation, environmental data and
+> insurance and reinsurance: it turns Earth observation, environmental data and
 > historical events into documented, traceable evidence on lives at risk and
-> money at stake around any place, asset or territory — for investors, banks,
-> insurers and governments.
+> money at stake around any insured asset, place or territory — for insurers,
+> reinsurers, investors, banks and governments.
 > Honesty contract: unavailable data is declared, never invented; every
 > claim carries an evidence status (OBSERVED / DOCUMENTED / REPORTED /
 > MODELLED / INFERRED / UNKNOWN).
 
 ## Product pages
 
+- [Insurance & Environmental Risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters and reinsurers (no loss quantification)
 - [Investment Analysis](https://talaix.com/intelligence.html): multi-hazard screening, exposure and evidence for financial decisions
 - [Maps](https://talaix.com/map.html): interactive risk layers with source and confidence shown for every layer
 - [Where to Invest](https://talaix.com/solutions.html): safe siting, sector siting and matched public funding programmes
-- [Reports & Evidence Packs](https://talaix.com/reports.html): Green Finance, Insurance, Sustainability/CSRD, Sector Exposure, Forensics, Supply Chain, Press and Report Builder
+- [Reports & Evidence Packs](https://talaix.com/reports.html): Insurance, Green Finance, Sustainability/CSRD, Sector Exposure, Forensics, Supply Chain, Press and Report Builder
 - [Environmental Licensing](https://talaix.com/licensing.html): pre-draft licence dossiers backed by satellite evidence
 - [Compliance & Sustainable Finance](https://talaix.com/compliance.html): EU Taxonomy DNSH, EBA Pillar 3, CSRD/ESRS E1, EIOPA/Solvency II, EUDR
 - [Green Finance Verification](https://talaix.com/green-finance.html): per-asset DNSH/EU Taxonomy physical-risk verification + evidence PDFs
 - [Sustainability & CSRD](https://talaix.com/sustainability.html): ESRS-oriented evidence packs with an explicit coverage map
-- [Insurance & Environmental Risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters (no loss quantification)
 - [Supply Chain & EUDR](https://talaix.com/supplychain.html): origin-claim geographic evidence screening
 - [Environmental Forensics](https://talaix.com/forensics.html): satellite × claims consistency packs for investigators
 - [Academy](https://talaix.com/academy.html): pilot course "Climate Risk Assessment for Financial Institutions" + glossary + evidence briefs (Briefs tab)

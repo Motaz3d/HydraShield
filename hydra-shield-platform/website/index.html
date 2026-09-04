@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talaix — Natural-Hazard Risk Intelligence for Finance &amp; Investment</title>
-    <meta name="description" content="Talaix turns Earth observation, environmental data and historical events into documented, traceable natural-hazard intelligence for investors, banks, insurers and governments — real data only, no invented numbers.">
+    <title>Talaix — Natural-Hazard Risk Intelligence for Insurance &amp; Reinsurance</title>
+    <meta name="description" content="Talaix turns Earth observation, environmental data and historical events into documented, traceable natural-hazard intelligence for insurers, reinsurers, investors, banks and governments — real data only, no invented numbers.">
     <link rel="canonical" href="https://talaix.com/">
-    <meta property="og:title" content="Talaix — Natural-Hazard Risk Intelligence for Finance &amp; Investment">
-    <meta property="og:description" content="Documented evidence on lives at risk and money at stake around any place, asset or territory — for investors, banks, insurers and governments.">
+    <meta property="og:title" content="Talaix — Natural-Hazard Risk Intelligence for Insurance &amp; Reinsurance">
+    <meta property="og:description" content="Documented per-peril evidence on lives at risk and money at stake around any insured asset, place or territory — for insurers, reinsurers, investors, banks and governments.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://talaix.com/">
     <meta property="og:locale" content="en_US">
@@ -19,7 +19,7 @@
           "@type": "Organization",
           "name": "Talaix",
           "url": "https://talaix.com",
-          "description": "Natural-hazard and climate-extreme intelligence for financial decisions: documented evidence on lives at risk and money at stake around any place, asset or territory — for investors, banks, insurers and governments.",
+          "description": "Natural-hazard and climate-extreme intelligence for insurance and financial decisions: documented evidence on lives at risk and money at stake around any insured asset, place or territory — for insurers, reinsurers, investors, banks and governments.",
           "knowsAbout": [
             "physical climate risk", "natural catastrophe screening", "EU Taxonomy DNSH",
             "CSRD ESRS reporting", "insurance natural catastrophe screening", "EUDR deforestation evidence",
@@ -34,7 +34,7 @@
         },
         {
           "@type": "WebSite",
-          "name": "Talaix — Natural-Hazard Risk Intelligence for Finance & Investment",
+          "name": "Talaix — Natural-Hazard Risk Intelligence for Insurance & Reinsurance",
           "url": "https://talaix.com",
           "potentialAction": {
             "@type": "SearchAction",
@@ -63,91 +63,20 @@
                 <span class="pulse-dot"></span>
                 Real data · Traceable sources · No invented numbers
             </div>
-            <h1 class="hero-title">Natural-hazard risk intelligence<br><span class="gradient-text">for finance &amp; investment</span></h1>
+            <h1 class="hero-title">Natural-hazard risk intelligence<br><span class="gradient-text">for insurance &amp; reinsurance</span></h1>
             <p class="hero-subtitle">
-                Extreme natural events destroy lives before they destroy balance sheets.
-                Talaix translates documented hazards — flood, drought, heat, wind, coastal exposure,
-                cyclones and wildfire — into clear evidence for capital decisions.
+                Screen any insured asset or portfolio against documented perils — flood,
+                drought, heat, wind, hail and wildfire — with per-peril levels, event history
+                and actuarial screening context, before invoking catastrophe models.
             </p>
             <div class="hero-actions">
-                <a href="intelligence.html" class="btn btn-primary">Run an investment analysis</a>
-                <a href="reports.html" class="btn btn-outline">Explore reports</a>
+                <a href="insurance.html" class="btn btn-primary">Assess an insured asset</a>
+                <a href="reports.html" class="btn btn-outline">Generate a report</a>
             </div>
             <p style="font-size:0.85rem;color:#475569;margin-top:18px;">
-                For investors, banks, insurers, governments and municipalities. Every result
+                For insurers, reinsurers, investors, banks, governments and municipalities. Every result
                 shows its source, date and confidence; we do not predict disasters or invent losses.
             </p>
-        </div>
-    </section>
-
-    <!-- Documented losses (API-driven, never hardcoded) -->
-    <section class="section" id="documentedLossesSection" style="display:none;background:var(--light-2);">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Documented losses</span>
-                <h2 class="section-title">What is already known about lives and money at stake</h2>
-                <p class="section-subtitle">
-                    Open, traceable loss figures from authoritative sources. When no documented
-                    figure exists, Talaix says so — it is never filled in.
-                </p>
-            </div>
-            <div id="losses-strip" class="story-grid"></div>
-            <p id="losses-disclaimer" class="muted small" style="text-align:center;margin-top:18px;"></p>
-        </div>
-    </section>
-    <script>
-    (function () {
-        var section = document.getElementById('documentedLossesSection');
-        var strip = document.getElementById('losses-strip');
-        var disclaimer = document.getElementById('losses-disclaimer');
-        if (!section || !strip) return;
-        fetch('/api/v2/losses/summary')
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                if (!data || data.status !== 'ok' || !Array.isArray(data.items) || data.items.length === 0) {
-                    section.style.display = 'none';
-                    return;
-                }
-                strip.innerHTML = data.items.map(function (item) {
-                    return '<div class="story-card">' +
-                        '<h3>' + (item.label || '') + '</h3>' +
-                        '<p style="font-size:1.8rem;font-weight:700;color:var(--primary-dark);margin:8px 0;">' +
-                        (item.value !== undefined ? item.value : '—') + ' ' + (item.unit || '') + '</p>' +
-                        '<p class="muted small">Source: ' + (item.source || 'not stated') +
-                        ' · Period: ' + (item.reference_period || 'not stated') + '</p>' +
-                        '</div>';
-                }).join('');
-                if (data.disclaimer) {
-                    disclaimer.textContent = data.disclaimer;
-                }
-                section.style.display = '';
-            })
-            .catch(function () {
-                section.style.display = 'none';
-            });
-    })();
-    </script>
-
-    <!-- Live multi-hazard snapshot (real data) -->
-    <section class="section section-dark" id="risk-intel" style="padding-top:70px;padding-bottom:70px;">
-        <div class="container">
-            <div class="risk-intel-head">
-                <div>
-                    <span class="section-tag">What is happening now?</span>
-                    <h2 class="section-title" style="font-size:1.8rem;margin-bottom:4px;">Live environmental-risk snapshot</h2>
-                    <p class="section-subtitle">Current wildfire, flood, heat, drought, wind, coastal and cyclone conditions — refreshed continuously from real Earth-observation and environmental data, so exposure is priced on what is true today.</p>
-                    <div class="risk-intel-scope" id="riskIntelScope">Highest-risk areas currently monitored by Talaix</div>
-                </div>
-                <span class="risk-intel-freshness" id="riskIntelFreshness"></span>
-            </div>
-
-            <div class="risk-intel-list" id="riskIntelList">
-                <div class="risk-intel-unavailable">Loading the current risk snapshot…</div>
-            </div>
-
-            <div class="risk-intel-sources" id="riskIntelSources"></div>
-
-            <div class="hazard-board" id="hazardBoard"></div>
         </div>
     </section>
 
@@ -164,16 +93,16 @@
             </div>
             <div class="card-grid">
                 <div class="item-card">
-                    <h3>Green Finance Verification</h3>
-                    <span class="chip chip-documented">EU Taxonomy DNSH</span>
-                    <p>Per-asset physical evidence for green bonds, loans and EU Taxonomy disclosures.</p>
-                    <a class="text-link" href="green-finance.html">Open Green Finance →</a>
-                </div>
-                <div class="item-card">
                     <h3>Insurance Risk Profile</h3>
                     <span class="chip chip-inferred">EIOPA / Solvency II</span>
                     <p>Per-peril hazard levels and event history for underwriting and reinsurance review.</p>
                     <a class="text-link" href="insurance.html">Open Insurance Profile →</a>
+                </div>
+                <div class="item-card">
+                    <h3>Green Finance Verification</h3>
+                    <span class="chip chip-documented">EU Taxonomy DNSH</span>
+                    <p>Per-asset physical evidence for green bonds, loans and EU Taxonomy disclosures.</p>
+                    <a class="text-link" href="green-finance.html">Open Green Finance →</a>
                 </div>
                 <div class="item-card">
                     <h3>Sustainability / CSRD Evidence</h3>
@@ -219,12 +148,27 @@
                 <span class="section-tag">Environmental Licensing</span>
                 <h2 class="section-title">Pre-draft licence dossiers backed by satellite evidence</h2>
                 <p class="section-subtitle">
-                    For investors, banks and governments: documented environmental context
-                    assembled before formal permitting — so due diligence starts from evidence.
+                    A pre-application evidence dossier built on satellite observation, open data
+                    and documented global frameworks — assembled before formal permitting, so
+                    every submission to an authority starts from evidence.
                 </p>
             </div>
-            <p style="text-align:center;">
-                <a class="btn btn-light" href="licensing.html">Explore licensing</a>
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>Insurers &amp; reinsurers</h3>
+                    <p>Documented environmental context for insured commercial sites — supports policyholders' permit files and strengthens underwriting and claims review with traceable site evidence.</p>
+                </div>
+                <div class="story-card">
+                    <h3>Investors, banks &amp; developers</h3>
+                    <p>A ready-to-attach dossier for permit applications and credit files — the site's environmental strengths and constraints documented up front, with maps, graphics and framework references.</p>
+                </div>
+                <div class="story-card">
+                    <h3>Governments &amp; municipalities</h3>
+                    <p>Independent, satellite-backed screening evidence to evaluate licence applications faster and more defensibly — the same engine, the other side of the table.</p>
+                </div>
+            </div>
+            <p style="text-align:center;margin-top:26px;">
+                <a class="btn btn-light" href="licensing.html">Build your evidence base</a>
             </p>
         </div>
     </section>
@@ -257,6 +201,29 @@
                     <a class="text-link" href="solutions.html?mode=funding">Find funding →</a>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Live multi-hazard exposure monitor (real data) -->
+    <section class="section section-dark" id="risk-intel" style="padding-top:70px;padding-bottom:70px;">
+        <div class="container">
+            <div class="risk-intel-head">
+                <div>
+                    <span class="section-tag">Live exposure monitor</span>
+                    <h2 class="section-title" style="font-size:1.8rem;margin-bottom:4px;">What insured assets and capital face right now</h2>
+                    <p class="section-subtitle">Current wildfire, flood, heat, drought, wind, coastal and cyclone conditions — refreshed continuously from real Earth-observation data, so underwriting, reinsurance review and capital screening are priced on what is true today, not last season.</p>
+                    <div class="risk-intel-scope" id="riskIntelScope">Highest-risk areas currently monitored by Talaix</div>
+                </div>
+                <span class="risk-intel-freshness" id="riskIntelFreshness"></span>
+            </div>
+
+            <div class="risk-intel-list" id="riskIntelList">
+                <div class="risk-intel-unavailable">Loading the current risk snapshot…</div>
+            </div>
+
+            <div class="risk-intel-sources" id="riskIntelSources"></div>
+
+            <div class="hazard-board" id="hazardBoard"></div>
         </div>
     </section>
 
@@ -295,6 +262,11 @@
             </div>
             <div class="story-grid">
                 <div class="story-card">
+                    <h3>Insurance &amp; reinsurance</h3>
+                    <p>Per-peril screening, event history and actuarial context for underwriting and reinsurance review.</p>
+                    <a class="text-link" href="industries.html?sector=insurance">Insurance solutions →</a>
+                </div>
+                <div class="story-card">
                     <h3>Investors</h3>
                     <p>Asset-level and portfolio screening for multi-hazard exposure before committing capital.</p>
                     <a class="text-link" href="industries.html?sector=investors">Investor solutions →</a>
@@ -303,11 +275,6 @@
                     <h3>Banks &amp; lenders</h3>
                     <p>Collateral screening, portfolio mapping and green-finance verification evidence.</p>
                     <a class="text-link" href="industries.html?sector=banks">Banking solutions →</a>
-                </div>
-                <div class="story-card">
-                    <h3>Insurance</h3>
-                    <p>Per-peril screening and event-history context for underwriting and reinsurance review.</p>
-                    <a class="text-link" href="industries.html?sector=insurance">Insurance solutions →</a>
                 </div>
                 <div class="story-card">
                     <h3>Real estate</h3>
