@@ -1,9 +1,8 @@
 # Talaix — Pricing
 
-**Status:** decided 2026-08-31 (operator decision). Not yet published on the
-site; `website/account.html` still states "no public pricing yet" until the
-pricing page ships. When published, this document remains the source of
-record — the site must match it.
+**Status:** decided 2026-08-31 (operator decision); published 2026-09-04 at
+`website/pricing.html`. `website/account.html` was updated in the same deploy.
+When published, this document remains the source of record — the site must match it.
 
 Norms (binding, from `docs/USER_AND_SUBSCRIPTION_ARCHITECTURE.md` and the
 operating rules in `PLAN.md`):

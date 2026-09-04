@@ -3401,3 +3401,157 @@ body.search-open {
 .km-review-panel {
     margin-top: 14px;
 }
+
+/* ============================================
+   Pricing / tier badge / subscribe CTA additions
+   ============================================ */
+
+/* Prominent Subscribe pill in the dark navbar (guests only). */
+.nav-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: var(--gradient);
+    color: var(--white) !important;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.45);
+}
+
+/* Per-page tier classification bar (injected by js/tiers.js). */
+.tier-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    margin: 8px 0 24px;
+    padding: 10px 14px;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.84rem;
+}
+
+.tier-bar .tier-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tier-bar .tier-note {
+    margin: 0;
+    color: var(--text-light);
+    flex: 1 1 220px;
+}
+
+.tier-bar .tier-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.tier-chip {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tier-free { background: rgba(34,197,94,0.14); color: #15803d; }
+.tier-onetime { background: rgba(245,158,11,0.18); color: #b45309; }
+.tier-sub { background: rgba(14,165,233,0.14); color: #0369a1; }
+.tier-enterprise { background: rgba(71,85,105,0.14); color: #334155; }
+
+.tier-bar a,
+.tier-bar button {
+    font-size: 0.8rem;
+}
+
+.tier-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tier-share-label {
+    color: var(--text-light);
+    font-weight: 500;
+    margin-right: 2px;
+}
+
+.tier-share a,
+.tier-share button {
+    min-width: 34px;
+    padding: 5px 10px;
+}
+
+/* Pricing page cards. */
+.price-tag {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+
+.price-card ul {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.price-card .card-actions {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.price-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.price-card-featured {
+    border: 2px solid var(--accent);
+    box-shadow: 0 6px 24px rgba(245,158,11,0.12);
+}
+
+.price-grid {
+    align-items: stretch;
+}
+
+.price-grid .item-card {
+    justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+    .tier-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tier-bar .tier-actions {
+        margin-left: 0;
+    }
+}

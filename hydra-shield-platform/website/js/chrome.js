@@ -43,7 +43,8 @@
                 { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
                 { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
             ]
-        }
+        },
+        { id: 'pricing', href: 'pricing.html', label: 'Pricing' }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
@@ -72,7 +73,7 @@
         {
             heading: 'Analyze', items: [
                 'intelligence', 'map',
-                { id: 'siting', href: 'intelligence.html?mode=siting', label: 'Siting & Opportunities' },
+                { id: 'siting', href: 'intelligence.html?mode=siting', label: 'Opportunities' },
                 { id: 'sector-exposure', href: 'intelligence.html#sector', label: 'Sector Exposure' }
             ]
         },
@@ -81,6 +82,7 @@
                 'insurance',
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
+                'pricing',
                 'licensing', 'compliance-hub'
             ]
         },
@@ -124,7 +126,6 @@
         { href: 'applications.html', label: 'Applications' },
         { href: 'roadmap.html', label: 'Roadmap' },
         { href: 'privacy.html', label: 'Privacy' },
-        { href: 'sources.html', label: 'Sources' },
         { href: 'contact.html', label: 'Contact' }
     ];
 
@@ -195,6 +196,7 @@
             '<ul class="nav-links" id="navLinks">' +
             links +
             '<li class="nav-search"><button type="button" id="navSearchBtn" aria-label="Search (Ctrl+K)">' + SEARCH_SVG + '</button></li>' +
+            '<li class="nav-cta guest-only"><a href="pricing.html" class="nav-cta-btn">Subscribe</a></li>' +
             '<li class="nav-account"><a href="account.html"' + accountActive + '>Account</a></li>' +
             '</ul>' +
             '</div></nav>';
@@ -323,6 +325,9 @@
         wireNavGroups();
         reflectSession();
 
+        // Allow late-injected guest-only CTAs (e.g. tiers.js) to re-apply visibility.
+        window.HS_REFLECT_CTA = reflectCta;
+
         // Expose the flat nav list for the command-palette search, then load it.
         window.HS_NAV_LINKS = ALL_LINKS;
         var searchScript = document.createElement('script');
@@ -345,6 +350,12 @@
         beacon.src = 'js/analytics.js';
         beacon.defer = true;
         document.head.appendChild(beacon);
+
+        // Per-page tier badge + share bar.
+        var tiersScript = document.createElement('script');
+        tiersScript.src = 'js/tiers.js';
+        tiersScript.defer = true;
+        document.head.appendChild(tiersScript);
     }
 
     // chrome.js is included after the mount divs, so the DOM is ready.

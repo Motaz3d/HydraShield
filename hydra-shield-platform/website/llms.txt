@@ -15,6 +15,7 @@
 - [Investment & Siting Intelligence](https://talaix.com/intelligence.html): multi-hazard screening, exposure and evidence for financial decisions, plus site-fitted resilience solutions (`?mode=siting`) and matched public funding programmes (`?mode=funding`) — one window
 - [Maps](https://talaix.com/map.html): interactive risk layers with source and confidence shown for every layer
 - [Reports & Evidence Packs](https://talaix.com/reports.html): Insurance, Green Finance, Sustainability/CSRD, Sector Exposure, Forensics, Supply Chain, Press and Report Builder
+- [Pricing](https://talaix.com/pricing.html): free tier, pay-per-use reports (Decision €19, Scientific €39), Professional (€49/mo or €490/yr), Business (€249/mo or €2,490/yr), Government and Enterprise contracts
 - [Environmental Licensing](https://talaix.com/licensing.html): pre-draft licence dossiers backed by satellite evidence
 - [Compliance & Sustainable Finance](https://talaix.com/compliance.html): EU Taxonomy DNSH, EBA Pillar 3, CSRD/ESRS E1, EIOPA/Solvency II, EUDR
 - [Green Finance Verification](https://talaix.com/green-finance.html): per-asset DNSH/EU Taxonomy physical-risk verification + evidence PDFs
