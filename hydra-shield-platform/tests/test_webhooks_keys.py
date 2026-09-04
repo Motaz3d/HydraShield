@@ -136,12 +136,22 @@ def _auth_headers(client, env, email="user@example.org", password="correct horse
     resp = client.post("/api/v2/auth/register",
                        json={"email": email, "password": password, "consent": True})
     assert resp.status_code == 201, resp.get_json()
+    recipient = email  # captured before `import email.policy` shadows the name
     import email as email_lib
     import email.policy
 
     files = sorted(env["outbox"].glob("*_email_verification_*.eml"))
-    msg = email_lib.message_from_string(
-        files[-1].read_text(encoding="utf-8"), policy=email_lib.policy.default)
+    # Pick the verification email addressed to THIS user — the outbox
+    # accumulates earlier registrations' mail (and their used tokens), so
+    # "latest file wins" is not reliable for multi-user flows.
+    msg = None
+    for path in reversed(files):
+        candidate = email_lib.message_from_string(
+            path.read_text(encoding="utf-8"), policy=email_lib.policy.default)
+        if recipient in str(candidate.get("To") or ""):
+            msg = candidate
+            break
+    assert msg is not None, f"no verification email for {email}: {files}"
     plain = msg.get_body(("plain",)).get_content()
     token = re.search(r"token=([A-Za-z0-9_\-]+)", plain).group(1)
     resp = client.get(f"/api/v2/auth/verify?token={token}")
