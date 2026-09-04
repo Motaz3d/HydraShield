@@ -529,6 +529,13 @@ def test_cascading_caller_declared_hazards(monkeypatch):
 def test_economic_impact_three_blocks_strictly_separated(monkeypatch):
     monkeypatch.setattr(econ_impact_module, "build_economic_exposure",
                         lambda *a, **k: _synthetic_exposure())
+    # Cadastre/Eurostat calibration layers patched out (offline suite).
+    import src.climate.cadastre as cad_mod
+    import src.climate.eurostat_cci as cci_mod
+    monkeypatch.setattr(cad_mod, "real_floor_area_m2", lambda *a, **k: None)
+    monkeypatch.setattr(cci_mod, "calibration",
+                        lambda geo, basis_year=2023: {"status": "unavailable",
+                                                      "reason": "offline test"})
     out = econ_impact_module.assess_economic_impact.__wrapped__(66.666, 11.111)
     assert out["status"] == "ok"
 

@@ -24,12 +24,12 @@ benchmarks, it never replaces the function with a black box.
 
 | Source | What it gives | Access | Classification |
 |---|---|---|---|
-| **Eurostat API** (`sts_copi` construction-cost indices) | official per-country construction-cost indexation → calibrate benchmark bands per country, keep them dated | free REST API, CC-BY-4.0 | INTEGRATE (free) |
-| **Luxembourg cadastre** (data.public.lu) | official parcels/buildings for our home market | open data | INTEGRATE (free) |
-| **Netherlands BAG via PDOK** | *real floor area per building* (pand oppervlakte) — removes the area assumption for NL | free API (PDOK locatieserver/OGC) | INTEGRATE (free) |
-| **Spain Catastro API** | built area, use, year per cadastral unit — real areas for ES | free public API (rate-limited) | INTEGRATE (free) |
-| **France BDNB / data.gouv** | national building database (areas, use) | open licence (Licence Ouverte) | INTEGRATE (free) |
-| **JRC global flood depth–damage functions** (Huizinga et al., JRC Technical Reports) | peer-reviewed European flood damage ratios → the `expected_loss` computation for flood | published, free | INTEGRATE (free) — with method printed |
+| **Eurostat API** (`sts_copi` construction-cost indices) | official per-country construction-cost indexation → calibrate benchmark bands per country, keep them dated | free REST API, CC-BY-4.0 | **INTEGRATED 2026-09-04** (`src/climate/eurostat_cci.py`, STS_COPI_A via SDMX 2.1, cached 7 d) |
+| **Luxembourg cadastre** (data.public.lu) | official parcels/buildings for our home market | open data | INTEGRATE (free) — endpoint research pending |
+| **Netherlands BAG via PDOK** | *real floor area per building* (pand oppervlakte) — removes the area assumption for NL | free API (PDOK locatieserver/OGC) | **INTEGRATED 2026-09-04** (`src/climate/cadastre.py`, WFS v2_0 verified live) |
+| **Spain Catastro API** | built area, use, year per cadastral unit — real areas for ES | free public API (rate-limited) | INTEGRATE (free) — follows the BAG pattern |
+| **France BDNB / data.gouv** | national building database (areas, use) | open licence (Licence Ouverte) | INTEGRATE (free) — follows the BAG pattern |
+| **JRC global flood depth–damage functions** (Huizinga et al., JRC Technical Reports) | peer-reviewed European flood damage ratios → the `expected_loss` computation for flood | published, free | **PLUMBING READY 2026-09-04** — staged path `config/jrc_damage_curves.json` (transcribe licensed values; the platform ships no invented curve values); `?depth_m=` activates the computation |
 | **EM-DAT staged export** | documented deaths/losses per event × country | free after registration | already staged path (operator file) |
 
 Honest note: cadastral coverage is per-country; the engine keeps the

@@ -120,11 +120,18 @@ def client():
 
 def test_estimate_endpoint_with_mocked_exposure(client, monkeypatch):
     # The route imports build_economic_exposure lazily from the module, so
-    # patching the module attribute is sufficient.
+    # patching the module attribute is sufficient. Cadastre/Eurostat layers
+    # are patched out to keep the suite offline with declared values.
     import src.climate.exposure_econ as ex_mod
+    import src.climate.cadastre as cad_mod
+    import src.climate.eurostat_cci as cci_mod
 
     monkeypatch.setattr(ex_mod, "build_economic_exposure",
                         lambda lat, lon, radius_km=5.0: dict(_SYNTH_EXPOSURE))
+    monkeypatch.setattr(cad_mod, "real_floor_area_m2", lambda *a, **k: None)
+    monkeypatch.setattr(cci_mod, "calibration",
+                        lambda geo, basis_year=2023: {"status": "unavailable",
+                                                      "reason": "offline test"})
     resp = client.get("/api/v2/losses/estimate?lat=50.0548&lon=6.0276")
     assert resp.status_code == 200
     data = resp.get_json()
@@ -140,3 +147,105 @@ def test_estimate_endpoint_requires_coords(client):
     assert client.get("/api/v2/losses/estimate").status_code == 400
     assert client.get(
         "/api/v2/losses/estimate?lat=95&lon=0").status_code == 400
+
+
+# ---------------------------------------------------------------------------
+# enriched_estimate — cadastre + Eurostat calibration + expected loss
+# ---------------------------------------------------------------------------
+
+def test_enriched_estimate_with_real_area_and_calibration(monkeypatch):
+    import src.climate.cadastre as cad_mod
+    import src.climate.eurostat_cci as cci_mod
+
+    monkeypatch.setattr(cad_mod, "real_floor_area_m2",
+                        lambda lat, lon, r=None: {
+                            "mean_area_m2": 240.0, "building_count": 7,
+                            "source": "BAG test", "method": "m",
+                            "licence_note": "l"})
+    monkeypatch.setattr(cci_mod, "calibration",
+                        lambda geo, basis_year=2023: {
+                            "status": "ok", "factor": 1.25, "basis_year": 2023,
+                            "basis_value": 100.0, "latest_year": 2026,
+                            "latest_value": 125.0, "flags": {},
+                            "source": "Eurostat test", "url": "https://x",
+                            "method": "m"})
+    est = le.enriched_estimate(52.37, 4.90, 100, radius_m=1000)
+    assert est["status"] == "ok"
+    assert est["inputs"]["area_basis"]["status"] == "real_cadastral"
+    ev = est["estimate"]["exposed_value_eur"]
+    # Declared NL cost band 1200/1700/2500; declared area shape (80/120/200)
+    # scaled to the real mean 240 -> band 160/240/400; factor 1.25 applied.
+    assert ev["low"] == round(100 * 160.0 * 1200 * 1.25)
+    assert ev["central"] == round(100 * 240.0 * 1700 * 1.25)
+    assert ev["high"] == round(100 * 400.0 * 2500 * 1.25)
+    assert est["inputs"]["price_calibration"]["factor"] == 1.25
+    assert "price-calibrated" in ev["unit"]
+
+
+def test_enriched_estimate_declared_fallbacks(monkeypatch):
+    import src.climate.cadastre as cad_mod
+    import src.climate.eurostat_cci as cci_mod
+
+    monkeypatch.setattr(cad_mod, "real_floor_area_m2", lambda *a, **k: None)
+    monkeypatch.setattr(cci_mod, "calibration",
+                        lambda geo, basis_year=2023: {"status": "unavailable",
+                                                      "reason": "offline"})
+    est = le.enriched_estimate(50.0548, 6.0276, 775, radius_m=2000)
+    assert est["status"] == "ok"
+    assert est["inputs"]["area_basis"]["status"] == "declared_assumption"
+    assert est["inputs"]["price_calibration"]["status"] == "unavailable"
+    ev = est["estimate"]["exposed_value_eur"]
+    assert ev["central"] == 775 * 120 * 2200  # pure declared values stand
+    assert "price-calibrated" not in ev["unit"]
+
+
+def test_expected_loss_from_depth_math():
+    curve = [[0.0, 0.0], [1.0, 0.4], [2.0, 0.6]]
+    ev = {"low": 100, "central": 200, "high": 400, "unit": "EUR"}
+    out = le.expected_loss_from_depth(ev, 1.5, curve)
+    assert out["status"] == "ok"
+    assert out["damage_ratio"] == pytest.approx(0.5)
+    assert out["expected_loss_eur"]["central"] == 100
+    assert out["expected_loss_eur"]["low"] == 50
+    assert out["expected_loss_eur"]["high"] == 200
+    # Ratio clamps at the curve ends.
+    assert le.expected_loss_from_depth(ev, 10.0, curve)["damage_ratio"] == 0.6
+    assert le.expected_loss_from_depth(ev, -1.0, curve)["damage_ratio"] == 0.0
+    # Honest not_available without depth or curve.
+    assert le.expected_loss_from_depth(ev, None, curve)["status"] == "not_available"
+    assert le.expected_loss_from_depth(ev, 1.0, None)["status"] == "not_available"
+
+
+def test_load_damage_curves_staged(tmp_path):
+    assert le.load_damage_curves(path=str(tmp_path / "missing.json")) is None
+    p = tmp_path / "curves.json"
+    p.write_text(json.dumps({"curves": {"flood_residential": {
+        "points": [[0, 0], [1, 0.4]], "source": "staged test",
+        "licence_note": "l"}}}))
+    curves = le.load_damage_curves(path=str(p))
+    assert curves["curves"]["flood_residential"]["points"] == [[0, 0], [1, 0.4]]
+
+
+def test_enriched_estimate_expected_loss_with_staged_curve(tmp_path, monkeypatch):
+    import src.climate.cadastre as cad_mod
+    import src.climate.eurostat_cci as cci_mod
+
+    monkeypatch.setattr(cad_mod, "real_floor_area_m2", lambda *a, **k: None)
+    monkeypatch.setattr(cci_mod, "calibration",
+                        lambda geo, basis_year=2023: {"status": "unavailable",
+                                                      "reason": "offline"})
+    p = tmp_path / "curves.json"
+    p.write_text(json.dumps({"curves": {"flood_residential": {
+        "points": [[0, 0], [2, 0.5]], "source": "staged test",
+        "licence_note": "l"}}}))
+    monkeypatch.setattr(le, "_DAMAGE_CURVES_PATH", str(p))
+
+    est = le.enriched_estimate(50.0548, 6.0276, 100, depth_m=1.0)
+    el = est["expected_loss"]
+    assert el["status"] == "ok"
+    assert el["damage_ratio"] == pytest.approx(0.25)
+    assert el["expected_loss_eur"]["central"] == round(100 * 120 * 2200 * 0.25)
+    assert el["curve"]["source"] == "staged test"
+    # Without a depth input the slot stays honestly closed.
+    est2 = le.enriched_estimate(50.0548, 6.0276, 100)
+    assert est2["expected_loss"]["status"] == "not_available"

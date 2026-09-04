@@ -153,7 +153,7 @@ def assess_economic_impact(lat: float, lon: float) -> Dict[str, Any]:
     # The engine's own monetary function: computed from the SAME real mapped
     # building count above and declared benchmarks. Never merged with the
     # documented observed losses or the qualitative exposure profile.
-    from .loss_estimate import loss_screening_estimate
+    from .loss_estimate import enriched_estimate
 
     buildings = buildings_source = None
     radius_m = None
@@ -161,7 +161,7 @@ def assess_economic_impact(lat: float, lon: float) -> Dict[str, Any]:
         buildings = (categories.get("buildings") or {}).get("count")
         buildings_source = (categories.get("buildings") or {}).get("source")
         radius_m = (exposure.get("radius_km") or 0) * 1000 or None
-    loss_screening = loss_screening_estimate(
+    loss_screening = enriched_estimate(
         lat, lon, buildings,
         buildings_source=buildings_source, radius_m=radius_m)
 

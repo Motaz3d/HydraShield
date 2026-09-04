@@ -346,24 +346,51 @@ def build_insurance_pdf(profile: Dict[str, Any],
         inputs = loss_estimate.get("inputs") or {}
         b = inputs.get("buildings_count") or {}
         cb = inputs.get("country_benchmark") or {}
+        ab = inputs.get("area_basis") or {}
+        pc = inputs.get("price_calibration") or {}
         story.append(Paragraph(
             "<b>Talaix loss screening estimate (ESTIMATED — computed by the "
             "Talaix function, not a documented figure and not a premium "
             "input)</b>", _B,
         ))
-        story.append(_kv_table([
+        area_word = ("real cadastral floor-area"
+                     if ab.get("status") == "real_cadastral"
+                     else "declared floor-area")
+        est_rows = [
             ["Exposed value (screening)",
              f"EUR {ev.get('low', 0):,} – {ev.get('high', 0):,} "
              f"(central {ev.get('central', 0):,}) (ESTIMATED)"],
             ["Basis",
              f"{int(b.get('value') or 0):,} mapped buildings"
              + (f" within {int(b.get('radius_m'))} m" if b.get("radius_m") else "")
-             + f" × declared floor-area and replacement-cost benchmarks "
+             + f" × {area_word} and replacement-cost benchmarks "
                f"({cb.get('name') or 'fallback defaults'})"],
-            ["Expected loss / AAL",
-             "not available — no validated damage-ratio model is integrated; "
-             "the exposed value is not converted into an expected loss (declared)"],
-        ]))
+        ]
+        if pc.get("status") == "ok":
+            est_rows.append(["Price calibration",
+                             f"Eurostat STS_COPI_A {pc.get('basis_value')} "
+                             f"({pc.get('basis_year')}) → {pc.get('latest_value')} "
+                             f"({pc.get('latest_year')}) ×{pc.get('factor')} — official "
+                             "construction-cost index; all bands scaled equally"])
+        if ab.get("status") == "real_cadastral":
+            est_rows.append(["Floor area basis",
+                             f"Real cadastral mean {ab.get('mean_area_m2')} m² "
+                             f"over {ab.get('building_count')} buildings — "
+                             f"{ab.get('source')}"])
+        el = loss_estimate.get("expected_loss") or {}
+        if el.get("status") == "ok" and el.get("expected_loss_eur"):
+            elv = el["expected_loss_eur"]
+            est_rows.append(["Expected loss (screening)",
+                             f"EUR {elv.get('low', 0):,} – {elv.get('high', 0):,} "
+                             f"(central {elv.get('central', 0):,}) at depth "
+                             f"{el.get('depth_m')} m — damage ratio "
+                             f"{el.get('damage_ratio')} (ESTIMATED; not AAL)"])
+        else:
+            est_rows.append(["Expected loss / AAL",
+                             "not available — no validated damage-ratio model is "
+                             "integrated; the exposed value is not converted into "
+                             "an expected loss (declared)"])
+        story.append(_kv_table(est_rows))
         story.append(Paragraph(
             "Screening context only: an exposed-VALUE range from real mapped "
             "building counts and declared benchmark ranges — not a valuation, "

@@ -105,7 +105,7 @@ def profile_report():
     loss_estimate_result = None
     try:
         from .exposure_econ import build_economic_exposure
-        from .loss_estimate import loss_screening_estimate
+        from .loss_estimate import enriched_estimate
 
         exposure = build_economic_exposure(lat, lon)
         if "error" not in exposure:
@@ -113,7 +113,7 @@ def profile_report():
                          .get("buildings") or {}).get("count")
             bsrc = ((exposure.get("exposure") or {})
                     .get("buildings") or {}).get("source")
-            loss_estimate_result = loss_screening_estimate(
+            loss_estimate_result = enriched_estimate(
                 lat, lon, buildings,
                 buildings_source=bsrc or "economic exposure engine (OSM/ohsome)",
                 radius_m=(exposure.get("radius_km") or 0) * 1000 or None)

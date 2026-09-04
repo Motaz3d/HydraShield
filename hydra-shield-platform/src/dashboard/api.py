@@ -597,15 +597,16 @@ def create_app() -> Flask:
             losses_result = None
 
         # Talaix loss screening estimate (ESTIMATED): computed from the
-        # analysis payload's own mapped building count — pure function, no
-        # extra network calls, strictly separated from documented figures.
+        # analysis payload's own mapped building count — pure core plus
+        # cadastral/Eurostat calibration layers, strictly separated from
+        # documented figures.
         loss_estimate_result = None
         try:
-            from ..climate.loss_estimate import loss_screening_estimate
+            from ..climate.loss_estimate import enriched_estimate
 
             _ex = result.get("exposure") or {}
             _bc = (_ex.get("exposure") or {}).get("buildings_mapped")
-            loss_estimate_result = loss_screening_estimate(
+            loss_estimate_result = enriched_estimate(
                 round(lat, 4), round(lon, 4), _bc,
                 buildings_source="OpenStreetMap mapped buildings (analysis payload)",
                 radius_m=_ex.get("radius_m"))

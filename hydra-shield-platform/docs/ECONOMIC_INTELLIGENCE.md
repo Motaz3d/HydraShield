@@ -172,13 +172,32 @@ computed independently for the low / central / high declared bands
   band carries a stated basis (published construction-cost ranges);
   countries are matched by bounding box, smallest containing bbox wins;
   unmatched locations fall back to declared generic defaults.
+- **Official price calibration (implemented 2026-09-04)**: the bands
+  (declared at `price_basis_year` 2023) are dated at query time by the
+  official Eurostat construction-cost index `STS_COPI_A`
+  (`src/climate/eurostat_cci.py`, SDMX 2.1 TSV, cached 7 d) —
+  `factor = CCI(latest) / CCI(basis)` scales all bands equally; the index
+  DATES the benchmarks, it never narrows them. Fetch failure degrades to
+  the declared bands with an honest reason.
+- **Real cadastral floor areas (implemented 2026-09-04, NL first)**:
+  where an official cadastre is integrated, the declared floor-area
+  assumption is replaced by the real observed mean
+  (`src/climate/cadastre.py` — Netherlands BAG via PDOK WFS, open data
+  Kadaster, `oppervlakte_min/max` per building). The declared band shape
+  is scaled to the real mean and the basis is printed
+  (`area_basis: real_cadastral | declared_assumption`). LU/ES/FR
+  cadastres follow the same staged pattern.
 - **Output**: `{low, central, high}` exposed-value range tagged
   `ESTIMATED`, with inputs, method and limitations printed. The wide span
   is the honest compound of the declared input uncertainties.
-- **Expected-loss slot**: `not_available` — no validated damage-ratio
-  model is integrated, so exposed value is never converted into an
-  expected loss. Next step: JRC European depth–damage functions (flood),
-  then equivalent published curves per hazard.
+- **Expected-loss plumbing (implemented 2026-09-04)**:
+  `expected_loss_from_depth` computes exposed value × damage ratio
+  (linear interpolation, end-clamped) — pure and tested. It activates
+  only when an operator-staged damage curve exists
+  (`config/jrc_damage_curves.json`, transcribed licensed JRC values —
+  the platform ships no invented curve values) AND a depth input is
+  supplied (`?depth_m=` on the estimate endpoint). Otherwise the slot
+  stays `not_available` with the reason stated.
 - **Separation**: ESTIMATED is rendered as its own sub-block in the
   reports' "Documented disaster losses" section and served separately at
   `GET /api/v2/losses/estimate?lat&lon` — never merged with DOCUMENTED

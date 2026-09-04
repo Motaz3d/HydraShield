@@ -655,6 +655,13 @@ def test_report_endpoint_returns_pdf(client, monkeypatch):
     import src.dashboard.api as api_module
     monkeypatch.setattr(api_module, "_cached_analysis",
                         lambda lat, lon, name: _report_payload())
+    # Calibration layers of the loss estimate patched out (offline suite).
+    import src.climate.cadastre as cad_mod
+    import src.climate.eurostat_cci as cci_mod
+    monkeypatch.setattr(cad_mod, "real_floor_area_m2", lambda *a, **k: None)
+    monkeypatch.setattr(cci_mod, "calibration",
+                        lambda geo, basis_year=2023: {"status": "unavailable",
+                                                      "reason": "offline test"})
     resp = client.get("/api/report?lat=37.6&lon=-6.5")
     assert resp.status_code == 200
     assert resp.mimetype == "application/pdf"

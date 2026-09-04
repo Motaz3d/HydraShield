@@ -178,6 +178,15 @@ on an external key/account.
   (ESTIMATED card for the top monitored area, fed by the estimate
   endpoint). Acquisition study for purchasable loss/valuation APIs and
   free upgrades: `docs/LOSS_DATA_ACQUISITION.md`.
+- [DONE] Official calibration layers for the estimate (2026-09-04):
+  Eurostat STS_COPI_A construction-cost indexation of the declared bands
+  (`src/climate/eurostat_cci.py` — official index ratio scales all bands
+  equally, cached 7 d, honest degradation to declared values); real
+  cadastral floor areas for NL (`src/climate/cadastre.py` — BAG via PDOK
+  WFS, verified live; declared band shape scaled to the real mean);
+  expected-loss plumbing (`expected_loss_from_depth`, staged curve file
+  `config/jrc_damage_curves.json` + `?depth_m=` — ships no invented curve
+  values). All surfaces consume the composed `enriched_estimate`.
 - [DONE] Commercial sources (Munich Re NatCatSERVICE, Swiss Re sigma) marked
   `planned` with status note: "Commercial licence to be procured after first
   platform revenue (operator decision 2026-09-02)".

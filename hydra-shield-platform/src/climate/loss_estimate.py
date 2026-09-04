@@ -234,3 +234,179 @@ def loss_screening_estimate(
         "separation_note": SEPARATION_NOTE,
         "generated_at": utcnow_iso(),
     }
+
+
+# ---------------------------------------------------------------------------
+# Enriched estimate — pure core + official calibration layers
+# ---------------------------------------------------------------------------
+
+_DAMAGE_CURVES_PATH = os.path.join(
+    os.path.dirname(__file__), "..", "..", "config", "jrc_damage_curves.json"
+)
+
+
+def load_damage_curves(path: str | None = None) -> Optional[Dict[str, Any]]:
+    """Operator-staged depth–damage curves (e.g. transcribed licensed JRC
+    values). Staged path, like EM-DAT: parsed when present, None when
+    absent — the platform ships no invented curve values."""
+    cfg_path = path or os.environ.get("HYDRASHIELD_DAMAGE_CURVES") or _DAMAGE_CURVES_PATH
+    if not os.path.exists(cfg_path):
+        return None
+    try:
+        with open(cfg_path, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def expected_loss_from_depth(exposed_value_eur: Dict[str, Any],
+                             depth_m: Optional[float],
+                             curve_points: Optional[List[List[float]]]) -> Dict[str, Any]:
+    """Pure: exposed value × damage ratio interpolated at ``depth_m``.
+
+    ``curve_points`` are [depth_m, damage_ratio] pairs (ratio 0..1) sorted
+    by depth; the ratio clamps at the curve ends. Without depth input or a
+    staged curve the expected loss stays honestly ``not_available``.
+    """
+    if depth_m is None:
+        return {"status": "not_available",
+                "statement": "No water-depth input is available for this "
+                             "location — the expected loss is not computed (declared)."}
+    if not curve_points:
+        return {"status": "not_available",
+                "statement": EXPECTED_LOSS_STATEMENT}
+    pts = sorted(curve_points, key=lambda p: p[0])
+
+    def ratio_at(d: float) -> float:
+        if d <= pts[0][0]:
+            return float(pts[0][1])
+        if d >= pts[-1][0]:
+            return float(pts[-1][1])
+        for (d0, r0), (d1, r1) in zip(pts, pts[1:]):
+            if d0 <= d <= d1:
+                if d1 == d0:
+                    return float(r1)
+                return float(r0) + (float(r1) - float(r0)) * (d - d0) / (d1 - d0)
+        return float(pts[-1][1])
+
+    ratio = ratio_at(float(depth_m))
+    return {
+        "status": "ok",
+        "claim_status": "ESTIMATED",
+        "depth_m": float(depth_m),
+        "damage_ratio": round(ratio, 4),
+        "expected_loss_eur": {
+            "low": round(float(exposed_value_eur.get("low", 0)) * ratio),
+            "central": round(float(exposed_value_eur.get("central", 0)) * ratio),
+            "high": round(float(exposed_value_eur.get("high", 0)) * ratio),
+            "unit": "EUR (screening range)",
+        },
+        "method": "expected_loss = exposed_value × damage_ratio(depth); ratio "
+                  "linearly interpolated on the staged damage curve; the depth "
+                  "is caller-supplied, not modelled by Talaix.",
+        "limitations": [
+            "Screening estimate: a single depth point against an exposed-value "
+            "range — not a probabilistic loss, not AAL.",
+            "The depth input is external; no flood-depth model is integrated.",
+        ],
+    }
+
+
+def enriched_estimate(
+    lat: float,
+    lon: float,
+    buildings_count: Optional[float],
+    *,
+    buildings_source: Optional[str] = None,
+    radius_m: Optional[float] = None,
+    depth_m: Optional[float] = None,
+) -> Dict[str, Any]:
+    """The estimate with its official calibration layers applied:
+
+    1. pure screening estimate (declared benchmarks);
+    2. real cadastral floor area where an official cadastre is integrated
+       (declared band shape scaled to the real observed mean — basis stated);
+    3. Eurostat construction-cost price calibration (official index ratio —
+       all bands scaled equally, index values and years printed);
+    4. expected loss when a staged damage curve AND a depth input exist —
+       otherwise the honest not_available slot.
+
+    The pure ``loss_screening_estimate`` stays the offline-testable core;
+    every network-backed layer degrades to an honest declared fallback.
+    """
+    est = loss_screening_estimate(
+        lat, lon, buildings_count,
+        buildings_source=buildings_source, radius_m=radius_m)
+    if est.get("status") != "ok":
+        return est
+
+    inputs = est.setdefault("inputs", {})
+    benchmarks = inputs.get("benchmarks") or {}
+    cost_band = benchmarks.get("replacement_cost_per_m2") or {}
+    declared_area = benchmarks.get("floor_area_per_building_m2") or {}
+
+    # -- 2. real cadastral floor area --------------------------------------
+    area_info = None
+    try:
+        from .cadastre import real_floor_area_m2
+
+        area_info = real_floor_area_m2(lat, lon, radius_m)
+    except Exception:
+        area_info = None
+    if area_info and area_info.get("mean_area_m2"):
+        declared_central = float(declared_area.get("central") or 0) or 1.0
+        shape_low = float(declared_area.get("low", 0)) / declared_central
+        shape_high = float(declared_area.get("high", 0)) / declared_central
+        real_mean = float(area_info["mean_area_m2"])
+        real_band = {
+            "low": round(real_mean * shape_low, 1),
+            "central": real_mean,
+            "high": round(real_mean * shape_high, 1),
+            "basis": ("Real cadastral mean scaled to the declared band shape. "
+                      + area_info.get("method", "")),
+        }
+        est["estimate"]["exposed_value_eur"] = estimate_exposed_value(
+            buildings_count, cost_band, real_band)
+        inputs["benchmarks"]["floor_area_per_building_m2"] = real_band
+        inputs["area_basis"] = {"status": "real_cadastral", **area_info}
+    else:
+        inputs["area_basis"] = {
+            "status": "declared_assumption",
+            "note": "No integrated cadastre covers this location — the "
+                    "declared floor-area assumption is used (stated in the basis).",
+        }
+
+    # -- 3. Eurostat price calibration --------------------------------------
+    cfg = load_benchmarks()
+    basis_year = int(cfg.get("price_basis_year") or 2023)
+    cal: Dict[str, Any]
+    try:
+        from .eurostat_cci import calibration as cci_calibration
+
+        cal = cci_calibration(
+            (inputs.get("country_benchmark") or {}).get("code"),
+            basis_year=basis_year)
+    except Exception as exc:  # honest degradation — declared bands stand
+        cal = {"status": "unavailable", "reason": f"calibration failed: {exc}"}
+    if cal.get("status") == "ok":
+        factor = float(cal["factor"])
+        value = est["estimate"]["exposed_value_eur"]
+        for key in ("low", "central", "high"):
+            value[key] = round(float(value[key]) * factor)
+        value["unit"] = (value.get("unit", "") +
+                         f" — price-calibrated to Eurostat {cal['latest_year']} index").strip()
+    inputs["price_calibration"] = cal
+
+    # -- 4. expected loss (staged curve + depth input only) -----------------
+    curves = load_damage_curves()
+    curve_points = None
+    curve_meta = None
+    if curves:
+        curve = (curves.get("curves") or {}).get("flood_residential") or {}
+        curve_points = curve.get("points")
+        curve_meta = {k: curve.get(k) for k in ("source", "licence_note") if curve.get(k)}
+    est["expected_loss"] = expected_loss_from_depth(
+        est["estimate"]["exposed_value_eur"], depth_m, curve_points)
+    if curve_meta and est["expected_loss"].get("status") == "ok":
+        est["expected_loss"]["curve"] = curve_meta
+    return est

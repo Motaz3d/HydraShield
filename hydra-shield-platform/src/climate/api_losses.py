@@ -91,7 +91,7 @@ def losses_estimate():
     from flask import request
 
     from .exposure_econ import build_economic_exposure
-    from .loss_estimate import loss_screening_estimate
+    from .loss_estimate import enriched_estimate
 
     try:
         lat = float(request.args.get("lat", ""))
@@ -104,6 +104,13 @@ def losses_estimate():
         radius_km = float(request.args.get("radius_km", "5"))
     except ValueError:
         radius_km = 5.0
+    depth_raw = request.args.get("depth_m")
+    depth_m = None
+    if depth_raw is not None:
+        try:
+            depth_m = float(depth_raw)
+        except ValueError:
+            return _err("depth_m must be a number", 400)
 
     exposure = build_economic_exposure(lat, lon, radius_km=radius_km)
     if "error" in exposure:
@@ -114,10 +121,11 @@ def losses_estimate():
         })
     buildings = ((exposure.get("exposure") or {}).get("buildings") or {}).get("count")
     src = ((exposure.get("exposure") or {}).get("buildings") or {}).get("source")
-    payload = loss_screening_estimate(
+    payload = enriched_estimate(
         lat, lon, buildings,
         buildings_source=src or "economic exposure engine (OSM/ohsome)",
-        radius_m=(exposure.get("radius_km") or 0) * 1000 or None)
+        radius_m=(exposure.get("radius_km") or 0) * 1000 or None,
+        depth_m=depth_m)
     payload["location"] = {"lat": lat, "lon": lon}
     return jsonify(payload)
 

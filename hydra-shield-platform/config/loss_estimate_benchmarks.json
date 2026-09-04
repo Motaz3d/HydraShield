@@ -1,7 +1,8 @@
 {
   "benchmarks_id": "loss_estimate_benchmarks_v1",
-  "version": "1.0.0",
-  "status_note": "Declared screening benchmarks for the Talaix loss-screening ESTIMATE function (docs/ECONOMIC_INTELLIGENCE.md §9). Every value is a declared range with a stated basis — these are NOT valuations and NOT calibrated model parameters. They are refined or replaced when licensed valuation data is integrated.",
+  "version": "1.1.0",
+  "price_basis_year": 2023,
+  "status_note": "Declared screening benchmarks for the Talaix loss-screening ESTIMATE function (docs/ECONOMIC_INTELLIGENCE.md §9). Every value is a declared range with a stated basis — these are NOT valuations and NOT calibrated model parameters. The bands reflect the ~2023 price context (price_basis_year) and are dated at query time by the official Eurostat construction-cost index (STS_COPI_A) — the index scales all bands equally, it never narrows them. Floor-area assumptions are replaced by real cadastral means where a cadastre is integrated (docs/LOSS_DATA_ACQUISITION.md §2).",
   "unit_conventions": {
     "replacement_cost_per_m2": "EUR per m2 of building floor area (2025 price context, declared screening range)",
     "floor_area_per_building_m2": "m2 of floor area per mapped OSM building (declared assumption — OSM building counts carry no floor areas)"
