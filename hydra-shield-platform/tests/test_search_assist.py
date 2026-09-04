@@ -14,7 +14,7 @@ ROOT = os.path.dirname(__file__)
 
 PAGES = (
     "map.html", "intelligence.html",
-    "report-builder.html", "academy.html", "industries.html",
+    "academy.html", "industries.html",
     "index.html", "green-finance.html", "insurance.html", "forensics.html",
     "supplychain.html", "press.html", "reports.html", "licensing.html",
     "story.html",
@@ -39,7 +39,7 @@ def test_component_has_three_sections_and_location_contract():
 
 def test_component_covers_the_search_pages():
     js = _read("website/js/search-assist.js")
-    for page in ("map", "intelligence", "reportbuilder",
+    for page in ("map", "intelligence",
                  "academy", "industries", "home", "greenfinance",
                  "insurance", "forensics", "supplychain", "press",
                  "reports", "licensing", "about"):

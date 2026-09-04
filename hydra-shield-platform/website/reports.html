@@ -46,7 +46,7 @@
                     Other families:
                     <a class="text-link" href="green-finance.html">Green Finance</a> ·
                     <a class="text-link" href="sustainability.html">Sustainability / CSRD</a> ·
-                    <a class="text-link" href="report-builder.html">Report Builder</a>
+                    <a class="text-link" href="#builder">Report Builder</a>
                 </p>
             </div>
 
@@ -305,23 +305,124 @@
                 <a class="text-link" href="contact.html">tell us your story</a>.
             </p>
 
-            <!-- Interactive Report Builder -->
-            <div class="panel" style="margin-top:32px;">
-                <h2>Interactive Report Builder</h2>
+            <!-- Report Builder (merged from the legacy report-builder.html page) -->
+            <div id="builder" style="margin-top:32px;scroll-margin-top:90px;">
+                <h2>Build your report</h2>
                 <p>
-                    Build the report section by section: title, introduction, body,
-                    gaps and conclusion. Edit any section; open the
-                    <em>Why this section?</em> expander to see how it was composed.
-                    User edits are marked <code>[edited by user]</code> in the PDF,
-                    and the PDF metadata declares the edit count.
+                    Your report, your choice: fully automatic in one click, or interactive
+                    section-by-section where you see <em>how and why</em> every section was
+                    built — and can edit it. Engine text is template-composed from the cited
+                    evidence only; your edits are marked <code>[edited by user]</code> in the
+                    exported PDF, and the PDF metadata declares the edit count.
                 </p>
-                <p class="muted small">
-                    This is the honest flagship: the engine proposes, the human
-                    reviews, and the document is explicit about who wrote what.
-                </p>
-                <p>
-                    <a class="btn-action" href="report-builder.html">Open Report Builder</a>
-                </p>
+
+                <!-- Mode choice -->
+                <div id="modeChoice" class="card-grid" style="margin-top:24px;">
+                    <div class="item-card">
+                        <h3>Automatic — one click</h3>
+                        <span class="chip chip-observed">PDF</span>
+                        <p class="muted">Go straight to the existing product PDF for the fastest, engine-built report.</p>
+                        <p>
+                            <a class="btn-secondary btn-sm" href="green-finance.html">Green Finance →</a>
+                            <a class="btn-secondary btn-sm" href="insurance.html">Insurance →</a>
+                            <a class="btn-secondary btn-sm" href="sustainability.html">Sustainability →</a>
+                        </p>
+                    </div>
+                    <div class="item-card" style="cursor:pointer;" id="interactiveCard">
+                        <h3>Interactive — build it section by section</h3>
+                        <span class="chip chip-modelled">BUILDER</span>
+                        <p class="muted">Generate a structured draft, inspect why each section exists, edit the text, reorder sections and export the PDF.</p>
+                        <button class="btn-action" id="startInteractiveBtn">Start interactive</button>
+                    </div>
+                </div>
+
+                <!-- Setup form -->
+                <div class="panel" id="setupPanel" style="display:none;">
+                    <h2>Interactive setup</h2>
+                    <div class="form-group">
+                        <label for="productSelect">Product</label>
+                        <select id="productSelect">
+                            <option value="">Choose…</option>
+                            <option value="verification">Green Finance Verification</option>
+                            <option value="insurance">Insurance &amp; Environmental Risk</option>
+                            <option value="sustainability">Sustainability &amp; CSRD Evidence</option>
+                        </select>
+                    </div>
+
+                    <!-- Location-based setup -->
+                    <div id="locationSetup" style="display:none;">
+                        <div class="toolbar" style="gap:12px; flex-wrap:wrap;">
+                            <div class="form-group" style="flex:1; min-width:220px;">
+                                <label for="locationInput">Location (place name or lat,lon)</label>
+                                <input type="text" id="locationInput" placeholder="e.g. Clervaux, Luxembourg">
+                            </div>
+                            <div class="form-group" style="width:140px;" id="radiusGroup">
+                                <label for="radiusInput">Radius (km)</label>
+                                <input type="number" id="radiusInput" value="50" min="1" max="500">
+                            </div>
+                        </div>
+                        <div id="locationAssist"></div>
+                    </div>
+
+                    <!-- Sustainability setup -->
+                    <div id="sustainabilitySetup" style="display:none;">
+                        <div class="toolbar" style="gap:12px; flex-wrap:wrap;">
+                            <div class="form-group" style="flex:1; min-width:200px;">
+                                <label for="companyName">Company name</label>
+                                <input type="text" id="companyName" placeholder="Acme S.A.">
+                            </div>
+                            <div class="form-group" style="flex:1; min-width:200px;">
+                                <label for="companySector">Sector</label>
+                                <input type="text" id="companySector" placeholder="Manufacturing">
+                            </div>
+                        </div>
+                        <div class="toolbar" style="gap:12px; flex-wrap:wrap;">
+                            <div class="form-group" style="flex:1; min-width:200px;">
+                                <label for="companyCountry">Country</label>
+                                <input type="text" id="companyCountry" placeholder="Luxembourg">
+                            </div>
+                            <div class="form-group" style="flex:1; min-width:200px;">
+                                <label for="companyWebsite">Website</label>
+                                <input type="text" id="companyWebsite" placeholder="https://example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="companyDescription">Description</label>
+                            <input type="text" id="companyDescription" placeholder="Short company description">
+                        </div>
+                        <div class="form-group">
+                            <label for="assetsText">Sites (one per line: name,lat,lon or lat,lon)</label>
+                            <textarea id="assetsText" rows="4" placeholder="Headquarters,49.6116,6.1319&#10;Plant,50.8503,4.3517"></textarea>
+                        </div>
+                    </div>
+
+                    <button class="btn-action" id="generateDraftBtn">Generate draft</button>
+                    <div id="setupStatus" style="margin-top:12px;"></div>
+                </div>
+
+                <!-- Draft editor -->
+                <div class="panel" id="editorPanel" style="display:none;">
+                    <h2>Edit draft</h2>
+                    <div class="form-group">
+                        <label for="draftTitle">Report title</label>
+                        <input type="text" id="draftTitle" maxlength="200">
+                    </div>
+                    <p class="muted small" id="interconnectionNote"></p>
+
+                    <div id="sectionsContainer"></div>
+
+                    <div class="toolbar" style="gap:12px; margin-top:24px; flex-wrap:wrap;">
+                        <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
+                        <button class="btn-secondary" id="newDraftBtn">New draft</button>
+                    </div>
+                    <div class="toolbar" id="portfolioRow" style="gap:10px; margin-top:10px; flex-wrap:wrap; display:none;">
+                        <select id="pfSelect"></select>
+                        <button class="btn-secondary" id="pfSaveBtn" type="button">Save draft to portfolio</button>
+                        <span class="muted small" id="pfSaveNote"></span>
+                    </div>
+                    <div id="editorStatus" style="margin-top:12px;"></div>
+                    <p class="muted small" id="editSummary"></p>
+                </div>
             </div>
 
             <!-- Archive: classic wildfire reports -->
@@ -383,5 +484,6 @@
     <script src="js/convert.js" defer></script>
     <script src="js/location.js" defer></script>
     <script src="js/reports.js" defer></script>
+    <script src="js/report-builder.js" defer></script>
 </body>
 </html>

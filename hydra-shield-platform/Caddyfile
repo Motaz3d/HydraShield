@@ -46,7 +46,8 @@ talaix.com {
 	redir /dashboard.html /intelligence.html permanent
 
 	# Map Check merged into map.html as a mode; the standalone page is gone.
-	redir /mapcheck.html /map.html?mode=check permanent
+	# (The check mode itself was later retired — the map is Explore-only.)
+	redir /mapcheck.html /map.html permanent
 
 	# Events and Economic Intelligence merged into intelligence.html as
 	# tabs of the analysis hub.
@@ -61,8 +62,14 @@ talaix.com {
 	# keeps deep links to individual briefs working.
 	redir /briefs.html /academy.html?mode=briefs&{query} permanent
 
-	# Funding Intelligence merged into solutions.html as the Funding tab.
-	redir /funding.html /solutions.html?mode=funding&{query} permanent
+	# Where to Invest (siting + funding) merged into intelligence.html as
+	# the Siting and Funding tabs; {query} keeps ?mode=funding and
+	# ?location= deep links working.
+	redir /solutions.html /intelligence.html?{query} permanent
+	redir /funding.html /intelligence.html?mode=funding&{query} permanent
+
+	# Report Builder merged into reports.html as the #builder section.
+	redir /report-builder.html /reports.html#builder permanent
 }
 
 # Live interactive Dash dashboard

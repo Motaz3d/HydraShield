@@ -26,15 +26,8 @@
                 <p class="page-lead">
                     Screening layers from open sources only — every layer declares its
                     source, resolution and evidence status. Nothing here is a probability
-                    of loss; it is evidence to verify. Not sure a map can be trusted?
-                    Run <strong>Map Check</strong> — it cross-checks what open maps say
-                    against what satellites actually observe.
+                    of loss; it is evidence to verify.
                 </p>
-            </div>
-            <div class="map-mode-bar" role="tablist" aria-label="Map modes">
-                <button type="button" class="hazard-tab active" id="modeExploreBtn" role="tab">Explore</button>
-                <button type="button" class="hazard-tab" id="modeCheckBtn" role="tab"
-                        title="Cross-check open maps against satellite observation">Map Check</button>
             </div>
         </div>
 
@@ -140,108 +133,13 @@
                             <dt>FIRMS</dt>
                             <dd>NASA's near-real-time active-fire detections. A hotspot is a heat detection, not a fire perimeter.</dd>
                             <dt>ESA WorldCover</dt>
-                            <dd>A global 10 m land-cover map used in Map Check to cross-verify what open maps claim.</dd>
+                            <dd>A global 10 m land-cover map used to cross-verify land-use claims.</dd>
                         </dl>
                     </section>
                 </div>
             </div>
         </div>
 
-        <!-- Map Check (merged from the legacy mapcheck.html page) -->
-        <div id="mapCheckPanel" class="hidden">
-            <div class="container">
-                <h1>Map Check</h1>
-                <p class="page-lead">
-                    Cross-check what open maps <strong>say</strong> against what satellite
-                    observation <strong>shows</strong> — and when they disagree, see the
-                    most likely reasons why. A discrepancy is a signal to verify, never
-                    proof that a map is wrong.
-                </p>
-                <p class="muted small">
-                    Honesty contract: only open sources are compared (OpenStreetMap,
-                    ESA WorldCover, Sentinel-2). Proprietary maps are not fetched.
-                </p>
-                <div class="notice notice-warn">
-                    <strong>Open sources only.</strong> We compare OpenStreetMap green
-                    features with Sentinel-2 NDVI and ESA WorldCover land-cover class.
-                    Proprietary maps (Google, Apple, Bing, etc.) are not fetched or
-                    compared because their terms do not allow automated extraction.
-                    A detected discrepancy is not proof of an error — verify before
-                    relying on any single map.
-                </div>
-
-                <div class="panel">
-                    <h2>Check a location</h2>
-                    <div class="toolbar" style="align-items:flex-end; flex-wrap:wrap; gap:12px;">
-                        <div class="form-group" style="flex:1; min-width:220px;">
-                            <label for="mapcheckLocInput">Location</label>
-                            <input type="text" id="mapcheckLocInput" placeholder="Place name or lat,lon (e.g. Clervaux, Luxembourg)">
-                        </div>
-                        <div class="form-group" style="width:140px;">
-                            <label for="radiusInput">Radius (m)</label>
-                            <input type="number" id="radiusInput" value="300" min="50" max="2000" step="50">
-                        </div>
-                        <button class="btn-action" id="runMapcheckBtn">Run Map Check</button>
-                    </div>
-                    <div class="muted small" id="mapcheckExamples" style="margin:-6px 0 12px;">
-                        Try an example:
-                        <button type="button" class="link-btn" data-example="Clervaux, Luxembourg">Clervaux, Luxembourg</button> ·
-                        <button type="button" class="link-btn" data-example="Serra da Estrela, Portugal">Serra da Estrela, Portugal</button> ·
-                        <button type="button" class="link-btn" data-example="Attica, Greece">Attica, Greece</button>
-                    </div>
-                    <div id="mapcheckLocAssist"></div>
-                    <div id="mapcheckStatus"></div>
-                    <div id="mapcheckResult"></div>
-                </div>
-
-                <div id="mapcheckExplainer" style="display:none;">
-                    <h2>Why discrepancies happen</h2>
-                    <div class="card-grid">
-                        <div class="item-card">
-                            <h3>Outdated map data</h3>
-                            <span class="chip chip-historical">Time lag</span>
-                            <p class="muted">OpenStreetMap is edited by volunteers. A park, plantation or land-use change may have happened since the last edit.</p>
-                        </div>
-                        <div class="item-card">
-                            <h3>Unmapped features</h3>
-                            <span class="chip chip-unknown">Completeness</span>
-                            <p class="muted">Many green spaces are simply not mapped yet — especially private gardens, informal green space and recent planting.</p>
-                        </div>
-                        <div class="item-card">
-                            <h3>Season &amp; clouds</h3>
-                            <span class="chip chip-modelled">Observation window</span>
-                            <p class="muted">NDVI reflects the most recent cloud-free Sentinel-2 or Landsat scene. Winter, harvest, drought or clouds can make vegetation look temporarily sparse.</p>
-                        </div>
-                        <div class="item-card">
-                            <h3>Resolution mismatch</h3>
-                            <span class="chip chip-inferred">Scale</span>
-                            <p class="muted">WorldCover pixels are 10 m and Sentinel-2 pixels are 10–30 m. Small mapped features or narrow tree lines may fall below the pixel size.</p>
-                        </div>
-                        <div class="item-card">
-                            <h3>Real change</h3>
-                            <span class="chip chip-reported">Change</span>
-                            <p class="muted">Construction, logging, planting, flooding or fire can change vegetation between the map edit date and the satellite observation.</p>
-                        </div>
-                    </div>
-
-                    <h2 style="margin-top:24px;">Use this before trusting one map</h2>
-                    <div class="card-grid">
-                        <div class="item-card">
-                            <h3>For real-estate developers</h3>
-                            <p class="muted">Spot green-space claims that need ground verification before planning or valuation. Use alongside <a class="text-link" href="green-finance.html">Green Finance</a> evidence.</p>
-                        </div>
-                        <div class="item-card">
-                            <h3>For investors &amp; auditors</h3>
-                            <p class="muted">Document map-source uncertainty in due diligence. A discrepancy here is a diligence flag, not a final answer.</p>
-                        </div>
-                        <div class="item-card">
-                            <h3>For insurance risk</h3>
-                            <p class="muted">Vegetation proximity affects wildfire and flood exposure. Cross-check with the <a class="text-link" href="insurance.html">Insurance profile</a>.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -251,7 +149,6 @@
     <script src="js/chrome.js"></script>
     <script src="js/convert.js" defer></script>
     <script src="js/location.js" defer></script>
-    <script src="js/mapcheck.js" defer></script>
     <script src="js/map.js"></script>
 </body>
 </html>

@@ -37,7 +37,7 @@ def test_reports_portal_has_three_family_cards():
     assert "Green Finance Verification Report" in html
     assert "Sustainability Evidence Report (CSRD/ESRS)" in html
     assert "Insurance Environmental Risk Profile" in html
-    assert "Interactive Report Builder" in html
+    assert "Interactive — build it section by section" in html
 
 
 def test_reports_portal_links_to_product_pages():
@@ -45,7 +45,18 @@ def test_reports_portal_links_to_product_pages():
     assert 'href="green-finance.html"' in html
     assert 'href="sustainability.html"' in html
     assert 'href="insurance.html"' in html
-    assert 'href="report-builder.html"' in html
+
+
+def test_report_builder_embedded_in_reports_portal():
+    """The Report Builder lives inside reports.html (#builder anchor): the
+    mode choice, setup and editor panels plus the builder script are all
+    served from the portal page itself."""
+    html = _read(os.path.join(WEBSITE, "reports.html"))
+    assert 'id="builder"' in html
+    assert 'id="startInteractiveBtn"' in html
+    assert 'id="setupPanel"' in html
+    assert 'id="editorPanel"' in html
+    assert "js/report-builder.js" in html
 
 
 def test_reports_portal_has_real_examples():

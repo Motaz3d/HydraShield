@@ -41,10 +41,41 @@ def test_sitemap_covers_press_surfaces():
     assert "https://talaix.com/press.html" in sitemap
     assert "https://talaix.com/industries.html" in sitemap
     assert "https://talaix.com/intelligence.html" in sitemap
-    assert "https://talaix.com/report-builder.html" in sitemap
-    # Retired URL: merged into the intelligence hub (redirect only), so it
-    # must not stay in the sitemap.
+    # Retired URLs: merged into hubs (redirect only), so they must not stay
+    # in the sitemap.
     assert "https://talaix.com/sector.html" not in sitemap
+    assert "https://talaix.com/solutions.html" not in sitemap
+    assert "https://talaix.com/report-builder.html" not in sitemap
+
+
+def test_siting_funding_merged_into_intelligence_hub():
+    """Where to Invest merged into intelligence.html as the Siting and
+    Funding tabs: the old URL permanently redirects (Caddyfile), the static
+    stub covers non-Caddy previews, and the nav carries one merged entry."""
+    caddy = _read("Caddyfile")
+    assert "redir /solutions.html /intelligence.html" in caddy
+    stub = _read("website/solutions.html")
+    assert "intelligence.html" in stub
+    chrome = _read("website/js/chrome.js")
+    assert "href: 'solutions.html'" not in chrome
+    assert "Investment & Siting" in chrome
+    hub = _read("website/intelligence.html")
+    assert 'id="sitingPanel"' in hub and 'id="fundingPanel"' in hub
+    js = _read("website/js/intelligence.js")
+    assert "{ id: 'siting', name: 'Siting' }" in js
+    assert "{ id: 'funding', name: 'Funding' }" in js
+
+
+def test_report_builder_merged_into_reports_portal():
+    """Report Builder merged into reports.html as the #builder section: the
+    old URL permanently redirects (Caddyfile + static stub)."""
+    caddy = _read("Caddyfile")
+    assert "redir /report-builder.html /reports.html#builder" in caddy
+    stub = _read("website/report-builder.html")
+    assert "reports.html#builder" in stub
+    portal = _read("website/reports.html")
+    assert 'id="builder"' in portal
+    assert "js/report-builder.js" in portal
 
 
 def test_sector_exposure_merged_into_intelligence_hub():

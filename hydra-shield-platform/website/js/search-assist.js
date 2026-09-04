@@ -74,14 +74,6 @@
                 ],
                 chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'],
                 live: 'snapshot'
-            },
-            mapcheckLocInput: {
-                tips: [
-                    'Pick a place you want to cross-verify — map data vs satellite.',
-                    'A discrepancy is a signal to verify, never proof of an error.'
-                ],
-                chips: ['Clervaux, Luxembourg'],
-                live: null
             }
         },
         intelligence: {
@@ -117,16 +109,6 @@
             locInput: {
                 tips: ['Optional: follow the story with a real place you know.'],
                 chips: ['Faro, Portugal'],
-                live: null
-            }
-        },
-        reportbuilder: {
-            locationInput: {
-                tips: [
-                    'Choose a product first, then give the location its report is about.',
-                    'Drafts are editable before PDF export — nothing is final until you say so.'
-                ],
-                chips: ['Clervaux, Luxembourg'],
                 live: null
             }
         },
@@ -200,6 +182,14 @@
             legacyLocInput: {
                 tips: ['Reports assemble documented analysis for the place — editable before export.'],
                 chips: ['Clervaux, Luxembourg', '50.06, 6.03'],
+                live: null
+            },
+            locationInput: {
+                tips: [
+                    'Choose a product first, then give the location its report is about.',
+                    'Drafts are editable before PDF export — nothing is final until you say so.'
+                ],
+                chips: ['Clervaux, Luxembourg'],
                 live: null
             }
         },

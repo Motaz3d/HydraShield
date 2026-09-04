@@ -192,9 +192,35 @@
             });
     }
 
+    /* Documented loss context: real figures from the loss registry, rendered
+     * beside the live snapshot so the hazard levels read in monetary terms.
+     * Hidden when the registry has nothing documented — never filled in. */
+    function loadLossContext() {
+        var box = el('lossContext');
+        if (!box) return;
+        fetch(API + '/v2/losses/summary')
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (!data || data.status !== 'ok' || !Array.isArray(data.items) || !data.items.length) return;
+                el('lossContextGrid').innerHTML = data.items.map(function (item) {
+                    return '<div class="story-card">' +
+                        '<h3>' + esc(item.label || '') + '</h3>' +
+                        '<p style="font-size:1.8rem;font-weight:700;color:var(--primary-dark);margin:8px 0;">' +
+                        (item.value !== undefined ? item.value : '—') + ' ' + esc(item.unit || '') + '</p>' +
+                        '<p class="muted small">Source: ' + esc(item.source || 'not stated') +
+                        ' · Period: ' + esc(item.reference_period || 'not stated') + '</p>' +
+                        '</div>';
+                }).join('');
+                el('lossContextDisclaimer').textContent = data.disclaimer || '';
+                box.style.display = '';
+            })
+            .catch(function () { /* keep hidden */ });
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', load);
+        document.addEventListener('DOMContentLoaded', function () { load(); loadLossContext(); });
     } else {
         load();
+        loadLossContext();
     }
 })();

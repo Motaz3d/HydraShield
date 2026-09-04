@@ -161,7 +161,6 @@
             '<h2>Act on this point</h2>' +
             '<p class="muted small" style="margin:0 0 6px 0;">' + esc(coord) + '</p>' +
             '<div class="layer-state" style="padding-left:0;">' +
-            '<a class="text-link" href="map.html?mode=check&location=' + encodeURIComponent(coord) + '">Map-vs-satellite check</a> · ' +
             '<a class="text-link" href="green-finance.html?location=' + encodeURIComponent(coord) + '">Green Finance check</a> · ' +
             '<a class="text-link" href="insurance.html?location=' + encodeURIComponent(coord) + '">Insurance profile</a> · ' +
             '<a class="text-link" href="forensics.html?location=' + encodeURIComponent(coord) + '">Forensic case</a> · ' +
@@ -1589,28 +1588,6 @@
     // Init
     // ------------------------------------------------------------------
 
-    function setMode(mode) {
-        var check = mode === 'check';
-        el('mapExplore').classList.toggle('hidden', check);
-        el('mapCheckPanel').classList.toggle('hidden', !check);
-        el('modeExploreBtn').classList.toggle('active', !check);
-        el('modeCheckBtn').classList.toggle('active', check);
-        // The head intro describes Explore; Map Check has its own heading.
-        var head = document.querySelector('.map-page-head');
-        if (head) head.classList.toggle('check-mode', check);
-        if (!check && map) {
-            // The map canvas was hidden — Leaflet needs a size recalc.
-            setTimeout(function () { map.invalidateSize(); }, 0);
-        }
-        if (window.HS && HS.track) HS.track('map_mode', { mode: check ? 'check' : 'explore' });
-        if (history.replaceState) {
-            var params = new URLSearchParams(location.search);
-            if (check) params.set('mode', 'check'); else params.delete('mode');
-            var qs = params.toString();
-            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
-        }
-    }
-
     function init() {
         initMap();
         initAdvancedStrip();
@@ -1622,9 +1599,6 @@
             if (resizeTimer) clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () { if (map) map.invalidateSize(); }, 200);
         });
-
-        el('modeExploreBtn').addEventListener('click', function () { setMode('explore'); });
-        el('modeCheckBtn').addEventListener('click', function () { setMode('check'); });
 
         el('locBtn').addEventListener('click', function () {
             var q = el('locInput').value.trim();
@@ -1643,7 +1617,7 @@
         });
         el('evidenceFilter').addEventListener('change', applyEvidenceFilter);
 
-        // URL params: ?location=… · ?hazard=… · ?year=… · ?mode=check
+        // URL params: ?location=… · ?hazard=… · ?year=…
         var params = new URLSearchParams(location.search);
         initialYear = params.get('year');
         loadHazards(params.get('hazard') || undefined);
@@ -1652,7 +1626,6 @@
             el('locInput').value = q;
             goToLocation(q);
         }
-        if (params.get('mode') === 'check') setMode('check');
     }
 
     init();

@@ -47,7 +47,7 @@ def test_harness_filter_index():
 
     map_labels = [e["label"] for e in out["map"]]
     assert "Map" in map_labels
-    assert "Map Check" in map_labels
+    assert "Site Atlas" in map_labels
 
     # Fallback actions for unmatched queries.
     assert len(out["fallback"]) == 3
@@ -66,7 +66,6 @@ def test_harness_filter_index():
     # Location actions from stubbed HS.lastLocation().
     loc_labels = [e["label"] for e in out["location_actions"]]
     assert "Verify Venice" in loc_labels
-    assert "Map Check Venice" in loc_labels
     assert "Profile Venice (insurance)" in loc_labels
 
     # Static Actions list contains the required portals.
@@ -77,7 +76,6 @@ def test_harness_filter_index():
     assert "Screen an origin claim (EUDR)" in actions
     assert "Open a forensic case" in actions
     assert "Compose a report" in actions
-    assert "Map-vs-satellite check" in actions
     assert "Take the Academy course" in actions
     assert "Read evidence briefs" in actions
 
@@ -115,8 +113,7 @@ def test_search_js_contains_required_actions():
     assert "insurance.html" in js
     assert "supplychain.html" in js
     assert "forensics.html" in js
-    assert "report-builder.html" in js
-    assert "map.html?mode=check" in js
+    assert "reports.html#builder" in js
     assert "academy.html" in js
     assert "academy.html?mode=briefs" in js
 

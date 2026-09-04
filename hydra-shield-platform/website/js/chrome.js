@@ -80,7 +80,7 @@
             heading: 'Products', items: [
                 'insurance',
                 'reports',
-                { id: 'reportbuilder', href: 'report-builder.html', label: 'Report Builder' },
+                { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
                 'licensing', 'compliance-hub'
             ]
         },

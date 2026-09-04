@@ -51,7 +51,7 @@ const entries = [
     { id: 'nav-2', label: 'Map', hint: 'Page', group: 'Navigation', href: 'map.html', keywords: [] },
     { id: 'nav-3', label: 'Green Finance', hint: 'Page', group: 'Navigation', href: 'green-finance.html', keywords: [] },
     { id: 'act-1', label: 'Verify an asset', hint: 'Green Finance', group: 'Actions', href: 'green-finance.html', keywords: ['verify', 'green'] },
-    { id: 'act-2', label: 'Map Check', hint: 'Map', group: 'Actions', href: 'mapcheck.html', keywords: ['map', 'satellite'] },
+    { id: 'act-2', label: 'Site Atlas', hint: 'Map', group: 'Actions', href: 'map.html', keywords: ['map', 'layers'] },
     { id: 'loc-1', label: 'Verify Venice', hint: 'Last analysed', group: 'Location', href: 'green-finance.html?location=Venice', keywords: [] },
     { id: 'gloss-1', label: 'NDVI', hint: 'Index', group: 'Glossary', href: 'academy.html#ndvi', keywords: ['vegetation'] },
     { id: 'brief-1', label: 'Pilot Brief', hint: 'Evidence brief', group: 'Briefs', href: 'briefs.html?id=pilot', keywords: ['pilot'] }
