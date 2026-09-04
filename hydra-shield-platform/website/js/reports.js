@@ -1,6 +1,6 @@
 /* Talaix — Reports portal (reports.html).
  *
- * Builds generate-links for the legacy wildfire report flow:
+ * Builds generate-links for the classic three-type report flow:
  *   GET /api/report?lat&lon&type=simple|decision|scientific&history=1
  * (place names are passed as ?location=… — the endpoint geocodes through
  * the same real pipeline). No pre-fetching: the report endpoint runs the
@@ -70,23 +70,5 @@
         refresh();
     }
 
-    /* Quick start: one location field that jumps straight into the insurance
-     * profile flow, which auto-runs the assessment on arrival. */
-    function initQuickStart() {
-        var input = el('quickLocInput'), btn = el('quickInsuranceBtn');
-        if (!input || !btn) return;
-        if (window.HS && HS.location) HS.location.enhance('quickLocInput', 'quickLocAssist');
-        function go() {
-            var q = input.value.trim();
-            if (!q) { input.focus(); return; }
-            location.href = 'insurance.html?location=' + encodeURIComponent(q);
-        }
-        btn.addEventListener('click', go);
-        input.addEventListener('keydown', function (ev) {
-            if (ev.key === 'Enter') { ev.preventDefault(); go(); }
-        });
-    }
-
     init();
-    initQuickStart();
 })();

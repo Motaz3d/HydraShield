@@ -67,12 +67,19 @@ def test_reports_portal_has_real_examples():
     assert "ESRS E1 physical risk" in html
 
 
-def test_reports_portal_preserves_legacy_section():
+def test_reports_portal_keeps_classic_three_types_primary():
+    """Reports are not insurance: the classic three report types
+    (simple / decision / scientific) are the primary generate flow on the
+    portal — not buried in an archive expander — and the page top is not
+    an insurance quick-start (insurance stays on its own page/card)."""
     html = _read(os.path.join(WEBSITE, "reports.html"))
-    assert "Classic wildfire reports (archive)" in html
-    assert "legacy" in html.lower()
     assert 'id="legacyLocInput"' in html
     assert 'id="legacyReportActions"' in html
+    assert "Simple Report" in html
+    assert "Decision-Support Report" in html
+    assert "Scientific / Technical Report" in html
+    assert 'id="quickInsuranceBtn"' not in html
+    assert "archive" not in html.lower()
 
 
 def test_reports_portal_has_anonymized_case_studies():
