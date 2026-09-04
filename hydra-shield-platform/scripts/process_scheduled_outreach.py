@@ -14,6 +14,13 @@ Reliability rules:
 - Sends only happen inside the optional UTC window
   ``OUTREACH_WINDOW_START``/``OUTREACH_WINDOW_END`` (hours 0-23; unset =
   always open). Use it to keep cold outreach inside business hours.
+- Pre-send verification (send_plan §7.1): every recipient is checked
+  against its stored Hunter.io verdict first; when HUNTER_API_KEY is set
+  and no verdict is stored yet, the address is verified live right before
+  sending. A stored or live "undeliverable"/"invalid"/"disposable" verdict
+  blocks the send and is persisted on the contact. Hunter outages fail
+  OPEN (send unverified) — the quota guard in hunter.py emails the
+  operator separately.
 - Without SMTP configured, messages go to the dev outbox (never delivered);
   the processor says so loudly on every run.
 
@@ -36,7 +43,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.dashboard import mailer
+from src.dashboard import hunter, mailer
 from src.dashboard.mailer import send_mail
 from src.dashboard.marketing_store import MarketingStore
 
@@ -46,7 +53,7 @@ _MAX_ATTEMPTS = int(os.environ.get("OUTREACH_MAX_ATTEMPTS") or 3)
 _RETRY_MINUTES = int(os.environ.get("OUTREACH_RETRY_MINUTES") or 30)
 
 # Contact verification verdicts (Hunter.io) that must never be mailed.
-_BAD_VERIFICATIONS = {"invalid", "disposable"}
+_BAD_VERIFICATIONS = {"invalid", "disposable", "undeliverable"}
 
 
 def _window_open(now: datetime) -> bool:
@@ -67,13 +74,36 @@ def _window_open(now: datetime) -> bool:
     return hour >= start_h or hour < end_h  # window crossing midnight
 
 
-def _best_contact(contacts: list) -> dict:
-    """Highest-confidence mailable contact: contacts are already ordered by
-    confidence; skip addresses whose verification verdict is a hard fail."""
-    for contact in contacts:
-        if (contact.get("verification") or "").strip().lower() not in _BAD_VERIFICATIONS:
-            return contact
-    return contacts[0]
+def _verify_before_send(store: MarketingStore, lead_slug: str, to_email: str,
+                        contact=None) -> tuple:
+    """Pre-send Hunter.io verification layer (send_plan §7.1).
+
+    Returns (ok_to_send, note). A stored verdict decides first — quota is
+    never spent re-checking an address, and stored hard fails are honored
+    even when Hunter is not configured. Live "undeliverable" verdicts are
+    persisted on the contact and block the send. Hunter failures fail
+    OPEN (send unverified): the quota guard in hunter.py already emails
+    the operator when the free quota runs out.
+    """
+    if contact is None:
+        for c in store.list_contacts(lead_slug):
+            if (c.get("email") or "").lower() == (to_email or "").lower():
+                contact = c
+                break
+    if contact is not None:
+        stored = (contact.get("verification") or "").strip().lower()
+        if stored:
+            return stored not in _BAD_VERIFICATIONS, f"stored verdict: {stored}"
+    if not hunter.configured():
+        return True, ""
+    try:
+        result = hunter.verify_email(to_email)
+    except hunter.HunterError as exc:
+        return True, f"verification unavailable ({exc}) — sending unverified"
+    verdict = (result.get("result") or result.get("status") or "unknown").strip().lower()
+    if contact is not None:
+        store.set_contact_verification(contact["id"], verdict)
+    return verdict not in _BAD_VERIFICATIONS, f"verification: {verdict}"
 
 
 def _send_one(store: MarketingStore, lead_slug: str, to_email: str, template: str,
@@ -139,6 +169,19 @@ def _process_scheduled(store: MarketingStore) -> dict:
         to_email = row["to_email"]
         template = row["template"]
         context = row.get("context") or {}
+        ok, note = _verify_before_send(store, lead_slug, to_email)
+        if not ok:
+            store.mark_scheduled(sid, "skipped_undeliverable", error=note)
+            store.add_interaction(
+                lead_slug,
+                summary=f"Scheduled outreach to {to_email} skipped — {note}",
+                type="note",
+            )
+            print(f"[scheduled {sid}] {lead_slug} -> skipped_undeliverable ({note})")
+            skipped += 1
+            continue
+        if note:
+            print(f"[scheduled {sid}] {lead_slug} -> {to_email} {note}")
         success, detail = _send_one(
             store, lead_slug, to_email, template, context,
             mark_sent=lambda: store.mark_scheduled(sid, "sent"),
@@ -192,21 +235,43 @@ def _process_waves(store: MarketingStore) -> dict:
             failed += 1
             continue
 
-        to_email = _best_contact(contacts)["email"]
         template = row["template"]
         context = row.get("context") or {}
-        success, detail = _send_one(
-            store, lead_slug, to_email, template, context,
-            mark_sent=lambda: store.mark_wave(wid, "sent"),
-            summary_prefix=f"Campaign {campaign} wave {wave}",
+        handled = False
+        for contact in contacts:
+            to_email = contact["email"]
+            ok, note = _verify_before_send(store, lead_slug, to_email, contact=contact)
+            if not ok:
+                print(f"[wave {wid}] {lead_slug} -> {to_email} rejected ({note})")
+                continue
+            if note:
+                print(f"[wave {wid}] {lead_slug} -> {to_email} {note}")
+            success, detail = _send_one(
+                store, lead_slug, to_email, template, context,
+                mark_sent=lambda: store.mark_wave(wid, "sent"),
+                summary_prefix=f"Campaign {campaign} wave {wave}",
+            )
+            if success:
+                print(f"[wave {wid}] {lead_slug} -> sent ({detail})")
+                sent += 1
+            else:
+                store.mark_wave(wid, "failed", error=detail)
+                print(f"[wave {wid}] {lead_slug} -> failed: {detail}")
+                failed += 1
+            handled = True
+            break
+        if handled:
+            continue
+        store.mark_wave(wid, "skipped_undeliverable",
+                        error="every stored contact failed verification")
+        store.add_interaction(
+            lead_slug,
+            summary=f"Campaign {campaign} wave {wave} skipped — every stored "
+                    "contact failed verification",
+            type="note",
         )
-        if success:
-            print(f"[wave {wid}] {lead_slug} -> sent ({detail})")
-            sent += 1
-        else:
-            store.mark_wave(wid, "failed", error=detail)
-            print(f"[wave {wid}] {lead_slug} -> failed: {detail}")
-            failed += 1
+        print(f"[wave {wid}] {lead_slug} -> skipped_undeliverable (all contacts)")
+        skipped += 1
 
     return {"sent": sent, "failed": failed, "skipped": skipped, "cap_hits": cap_hits, "due": len(due)}
 

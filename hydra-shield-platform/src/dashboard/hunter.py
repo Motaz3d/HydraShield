@@ -4,6 +4,10 @@ Hunter.io email-discovery integration.
 Lightweight stdlib-only wrapper around the Hunter.io domain-search API.
 The API key is read from the environment only; it is never logged or
 embedded in error messages.
+
+On HTTP 429 (free-plan quota exhausted) the operator is emailed once per
+quota episode (send_plan §7.2); the alert re-arms when calls succeed
+again and never breaks the lookup path.
 """
 
 from __future__ import annotations
@@ -23,6 +27,76 @@ class HunterError(Exception):
 def configured() -> bool:
     """True when a Hunter.io API key is present in the environment."""
     return bool(os.environ.get("HUNTER_API_KEY"))
+
+
+# ---------------------------------------------------------------------------
+# Quota guard — operator alert on free-plan exhaustion (send_plan §7.2)
+# ---------------------------------------------------------------------------
+
+_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+def _guard_path() -> str:
+    return os.environ.get(
+        "HUNTER_QUOTA_GUARD_FILE",
+        os.path.join(_ROOT, "data", "hunter_quota_guard.json"),
+    )
+
+
+def _load_guard() -> Dict:
+    try:
+        with open(_guard_path(), "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {"notified": False}
+
+
+def _save_guard(state: Dict) -> None:
+    try:
+        os.makedirs(os.path.dirname(_guard_path()), exist_ok=True)
+        with open(_guard_path(), "w", encoding="utf-8") as fh:
+            json.dump(state, fh, indent=1)
+    except OSError:
+        pass
+
+
+def _note_quota_success() -> None:
+    """Re-arm the quota alert after a successful call (monthly reset or
+    plan upgrade)."""
+    state = _load_guard()
+    if state.get("notified"):
+        state["notified"] = False
+        _save_guard(state)
+
+
+def _maybe_alert_quota() -> None:
+    """Email the operator once per quota episode. Alerting must never
+    break the Hunter call path."""
+    state = _load_guard()
+    if state.get("notified"):
+        return
+    try:
+        from . import mailer
+        mailer.operator_notify(
+            "Hunter.io quota exhausted — paid-plan decision needed",
+            "The Hunter.io verification layer hit the free-plan quota "
+            "(API returned 429, quota exhausted).\n\n"
+            "Impact: address verification is unavailable until the monthly "
+            "quota resets (start of next month) or a paid plan is adopted. "
+            "Sending continues; bounced addresses are still marked invalid "
+            "automatically and skipped by wave selection.\n\n"
+            "Agreed action (marketing/strategy/send_plan_2026-09.md §7.2): "
+            "the operator decides on any paid subscription — nothing is "
+            "purchased automatically. If sends can wait for the monthly "
+            "reset, no action is needed.\n\n"
+            "This alert fires once per quota episode and re-arms when "
+            "calls succeed again.",
+            kind="hunter_quota",
+        )
+    except Exception:
+        return
+    state["notified"] = True
+    _save_guard(state)
 
 
 def domain_from_url(url: str) -> Optional[str]:
@@ -78,10 +152,12 @@ def domain_search(domain: str, limit: int = 10) -> List[Dict]:
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
             payload = json.loads(resp.read().decode("utf-8"))
+        _note_quota_success()
     except urllib.error.HTTPError as exc:
         if exc.code in (401, 403):
             raise HunterError("invalid API key")
         if exc.code == 429:
+            _maybe_alert_quota()
             raise HunterError("Hunter.io quota exhausted")
         raise HunterError(f"Hunter.io lookup failed: HTTP {exc.code}")
     except urllib.error.URLError as exc:
@@ -142,12 +218,14 @@ def email_finder(domain: str, first_name: str, last_name: str) -> Optional[Dict]
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
             payload = json.loads(resp.read().decode("utf-8"))
+        _note_quota_success()
     except urllib.error.HTTPError as exc:
         if exc.code == 404:
             return None
         if exc.code in (401, 403):
             raise HunterError("invalid API key")
         if exc.code == 429:
+            _maybe_alert_quota()
             raise HunterError("Hunter.io quota exhausted")
         raise HunterError(f"Hunter.io lookup failed: HTTP {exc.code}")
     except urllib.error.URLError as exc:
@@ -194,10 +272,12 @@ def verify_email(email: str) -> Dict:
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
             payload = json.loads(resp.read().decode("utf-8"))
+        _note_quota_success()
     except urllib.error.HTTPError as exc:
         if exc.code in (401, 403):
             raise HunterError("invalid API key")
         if exc.code == 429:
+            _maybe_alert_quota()
             raise HunterError("Hunter.io quota exhausted")
         raise HunterError(f"Hunter.io lookup failed: HTTP {exc.code}")
     except urllib.error.URLError as exc:

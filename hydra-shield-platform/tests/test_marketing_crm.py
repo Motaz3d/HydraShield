@@ -1054,6 +1054,78 @@ def test_email_finder_returns_none_on_404(env, monkeypatch):
     assert hunter.email_finder("example.com", "No", "Such") is None
 
 
+def test_hunter_quota_alert_once_per_episode(env, monkeypatch, tmp_path):
+    """429 → operator emailed once; a successful call re-arms the alert."""
+    import urllib.error
+
+    from src.dashboard import hunter, mailer
+
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+    monkeypatch.setenv("HUNTER_QUOTA_GUARD_FILE", str(tmp_path / "guard.json"))
+    alerts = []
+    monkeypatch.setattr(
+        mailer, "operator_notify", lambda *args, **kwargs: alerts.append(args)
+    )
+
+    def _quota_urlopen(req, timeout=None):
+        raise urllib.error.HTTPError(
+            req.full_url, 429, "Too Many Requests", {}, None)
+
+    monkeypatch.setattr(hunter.urllib.request, "urlopen", _quota_urlopen)
+    for _ in range(2):
+        with pytest.raises(hunter.HunterError, match="quota exhausted"):
+            hunter.verify_email("ada@example.com")
+    assert len(alerts) == 1  # once per episode, not per failure
+
+    def _ok_urlopen(req, timeout=None):
+        class Resp:
+            def read(self):
+                return json.dumps({"data": {
+                    "email": "ada@example.com",
+                    "score": 90,
+                    "status": "valid",
+                    "result": "deliverable",
+                }}).encode("utf-8")
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+        return Resp()
+
+    monkeypatch.setattr(hunter.urllib.request, "urlopen", _ok_urlopen)
+    assert hunter.verify_email("ada@example.com")["result"] == "deliverable"
+
+    monkeypatch.setattr(hunter.urllib.request, "urlopen", _quota_urlopen)
+    with pytest.raises(hunter.HunterError, match="quota exhausted"):
+        hunter.verify_email("ada@example.com")
+    assert len(alerts) == 2  # quota returned then ran out again — new alert
+
+
+def test_hunter_quota_alert_failure_does_not_break_lookup(env, monkeypatch, tmp_path):
+    """A failing alert channel must not change the HunterError contract."""
+    import urllib.error
+
+    from src.dashboard import hunter, mailer
+
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+    monkeypatch.setenv("HUNTER_QUOTA_GUARD_FILE", str(tmp_path / "guard.json"))
+
+    def _boom(*args, **kwargs):
+        raise RuntimeError("smtp down")
+
+    monkeypatch.setattr(mailer, "operator_notify", _boom)
+
+    def _quota_urlopen(req, timeout=None):
+        raise urllib.error.HTTPError(
+            req.full_url, 429, "Too Many Requests", {}, None)
+
+    monkeypatch.setattr(hunter.urllib.request, "urlopen", _quota_urlopen)
+    with pytest.raises(hunter.HunterError, match="quota exhausted"):
+        hunter.verify_email("ada@example.com")
+
+
 # ---------------------------------------------------------------------------
 # MarketingStore auto-send / unsubscribe / verification / daily count
 # ---------------------------------------------------------------------------
@@ -1356,6 +1428,149 @@ def test_processor_skips_unsubscribed_lead(client, env):
     detail = client.get("/api/v2/admin/marketing/lead/test-bank-one",
                         headers=admin).get_json()
     assert not any(i["type"] == "email" for i in detail["interactions"])
+
+
+# ---------------------------------------------------------------------------
+# Pre-send Hunter.io verification layer (send_plan §7.1)
+# ---------------------------------------------------------------------------
+
+def _load_processor():
+    script_path = Path(__file__).resolve().parent.parent / "scripts" / "process_scheduled_outreach.py"
+    spec = importlib.util.spec_from_file_location("process_scheduled_outreach", str(script_path))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _due_past():
+    return (datetime.utcnow() - timedelta(hours=1)).isoformat()[:19]
+
+
+def _schedule_one(store, to_email):
+    return store.schedule_send(
+        lead_slug="test-bank-one",
+        to_email=to_email,
+        contact_name="Test",
+        template="outreach_generic",
+        context={"organization": "Test Bank One"},
+        send_at=_due_past(),
+    )
+
+
+def test_processor_skips_undeliverable_recipient(env, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "gone@example.org", "name": "Gone", "confidence": 90},
+    ])
+    row = _schedule_one(store, "gone@example.org")
+
+    mod = _load_processor()
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+    monkeypatch.setattr(mod.hunter, "verify_email", lambda email: {
+        "email": email, "score": 2, "status": "invalid", "result": "undeliverable",
+    })
+
+    assert mod.main() == 0
+    assert store.get_scheduled(row["id"])["status"] == "skipped_undeliverable"
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+    assert store.get_contact(cid)["verification"] == "undeliverable"
+    assert not _eml_files(env["outbox"], "outreach_generic")
+
+
+def test_processor_persists_verdict_and_sends(env, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "ok@example.org", "name": "Ok", "confidence": 90},
+    ])
+    row = _schedule_one(store, "ok@example.org")
+
+    mod = _load_processor()
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+    monkeypatch.setattr(mod.hunter, "verify_email", lambda email: {
+        "email": email, "score": 95, "status": "valid", "result": "deliverable",
+    })
+
+    assert mod.main() == 0
+    assert store.get_scheduled(row["id"])["status"] == "sent"
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+    assert store.get_contact(cid)["verification"] == "deliverable"
+    assert len(_eml_files(env["outbox"], "outreach_generic")) == 1
+
+
+def test_processor_fail_open_when_hunter_errors(env, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    row = _schedule_one(store, "unverified@example.org")
+
+    mod = _load_processor()
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+
+    def _boom(email):
+        raise mod.hunter.HunterError("Hunter.io quota exhausted")
+
+    monkeypatch.setattr(mod.hunter, "verify_email", _boom)
+
+    assert mod.main() == 0
+    assert store.get_scheduled(row["id"])["status"] == "sent"
+
+
+def test_processor_stored_invalid_blocks_without_key(env, monkeypatch):
+    """Stored hard-fail verdicts are honored even with Hunter unconfigured."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "dead@example.org", "name": "Dead", "confidence": 90},
+    ])
+    cid = store.list_contacts("test-bank-one")[0]["id"]
+    store.set_contact_verification(cid, "invalid")
+    row = _schedule_one(store, "dead@example.org")
+
+    mod = _load_processor()  # no HUNTER_API_KEY in env
+    assert mod.main() == 0
+    assert store.get_scheduled(row["id"])["status"] == "skipped_undeliverable"
+    assert not _eml_files(env["outbox"], "outreach_generic")
+
+
+def test_processor_wave_falls_through_to_next_contact(env, monkeypatch):
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("test-bank-one", [
+        {"email": "dead@example.org", "name": "Dead", "confidence": 95},
+        {"email": "live@example.org", "name": "Live", "confidence": 80},
+    ])
+    wave = store.enqueue_wave(
+        "testcamp", "test-bank-one", 1, "outreach_generic",
+        {"organization": "Test Bank One"}, _due_past(),
+    )
+
+    mod = _load_processor()
+    monkeypatch.setenv("HUNTER_API_KEY", "test-key")
+
+    def _fake_verify(email):
+        if email == "dead@example.org":
+            return {"email": email, "score": 1, "status": "invalid",
+                    "result": "undeliverable"}
+        return {"email": email, "score": 90, "status": "valid",
+                "result": "deliverable"}
+
+    monkeypatch.setattr(mod.hunter, "verify_email", _fake_verify)
+
+    assert mod.main() == 0
+    assert store.get_wave(wave["id"])["status"] == "sent"
+    verdicts = {c["email"]: c["verification"]
+                for c in store.list_contacts("test-bank-one")}
+    assert verdicts["dead@example.org"] == "undeliverable"
+    assert verdicts["live@example.org"] == "deliverable"
+    files = _eml_files(env["outbox"], "outreach_generic")
+    assert len(files) == 1
+    assert "live@example.org" in files[0].read_text()
 
 
 # ---------------------------------------------------------------------------

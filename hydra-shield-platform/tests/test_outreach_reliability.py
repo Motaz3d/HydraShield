@@ -29,7 +29,8 @@ def env(tmp_path, monkeypatch):
     monkeypatch.setenv("HYDRASHIELD_CACHE_DB", str(db_path))
     monkeypatch.setenv("HYDRASHIELD_OUTBOX_DIR", str(outbox_dir))
     for var in ("SMTP_HOST", "SMTP_USER", "AUTO_OUTREACH_ON_CONTACT",
-                "OUTREACH_WINDOW_START", "OUTREACH_WINDOW_END"):
+                "OUTREACH_WINDOW_START", "OUTREACH_WINDOW_END",
+                "HUNTER_API_KEY"):
         monkeypatch.delenv(var, raising=False)
 
     import src.dashboard.cache as cache_mod
@@ -246,15 +247,27 @@ def test_processor_fails_after_attempt_budget(env, store, monkeypatch):
 # Processor: contact selection and send window
 # ---------------------------------------------------------------------------
 
-def test_best_contact_skips_hard_fail_verification():
+def test_verify_before_send_honors_stored_verdicts(env, store, monkeypatch):
+    """Stored hard-fail verdicts block the send even with Hunter
+    unconfigured; unverdicted addresses pass without spending quota."""
+    monkeypatch.delenv("HUNTER_API_KEY", raising=False)
     mod = _load_processor()
-    contacts = [
-        {"email": "bad@testbankone.com", "verification": "invalid", "confidence": 95},
-        {"email": "good@testbankone.com", "verification": "valid", "confidence": 80},
-    ]
-    assert mod._best_contact(contacts)["email"] == "good@testbankone.com"
-    only_bad = [{"email": "bad@testbankone.com", "verification": "invalid"}]
-    assert mod._best_contact(only_bad)["email"] == "bad@testbankone.com"
+    store.add_contacts("test-bank-one", [
+        {"email": "bad@testbankone.com", "name": "Bad", "confidence": 95},
+        {"email": "good@testbankone.com", "name": "Good", "confidence": 80},
+        {"email": "unknown@testbankone.com", "name": "Unk", "confidence": 70},
+    ])
+    contacts = {c["email"]: c for c in store.list_contacts("test-bank-one")}
+    store.set_contact_verification(contacts["bad@testbankone.com"]["id"], "invalid")
+    store.set_contact_verification(contacts["good@testbankone.com"]["id"], "valid")
+
+    ok, note = mod._verify_before_send(store, "test-bank-one", "bad@testbankone.com")
+    assert ok is False and "invalid" in note
+    ok, _ = mod._verify_before_send(store, "test-bank-one", "good@testbankone.com")
+    assert ok is True
+    ok, note = mod._verify_before_send(store, "test-bank-one", "unknown@testbankone.com")
+    assert ok is True and note == ""
+    assert "undeliverable" in mod._BAD_VERIFICATIONS
 
 
 def test_send_window(env, monkeypatch):

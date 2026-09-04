@@ -37,7 +37,8 @@ INTERACTION_TYPES = ("email", "call", "meeting", "demo", "note", "linkedin",
                      "followup", "proposal", "subscription", "trial", "renewal",
                      "reply", "unsubscribe", "registered", "bounce")
 SCHEDULED_STATUSES = ("scheduled", "sent", "failed", "cancelled", "skipped_unsubscribed")
-WAVE_STATUSES = ("pending", "sent", "failed", "cancelled", "skipped_unsubscribed")
+WAVE_STATUSES = ("pending", "sent", "failed", "cancelled", "skipped_unsubscribed",
+                 "skipped_undeliverable")
 
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,120}$")
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -484,7 +485,8 @@ class MarketingStore:
         error: Optional[str] = None,
     ) -> Optional[Dict]:
         """Mark a scheduled row as sent, failed or skipped. Returns the row or None."""
-        if status not in ("sent", "failed", "skipped_unsubscribed"):
+        if status not in ("sent", "failed", "skipped_unsubscribed",
+                          "skipped_undeliverable"):
             return None
         row = self.get_scheduled(scheduled_id)
         if row is None:
