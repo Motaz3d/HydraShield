@@ -1,5 +1,11 @@
 # Talaix — Map Check
 
+> **Website UI retired (2026-09):** the `map.html?mode=check` mode and
+> `website/js/mapcheck.js` were removed from the site as it narrowed its
+> identity to insurance and finance. The engine described here remains fully
+> available through the API (`/api/v2/mapcheck/`) and the MCP tool
+> (`talaix_mapcheck`); `mapcheck.html` redirects to `map.html`.
+
 Map Check is a cartographic cross-verification model: for any point it compares
 what open map sources **say** (OpenStreetMap green features) with what
 satellite observation **shows** (Sentinel-2 NDVI + ESA WorldCover land-cover

@@ -11,9 +11,9 @@ unavailable / key_required / error states everywhere.
 
 The page deliberately does **not** show everything at once:
 
-1. **Page head** — title, one-paragraph lead (screening disclaimer + a pointer
-   to Map Check), and the Explore / Map Check mode tabs. The intro hides in
-   Map Check mode, which has its own heading.
+1. **Page head** — title and a one-paragraph lead (screening disclaimer).
+   The map is Explore-only: the Map Check mode was retired from the website
+   (the engine remains available via API/MCP — see `docs/MAP_CHECK.md`).
 2. **Map shell** — a reduced-height Leaflet canvas
    (`clamp(400px, 58vh, 640px)`, never full-viewport) beside a fixed-width
    simplified control sidebar (350 px). Below roughly 900 px the two stack.
@@ -25,7 +25,7 @@ The page deliberately does **not** show everything at once:
 
 Location search → Hazard selector → Year selector → Evidence filter
 (observed-only / modelled-only) → Layers panel. The "Act on this point" panel
-(injected by `js/map.js`) deep-links the map centre into Map Check, Green
+(injected by `js/map.js`) deep-links the map centre into Green
 Finance, Insurance, Forensics, Press and Sustainability products.
 
 ### Layers panel
@@ -63,18 +63,16 @@ Finance, Insurance, Forensics, Press and Sustainability products.
 - The per-hazard layer-definition fetch shows an honest error notice with a
   **Retry** button.
 - Cheap viewport-bound layers refresh (debounced) after the map moves;
-  `map.invalidateSize()` keeps Leaflet in sync on mode switches and window
-  resizes.
+  `map.invalidateSize()` keeps Leaflet in sync on window resizes.
 
 ## URL contract
 
-`map.html?location=<place|lat,lon>&hazard=<id>&year=<yyyy>&mode=check`
+`map.html?location=<place|lat,lon>&hazard=<id>&year=<yyyy>`
 
 - `location` — geocoded and centred on load.
 - `hazard` — preselects the hazard (falls back to `wildfire` when unavailable).
 - `year` — applied once the hazard's year options exist (years always derive
   from the hazard's declared `temporal_coverage`, never hardcoded).
-- `mode=check` — opens Map Check (see `docs/MAP_CHECK.md`).
 
 ## Endpoints used
 
@@ -88,16 +86,14 @@ name) · `GET /api/trade-infrastructure` · `GET /api/population-exposure` ·
 
 ## Files
 
-- `website/map.html` — shell, sidebar, advanced strip, Map Check panel.
-- `website/js/map.js` — Explore mode: map init, selectors, layer panel,
+- `website/map.html` — shell, sidebar, advanced strip.
+- `website/js/map.js` — map init, selectors, layer panel,
   per-layer fetchers, advanced strip logic.
-- `website/js/mapcheck.js` — Map Check mode (see `docs/MAP_CHECK.md`).
 - `website/css/style.css` — "Map page" + "Advanced strip" sections.
 
 ## Tests
 
 No dedicated map-page suite; coverage is indirect —
-`tests/test_mapcheck.py` (Map Check engine + wording contract),
+`tests/test_mapcheck.py` (Map Check engine — backend only now),
 `tests/test_press_pages.py` (map "Act on this point" links),
-`tests/test_search_palette.py` (`map.html?mode=check` deep link),
 `tests/test_hazard_snapshot.py` (`map.html?hazard=` links from the homepage).

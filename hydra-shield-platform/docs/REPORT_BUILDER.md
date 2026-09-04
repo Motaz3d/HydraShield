@@ -154,7 +154,9 @@ client IP.
 
 ## Frontend
 
-`website/report-builder.html` + `website/js/report-builder.js` implement:
+The builder UI lives inside the Reports portal — `website/reports.html`
+(the `#builder` section; legacy `report-builder.html` redirects there) —
+with `website/js/report-builder.js` implementing:
 
 - Mode choice cards (automatic vs interactive).
 - Product-specific setup forms:
