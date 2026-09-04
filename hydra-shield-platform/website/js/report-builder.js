@@ -34,31 +34,89 @@
         el(id).style.display = 'none';
     }
 
+    function looksLikeUrl(text) {
+        return /^(https?:\/\/|www\.)/i.test(text) ||
+            /^[\w-]+(\.[\w-]+)*\.[a-z]{2,}(\/\S*)?$/i.test(text);
+    }
+
+    /* Sites, one per line: "name,lat,lon", "lat,lon", or a place name
+     * ("Trier, Germany" / "Trier factory, Trier, Germany") resolved through
+     * the platform geocoder. Numeric entries become assets immediately;
+     * place-name entries keep {place, lineNo} for resolveSites(). */
     function parseAssets(text) {
-        var assets = [];
+        var items = [];
         var lines = text.split(/\r?\n/);
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i].trim();
             if (!line) continue;
             var parts = line.split(',').map(function (s) { return s.trim(); });
-            var name, lat, lon;
+            var name = null, place = null, lat = NaN, lon = NaN;
             if (parts.length >= 3) {
-                name = parts[0];
                 lat = parseFloat(parts[1]);
                 lon = parseFloat(parts[2]);
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    items.push({ name: parts[0], lat: lat, lon: lon });
+                    continue;
+                }
+                name = parts[0];
+                place = parts.slice(1).join(', ');
             } else if (parts.length === 2) {
                 lat = parseFloat(parts[0]);
                 lon = parseFloat(parts[1]);
-                name = null;
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    items.push({ name: null, lat: lat, lon: lon });
+                    continue;
+                }
+                place = line;
             } else {
-                return { error: 'Line ' + (i + 1) + ' must be name,lat,lon or lat,lon' };
+                place = line;
             }
-            if (isNaN(lat) || isNaN(lon)) {
-                return { error: 'Line ' + (i + 1) + ' has invalid lat/lon' };
+            if (looksLikeUrl(place)) {
+                return { error: 'Line ' + (i + 1) + ' (“' + line + '”) looks like a web address. ' +
+                    'Sites are physical locations — enter a place name (e.g. “Trier, Germany”) ' +
+                    'or name,lat,lon coordinates. The company web address goes in the Website field.' };
             }
-            assets.push({ name: name, lat: lat, lon: lon });
+            items.push({ name: name, place: place, lineNo: i + 1 });
         }
-        return { assets: assets };
+        return { items: items };
+    }
+
+    function geocodeSite(place) {
+        return fetchJSON(API + '/geocode?location=' + encodeURIComponent(place))
+            .then(function (res) {
+                var loc = res.body && res.body.location;
+                if (res.ok && loc && loc.lat != null && loc.lon != null) {
+                    return { ok: true, lat: loc.lat, lon: loc.lon, name: loc.name || place };
+                }
+                return { ok: false, error: (res.body && res.body.error) || 'Location could not be resolved.' };
+            })
+            .catch(function () {
+                return { ok: false, error: 'The geocoding service could not be reached.' };
+            });
+    }
+
+    /* Sequential on purpose: the geocoder is rate-limited. */
+    function resolveSites(items) {
+        var assets = [];
+        var idx = 0;
+        function next() {
+            if (idx >= items.length) return Promise.resolve({ assets: assets });
+            var item = items[idx++];
+            if (item.place == null) {
+                assets.push({ name: item.name, lat: item.lat, lon: item.lon });
+                return next();
+            }
+            return geocodeSite(item.place).then(function (res) {
+                if (!res.ok) {
+                    return { error: 'Line ' + item.lineNo + ' (“' + item.place + '”) could not be ' +
+                        'resolved to a place. Try a more specific name (city, country) or use ' +
+                        'name,lat,lon coordinates.' };
+                }
+                assets.push({ name: item.name || res.name, lat: res.lat, lon: res.lon });
+                return next();
+            });
+        }
+        return next();
     }
 
     function onProductChange() {
@@ -109,8 +167,11 @@
             if (!company.name) return { error: 'Company name is required.' };
             var parsed = parseAssets(el('assetsText').value);
             if (parsed.error) return { error: parsed.error };
-            if (!parsed.assets.length) return { error: 'Enter at least one site.' };
-            return { product: 'sustainability', params: { company: company, assets: parsed.assets } };
+            if (!parsed.items.length) {
+                return { error: 'Enter at least one site — a place name (e.g. “Trier, Germany”) ' +
+                    'or name,lat,lon coordinates, one per line.' };
+            }
+            return { product: 'sustainability', company: company, items: parsed.items };
         }
 
         return { error: 'Unknown product.' };
@@ -136,6 +197,21 @@
                     params.radius_km = parseFloat(el('radiusInput').value) || 50;
                 }
                 requestDraft(spec.product, params);
+            });
+            return;
+        }
+
+        if (spec.items) {
+            clearStatus('setupStatus');
+            renderStatus('setupStatus', 'info', 'Resolving site names…');
+            el('generateDraftBtn').disabled = true;
+            resolveSites(spec.items).then(function (res) {
+                el('generateDraftBtn').disabled = false;
+                if (res.error) {
+                    renderStatus('setupStatus', 'error', esc(res.error));
+                    return;
+                }
+                requestDraft(spec.product, { company: spec.company, assets: res.assets });
             });
             return;
         }

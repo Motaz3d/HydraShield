@@ -18,44 +18,89 @@
         el('reportStatus').innerHTML = '';
     }
 
+    function looksLikeUrl(text) {
+        return /^(https?:\/\/|www\.)/i.test(text) ||
+            /^[\w-]+(\.[\w-]+)*\.[a-z]{2,}(\/\S*)?$/i.test(text);
+    }
+
+    /* Sites, one per line: "name,lat,lon", "lat,lon", or a place name
+     * ("Trier, Germany" / "Trier factory, Trier, Germany") resolved through
+     * the platform geocoder. Numeric entries become assets immediately;
+     * place-name entries keep {place, lineNo} for resolveSites(). */
     function parseAssets(text) {
-        var assets = [];
+        var items = [];
         var lines = text.split(/\r?\n/);
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i].trim();
             if (!line) continue;
             var parts = line.split(',').map(function (s) { return s.trim(); });
-            var name, lat, lon;
+            var name = null, place = null, lat = NaN, lon = NaN;
             if (parts.length >= 3) {
-                name = parts[0];
                 lat = parseFloat(parts[1]);
                 lon = parseFloat(parts[2]);
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    items.push({ name: parts[0], lat: lat, lon: lon });
+                    continue;
+                }
+                name = parts[0];
+                place = parts.slice(1).join(', ');
             } else if (parts.length === 2) {
                 lat = parseFloat(parts[0]);
                 lon = parseFloat(parts[1]);
-                name = null;
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    items.push({ name: null, lat: lat, lon: lon });
+                    continue;
+                }
+                place = line;
             } else {
-                return { error: 'Line ' + (i + 1) + ' must be name,lat,lon or lat,lon' };
+                place = line;
             }
-            if (isNaN(lat) || isNaN(lon)) {
-                return { error: 'Line ' + (i + 1) + ' has invalid lat/lon' };
+            if (looksLikeUrl(place)) {
+                return { error: 'Line ' + (i + 1) + ' (“' + line + '”) looks like a web address. ' +
+                    'Sites are physical locations — enter a place name (e.g. “Trier, Germany”) ' +
+                    'or name,lat,lon coordinates. The company web address goes in the Website field.' };
             }
-            assets.push({ name: name, lat: lat, lon: lon });
+            items.push({ name: name, place: place, lineNo: i + 1 });
         }
-        return { assets: assets };
+        return { items: items };
     }
 
-    function collectPayload() {
-        var company = {
-            name: el('companyName').value.trim(),
-            sector: el('companySector').value.trim() || null,
-            country: el('companyCountry').value.trim() || null,
-            website: el('companyWebsite').value.trim() || null,
-            description: el('companyDescription').value.trim() || null,
-        };
-        var parsed = parseAssets(el('assetsText').value);
-        if (parsed.error) return { error: parsed.error };
-        return { company: company, assets: parsed.assets };
+    function geocodeSite(place) {
+        return fetchJSON(API + '/geocode?location=' + encodeURIComponent(place))
+            .then(function (res) {
+                var loc = res.body && res.body.location;
+                if (res.ok && loc && loc.lat != null && loc.lon != null) {
+                    return { ok: true, lat: loc.lat, lon: loc.lon, name: loc.name || place };
+                }
+                return { ok: false, error: (res.body && res.body.error) || 'Location could not be resolved.' };
+            })
+            .catch(function () {
+                return { ok: false, error: 'The geocoding service could not be reached.' };
+            });
+    }
+
+    /* Sequential on purpose: the geocoder is rate-limited. */
+    function resolveSites(items) {
+        var assets = [];
+        var idx = 0;
+        function next() {
+            if (idx >= items.length) return Promise.resolve({ assets: assets });
+            var item = items[idx++];
+            if (item.place == null) {
+                assets.push({ name: item.name, lat: item.lat, lon: item.lon });
+                return next();
+            }
+            return geocodeSite(item.place).then(function (res) {
+                if (!res.ok) {
+                    return { error: 'Line ' + item.lineNo + ' (“' + item.place + '”) could not be ' +
+                        'resolved to a place. Try a more specific name (city, country) or use ' +
+                        'name,lat,lon coordinates.' };
+                }
+                assets.push({ name: item.name || res.name, lat: res.lat, lon: res.lon });
+                return next();
+            });
+        }
+        return next();
     }
 
     function handleAuthError(res) {
@@ -150,24 +195,47 @@
     }
 
     function generateReport(asPdf) {
-        var payload = collectPayload();
-        if (payload.error) {
-            renderStatus('error', esc(payload.error));
-            return;
-        }
-        if (!payload.company.name) {
+        var company = {
+            name: el('companyName').value.trim(),
+            sector: el('companySector').value.trim() || null,
+            country: el('companyCountry').value.trim() || null,
+            website: el('companyWebsite').value.trim() || null,
+            description: el('companyDescription').value.trim() || null,
+        };
+        if (!company.name) {
             renderStatus('error', 'Company name is required.');
             return;
         }
-        if (!payload.assets.length) {
-            renderStatus('error', 'Enter at least one site.');
+        var parsed = parseAssets(el('assetsText').value);
+        if (parsed.error) {
+            renderStatus('error', esc(parsed.error));
+            return;
+        }
+        if (!parsed.items.length) {
+            renderStatus('error', 'Enter at least one site — a place name (e.g. “Trier, Germany”) ' +
+                'or name,lat,lon coordinates, one per line.');
             return;
         }
 
         clearStatus();
-        renderStatus('info', 'Building sustainability evidence report…');
+        renderStatus('info', 'Resolving site names…');
         el('generateReportBtn').disabled = true;
         el('downloadPdfBtn').disabled = true;
+
+        resolveSites(parsed.items).then(function (res) {
+            if (res.error) {
+                el('generateReportBtn').disabled = false;
+                el('downloadPdfBtn').disabled = false;
+                renderStatus('error', esc(res.error));
+                return;
+            }
+            submitReport(asPdf, { company: company, assets: res.assets });
+        });
+    }
+
+    function submitReport(asPdf, payload) {
+        clearStatus();
+        renderStatus('info', 'Building sustainability evidence report…');
 
         var endpoint = asPdf ? API + '/v2/sustainability/report/pdf' : API + '/v2/sustainability/report';
 

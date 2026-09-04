@@ -73,11 +73,11 @@
                     <textarea id="companyDescription" rows="3" placeholder="Short company description"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="assetsText">Sites <span class="muted">(one name,lat,lon per line; max 25 on free tier, 100 for subscribers)</span></label>
-                    <textarea id="assetsText" rows="6" placeholder="Trier factory,49.75,6.64&#10;A Coruña port,43.3,-8.4&#10;Sevilla plant,37.4,-5.9"></textarea>
+                    <label for="assetsText">Sites <span class="muted">(one per line: a place name like "Trier, Germany", or name,lat,lon; max 25 on free tier, 100 for subscribers)</span></label>
+                    <textarea id="assetsText" rows="6" placeholder="Trier factory,49.75,6.64&#10;A Coruña port,43.3,-8.4&#10;Sevilla, Spain"></textarea>
                 </div>
-                <button class="btn-action" id="generateReportBtn">Generate report (JSON view)</button>
-                <button class="btn-quiet" id="downloadPdfBtn">Download PDF</button>
+                <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
+                <button class="btn-secondary" id="generateReportBtn">Preview report (JSON view)</button>
                 <div id="reportStatus"></div>
                 <div id="reportResult"></div>
             </div>

@@ -1366,8 +1366,39 @@ body {
     box-shadow: none;
 }
 
+.btn-secondary,
+.btn-quiet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.92rem;
+    font-family: var(--font-main);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
 .btn-secondary {
     background: var(--dark-3);
+    color: var(--white);
+    border: none;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(15,23,42,0.30);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.55;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
 }
 
 .btn-quiet {
@@ -1380,6 +1411,11 @@ body {
     color: var(--dark);
     border-color: var(--text-light);
     box-shadow: none;
+}
+
+.btn-sm {
+    padding: 7px 14px;
+    font-size: 0.82rem;
 }
 
 .notice {
