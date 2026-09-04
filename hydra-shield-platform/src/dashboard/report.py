@@ -369,7 +369,8 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                      grid: Optional[Dict] = None,
                      solutions: Optional[Dict] = None,
                      funding: Optional[Dict] = None,
-                     losses: Optional[Dict] = None) -> bytes:
+                     losses: Optional[Dict] = None,
+                     loss_estimate: Optional[Dict] = None) -> bytes:
     """
     Render a professional PDF report from a real analysis payload.
 
@@ -381,7 +382,9 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     scientific types); when absent, the section is honestly omitted.
     ``losses`` carries ``documented_loss_figures`` output for the location;
     the "Documented disaster losses" section renders published figures when
-    present and declares their absence otherwise.
+    present and declares their absence otherwise. ``loss_estimate`` carries
+    the Talaix loss-screening ESTIMATE (strictly separated sub-block —
+    ESTIMATED, never merged with the documented figures).
     """
     if not _HAS_REPORTLAB:
         raise RuntimeError("reportlab is not installed on this server")
@@ -922,6 +925,40 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             f"location — declared, not estimated. ({reason}) Estimated and "
             "modelled loss figures are deliberately not included (strict "
             "observed/estimated separation).", _B))
+
+    # ---- Loss screening estimate (ESTIMATED — strictly separated) ---------
+    if loss_estimate and loss_estimate.get("status") == "ok":
+        est = loss_estimate.get("estimate") or {}
+        ev = est.get("exposed_value_eur") or {}
+        inputs = loss_estimate.get("inputs") or {}
+        b = inputs.get("buildings_count") or {}
+        cb = inputs.get("country_benchmark") or {}
+        story.append(Paragraph(
+            "<b>Talaix loss screening estimate (ESTIMATED — computed by the "
+            "Talaix function, not a documented figure)</b>", _B))
+        story.append(_kv_table([
+            ["Exposed value (screening)",
+             f"EUR {ev.get('low', 0):,} – {ev.get('high', 0):,} "
+             f"(central {ev.get('central', 0):,}) (ESTIMATED)"],
+            ["Basis",
+             f"{int(b.get('value') or 0):,} mapped buildings"
+             + (f" within {int(b.get('radius_m'))} m" if b.get("radius_m") else "")
+             + f" × declared floor-area and replacement-cost benchmarks "
+               f"({cb.get('name') or 'fallback defaults'}) — method and "
+               "benchmark bases printed in config/loss_estimate_benchmarks.json"],
+            ["Expected loss",
+             "not available — no validated damage-ratio model is integrated; "
+             "the exposed value is not converted into an expected loss (declared)"],
+        ]))
+        story.append(Paragraph(
+            "This is an exposed-VALUE screening range — what could be at "
+            "stake — computed from real mapped building counts and declared "
+            "benchmark ranges; it is not a valuation, not an expected loss "
+            "and never mixed with the documented figures above.", _SM))
+    elif loss_estimate and loss_estimate.get("reason"):
+        story.append(Paragraph(
+            "<b>Talaix loss screening estimate (ESTIMATED)</b> — unavailable: "
+            f"{loss_estimate.get('reason')}", _SM))
 
     # ---- Map (real grid data; decision/scientific) -------------------------
     if not simple:

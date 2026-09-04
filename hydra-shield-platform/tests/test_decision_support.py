@@ -779,3 +779,62 @@ def test_documented_losses_rows_pure_data():
     assert rows[0] == ["Event", "Figure", "Value", "Source · period"]
     assert rows[1] == ["E", "L", "1 u", "s · p"]
     assert report_module.documented_losses_rows(None) == [["Event", "Figure", "Value", "Source · period"]]
+
+
+# --------------------------------------------------------------------------
+# PDF report: Talaix loss screening estimate (ESTIMATED sub-block)
+# --------------------------------------------------------------------------
+
+_LOSS_ESTIMATE_OK = {
+    "status": "ok",
+    "claim_status": "ESTIMATED",
+    "estimate": {
+        "kind": "exposed_value_screening",
+        "exposed_value_eur": {"low": 93000000, "central": 204600000,
+                              "high": 496000000,
+                              "unit": "EUR (2025 price context, screening range)"},
+    },
+    "expected_loss": {"status": "not_available", "statement": "no damage-ratio model"},
+    "inputs": {
+        "buildings_count": {"value": 775, "source": "test", "radius_m": 2000},
+        "country_benchmark": {"code": "LU", "name": "Luxembourg"},
+        "benchmarks": {"config": "config/loss_estimate_benchmarks.json"},
+    },
+    "method": "exposed_value = mapped_buildings × floor_area × cost_per_m2",
+    "limitations": ["screening range"],
+    "separation_note": "ESTIMATED figures are never merged with DOCUMENTED loss figures.",
+    "generated_at": "2026-09-04T00:00:00Z",
+}
+
+
+def test_pdf_report_loss_estimate_sub_block_all_types():
+    """The ESTIMATED screening range renders as its own strictly separated
+    sub-block — in every report type — and never as a documented figure."""
+    pytest.importorskip("reportlab")
+    for rtype in ("simple", "decision", "scientific"):
+        text = _norm(_pdf_text(report_module.build_report_pdf(
+            _report_payload(), report_type=rtype,
+            losses=_LOSSES_OK, loss_estimate=_LOSS_ESTIMATE_OK)))
+        assert "Talaix loss screening estimate" in text
+        assert "ESTIMATED" in text
+        assert "not a documented figure" in text
+        assert "204,600,000" in text  # central exposed value, formatted
+        assert "775 mapped buildings" in text
+        assert "Luxembourg" in text
+        assert "no validated damage-ratio model" in text
+        assert "not an expected loss" in text
+        # Strict separation: the documented table keeps its own figures and
+        # the estimate never claims to be one of them.
+        assert "Insured losses (Germany)" in text
+        assert text.count("ESTIMATED") >= 2
+
+
+def test_pdf_report_loss_estimate_unavailable_is_honest():
+    pytest.importorskip("reportlab")
+    text = _norm(_pdf_text(report_module.build_report_pdf(
+        _report_payload(), report_type="decision",
+        loss_estimate={"status": "unavailable",
+                       "reason": "no mapped building count available"})))
+    assert "Talaix loss screening estimate" in text
+    assert "unavailable" in text
+    assert "no mapped building count" in text

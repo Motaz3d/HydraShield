@@ -161,6 +161,15 @@ on an external key/account.
   disaster losses" section (`src/dashboard/report.py`, wired in
   `src/dashboard/api.py`); the section declares the gap when no documented
   figure covers the location. See `docs/ECONOMIC_INTELLIGENCE.md` §8-§10.
+- [DONE] Talaix Loss Screening Estimate v1 (`src/climate/loss_estimate.py`
+  + `config/loss_estimate_benchmarks.json`): the engine's own ESTIMATED
+  monetary function — exposed-value range computed from real mapped
+  building counts × declared benchmark bands (per-country replacement
+  cost, floor-area assumption), matched by smallest containing country
+  bbox. Expected-loss slot honestly `not_available` (no damage-ratio
+  model). Served as a strictly separated sub-block in the three classic
+  reports and at `GET /api/v2/losses/estimate`. Never merged with
+  DOCUMENTED figures.
 - [DONE] Commercial sources (Munich Re NatCatSERVICE, Swiss Re sigma) marked
   `planned` with status note: "Commercial licence to be procured after first
   platform revenue (operator decision 2026-09-02)".

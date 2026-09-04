@@ -154,24 +154,42 @@ Related operational toggle: `FIRMS_MAP_KEY` (free NASA FIRMS registration)
 enables the observed-fire history layer in reports; the deploy workflow
 forwards it from GitHub secrets to the server env when present.
 
-## 9. Stage 2 (planned): Talaix Loss Screening Estimate — ESTIMATED layer
+## 9. Stage 2 (implemented v1, 2026-09-04): Talaix Loss Screening Estimate — ESTIMATED layer
 
-Design contract for the first *estimated* monetary layer, tagged
-`ESTIMATED` and never merged with documented figures:
+The platform's first monetary function of its own
+(`src/climate/loss_estimate.py`): it **computes** an exposed-value
+screening range from real engine inputs — nothing is republished from
+someone else's database.
 
-- **Exposed value**: mapped buildings (already OBSERVED per report) ×
-  published per-country replacement-cost benchmarks (e.g. Eurostat
-  construction-cost indices) with the benchmark source named.
-- **Damage ratio**: peer-reviewed, open vulnerability curves — JRC
-  European depth–damage functions for flood; equivalent published curves
-  per hazard where they exist; absent curves declared, never substituted.
-- **Output shape**: a loss *range* with wide, honestly stated uncertainty
-  bounds (order-of-magnitude screening), method and inputs printed,
-  `claim_status: ESTIMATED`.
-- **Explicitly out of scope**: AAL/PML/EP pricing curves, premium
-  indications, and any company-level allocation. The insurance profile's
-  loss-not-quantified rule stays in force until this layer exists and is
-  separately validated.
+```
+exposed_value = mapped_buildings (real OSM count, completeness-caveated)
+              × floor_area_per_building (declared assumption)
+              × replacement_cost_per_m2 (declared per-country benchmark)
+computed independently for the low / central / high declared bands
+```
+
+- **Benchmarks** live in `config/loss_estimate_benchmarks.json` — every
+  band carries a stated basis (published construction-cost ranges);
+  countries are matched by bounding box, smallest containing bbox wins;
+  unmatched locations fall back to declared generic defaults.
+- **Output**: `{low, central, high}` exposed-value range tagged
+  `ESTIMATED`, with inputs, method and limitations printed. The wide span
+  is the honest compound of the declared input uncertainties.
+- **Expected-loss slot**: `not_available` — no validated damage-ratio
+  model is integrated, so exposed value is never converted into an
+  expected loss. Next step: JRC European depth–damage functions (flood),
+  then equivalent published curves per hazard.
+- **Separation**: ESTIMATED is rendered as its own sub-block in the
+  reports' "Documented disaster losses" section and served separately at
+  `GET /api/v2/losses/estimate?lat&lon` — never merged with DOCUMENTED
+  figures (§3).
+- **Still out of scope**: AAL/PML/EP pricing curves, premium indications,
+  company-level allocation. The insurance profile's loss-not-quantified
+  rule stays in force.
+- **Validation path**: the curated documented events (§8) are the ground
+  truth the estimate will be checked against (does the screening range
+  for an affected municipality bracket the documented figure?) — that
+  comparison is the engine's honesty loop, not marketing.
 
 ## 10. Stage 3 (research): insurer-disclosure mining
 

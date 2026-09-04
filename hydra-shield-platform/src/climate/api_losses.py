@@ -12,6 +12,10 @@ Exposes:
   "reference_period"}...],"disclaimer"}``
 - ``GET /api/v2/losses/sources`` — the registry source records (integrated,
   planned and candidate) with access and licence conditions
+- ``GET /api/v2/losses/estimate?lat&lon(&radius_km=)`` — the Talaix loss
+  screening ESTIMATE for a point: computed exposed-value range from the real
+  mapped building count (exposure engine) and declared benchmarks; strictly
+  separated from documented figures (ESTIMATED, never merged)
 
 The blueprint is deliberately NOT registered here — the lead registers it
 in ``src/dashboard/api.py``.
@@ -68,6 +72,53 @@ def losses_summary():
     from .losses import loss_summary_items
 
     payload = loss_summary_items()
+    return jsonify(payload)
+
+
+@losses_bp.get("/losses/estimate")
+def losses_estimate():
+    """Talaix loss screening estimate: /api/v2/losses/estimate?lat&lon
+
+    Computes the ESTIMATED exposed-value range for a point from the real
+    mapped building count (economic exposure engine, OSM/ohsome) and the
+    declared benchmarks in config/loss_estimate_benchmarks.json. The
+    expected-loss slot is honestly not_available (no validated damage-ratio
+    model integrated). ESTIMATED — never merged with documented figures.
+    """
+    if not _rate("v2lossesestimate", _RATE_MAX, _RATE_WINDOW):
+        return _err("Rate limit exceeded", 429)
+
+    from flask import request
+
+    from .exposure_econ import build_economic_exposure
+    from .loss_estimate import loss_screening_estimate
+
+    try:
+        lat = float(request.args.get("lat", ""))
+        lon = float(request.args.get("lon", ""))
+    except ValueError:
+        return _err("Provide ?lat=...&lon=...", 400)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        return _err("Coordinates out of range", 400)
+    try:
+        radius_km = float(request.args.get("radius_km", "5"))
+    except ValueError:
+        radius_km = 5.0
+
+    exposure = build_economic_exposure(lat, lon, radius_km=radius_km)
+    if "error" in exposure:
+        return jsonify({
+            "status": "unavailable",
+            "reason": f"exposure engine: {exposure['error']}",
+            "claim_status": "ESTIMATED",
+        })
+    buildings = ((exposure.get("exposure") or {}).get("buildings") or {}).get("count")
+    src = ((exposure.get("exposure") or {}).get("buildings") or {}).get("source")
+    payload = loss_screening_estimate(
+        lat, lon, buildings,
+        buildings_source=src or "economic exposure engine (OSM/ohsome)",
+        radius_m=(exposure.get("radius_km") or 0) * 1000 or None)
+    payload["location"] = {"lat": lat, "lon": lon}
     return jsonify(payload)
 
 
