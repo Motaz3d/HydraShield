@@ -146,10 +146,10 @@ on an external key/account.
   source, reference period, geographic scope and licence note. The
   `observed_losses` block in `src/climate/economic_impact.py` surfaces these
   figures for US queries and remains honestly unavailable outside US coverage.
-- [DONE] `GET /api/v2/losses/summary` added for the homepage loss-data card,
-  returning the contract `{status, items[{label,value,unit,source,
-  reference_period}], disclaimer}` with real figures or an honest unavailable
-  reason.
+- [DONE] `GET /api/v2/losses/summary` added as a public read-only endpoint
+  returning flat headline figures with the contract `{status, items[{label,
+  value,unit,source,reference_period}], disclaimer}` with real figures or an
+  honest unavailable reason.
 - [DONE] Staged-ingest paths documented for EM-DAT (`data/emdat_export.csv`)
   and DesInventar (`data/desinventar_exports/`) — parsed when operator
   provides exports, unavailable with reason when absent.
@@ -172,12 +172,10 @@ on an external key/account.
   DOCUMENTED figures.
 - [DONE] Estimate propagated to all output surfaces (2026-09-04): the three
   classic report types, the Insurance Environmental Risk Profile PDF
-  (strictly separated from the loss-not-quantified rule), the
+  (strictly separated from the loss-not-quantified rule), and the
   `/api/v2/economic-impact` engine payload (new `loss_screening_estimate`
-  block + `block_status`), and the homepage live loss-context card
-  (ESTIMATED card for the top monitored area, fed by the estimate
-  endpoint). Acquisition study for purchasable loss/valuation APIs and
-  free upgrades: `docs/LOSS_DATA_ACQUISITION.md`.
+  block + `block_status`). Acquisition study for purchasable loss/valuation
+  APIs and free upgrades: `docs/LOSS_DATA_ACQUISITION.md`.
 - [DONE] Official calibration layers for the estimate (2026-09-04):
   Eurostat STS_COPI_A construction-cost indexation of the declared bands
   (`src/climate/eurostat_cci.py` — official index ratio scales all bands
@@ -190,6 +188,11 @@ on an external key/account.
 - [DONE] Commercial sources (Munich Re NatCatSERVICE, Swiss Re sigma) marked
   `planned` with status note: "Commercial licence to be procured after first
   platform revenue (operator decision 2026-09-02)".
+- [DONE] Homepage loss strip removed (operator decision 2026-09-04): the
+  documented-loss cards and the ESTIMATED exposed-value card were bare
+  numbers on the front page — losses live in the reports and the public
+  `/api/v2/losses/*` endpoints, not the landing. The endpoints, registry
+  and report sections are unaffected.
 - [LATER] Evidence pack assembly per asset/location (exposure profile +
   hazard frequency + resilience profile + uncertainty) with disclaimers;
   scenario-exposure slot wired to the projected-data stage.

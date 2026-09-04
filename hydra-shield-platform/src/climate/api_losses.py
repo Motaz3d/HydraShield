@@ -7,8 +7,8 @@ Exposes:
 - ``GET /api/v2/losses``         — the full loss summary (observed / estimated /
   modelled / projected strictly separated; observed now carries real documented
   figures from integrated free sources when available)
-- ``GET /api/v2/losses/summary`` — flat headline figures for the homepage:
-  ``{"status":"ok","items":[{"label","value","unit","source",
+- ``GET /api/v2/losses/summary`` — flat headline loss figures (public,
+  read-only): ``{"status":"ok","items":[{"label","value","unit","source",
   "reference_period"}...],"disclaimer"}``
 - ``GET /api/v2/losses/sources`` — the registry source records (integrated,
   planned and candidate) with access and licence conditions
