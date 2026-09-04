@@ -26,6 +26,11 @@ fi
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') outreach processor ==="
 .venv/bin/python scripts/process_scheduled_outreach.py
 
+# LinkedIn content dispatch: emails today's due draft to the operator
+# (idempotent — marketing/content/.dispatch_state.json prevents resends).
+echo "=== $(date '+%Y-%m-%d %H:%M:%S') content dispatcher ==="
+.venv/bin/python scripts/content_dispatcher.py
+
 if [ -n "${IMAP_HOST:-}" ]; then
   echo "=== $(date '+%Y-%m-%d %H:%M:%S') reply check ==="
   .venv/bin/python scripts/check_replies.py

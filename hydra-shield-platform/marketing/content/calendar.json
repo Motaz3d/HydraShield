@@ -1,12 +1,25 @@
 {
-  "description": "Rolling LinkedIn content calendar (docs/LINKEDIN_STRATEGY.md \u00a73). 2\u20133 posts per week, rotating pillars. Each slot is filled by a draft from marketing/content/drafts/ before its date; publishing is human-executed.",
+  "description": "Rolling LinkedIn content calendar (docs/LINKEDIN_STRATEGY.md \u00a73, marketing/strategy/social_media_plan.md). 4 fixed posts per week (Tue/Wed/Thu morning + Sunday evening, Europe/Brussels) + up to 2 event-reactive posts (weekly total \u2264 5; a reactive post displaces a fixed slot on conflict). scripts/content_dispatcher.py emails the due draft to the operator one hour before peak browsing; publishing is human-executed.",
   "cadence": {
-    "posts_per_week": 3,
+    "posts_per_week": "4 fixed + up to 2 reactive (\u22645 total)",
     "days": [
       "Tuesday",
+      "Wednesday",
       "Thursday",
-      "Saturday"
-    ]
+      "Sunday"
+    ],
+    "dispatch_timezone": "Europe/Brussels",
+    "dispatch_times": {
+      "Tuesday": "07:00",
+      "Wednesday": "07:00",
+      "Thursday": "07:00",
+      "Sunday": "16:00"
+    },
+    "dispatch_note": "Emails go out one hour before peak LinkedIn browsing: 07:00 before the 08:00\u201310:00 B2B morning peak, 16:00 before the 17:00\u201319:00 Sunday evening catch-up. Saturday dropped \u2014 weakest B2B day.",
+    "reactive_slots": {
+      "max_per_week": 2,
+      "trigger": "Real observed climate event (wildfire, flood, heat wave, storm) with an authoritative source; draft from marketing/content/drafts/_template-event-reactive.md within 24h; may carry its own dispatch_at time; displaces a fixed slot so the week stays \u22645."
+    }
   },
   "pillar_rotation": [
     "current_climate_extremes",
@@ -33,7 +46,8 @@
       "segment": "municipalities",
       "topic": "Live multi-hazard intelligence: what the data shows this week",
       "draft": "2026-08-heat-andalusia-monitoring.md",
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-08-22",
@@ -42,7 +56,8 @@
       "segment": "insurance",
       "topic": "Historical hazard profiles: OBSERVED vs MODELLED vs PROJECTED \u2014 why the difference matters for underwriting context",
       "draft": "2026-08-insurance-evidence-labels.md",
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-08-25",
@@ -51,7 +66,8 @@
       "segment": "investment",
       "topic": "Assess climate exposure before committing capital: a worked example with sources",
       "draft": null,
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-08-27",
@@ -60,7 +76,8 @@
       "segment": "municipalities",
       "topic": "From hazard to solution to funding: the resilience chain for a real place",
       "draft": null,
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-08-29",
@@ -69,7 +86,8 @@
       "segment": "infrastructure",
       "topic": "Reading the map: what real exposure layers show around infrastructure",
       "draft": null,
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-09-01",
@@ -78,7 +96,8 @@
       "segment": "research_centers",
       "topic": "QGIS-native climate intelligence: analysis as layers with provenance",
       "draft": null,
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-09-03",
@@ -87,7 +106,8 @@
       "segment": "real_estate",
       "topic": "What happened at this property? Historical event intelligence with sources",
       "draft": null,
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Superseded by the 4-day schedule adopted 2026-09-04; never dispatched."
     },
     {
       "date": "2026-09-05",
@@ -95,7 +115,7 @@
       "campaign": "J",
       "segment": "sustainable_finance",
       "topic": "Exposure before euros: honest non-quantification in climate finance",
-      "draft": null,
+      "draft": "2026-09-05-sustainable-finance-honest-exposure.md",
       "status": "planned"
     },
     {
@@ -104,7 +124,7 @@
       "campaign": "E",
       "segment": "universities",
       "topic": "Reproducible hazard analysis: content-hashed runs and open registries",
-      "draft": null,
+      "draft": "2026-09-08-research-reproducible-analysis.md",
       "status": "planned"
     },
     {
@@ -113,16 +133,16 @@
       "campaign": "K",
       "segment": "research_centers",
       "topic": "What Sentinel-2 actually saw: vegetation moisture as evidence",
-      "draft": null,
+      "draft": "2026-09-10-sentinel2-vegetation-moisture.md",
       "status": "planned"
     },
     {
-      "date": "2026-09-12",
+      "date": "2026-09-13",
       "pillar": "climate_risk_for_business",
       "campaign": "I",
       "segment": "construction",
       "topic": "Hazard-aware siting: evidence before concrete",
-      "draft": null,
+      "draft": "2026-09-12-construction-hazard-aware-siting.md",
       "status": "planned"
     },
     {
@@ -131,7 +151,70 @@
       "campaign": "H",
       "segment": "governments",
       "topic": "Toward the Annual Climate Extreme Intelligence Report: the sourcing rules",
-      "draft": null,
+      "draft": "2026-09-15-annual-report-sourcing-rules.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-16",
+      "pillar": "current_climate_extremes",
+      "campaign": "D",
+      "segment": "municipalities",
+      "topic": "This week in climate extremes: what the live data actually shows",
+      "draft": "2026-09-16-weekly-climate-extremes-digest.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-17",
+      "pillar": "insurance_intelligence",
+      "campaign": "A",
+      "segment": "insurance",
+      "topic": "ORSA and climate stress tests: what a physical-evidence layer feeds \u2014 and what it does not",
+      "draft": "2026-09-17-insurance-orsa-evidence-layer.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-20",
+      "pillar": "technology_discoveries",
+      "campaign": "H",
+      "segment": "research_centers",
+      "topic": "Transparency series #1: Why we show the missing data key instead of working around it",
+      "draft": "2026-09-20-transparency-missing-data-key.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-22",
+      "pillar": "investment_intelligence",
+      "campaign": "J",
+      "segment": "banking",
+      "topic": "How a DNSH screening report informs a credit decision",
+      "draft": "2026-09-22-dnsh-credit-decision.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-23",
+      "pillar": "map_discoveries",
+      "campaign": "F",
+      "segment": "infrastructure",
+      "topic": "Reading real exposure layers around critical infrastructure",
+      "draft": "2026-09-23-infrastructure-exposure-layers.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-24",
+      "pillar": "climate_risk_for_business",
+      "campaign": "C",
+      "segment": "banking",
+      "topic": "EBA ESG and Pillar 3: per-location evidence for collateral and loan-book screening",
+      "draft": "2026-09-24-banking-eba-pillar3-collateral.md",
+      "status": "planned"
+    },
+    {
+      "date": "2026-09-27",
+      "pillar": "technology_discoveries",
+      "campaign": "H",
+      "segment": "research_centers",
+      "topic": "Transparency series #2: A number without a source is a liability, not a feature",
+      "draft": "2026-09-27-transparency-number-without-source.md",
       "status": "planned"
     }
   ]

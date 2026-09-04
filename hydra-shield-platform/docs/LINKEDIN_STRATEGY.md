@@ -37,11 +37,24 @@ live Talaix page where the claim can be checked.
 
 ## 3. Cadence and calendar
 
-`marketing/content/calendar.json` holds the rolling calendar: 2–3 posts
-per week, rotating pillars, anchored to real platform content (a new
-analysis capability, a historical event page, the annual report). Drafts
-live in `marketing/content/drafts/` as markdown with front-matter
-(segment, pillar, CTA, landing page, status).
+`marketing/content/calendar.json` holds the rolling calendar: **4 fixed
+posts per week — Tuesday/Wednesday/Thursday mornings plus Sunday evening
+(all Europe/Brussels) — plus up to 2 event-reactive posts** (weekly total
+capped at 5), rotating pillars, anchored to real platform content (a new
+analysis capability, a historical event page, the annual report).
+Saturday is dropped (weakest B2B day); Sunday evening carries the
+thought-leadership/transparency series. Reactive posts follow real,
+observed events (wildfire, flood, heat wave) using
+`marketing/content/drafts/_template-event-reactive.md` within 24h, and
+displace a fixed slot on conflict. Drafts live in
+`marketing/content/drafts/` as markdown with front-matter (segment,
+pillar, CTA, landing page, status). The operator-facing runbook —
+site-page matrix, transparency series, engagement playbook and the
+dispatch pipeline — is `marketing/strategy/social_media_plan.md`.
+`scripts/content_dispatcher.py` emails each due draft to the operator
+**one hour before peak browsing** (07:00 before the 08:00–10:00 B2B
+morning peak, 16:00 before the 17:00–19:00 Sunday catch-up) and flips
+its status to `queued`.
 
 ## 4. Campaigns
 
