@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Registry of documented disaster-loss data sources (candidates, integrations and planned) for Talaix. Tracks which loss datasets are reviewed or integrated, their access conditions and their integration status. No loss figures are stored here unless a source is integrated with a stated method and licence; figures from the live NOAA integration are computed at query time.",
   "separation_note": "Observed, estimated, modelled and projected loss figures are strictly separated categories. A figure may appear only in the category its source documents, with the source's method stated; categories are never merged into a single number.",
-  "no_figures_note": "Observed loss figures are computed at query time from the integrated NOAA NCEI source and from any operator-provided staged export files (EM-DAT, DesInventar). The observed_events list remains deliberately empty because live aggregation is the serving path; staged exports are parsed from data/emdat_export.csv and data/desinventar_exports/.",
+  "no_figures_note": "Observed loss figures are served from three honest paths: (1) the integrated live NOAA NCEI source (US-only national aggregates computed at query time); (2) curated observed_events below — a hand-maintained set of well-documented disaster events whose figures are published by official/primary sources, each carrying source, method, licence and limitations; (3) operator-provided staged export files (EM-DAT, DesInventar) parsed from data/emdat_export.csv and data/desinventar_exports/ when present.",
   "sources": [
     {
       "id": "emdat",
@@ -111,5 +111,152 @@
       "status_note": "Commercial licence to be procured after first platform revenue (operator decision 2026-09-02)."
     }
   ],
-  "observed_events": []
+  "observed_events": [
+    {
+      "id": "eu_floods_2021_07",
+      "name": "July 2021 Western and Central European floods (low-pressure system Bernd)",
+      "hazard": "flood",
+      "reference_period": "2021-07-13 to 2021-07-19",
+      "affected_areas": [
+        {"label": "Germany", "bbox": [5.866, 47.27, 15.042, 55.058]},
+        {"label": "Belgium", "bbox": [2.545, 49.497, 6.408, 51.505]},
+        {"label": "Netherlands", "bbox": [3.358, 50.75, 7.227, 53.555]},
+        {"label": "Luxembourg", "bbox": [5.736, 49.448, 6.531, 50.183]},
+        {"label": "France (metropolitan)", "bbox": [-5.142, 41.333, 9.663, 51.089]},
+        {"label": "Switzerland", "bbox": [5.956, 45.818, 10.492, 47.808]},
+        {"label": "Austria", "bbox": [9.531, 46.372, 17.161, 49.021]}
+      ],
+      "figures": [
+        {
+          "label": "Overall economic losses (Europe)",
+          "value": 33,
+          "unit": "billion EUR (2021 values, published rounded figure)",
+          "claim_status": "DOCUMENTED",
+          "source": "munich_re_review",
+          "reference_period": "July 2021",
+          "geographic_scope": "Western and Central Europe (multi-country aggregate)",
+          "licence_note": "Published headline figure from Munich Re's public annual natural-disaster review; cite Munich Re when quoting.",
+          "provider_url": "https://www.munichre.com/",
+          "method": "Published aggregate from Munich Re's public 2021 natural-disasters review (NatCatSERVICE-based); the July 2021 flood was named the costliest natural disaster in Europe to date.",
+          "limitations": "Multi-country aggregate; not allocatable to a region, municipality or asset. Rounded published value."
+        },
+        {
+          "label": "Insured losses (Europe)",
+          "value": 11,
+          "unit": "billion EUR (2021 values, published rounded figure)",
+          "claim_status": "DOCUMENTED",
+          "source": "munich_re_review",
+          "reference_period": "July 2021",
+          "geographic_scope": "Western and Central Europe (multi-country aggregate)",
+          "licence_note": "Published headline figure from Munich Re's public annual natural-disaster review; cite Munich Re when quoting.",
+          "provider_url": "https://www.munichre.com/",
+          "method": "Published insured-loss aggregate from Munich Re's public 2021 natural-disasters review for the July 2021 flood event.",
+          "limitations": "Multi-country insured aggregate; protection gap differs by country; not allocatable below Europe level."
+        },
+        {
+          "label": "Insured losses (Germany)",
+          "value": 8.2,
+          "unit": "billion EUR (2021 values, published rounded figure)",
+          "claim_status": "DOCUMENTED",
+          "source": "gdv",
+          "reference_period": "July 2021",
+          "geographic_scope": "Germany (national aggregate)",
+          "licence_note": "Published estimate by GDV (German Insurance Association); cite GDV when quoting.",
+          "provider_url": "https://www.gdv.de/",
+          "method": "Published GDV insured-loss estimate for the July 2021 flood/storm event in Germany.",
+          "limitations": "National insured aggregate as published by the industry association; rounded; not allocatable below country level."
+        },
+        {
+          "label": "Deaths (documented)",
+          "value": 220,
+          "unit": "deaths (documented count, at least)",
+          "claim_status": "DOCUMENTED",
+          "source": "official_counts",
+          "reference_period": "July 2021",
+          "geographic_scope": "Affected European countries (Germany 184, Belgium 39 per official counts)",
+          "licence_note": "Official civil-protection counts as published; cite the national civil-protection authorities.",
+          "provider_url": "https://www.bbk.bund.de/",
+          "method": "Sum of officially reported deaths per country (Germany 184, Belgium 39) plus smaller counts elsewhere; reported as 'at least 220'.",
+          "limitations": "Count as documented at the time; later reviews may differ slightly."
+        }
+      ]
+    },
+    {
+      "id": "elbe_floods_2002_08",
+      "name": "August 2002 Elbe and Danube floods",
+      "hazard": "flood",
+      "reference_period": "2002-08-01 to 2002-08-31",
+      "affected_areas": [
+        {"label": "Germany", "bbox": [5.866, 47.27, 15.042, 55.058]},
+        {"label": "Austria", "bbox": [9.531, 46.372, 17.161, 49.021]},
+        {"label": "Czechia", "bbox": [12.091, 48.552, 18.859, 51.056]},
+        {"label": "Slovakia", "bbox": [16.833, 47.731, 22.566, 49.614]}
+      ],
+      "figures": [
+        {
+          "label": "Overall economic losses (Germany)",
+          "value": 11.6,
+          "unit": "billion EUR (2002 values, published rounded figure)",
+          "claim_status": "DOCUMENTED",
+          "source": "german_government_estimate",
+          "reference_period": "August 2002",
+          "geographic_scope": "Germany (national aggregate)",
+          "licence_note": "German government damage estimate as published in official reviews; cite the German authorities when quoting.",
+          "provider_url": "https://www.umweltbundesamt.de/",
+          "method": "Published German government estimate of the direct damage from the August 2002 flood (widely cited official figure).",
+          "limitations": "National aggregate in 2002 values; not allocatable below country level."
+        },
+        {
+          "label": "Insured losses (Germany)",
+          "value": 1.8,
+          "unit": "billion EUR (2002 values, published rounded figure)",
+          "claim_status": "DOCUMENTED",
+          "source": "gdv",
+          "reference_period": "August 2002",
+          "geographic_scope": "Germany (national aggregate)",
+          "licence_note": "Published estimate by GDV (German Insurance Association); cite GDV when quoting.",
+          "provider_url": "https://www.gdv.de/",
+          "method": "Published GDV insured-loss estimate for the August 2002 flood in Germany.",
+          "limitations": "National insured aggregate as published by the industry association; rounded."
+        },
+        {
+          "label": "Deaths (Germany, documented)",
+          "value": 21,
+          "unit": "deaths (documented count)",
+          "claim_status": "DOCUMENTED",
+          "source": "official_counts",
+          "reference_period": "August 2002",
+          "geographic_scope": "Germany (national count)",
+          "licence_note": "Official count as published in German reviews; cite the German authorities.",
+          "provider_url": "https://www.bbk.bund.de/",
+          "method": "Documented death count for Germany in the August 2002 flood as published in official reviews.",
+          "limitations": "Germany only; casualties in Austria, Czechia and Slovakia are not included in this figure."
+        }
+      ]
+    },
+    {
+      "id": "attica_wildfires_2018_07",
+      "name": "July 2018 Attica wildfires (Mati/Rafina, Greece)",
+      "hazard": "wildfire",
+      "reference_period": "2018-07-23 to 2018-07-26",
+      "affected_areas": [
+        {"label": "Greece", "bbox": [19.374, 34.802, 29.649, 41.749]}
+      ],
+      "figures": [
+        {
+          "label": "Deaths (documented)",
+          "value": 102,
+          "unit": "deaths (documented count)",
+          "claim_status": "DOCUMENTED",
+          "source": "official_counts",
+          "reference_period": "July 2018",
+          "geographic_scope": "Attica region, Greece",
+          "licence_note": "Official Greek count as documented; the event is tracked by the EU JRC EFFIS service.",
+          "provider_url": "https://effis.jrc.ec.europa.eu/",
+          "method": "Official Greek death count for the 23 July 2018 Mati/Rafina fire — among the deadliest wildfire events in European record.",
+          "limitations": "Count as officially documented at the time; no reliable public monetary loss figure is included for this event (declared, not estimated)."
+        }
+      ]
+    }
+  ]
 }

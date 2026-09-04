@@ -153,6 +153,14 @@ on an external key/account.
 - [DONE] Staged-ingest paths documented for EM-DAT (`data/emdat_export.csv`)
   and DesInventar (`data/desinventar_exports/`) — parsed when operator
   provides exports, unavailable with reason when absent.
+- [DONE] Curated `observed_events` in `config/loss_registry.json` (v1: July
+  2021 European floods, August 2002 Elbe floods, July 2018 Attica wildfires)
+  — published official/primary-source figures with full honesty tags,
+  matched to a location by country-scope bounding boxes (smallest bbox
+  wins). The three classic report types render them in a "Documented
+  disaster losses" section (`src/dashboard/report.py`, wired in
+  `src/dashboard/api.py`); the section declares the gap when no documented
+  figure covers the location. See `docs/ECONOMIC_INTELLIGENCE.md` §8-§10.
 - [DONE] Commercial sources (Munich Re NatCatSERVICE, Swiss Re sigma) marked
   `planned` with status note: "Commercial licence to be procured after first
   platform revenue (operator decision 2026-09-02)".

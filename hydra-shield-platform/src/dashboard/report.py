@@ -100,6 +100,25 @@ def _kind_label(kind: Optional[str]) -> str:
     return (kind or "unavailable").upper()
 
 
+def documented_losses_rows(losses: Optional[Dict]) -> List[List[str]]:
+    """Table rows for the "Documented disaster losses" report section.
+
+    Pure data (no reportlab) so the offline tests can pin exactly what the
+    PDF section renders: one row per documented figure, carrying the event
+    name, figure label, value+unit and source+period.
+    """
+    rows = [["Event", "Figure", "Value", "Source · period"]]
+    for fig in (losses or {}).get("figures") or []:
+        value = fig.get("value")
+        rows.append([
+            fig.get("event") or "—",
+            fig.get("label") or "—",
+            f"{value} {fig.get('unit')}" if value is not None else "—",
+            f"{fig.get('source')} · {fig.get('reference_period')}",
+        ])
+    return rows
+
+
 def _kv_table(rows: List[List[str]], widths=(45 * mm, 115 * mm)) -> Table:
     t = Table(rows, colWidths=list(widths))
     t.setStyle(TableStyle([
@@ -349,7 +368,8 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                      report_type: str = "decision",
                      grid: Optional[Dict] = None,
                      solutions: Optional[Dict] = None,
-                     funding: Optional[Dict] = None) -> bytes:
+                     funding: Optional[Dict] = None,
+                     losses: Optional[Dict] = None) -> bytes:
     """
     Render a professional PDF report from a real analysis payload.
 
@@ -359,6 +379,9 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     "scientific" (full methodology appendix). ``solutions``/``funding``
     carry the Solutions/Funding Intelligence engine outputs (decision and
     scientific types); when absent, the section is honestly omitted.
+    ``losses`` carries ``documented_loss_figures`` output for the location;
+    the "Documented disaster losses" section renders published figures when
+    present and declares their absence otherwise.
     """
     if not _HAS_REPORTLAB:
         raise RuntimeError("reportlab is not installed on this server")
@@ -863,6 +886,42 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                 f"({(l.get('hydrashield_score') or {}).get('label')}) · observed fire: "
                 f"{(l.get('observed_fire') or {}).get('status')} "
                 f"({(l.get('observed_fire') or {}).get('label')})", _SM))
+
+    # ---- Documented disaster losses (documented figures only) -------------
+    story.append(Paragraph(S("Documented disaster losses"), _S))
+    if losses and losses.get("status") == "ok" and losses.get("figures"):
+        story.append(Paragraph(
+            "Published loss figures from integrated sources and the curated "
+            "Talaix loss registry whose geographic scope covers this location's "
+            "country/region. These are documented national or multi-country "
+            "aggregates — not a loss estimate for this asset. Estimated and "
+            "modelled loss figures are deliberately not included (strict "
+            "observed/estimated separation, docs/ECONOMIC_INTELLIGENCE.md).", _B))
+        header = documented_losses_rows(losses)[0]
+        body = [[Paragraph(cell, _SM) for cell in r]
+                for r in documented_losses_rows(losses)[1:]]
+        t = Table([header] + body, colWidths=[52 * mm, 38 * mm, 42 * mm, 38 * mm])
+        t.setStyle(TableStyle([
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE", (0, 0), (-1, -1), 8),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e2e8f0")),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f1f5f9")]),
+            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 3), ("TOPPADDING", (0, 0), (-1, -1), 3),
+        ]))
+        story.append(t)
+        story.append(Paragraph(
+            "Every figure carries its source, reference period, geographic "
+            "scope, licence note and method in the Talaix loss registry "
+            "(GET /api/v2/losses).", _SM))
+    else:
+        reason = (losses or {}).get("reason") or "the loss registry was not queried"
+        story.append(Paragraph(
+            "No documented loss figures from integrated sources cover this "
+            f"location — declared, not estimated. ({reason}) Estimated and "
+            "modelled loss figures are deliberately not included (strict "
+            "observed/estimated separation).", _B))
 
     # ---- Map (real grid data; decision/scientific) -------------------------
     if not simple:

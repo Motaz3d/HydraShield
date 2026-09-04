@@ -711,3 +711,71 @@ def test_pdf_report_population_charts_rendered_from_real_data():
     text2 = _pdf_text(report_module.build_report_pdf(payload2,
                                                      report_type="decision"))
     assert "Estimated population by hazard class" not in text2
+
+
+# --------------------------------------------------------------------------
+# PDF report: Documented disaster losses section
+# --------------------------------------------------------------------------
+
+def _norm(text):
+    return " ".join(text.split())
+
+
+_LOSSES_OK = {
+    "status": "ok",
+    "figures": [{
+        "event": "July 2021 Western and Central European floods (low-pressure system Bernd)",
+        "hazard": "flood",
+        "label": "Insured losses (Germany)",
+        "value": 8.2,
+        "unit": "billion EUR (2021 values, published rounded figure)",
+        "claim_status": "DOCUMENTED",
+        "source": "gdv",
+        "reference_period": "July 2021",
+        "geographic_scope": "Germany (national aggregate)",
+        "licence_note": "cite GDV when quoting",
+        "provider_url": "https://www.gdv.de/",
+        "method": "published GDV insured-loss estimate",
+        "limitations": "national aggregate",
+        "matched_area": "Germany",
+    }],
+    "figure_count": 1,
+    "sources": ["gdv"],
+    "generated_at": "2026-09-04T00:00:00Z",
+}
+
+
+def test_pdf_report_documented_losses_section_all_types():
+    """The Documented disaster losses section renders the published figure
+    with its event and source — in every report type (simple included)."""
+    pytest.importorskip("reportlab")
+    for rtype in ("simple", "decision", "scientific"):
+        text = _norm(_pdf_text(report_module.build_report_pdf(
+            _report_payload(), report_type=rtype, losses=_LOSSES_OK)))
+        assert "Documented disaster losses" in text
+        assert "Insured losses (Germany)" in text
+        assert "8.2" in text
+        assert "gdv" in text
+        assert "not a loss estimate for this asset" in text
+        assert "strict" in text and "separation" in text
+
+
+def test_pdf_report_documented_losses_unavailable_is_declared():
+    """Without covering figures the section honestly declares the gap."""
+    pytest.importorskip("reportlab")
+    text = _norm(_pdf_text(report_module.build_report_pdf(
+        _report_payload(), report_type="decision",
+        losses={"status": "unavailable", "figures": [],
+                "reason": "no curated registry event covers this location"})))
+    assert "Documented disaster losses" in text
+    assert "declared, not estimated" in text
+    assert "no curated registry event" in text
+
+
+def test_documented_losses_rows_pure_data():
+    rows = report_module.documented_losses_rows({"figures": [
+        {"event": "E", "label": "L", "value": 1, "unit": "u",
+         "source": "s", "reference_period": "p"}]})
+    assert rows[0] == ["Event", "Figure", "Value", "Source · period"]
+    assert rows[1] == ["E", "L", "1 u", "s · p"]
+    assert report_module.documented_losses_rows(None) == [["Event", "Figure", "Value", "Source · period"]]

@@ -104,10 +104,54 @@ def test_documented_loss_figures_for_us_point(monkeypatch):
     assert "noaa_billions" in out["sources"]
 
 
-def test_documented_loss_figures_for_non_us_point():
-    out = losses_module.documented_loss_figures(for_lat=48.8566, for_lon=2.3522)
+def test_documented_loss_figures_for_uncovered_point():
+    """A point outside NOAA coverage and outside every curated event's
+    affected areas stays honestly unavailable."""
+    out = losses_module.documented_loss_figures(for_lat=35.6762, for_lon=139.6503)
     assert out["status"] == "unavailable"
     assert "outside United States" in out["reason"]
+    assert "no curated registry event" in out["reason"]
+
+
+def test_documented_loss_figures_for_eu_point_matches_curated_events():
+    """Paris is covered by the curated July 2021 European floods event."""
+    out = losses_module.documented_loss_figures(for_lat=48.8566, for_lon=2.3522)
+    assert out["status"] == "ok"
+    curated = [f for f in out["figures"] if f.get("event")]
+    assert curated
+    assert {f["event"] for f in curated} == {
+        "July 2021 Western and Central European floods (low-pressure system Bernd)"}
+    for fig in curated:
+        assert fig["claim_status"] == "DOCUMENTED"
+        assert fig["source"] and fig["reference_period"]
+        assert fig["geographic_scope"] and fig["licence_note"]
+        assert fig["method"] and fig["limitations"]
+        assert fig["provider_url"].startswith("https://")
+        assert fig["hazard"] == "flood"
+        assert fig["matched_area"]
+
+
+def test_curated_matching_prefers_smallest_country_bbox():
+    """Country bboxes overlap (Luxembourg sits inside Germany's bbox): the
+    smallest containing bbox must win so the match label is specific."""
+    out = losses_module.documented_loss_figures(for_lat=50.0548, for_lon=6.0276)
+    assert out["status"] == "ok"
+    floods = [f for f in out["figures"]
+              if (f.get("event") or "").startswith("July 2021")]
+    assert floods
+    assert {f["matched_area"] for f in floods} == {"Luxembourg"}
+
+
+def test_curated_figures_carry_event_and_honesty_tags_without_location():
+    figs, reason = losses_module._curated_event_figures()
+    assert reason is None
+    assert len(figs) == 8  # 4 (2021 floods) + 3 (2002 Elbe) + 1 (2018 Attica)
+    for fig in figs:
+        assert fig["claim_status"] == "DOCUMENTED"
+        assert fig["event"] and fig["hazard"]
+        assert "matched_area" not in fig  # no location context given
+    blob = repr(figs)
+    assert "€" not in blob and "$" not in blob
 
 
 def test_load_staged_emdat_returns_figures(tmp_path, monkeypatch):

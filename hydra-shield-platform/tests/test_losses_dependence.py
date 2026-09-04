@@ -406,7 +406,6 @@ def _mock_noaa_costs():
 def test_loss_registry_statuses_are_honest():
     registry = losses_module.load_loss_registry()
     assert losses_module.validate_loss_registry(registry) == []
-    assert registry["observed_events"] == []
     sources = registry["sources"]
     assert {s["id"] for s in sources} == _EXPECTED_SOURCE_IDS
     statuses = {s["id"]: s["status"] for s in sources}
@@ -418,6 +417,23 @@ def test_loss_registry_statuses_are_honest():
         assert src["access"] in ("registration_required", "api", "download")
         assert src["provider"] and src["coverage"] and src["status_note"]
     assert "strictly separated" in registry["separation_note"]
+    # Curated observed events: every figure is a published, fully-tagged
+    # DOCUMENTED figure (the registry never stores invented numbers).
+    events = registry["observed_events"]
+    assert len(events) >= 1
+    for ev in events:
+        assert ev["id"] and ev["name"] and ev["hazard"]
+        assert ev["affected_areas"], ev["id"]
+        for area in ev["affected_areas"]:
+            assert area["label"] and len(area["bbox"]) == 4
+        assert ev["figures"], ev["id"]
+        for fig in ev["figures"]:
+            assert fig["claim_status"] == "DOCUMENTED"
+            assert fig["source"] and fig["method"] and fig["limitations"]
+            assert fig["geographic_scope"] and fig["licence_note"]
+            assert fig["provider_url"].startswith("https://")
+        blob = json.dumps(ev)
+        assert "€" not in blob and "$" not in blob
 
 
 def test_loss_summary_separation_and_honest_figures(monkeypatch):
@@ -426,21 +442,27 @@ def test_loss_summary_separation_and_honest_figures(monkeypatch):
     summary = losses_module.loss_summary()
     observed = summary["observed_losses"]
     assert observed["status"] == "ok"
-    assert observed["figure_count"] == 4
+    noaa_figs = [f for f in observed["figures"] if f["source"] == "noaa_billions"]
+    curated_figs = [f for f in observed["figures"] if f.get("event")]
+    assert len(noaa_figs) == 4
+    assert curated_figs  # curated registry events join the observed block
+    assert observed["figure_count"] == len(noaa_figs) + len(curated_figs)
     assert "noaa_billions" in observed["sources_integrated"]
     assert set(observed["sources_reviewed"]) == _EXPECTED_SOURCE_IDS
 
     # Every figure carries the honesty tags.
-    for fig in observed["figures"]:
+    for fig in noaa_figs:
         assert fig["claim_status"] == "DOCUMENTED"
-        assert fig["source"] == "noaa_billions"
         assert fig["reference_period"] == "1980-2021"
         assert fig["geographic_scope"] == "United States"
         assert fig["licence_note"]
         assert fig["method"]
+    for fig in curated_figs:
+        assert fig["claim_status"] == "DOCUMENTED"
+        assert fig["geographic_scope"] and fig["licence_note"] and fig["method"]
 
     # Aggregated totals from the fixture (costs in $Millions -> billions).
-    labels = {f["label"]: f["value"] for f in observed["figures"]}
+    labels = {f["label"]: f["value"] for f in noaa_figs}
     assert labels["Total US billion-dollar disaster costs"] == 3.15  # 3150M / 1000
     assert labels["US billion-dollar wildfire costs"] == 0.7         # 700M / 1000
     assert labels["Total US billion-dollar disaster events"] == 55
@@ -451,7 +473,7 @@ def test_loss_summary_separation_and_honest_figures(monkeypatch):
         assert summary[block]["statement"]
     meta = summary["registry"]
     assert meta["source_count"] == len(_EXPECTED_SOURCE_IDS)
-    assert meta["observed_event_count"] == 0
+    assert meta["observed_event_count"] == 3
     assert meta["sources_by_status"]["integrated"] >= 1
     assert meta["sources_by_status"]["planned"] == 2
     # No raw dollar/euro symbol leaks anywhere in the payload.
@@ -480,7 +502,10 @@ def test_losses_endpoint(client, monkeypatch):
     assert resp.status_code == 200
     data = resp.get_json()
     assert data["observed_losses"]["status"] == "ok"
-    assert data["observed_losses"]["figure_count"] == 4
+    noaa_figs = [f for f in data["observed_losses"]["figures"]
+                 if f["source"] == "noaa_billions"]
+    assert len(noaa_figs) == 4
+    assert data["observed_losses"]["figure_count"] > 4  # + curated events
     assert "noaa_billions" in data["observed_losses"]["sources_integrated"]
     for block in ("estimated_losses", "modelled_losses", "projected_losses"):
         assert data[block]["status"] == "not_available"
@@ -495,14 +520,15 @@ def test_losses_summary_endpoint(client, monkeypatch):
     data = resp.get_json()
     assert data["status"] == "ok"
     assert isinstance(data["items"], list)
-    assert len(data["items"]) == 4
+    noaa_items = [i for i in data["items"] if i["source"] == "noaa_billions"]
+    assert len(noaa_items) == 4
+    assert len(data["items"]) > 4  # curated registry events included
     for item in data["items"]:
         assert isinstance(item["label"], str)
         assert isinstance(item["value"], str)
         assert isinstance(item["unit"], str)
         assert isinstance(item["source"], str)
         assert isinstance(item["reference_period"], str)
-        assert item["source"] == "noaa_billions"
     assert isinstance(data["disclaimer"], str)
     assert "US-only" in data["disclaimer"]
 
@@ -513,6 +539,8 @@ def test_losses_summary_unavailable_when_no_source(client, monkeypatch):
         lambda: {"error": "upstream test failure"})
     monkeypatch.setattr(losses_module, "_load_staged_emdat", lambda: ([], "no file"))
     monkeypatch.setattr(losses_module, "_load_staged_desinventar", lambda: ([], "no dir"))
+    monkeypatch.setattr(losses_module, "_curated_event_figures",
+                        lambda *a, **k: ([], "registry has no curated observed_events"))
     resp = client.get("/api/v2/losses/summary")
     assert resp.status_code == 200
     data = resp.get_json()

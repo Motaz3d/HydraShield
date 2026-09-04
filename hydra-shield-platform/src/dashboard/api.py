@@ -583,12 +583,26 @@ def create_app() -> Flask:
                 solutions_result = None
                 funding_result = None
 
+        # Documented loss context (all report types): curated registry events
+        # + integrated sources, matched to the location by country scope.
+        # Best-effort — a failure never breaks the report; the section then
+        # honestly declares the absence.
+        losses_result = None
+        try:
+            from ..climate.losses import documented_loss_figures
+
+            losses_result = documented_loss_figures(
+                for_lat=round(lat, 4), for_lon=round(lon, 4))
+        except Exception:
+            losses_result = None
+
         try:
             pdf = report_module.build_report_pdf(result, history=history,
                                                  report_type=report_type,
                                                  grid=grid,
                                                  solutions=solutions_result,
-                                                 funding=funding_result)
+                                                 funding=funding_result,
+                                                 losses=losses_result)
         except RuntimeError as exc:
             return _error(f"Report generation unavailable: {exc}", 503)
         except Exception as exc:

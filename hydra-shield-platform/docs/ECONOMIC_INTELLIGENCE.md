@@ -116,3 +116,69 @@ inputs/methodology/output/confidence/limitations:
 - `evidence_completeness` — how much of the profile is real (never filled)
 
 No monetary values anywhere; the no-fake-money rule (§3) is unchanged.
+
+## 8. Documented losses in the classic reports (implemented 2026-09-04)
+
+The three classic report types (`/api/report?type=simple|decision|scientific`)
+now carry a **"Documented disaster losses"** section. It renders published
+loss figures whose geographic scope covers the report location's
+country/region, and honestly declares the gap when nothing documented
+covers it. The section never estimates: figures are tagged `DOCUMENTED`
+with source, reference period, geographic scope, licence note and method,
+and the section states verbatim that they are *national or multi-country
+aggregates — not a loss estimate for the asset*.
+
+Serving paths for observed figures (`src/climate/losses.py::documented_loss_figures`):
+
+1. **NOAA NCEI (live, integrated)** — US-only national aggregates,
+   computed at query time; skipped for non-US locations.
+2. **Curated `observed_events` (`config/loss_registry.json`)** — a
+   hand-maintained registry of well-documented disaster events. Admission
+   rule: every figure must be published by an official/primary source
+   (e.g. GDV, Munich Re public reviews, official civil-protection counts)
+   and carry the full honesty tag set. Monetary values are written in
+   words ("billion EUR") — never currency symbols. Events are matched to a
+   location by **country-scope bounding boxes, smallest containing bbox
+   wins** (country bboxes overlap; the most specific match labels the
+   figure). v1 events: July 2021 Western/Central European floods (Bernd),
+   August 2002 Elbe/Danube floods, July 2018 Attica wildfires.
+3. **Staged exports (operator-provided)** — EM-DAT
+   (`data/emdat_export.csv`, register at https://public.emdat.be) and
+   DesInventar (`data/desinventar_exports/*.csv`); parsed when present,
+   declared with reason when absent.
+
+`estimated_losses`, `modelled_losses`, `projected_losses` remain
+`not_available` — the strict separation (§3) is untouched.
+
+Related operational toggle: `FIRMS_MAP_KEY` (free NASA FIRMS registration)
+enables the observed-fire history layer in reports; the deploy workflow
+forwards it from GitHub secrets to the server env when present.
+
+## 9. Stage 2 (planned): Talaix Loss Screening Estimate — ESTIMATED layer
+
+Design contract for the first *estimated* monetary layer, tagged
+`ESTIMATED` and never merged with documented figures:
+
+- **Exposed value**: mapped buildings (already OBSERVED per report) ×
+  published per-country replacement-cost benchmarks (e.g. Eurostat
+  construction-cost indices) with the benchmark source named.
+- **Damage ratio**: peer-reviewed, open vulnerability curves — JRC
+  European depth–damage functions for flood; equivalent published curves
+  per hazard where they exist; absent curves declared, never substituted.
+- **Output shape**: a loss *range* with wide, honestly stated uncertainty
+  bounds (order-of-magnitude screening), method and inputs printed,
+  `claim_status: ESTIMATED`.
+- **Explicitly out of scope**: AAL/PML/EP pricing curves, premium
+  indications, and any company-level allocation. The insurance profile's
+  loss-not-quantified rule stays in force until this layer exists and is
+  separately validated.
+
+## 10. Stage 3 (research): insurer-disclosure mining
+
+Direction under evaluation: deduce "which insurer covers which area and
+documented how much" from public, legally-mandated disclosures — Solvency
+II SFCR reports (EIOPA register), Swiss Re sigma / Munich Re public
+annual reviews, and national associations (GDV, CCS Spain, CatNat
+France). Any company × region figure derived via market-share allocation
+is tagged `INFERRED` with the allocation method printed — never
+`DOCUMENTED`.

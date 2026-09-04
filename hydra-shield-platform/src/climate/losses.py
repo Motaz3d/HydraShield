@@ -21,6 +21,12 @@ Honesty contract (absolute):
     * EM-DAT — drop ``data/emdat_export.csv`` downloaded from
       https://public.emdat.be after registration.
     * DesInventar — drop national export CSVs in ``data/desinventar_exports/``.
+- Curated ``observed_events`` in the registry — a hand-maintained set of
+  well-documented disaster events whose figures are published by
+  official/primary sources. Each figure carries source, method, licence and
+  limitations; events are matched to a queried location by country-scope
+  bounding boxes (the figure stays a national/regional aggregate, never a
+  point estimate).
 - Commercial licences (Munich Re NatCatSERVICE, Swiss Re sigma) are planned
   after first platform revenue (operator decision 2026-09-02).
 - Estimated, modelled and projected blocks are each ``not_available`` with
@@ -122,9 +128,45 @@ def validate_loss_registry(registry: Dict[str, Any]) -> List[str]:
             )
     events = registry.get("observed_events")
     if not isinstance(events, list):
-        problems.append(
-            "observed_events must be a list (empty until a documented source is integrated)"
-        )
+        problems.append("observed_events must be a list")
+        events = []
+    for i, ev in enumerate(events):
+        evid = ev.get("id") or f"event {i}"
+        for field in ("id", "name", "hazard", "reference_period"):
+            if not ev.get(field):
+                problems.append(f"observed_events '{evid}': missing {field}")
+        areas = ev.get("affected_areas")
+        if not isinstance(areas, list) or not areas:
+            problems.append(
+                f"observed_events '{evid}': affected_areas must be a non-empty list")
+        else:
+            for j, area in enumerate(areas):
+                bbox = area.get("bbox")
+                if not area.get("label") or not (
+                        isinstance(bbox, list) and len(bbox) == 4
+                        and all(isinstance(v, (int, float)) for v in bbox)):
+                    problems.append(
+                        f"observed_events '{evid}' area {j}: label and numeric bbox[4] required")
+        figs = ev.get("figures")
+        if not isinstance(figs, list) or not figs:
+            problems.append(
+                f"observed_events '{evid}': figures must be a non-empty list")
+        else:
+            for k, fig in enumerate(figs):
+                for field in ("label", "value", "unit", "claim_status", "source",
+                              "reference_period", "geographic_scope", "licence_note",
+                              "provider_url", "method", "limitations"):
+                    if fig.get(field) in (None, ""):
+                        problems.append(
+                            f"observed_events '{evid}' figure {k}: missing {field}")
+                if fig.get("claim_status") != "DOCUMENTED":
+                    problems.append(
+                        f"observed_events '{evid}' figure {k}: claim_status must be "
+                        "DOCUMENTED (curated observed events carry published figures only)")
+                url = str(fig.get("provider_url") or "")
+                if url and not url.startswith("https://"):
+                    problems.append(
+                        f"observed_events '{evid}' figure {k}: provider_url must be https")
     if not registry.get("separation_note"):
         problems.append("missing separation_note")
     return problems
@@ -134,6 +176,72 @@ def loss_sources() -> List[Dict[str, Any]]:
     """The registry's source records (integrated / planned / candidate)."""
 
     return list(load_loss_registry().get("sources") or [])
+
+
+def load_observed_events() -> List[Dict[str, Any]]:
+    """The registry's curated, documented observed-loss events."""
+
+    return list(load_loss_registry().get("observed_events") or [])
+
+
+def _point_in_bbox(lat: float, lon: float, bbox: List[float]) -> bool:
+    min_lon, min_lat, max_lon, max_lat = bbox
+    return min_lat <= lat <= max_lat and min_lon <= lon <= max_lon
+
+
+def _event_matched_area(event: Dict[str, Any], lat: float, lon: float) -> Optional[str]:
+    """The affected-area label whose country bbox contains the point, else None.
+
+    Country bounding boxes overlap (a small country can sit inside a
+    neighbour's bbox), so the SMALLEST containing bbox wins — the most
+    specific country-scope match.
+    """
+
+    best: Optional[Tuple[float, str]] = None
+    for area in event.get("affected_areas") or []:
+        bbox = area.get("bbox")
+        if not (isinstance(bbox, list) and len(bbox) == 4):
+            continue
+        if not _point_in_bbox(lat, lon, bbox):
+            continue
+        span = abs((bbox[2] - bbox[0]) * (bbox[3] - bbox[1]))
+        if best is None or span < best[0]:
+            best = (span, area.get("label") or "")
+    return best[1] if best else None
+
+
+def _curated_event_figures(
+    for_lat: Optional[float] = None, for_lon: Optional[float] = None
+) -> Tuple[List[Dict[str, Any]], Optional[str]]:
+    """Flatten curated registry events into documented loss figures.
+
+    With a location, only events whose affected-area bounding boxes contain
+    the point are included — a country-scope match; the figure stays a
+    published national/regional aggregate, never a point estimate. Without a
+    location, all curated events are included (registry-wide view).
+    """
+    events = load_observed_events()
+    if not events:
+        return [], "registry has no curated observed_events"
+
+    figures: List[Dict[str, Any]] = []
+    for event in events:
+        area_label: Optional[str] = None
+        if for_lat is not None and for_lon is not None:
+            area_label = _event_matched_area(event, for_lat, for_lon)
+            if area_label is None:
+                continue
+        for fig in event.get("figures") or []:
+            entry = dict(fig)
+            entry["event"] = event.get("name")
+            entry["hazard"] = event.get("hazard")
+            if area_label:
+                entry["matched_area"] = area_label
+            figures.append(entry)
+
+    if not figures:
+        return [], "no curated registry event covers this location"
+    return figures, None
 
 
 def _is_us_location(lat: float, lon: float) -> bool:
@@ -398,6 +506,12 @@ def documented_loss_figures(
     else:
         reasons.append("NOAA: queried location is outside United States coverage")
 
+    # Curated registry events — documented, country-scope matched.
+    curated_figs, curated_reason = _curated_event_figures(for_lat, for_lon)
+    figures.extend(curated_figs)
+    if curated_reason:
+        reasons.append(f"Registry events: {curated_reason}")
+
     # EM-DAT — staged ingest.
     emdat_figs, emdat_reason = _load_staged_emdat()
     figures.extend(emdat_figs)
@@ -461,9 +575,11 @@ def loss_summary_items() -> Dict[str, Any]:
         "status": "ok",
         "items": items,
         "disclaimer": (
-            "Figures are documented losses from free, open sources only and are US-only. "
-            "NOAA values are US national aggregates (1980-2021, CPI-adjusted) computed from "
-            "state-level data and may include double counting of multi-state events. "
+            "Figures are documented losses from integrated free sources and curated "
+            "registry events. NOAA values are US-only national aggregates (1980-2021, "
+            "CPI-adjusted) computed from state-level data and may include double counting "
+            "of multi-state events. Curated registry events are published national or "
+            "regional aggregates — not point-specific loss estimates. "
             "Commercial reinsurance loss databases are planned after first platform revenue."
         ),
     }
@@ -537,10 +653,13 @@ def loss_summary() -> Dict[str, Any]:
             "planned_sources": [s.get("id") for s in planned],
         },
         "limitations": [
-            "Observed losses are sourced only from integrated free datasets; "
-            "every figure carries source, reference period, geographic scope and licence note.",
+            "Observed losses are sourced from integrated free datasets and the "
+            "curated registry of documented events; every figure carries source, "
+            "reference period, geographic scope and licence note.",
             "NOAA values are US-only national aggregates (1980-2021) computed from "
             "state-level data; multi-state events may be summed across affected states.",
+            "Curated registry events are published national or regional aggregates "
+            "matched to a location by country scope — never point-specific estimates.",
             "Commercial loss datasets (Munich Re NatCatSERVICE, Swiss Re sigma) are "
             "planned after first platform revenue and are not used.",
         ],
