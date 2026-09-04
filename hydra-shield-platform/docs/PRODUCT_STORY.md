@@ -106,6 +106,14 @@ centers, infrastructure operators, municipalities and governments.
 Both identities draw on the same underlying evidence and the same honesty
 rules. The commercial story may never outrun the scientific one.
 
+**Balanced front door, focused campaigns.** The public site addresses every
+sector in universal stakes — lives at risk and money at stake. No homepage
+headline, shared footer, meta description or `llms.txt` may read as
+insurance-only, just as no page may read as a wildfire app with add-ons.
+Insurance-specific messaging belongs to the dedicated landing pages
+(`insurance.html`, the insurance sector tab) that marketing campaigns
+target — the campaign narrows the audience, the site never does.
+
 ## 7. The product ladder (conversion through value)
 
 FREE VALUE → ACCOUNT → MONITORING → ALERTS → SMS → PROFESSIONAL →
