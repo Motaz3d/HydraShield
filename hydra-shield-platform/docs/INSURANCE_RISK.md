@@ -127,7 +127,7 @@ The profile also carries:
   is reported separately as confidence (high/medium/low): sparse data lowers
   confidence, never raises the risk score. Screening indicator, not
   validated, not a rating.
-- `actuarial_reference` — the bilingual (EN/AR) reference embedded in every
+- `actuarial_reference` — the reference embedded in every
   profile: 23 formulas (pure premium, collective risk model, Poisson
   frequency, AEP, return period, expected-value and standard-deviation
   premium principles, vulnerability/damage function, loss/combined ratio,

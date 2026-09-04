@@ -20,7 +20,7 @@ from flask import Blueprint, Response, jsonify, request
 
 press = Blueprint("press", __name__, url_prefix="/api/v2/press")
 
-SUPPORTED_LANGS = {"en", "fr", "de", "ar"}
+SUPPORTED_LANGS = {"en", "fr", "de"}
 DEFAULT_LANG = "en"
 
 

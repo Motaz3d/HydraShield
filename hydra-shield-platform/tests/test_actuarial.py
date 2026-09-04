@@ -270,7 +270,7 @@ def test_account_actuarial_all_unavailable_is_honest():
 
 
 # ---------------------------------------------------------------------------
-# Reference (formulas + bilingual glossary)
+# Reference (formulas + glossary)
 # ---------------------------------------------------------------------------
 
 def test_actuarial_reference_structure():
@@ -281,14 +281,13 @@ def test_actuarial_reference_structure():
     categories = {t["category"] for t in ref["glossary"]}
     assert set(ref["categories"]) == categories
     for term in ref["glossary"]:
-        assert term["term_en"] and term["term_ar"]
-        assert term["def_en"] and term["def_ar"]
+        assert term["term_en"] and term["def_en"]
     ids = {f["id"] for f in ref["formulas"]}
     for required in ("pure_premium", "annual_exceedance", "return_period",
                      "combined_ratio", "xl_recovery", "var_tvar", "ep_curve"):
         assert required in ids
     for f in ref["formulas"]:
-        assert f["name_ar"] and f["use_ar"] and f["formula"]
+        assert f["name_en"] and f["use_en"] and f["formula"]
 
 
 # ---------------------------------------------------------------------------

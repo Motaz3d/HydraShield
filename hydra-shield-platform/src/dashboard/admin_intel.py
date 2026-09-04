@@ -187,7 +187,7 @@ def _workspace_section() -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Contact map (خارطة التواصل): country-level positions for workspace leads.
+# Contact map: country-level positions for workspace leads.
 # Positions are honest country centroids/capitals — the UI labels them as
 # country-level, never as exact addresses.
 # ---------------------------------------------------------------------------

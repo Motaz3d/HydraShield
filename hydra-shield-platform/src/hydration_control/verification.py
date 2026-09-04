@@ -117,26 +117,26 @@ class ContinuousVerificationSystem:
     
     def get_model_improvement_suggestions(self) -> List[Dict]:
         """
-        استرجاع اقتراحات تحسين النموذج.
+        Retrieve model improvement suggestions.
         """
         return self.model_improvement_suggestions
-    
+
     def generate_adaptive_strategy(self, current_conditions: Dict) -> Dict:
         """
-        إنشاء استراتيجية تكيفية بناءً على الظروف الحالية.
+        Generate an adaptive strategy based on current conditions.
         """
-        # تقييم الظروف الحالية وتقديم توصيات تكيفية
+        # Assess current conditions and provide adaptive recommendations
         risk_level = current_conditions.get('risk', 0.5)
         fuel_moisture = current_conditions.get('fuel_moisture', 15.0)
         wind_speed = current_conditions.get('wind_speed', 10.0)
         humidity = current_conditions.get('humidity', 30.0)
-        
-        # حساب احتمالية الانتشار بناءً على الظروف
+
+        # Compute spread probability from the conditions
         spread_probability = self._calculate_spread_probability(
             fuel_moisture, wind_speed, humidity
         )
-        
-        # إنشاء استراتيجية تكيفية
+
+        # Build the adaptive strategy
         if risk_level > 0.7:
             strategy = {
                 'intervention': 'IMMEDIATE',
@@ -174,19 +174,19 @@ class ContinuousVerificationSystem:
     
     def _calculate_spread_probability(self, fuel_moisture: float, wind_speed: float, humidity: float) -> float:
         """
-        حساب احتمالية انتشار الحريق بناءً على الظروف البيئية.
+        Compute fire spread probability from environmental conditions.
         """
-        # نموذج مبسط - في الواقع يستخدم نماذج معقدة
-        # تأثير الرياح: 0.5 * (wind_speed / 10) ^ 1.5
+        # Simplified model — production use relies on more complex models
+        # Wind effect: 0.5 * (wind_speed / 10) ^ 1.5
         wind_factor = 0.5 * (wind_speed / 10) ** 1.5
-        
-        # تأثير الرطوبة: exp(-0.1 * (20 - fuel_moisture))
+
+        # Fuel moisture effect: exp(-0.1 * (20 - fuel_moisture))
         moisture_factor = np.exp(-0.1 * max(0, 20 - fuel_moisture))
-        
-        # تأثير الرطوبة الجوية: exp(-0.05 * (humidity))
+
+        # Atmospheric humidity effect: exp(-0.05 * humidity)
         humidity_factor = np.exp(-0.05 * max(0, humidity))
-        
-        # دمج العوامل
+
+        # Combine the factors
         combined_risk = 0.5 + 0.3 * wind_factor + 0.2 * moisture_factor
         return min(1.0, max(0.0, combined_risk))
 
