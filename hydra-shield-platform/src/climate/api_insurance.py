@@ -97,8 +97,31 @@ def profile_report():
     from .insurance import build_risk_profile
 
     profile = build_risk_profile(lat, lon, name=name, radius_km=radius_km)
+
+    # Talaix loss screening estimate (ESTIMATED): computed from the real
+    # mapped building count (economic exposure engine) and declared
+    # benchmarks. Best-effort — the profile and its loss-not-quantified
+    # rule are unchanged when this is unavailable.
+    loss_estimate_result = None
     try:
-        pdf = build_insurance_pdf(profile)
+        from .exposure_econ import build_economic_exposure
+        from .loss_estimate import loss_screening_estimate
+
+        exposure = build_economic_exposure(lat, lon)
+        if "error" not in exposure:
+            buildings = ((exposure.get("exposure") or {})
+                         .get("buildings") or {}).get("count")
+            bsrc = ((exposure.get("exposure") or {})
+                    .get("buildings") or {}).get("source")
+            loss_estimate_result = loss_screening_estimate(
+                lat, lon, buildings,
+                buildings_source=bsrc or "economic exposure engine (OSM/ohsome)",
+                radius_m=(exposure.get("radius_km") or 0) * 1000 or None)
+    except Exception:
+        loss_estimate_result = None
+
+    try:
+        pdf = build_insurance_pdf(profile, loss_estimate=loss_estimate_result)
     except RuntimeError as exc:
         return _err(f"Report generation unavailable: {exc}", 503)
     except Exception as exc:

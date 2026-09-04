@@ -654,3 +654,60 @@ def test_pdf_report_builds_with_actuarial_section(monkeypatch):
     pdf = build_insurance_pdf(profile)
     assert pdf[:5] == b"%PDF-"
     assert len(pdf) > 5000
+
+
+def test_pdf_report_loss_estimate_sub_block(monkeypatch):
+    """The insurance profile PDF renders the Talaix loss screening estimate
+    as a strictly separated ESTIMATED sub-block — never as AAL/PML input."""
+    pytest.importorskip("reportlab")
+    pypdf = pytest.importorskip("pypdf")
+    import io as _io
+    _stub_registry(monkeypatch)
+    from src.climate.insurance import build_risk_profile
+    from src.dashboard.insurance_report import build_insurance_pdf
+
+    profile = build_risk_profile(50.0548, 6.0276, name="Clervaux asset", radius_km=25)
+    loss_estimate = {
+        "status": "ok",
+        "claim_status": "ESTIMATED",
+        "estimate": {"exposed_value_eur": {
+            "low": 93000000, "central": 204600000, "high": 496000000,
+            "unit": "EUR (2025 price context, screening range)"}},
+        "expected_loss": {"status": "not_available"},
+        "inputs": {
+            "buildings_count": {"value": 775, "source": "test", "radius_m": 5000},
+            "country_benchmark": {"code": "LU", "name": "Luxembourg"},
+        },
+        "method": "mapped_buildings × floor_area × cost_per_m2",
+        "limitations": ["screening range"],
+        "separation_note": "ESTIMATED figures are never merged with DOCUMENTED loss figures.",
+    }
+    pdf = build_insurance_pdf(profile, loss_estimate=loss_estimate)
+    text = " ".join(("\n".join(
+        page.extract_text() or ""
+        for page in pypdf.PdfReader(_io.BytesIO(pdf)).pages)).split())
+    assert "Talaix loss screening estimate" in text
+    assert "ESTIMATED" in text
+    assert "204,600,000" in text
+    assert "775 mapped buildings" in text
+    assert "Luxembourg" in text
+    assert "no validated damage-ratio model" in text
+    assert "not AAL/PML" in text
+    assert "an input to pricing" in text
+    # The loss-not-quantified rule still stands on its own.
+    assert "Loss quantification" in text
+
+
+def test_pdf_report_without_loss_estimate_omits_sub_block(monkeypatch):
+    pytest.importorskip("reportlab")
+    pypdf = pytest.importorskip("pypdf")
+    import io as _io
+    _stub_registry(monkeypatch)
+    from src.climate.insurance import build_risk_profile
+    from src.dashboard.insurance_report import build_insurance_pdf
+
+    profile = build_risk_profile(1.0, 2.0, name="Asset", radius_km=25)
+    pdf = build_insurance_pdf(profile)
+    text = "\n".join(page.extract_text() or ""
+                     for page in pypdf.PdfReader(_io.BytesIO(pdf)).pages)
+    assert "Talaix loss screening estimate" not in text

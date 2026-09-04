@@ -145,10 +145,12 @@ def cascading():
 def economic_impact():
     """Economic-impact formalization: /api/v2/economic-impact?lat=…&lon=…
 
-    Three strictly separated blocks: observed losses (documented figures from
+    Strictly separated blocks: observed losses (documented figures from
     integrated free sources when the queried point is within their coverage,
     else unavailable), modelled estimates (exposure-bounded qualitative
-    profile, monetary quantification not_quantified), projections
+    profile, monetary quantification not_quantified), the Talaix loss
+    screening estimate (ESTIMATED exposed-value range computed from the
+    real mapped building count and declared benchmarks) and projections
     (not_available — no scenario-labelled datasets integrated).
     """
     if not _rate("v2econimpact", _RATE_MAX, _RATE_WINDOW):
@@ -163,14 +165,19 @@ def economic_impact():
     if "error" in payload:
         return _err(payload["error"], 400)
     observed_status = payload.get("observed_losses", {}).get("status", "unavailable")
+    estimate_status = payload.get("loss_screening_estimate", {}).get(
+        "status", "unavailable")
     payload["uncertainty_envelope"] = _uncertainty_envelope(
         source="Talaix Economic Impact Engine v1 "
                "(src/climate/exposure_econ.py: OSM/ohsome + Overpass counts, "
                "ESA WorldCover; src/climate/losses.py: NOAA NCEI billion-dollar "
-               "disasters where US-covered)",
+               "disasters where US-covered; src/climate/loss_estimate.py: "
+               "Talaix screening estimate)",
         method="Exposure-bounded qualitative profile; observed losses from "
-               "integrated free sources when coverage matches; no monetary "
-               "loss figures are invented (no-fake-money rule, "
+               "integrated free sources when coverage matches; ESTIMATED "
+               "exposed-value screening computed from the real mapped "
+               "building count and declared benchmarks; no monetary loss "
+               "figures are invented (no-fake-money rule, "
                "docs/ECONOMIC_INTELLIGENCE.md §3).",
         confidence="low",
         coverage="Point analysis within the exposure radius (≤5 km mapped "
@@ -178,6 +185,8 @@ def economic_impact():
         block_status={
             "observed_losses": observed_status,
             "modelled_estimates": "modelled",
+            "loss_screening_estimate": (
+                "estimated" if estimate_status == "ok" else "unavailable"),
             "projections": "unavailable",
         },
     )

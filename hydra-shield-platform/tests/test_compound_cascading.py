@@ -553,14 +553,31 @@ def test_economic_impact_three_blocks_strictly_separated(monkeypatch):
     assert projections["statement"] == (
         "Economic projections require scenario-labelled datasets not yet integrated.")
 
+    # The Talaix loss screening estimate: the engine's own ESTIMATED block,
+    # computed from the SAME real building count (fallback benchmarks here —
+    # the synthetic point matches no country bbox).
+    estimate = out["loss_screening_estimate"]
+    assert estimate["status"] == "ok"
+    assert estimate["claim_status"] == "ESTIMATED"
+    ev = estimate["estimate"]["exposed_value_eur"]
+    assert ev["low"] == 214 * 80 * 900
+    assert ev["central"] == 214 * 120 * 1400
+    assert ev["high"] == 214 * 200 * 2200
+    assert estimate["expected_loss"]["status"] == "not_available"
+    assert "fallback" in estimate["inputs"]["country_benchmark"]["name"]
+    assert estimate["inputs"]["buildings_count"]["value"] == 214
+    assert "never merged with DOCUMENTED" in estimate["separation_note"]
+
     assert out["confidence"] == "low"
     assert observed["confidence"] == "low"
     assert modelled["confidence"] == "low"
     assert projections["confidence"] == "low"
     assert out["evidence"]
-    # No monetary value leaks anywhere in the payload.
+    # Money strings may live ONLY inside the ESTIMATED block — every other
+    # block stays money-free (no-fake-money rule).
     import json as _json
-    blob = _json.dumps(out).lower()
+    clean = {k: v for k, v in out.items() if k != "loss_screening_estimate"}
+    blob = _json.dumps(clean).lower()
     assert "€" not in blob and "eur " not in blob and "$" not in blob
 
 
@@ -575,6 +592,7 @@ def test_economic_impact_exposure_failure_is_honest(monkeypatch):
     assert out["modelled_estimates"]["monetary_quantification"]["status"] == (
         "not_quantified")
     assert out["observed_losses"]["status"] == "unavailable"
+    assert out["loss_screening_estimate"]["status"] == "unavailable"
     assert out["projections"]["status"] == "not_available"
     assert out["confidence"] == "low"
 
@@ -650,5 +668,6 @@ def test_economic_impact_endpoint_with_mocked_engine(client, monkeypatch):
     assert env["block_status"] == {
         "observed_losses": "unavailable",
         "modelled_estimates": "modelled",
+        "loss_screening_estimate": "unavailable",
         "projections": "unavailable",
     }

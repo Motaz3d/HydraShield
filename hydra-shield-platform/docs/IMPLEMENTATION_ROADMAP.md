@@ -170,6 +170,14 @@ on an external key/account.
   model). Served as a strictly separated sub-block in the three classic
   reports and at `GET /api/v2/losses/estimate`. Never merged with
   DOCUMENTED figures.
+- [DONE] Estimate propagated to all output surfaces (2026-09-04): the three
+  classic report types, the Insurance Environmental Risk Profile PDF
+  (strictly separated from the loss-not-quantified rule), the
+  `/api/v2/economic-impact` engine payload (new `loss_screening_estimate`
+  block + `block_status`), and the homepage live loss-context card
+  (ESTIMATED card for the top monitored area, fed by the estimate
+  endpoint). Acquisition study for purchasable loss/valuation APIs and
+  free upgrades: `docs/LOSS_DATA_ACQUISITION.md`.
 - [DONE] Commercial sources (Munich Re NatCatSERVICE, Swiss Re sigma) marked
   `planned` with status note: "Commercial licence to be procured after first
   platform revenue (operator decision 2026-09-02)".

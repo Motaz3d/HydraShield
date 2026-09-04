@@ -149,6 +149,22 @@ def assess_economic_impact(lat: float, lon: float) -> Dict[str, Any]:
             location={"lat": lat, "lon": lon},
         ).to_dict())
 
+    # -- Talaix loss screening estimate (ESTIMATED — strictly separated) -----
+    # The engine's own monetary function: computed from the SAME real mapped
+    # building count above and declared benchmarks. Never merged with the
+    # documented observed losses or the qualitative exposure profile.
+    from .loss_estimate import loss_screening_estimate
+
+    buildings = buildings_source = None
+    radius_m = None
+    if exposure_ok:
+        buildings = (categories.get("buildings") or {}).get("count")
+        buildings_source = (categories.get("buildings") or {}).get("source")
+        radius_m = (exposure.get("radius_km") or 0) * 1000 or None
+    loss_screening = loss_screening_estimate(
+        lat, lon, buildings,
+        buildings_source=buildings_source, radius_m=radius_m)
+
     # -- projections (structurally separated, never invented) -----------------
     projections = {
         "status": "not_available",
@@ -163,20 +179,27 @@ def assess_economic_impact(lat: float, lon: float) -> Dict[str, Any]:
         "observed_losses": observed_losses,
         "modelled_estimates": modelled_estimates,
         "projections": projections,
+        "loss_screening_estimate": loss_screening,
         "evidence": evidence,
         "confidence": Confidence.LOW.value,
         "separation_note": (
-            "The three blocks are strictly separated: observed losses "
+            "The blocks are strictly separated: observed losses "
             "(documented figures from integrated sources when available), "
             "modelled estimates (exposure-bounded qualitative profile — no "
-            "monetary values) and projections (scenario-conditioned — none "
-            "integrated). They are never merged into a single figure."
+            "monetary values), the Talaix loss screening estimate (ESTIMATED "
+            "exposed-value range computed from the real mapped building "
+            "count and declared benchmarks) and projections "
+            "(scenario-conditioned — none integrated). They are never merged "
+            "into a single figure."
         ),
         "limitations": [
             "No monetary loss, premium or market-size figure is produced "
             "anywhere in this payload unless explicitly sourced and tagged.",
             "Observed losses are geographic-coverage bounded; US national "
             "aggregates are not point-specific loss estimates.",
+            "The loss screening estimate is an ESTIMATED exposed-value "
+            "screening range from declared benchmarks — not an expected "
+            "loss, not a valuation.",
             "Exposure counts are mapped OpenStreetMap features; completeness "
             "varies by region.",
         ],

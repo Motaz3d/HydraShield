@@ -96,6 +96,10 @@
 
         el('riskIntelFreshness').textContent = fmtAgo(snap.generated_at);
 
+        if (snap.entries && snap.entries.length) {
+            loadLossEstimate(snap.entries[0]);
+        }
+
         var rows = (snap.entries || []).map(function (e, idx) {
             var detail = [];
             if (e.fwi !== null && e.fwi !== undefined) {
@@ -195,6 +199,8 @@
     /* Documented loss context: real figures from the loss registry, rendered
      * beside the live snapshot so the hazard levels read in monetary terms.
      * Hidden when the registry has nothing documented — never filled in. */
+    var lossEstimateHtml = '';
+
     function loadLossContext() {
         var box = el('lossContext');
         if (!box) return;
@@ -202,7 +208,7 @@
             .then(function (r) { return r.json(); })
             .then(function (data) {
                 if (!data || data.status !== 'ok' || !Array.isArray(data.items) || !data.items.length) return;
-                el('lossContextGrid').innerHTML = data.items.map(function (item) {
+                el('lossContextGrid').innerHTML = lossEstimateHtml + data.items.map(function (item) {
                     return '<div class="story-card">' +
                         '<h3>' + esc(item.label || '') + '</h3>' +
                         '<p style="font-size:1.8rem;font-weight:700;color:var(--primary-dark);margin:8px 0;">' +
@@ -213,6 +219,41 @@
                 }).join('');
                 el('lossContextDisclaimer').textContent = data.disclaimer || '';
                 box.style.display = '';
+            })
+            .catch(function () { /* keep hidden */ });
+    }
+
+    /* Talaix loss screening estimate for the top monitored area: the
+     * engine's own ESTIMATED exposed-value range, computed live from real
+     * mapped building counts and declared benchmarks. Rendered ahead of the
+     * documented cards and strictly labelled — never presented as
+     * documented. */
+    function loadLossEstimate(entry) {
+        var box = el('lossContext');
+        if (!box || !entry) return;
+        var lat = entry.latitude, lon = entry.longitude;
+        if (lat === null || lat === undefined || lon === null || lon === undefined) return;
+        fetch(API + '/v2/losses/estimate?lat=' + encodeURIComponent(lat) +
+              '&lon=' + encodeURIComponent(lon))
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (!data || data.status !== 'ok' || !data.estimate) return;
+                var ev = data.estimate.exposed_value_eur || {};
+                var n = ((data.inputs || {}).buildings_count || {}).value;
+                function fmt(v) { return Number(v || 0).toLocaleString('en-US'); }
+                lossEstimateHtml = '<div class="story-card">' +
+                    '<h3>Exposed value screening — ' + esc(entry.name || 'monitored area') +
+                    ' <span class="chip chip-modelled">ESTIMATED</span></h3>' +
+                    '<p style="font-size:1.8rem;font-weight:700;color:var(--primary-dark);margin:8px 0;">' +
+                    'EUR ' + fmt(ev.low) + '–' + fmt(ev.high) + '</p>' +
+                    '<p class="muted small">central EUR ' + fmt(ev.central) +
+                    ' · computed by the Talaix function from ' + fmt(n) +
+                    ' mapped buildings × declared benchmarks — not a documented figure</p>' +
+                    '</div>';
+                var grid = el('lossContextGrid');
+                if (grid && grid.innerHTML && grid.innerHTML.indexOf('Exposed value screening') !== 0) {
+                    grid.innerHTML = lossEstimateHtml + grid.innerHTML;
+                }
             })
             .catch(function () { /* keep hidden */ });
     }

@@ -7,7 +7,7 @@ Reuses shared report components from ``src.dashboard.verification_report``.
 from __future__ import annotations
 
 import io
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -163,8 +163,15 @@ def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
     return t
 
 
-def build_insurance_pdf(profile: Dict[str, Any]) -> bytes:
-    """Build the Insurance Environmental Risk Profile PDF as bytes."""
+def build_insurance_pdf(profile: Dict[str, Any],
+                        loss_estimate: Optional[Dict[str, Any]] = None) -> bytes:
+    """Build the Insurance Environmental Risk Profile PDF as bytes.
+
+    ``loss_estimate`` carries the Talaix loss screening ESTIMATE payload for
+    the asset location; when present it is rendered as a strictly separated
+    ESTIMATED sub-block after the loss-quantification rule — never merged
+    with the not-quantified statement.
+    """
     if not _HAS_REPORTLAB:
         raise RuntimeError("reportlab is not installed; PDF generation is unavailable")
 
@@ -332,6 +339,42 @@ def build_insurance_pdf(profile: Dict[str, Any]) -> bytes:
         f"{_xml(profile.get('loss_quantification_note'))}</b>",
         _B,
     ))
+
+    # ---- Talaix loss screening estimate (ESTIMATED — strictly separated) -----
+    if loss_estimate and loss_estimate.get("status") == "ok":
+        ev = ((loss_estimate.get("estimate") or {}).get("exposed_value_eur")) or {}
+        inputs = loss_estimate.get("inputs") or {}
+        b = inputs.get("buildings_count") or {}
+        cb = inputs.get("country_benchmark") or {}
+        story.append(Paragraph(
+            "<b>Talaix loss screening estimate (ESTIMATED — computed by the "
+            "Talaix function, not a documented figure and not a premium "
+            "input)</b>", _B,
+        ))
+        story.append(_kv_table([
+            ["Exposed value (screening)",
+             f"EUR {ev.get('low', 0):,} – {ev.get('high', 0):,} "
+             f"(central {ev.get('central', 0):,}) (ESTIMATED)"],
+            ["Basis",
+             f"{int(b.get('value') or 0):,} mapped buildings"
+             + (f" within {int(b.get('radius_m'))} m" if b.get("radius_m") else "")
+             + f" × declared floor-area and replacement-cost benchmarks "
+               f"({cb.get('name') or 'fallback defaults'})"],
+            ["Expected loss / AAL",
+             "not available — no validated damage-ratio model is integrated; "
+             "the exposed value is not converted into an expected loss (declared)"],
+        ]))
+        story.append(Paragraph(
+            "Screening context only: an exposed-VALUE range from real mapped "
+            "building counts and declared benchmark ranges — not a valuation, "
+            "not an expected loss, not AAL/PML, and never an input to "
+            "pricing. The loss-not-quantified rule above is unchanged.", _SM,
+        ))
+    elif loss_estimate and loss_estimate.get("reason"):
+        story.append(Paragraph(
+            "<b>Talaix loss screening estimate (ESTIMATED)</b> — unavailable: "
+            f"{_xml(loss_estimate.get('reason'))}", _SM,
+        ))
 
     # ---- Methodology, honesty contract, disclaimer ---------------------------
     story.append(Paragraph("Methodology & limitations", _S))

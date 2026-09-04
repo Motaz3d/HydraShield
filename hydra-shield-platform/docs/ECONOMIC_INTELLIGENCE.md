@@ -200,3 +200,10 @@ annual reviews, and national associations (GDV, CCS Spain, CatNat
 France). Any company × region figure derived via market-share allocation
 is tagged `INFERRED` with the allocation method printed — never
 `DOCUMENTED`.
+
+**Data acquisition:** purchasable APIs and free upgrades that strengthen
+the estimate and the registry are studied in
+`docs/LOSS_DATA_ACQUISITION.md` (Eurostat cost indices, national
+cadastres with real floor areas, JRC flood damage curves, per-address
+valuation APIs, PERILS/sigma/NatCat licence paths) — free upgrades first,
+purchases only through the registry with verified licences.
