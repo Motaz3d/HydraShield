@@ -207,9 +207,9 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
-            '<p>Natural-hazard and climate-extreme intelligence for insurance and financial decisions: ' +
-            'documented evidence on lives at risk and money at stake around any insured asset, ' +
-            'place or territory — for insurers, reinsurers, investors, banks and governments. ' +
+            '<p>Natural-hazard and climate-extreme intelligence for public and private decisions: ' +
+            'documented evidence on lives at risk and money at stake around any asset, ' +
+            'place or territory — for governments, municipalities, investors, banks, insurers and reinsurers. ' +
             'Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
             FOOTER_GROUPS.map(footerGroupHtml).join('') +

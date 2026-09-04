@@ -1,10 +1,10 @@
 # Talaix
 
 > Talaix is a natural-hazard and climate-extreme intelligence platform for
-> insurance and reinsurance: it turns Earth observation, environmental data and
-> historical events into documented, traceable evidence on lives at risk and
-> money at stake around any insured asset, place or territory — for insurers,
-> reinsurers, investors, banks and governments.
+> every sector: it turns Earth observation, environmental data and historical
+> events into documented, traceable evidence on lives at risk and money at
+> stake around any asset, place or territory — for governments, municipalities,
+> investors, banks, insurers and reinsurers.
 > Honesty contract: unavailable data is declared, never invented; every
 > claim carries an evidence status (OBSERVED / DOCUMENTED / REPORTED /
 > MODELLED / INFERRED / UNKNOWN).
