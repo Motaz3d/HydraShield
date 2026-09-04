@@ -219,6 +219,7 @@
             LEGACY.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
             '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
+            '<p><a href="verify.html">Verify a document</a></p>' +
             '<p><a href="/sources">Data sources</a></p>' +
             '<p><a href="/api/sources" target="_blank" rel="noopener">Data-source registry (API)</a></p>' +
             '<p><a href="/api/v2/registry" target="_blank" rel="noopener">Data Observatory (API)</a></p>' +

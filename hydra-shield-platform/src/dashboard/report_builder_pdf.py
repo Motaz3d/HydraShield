@@ -68,12 +68,21 @@ def _footer(canvas, doc):
     canvas.setFont("Helvetica", 7)
     canvas.setFillColor(_MUTED)
     meta = getattr(doc, "_report_meta", {})
-    canvas.drawString(
-        18 * mm,
-        8 * mm,
+    auth = meta.get("auth_code", "")
+    line = (
         f"Talaix — Interactive Report Builder · engine v{REPORT_ENGINE_VERSION} · "
-        f"{meta.get('generated', '')} · draft {meta.get('draft_id', '')}",
+        f"{meta.get('generated', '')} · draft {meta.get('draft_id', '')}"
     )
+    if auth:
+        suffix = f" · verify {auth}"
+        if len(line) + len(suffix) > 155:
+            canvas.drawString(18 * mm, 8 * mm, line)
+            canvas.drawString(18 * mm, 4.5 * mm, f"verify {auth}")
+        else:
+            line += suffix
+            canvas.drawString(18 * mm, 8 * mm, line)
+    else:
+        canvas.drawString(18 * mm, 8 * mm, line)
     canvas.drawRightString(192 * mm, 8 * mm, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -166,6 +175,7 @@ def build_custom_pdf(title: str, sections: List[Dict[str, Any]], meta: Dict[str,
     doc._report_meta = {
         "generated": meta.get("generated_at", ""),
         "draft_id": meta.get("draft_id", ""),
+        "auth_code": (meta.get("authenticity") or {}).get("code", ""),
     }
     doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return buf.getvalue()

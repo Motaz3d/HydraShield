@@ -109,6 +109,7 @@ CORS_PUBLIC_GET_PATHS = (
     "/api/v2/losses",
     "/api/v2/losses/summary",
     "/api/v2/losses/sources",
+    "/api/v2/verify/",
     "/api/risk-grid",
     "/api/risk-snapshot",
     "/api/health",
@@ -1274,6 +1275,11 @@ def create_app() -> Flask:
     from ..climate.api_sector import sector_screen_bp
 
     app.register_blueprint(sector_screen_bp)
+
+    # TX seal public verification API (/api/v2/verify/…).
+    from .verify_api import verify_bp
+
+    app.register_blueprint(verify_bp)
 
     # TX Engine API (/api/tx/…) — additive TX surface over tx_core; the
     # existing v1/v2 contracts above are untouched.

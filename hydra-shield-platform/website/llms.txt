@@ -32,6 +32,7 @@
 - [Frameworks reference](https://talaix.com/api/v2/sustainability/frameworks): CSRD/ESRS, EU Taxonomy, SB 253/261, CSDS coverage map
 - [Briefs API](https://talaix.com/api/v2/briefs): published evidence briefs and explainers
 - Analysis: `GET /api/v2/analyze?hazard=flood&lat=…&lon=…` · Verification: `GET /api/v2/verification/asset?lat=…&lon=…`
+- Seal verification: `GET /api/v2/verify/<code>` for registered documents; `POST /api/v2/verify` with `{payload, code}` for stateless JSON verification
 
 ## MCP server (remote tools for AI assistants)
 

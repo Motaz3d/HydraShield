@@ -53,7 +53,8 @@ Rules:
 - `UNKNOWN` is a first-class status: recorded with *why* it is unknown.
 - `content_hash` is computed wherever the payload is available (JSON of the
   source response subset the claim rests on). It lets users verify that a
-  report and its evidence describe the same bytes.
+  report and its evidence describe the same bytes.  For platform-issued
+  authenticity seals, see `TX_SEAL.md`.
 - Legacy wildfire provenance dicts (`{kind: observed|derived|modeled|…}`)
   map onto this schema via a documented alias table — the working pipeline
   is not broken by the migration:

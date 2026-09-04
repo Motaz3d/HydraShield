@@ -3555,3 +3555,32 @@ body.search-open {
         margin-left: 0;
     }
 }
+
+/* Verify page helpers */
+.form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.form-row .form-group.grow {
+    flex: 1 1 260px;
+}
+.form-row .btn {
+    margin-bottom: 0;
+}
+.form-group label.invisible {
+    visibility: hidden;
+}
+.hint {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 0;
+}
+.link-subtle {
+    color: var(--muted);
+    text-decoration: underline;
+}
+.link-subtle:hover {
+    color: var(--primary);
+}

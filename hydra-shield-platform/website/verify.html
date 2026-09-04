@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify a document — Talaix</title>
+    <meta name="description" content="Verify the authenticity of any Talaix report or digital product. Enter a TX-XXXX-XXXX-XXXX seal code to confirm it was issued by the Talaix TX engine.">
+    <link rel="canonical" href="https://talaix.com/verify.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
+    <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .footer-mock { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-top: 1rem; }
+        .footer-mock svg { display: block; max-width: 100%; height: auto; }
+        .hidden { display: none !important; }
+        .kv-table { margin-top: 1rem; }
+    </style>
+</head>
+<body data-page="verify">
+    <div id="site-header"></div>
+
+    <main class="page-main">
+        <div class="container">
+            <h1>Verify a Talaix document</h1>
+            <p class="page-lead">
+                Every report and digital product issued by the Talaix TX engine carries an
+                authenticity seal: <code>TX-XXXX-XXXX-XXXX</code>. The seal is shown in the
+                PDF footer and in JSON responses. Use this page to confirm that a document
+                was genuinely issued by the platform.
+            </p>
+
+            <div class="panel">
+                <h2>Verify by seal code</h2>
+                <p class="hint">Enter the code exactly as it appears. Example: <code>TX-1A2B-3C4D-5E6F</code>.</p>
+                <form id="registryForm" class="form-row">
+                    <div class="form-group grow">
+                        <label for="registryCode">Seal code</label>
+                        <input type="text" id="registryCode" class="input" placeholder="TX-XXXX-XXXX-XXXX" pattern="TX-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}">
+                    </div>
+                    <div class="form-group">
+                        <label class="invisible">Submit</label>
+                        <button type="submit" class="btn btn-action">Verify</button>
+                    </div>
+                </form>
+                <div id="registryResult" class="hidden"></div>
+            </div>
+
+            <div class="panel">
+                <p>
+                    <a href="#" id="recomputeToggle" class="link-subtle">Advanced: stateless verification with JSON payload</a>
+                </p>
+                <div id="recomputePanel" class="hidden">
+                    <p class="hint">
+                        For JSON analysis results, paste the original payload and the seal code.
+                        The platform recomputes the seal locally and tells you whether they match.
+                    </p>
+                    <form id="recomputeForm">
+                        <div class="form-group">
+                            <label for="recomputePayload">JSON payload</label>
+                            <textarea id="recomputePayload" class="input" rows="8" placeholder='{"analysis_id":"TX-YYYYMMDD-...", "results": [...], ...}'></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group grow">
+                                <label for="recomputeCode">Seal code</label>
+                                <input type="text" id="recomputeCode" class="input" placeholder="TX-XXXX-XXXX-XXXX">
+                            </div>
+                            <div class="form-group">
+                                <label class="invisible">Submit</label>
+                                <button type="submit" class="btn btn-action">Check payload</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="recomputeResult" class="hidden"></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Where to find the seal</h2>
+                <p>
+                    On every PDF report the seal appears in the footer, after the report ID.
+                    In JSON responses it is under <code>authenticity.code</code>.
+                </p>
+                <div class="footer-mock">
+                    <svg viewBox="0 0 600 30" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="2" x2="600" y2="2" stroke="#cbd5e1" stroke-width="1"/>
+                        <text x="0" y="20" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#64748b">
+                            Talaix — Green Finance Verification · engine v2.0.0 · 2026-09-04T10:00:00Z · report abcdef12 · verify TX-1A2B-3C4D-5E6F
+                        </text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="panel notice notice-info">
+                <strong>What the seal proves.</strong> The seal confirms that the document or
+                payload was issued by the Talaix TX engine. It does not prove that every
+                statement in the content is true; data gaps, model limitations and evidence
+                statuses are disclosed honestly inside each product.
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="js/api.js"></script>
+    <script src="js/chrome.js"></script>
+    <script src="js/verify.js"></script>
+</body>
+</html>

@@ -12,6 +12,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 
 from .evidence import content_hash, utcnow_iso
+from .tx_seal import issue_seal
 from .verification import verify_portfolio
 
 ENGINE_VERSION = "1.0.0"
@@ -264,4 +265,5 @@ def build_sustainability_evidence(company: Dict[str, Any], assets: List[Dict[str
         "declared_gaps": flat_gaps,
         "disclaimer": DISCLAIMER,
         "honesty_contract": HONESTY_CONTRACT,
+        "authenticity": issue_seal("sustainability", report_id, report_basis),
     }

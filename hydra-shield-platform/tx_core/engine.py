@@ -27,6 +27,8 @@ from .adapters import legacy_v1 as legacy_adapters  # noqa: F401
 from .adapters import products as product_adapters  # noqa: F401
 from .models import TxHazardResult, TxLocation, TxResult
 
+from src.climate.tx_seal import seal_code  # noqa: E402
+
 #: TX analysis levels (advertised; hazards are progressively upgraded).
 TX_LEVELS: Dict[int, str] = {
     0: "RETRIEVAL",
@@ -244,7 +246,7 @@ class TXEngine:
             _progress()
 
         overall = self._overall_status(results)
-        return TxResult(
+        result = TxResult(
             analysis_id=self.analysis_id(lat=lat, lon=lon, hazards=chosen,
                                          depth=depth, analyses=chosen_products),
             location=location,
@@ -258,6 +260,14 @@ class TXEngine:
             evidence=[e for r in results for e in r.evidence],
             sources=self.sources(hazard_ids=chosen),
         )
+        result.authenticity_code = seal_code({
+            "analysis_id": result.analysis_id,
+            "results": [r.to_dict() for r in result.results],
+            "engine_version": result.engine_version,
+            "tx_version": result.tx_version,
+            "tam_version": result.tam_version,
+        })
+        return result
 
     # -- legacy v1 facade (TX-0/TX-1) ----------------------------------------
 

@@ -39,11 +39,21 @@ def _footer(canvas, doc):
     canvas.setFont("Helvetica", 7)
     canvas.setFillColor(colors.HexColor("#64748b"))
     meta = getattr(doc, "_report_meta", {})
-    canvas.drawString(
-        18 * mm, 8 * mm,
+    auth = meta.get("auth_code", "")
+    line = (
         f"Talaix — Supply Chain Origin Evidence · engine v{REPORT_ENGINE_VERSION} · "
-        f"{meta.get('generated', '')} · report {meta.get('report_id', '')}",
+        f"{meta.get('generated', '')} · report {meta.get('report_id', '')}"
     )
+    if auth:
+        suffix = f" · verify {auth}"
+        if len(line) + len(suffix) > 155:
+            canvas.drawString(18 * mm, 8 * mm, line)
+            canvas.drawString(18 * mm, 4.5 * mm, f"verify {auth}")
+        else:
+            line += suffix
+            canvas.drawString(18 * mm, 8 * mm, line)
+    else:
+        canvas.drawString(18 * mm, 8 * mm, line)
     canvas.drawRightString(192 * mm, 8 * mm, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -211,6 +221,7 @@ def build_supplychain_pdf(claim: Dict[str, Any]) -> bytes:
     doc._report_meta = {
         "generated": claim.get("generated_at", ""),
         "report_id": claim.get("claim_id", ""),
+        "auth_code": claim.get("authenticity", {}).get("code", ""),
     }
     doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return buf.getvalue()

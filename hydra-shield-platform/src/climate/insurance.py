@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 from . import actuarial
 from .engine import ProductEngine
 from .evidence import content_hash, utcnow_iso
+from .tx_seal import issue_seal
 from .verification import verify_asset
 
 ENGINE_VERSION = "1.1.0"
@@ -259,6 +260,11 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
         "radius_km": radius_km,
         "perils": perils,
     })[:16]
+    authenticity = issue_seal(
+        "insurance",
+        profile_id,
+        {"asset": {"lat": lat, "lon": lon, "name": name}, "radius_km": radius_km, "perils": perils},
+    )
 
     account_actuarial = actuarial.build_account_actuarial(
         [p["actuarial"] for p in perils],
@@ -282,6 +288,7 @@ def build_risk_profile(lat: float, lon: float, name: Optional[str] = None, radiu
             "loss_quantification": "not_quantified",
             "loss_quantification_note": NOT_QUANTIFIED,
             "honesty_contract": HONESTY_CONTRACT,
+            "authenticity": authenticity,
         },
     ).to_dict()
 

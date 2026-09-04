@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Tuple
 from .evidence import content_hash, utcnow_iso
 from .insurance import build_risk_profile
 from .sustainability import build_sustainability_evidence
+from .tx_seal import issue_seal
 from .verification import verify_asset
 
 REPORT_KINDS = {"verification", "insurance", "sustainability"}
@@ -447,11 +448,12 @@ def build_draft(kind: str, params: Dict[str, Any]) -> Dict[str, Any]:
         result = _build_sustainability_draft(params)
 
     sections = result["sections"]
-    draft_id = content_hash({
+    draft_basis = {
         "kind": kind,
         "params": params,
         "section_texts": [(s.get("id"), s.get("text")) for s in sections],
-    })[:16]
+    }
+    draft_id = content_hash(draft_basis)[:16]
 
     return {
         "draft_id": draft_id,
@@ -465,6 +467,7 @@ def build_draft(kind: str, params: Dict[str, Any]) -> Dict[str, Any]:
         "sections": sections,
         "interconnection_note": _INTERCONNECTION_NOTE,
         "honesty_note": _HONESTY_NOTE,
+        "authenticity": issue_seal("report-builder", draft_id, draft_basis),
     }
 
 

@@ -19,6 +19,7 @@ from ..dashboard.real_data import fetch_active_fires, fetch_satellite_data, geoc
 from ..gis_mapping.forest_loss import fetch_forest_loss
 from ..gis_mapping.landcover import fetch_landcover
 from .evidence import EvidenceRecord, content_hash, utcnow_iso
+from .tx_seal import issue_seal
 
 ENGINE_VERSION = "1.0.0"
 
@@ -656,14 +657,15 @@ def assess_case(case: Dict[str, Any]) -> Dict[str, Any]:
 
     declared_gaps = _build_declared_gaps(typology_id, bundle)
 
-    case_id = content_hash({
+    case_basis = {
         "title": title,
         "typology": typology_id,
         "site": {"name": site.get("name"), "lat": site["lat"], "lon": site["lon"]},
         "subject_claim": {"type": claim_type_id, "text": subject_claim_raw.get("text")},
         "reference_documents": reference_documents,
         "radius_km": radius_km,
-    })[:16]
+    }
+    case_id = content_hash(case_basis)[:16]
 
     chain_of_custody = {
         "case_id": case_id,
@@ -714,4 +716,5 @@ def assess_case(case: Dict[str, Any]) -> Dict[str, Any]:
         "legal_note": LEGAL_NOTE,
         "disclaimer": FORENSICS_DISCLAIMER,
         "honesty_contract": HONESTY_CONTRACT,
+        "authenticity": issue_seal("forensics", case_id, case_basis),
     }

@@ -121,6 +121,7 @@ class TxResult:
     summary: str = ""
     evidence: List[Dict[str, Any]] = field(default_factory=list)
     sources: List[Dict[str, str]] = field(default_factory=list)
+    authenticity_code: str = ""
 
     @property
     def status_counts(self) -> Dict[str, int]:
@@ -130,7 +131,7 @@ class TxResult:
         return counts
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        d: Dict[str, Any] = {
             "analysis_id": self.analysis_id,
             "location": self.location.to_dict(),
             "depth": self.depth,
@@ -145,3 +146,10 @@ class TxResult:
             "tam_version": self.tam_version,
             "generated_at": self.generated_at,
         }
+        if self.authenticity_code:
+            d["authenticity"] = {
+                "code": self.authenticity_code,
+                "engine": "TX",
+                "verify": "POST /api/v2/verify",
+            }
+        return d

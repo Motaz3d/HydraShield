@@ -15,6 +15,7 @@ from typing import Any, Dict, List, Optional
 
 from .evidence import content_hash, utcnow_iso
 from .ontology import ClaimStatus, Confidence
+from .tx_seal import issue_seal
 
 ENGINE_VERSION = "1.0.0"
 
@@ -270,6 +271,7 @@ def verify_asset(lat: float, lon: float, name: Optional[str] = None) -> Dict[str
         "disclaimer": DISCLAIMER,
         "honesty_contract": HONESTY_CONTRACT,
         "monitoring_hint": MONITORING_HINT,
+        "authenticity": issue_seal("verification", verification_id, {"checks": checks}),
     }
 
 

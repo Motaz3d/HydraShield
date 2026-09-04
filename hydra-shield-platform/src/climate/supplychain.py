@@ -33,6 +33,7 @@ from ..dashboard.real_data import fetch_satellite_data
 from ..gis_mapping.forest_loss import fetch_forest_loss
 from ..gis_mapping.landcover import fetch_landcover
 from .evidence import EvidenceRecord, content_hash, utcnow_iso
+from .tx_seal import issue_seal
 
 ENGINE_VERSION = "1.0.0"
 EUDR_CUTOFF_DATE = "2020-12-31"
@@ -478,7 +479,7 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
             "reason": "No valid production plots were supplied.",
         })
 
-    claim_id = content_hash({
+    claim_basis = {
         "supplier": supplier,
         "commodity": commodity,
         "country": country,
@@ -486,7 +487,8 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
             {"name": p.get("name"), "lat": p.get("lat"), "lon": p.get("lon")}
             for p in plot_results
         ],
-    })[:16]
+    }
+    claim_id = content_hash(claim_basis)[:16]
 
     certification_statement = (
         "This report is not a EUDR due-diligence statement, not a "
@@ -528,4 +530,5 @@ def evaluate_claim(claim: Dict[str, Any]) -> Dict[str, Any]:
         "declared_gaps": declared_gaps,
         "honesty_contract": HONESTY_CONTRACT,
         "disclaimer": DISCLAIMER,
+        "authenticity": issue_seal("supplychain", claim_id, claim_basis),
     }

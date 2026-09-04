@@ -145,6 +145,17 @@ class VerificationStore:
                 )
                 """
             )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS tx_seals (
+                    code TEXT PRIMARY KEY,
+                    kind TEXT NOT NULL,
+                    ref_id TEXT,
+                    meta_json TEXT,
+                    created_at TEXT NOT NULL
+                )
+                """
+            )
 
     def save_portfolio(
         self,
@@ -599,4 +610,47 @@ class VerificationStore:
             "score_correct": row[4],
             "score_total": row[5],
             "issued_at": row[6],
+        }
+
+    def record_seal(
+        self,
+        code: str,
+        kind: str,
+        ref_id: Optional[str] = None,
+        meta: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """Record a TX seal in the registry. INSERT OR IGNORE is safe because
+        seal codes are collision-resistant and re-issuing the same document
+        should be idempotent.
+        """
+        created_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "INSERT OR IGNORE INTO tx_seals (code, kind, ref_id, meta_json, created_at)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (
+                    code,
+                    kind,
+                    ref_id,
+                    json.dumps(meta or {}, default=str),
+                    created_at,
+                ),
+            )
+
+    def get_seal(self, code: str) -> Optional[Dict[str, Any]]:
+        """Return a seal record by code, or None if unknown."""
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT code, kind, ref_id, meta_json, created_at"
+                " FROM tx_seals WHERE code = ?",
+                (code,),
+            ).fetchone()
+        if row is None:
+            return None
+        return {
+            "code": row[0],
+            "kind": row[1],
+            "ref_id": row[2],
+            "meta_json": row[3],
+            "created_at": row[4],
         }

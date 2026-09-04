@@ -162,6 +162,7 @@ def export_pdf():
         "ai_polished_count": ai_polished_count,
         "honesty_note": str(data.get("honesty_note") or ""),
         "disclaimer": str(data.get("disclaimer") or ""),
+        "authenticity": data.get("authenticity") or {},
     }
 
     # Optional site coordinates: enable the site-context image in the PDF.

@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional
 from ..dashboard.real_data import fetch_climate_series, fetch_satellite_data, reverse_geocode
 from ..dashboard.site_image import build_site_context_png, site_context_caption
 from .evidence import utcnow_iso
+from .tx_seal import issue_seal
 from .verification import VERIFICATION_HAZARDS, verify_asset
 
 ENGINE_VERSION = "1.0.0"
@@ -315,9 +316,10 @@ def build_press_pack(lat: float, lon: float, name: Optional[str] = None, lang: s
 
     # Core metadata
     location = {"lat": lat, "lon": lon, "name": place}
+    pack_id = _pack_id(location, verification, climate)
     pack: Dict[str, Any] = {
         "ok": True,
-        "pack_id": _pack_id(location, verification, climate),
+        "pack_id": pack_id,
         "generated_at": utcnow_iso(),
         "engine_version": ENGINE_VERSION,
         "language": lang,
@@ -325,6 +327,16 @@ def build_press_pack(lat: float, lon: float, name: Optional[str] = None, lang: s
         "location": location,
         "verification_id": verification.get("verification_id"),
         "topic": topic,
+        "authenticity": issue_seal(
+            "press",
+            pack_id,
+            {
+                "lat": round(float(location["lat"]), 4),
+                "lon": round(float(location["lon"]), 4),
+                "verification_id": verification.get("verification_id"),
+                "climate_year": (climate.get("current") or {}).get("year"),
+            },
+        ),
     }
 
     tmpl = lambda key: _template(lang, key)

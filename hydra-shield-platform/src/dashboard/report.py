@@ -22,6 +22,8 @@ import io
 import json
 from typing import Dict, List, Optional
 
+from ..climate.tx_seal import issue_seal
+
 try:
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import A4
@@ -144,10 +146,12 @@ def _fmt(v, unit="", digits=1):
 def report_content_id(analysis: Dict, report_type: str) -> str:
     """
     Stable report ID: a content hash of the analysis payload (excluding the
-    volatile generation timestamp) plus the report type. Identical content
-    always yields the same ID; any content change yields a new one.
+    volatile generation timestamp and the authenticity seal, which is added
+    after content is frozen) plus the report type. Identical content always
+    yields the same ID; any content change yields a new one.
     """
-    basis = {k: v for k, v in (analysis or {}).items() if k != "generated_at"}
+    basis = {k: v for k, v in (analysis or {}).items()
+             if k not in ("generated_at", "authenticity")}
     canonical = json.dumps({"analysis": basis, "report_type": report_type},
                            sort_keys=True, default=str)
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
@@ -1131,6 +1135,21 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         "probability of fire, not a substitute for official civil-protection "
         "information.", _SM))
 
+    # TX authenticity seal.  Compute after the story is built so that the
+    # report ID shown in the body and footer is stable (matches the id
+    # computed from the unmodified analysis dict).  Then stamp the analysis
+    # payload so callers receive the authenticity block.
+    rid = report_content_id(analysis, report_type)
+    if not analysis.get("authenticity"):
+        analysis["authenticity"] = issue_seal(
+            "report",
+            rid,
+            {
+                "analysis": {k: v for k, v in (analysis or {}).items() if k != "generated_at"},
+                "report_type": report_type,
+            },
+        )
+
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
         buf, pagesize=A4,
@@ -1142,7 +1161,8 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
     )
     doc._report_meta = {
         "generated": analysis.get("generated_at", ""),
-        "report_id": report_content_id(analysis, report_type),
+        "report_id": rid,
+        "auth_code": analysis.get("authenticity", {}).get("code", ""),
     }
     doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return buf.getvalue()

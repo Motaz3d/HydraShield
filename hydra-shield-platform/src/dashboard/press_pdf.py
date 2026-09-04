@@ -82,11 +82,21 @@ def _footer(canvas, doc):
     canvas.setFont("Helvetica", 7)
     canvas.setFillColor(_MUTED)
     meta = getattr(doc, "_press_meta", {})
-    canvas.drawString(
-        18 * mm, 8 * mm,
+    auth = meta.get("auth_code", "")
+    line = (
         f"Talaix — Press Evidence Pack · engine v{ENGINE_VERSION} · "
-        f"{meta.get('generated', '')} · pack {meta.get('pack_id', '')}",
+        f"{meta.get('generated', '')} · pack {meta.get('pack_id', '')}"
     )
+    if auth:
+        suffix = f" · verify {auth}"
+        if len(line) + len(suffix) > 155:
+            canvas.drawString(18 * mm, 8 * mm, line)
+            canvas.drawString(18 * mm, 4.5 * mm, f"verify {auth}")
+        else:
+            line += suffix
+            canvas.drawString(18 * mm, 8 * mm, line)
+    else:
+        canvas.drawString(18 * mm, 8 * mm, line)
     canvas.drawRightString(192 * mm, 8 * mm, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -270,6 +280,7 @@ def build_press_pdf(pack: Dict[str, Any]) -> bytes:
     doc._press_meta = {
         "generated": pack.get("generated_at", ""),
         "pack_id": pack.get("pack_id", ""),
+        "auth_code": pack.get("authenticity", {}).get("code", ""),
     }
     doc.build(story, onFirstPage=_footer, onLaterPages=_footer)
     return buf.getvalue()
