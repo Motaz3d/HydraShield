@@ -14,7 +14,7 @@ ROOT = os.path.dirname(__file__)
 
 PAGES = (
     "map.html", "intelligence.html",
-    "solutions.html", "report-builder.html", "academy.html", "industries.html",
+    "report-builder.html", "academy.html", "industries.html",
     "index.html", "green-finance.html", "insurance.html", "forensics.html",
     "supplychain.html", "press.html", "reports.html", "licensing.html",
     "story.html",
@@ -39,14 +39,15 @@ def test_component_has_three_sections_and_location_contract():
 
 def test_component_covers_the_search_pages():
     js = _read("website/js/search-assist.js")
-    for page in ("map", "intelligence", "invest", "reportbuilder",
+    for page in ("map", "intelligence", "reportbuilder",
                  "academy", "industries", "home", "greenfinance",
                  "insurance", "forensics", "supplychain", "press",
                  "reports", "licensing", "about"):
         assert f"{page}:" in js or f"'{page}'" in js, page
-    # The merged events/economy panels keep their assist inside intelligence.
+    # The merged events/economy/siting panels keep their assist inside intelligence.
     assert "eventsLocInput" in js
     assert "locInput" in js
+    assert "solLocInput" in js
     # Portal location inputs are covered too.
     assert "assetLocInput" in js
     assert "caseSiteInput" in js

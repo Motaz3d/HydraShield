@@ -11,8 +11,10 @@
  * highlights the active item from <body data-page>. This file is the single
  * source of truth for site navigation — an IA change is one edit here.
  *
- * Primary nav: Insurance & Reinsurance · Investment Analysis · Maps ·
- * Where to Invest · Reports · Environmental Licensing · Compliance ▾ + Account.
+ * Primary nav: Insurance & Reinsurance · Investment & Siting · Maps ·
+ * Reports · Environmental Licensing · Compliance ▾ + Account.
+ * (Investment analysis, siting and funding are one product: intelligence.html
+ * hosts them as tabs; legacy solutions.html redirects there.)
  * Legacy marketing pages stay reachable from the footer.
  */
 (function () {
@@ -29,9 +31,8 @@
     /* Top level: single links + dropdown groups. */
     var PRIMARY = [
         { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
-        { id: 'intelligence', href: 'intelligence.html', label: 'Investment Analysis' },
+        { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting' },
         { id: 'map', href: 'map.html', label: 'Maps' },
-        { id: 'invest', href: 'solutions.html', label: 'Where to Invest' },
         { id: 'reports', href: 'reports.html', label: 'Reports' },
         { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' },
         {
@@ -70,7 +71,8 @@
     var FOOTER_GROUPS = [
         {
             heading: 'Analyze', items: [
-                'intelligence', 'map', 'invest',
+                'intelligence', 'map',
+                { id: 'siting', href: 'intelligence.html?mode=siting', label: 'Siting & Opportunities' },
                 { id: 'sector-exposure', href: 'intelligence.html#sector', label: 'Sector Exposure' }
             ]
         },
@@ -95,7 +97,7 @@
         {
             heading: 'Learn & company', items: [
                 { id: 'academy', href: 'academy.html', label: 'Academy' },
-                { id: 'funding', href: 'solutions.html?mode=funding', label: 'Funding' },
+                { id: 'funding', href: 'intelligence.html?mode=funding', label: 'Funding' },
                 { id: 'press', href: 'press.html', label: 'Press' },
                 'account-page'
             ]

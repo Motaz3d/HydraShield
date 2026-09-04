@@ -45,10 +45,11 @@ def test_location_normalize_place_and_coordinates():
 
 
 def test_location_component_wired_on_all_consumer_pages():
-    # The economy panel (locAssist) merged into intelligence.html; the
-    # widget mounts are asserted per host page.
-    pages = {"intelligence.html": ["locWidget", "locAssist"],
-             "solutions.html": ["locAssist", "locWidget"],
+    # The economy (locAssist), siting (solLoc*) and funding (fundLocWidget)
+    # panels are all merged into intelligence.html; the widget mounts are
+    # asserted per host page. Legacy solutions.html only redirects now.
+    pages = {"intelligence.html": ["locWidget", "locAssist",
+                                   "solLocInput", "solLocAssist", "fundLocWidget"],
              "reports.html": ["locAssist"]}
     for page, mounts in pages.items():
         html = open(os.path.join(ROOT, "website", page),

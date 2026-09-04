@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intelligence — Talaix</title>
-    <meta name="description" content="Per-hazard environmental & risk analysis from real datasets: wildfire, flood, drought, heat, wind, coastal and tropical cyclones — screening levels with basis, blocks, evidence and honest unavailable states. The wildfire tab carries the full pipeline: spread scenarios, protection planning, reports and history.">
+    <title>Investment &amp; Siting Intelligence — Talaix</title>
+    <meta name="description" content="Investment analysis and siting in one window: per-hazard environmental & risk analysis from real datasets, economic exposure, sector screening, site-fitted resilience solutions and matched public funding programmes. Honest unavailable states; not financial advice.">
     <link rel="canonical" href="https://talaix.com/intelligence.html">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
@@ -22,11 +22,11 @@
 
     <main class="page-main">
         <div class="container">
-            <h1>Intelligence</h1>
+            <h1>Investment &amp; Siting Intelligence</h1>
             <p class="page-lead">
-                What do you want to analyze? Choose a location and a hazard —
+                One window for the capital decision: choose a location and a hazard —
                 Talaix brings the evidence: analysis → exposure → economic
-                meaning → solutions.
+                meaning → siting solutions → funding.
             </p>
             <p class="muted small">
                 Per-hazard screening analysis from real datasets. Levels are screening
@@ -117,6 +117,121 @@
 
             <!-- Sector Exposure Screening (merged from the legacy sector.html page) -->
             <div id="sectorPanel" class="hidden"></div>
+
+            <!-- Investment siting (merged from the legacy solutions.html page) -->
+            <div id="sitingPanel" class="hidden">
+                <div class="panel">
+                    <div class="toolbar">
+                        <div class="form-group">
+                            <label for="solLocInput">Location</label>
+                            <input type="text" id="solLocInput" placeholder="Place name or lat,lon">
+                        </div>
+                        <div id="solLocAssist" style="flex-basis:100%;"></div>
+                        <button class="btn-action" id="searchBtn">Find opportunities</button>
+                    </div>
+                    <label class="form-group" style="margin-bottom:6px;"><strong>Hazards of interest</strong></label>
+                    <div class="badge-row" id="hazardChecks">
+                        <span class="muted small">Loading hazards…</span>
+                    </div>
+                    <div class="muted small" style="margin-top:8px;">
+                        Hazard levels are not computed on this endpoint (light fetchers only).
+                        Selected hazards are matched as caller-selected hazards of interest —
+                        the basis is declared on every result.
+                    </div>
+                </div>
+
+                <div id="solStatusArea"></div>
+                <div id="solutionsArea"></div>
+            </div>
+
+            <!-- Funding intelligence (merged from the legacy solutions.html page) -->
+            <div id="fundingPanel" class="hidden">
+                <p class="page-lead">
+                    Which public programmes may fit your resilience or green-transition project.
+                    Matched from a curated knowledge base of real programmes with official sources —
+                    potential sources only; eligibility requires verification. This is not
+                    financial advice.
+                </p>
+
+                <div class="panel">
+                    <div class="toolbar">
+                        <div class="form-group" style="flex:1;"><label>Location (optional — sets the country)</label>
+                            <div id="fundLocWidget"></div>
+                        </div>
+                    </div>
+                    <div class="toolbar">
+                        <div class="form-group"><label>Hazards</label>
+                            <div id="fundingHazardChecks"><span class="muted small">Loading hazards…</span></div>
+                        </div>
+                    </div>
+                    <div class="toolbar" style="align-items:flex-end;">
+                        <div class="form-group narrow"><label for="sectorSel">Sector</label>
+                            <select id="sectorSel">
+                                <option value="">—</option>
+                                <option value="municipalities">Municipality</option>
+                                <option value="governments">Government</option>
+                                <option value="agriculture">Agriculture</option>
+                                <option value="forestry">Forestry</option>
+                                <option value="energy">Energy</option>
+                                <option value="infrastructure">Infrastructure</option>
+                                <option value="ports">Ports / coastal</option>
+                                <option value="real_estate">Real estate</option>
+                                <option value="construction">Construction</option>
+                                <option value="technology_providers">Technology provider</option>
+                                <option value="research_centers">Research</option>
+                                <option value="universities">University</option>
+                                <option value="ngos">NGO</option>
+                            </select></div>
+                        <div class="form-group narrow"><label for="beneficiarySel">Applicant type</label>
+                            <select id="beneficiarySel">
+                                <option value="">—</option>
+                                <option value="municipality">Municipality</option>
+                                <option value="government">Government body</option>
+                                <option value="company">Company</option>
+                                <option value="sme">SME</option>
+                                <option value="research_institution">Research institution</option>
+                                <option value="university">University</option>
+                                <option value="ngo">NGO</option>
+                                <option value="agricultural_organization">Farm / agricultural org</option>
+                                <option value="infrastructure_owner">Infrastructure owner</option>
+                                <option value="investor">Investor</option>
+                                <option value="consortium">Consortium</option>
+                            </select></div>
+                        <div class="form-group narrow"><label for="countrySel">Country</label>
+                            <select id="countrySel">
+                                <option value="">—</option>
+                                <optgroup label="European Union">
+                                    <option value="LU">Luxembourg</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="ES">Spain</option>
+                                    <option value="IT">Italy</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="GR">Greece</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="PL">Poland</option>
+                                    <option value="HR">Croatia</option>
+                                    <option value="SI">Slovenia</option>
+                                    <option value="SE">Sweden</option>
+                                    <option value="other-eu">Other EU member state</option>
+                                </optgroup>
+                                <option value="non-eu">Outside the EU</option>
+                            </select></div>
+                        <button class="btn-action" id="matchBtn" type="button">Find funding</button>
+                    </div>
+                </div>
+
+                <div id="fundingStatusArea"></div>
+                <div id="fundingArea"></div>
+
+                <p class="muted small" style="margin-top:18px;">
+                    Programmes shown are real, with official sources; amounts, rates and
+                    deadlines change per call and are shown only when officially stated —
+                    otherwise "not stated / not currently verified". Eligibility always
+                    requires verification at the official source.
+                </p>
+            </div>
 
             <!-- Full wildfire pipeline (merged from the legacy dashboard page) -->
             <div id="wildfireFull" class="hidden">
@@ -344,5 +459,7 @@
     <script src="js/dashboard.js" defer></script>
     <script src="js/events.js" defer></script>
     <script src="js/economy.js" defer></script>
+    <script src="js/solutions.js" defer></script>
+    <script src="js/funding.js" defer></script>
 </body>
 </html>

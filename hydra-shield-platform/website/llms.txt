@@ -12,9 +12,8 @@
 ## Product pages
 
 - [Insurance & Environmental Risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters and reinsurers (no loss quantification)
-- [Investment Analysis](https://talaix.com/intelligence.html): multi-hazard screening, exposure and evidence for financial decisions
+- [Investment & Siting Intelligence](https://talaix.com/intelligence.html): multi-hazard screening, exposure and evidence for financial decisions, plus site-fitted resilience solutions (`?mode=siting`) and matched public funding programmes (`?mode=funding`) — one window
 - [Maps](https://talaix.com/map.html): interactive risk layers with source and confidence shown for every layer
-- [Where to Invest](https://talaix.com/solutions.html): safe siting, sector siting and matched public funding programmes
 - [Reports & Evidence Packs](https://talaix.com/reports.html): Insurance, Green Finance, Sustainability/CSRD, Sector Exposure, Forensics, Supply Chain, Press and Report Builder
 - [Environmental Licensing](https://talaix.com/licensing.html): pre-draft licence dossiers backed by satellite evidence
 - [Compliance & Sustainable Finance](https://talaix.com/compliance.html): EU Taxonomy DNSH, EBA Pillar 3, CSRD/ESRS E1, EIOPA/Solvency II, EUDR

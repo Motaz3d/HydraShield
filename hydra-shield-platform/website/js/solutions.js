@@ -1,4 +1,4 @@
-/* Talaix — Solutions Intelligence (solutions.html).
+/* Talaix — Solutions Intelligence (siting panel inside intelligence.html).
  *
  * Location + caller-selected hazards of interest →
  *   GET /api/v2/solutions?lat&lon&hazards=wildfire,drought
@@ -50,11 +50,11 @@
     }
 
     function renderStatus(kind, html) {
-        el('statusArea').innerHTML = '<div class="notice notice-' + kind + '">' + html + '</div>';
+        el('solStatusArea').innerHTML = '<div class="notice notice-' + kind + '">' + html + '</div>';
     }
 
     function search() {
-        var q = el('locInput').value.trim();
+        var q = el('solLocInput').value.trim();
         if (!q) {
             renderStatus('error', 'Enter a location — a place name or lat,lon coordinates.');
             return;
@@ -99,17 +99,17 @@
             HSConvert.trackAction('solution_viewed', { lat: loc.lat, lon: loc.lon,
                 feature: hazardIds.join(',') });
         }
-        if (ok && totalMatches && window.HSConvert) HSConvert.evaluate('statusArea');
+        if (ok && totalMatches && window.HSConvert) HSConvert.evaluate('solStatusArea');
         if (ok && totalMatches && window.HSConvert) HSConvert.show({
-            mount: 'statusArea', context: 'resilience_plan',
+            mount: 'solStatusArea', context: 'resilience_plan',
             text: 'Build a resilience plan — save these matched solutions with a free account.',
             cta: 'Save this solution set', href: 'account.html'
         });
         if (ok && totalMatches) {
             var fundParams = hazardIds.length ? '&hazards=' + encodeURIComponent(hazardIds.join(',')) : '';
-            el('statusArea').insertAdjacentHTML('beforeend',
+            el('solStatusArea').insertAdjacentHTML('beforeend',
                 '<p class="muted small" style="margin-top:8px;">Next step: ' +
-                '<a class="text-link" href="solutions.html?mode=funding' + fundParams + '">find potential funding for these solutions →</a> ' +
+                '<a class="text-link" href="intelligence.html?mode=funding' + fundParams + '">find potential funding for these solutions →</a> ' +
                 '(potential sources only — eligibility requires verification).</p>');
         }
 
@@ -125,7 +125,7 @@
                 : '<div class="notice notice-empty">No solutions matched the selected hazards and verified site conditions at ' +
                   esc(loc.name) + '.</div>';
         }
-        el('statusArea').innerHTML = statusHtml;
+        el('solStatusArea').innerHTML = statusHtml;
 
         var html = '';
 
@@ -287,37 +287,23 @@
         return html;
     }
 
-    function setMode(mode) {
-        var funding = mode === 'funding';
-        el('solutionsPanel').classList.toggle('hidden', funding);
-        el('fundingPanel').classList.toggle('hidden', !funding);
-        el('modeSolutionsBtn').classList.toggle('active', !funding);
-        el('modeFundingBtn').classList.toggle('active', funding);
-        if (window.HS && HS.track) HS.track('resilience_mode', { mode: funding ? 'funding' : 'solutions' });
-        if (history.replaceState) {
-            var params = new URLSearchParams(location.search);
-            if (funding) params.set('mode', 'funding'); else params.delete('mode');
-            var qs = params.toString();
-            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
-        }
-    }
-
+    /* The siting/funding tab strip is owned by intelligence.js (pseudo-tabs);
+     * this module only wires the siting panel's own controls. */
     function init() {
-        el('modeSolutionsBtn').addEventListener('click', function () { setMode('solutions'); });
-        el('modeFundingBtn').addEventListener('click', function () { setMode('funding'); });
         loadHazards();
         el('searchBtn').addEventListener('click', search);
-        if (window.HS && HS.location) HS.location.enhance('locInput', 'locAssist');
-        el('locInput').addEventListener('keydown', function (e) {
+        if (window.HS && HS.location) HS.location.enhance('solLocInput', 'solLocAssist');
+        el('solLocInput').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') search();
         });
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
         if (q) {
-            el('locInput').value = q;
-            search();
+            el('solLocInput').value = q;
+            // Auto-run only on an explicit siting deep-link — a bare
+            // ?location= on this hub opens the analysis tab instead.
+            if (params.get('mode') === 'siting') search();
         }
-        if (params.get('mode') === 'funding') setMode('funding');
     }
 
     init();

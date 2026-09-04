@@ -24,7 +24,9 @@
     var PSEUDO_TABS = [
         { id: 'events', name: 'Events' },
         { id: 'economy', name: 'Economy' },
-        { id: 'sector', name: 'Sector Exposure' }
+        { id: 'sector', name: 'Sector Exposure' },
+        { id: 'siting', name: 'Siting' },
+        { id: 'funding', name: 'Funding' }
     ];
 
     function el(id) { return document.getElementById(id); }
@@ -101,13 +103,16 @@
         el('hazardNote').innerHTML = noteHtml;
         el('analysisArea').innerHTML = '';
         el('statusArea').innerHTML = '';
-        // Panels: wildfire tab = the full merged pipeline; events/economy =
-        // the merged tools; every other hazard uses the generic analysis flow.
+        // Panels: wildfire tab = the full merged pipeline; events/economy/
+        // sector/siting/funding = the merged tools; every other hazard uses
+        // the generic analysis flow.
         var isWildfire = hazardId === 'wildfire';
         el('wildfireFull').classList.toggle('hidden', !isWildfire);
         el('eventsPanel').classList.toggle('hidden', hazardId !== 'events');
         el('economyPanel').classList.toggle('hidden', hazardId !== 'economy');
         el('sectorPanel').classList.toggle('hidden', hazardId !== 'sector');
+        el('sitingPanel').classList.toggle('hidden', hazardId !== 'siting');
+        el('fundingPanel').classList.toggle('hidden', hazardId !== 'funding');
         el('genericFlow').classList.toggle('hidden', isWildfire || isPseudo);
         if (isWildfire && window.HSWildfire) window.HSWildfire.onShow();
         if (hazardId === 'sector' && window.HS && HS.sector) HS.sector.init(el('sectorPanel'));

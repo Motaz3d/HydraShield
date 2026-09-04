@@ -106,10 +106,8 @@
                 tips: ['Economic exposure is profiled per location — never monetised without a documented basis.'],
                 chips: ['Clervaux, Luxembourg', 'Faro, Portugal'],
                 live: 'snapshot'
-            }
-        },
-        invest: {
-            locInput: {
+            },
+            solLocInput: {
                 tips: ['Solutions are matched to the exact site — with limitations stated.'],
                 chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'],
                 live: 'snapshot'

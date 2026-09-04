@@ -3,159 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Where to Invest — Talaix</title>
-    <meta name="description" content="Find safer locations for capital with Talaix: multi-hazard exposure screening, sector siting for solar, wind, agriculture and construction, and matched public funding programmes. Not financial advice.">
-    <link rel="canonical" href="https://talaix.com/solutions.html">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
-    <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <title>Where to Invest — moved | Talaix</title>
+    <meta name="description" content="Siting and funding intelligence now live inside Investment & Siting Intelligence.">
+    <link rel="canonical" href="https://talaix.com/intelligence.html">
+    <meta name="robots" content="noindex, follow">
 </head>
-<body data-page="invest">
-    <div id="site-header"></div>
-
-    <main class="page-main">
-        <div class="container">
-            <h1>Where to Invest</h1>
-            <p class="page-lead">
-                Find safer locations for capital: screen sites by low multi-hazard exposure,
-                match sector siting needs — solar farms, wind sites, agriculture, construction
-                and more — and discover matched public funding programmes. Every recommendation
-                states its basis and limitations; this is not financial advice.
-            </p>
-
-            <div class="hazard-tabs" id="resilienceTabs" role="tablist" aria-label="Investment siting" style="margin-bottom:18px;">
-                <button type="button" class="hazard-tab active" id="modeSolutionsBtn" role="tab">Siting</button>
-                <button type="button" class="hazard-tab" id="modeFundingBtn" role="tab">Funding</button>
-            </div>
-
-            <div id="solutionsPanel">
-                <div class="panel">
-                    <div class="toolbar">
-                        <div class="form-group">
-                            <label for="locInput">Location</label>
-                            <input type="text" id="locInput" placeholder="Place name or lat,lon">
-                        </div>
-                        <div id="locAssist" style="flex-basis:100%;"></div>
-                        <button class="btn-action" id="searchBtn">Find opportunities</button>
-                    </div>
-                    <label class="form-group" style="margin-bottom:6px;"><strong>Hazards of interest</strong></label>
-                    <div class="badge-row" id="hazardChecks">
-                        <span class="muted small">Loading hazards…</span>
-                    </div>
-                    <div class="muted small" style="margin-top:8px;">
-                        Hazard levels are not computed on this endpoint (light fetchers only).
-                        Selected hazards are matched as caller-selected hazards of interest —
-                        the basis is declared on every result.
-                    </div>
-                </div>
-
-                <div id="statusArea"></div>
-                <div id="solutionsArea"></div>
-            </div>
-
-            <!-- Funding Intelligence (merged from the legacy funding.html page) -->
-            <div id="fundingPanel" class="hidden">
-                <p class="page-lead">
-                    Which public programmes may fit your resilience or green-transition project.
-                    Matched from a curated knowledge base of real programmes with official sources —
-                    potential sources only; eligibility requires verification. This is not
-                    financial advice.
-                </p>
-
-                <div class="panel">
-                    <div class="toolbar">
-                        <div class="form-group" style="flex:1;"><label>Location (optional — sets the country)</label>
-                            <div id="locWidget"></div>
-                        </div>
-                    </div>
-                    <div class="toolbar">
-                        <div class="form-group"><label>Hazards</label>
-                            <div id="fundingHazardChecks"><span class="muted small">Loading hazards…</span></div>
-                        </div>
-                    </div>
-                    <div class="toolbar" style="align-items:flex-end;">
-                        <div class="form-group narrow"><label for="sectorSel">Sector</label>
-                            <select id="sectorSel">
-                                <option value="">—</option>
-                                <option value="municipalities">Municipality</option>
-                                <option value="governments">Government</option>
-                                <option value="agriculture">Agriculture</option>
-                                <option value="forestry">Forestry</option>
-                                <option value="energy">Energy</option>
-                                <option value="infrastructure">Infrastructure</option>
-                                <option value="ports">Ports / coastal</option>
-                                <option value="real_estate">Real estate</option>
-                                <option value="construction">Construction</option>
-                                <option value="technology_providers">Technology provider</option>
-                                <option value="research_centers">Research</option>
-                                <option value="universities">University</option>
-                                <option value="ngos">NGO</option>
-                            </select></div>
-                        <div class="form-group narrow"><label for="beneficiarySel">Applicant type</label>
-                            <select id="beneficiarySel">
-                                <option value="">—</option>
-                                <option value="municipality">Municipality</option>
-                                <option value="government">Government body</option>
-                                <option value="company">Company</option>
-                                <option value="sme">SME</option>
-                                <option value="research_institution">Research institution</option>
-                                <option value="university">University</option>
-                                <option value="ngo">NGO</option>
-                                <option value="agricultural_organization">Farm / agricultural org</option>
-                                <option value="infrastructure_owner">Infrastructure owner</option>
-                                <option value="investor">Investor</option>
-                                <option value="consortium">Consortium</option>
-                            </select></div>
-                        <div class="form-group narrow"><label for="countrySel">Country</label>
-                            <select id="countrySel">
-                                <option value="">—</option>
-                                <optgroup label="European Union">
-                                    <option value="LU">Luxembourg</option>
-                                    <option value="DE">Germany</option>
-                                    <option value="FR">France</option>
-                                    <option value="ES">Spain</option>
-                                    <option value="IT">Italy</option>
-                                    <option value="PT">Portugal</option>
-                                    <option value="GR">Greece</option>
-                                    <option value="NL">Netherlands</option>
-                                    <option value="BE">Belgium</option>
-                                    <option value="PL">Poland</option>
-                                    <option value="HR">Croatia</option>
-                                    <option value="SI">Slovenia</option>
-                                    <option value="SE">Sweden</option>
-                                    <option value="other-eu">Other EU member state</option>
-                                </optgroup>
-                                <option value="non-eu">Outside the EU</option>
-                            </select></div>
-                        <button class="btn-action" id="matchBtn" type="button">Find funding</button>
-                    </div>
-                </div>
-
-                <div id="fundingStatusArea"></div>
-                <div id="fundingArea"></div>
-
-                <p class="muted small" style="margin-top:18px;">
-                    Programmes shown are real, with official sources; amounts, rates and
-                    deadlines change per call and are shown only when officially stated —
-                    otherwise "not stated / not currently verified". Eligibility always
-                    requires verification at the official source.
-                </p>
-            </div>
-        </div>
-    </main>
-
-    <div id="site-footer"></div>
-
-    <script src="js/api.js"></script>
-    <script src="js/search-assist.js" defer></script>
-    <script src="js/chrome.js"></script>
-    <script src="js/convert.js" defer></script>
-    <script src="js/location.js" defer></script>
-    <script src="js/solutions.js" defer></script>
-    <script src="js/funding.js" defer></script>
+<body>
+    <p>
+        Siting &amp; funding now live inside
+        <a id="movedLink" href="intelligence.html">Investment &amp; Siting Intelligence</a> —
+        redirecting…
+    </p>
+    <script>
+    /* Legacy entry points preserved:
+     *   solutions.html?mode=funding&hazards=…  → intelligence.html?mode=funding&hazards=…
+     *   solutions.html?location=…              → intelligence.html?mode=siting&location=…
+     *   solutions.html                         → intelligence.html?mode=siting */
+    (function () {
+        var p = new URLSearchParams(location.search);
+        var mode = p.get('mode') === 'funding' ? 'funding' : 'siting';
+        var target = 'intelligence.html?mode=' + mode;
+        var loc = p.get('location');
+        if (loc) target += '&location=' + encodeURIComponent(loc);
+        var hz = p.get('hazards');
+        if (hz) target += '&hazards=' + encodeURIComponent(hz);
+        document.getElementById('movedLink').href = target;
+        location.replace(target);
+    })();
+    </script>
 </body>
 </html>

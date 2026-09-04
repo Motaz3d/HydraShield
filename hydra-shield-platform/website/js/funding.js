@@ -133,7 +133,7 @@
     // Location widget: resolving a place preselects the country when the
     // geocoder's country name matches a dropdown option (never guessed).
     if (window.HS && HS.location) {
-        HS.location.mount('locWidget', {
+        HS.location.mount('fundLocWidget', {
             onResolve: function (loc) {
                 var parts = (loc.hierarchy || []).map(function (p) {
                     return p.toLowerCase();
