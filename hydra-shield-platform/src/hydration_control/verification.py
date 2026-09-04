@@ -44,20 +44,20 @@ class HindcastResult:
 
 class ContinuousVerificationSystem:
     """
-    نظام تحقق مستمر يحسن النماذج بناءً على البيانات الحية.
+    Continuous verification system that improves models based on live data.
     """
     def __init__(self, model_accuracy_threshold=0.8):
         self.model_accuracy_threshold = model_accuracy_threshold
         self.performance_history = {}
         self.feedback_loops = []
         self.model_improvement_suggestions = []
-    
+
     def update_model_performance(self, model_name: str, predicted: float, actual: float, timestamp: datetime):
         """
-        تحديث أداء النموذج بناءً على المقارنة بين التنبؤ والواقع.
+        Update model performance based on the prediction-vs-actual comparison.
         """
         error = abs(predicted - actual)
-        accuracy = 1 / (1 + error)  # تحويل الخطأ إلى دقة
+        accuracy = 1 / (1 + error)  # convert error into accuracy
         
         if model_name not in self.performance_history:
             self.performance_history[model_name] = []
@@ -70,7 +70,7 @@ class ContinuousVerificationSystem:
             'error': error
         })
         
-        # التحقق من الحاجة إلى إعادة التدريب
+        # Check whether retraining is needed
         recent_performance = self.get_recent_performance(model_name, days=7)
         if recent_performance:
             avg_accuracy = np.mean([p['accuracy'] for p in recent_performance])
@@ -84,7 +84,7 @@ class ContinuousVerificationSystem:
     
     def get_recent_performance(self, model_name: str, days: int = 7):
         """
-        استرجاع أداء النموذج في الأيام الأخيرة.
+        Retrieve model performance over the most recent days.
         """
         cutoff_time = datetime.now() - timedelta(days=days)
         return [p for p in self.performance_history.get(model_name, []) 
@@ -92,7 +92,7 @@ class ContinuousVerificationSystem:
     
     def add_feedback(self, model_name: str, old_prediction: float, new_prediction: float, actual: float, feedback: str):
         """
-        إضافة ملاحظات إلى النظام للتحسين المستمر.
+        Add feedback to the system for continuous improvement.
         """
         feedback_entry = {
             'model': model_name,
@@ -105,8 +105,8 @@ class ContinuousVerificationSystem:
         }
         self.feedback_loops.append(feedback_entry)
         
-        # إذا كان التحسين كبيرًا، أضفه إلى اقتراحات التحسين
-        if feedback_entry['error_reduction'] > 0.1:  # إذا كان التحسين ملحوظ
+        # If the improvement is significant, add it to the improvement suggestions
+        if feedback_entry['error_reduction'] > 0.1:  # notable improvement
             improvement_suggestion = {
                 'model': model_name,
                 'suggested_improvement': feedback,

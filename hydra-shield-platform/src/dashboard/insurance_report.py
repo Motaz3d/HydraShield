@@ -11,6 +11,7 @@ from typing import Any, Dict, List
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
@@ -26,7 +27,12 @@ from .verification_report import (
     _xml,
 )
 
-REPORT_ENGINE_VERSION = "1.1.0"
+REPORT_ENGINE_VERSION = "1.1.1"
+
+_TH = ParagraphStyle("th", fontName="Helvetica-Bold", fontSize=8, leading=10,
+                     textColor=colors.white)
+_TD = ParagraphStyle("td", fontName="Helvetica", fontSize=8.5, leading=11)
+_TD_SM = ParagraphStyle("td_sm", fontName="Helvetica", fontSize=7.5, leading=9.5)
 
 
 def _footer(canvas, doc):
@@ -48,15 +54,19 @@ def _footer(canvas, doc):
 
 
 def _peril_overview_table(perils: List[Dict[str, Any]]) -> Table:
-    rows = [["Peril", "Current level", "Claim status", "Confidence", "Events status", "Events count"]]
+    rows = [[
+        Paragraph("Peril", _TH), Paragraph("Current level", _TH),
+        Paragraph("Claim status", _TH), Paragraph("Confidence", _TH),
+        Paragraph("Events status", _TH), Paragraph("Events count", _TH),
+    ]]
     for p in perils:
         rows.append([
-            _xml(p.get("peril")),
-            _xml(p.get("current_level")),
-            _xml(p.get("claim_status")),
-            _xml(p.get("confidence")),
-            _xml(p.get("events_status")),
-            _xml(p.get("events_count")),
+            Paragraph(_xml(p.get("peril")), _TD),
+            Paragraph(_xml(p.get("current_level")), _TD),
+            Paragraph(_xml(p.get("claim_status")), _TD),
+            Paragraph(_xml(p.get("confidence")), _TD),
+            Paragraph(_xml(p.get("events_status")), _TD),
+            Paragraph(_xml(p.get("events_count")), _TD),
         ])
     t = Table(rows, colWidths=(45 * mm, 25 * mm, 25 * mm, 22 * mm, 25 * mm, 22 * mm))
     t.setStyle(TableStyle([
@@ -100,17 +110,20 @@ def _primary_severity_metric(sev: Dict[str, Any]) -> Any:
 
 
 def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
-    rows = [[
-        "Peril", "λ̂ /yr (90% CI)", "Tier", "AEP", "Return period",
+    headers = [
+        "Peril", "λ /yr (90% CI)", "Tier", "AEP", "Return period",
         "10-yr horizon", "Trend", "Severity mean", "E[S] /yr",
-    ]]
+    ]
+    rows = [[Paragraph(h, _TH) for h in headers]]
     for p in perils:
         act = p.get("actuarial") or {}
         if act.get("status") != "ok":
             rows.append([
-                _xml(p.get("peril")),
-                f"{_xml(act.get('status', 'unavailable'))} — see details",
-                "—", "—", "—", "—", "—", "—", "—",
+                Paragraph(_xml(p.get("peril")), _TD_SM),
+                Paragraph(f"{_xml(act.get('status', 'unavailable'))} — see details", _TD_SM),
+                Paragraph("—", _TD_SM), Paragraph("—", _TD_SM), Paragraph("—", _TD_SM),
+                Paragraph("—", _TD_SM), Paragraph("—", _TD_SM), Paragraph("—", _TD_SM),
+                Paragraph("—", _TD_SM),
             ])
             continue
         f = act.get("frequency") or {}
@@ -123,7 +136,7 @@ def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
         sev_cell = f"{primary[1].get('mean')} ({primary[0]})" if primary else "—"
         cr = act.get("collective_risk") or {}
         rp = act.get("return_period_years")
-        rows.append([
+        cells = [
             _xml(p.get("peril")),
             f"{_xml(f.get('lambda_per_year'))} ({_xml(f.get('ci_lower'))}–{_xml(f.get('ci_upper'))})",
             _xml(f.get("tier")),
@@ -133,7 +146,8 @@ def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
             _xml(trend_cell),
             _xml(sev_cell),
             _xml(cr.get("expected_annual_index", "—")),
-        ])
+        ]
+        rows.append([Paragraph(c, _TD_SM) for c in cells])
     t = Table(rows, colWidths=(26 * mm, 26 * mm, 15 * mm, 14 * mm, 17 * mm, 16 * mm, 22 * mm, 20 * mm, 14 * mm),
               repeatRows=1)
     t.setStyle(TableStyle([
@@ -258,7 +272,7 @@ def build_insurance_pdf(profile: Dict[str, Any]) -> bytes:
             f = act.get("frequency") or {}
             rp = act.get("return_period_years")
             story.append(Paragraph(
-                f"<b>Actuarial:</b> λ̂ {_xml(f.get('lambda_per_year'))}/yr "
+                f"<b>Actuarial:</b> λ {_xml(f.get('lambda_per_year'))}/yr "
                 f"(90% CI {_xml(f.get('ci_lower'))}–{_xml(f.get('ci_upper'))}, "
                 f"{_xml(f.get('tier'))}); AEP {_pct(act.get('annual_exceedance_probability'))}"
                 + (f"; return period {_xml(rp)} yrs" if rp is not None else "")

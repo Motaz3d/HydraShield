@@ -21,7 +21,7 @@ from .verification import VERIFICATION_HAZARDS, verify_asset
 
 ENGINE_VERSION = "1.0.0"
 
-SUPPORTED_LANGUAGES = {"en", "fr", "de", "ar"}
+SUPPORTED_LANGUAGES = {"en", "fr", "de"}
 DEFAULT_LANGUAGE = "en"
 
 _PRESS_WATCH_PATH = os.path.join(
@@ -253,54 +253,6 @@ _TEMPLATES = {
         "figure_climate_alt": "Jahresdiagramm des mittleren Tageshöchstwerts und der Niederschlagsanomalie.",
         "figure_ndvi_alt": "Sentinel-2-NDVI-Raster für den Standort.",
         "figure_site_alt": "Kontextbild: Bodenbedeckung und Waldverlust am Standort.",
-    },
-    "ar": {
-        "headline": "حزمة أدلة المناخ: {place}",
-        "subhead": "الموضوع: {taxonomy_label} — {level}",
-        "lead": (
-            "قامت Talaix بفحص {place} ({lat:.3f}°N, {lon:.3f}°E) مقابل ست مخاطر "
-            "مناخية فيزيائية باستخدام بيانات الملاحظة الأرضية الحقيقية وتحليلات "
-            "ERA5. أقوى إشارة هي {taxonomy_label}، المقيَّمة بدرجة {level} "
-            "({claim_status}، الثقة: {confidence})."
-        ),
-        "fact_baseline": (
-            "كان متوسط أقصى درجة حرارة سنوية لخط الأساس 1991–2020 عند نقطة "
-            "الشبكة هذه {base_tmax} °C."
-        ),
-        "fact_temp": (
-            "أحدث سنة كاملة، {year}، كانت {sign}{anomaly} °C مقارنة بخط الأساس "
-            "ذاته."
-        ),
-        "fact_precip": (
-            "كان مجموع الهطول في {year} {precip_pct}% من إجمالي خط الأساس السنوي "
-            "({base_precip} ملم)."
-        ),
-        "fact_hazard": (
-            "{taxonomy_label}: مستوى {level} — {summary}"
-        ),
-        "satellite_available": (
-            "أبلغت أحدث ملاحظة Sentinel-2 خالية من السحب بتاريخ {date} عن مؤشر "
-            "NDVI قدره {ndvi} (المصدر: {source})."
-        ),
-        "satellite_unavailable": (
-            "لا توجد ملاحظة Sentinel-2 حديثة خالية من السحب لهذا الموقع."
-        ),
-        "site_context": (
-            "صورة سياق الموقع: {caption}"
-        ),
-        "honesty": (
-            "جميع الأرقام مستمدة من مصادر مُشار إليها. البيانات غير المتوفرة "
-            "مُعلنة، وليست مُكمَّلة. المستويات هي مؤشرات فحص ما لم يُذكر غير ذلك."
-        ),
-        "methodology": (
-            "مستويات الخطر تأتي من محرك التحقق Talaix. تُشتق حالات الحرارة "
-            "والهطول من أرشيف Open-Meteo (ERA5 / ERA5-Land). تأتي بيانات "
-            "الأقمار الصناعية من برنامج كوبرنيكوس Sentinel-2 عبر كتالوج Earth "
-            "Search STAC العام."
-        ),
-        "figure_climate_alt": "رسم بياني سنوي لمتوسط أقصى درجة حرارة يومية وحالة هطول المطر.",
-        "figure_ndvi_alt": "شبكة NDVI من Sentinel-2 للموقع.",
-        "figure_site_alt": "صورة سياق الموقع: الغطاء الأرضي وفقدان الغطاء الشجري.",
     },
 }
 

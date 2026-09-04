@@ -1,0 +1,57 @@
+[
+  {
+    "id": "MR-011",
+    "outlet": "Reinsurance News",
+    "editor": "News team",
+    "to": "press@reinsurancene.ws",
+    "language": "en",
+    "followup_date": "2026-09-11",
+    "approved": true,
+    "subject": "Data for parametric and cat coverage — a source-labelled fire and heat season",
+    "body": "Hi,\n\nI'm writing from Talaix (talaix.com), a climate-extreme intelligence platform built on satellite Earth observation and open data — every figure labelled with its source and evidence status.\n\nThis season underlines why trigger design needs traceable data: Copernicus reported on 12 August the hottest June–July on record for western Europe with record-low soil moisture, and wildfires in north-eastern Algeria killed at least 12 people amid extreme heat and drought (Al Jazeera, 29 Aug).\n\nFor parametric and catastrophe-reinsurance coverage, Talaix can prepare hazard screening and exposure counts — per asset or portfolio — with the provenance of every input stated.\n\nHappy to send a short data brief.\n\nBest,\nMotaz OMARIEN. Talaix\nEarth Observation & Environmental Risk\nFinancial Decision Intelligence\nLuxembourg-based technology team\ninfo@talaix.com | talaix.com"
+  },
+  {
+    "id": "MR-012",
+    "outlet": "Artemis.bm",
+    "editor": "Steve Evans (Founder & Editor)",
+    "to": "steve@artemis.bm",
+    "language": "en",
+    "followup_date": "2026-09-11",
+    "approved": true,
+    "subject": "ILS and cat bonds — exposure evidence from open Earth-observation data",
+    "body": "Hi Steve,\n\nI'm writing from Talaix (talaix.com), a climate-extreme intelligence platform working from satellite Earth observation, reanalysis and official open data.\n\nFor ILS and cat-bond analysis, the binding constraint is rarely the hazard model — it is verifiable exposure evidence. Talaix screens assets against seven hazards from open data, and every output carries its source and evidence class, so an observed value is never confused with a modelled one.\n\nIf useful for an Artemis piece, we can prepare a worked example — wildfire or flood exposure for a defined set of assets — with uncertainty stated.\n\nHappy to brief you or send a short note.\n\nBest,\nMotaz OMARIEN. Talaix\nEarth Observation & Environmental Risk\nFinancial Decision Intelligence\nLuxembourg-based technology team\ninfo@talaix.com | talaix.com"
+  },
+  {
+    "id": "MR-013",
+    "outlet": "SpaceNews",
+    "editor": "Mike Gruss (Chief Content Officer)",
+    "to": "mgruss@spacenews.com",
+    "language": "en",
+    "followup_date": "2026-09-11",
+    "approved": true,
+    "subject": "New Earth-observation analytics platform for climate-extreme risk — Talaix",
+    "body": "Hi Mike,\n\nA brief introduction for your technology coverage: Talaix (talaix.com) is a Luxembourg-based climate-extreme intelligence platform built on satellite Earth observation and open data.\n\nThe platform screens assets against seven hazards — wildfire, flood, drought, heat, wind and coastal among them — and labels every output by evidence class, so users can tell an observed measurement from a modelled estimate. It serves banks, insurers and investors that need traceable physical-risk evidence.\n\nWe can prepare a technical briefing on the data chain — reanalysis, Earth-observation layers, exposure accounting — if of interest.\n\nBest,\nMotaz OMARIEN. Talaix\nEarth Observation & Environmental Risk\nFinancial Decision Intelligence\nLuxembourg-based technology team\ninfo@talaix.com | talaix.com"
+  },
+  {
+    "id": "MR-014",
+    "outlet": "Via Satellite",
+    "editor": "Editorial team",
+    "to": "editor@viasatellite.com",
+    "language": "en",
+    "followup_date": "2026-09-11",
+    "approved": true,
+    "subject": "Satellite data for insurance and finance workflows — closing the provenance gap",
+    "body": "Hi,\n\nFor Via Satellite's industry coverage: one persistent gap between satellite data and its use in insurance and finance is provenance — financial users often cannot tell an observed measurement from a modelled estimate.\n\nTalaix (talaix.com), a climate-extreme intelligence platform built on Earth observation and open data, addresses this by attaching an evidence class to every output, from hazard screening to exposure counts.\n\nWe can contribute an expert perspective on what evidence-labelled satellite analytics means for the industry's non-space customers — banks, insurers and asset owners.\n\nHappy to send a short outline.\n\nBest,\nMotaz OMARIEN. Talaix\nEarth Observation & Environmental Risk\nFinancial Decision Intelligence\nLuxembourg-based technology team\ninfo@talaix.com | talaix.com"
+  },
+  {
+    "id": "MR-015",
+    "outlet": "GISGeography",
+    "editor": "Editorial team",
+    "to": "hello@gisgeography.com",
+    "language": "en",
+    "followup_date": "2026-09-11",
+    "approved": true,
+    "subject": "Guest post — building an exposure map from open data",
+    "body": "Hi,\n\nA guest-post idea for GISGeography: \"Building an exposure map from open data\" — a practical walkthrough of combining open datasets (ERA5 reanalysis, ESA WorldCover, WorldPop, OpenStreetMap) into a multi-hazard exposure layer, with the resolution and limitation of each dataset stated honestly.\n\nTalaix (talaix.com) runs this pipeline in production for climate-risk screening, and every example in the article would carry its source.\n\nWe can prepare an outline with the dataset list and workflow.\n\nBest,\nMotaz OMARIEN. Talaix\nEarth Observation & Environmental Risk\nFinancial Decision Intelligence\nLuxembourg-based technology team\ninfo@talaix.com | talaix.com"
+  }
+]

@@ -235,24 +235,23 @@
     function renderActuarialReference(ref) {
         if (!ref) return '';
         var html = '<details class="expander" style="margin-top:8px;">' +
-            '<summary><strong>Actuarial reference — formulas &amp; terminology (EN / AR)</strong> ' +
+            '<summary><strong>Actuarial reference — formulas &amp; terminology</strong> ' +
             '<span class="muted small">' + esc(ref.formula_count) + ' formulas · ' + esc(ref.term_count) + ' terms</span></summary>';
         html += '<p class="muted small">' + esc(ref.note || '') + '</p>';
         html += '<h4>Formulas</h4><div class="table-scroll"><table class="data-table"><thead><tr>' +
-            '<th>Name</th><th>الاسم</th><th>Formula</th><th>Use</th></tr></thead><tbody>';
+            '<th>Name</th><th>Formula</th><th>Use</th></tr></thead><tbody>';
         (ref.formulas || []).forEach(function (f) {
-            html += '<tr><td>' + esc(f.name_en) + '</td><td>' + esc(f.name_ar) + '</td>' +
+            html += '<tr><td>' + esc(f.name_en) + '</td>' +
                 '<td><code>' + esc(f.formula) + '</code></td><td class="muted small">' + esc(f.use_en) + '</td></tr>';
         });
         html += '</tbody></table></div>';
         html += '<h4>Terminology</h4><div class="table-scroll"><table class="data-table"><thead><tr>' +
-            '<th>Category</th><th>Term</th><th>المصطلح</th><th>Definition</th><th>التعريف</th></tr></thead><tbody>';
+            '<th>Category</th><th>Term</th><th>Definition</th></tr></thead><tbody>';
         (ref.glossary || []).forEach(function (t) {
             var cat = (ref.categories && ref.categories[t.category]) || {};
             html += '<tr><td class="muted small">' + esc(cat.en || t.category) + '</td>' +
-                '<td>' + esc(t.term_en) + '</td><td>' + esc(t.term_ar) + '</td>' +
-                '<td class="muted small">' + esc(t.def_en) + '</td>' +
-                '<td class="muted small">' + esc(t.def_ar) + '</td></tr>';
+                '<td>' + esc(t.term_en) + '</td>' +
+                '<td class="muted small">' + esc(t.def_en) + '</td></tr>';
         });
         html += '</tbody></table></div></details>';
         return html;

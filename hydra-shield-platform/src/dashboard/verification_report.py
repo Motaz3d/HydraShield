@@ -95,6 +95,9 @@ _B = ParagraphStyle("body", fontName="Helvetica", fontSize=9.5, leading=13,
                     spaceAfter=3)
 _SM = ParagraphStyle("small", fontName="Helvetica", fontSize=8, leading=11,
                      textColor=_MUTED, spaceAfter=2)
+_TH = ParagraphStyle("th", fontName="Helvetica-Bold", fontSize=8, leading=10,
+                     textColor=colors.white)
+_TD = ParagraphStyle("td", fontName="Helvetica", fontSize=8, leading=10)
 
 
 def _footer(canvas, doc):
@@ -162,7 +165,11 @@ def _evidence_table(records: List[Dict[str, Any]]) -> Optional[Table]:
     """Evidence records for one hazard."""
     if not records:
         return None
-    rows = [["Status", "Class", "Source / dataset", "Period", "Link"]]
+    rows = [[
+        Paragraph("Status", _TH), Paragraph("Class", _TH),
+        Paragraph("Source / dataset", _TH), Paragraph("Period", _TH),
+        Paragraph("Link", _TH),
+    ]]
     for rec in records:
         period = "—"
         ref = rec.get("reference_period")
@@ -171,11 +178,11 @@ def _evidence_table(records: List[Dict[str, Any]]) -> Optional[Table]:
         link = rec.get("link") or rec.get("provider_url") or ""
         link_cell = f'<a href="{_xml(link)}" color="blue">{_xml(link[:60])}</a>' if link else "—"
         rows.append([
-            _xml(rec.get("claim_status") or "UNKNOWN"),
-            _xml(rec.get("evidence_class") or "—"),
-            _xml(f"{rec.get('source') or ''}{(' · ' + rec.get('dataset')) if rec.get('dataset') else ''}"),
-            _xml(period),
-            Paragraph(link_cell, _SM) if link else "—",
+            Paragraph(_xml(rec.get("claim_status") or "UNKNOWN"), _TD),
+            Paragraph(_xml(rec.get("evidence_class") or "—"), _TD),
+            Paragraph(_xml(f"{rec.get('source') or ''}{(' · ' + rec.get('dataset')) if rec.get('dataset') else ''}"), _TD),
+            Paragraph(_xml(period), _TD),
+            Paragraph(link_cell, _TD) if link else Paragraph("—", _TD),
         ])
     t = Table(rows, colWidths=(22 * mm, 25 * mm, 55 * mm, 30 * mm, 38 * mm))
     t.setStyle(TableStyle([
