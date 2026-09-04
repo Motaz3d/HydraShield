@@ -54,6 +54,19 @@ def audit_line(entry: dict, status: str, note: str = "") -> None:
         fh.write(f"{date.today().isoformat()},{entry.get('id')},{entry.get('outlet')},{entry.get('to') or entry.get('channel')},{status},{note}\n")
 
 
+SIGNATURE_MARKER = "info@talaix.com | talaix.com"
+
+
+def with_signature(body: str) -> str:
+    # Queue bodies copied from paste-templates may already carry the approved
+    # signature inline; appending a second one produced double signatures
+    # (JR-001/JR-002, 2026-09-03). Append exactly once.
+    body = body.rstrip()
+    if SIGNATURE_MARKER in body:
+        return body + "\n"
+    return body + "\n\n" + mailer.signature_text() + "\n"
+
+
 def send_one(entry: dict) -> None:
     host = os.environ["SMTP_HOST"]
     port = int(os.environ.get("SMTP_PORT", "587"))
@@ -69,8 +82,8 @@ def send_one(entry: dict) -> None:
     msg["Date"] = formatdate(localtime=False)
     domain = sender.rsplit("@", 1)[-1] if "@" in sender else "talaix.com"
     msg["Message-ID"] = make_msgid("hydrashield", domain)
-    # Same corporate signature as every other Talaix email.
-    msg.set_content(entry["body"].rstrip() + "\n\n" + mailer.signature_text() + "\n")
+    # Same corporate signature as every other Talaix email — exactly once.
+    msg.set_content(with_signature(entry["body"]))
     with smtplib.SMTP(host, port, timeout=20) as smtp:
         smtp.starttls()
         if user:
