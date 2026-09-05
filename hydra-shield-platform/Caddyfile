@@ -27,6 +27,12 @@ talaix.com {
 		# JSON at /api/sources).
 		rewrite /sources /sources.html
 		rewrite /sources/ /sources.html
+		# Fresh HTML/JS/CSS on every visit: ETag revalidation (304) keeps it
+		# cheap while a deploy becomes visible without a hard refresh.
+		@documents path *.html / *.css *.js
+		header @documents Cache-Control "no-cache"
+		@assets path *.png *.jpg *.jpeg *.svg *.webp *.ico *.woff2 *.xsd
+		header @assets Cache-Control "public, max-age=300"
 		file_server
 	}
 
