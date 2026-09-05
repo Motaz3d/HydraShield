@@ -1,7 +1,78 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "note": "Talaix Knowledge Arm — periodic briefs and framework explainers. Every item carries open sources with links; news items are REPORTED (publisher account), official documents are DOCUMENTED. Nothing is published without a source.",
   "briefs": [
+    {
+      "id": "explainer-esrs-e1-physical-risk",
+      "kind": "framework_explainer",
+      "title": "CSRD / ESRS E1 and physical climate risk — a plain-language explainer",
+      "date": "2026-09-06",
+      "summary": "What the CSRD requires companies to report under ESRS E1, where physical climate risk lives inside the standard, what double materiality means in practice, and what kind of evidence a physical-risk disclosure needs to rest on.",
+      "sections": [
+        {
+          "heading": "What the CSRD changes",
+          "body": "The Corporate Sustainability Reporting Directive (Directive (EU) 2022/2464) moves sustainability reporting from voluntary narrative to mandatory, assured disclosure. Companies in scope must report using the European Sustainability Reporting Standards (ESRS), adopted as Commission Delegated Regulation (EU) 2023/2772, and the report must be assured by a statutory auditor or an accredited independent assurance provider. The directive applies in waves to large companies and listed SMEs; thresholds and timing have been amended since adoption, so the current text — not a summary, including this one — decides whether a given company is in scope."
+        },
+        {
+          "heading": "Where physical risk lives in ESRS E1",
+          "body": "ESRS E1 is the climate-change standard. Alongside transition plans and greenhouse-gas emissions, it expects a company to identify its material physical climate risks — acute hazards such as floods, wildfires and storms, and chronic shifts such as heat stress, water stress and sea-level rise — and to disclose their anticipated financial effects: how they could affect assets, operations and cash flows over time. Scenario analysis appears here as well: companies are expected to consider how their strategy and business model hold up under stated climate pathways. Physical-risk disclosure is therefore not a side note in ESRS E1; it is one of its load-bearing walls."
+        },
+        {
+          "heading": "Double materiality, in one paragraph",
+          "body": "Double materiality means a topic is material if it matters in either of two directions. Outside-in (financial materiality): how does climate change affect the company's value — its assets, liabilities, revenues and cost of capital? Inside-out (impact materiality): how does the company affect the climate and environment? Physical climate risk sits mainly in the outside-in direction, but the two meet: a company whose operations degrade a floodplain, for example, can increase the very hazard that later hits its own balance sheet."
+        },
+        {
+          "heading": "What evidence a physical-risk disclosure needs",
+          "body": "A defensible physical-risk disclosure rests on location-level evidence, not sector averages. In practice that means: the coordinates of material sites and assets; the hazards screened at those coordinates; the claim status of each result — was it OBSERVED (a measurement), DOCUMENTED (an official record), MODELLED (a declared model output) or REPORTED (a third party's account); and the stated limitations of each layer. A disclosure that asserts low physical risk without location-level evidence is exactly the kind of statement assurance providers are learning to challenge."
+        },
+        {
+          "heading": "Boundaries are a feature, not a defect",
+          "body": "No evidence platform covers every ESRS requirement, and honesty about boundaries is what makes a disclosure auditable. Talaix sustainability reports tag each mapped requirement as covered_by_evidence, partial or not_covered: covered means platform evidence supports the element, partial means some elements remain for the company to supply, and not_covered means the platform cannot currently supply evidence and the company must provide its own or state the boundary. A report that claims full coverage without boundaries should attract more scepticism, not less."
+        },
+        {
+          "heading": "What this means for banks and insurers",
+          "body": "CSRD reports filed by borrowers and insureds become inputs to financial institutions' own processes: EBA Pillar 3 ESG templates expect banks to collect counterparty-level ESG information, and insurers reading a corporate disclosure can cross-check its physical-risk statements against independent screening evidence. The same discipline applies on both sides of the table — read the claim status and the boundaries before the conclusion."
+        }
+      ],
+      "sources": [
+        {
+          "name": "Directive (EU) 2022/2464 (Corporate Sustainability Reporting Directive) — EUR-Lex",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022L2464",
+          "date": "2022-12-14",
+          "claim_status": "DOCUMENTED"
+        },
+        {
+          "name": "Commission Delegated Regulation (EU) 2023/2772 (European Sustainability Reporting Standards, incl. ESRS E1) — EUR-Lex",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2772",
+          "date": "2023-07-31",
+          "claim_status": "DOCUMENTED"
+        },
+        {
+          "name": "EFRAG — Sustainability reporting / ESRS",
+          "url": "https://www.efrag.org/en/sustainability-reporting/esrs",
+          "date": null,
+          "claim_status": "DOCUMENTED"
+        }
+      ],
+      "related_tools": [
+        {
+          "label": "Sustainability report tool",
+          "href": "sustainability.html"
+        },
+        {
+          "label": "Talaix Academy — EU framework map module",
+          "href": "academy.html"
+        }
+      ],
+      "related_glossary": [
+        "csrd",
+        "esrs",
+        "double_materiality",
+        "physical_risk",
+        "scenario_analysis"
+      ],
+      "status": "published"
+    },
     {
       "id": "explainer-eu-taxonomy-dnsh-adaptation",
       "kind": "framework_explainer",
@@ -51,10 +122,22 @@
         }
       ],
       "related_tools": [
-        {"label": "Green Finance Verification", "href": "green-finance.html"},
-        {"label": "Talaix Academy — EU framework map module", "href": "academy.html"}
+        {
+          "label": "Green Finance Verification",
+          "href": "green-finance.html"
+        },
+        {
+          "label": "Talaix Academy — EU framework map module",
+          "href": "academy.html"
+        }
       ],
-      "related_glossary": ["eu_taxonomy", "dnsh", "acute_hazard", "chronic_hazard", "green_asset_ratio"],
+      "related_glossary": [
+        "eu_taxonomy",
+        "dnsh",
+        "acute_hazard",
+        "chronic_hazard",
+        "green_asset_ratio"
+      ],
       "status": "published"
     },
     {
@@ -98,10 +181,22 @@
         }
       ],
       "related_tools": [
-        {"label": "Insurance & Environmental Risk", "href": "insurance.html"},
-        {"label": "Supply Chain & Origin Evidence", "href": "supplychain.html"}
+        {
+          "label": "Insurance & Environmental Risk",
+          "href": "insurance.html"
+        },
+        {
+          "label": "Supply Chain & Origin Evidence",
+          "href": "supplychain.html"
+        }
       ],
-      "related_glossary": ["eu_taxonomy", "dnsh", "chronic_hazard", "eudr", "greenwashing"],
+      "related_glossary": [
+        "eu_taxonomy",
+        "dnsh",
+        "chronic_hazard",
+        "eudr",
+        "greenwashing"
+      ],
       "status": "published"
     }
   ]

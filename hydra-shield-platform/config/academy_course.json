@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "courses": [
     {
       "id": "climate-risk-finance",
@@ -11,24 +11,38 @@
         {
           "id": "foundations",
           "title": "Foundations: climate risk in finance",
-          "minutes": 12,
-          "summary": "Why physical and transition climate risks matter to banks, insurers and investors, and the disclosure architecture built around the TCFD recommendations.",
+          "minutes": 14,
+          "summary": "Why physical climate risk is now a credit, underwriting and supervisory issue, and the disclosure architecture built around the TCFD recommendations.",
+          "objectives": [
+            "Distinguish physical from transition climate risk, and acute from chronic hazards",
+            "Explain why supervisors (ECB, EBA, EIOPA) now expect physical-risk management",
+            "Describe the TCFD four-pillar architecture and its continuation in IFRS S2",
+            "Outline the hazard → exposure → vulnerability → impact analysis chain this course follows"
+          ],
           "sections": [
             {
+              "heading": "Why physical risk matters now",
+              "body": "Physical climate events already produce documented financial losses. Public loss records such as NOAA's Billion-Dollar Weather and Climate Disasters database in the United States and the international EM-DAT archive catalogue events and their estimated costs, and supervisors now expect regulated firms to know their own exposure to such events. What changed is not only the hazard landscape but the obligation: climate risk has moved from corporate-responsibility reports into credit files, underwriting manuals and supervisory stress tests. A bank that finances a warehouse, an insurer that covers it and an investor that holds a security backed by it all face the same physical events — whether they measure them or not. This course teaches you to measure them honestly."
+            },
+            {
               "heading": "Physical vs transition risk",
-              "body": "Climate risk in finance is usually split into physical risk and transition risk. Physical risk is the damage or value loss caused by climate-driven events and long-term shifts, such as floods, wildfires, heat stress and sea-level rise. Transition risk is the financial impact of moving to a lower-carbon economy, driven by policy, technology, litigation and market preferences. Both can hit the same asset or portfolio at the same time, so analysts should consider them together rather than in isolation."
+              "body": "Climate risk in finance is usually split into physical risk and transition risk. Physical risk is the damage or value loss caused by climate-driven events and long-term shifts, such as floods, wildfires, heat stress and sea-level rise. Transition risk is the financial impact of moving to a lower-carbon economy, driven by policy, technology, litigation and market preferences. Both can hit the same asset or portfolio at the same time, so analysts should consider them together rather than in isolation. The two also interact: a region facing rising wildfire hazard may simultaneously face stricter building codes, insurance withdrawal and land-use restrictions — physical and transition pressures on the same collateral."
             },
             {
               "heading": "Acute vs chronic hazards",
-              "body": "Physical risk is further divided into acute and chronic hazards. Acute hazards are event-driven, such as storms, floods and wildfires. Chronic hazards develop gradually, such as persistent drought, water stress, sea-level rise and long-term temperature change. Acute hazards tend to drive insurance losses and immediate credit events; chronic hazards erode collateral values, increase operating costs and change long-term default probabilities."
+              "body": "Physical risk is further divided into acute and chronic hazards. Acute hazards are event-driven, such as storms, floods and wildfires. Chronic hazards develop gradually, such as persistent drought, water stress, sea-level rise and long-term temperature change. Acute hazards tend to drive insurance losses and immediate credit events; chronic hazards erode collateral values, increase operating costs and change long-term default probabilities. Chronic hazards are easier to overlook because they rarely produce one dramatic event; their financial effect appears as a slow repricing of assets and gradual insurance retreat. The EU Taxonomy's Appendix A hazard list, which module 6 walks through hands-on, covers both types and requires analysts to consider the full set, not only the most obvious local peril."
             },
             {
               "heading": "From TCFD to IFRS S2",
-              "body": "The Task Force on Climate-related Financial Disclosures (TCFD) organised climate reporting around four pillars: governance, strategy, risk management, and metrics and targets. That structure has been adopted by standard-setters globally. The ISSB's IFRS S2 Climate-related Disclosures now carries the TCFD recommendations forward as an international standard. The framework is therefore not a regulation by itself, but it shapes regulatory disclosure rules in many jurisdictions."
+              "body": "The Task Force on Climate-related Financial Disclosures (TCFD) organised climate reporting around four pillars: governance, strategy, risk management, and metrics and targets. Governance asks who is accountable. Strategy asks how climate risks affect the business model under different scenarios. Risk management asks how those risks are identified, assessed and integrated. Metrics and targets asks how they are quantified and tracked. That structure has been adopted by standard-setters globally: the ISSB's IFRS S2 Climate-related Disclosures now carries the TCFD recommendations forward as an international standard. The framework is not a regulation by itself, but it shapes regulatory disclosure rules in many jurisdictions — when you read a bank's or insurer's climate disclosure, these four questions are the map."
             },
             {
               "heading": "Why supervisors now require this",
-              "body": "Banking, insurance and securities supervisors expect regulated firms to identify, measure and disclose climate risks. The European Banking Authority (EBA) has issued guidelines and Pillar 3 ESG disclosure templates for banks. The European Central Bank expects banks under its supervision to manage climate risks as part of their risk frameworks. EIOPA, the insurance and pensions authority, has published stress-test exercises and disclosure expectations for insurers. These are supervisory expectations, not optional best practice."
+              "body": "Banking, insurance and securities supervisors expect regulated firms to identify, measure and disclose climate risks. The ECB's 2020 guide on climate-related and environmental risks set expectations for the banks it supervises; the European Banking Authority followed with guidelines and binding Pillar 3 ESG disclosure templates; EIOPA runs climate stress-test exercises for insurers and publishes natural-catastrophe risk monitoring. These are supervisory expectations, not optional best practice. For a financial professional this means physical-risk evidence is no longer a nice-to-have annex — it is requested in supervisory dialogue, in disclosure templates and, increasingly, in credit and underwriting committees."
+            },
+            {
+              "heading": "The analysis chain this course follows",
+              "body": "Throughout the course we use one chain: hazard → exposure → vulnerability → financial impact, assessed with evidence whose status is declared. A hazard only matters where something of value is exposed, and exposure only becomes loss where the exposed asset is vulnerable. Module 2 looks at the hazard families and the data used to observe them; module 3 turns them into financial impact; module 4 maps the EU regulations that require this work; module 5 teaches evidence literacy; modules 6 and 7 apply the chain hands-on with Talaix reports. Keep the chain in mind — it is the skeleton of every physical-risk assessment you will ever write."
             }
           ],
           "key_terms": [
@@ -39,6 +53,10 @@
             "tcfd",
             "ifrs_s2"
           ],
+          "try_it": {
+            "label": "Explore the live multi-hazard map",
+            "href": "map.html"
+          },
           "quiz": [
             {
               "question": "Which of the following is an example of transition risk?",
@@ -96,34 +114,281 @@
               "concepts": [
                 "acute_vs_chronic"
               ]
+            },
+            {
+              "question": "A bank finances a hotel on a coastline. Which combination best describes the full physical-risk picture the bank should examine?",
+              "options": [
+                "Only the probability of a storm this year.",
+                "The hazards at the location, the hotel's exposure and vulnerability, and how losses would transmit to collateral value and default probability.",
+                "The hotel's carbon emissions only.",
+                "The global average sea-level trend only."
+              ],
+              "correct_index": 1,
+              "explanation": "Physical-risk assessment chains hazard, exposure and vulnerability to a financial transmission channel — here collateral value and probability of default.",
+              "concepts": [
+                "risk_in_finance"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hazards-data",
+          "title": "Hazard types and data sources",
+          "minutes": 15,
+          "summary": "The ten hazard families Talaix screens, the open datasets that observe or model them, and why coverage limits are declared — never filled.",
+          "objectives": [
+            "Name the ten hazard families screened by Talaix and classify them as acute or chronic",
+            "Distinguish OBSERVED satellite layers from MODELLED reanalysis and forecast layers",
+            "Name the core open datasets behind each layer and what each one measures",
+            "Explain resolution, coverage and licensing limits — and why UNKNOWN is declared, never filled"
+          ],
+          "sections": [
+            {
+              "heading": "Ten hazard families — and why two of them are not climate",
+              "body": "Talaix screens ten hazard families: wildfire, river and pluvial flood, drought, extreme heat, extreme wind, coastal flooding and extreme sea level, tropical cyclone, earthquake, volcanic activity and dust. Eight are climate-driven or climate-influenced; earthquake and volcanic activity are geophysical, but they belong in any honest physical-risk screen because they damage the same assets and because the EU Taxonomy's Appendix A hazard list includes geophysical hazards such as earthquakes. Acute hazards — wildfire, flood, wind, cyclone, earthquake, eruption — arrive as events. Chronic hazards — drought, heat stress, coastal sea-level rise, long-term water stress — accumulate. A serious assessment names the full set first, then asks which are material for the asset."
+            },
+            {
+              "heading": "Observing the Earth from space",
+              "body": "Satellite Earth observation provides direct measurements. Optical missions such as Sentinel-2 and Landsat image land at resolutions of roughly ten to thirty metres, letting analysts see burn scars, flood water, vegetation stress and land-cover change — when the sky is clear. Thermal sensors on VIIRS and MODIS detect active fires within hours through NASA's FIRMS service. ESA WorldCover provides global land-cover maps, and radar elevation missions such as SRTM supply terrain height — available at about 25 m resolution over Europe and about 90 m across most of the rest of the globe in the datasets Talaix uses. These are OBSERVED layers: something was measured, not simulated."
+            },
+            {
+              "heading": "Modelled weather, climate and water layers",
+              "body": "Other layers are modelled. Open-Meteo provides forecast and historical weather variables; ERA5 and ERA5-Land are reanalyses — reconstructions of past weather produced by blending observations with a numerical weather model; GloFAS models river discharge and flood conditions at scale; GEOGLOWS and national gauge services such as the USGS provide modelled and observed river flow. A reanalysis is not a measurement: it is the best physically consistent estimate of what happened, gridded in space and time. Talaix labels such layers MODELLED so users never confuse them with direct observation."
+            },
+            {
+              "heading": "Event archives and loss records",
+              "body": "Event archives document what actually occurred. GDACS, the UN-OCHA and EU JRC alert system, tracks floods, cyclones, earthquakes and volcanic activity worldwide; NASA's EONET catalogues natural events including wildfires and dust storms; IBTrACS archives historical tropical-cyclone tracks; USGS ComCat and EMSC record earthquakes; NOAA's NCEI database records documented US disaster losses, with EM-DAT and DesInventar providing international disaster records. These are DOCUMENTED layers: institutional records with dates, magnitudes and, where available, loss estimates. They answer the question every committee asks — has this actually happened here before? — and long event histories are the raw material for return-period thinking: how often, on average, events of a given magnitude recur."
+            },
+            {
+              "heading": "Resolution, coverage and the honest UNKNOWN",
+              "body": "Every layer has limits. Optical satellites cannot see through clouds and revisit each location only every few days. Elevation data is finer in Europe than elsewhere. Some archives are deep in one region and thin in another. A pipeline that needs a licence key — the Talaix CAMS dust layer is an example — stays declared-but-inactive until the key exists, rather than being silently approximated. When the evidence for a hazard at a location does not exist, the correct output is UNKNOWN with the gap stated. Module 5 returns to this principle in detail: in physical-risk work, an honest gap is more valuable than an invented number."
+            }
+          ],
+          "key_terms": [
+            "physical_hazard",
+            "earth_observation",
+            "reanalysis",
+            "return_period",
+            "claim_status"
+          ],
+          "try_it": {
+            "label": "Browse the open data sources registry",
+            "href": "sources.html"
+          },
+          "quiz": [
+            {
+              "question": "Which pair of hazards screened by Talaix is geophysical rather than climate-driven?",
+              "options": [
+                "Flood and drought.",
+                "Earthquake and volcanic activity.",
+                "Extreme heat and wildfire.",
+                "Wind and tropical cyclone."
+              ],
+              "correct_index": 1,
+              "explanation": "Earthquakes and volcanic activity are geophysical. They are screened because they damage the same assets and appear in the EU Taxonomy Appendix A hazard list.",
+              "concepts": [
+                "hazard_taxonomy"
+              ]
+            },
+            {
+              "question": "Sentinel-2 and Landsat imagery is best described as:",
+              "options": [
+                "MODELLED output.",
+                "OBSERVED measurement.",
+                "REPORTED disclosure.",
+                "INFERRED conclusion."
+              ],
+              "correct_index": 1,
+              "explanation": "Optical satellite scenes are direct measurements — OBSERVED — though clouds and revisit times limit them.",
+              "concepts": [
+                "eo_observation"
+              ]
+            },
+            {
+              "question": "ERA5 reanalysis is:",
+              "options": [
+                "A satellite photograph.",
+                "A gridded reconstruction of past weather blending observations with a numerical model.",
+                "A disaster-loss database.",
+                "A regulatory disclosure template."
+              ],
+              "correct_index": 1,
+              "explanation": "Reanalysis blends observations with a numerical weather model into a physically consistent archive. It is a MODELLED layer, not a direct measurement.",
+              "concepts": [
+                "modelled_layers"
+              ]
+            },
+            {
+              "question": "Which source archives historical tropical-cyclone tracks?",
+              "options": [
+                "IBTrACS.",
+                "ESMA.",
+                "ESA WorldCover.",
+                "SRTM."
+              ],
+              "correct_index": 0,
+              "explanation": "IBTrACS is the international archive of historical tropical-cyclone tracks. WorldCover is land cover, SRTM is elevation, and ESMA is a securities regulator.",
+              "concepts": [
+                "event_archives"
+              ]
+            },
+            {
+              "question": "A hazard layer has no usable data for a location. The correct platform behaviour is:",
+              "options": [
+                "Fill the gap with a regional average.",
+                "Mark the layer UNKNOWN and declare the gap.",
+                "Hide the row from the report.",
+                "Mark the hazard as safe."
+              ],
+              "correct_index": 1,
+              "explanation": "UNKNOWN with a declared gap is honest information. Filling, hiding or marking safe would all invent certainty that does not exist.",
+              "concepts": [
+                "coverage_honesty"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hazard-to-impact",
+          "title": "From hazard to financial impact",
+          "minutes": 15,
+          "summary": "How hazard, exposure and vulnerability combine into losses, and how those losses transmit to a bank's, insurer's or investor's numbers.",
+          "objectives": [
+            "Define hazard, exposure and vulnerability — and keep them separate in an assessment",
+            "Trace physical events to bank channels: collateral value (LGD) and borrower cash flow (PD)",
+            "Trace the same events to insurer and investor metrics, including portfolio aggregation",
+            "Read scenario outputs as structured what-ifs, not predictions"
+          ],
+          "sections": [
+            {
+              "heading": "Hazard, exposure, vulnerability",
+              "body": "Physical risk emerges from three ingredients. The hazard is the event or trend itself — the flood, the fire, the heatwave. Exposure is what sits in its path: buildings, crops, infrastructure, people, cash flows. Vulnerability is how badly the exposed asset is affected: a raised warehouse and a warehouse with a basement face the same flood with very different losses. No exposure, no risk; no vulnerability, no loss. When you read a physical-risk assessment, keep asking which of the three ingredients each number describes — many disagreements in this field are really people using the same word for different ingredients."
+            },
+            {
+              "heading": "Transmission to a bank's balance sheet",
+              "body": "For a lender, physical events transmit through a small set of channels. Collateral channel: a damaged or uninsurable property is worth less, raising loss given default. Income channel: a borrower whose operations are interrupted — a flooded factory, a drought-hit farm — has weaker cash flow, raising probability of default. Cost channel: insurance premiums, adaptation capital expenditure and repair costs squeeze margins. And a portfolio channel: many exposures concentrated in one hazard zone can turn a local event into a portfolio event. Credit policy increasingly asks for this mapping explicitly, and supervisors ask banks to show it."
+            },
+            {
+              "heading": "Transmission to insurers and investors",
+              "body": "For an insurer the channels are claims frequency and severity, plus aggregation — many policies hit by the same event. Chronic change matters as much as events: rising wildfire or flood exposure can make a region uninsurable at any price, which is an underwriting decision with social consequences. For an investor, physical risk transmits through asset valuation, rental and dividend cash flows, and the cost of capital; for public assets, through municipal fiscal stress. In every case the chain is the same — hazard, exposure, vulnerability — but the metric at the end differs: LGD and PD for the bank, loss cost for the insurer, value and yield for the investor."
+            },
+            {
+              "heading": "Scenarios are maps, not prophecies",
+              "body": "Climate scenario analysis, expected under TCFD and IFRS S2 and used in supervisory stress tests, asks what would happen to a portfolio under a stated pathway — it does not predict the future. Treat any scenario output as a structured what-if, and treat screening indicators as preliminary signals with declared limitations, not as calibrated catastrophe models. Talaix reports deliberately do not output AAL, PML or exceedance-probability curves: those belong to validated catastrophe models and actuarial work. The discipline is to know which tool answers which question — and to say so in the credit file."
+            },
+            {
+              "heading": "Adaptation: the investable countermeasure",
+              "body": "The chain has a positive side: vulnerability can be reduced. Flood barriers, fire-resistant construction, cooling and water-efficiency measures, and early-warning systems all lower the loss a given hazard produces — and they are investable. The EU Taxonomy recognises climate-change adaptation as one of its six environmental objectives, so adaptation expenditure can be taxonomy-relevant when it is evidence-based. For the analyst this changes the conversation with a borrower: an adverse screening row is not only a risk flag, it is the starting point for a question — what adaptation measure would bring this exposure down, and can we finance it? Physical evidence then does double duty: it identifies the problem and later documents whether the measure is actually in place."
+            },
+            {
+              "heading": "A worked example, end to end",
+              "body": "Consider a logistics warehouse proposed as loan collateral. Step one — hazard: the screen returns per-hazard rows for the coordinates; suppose river flood shows an adverse level with DOCUMENTED event history in the river basin, while wildfire is elevated but MODELLED-only. Step two — exposure: the site, its access road and the regional power substation all sit inside the same flood outline, so an event could interrupt operations even if the building itself stays dry. Step three — vulnerability: the borrower states the storage floor is raised and provides an elevation certificate; that document is REPORTED until verified. Step four — transmission: weaker collateral value raises loss given default, and interrupted operations raise probability of default; concentration analysis shows two other loans in the same basin. Step five — the credit file records all of this in claim-status language: what is DOCUMENTED, what is MODELLED, what is REPORTED by the borrower, what remains UNKNOWN, and which adaptation measure would change the answer. No single number decided anything — the chain did."
+            }
+          ],
+          "key_terms": [
+            "exposure",
+            "vulnerability",
+            "scenario_analysis",
+            "screening_indicator"
+          ],
+          "try_it": {
+            "label": "Build a real report on a location",
+            "href": "report-builder.html"
+          },
+          "quiz": [
+            {
+              "question": "A data centre and an empty field sit in the same flood zone and the flood depth is identical for both. What differs?",
+              "options": [
+                "The hazard.",
+                "The exposure and vulnerability.",
+                "Nothing — the risk is the same.",
+                "The return period."
+              ],
+              "correct_index": 1,
+              "explanation": "The hazard is shared; exposure (what is there) and vulnerability (how badly it is affected) create very different risk.",
+              "concepts": [
+                "exposure_vulnerability"
+              ]
+            },
+            {
+              "question": "A flood damages a mortgaged warehouse and interrupts the borrower's business. Which channels transmit this to the lender?",
+              "options": [
+                "Only the reputational channel.",
+                "Collateral value (loss given default) and borrower cash flow (probability of default).",
+                "Only the transition channel.",
+                "None — floods are purely an insurer's problem."
+              ],
+              "correct_index": 1,
+              "explanation": "Damaged collateral raises LGD; interrupted operations weaken cash flow and raise PD. These are the classic physical-risk transmission channels for lenders.",
+              "concepts": [
+                "transmission_channels"
+              ]
+            },
+            {
+              "question": "Why does geographic concentration matter in a loan or insurance portfolio?",
+              "options": [
+                "It reduces paperwork.",
+                "Many exposures can be hit by the same event, turning a local event into a portfolio event.",
+                "It guarantees higher returns.",
+                "It removes the need for scenario analysis."
+              ],
+              "correct_index": 1,
+              "explanation": "Concentration creates aggregation: one flood or wildfire can hit many loans or policies at once, which is why supervisors and reinsurers watch concentration closely.",
+              "concepts": [
+                "portfolio_aggregation"
+              ]
+            },
+            {
+              "question": "A climate scenario analysis output should be read as:",
+              "options": [
+                "A prediction of future losses.",
+                "A structured what-if under a stated pathway.",
+                "A validated catastrophe model.",
+                "A regulatory capital number."
+              ],
+              "correct_index": 1,
+              "explanation": "Scenarios explore what could happen under stated assumptions. They are maps of possibility, not forecasts — and screening outputs are not cat-model loss curves.",
+              "concepts": [
+                "scenario_humility"
+              ]
             }
           ]
         },
         {
           "id": "eu-frameworks",
           "title": "EU framework map",
-          "minutes": 15,
+          "minutes": 17,
           "summary": "A plain-language tour of the EU sustainability regulations that shape financial disclosure and product classification.",
+          "objectives": [
+            "Explain the EU Taxonomy's substantial-contribution and DNSH tests, including the six environmental objectives",
+            "Place SFDR Articles 6, 8 and 9 as disclosure categories, not merit labels",
+            "Describe CSRD/ESRS E1 physical-risk disclosure and double materiality",
+            "Summarise EBA Pillar 3 ESG, the Green Asset Ratio, the EU Green Bond Regulation and Solvency II natural-catastrophe capital"
+          ],
           "sections": [
             {
               "heading": "EU Taxonomy and DNSH",
-              "body": "The EU Taxonomy is a classification system for environmentally sustainable economic activities. An activity must substantially contribute to one of six environmental objectives and do no significant harm (DNSH) to the other five. For climate-change adaptation, DNSH means the activity must be resilient to material physical climate risks. The Taxonomy is a disclosure tool, not an investment recommendation or a green label for portfolios."
+              "body": "The EU Taxonomy is a classification system for environmentally sustainable economic activities. An activity must substantially contribute to one of six environmental objectives — climate-change mitigation, climate-change adaptation, sustainable use of water and marine resources, transition to a circular economy, pollution prevention and control, and protection of biodiversity and ecosystems — and do no significant harm (DNSH) to the other five. For climate-change adaptation, DNSH means the activity must be resilient to material physical climate risks, and Appendix A of the Climate Delegated Act lists the physical hazards such an assessment must consider; module 6 walks that list hands-on. The Taxonomy is a disclosure tool, not an investment recommendation or a green label for portfolios."
             },
             {
               "heading": "SFDR: disclosure, not a virtue label",
-              "body": "The Sustainable Finance Disclosure Regulation requires financial-market participants and advisers to publish sustainability disclosures. Article 6 covers products with no sustainability claim, Article 8 covers products that promote environmental or social characteristics, and Article 9 covers products with a sustainable investment objective. These are disclosure categories, not rankings of environmental merit, and greenwashing has occurred when disclosures did not match reality."
+              "body": "The Sustainable Finance Disclosure Regulation requires financial-market participants and advisers to publish sustainability disclosures. Article 6 covers products with no sustainability claim, Article 8 covers products that promote environmental or social characteristics, and Article 9 covers products with a sustainable investment objective. These are disclosure categories, not rankings of environmental merit, and greenwashing has occurred when disclosures did not match reality. The practical lesson for analysts: never infer physical-risk quality from the article label — ask what evidence sits behind the disclosure. Most of this course is about that evidence."
             },
             {
               "heading": "CSRD and ESRS",
-              "body": "The Corporate Sustainability Reporting Directive expands sustainability reporting for large EU companies and listed SMEs. Reports are prepared under the European Sustainability Reporting Standards (ESRS). ESRS E1 covers climate change, including transition plans, physical and transition risks, and greenhouse-gas emissions. Reports must be assured by a statutory auditor or accredited independent assurance provider."
+              "body": "The Corporate Sustainability Reporting Directive expands sustainability reporting for large EU companies and listed SMEs. Reports are prepared under the European Sustainability Reporting Standards (ESRS), and must be assured by a statutory auditor or accredited independent assurance provider. ESRS E1 covers climate change, including transition plans, physical and transition risks, and greenhouse-gas emissions. Under double materiality, a company reports both how climate change affects its finances (outside-in) and how the company affects the climate and environment (inside-out). For physical risk, ESRS E1 expects disclosure of material physical risks and their anticipated financial effects — which is where location-level evidence becomes necessary rather than decorative."
             },
             {
               "heading": "EBA Pillar 3 ESG and the Green Asset Ratio",
-              "body": "The EBA mandates standardised ESG disclosure templates for banks, including the Green Asset Ratio (GAR). The GAR expresses taxonomy-aligned assets as a share of total covered assets. It is a quantitative disclosure, not a policy target, and its usefulness depends on the quality of the underlying taxonomy-alignment evidence."
+              "body": "The EBA mandates standardised ESG disclosure templates for banks, including the Green Asset Ratio (GAR). The GAR expresses taxonomy-aligned assets as a share of total covered assets. It is a quantitative disclosure, not a policy target, and its usefulness depends on the quality of the underlying taxonomy-alignment evidence. Alongside the GAR, the templates push banks to disclose exposures subject to physical risk, which forces collateral-level location data into credit operations — one reason physical-risk screening has moved from the sustainability team into the credit file."
             },
             {
               "heading": "EU Green Bonds and external reviewers",
               "body": "The EU Green Bond Regulation sets voluntary rules for issuers of European Green Bonds and requires external reviewers to be registered with ESMA. Registration means supervision and transparency requirements. A Second Party Opinion under the ICMA Green Bond Principles is different from an ESMA-registered external review. Talaix supplies physical evidence; it does not act as an external reviewer or issue SPOs."
+            },
+            {
+              "heading": "Solvency II and the insurance side",
+              "body": "On the prudential side, insurers calculate capital requirements under Solvency II, whose standard formula includes a natural-catastrophe submodule covering perils such as flood, earthquake, windstorm and hail. EIOPA complements this with climate stress-test exercises and natural-catastrophe risk monitoring, and the gap between insured and total losses — the protection gap — is itself a supervised concern. Two things follow for practice: catastrophe models already price many of these hazards for reinsurance, and screening evidence does not replace those models — it tells you where to look closer."
             }
           ],
           "key_terms": [
@@ -138,8 +403,13 @@
             "eu_green_bond_regulation",
             "esma_external_reviewer",
             "second_party_opinion",
-            "icma_green_bond_principles"
+            "icma_green_bond_principles",
+            "solvency_2"
           ],
+          "try_it": {
+            "label": "Open the compliance workspace",
+            "href": "compliance.html"
+          },
           "quiz": [
             {
               "question": "Under the EU Taxonomy, what does DNSH stand for?",
@@ -211,26 +481,54 @@
               "concepts": [
                 "csrd_esrs"
               ]
+            },
+            {
+              "question": "Under Solvency II, natural-catastrophe risk for insurers is:",
+              "options": [
+                "Ignored entirely.",
+                "Addressed in a dedicated natural-catastrophe submodule of the standard formula.",
+                "Set by national parliaments for each insurer.",
+                "Delegated to the TCFD recommendations."
+              ],
+              "correct_index": 1,
+              "explanation": "The Solvency II standard formula includes a natural-catastrophe submodule covering perils such as flood, earthquake, windstorm and hail; EIOPA adds stress tests and monitoring.",
+              "concepts": [
+                "solvency2_natcat"
+              ]
             }
           ]
         },
         {
           "id": "evidence-literacy",
           "title": "Evidence literacy",
-          "minutes": 12,
+          "minutes": 14,
           "summary": "How to read evidence honestly and why 'data unavailable' is a legitimate answer in climate finance.",
+          "objectives": [
+            "Use the six-level claim-status vocabulary precisely",
+            "Read confidence levels and stated limitations before reading numbers",
+            "Treat screening indicators as preliminary signals, not validated models",
+            "Apply the DOCUMENTED / REPORTED / Talaix-view split to your own committee writing"
+          ],
           "sections": [
             {
               "heading": "Claim-status vocabulary",
-              "body": "Talaix uses a six-level claim-status vocabulary. OBSERVED means a direct measurement, such as a satellite scene. DOCUMENTED means a verified record, such as an official report. REPORTED means a disclosed value that has not been independently verified. MODELLED means a declared model output. INFERRED means a conclusion drawn from other evidence. UNKNOWN means the required data is missing. UNKNOWN is not a failure; it is honest information that prevents false confidence."
+              "body": "Talaix uses a six-level claim-status vocabulary. OBSERVED means a direct measurement, such as a satellite scene. DOCUMENTED means a verified record, such as an official report. REPORTED means a disclosed value that has not been independently verified. MODELLED means a declared model output. INFERRED means a conclusion drawn from other evidence. UNKNOWN means the required data is missing. UNKNOWN is not a failure; it is honest information that prevents false confidence. The vocabulary is deliberately strict: a value cannot become DOCUMENTED because a colleague is confident — it needs a verifiable record — and a model output stays MODELLED even when the model is excellent. This discipline is what makes a report defensible in front of a credit committee, an auditor or a supervisor."
             },
             {
               "heading": "Confidence and screening indicators",
-              "body": "Every evidence layer carries a confidence level and stated limitations. A high-confidence observation may still be limited in time or space. A screening indicator uses available data and declared approximations to flag potential issues; it is not a validated local model and should not replace site-specific engineering or audits. The platform distinguishes these explicitly so users do not overstate a screening result."
+              "body": "Every evidence layer carries a confidence level and stated limitations. A high-confidence observation may still be limited in time or space. A screening indicator uses available data and declared approximations to flag potential issues; it is not a validated local model and should not replace site-specific engineering or audits. Read the limitations before the numbers: a flood level derived from coarse elevation data is a different object from one derived from a hydrological survey, and both can be labelled correctly while supporting different decisions. The platform prints limitations next to results precisely so this distinction survives the journey into a committee pack."
             },
             {
               "heading": "Greenwashing and the evidence counter-layer",
               "body": "Greenwashing occurs when sustainability claims are unsupported or misleading. Regulators have enforced this: Frankfurt prosecutors fined DWS €25 million in 2025, and the SEC settled with BNY Mellon for $1.5 million in 2022, both in relation to sustainability claims. Physical and documentary evidence provides a counter-layer: if an asset claims to be green or low-risk, the observed land cover, flood exposure or fire activity can either support or contradict that claim."
+            },
+            {
+              "heading": "Documented, reported, and the Talaix view",
+              "body": "The Talaix Knowledge Arm applies the same discipline to market and regulatory intelligence. Items labelled DOCUMENTED point to official documents — regulations, standards, institutional records. Items labelled REPORTED relay what a publisher stated, with the publisher and date named. Analysis labelled Talaix view is explicitly marked as our interpretation. When a topic has nothing verifiable, the brief says so rather than filling the space. Use the same three-way split in your own committee writing: it separates what you can prove, what others claim, and what you conclude."
+            },
+            {
+              "heading": "Five questions to ask any climate-risk number",
+              "body": "Before a number enters a credit file, a disclosure or an investment memo, ask five questions. One: what is its claim status — OBSERVED, DOCUMENTED, REPORTED, MODELLED, INFERRED or UNKNOWN? Two: what is its resolution in space and time — a 10 m satellite pixel and a country average are not the same object. Three: who produced it — a measurement instrument, a model, or an interested party? Four: what limitations are stated — and did you read them before the number? Five: what evidence would change this number, and is that evidence obtainable? If you cannot answer the first question, treat the number as decoration and keep it out of the decision."
             }
           ],
           "key_terms": [
@@ -238,6 +536,10 @@
             "screening_indicator",
             "greenwashing"
           ],
+          "try_it": {
+            "label": "Read the Knowledge Arm briefs",
+            "href": "academy.html?mode=briefs"
+          },
           "quiz": [
             {
               "question": "What does an UNKNOWN claim status mean?",
@@ -280,30 +582,54 @@
               "concepts": [
                 "greenwashing"
               ]
+            },
+            {
+              "question": "A sustainability blog states that a region's flood risk is 'low', with no official record attached. In claim-status terms this is:",
+              "options": [
+                "DOCUMENTED.",
+                "REPORTED.",
+                "OBSERVED.",
+                "MODELLED."
+              ],
+              "correct_index": 1,
+              "explanation": "A publisher's statement is REPORTED until an official record or direct measurement supports it. DOCUMENTED requires a verifiable record; OBSERVED requires a measurement.",
+              "concepts": [
+                "claim_status"
+              ]
             }
           ]
         },
         {
           "id": "verify-asset",
           "title": "Hands-on: verify a financed asset",
-          "minutes": 14,
+          "minutes": 18,
           "summary": "How to read a Green Finance DNSH evidence report and interpret it in a credit or investment process.",
+          "objectives": [
+            "Walk the EU Taxonomy Appendix A hazard list for a financed asset",
+            "Read a Green Finance DNSH evidence report row by row",
+            "Interpret UNKNOWN rows and declared data gaps in a credit process",
+            "Apply the five-step verification workflow end to end"
+          ],
           "sections": [
             {
               "heading": "EU Taxonomy Appendix A hazards",
-              "body": "Appendix A of the EU Taxonomy Climate Delegated Act lists physical climate hazards that must be considered for the DNSH climate-change adaptation test. They include acute hazards such as wildfire, flooding, windstorms, extreme heat and landslides, and chronic hazards such as sea-level rise, water stress and temperature change. The Talaix Green Finance engine screens each hazard for which it has a registered, real-data module."
+              "body": "Appendix A of the EU Taxonomy Climate Delegated Act lists physical climate hazards that must be considered for the DNSH climate-change adaptation test. They include acute hazards such as wildfire, flooding, windstorms, extreme heat and landslides, and chronic hazards such as sea-level rise, water stress and temperature change. The Talaix Green Finance engine screens each hazard for which it has a registered, real-data module — and states plainly when a hazard from the Appendix A list has no module or no data for the location. That honesty is what distinguishes an evidence report from checklist theatre."
             },
             {
               "heading": "Walking the DNSH checklist",
-              "body": "A Green Finance evidence report presents one row per screened hazard. Each row shows the taxonomy label, claim status, level, confidence, evidence records and limitations. A row marked UNKNOWN with a declared gap is not a clean bill of health; it is a signal that the evidence does not exist and the credit committee should treat the claim as unverified. Consistent high-confidence evidence across relevant hazards strengthens the DNSH case."
+              "body": "A Green Finance evidence report presents one row per screened hazard. Each row shows the taxonomy label, claim status, level, confidence, evidence records and limitations. Read it in order of concern: start with hazards showing adverse levels at high confidence, then hazards marked UNKNOWN, then the rest. An adverse, well-evidenced row is a question to the borrower, not an automatic rejection; a row marked UNKNOWN with a declared gap is not a clean bill of health — it is a signal that the evidence does not exist and the credit committee should treat the claim as unverified. Consistent high-confidence evidence across relevant hazards strengthens the DNSH case."
             },
             {
               "heading": "Declared data gaps and credit committees",
-              "body": "Declared gaps are as important as the checks. A gap may mean the hazard module is not registered, the satellite scene was cloudy, or the historical event dataset is not available for that region. The report therefore documents the boundary of what is known. Credit committees should ask whether the missing layer is material to the exposure and whether the borrower can supply additional evidence."
+              "body": "Declared gaps are as important as the checks. A gap may mean the hazard module is not registered, the satellite scene was cloudy for the period, or the historical event dataset is thin for that region. The report therefore documents the boundary of what is known. Credit committees should ask whether the missing layer is material to the exposure and whether the borrower can supply additional evidence. Each cause has a different remedy — a different time window, an alternative archive, or a commissioned survey — so the reason for the gap matters as much as its existence."
             },
             {
               "heading": "What the report is not",
               "body": "The Green Finance report is a physical-evidence screening layer. It is not a Second Party Opinion, not an ESMA-registered external review, not an audit and not a credit rating. It supports but does not replace due diligence by the financial institution."
+            },
+            {
+              "heading": "A five-step verification workflow",
+              "body": "In practice: (1) locate the asset precisely — coordinates, not a municipality name; (2) run the screening and read the hazard rows, starting with high-confidence adverse findings; (3) record every UNKNOWN with its declared cause; (4) decide what additional evidence would close each material gap — borrower documents, a site visit, an engineering survey; (5) write the conclusion in claim-status language: what is DOCUMENTED, what is REPORTED, what remains UNKNOWN. This workflow mirrors how the published Talaix case studies were produced — the final module links to them."
             }
           ],
           "key_terms": [
@@ -381,20 +707,33 @@
         {
           "id": "read-disclosures",
           "title": "Hands-on: read disclosures and risk profiles",
-          "minutes": 13,
+          "minutes": 17,
           "summary": "How to cross-read sustainability disclosures and insurance risk profiles for the same underlying exposure.",
+          "objectives": [
+            "Read ESRS coverage tags (covered_by_evidence, partial, not_covered) as boundaries",
+            "Explain the structure of an Insurance Environmental Risk Profile — and what it explicitly excludes",
+            "Cross-read lender, insurer and disclosure views of the same site"
+          ],
           "sections": [
             {
               "heading": "ESRS coverage map and boundaries",
-              "body": "Talaix sustainability reports map evidence to ESRS disclosure requirements using coverage tags such as covered_by_evidence, partial or not_covered. This tells the user where the platform can support a CSRD disclosure and where the company must provide additional information or state a boundary. The mapping is evidence-based, not a guarantee of assurance."
+              "body": "Talaix sustainability reports map evidence to ESRS disclosure requirements using coverage tags such as covered_by_evidence, partial or not_covered. This tells the user where the platform can support a CSRD disclosure and where the company must provide additional information or state a boundary. The mapping is evidence-based, not a guarantee of assurance. The boundary statement is a feature, not a defect: assurance providers and auditors need to see exactly which disclosure elements rest on platform evidence and which rest on company documentation. A report that claims full coverage without boundaries should attract more scepticism, not less."
             },
             {
               "heading": "Insurance risk profile structure",
-              "body": "An Insurance Environmental Risk Profile lists per-peril current levels and long-term event history. Each peril shows the claim status, confidence, level basis, evidence records and event counts. The product explicitly does not quantify losses: there is no AAL, PML or exceedance-probability curve. It is a pre-cat-model evidence layer."
+              "body": "An Insurance Environmental Risk Profile lists per-peril current levels and long-term event history. Each peril shows the claim status, confidence, level basis, evidence records and event counts. The product explicitly does not quantify losses: there is no AAL, PML or exceedance-probability curve. It is a pre-cat-model evidence layer. Use it to frame underwriting questions — which perils show elevated levels, what the event history looks like, where the data is thin — before deciding whether a full catastrophe-model study or an engineering survey is warranted."
             },
             {
               "heading": "Lender vs insurer perspective",
               "body": "A lender and an insurer may look at the same site differently. The lender cares about collateral value and probability of default under climate stress. The insurer cares about frequency, severity and aggregation of claims. Both need evidence, but the decision frameworks differ. Cross-reading the Green Finance, Sustainability and Insurance reports for the same site gives a more complete picture than any single report."
+            },
+            {
+              "heading": "Cross-reading: one site, three lenses",
+              "body": "Take one logistics site. The Green Finance report answers the bank's DNSH question. The Sustainability report maps the same evidence to the company's ESRS E1 disclosures. The Insurance profile frames the underwriter's perils. Reading all three against the same coordinates exposes inconsistencies — for example, a disclosure claiming low flood exposure where the screening shows repeated DOCUMENTED flood events — and shows where each decision needs more work. One asset, three decisions, one evidence base."
+            },
+            {
+              "heading": "Common misreadings — and their corrections",
+              "body": "Four misreadings appear repeatedly in practice. First, 'not_covered means non-compliant' — no: it means the platform has no evidence for that requirement; the company must supply its own or state the boundary. Second, 'an elevated hazard level means uninsurable' — no: a level is a screening signal, not a price; pricing belongs to actuarial work with exposure and vulnerability detail. Third, 'a long DOCUMENTED event history predicts the next event' — no: history describes what happened, not when it will recur; return periods are statistical averages, not schedules. Fourth, 'a coverage tag is an assurance opinion' — no: the tags describe evidence boundaries; assurance comes from the statutory auditor or accredited provider. Each correction is the same discipline: read the label before the conclusion."
             }
           ],
           "key_terms": [
@@ -456,13 +795,30 @@
         },
         {
           "id": "final-assessment",
-          "title": "Final assessment",
-          "minutes": 10,
-          "summary": "Recap and final quiz. Pass all modules, including this one, to receive the Certificate of Completion.",
+          "title": "Case studies and final assessment",
+          "minutes": 17,
+          "summary": "How the workflow was applied in real published case studies, plus the final quiz. Pass all modules to receive the Certificate of Completion.",
+          "objectives": [
+            "Combine all course concepts in a final assessment",
+            "Describe how real published case studies applied the workflow",
+            "Earn the Talaix Academy Certificate of Completion"
+          ],
           "sections": [
             {
               "heading": "Course recap",
-              "body": "This course has covered the foundations of physical and transition climate risk, the EU sustainability regulatory map, evidence literacy, and hands-on use of the platform's Green Finance, Sustainability and Insurance reports. The common thread is the honesty contract: declare what is known, declare what is missing, and never substitute an unavailable dataset with invented certainty."
+              "body": "This course has covered the foundations of physical and transition climate risk, the ten hazard families and the open datasets that observe or model them, the transmission from hazard to financial impact, the EU regulatory map, evidence literacy, and hands-on use of the platform's Green Finance, Sustainability and Insurance reports. The common thread is the honesty contract: declare what is known, declare what is missing, and never substitute an unavailable dataset with invented certainty."
+            },
+            {
+              "heading": "Case study: a bank credit file",
+              "body": "The published Talaix case studies include an anonymised bank credit file in which a physical-evidence screening was run on financed collateral. The workflow followed module 6: precise location, hazard rows, declared gaps, and a committee-ready conclusion in claim-status language. The value was not a yes-or-no verdict but a traceable evidence trail the credit committee could interrogate. The studies are anonymised, operator-attested and published without invented metrics — the full text is on the reports portal."
+            },
+            {
+              "heading": "Case study: underwriting referral and CSRD disclosure",
+              "body": "Two further published studies follow the same discipline: an insurance underwriting referral, where per-peril levels and event history framed the underwriter's questions, and a CSRD/ESRS E1 disclosure, where evidence was mapped to disclosure requirements with explicit covered, partial and not-covered boundaries. In both, the deliverable was the same kind of object this course teaches you to produce: an honest, source-linked evidence pack that a professional can defend in front of a committee, an auditor or a supervisor."
+            },
+            {
+              "heading": "After the certificate: your next steps",
+              "body": "The certificate confirms you completed the pilot course; the learning map on this page shows what to do next. Use the track filters — finance, insurance, government, technical — to see the concepts that matter most for your role, and keep the spaced reviews current: the map schedules short recall sessions so the material survives longer than the week you learned it. The Knowledge Arm publishes framework explainers and periodic evidence briefs under the Briefs tab, all open-sourced and labelled. Advanced tracks and team features are planned for the professional plans, and a university partnership is being explored — both are stated as plans, not claims. The most valuable next step is practical: take one real asset from your own portfolio and run the five-step workflow from module 6 on it."
             }
           ],
           "key_terms": [
@@ -478,6 +834,10 @@
             "greenwashing",
             "eudr"
           ],
+          "try_it": {
+            "label": "Read the published case studies",
+            "href": "reports.html"
+          },
           "quiz": [
             {
               "question": "IFRS S2 is best described as:",

@@ -68,7 +68,7 @@
 
     function renderModuleList() {
         if (!course) return;
-        el('courseMeta').textContent = course.audience + ' · ' + course.modules.length + ' modules';
+        el('courseMeta').textContent = course.audience + ' · ' + course.modules.length + ' modules · ' + formatDuration(totalMinutes());
         var html = '<div class="table-scroll"><table class="data-table"><thead><tr>' +
             '<th>#</th><th>Module</th><th>Minutes</th><th>Status</th><th></th>' +
             '</tr></thead><tbody>';
@@ -87,6 +87,51 @@
         el('moduleList').querySelectorAll('button[data-module]').forEach(function (btn) {
             btn.addEventListener('click', function () { openModule(btn.getAttribute('data-module')); });
         });
+    }
+
+    function totalMinutes() {
+        if (!course) return 0;
+        return course.modules.reduce(function (sum, m) { return sum + (parseInt(m.minutes, 10) || 0); }, 0);
+    }
+
+    function formatDuration(mins) {
+        if (mins < 60) return mins + ' minutes';
+        var rounded = Math.round((mins / 60) * 2) / 2;
+        return 'about ' + (rounded % 1 ? rounded.toFixed(1) : rounded) + ' hours';
+    }
+
+    function renderStartPanel() {
+        if (!course) return;
+        el('courseStats').textContent = course.modules.length + ' modules · ' +
+            formatDuration(totalMinutes()) + ' · Certificate of Completion when you pass every module';
+        var total = course.modules.length;
+        var passedCount = course.modules.filter(function (m) {
+            return progress[m.id] && progress[m.id].passed;
+        }).length;
+        var started = Object.keys(progress).length > 0;
+        if (started) {
+            el('courseProgressMeter').style.display = 'block';
+            el('courseProgressFill').style.width = (total ? Math.round((passedCount / total) * 100) : 0) + '%';
+            el('courseProgressLabel').textContent = passedCount + ' of ' + total + ' modules passed';
+        } else {
+            el('courseProgressMeter').style.display = 'none';
+            el('courseProgressLabel').textContent = 'Sign in and your quiz scores and progress are saved to your account as you go.';
+        }
+        var next = null;
+        course.modules.forEach(function (m) {
+            if (!next && !(progress[m.id] && progress[m.id].passed)) next = m;
+        });
+        var btn = el('startContinueBtn');
+        if (!next) {
+            btn.textContent = 'Review module 1: ' + course.modules[0].title;
+            btn.onclick = function () { openModule(course.modules[0].id); };
+        } else if (!started) {
+            btn.textContent = 'Start module 1: ' + next.title;
+            btn.onclick = function () { openModule(next.id); };
+        } else {
+            btn.textContent = 'Continue: ' + next.title;
+            btn.onclick = function () { openModule(next.id); };
+        }
     }
 
     function termChip(termId) {
@@ -119,6 +164,12 @@
         el('moduleReaderMeta').textContent = m.minutes + ' minutes · ' + m.sections.length + ' sections';
 
         var html = '';
+        if (m.objectives && m.objectives.length) {
+            html += '<div class="notice notice-info"><strong>What you will learn</strong>' +
+                '<ul style="margin:8px 0 0 18px;">' +
+                m.objectives.map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') +
+                '</ul></div>';
+        }
         (m.sections || []).forEach(function (s) {
             html += '<h3>' + esc(s.heading) + '</h3>';
             html += '<p>' + esc(s.body).replace(/\n/g, '<br>') + '</p>';
@@ -205,6 +256,7 @@
             showQuizResult(res.body);
             loadProgress().then(function () {
                 renderModuleList();
+                renderStartPanel();
                 renderCertificatePanel();
             });
             refreshLearnerModel();
@@ -326,6 +378,19 @@
             'Issued: ' + esc(cert.issued_at) +
             '</div>';
         html += '<a class="btn-action" href="' + esc(API + '/v2/academy/certificate/pdf?course_id=' + COURSE_ID) + '" target="_blank" rel="noopener">Download PDF</a>';
+        var issued = (cert.issued_at || '').slice(0, 10).split('-');
+        var params = [
+            'startTask=CERTIFICATION_NAME',
+            'name=' + encodeURIComponent((course ? course.title : 'Talaix Academy course') + ' — Certificate of Completion'),
+            'organizationName=' + encodeURIComponent('Talaix Academy'),
+            'certUrl=' + encodeURIComponent('https://talaix.com/academy.html'),
+            'certId=' + encodeURIComponent(cert.certificate_id)
+        ];
+        if (issued.length === 3 && /^\d{4}$/.test(issued[0])) {
+            params.push('issueYear=' + issued[0]);
+            params.push('issueMonth=' + String(parseInt(issued[1], 10)));
+        }
+        html += ' <a class="btn-secondary" href="https://www.linkedin.com/profile/add?' + params.join('&') + '" target="_blank" rel="noopener">Add to LinkedIn profile</a>';
         el('certificateActions').innerHTML = html;
     }
 
@@ -808,11 +873,13 @@
                 return;
             }
             renderModuleList();
+            renderStartPanel();
             renderGlossary();
             renderTrackChips();
             renderMap();
             loadProgress().then(function () {
                 renderModuleList();
+                renderStartPanel();
                 renderCertificatePanel();
             });
             loadLearnerModel().then(function (res) {

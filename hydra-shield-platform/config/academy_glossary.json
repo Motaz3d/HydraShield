@@ -198,6 +198,75 @@
       "related": ["dnsh", "claim_status"],
       "module": "read-disclosures",
       "platform_link": "supplychain.html"
+    },
+    {
+      "id": "physical_hazard",
+      "term": "Physical hazard",
+      "short": "A climate- or geophysically-driven event or trend that can damage assets.",
+      "long": "Physical hazards include acute events (floods, wildfires, storms, earthquakes) and chronic trends (drought, heat stress, sea-level rise). The EU Taxonomy's Appendix A lists the hazards a DNSH climate-change-adaptation assessment must consider. Talaix screens ten families: wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake, volcanic activity and dust.",
+      "related": ["acute_hazard", "chronic_hazard", "exposure", "vulnerability"],
+      "module": "hazards-data",
+      "platform_link": "map.html"
+    },
+    {
+      "id": "exposure",
+      "term": "Exposure",
+      "short": "What sits in the path of a hazard — assets, people, cash flows.",
+      "long": "Exposure describes the presence and value of assets in a hazard-prone location. The same hazard produces very different losses depending on what is exposed: a flood over an empty field and a flood over a data centre differ only in exposure and vulnerability. Exposure is the first question a physical-risk screen answers at a coordinate.",
+      "related": ["physical_hazard", "vulnerability"],
+      "module": "hazard-to-impact",
+      "platform_link": "report-builder.html"
+    },
+    {
+      "id": "vulnerability",
+      "term": "Vulnerability",
+      "short": "How badly an exposed asset is affected by a hazard.",
+      "long": "Vulnerability captures the susceptibility of an exposed asset: construction, elevation, protection measures and operational redundancy. Two assets with identical hazard and exposure can face very different losses because their vulnerability differs.",
+      "related": ["exposure", "physical_hazard"],
+      "module": "hazard-to-impact"
+    },
+    {
+      "id": "earth_observation",
+      "term": "Earth observation",
+      "short": "Measuring the Earth's surface from satellites and airborne sensors.",
+      "long": "Earth-observation missions such as Sentinel-2 and Landsat image the surface at resolutions of roughly ten to thirty metres; thermal sensors on VIIRS and MODIS detect active fires through NASA FIRMS. Optical observation requires clear skies and finite revisit times — limits that honest reports declare. In claim-status terms, these are OBSERVED layers.",
+      "related": ["reanalysis", "claim_status"],
+      "module": "hazards-data",
+      "platform_link": "map.html"
+    },
+    {
+      "id": "reanalysis",
+      "term": "Reanalysis",
+      "short": "A gridded reconstruction of past weather from models blended with observations.",
+      "long": "Reanalyses such as ERA5 and ERA5-Land combine a numerical weather model with historical observations into a physically consistent archive. A reanalysis is a MODELLED layer — an estimate, not a direct measurement — and should be labelled as such in evidence work.",
+      "related": ["earth_observation", "claim_status"],
+      "module": "hazards-data",
+      "platform_link": "sources.html"
+    },
+    {
+      "id": "return_period",
+      "term": "Return period",
+      "short": "The average interval between events of a given magnitude.",
+      "long": "A '100-year flood' has, on average, a 1% chance of occurring in any given year — it does not arrive once per century on a schedule. Return periods are estimated from event history and statistical models; long DOCUMENTED event archives are their raw material.",
+      "related": ["physical_hazard", "claim_status"],
+      "module": "hazards-data"
+    },
+    {
+      "id": "scenario_analysis",
+      "term": "Scenario analysis",
+      "short": "A structured what-if exercise under a stated climate pathway.",
+      "long": "Scenario analysis, expected under TCFD and IFRS S2 and used in supervisory stress tests, explores portfolio behaviour under stated pathways. Its outputs are maps of possibility, not predictions, and should never be read as forecasts of specific losses.",
+      "related": ["tcfd", "ifrs_s2", "screening_indicator"],
+      "module": "hazard-to-impact"
+    },
+    {
+      "id": "solvency_2",
+      "term": "Solvency II",
+      "short": "The EU prudential regime for insurers, including a natural-catastrophe submodule.",
+      "long": "Solvency II sets capital requirements for EU insurers; its standard formula includes a natural-catastrophe submodule covering perils such as flood, earthquake, windstorm and hail. EIOPA complements it with climate stress tests and natural-catastrophe risk monitoring.",
+      "related": ["csrd", "eu_taxonomy"],
+      "module": "eu-frameworks",
+      "platform_link": "insurance.html"
     }
   ]
 }

@@ -74,6 +74,105 @@
       "tracks": ["finance", "insurance", "government"]
     },
     {
+      "id": "hazards_hub",
+      "label": "Hazard types and data sources",
+      "kind": "module",
+      "module_id": "hazards-data",
+      "summary": "The ten hazard families Talaix screens and the open datasets that observe or model them.",
+      "prerequisites": ["foundations_hub"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "hazard_taxonomy",
+      "label": "Ten hazard families",
+      "kind": "concept",
+      "module_id": "hazards-data",
+      "summary": "Wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake, volcanic, dust — eight climate-driven, two geophysical.",
+      "prerequisites": ["hazards_hub"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "eo_observation",
+      "label": "Earth observation (OBSERVED)",
+      "kind": "concept",
+      "module_id": "hazards-data",
+      "summary": "Sentinel-2, Landsat, FIRMS VIIRS/MODIS, ESA WorldCover, SRTM — direct measurements, limited by clouds and revisit times.",
+      "prerequisites": ["hazard_taxonomy"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "modelled_layers",
+      "label": "Modelled weather and water layers",
+      "kind": "concept",
+      "module_id": "hazards-data",
+      "summary": "Open-Meteo, ERA5/-Land reanalysis, GloFAS, GEOGLOWS — physically consistent estimates, labelled MODELLED, not measurements.",
+      "prerequisites": ["eo_observation"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "event_archives",
+      "label": "Event archives and loss records",
+      "kind": "concept",
+      "module_id": "hazards-data",
+      "summary": "GDACS, NASA EONET, IBTrACS, USGS ComCat/EMSC, NOAA NCEI — DOCUMENTED records of what actually happened.",
+      "prerequisites": ["eo_observation"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "coverage_honesty",
+      "label": "Coverage limits and the honest UNKNOWN",
+      "kind": "concept",
+      "module_id": "hazards-data",
+      "summary": "Resolution, revisit, regional depth and licensing all limit evidence; gaps are declared as UNKNOWN, never filled.",
+      "prerequisites": ["modelled_layers"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "impact_hub",
+      "label": "From hazard to financial impact",
+      "kind": "module",
+      "module_id": "hazard-to-impact",
+      "summary": "How hazard, exposure and vulnerability combine into losses that reach a balance sheet.",
+      "prerequisites": ["hazards_hub"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "exposure_vulnerability",
+      "label": "Hazard × exposure × vulnerability",
+      "kind": "concept",
+      "module_id": "hazard-to-impact",
+      "summary": "The three ingredients of physical risk. No exposure, no risk; no vulnerability, no loss.",
+      "prerequisites": ["impact_hub"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
+      "id": "transmission_channels",
+      "label": "Financial transmission channels",
+      "kind": "concept",
+      "module_id": "hazard-to-impact",
+      "summary": "Collateral value (LGD), borrower cash flow (PD), costs, claims frequency and severity — how events reach the numbers.",
+      "prerequisites": ["exposure_vulnerability"],
+      "tracks": ["finance", "insurance", "government"]
+    },
+    {
+      "id": "portfolio_aggregation",
+      "label": "Concentration and aggregation",
+      "kind": "concept",
+      "module_id": "hazard-to-impact",
+      "summary": "Many exposures in one hazard zone can turn a local event into a portfolio event.",
+      "prerequisites": ["transmission_channels"],
+      "tracks": ["finance", "insurance"]
+    },
+    {
+      "id": "scenario_humility",
+      "label": "Scenarios are maps, not prophecies",
+      "kind": "concept",
+      "module_id": "hazard-to-impact",
+      "summary": "Scenario outputs are structured what-ifs under stated pathways; screening indicators are not cat-model loss curves.",
+      "prerequisites": ["transmission_channels"],
+      "tracks": ["finance", "insurance", "government", "technical"]
+    },
+    {
       "id": "eu_framework_hub",
       "label": "EU framework map",
       "kind": "module",
@@ -137,6 +236,14 @@
       "tracks": ["finance", "government"]
     },
     {
+      "id": "solvency2_natcat",
+      "label": "Solvency II natural-catastrophe capital",
+      "kind": "concept",
+      "module_id": "eu-frameworks",
+      "summary": "The Solvency II standard formula includes a nat-cat submodule (flood, earthquake, windstorm, hail); EIOPA adds stress tests and monitoring.",
+      "prerequisites": ["eba_pillar3"],
+      "tracks": ["insurance", "finance"]
+    },    {
       "id": "evidence_hub",
       "label": "Evidence literacy",
       "kind": "module",
@@ -178,7 +285,7 @@
       "kind": "module",
       "module_id": "verify-asset",
       "summary": "How to read a Green Finance DNSH evidence report and interpret it in a credit or investment process.",
-      "prerequisites": ["eu_framework_hub", "evidence_hub"],
+      "prerequisites": ["eu_framework_hub", "evidence_hub", "impact_hub"],
       "tracks": ["finance", "insurance"]
     },
     {
@@ -285,22 +392,22 @@
     {
       "id": "risk_interpretation",
       "label": "Risk interpretation",
-      "concepts": ["risk_in_finance", "physical_vs_transition", "acute_vs_chronic", "appendix_a_hazards", "insurance_profile"]
+      "concepts": ["risk_in_finance", "physical_vs_transition", "acute_vs_chronic", "hazard_taxonomy", "exposure_vulnerability", "transmission_channels", "appendix_a_hazards", "insurance_profile"]
     },
     {
       "id": "regulatory_literacy",
       "label": "Regulatory literacy",
-      "concepts": ["tcfd_ifrs", "eu_taxonomy", "dnsh", "sfdr_articles", "csrd_esrs", "eba_pillar3", "eu_green_bonds"]
+      "concepts": ["tcfd_ifrs", "eu_taxonomy", "dnsh", "sfdr_articles", "csrd_esrs", "eba_pillar3", "eu_green_bonds", "solvency2_natcat"]
     },
     {
       "id": "evidence_assessment",
       "label": "Evidence assessment",
-      "concepts": ["claim_status", "screening_indicators", "greenwashing", "declared_gaps", "report_scope"]
+      "concepts": ["claim_status", "screening_indicators", "greenwashing", "eo_observation", "modelled_layers", "event_archives", "coverage_honesty", "declared_gaps", "report_scope"]
     },
     {
       "id": "financial_application",
       "label": "Financial application",
-      "concepts": ["dnsh_checklist", "esrs_coverage", "lender_vs_insurer", "decision_application"]
+      "concepts": ["dnsh_checklist", "esrs_coverage", "lender_vs_insurer", "portfolio_aggregation", "scenario_humility", "decision_application"]
     },
     {
       "id": "decision_communication",
