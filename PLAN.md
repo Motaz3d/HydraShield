@@ -16,6 +16,7 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Show/hide password on auth forms | ✅ | Live on `account.html` |
 | Tropical cyclones — 7th hazard | ✅ | GDACS (UN-OCHA/EU JRC) live global monitoring: analyze + active-storms map layer; historical tracks via IBTrACS declared candidate (not wired, honestly stated) |
 | International trade movement on the map | 🔶 | Ports/harbours layer live (OSM, 50 km, `/api/trade-infrastructure`); live vessel tracking (AIS) needs a shipping-data provider — declared, not wired |
+| AGENTS.md project map + session protocol | ✅ | 2026-09-05: root `AGENTS.md` maps the repo + auto session protocol (read PLAN.md at start, update both files at end) — saves exploration tokens every session |
 
 ## Geographic coverage — "we cover the entire Earth"
 
