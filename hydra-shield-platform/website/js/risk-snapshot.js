@@ -15,6 +15,10 @@
     var RETRY_MS = 30000;
     var retried = false;
 
+    /* Homepage shows only the top entries; the full ranking lives on the
+     * live map/dashboard. */
+    var MAX_ENTRIES = 5;
+
     function el(id) { return document.getElementById(id); }
 
     function esc(s) {
@@ -96,7 +100,7 @@
 
         el('riskIntelFreshness').textContent = fmtAgo(snap.generated_at);
 
-        var rows = (snap.entries || []).map(function (e, idx) {
+        var rows = (snap.entries || []).slice(0, MAX_ENTRIES).map(function (e, idx) {
             var detail = [];
             if (e.fwi !== null && e.fwi !== undefined) {
                 detail.push('FWI ' + Number(e.fwi).toFixed(1) +
