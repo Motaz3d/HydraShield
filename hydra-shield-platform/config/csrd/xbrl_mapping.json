@@ -1,0 +1,43 @@
+{
+  "id": "csrdtx_xbrl_mapping",
+  "name": "CsrdTX XBRL element mapping",
+  "description": "Element definitions for the machine-readable XBRL output of a CsrdTX assessment. Facts are emitted under the Talaix extension namespace; each element states its datatype, unit and the source path inside the assessment object. Elements are data, not code — extending the XBRL output is a mapping change, not an engine rewrite.",
+  "namespace": "https://talaix.com/xbrl/taxonomy/csrd/2026",
+  "prefix": "tx",
+  "taxonomy_url": "https://talaix.com/xbrl/csrd/2026/talaix-csrd.xsd",
+  "official_taxonomy_note": "Anchoring to the official ESRS digital (XBRL) taxonomy is a declared gap: Talaix extension elements are defined and documented here, and mapping to official ESRS taxonomy element names is only introduced once verified against the published taxonomy files — never guessed. This instance is a machine-readable evidence and assessment extract, not an ESEF filing package.",
+  "units": {
+    "u-eur": "iso4217:EUR",
+    "u-pure": "xbrli:pure"
+  },
+  "elements": [
+    {"name": "EntityName", "type": "string", "source": "company.fields.name"},
+    {"name": "EntityCountry", "type": "string", "source": "company.fields.country"},
+    {"name": "EntitySector", "type": "string", "source": "company.fields.sector"},
+    {"name": "Employees", "type": "integer", "unit": "u-pure", "source": "company.fields.employees"},
+    {"name": "NetTurnoverEUR", "type": "monetary", "unit": "u-eur", "source": "company.fields.net_turnover_eur"},
+    {"name": "BalanceSheetTotalEUR", "type": "monetary", "unit": "u-eur", "source": "company.fields.balance_sheet_total_eur"},
+    {"name": "Listed", "type": "boolean", "source": "company.fields.listed"},
+    {"name": "ReportingYear", "type": "integer", "unit": "u-pure", "source": "applicability.reporting_year"},
+    {"name": "ApplicabilityDetermination", "type": "string", "source": "applicability.determination"},
+    {"name": "ApplicabilityRuleSet", "type": "string", "source": "applicability.rule_set.id"},
+    {"name": "ApplicabilityWave", "type": "integer", "unit": "u-pure", "source": "applicability.wave.wave"},
+    {"name": "EsrsVersion", "type": "string", "source": "esrs.version_id"},
+    {"name": "EsrsVersionStatus", "type": "string", "source": "esrs.status"},
+    {"name": "ReadinessOverall", "type": "score", "unit": "u-pure", "source": "readiness.overall"},
+    {"name": "ReadinessApplicabilityClarity", "type": "score", "unit": "u-pure", "source": "readiness.components.applicability_clarity"},
+    {"name": "ReadinessEvidenceCoverage", "type": "score", "unit": "u-pure", "source": "readiness.components.evidence_coverage"},
+    {"name": "ReadinessDataCompleteness", "type": "score", "unit": "u-pure", "source": "readiness.components.data_completeness"},
+    {"name": "ReadinessMaterialityReadiness", "type": "score", "unit": "u-pure", "source": "readiness.components.materiality_readiness"}
+  ],
+  "topic_elements": {
+    "pattern": "Topic{ID}{Suffix}",
+    "topics": ["E1", "E2", "E3", "E4", "E5", "S1", "S2", "S3", "S4", "G1"],
+    "suffixes": [
+      {"suffix": "CombinedScore", "type": "score", "unit": "u-pure", "source": "combined_score"},
+      {"suffix": "Material", "type": "boolean", "source": "material"},
+      {"suffix": "Confidence", "type": "score", "unit": "u-pure", "source": "confidence"}
+    ],
+    "emitted_for": "ASSESSED topics only; NOT_ASSESSED topics emit no fact and are listed in the tagging notes — never invented."
+  }
+}

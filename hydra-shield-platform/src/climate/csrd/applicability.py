@@ -98,6 +98,7 @@ def normalise_profile(company: Dict[str, Any]) -> Dict[str, Any]:
         "country": (company.get("country") or "").strip() or None,
         "sector": (company.get("sector") or "").strip() or None,
         "website": (company.get("website") or "").strip() or None,
+        "lei": (company.get("lei") or "").strip() or None,
         "eu_established": company.get("eu_established"),
         "employees": _num("employees"),
         "net_turnover_eur": _num("net_turnover_eur"),

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, Response, jsonify, request
 
 csrd = Blueprint("csrd", __name__, url_prefix="/api/v2/csrd")
 
@@ -129,25 +129,78 @@ def assessment():
     if not _rate("v2csrd_assessment", 6, 60.0):
         return _err("Rate limit exceeded", 429)
 
-    from ..dashboard.accounts import ROLE_RANK
     from ..dashboard.auth_api import current_user
-    from .csrd.engine import build_csrd_assessment
 
-    user = current_user()
+    payload, err = _assessment_from_request(current_user(), request.get_json(silent=True) or {})
+    if err:
+        return err
+    return jsonify(payload)
+
+
+@csrd.post("/assessment/xbrl")
+@_registered_gate
+def assessment_xbrl():
+    """POST /api/v2/csrd/assessment/xbrl — machine-readable assessment.
+
+    Body as for ``/assessment`` plus optional ``format``: ``xbrl``
+    (default, XBRL 2.1 instance) or ``ixbrl`` (inline-XBRL XHTML).
+    """
+    if not _rate("v2csrd_assessment_xbrl", 6, 60.0):
+        return _err("Rate limit exceeded", 429)
+
+    from ..dashboard.auth_api import current_user
+    from .csrd.xbrl import render
+
     data = request.get_json(silent=True) or {}
+    fmt = (data.get("format") or "xbrl").strip().lower()
+    if fmt not in ("xbrl", "ixbrl"):
+        return _err("format must be 'xbrl' or 'ixbrl'", 400)
+
+    payload, err = _assessment_from_request(current_user(), data)
+    if err:
+        return err
+
+    try:
+        document = render(payload, fmt)
+    except Exception as exc:
+        return _err(f"XBRL rendering failed: {exc}", 502)
+
+    safe = "".join(
+        c if c.isalnum() else "_"
+        for c in ((data.get("company") or {}).get("name") or "assessment")
+    )[:40]
+    ext = "xbrl" if fmt == "xbrl" else "xhtml"
+    mimetype = "application/xml" if fmt == "xbrl" else "application/xhtml+xml"
+    return Response(
+        document,
+        mimetype=mimetype,
+        headers={
+            "Content-Disposition": f'attachment; filename="talaix_csrd_{safe}.{ext}"',
+            "Cache-Control": "no-store",
+        },
+    )
+
+
+def _assessment_from_request(user, data: Dict[str, Any]):
+    """Shared validation + build for the assessment endpoints.
+
+    Returns (payload, None) or (None, error_response).
+    """
+    from ..dashboard.accounts import ROLE_RANK
+    from .csrd.engine import build_csrd_assessment
 
     company = data.get("company")
     if not isinstance(company, dict):
-        return _err("company must be an object", 400)
+        return None, _err("company must be an object", 400)
     if not (company.get("name") or "").strip():
-        return _err("company.name is required", 400)
+        return None, _err("company.name is required", 400)
 
     assets_raw = data.get("assets") or []
     if not isinstance(assets_raw, list):
-        return _err("assets must be a list", 400)
+        return None, _err("assets must be a list", 400)
     max_assets = 100 if ROLE_RANK.get(user["role"], 0) >= ROLE_RANK["subscriber"] else 25
     if len(assets_raw) > max_assets:
-        return _err(
+        return None, _err(
             f"Assessment cannot cover more than {max_assets} sites for your tier",
             413,
             upgrade=None if ROLE_RANK.get(user["role"], 0) >= ROLE_RANK["subscriber"] else {
@@ -158,11 +211,11 @@ def assessment():
         )
     assets = _normalise_assets(assets_raw)
     if assets is None:
-        return _err("assets must be a list of objects", 400)
+        return None, _err("assets must be a list of objects", 400)
 
     materiality_inputs = data.get("materiality_inputs")
     if materiality_inputs is not None and not isinstance(materiality_inputs, dict):
-        return _err("materiality_inputs must be an object keyed by topic id", 400)
+        return None, _err("materiality_inputs must be an object keyed by topic id", 400)
 
     esrs_version_id = data.get("esrs_version")
 
@@ -174,8 +227,8 @@ def assessment():
             esrs_version_id=esrs_version_id,
         )
     except ValueError as exc:
-        return _err(str(exc), 400)
+        return None, _err(str(exc), 400)
     except Exception as exc:
-        return _err(f"Assessment failed: {exc}", 502)
+        return None, _err(f"Assessment failed: {exc}", 502)
 
-    return jsonify(payload)
+    return payload, None

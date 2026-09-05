@@ -194,7 +194,7 @@
         el('reportResult').innerHTML = html;
     }
 
-    function generateReport(asPdf) {
+    function generateReport(mode) {
         var company = {
             name: el('companyName').value.trim(),
             sector: el('companySector').value.trim() || null,
@@ -219,35 +219,60 @@
 
         clearStatus();
         renderStatus('info', 'Resolving site names…');
-        el('generateReportBtn').disabled = true;
-        el('downloadPdfBtn').disabled = true;
+        setButtonsDisabled(true);
 
         resolveSites(parsed.items).then(function (res) {
             if (res.error) {
-                el('generateReportBtn').disabled = false;
-                el('downloadPdfBtn').disabled = false;
+                setButtonsDisabled(false);
                 renderStatus('error', esc(res.error));
                 return;
             }
-            submitReport(asPdf, { company: company, assets: res.assets });
+            submitReport(mode, { company: company, assets: res.assets });
         });
     }
 
-    function submitReport(asPdf, payload) {
+    function setButtonsDisabled(disabled) {
+        ['generateReportBtn', 'downloadPdfBtn', 'downloadXbrlBtn', 'downloadIxbrlBtn'].forEach(function (id) {
+            el(id).disabled = disabled;
+        });
+    }
+
+    function downloadBlob(blob, filename) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    }
+
+    function submitReport(mode, payload) {
         clearStatus();
         renderStatus('info', 'Building sustainability evidence report…');
 
-        var endpoint = asPdf ? API + '/v2/sustainability/report/pdf' : API + '/v2/sustainability/report';
+        var endpoint, body = payload, downloadName = null;
+        if (mode === 'pdf') {
+            endpoint = API + '/v2/sustainability/report/pdf';
+            downloadName = 'talaix_sustainability_' + (payload.company.name || 'report').replace(/\W+/g, '_') + '.pdf';
+        } else if (mode === 'xbrl' || mode === 'ixbrl') {
+            endpoint = API + '/v2/csrd/assessment/xbrl';
+            body = { company: payload.company, assets: payload.assets, format: mode };
+            downloadName = 'talaix_csrd_' + (payload.company.name || 'assessment').replace(/\W+/g, '_') +
+                (mode === 'xbrl' ? '.xbrl' : '.xhtml');
+        } else {
+            endpoint = API + '/v2/sustainability/report';
+        }
 
-        if (asPdf) {
+        if (downloadName) {
             fetch(endpoint, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
+                body: JSON.stringify(body),
             }).then(function (r) {
-                el('generateReportBtn').disabled = false;
-                el('downloadPdfBtn').disabled = false;
+                setButtonsDisabled(false);
                 if (r.status === 401 || r.status === 403) {
                     return r.json().then(function (body) {
                         handleAuthError({ ok: r.ok, status: r.status, body: body });
@@ -255,25 +280,17 @@
                 }
                 if (!r.ok) {
                     return r.json().then(function (body) {
-                        renderStatus('error', esc(body.error || 'PDF generation failed'));
+                        renderStatus('error', esc(body.error || 'Report generation failed'));
                     }).catch(function () {
-                        renderStatus('error', 'PDF generation failed');
+                        renderStatus('error', 'Report generation failed');
                     });
                 }
                 return r.blob().then(function (blob) {
-                    var url = URL.createObjectURL(blob);
-                    var a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'talaix_sustainability_' + (payload.company.name || 'report').replace(/\W+/g, '_') + '.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    URL.revokeObjectURL(url);
+                    downloadBlob(blob, downloadName);
                     clearStatus();
                 });
             }).catch(function () {
-                el('generateReportBtn').disabled = false;
-                el('downloadPdfBtn').disabled = false;
+                setButtonsDisabled(false);
                 renderStatus('error', 'The reporting service could not be reached.');
             });
             return;
@@ -283,10 +300,9 @@
             method: 'POST',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(body),
         }).then(function (res) {
-            el('generateReportBtn').disabled = false;
-            el('downloadPdfBtn').disabled = false;
+            setButtonsDisabled(false);
             if (res.status === 401 || res.status === 403) {
                 handleAuthError(res);
                 return;
@@ -298,8 +314,7 @@
             clearStatus();
             renderReport(res.body);
         }).catch(function () {
-            el('generateReportBtn').disabled = false;
-            el('downloadPdfBtn').disabled = false;
+            setButtonsDisabled(false);
             renderStatus('error', 'The reporting service could not be reached.');
         });
     }
@@ -499,8 +514,10 @@
     }
 
     function init() {
-        el('generateReportBtn').addEventListener('click', function () { generateReport(false); });
-        el('downloadPdfBtn').addEventListener('click', function () { generateReport(true); });
+        el('generateReportBtn').addEventListener('click', function () { generateReport('json'); });
+        el('downloadPdfBtn').addEventListener('click', function () { generateReport('pdf'); });
+        el('downloadXbrlBtn').addEventListener('click', function () { generateReport('xbrl'); });
+        el('downloadIxbrlBtn').addEventListener('click', function () { generateReport('ixbrl'); });
         el('checkApplicabilityBtn').addEventListener('click', checkApplicability);
         loadFrameworks();
         loadRegulations();

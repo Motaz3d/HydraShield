@@ -115,9 +115,29 @@ Base: `/api/v2/csrd` (registered in `src/dashboard/api.py`).
 | `GET /regulations` | public | ESRS versions, wave calendar, rule sets, changelog |
 | `POST /applicability` | registered | Scope screening for a company profile |
 | `POST /assessment` | registered | Full assessment: applicability + materiality + coverage + readiness + gaps + TX seal. Sites ≤25 free, ≤100 subscriber (existing `ROLE_RANK` gate) |
+| `POST /assessment/xbrl` | registered | Machine-readable assessment: `format=xbrl` (XBRL 2.1 instance, default) or `format=ixbrl` (inline-XBRL XHTML). Same limits |
 
 Every assessment is content-hashed (`assessment_id`), engine-versioned, and
 sealed (`authenticity.code`, TX-XXXX-XXXX-XXXX) like all Talaix products.
+
+### 4.1 XBRL output (machine-readable)
+
+- Facts use the documented **Talaix extension namespace**
+  (`https://talaix.com/xbrl/taxonomy/csrd/2026`). The element mapping is data
+  (`config/csrd/xbrl_mapping.json`); the served taxonomy
+  `website/xbrl/csrd/2026/talaix-csrd.xsd` mirrors it, and
+  `tests/test_csrd_xbrl.py` keeps the two in sync.
+- **Never invent applies to tags too:** a missing value emits no fact and is
+  listed in the document's tagging notes. NOT_ASSESSED topics produce no
+  topic facts.
+- Entity identifier: the company's **LEI** when supplied (ISO 17442 scheme,
+  as in ESEF); otherwise a content-hash identifier under
+  `https://talaix.com/entity`.
+- **Declared gap, stated in every document:** anchoring to the official ESRS
+  digital (XBRL) taxonomy. Extension elements are only mapped to official
+  ESRS element names once verified against the published taxonomy files —
+  never guessed. The output is a machine-readable assessment extract, not an
+  ESEF filing package.
 
 ## 5. Pricing placement (decision, 2026-09-05)
 
@@ -180,9 +200,9 @@ and regulatory watch on the sustainability page; 30 tests.
 
 ### Wave 5 — platform surfaces
 - Python SDK + CLI (`tx sustainability …`, incl. `reproduce <id>`).
-- Digital tagging export (XBRL/inline XBRL) as a separate rendering layer of
-  the assessment object, once the digital taxonomy requirement timeline
-  confirms the format.
+- ~~Digital tagging export~~ **XBRL/iXBRL shipped early** (§4.1, 2026-09-05);
+  remaining: anchoring the extension elements to the official ESRS digital
+  taxonomy once verified against the published files.
 - QGIS/plugin surfaces for spatially-driven E1/E3/E4 screening.
 
 ## 7. Boundaries (always stated)
