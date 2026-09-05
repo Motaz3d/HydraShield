@@ -81,7 +81,7 @@
                 'insurance',
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
-                'pricing',
+                { id: 'pricing', href: 'pricing.html', label: 'Pricing' },
                 'licensing', 'compliance-hub'
             ]
         },
