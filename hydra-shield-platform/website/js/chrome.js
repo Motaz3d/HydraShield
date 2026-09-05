@@ -43,8 +43,7 @@
                 { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
                 { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
             ]
-        },
-        { id: 'pricing', href: 'pricing.html', label: 'Pricing' }
+        }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
