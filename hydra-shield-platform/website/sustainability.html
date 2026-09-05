@@ -48,9 +48,46 @@
                 </div>
             </details>
 
+            <!-- Build a report -->
+            <div class="panel">
+                <h2>1. Build a report</h2>
+                <div class="form-group">
+                    <label for="companyName">Company name <span class="muted">(required)</span></label>
+                    <input type="text" id="companyName" placeholder="Acme Renewable Materials SA">
+                    <span class="muted small">Company-supplied — not verified by Talaix.</span>
+                </div>
+                <div class="form-group">
+                    <label for="companySector">Sector</label>
+                    <input type="text" id="companySector" placeholder="e.g. renewable energy manufacturing">
+                </div>
+                <div class="form-group">
+                    <label for="companyCountry">Country</label>
+                    <input type="text" id="companyCountry" placeholder="e.g. Luxembourg">
+                </div>
+                <div class="form-group">
+                    <label for="companyWebsite">Website</label>
+                    <input type="text" id="companyWebsite" placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label for="companyDescription">Description</label>
+                    <textarea id="companyDescription" rows="3" placeholder="Short company description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="assetsText">Sites <span class="muted">(one per line: a place name like "Trier, Germany", or name,lat,lon; max 25 on free tier, 100 for subscribers)</span></label>
+                    <textarea id="assetsText" rows="6" placeholder="Trier factory,49.75,6.64&#10;A Coruña port,43.3,-8.4&#10;Sevilla, Spain"></textarea>
+                </div>
+                <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
+                <button class="btn-secondary" id="generateReportBtn">Preview report (JSON view)</button>
+                <button class="btn-secondary" id="downloadXbrlBtn">XBRL (machine-readable)</button>
+                <button class="btn-secondary" id="downloadIxbrlBtn">iXBRL (XHTML)</button>
+                <span class="muted small">XBRL outputs use the CsrdTX engine — a machine-readable assessment extract with a declared Talaix extension taxonomy; not an ESEF filing package.</span>
+                <div id="reportStatus"></div>
+                <div id="reportResult"></div>
+            </div>
+
             <!-- CsrdTX applicability check -->
             <div class="panel">
-                <h2>1. Check CSRD applicability <span class="chip chip-documented">CsrdTX</span></h2>
+                <h2>2. Check CSRD applicability <span class="chip chip-documented">CsrdTX</span></h2>
                 <p class="muted small">
                     A screening determination from declared facts — not legal advice.
                     Borderline outcomes are returned as <em>requires legal confirmation</em> by design.
@@ -90,43 +127,6 @@
                 <button class="btn-secondary" id="checkApplicabilityBtn">Check applicability</button>
                 <div id="applStatus"></div>
                 <div id="applResult"></div>
-            </div>
-
-            <!-- Build a report -->
-            <div class="panel">
-                <h2>2. Build a report</h2>
-                <div class="form-group">
-                    <label for="companyName">Company name <span class="muted">(required)</span></label>
-                    <input type="text" id="companyName" placeholder="Acme Renewable Materials SA">
-                    <span class="muted small">Company-supplied — not verified by Talaix.</span>
-                </div>
-                <div class="form-group">
-                    <label for="companySector">Sector</label>
-                    <input type="text" id="companySector" placeholder="e.g. renewable energy manufacturing">
-                </div>
-                <div class="form-group">
-                    <label for="companyCountry">Country</label>
-                    <input type="text" id="companyCountry" placeholder="e.g. Luxembourg">
-                </div>
-                <div class="form-group">
-                    <label for="companyWebsite">Website</label>
-                    <input type="text" id="companyWebsite" placeholder="https://example.com">
-                </div>
-                <div class="form-group">
-                    <label for="companyDescription">Description</label>
-                    <textarea id="companyDescription" rows="3" placeholder="Short company description"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="assetsText">Sites <span class="muted">(one per line: a place name like "Trier, Germany", or name,lat,lon; max 25 on free tier, 100 for subscribers)</span></label>
-                    <textarea id="assetsText" rows="6" placeholder="Trier factory,49.75,6.64&#10;A Coruña port,43.3,-8.4&#10;Sevilla, Spain"></textarea>
-                </div>
-                <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
-                <button class="btn-secondary" id="generateReportBtn">Preview report (JSON view)</button>
-                <button class="btn-secondary" id="downloadXbrlBtn">XBRL (machine-readable)</button>
-                <button class="btn-secondary" id="downloadIxbrlBtn">iXBRL (XHTML)</button>
-                <span class="muted small">XBRL outputs use the CsrdTX engine — a machine-readable assessment extract with a declared Talaix extension taxonomy; not an ESEF filing package.</span>
-                <div id="reportStatus"></div>
-                <div id="reportResult"></div>
             </div>
 
             <!-- Frameworks & coverage -->
