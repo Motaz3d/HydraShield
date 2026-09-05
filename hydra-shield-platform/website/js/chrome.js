@@ -82,7 +82,16 @@
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
                 { id: 'pricing', href: 'pricing.html', label: 'Pricing' },
-                'licensing', 'compliance-hub'
+                'licensing'
+            ]
+        },
+        {
+            heading: 'Compliance', items: [
+                'compliance-hub',
+                'greenfinance',
+                'sustainability',
+                'supplychain',
+                'forensics'
             ]
         },
         {

@@ -532,7 +532,7 @@ body {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.6fr repeat(6, 1fr);
+    grid-template-columns: 1.6fr repeat(7, 1fr);
     gap: 32px;
     margin-bottom: 48px;
 }
