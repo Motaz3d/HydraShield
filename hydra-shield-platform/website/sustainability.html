@@ -48,9 +48,53 @@
                 </div>
             </details>
 
+            <!-- CsrdTX applicability check -->
+            <div class="panel">
+                <h2>1. Check CSRD applicability <span class="chip chip-documented">CsrdTX</span></h2>
+                <p class="muted small">
+                    A screening determination from declared facts — not legal advice.
+                    Borderline outcomes are returned as <em>requires legal confirmation</em> by design.
+                </p>
+                <div class="form-group">
+                    <label for="applName">Company name <span class="muted">(required)</span></label>
+                    <input type="text" id="applName" placeholder="Acme Renewable Materials SA">
+                </div>
+                <div class="form-group">
+                    <label for="applCountry">Country of establishment</label>
+                    <input type="text" id="applCountry" placeholder="e.g. Luxembourg (or United States for non-EU)">
+                </div>
+                <div class="form-group">
+                    <label for="applEmployees">Employees (average headcount)</label>
+                    <input type="number" id="applEmployees" min="0" placeholder="e.g. 600">
+                </div>
+                <div class="form-group">
+                    <label for="applTurnover">Net turnover (EUR)</label>
+                    <input type="number" id="applTurnover" min="0" placeholder="e.g. 90000000">
+                </div>
+                <div class="form-group">
+                    <label for="applBalance">Balance sheet total (EUR)</label>
+                    <input type="number" id="applBalance" min="0" placeholder="e.g. 40000000">
+                </div>
+                <div class="form-group">
+                    <label for="applListed">Listed on an EU regulated market?</label>
+                    <select id="applListed">
+                        <option value="">Unknown</option>
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="applYear">Reporting year</label>
+                    <input type="number" id="applYear" min="2024" max="2030" placeholder="e.g. 2027">
+                </div>
+                <button class="btn-secondary" id="checkApplicabilityBtn">Check applicability</button>
+                <div id="applStatus"></div>
+                <div id="applResult"></div>
+            </div>
+
             <!-- Build a report -->
             <div class="panel">
-                <h2>Build a report</h2>
+                <h2>2. Build a report</h2>
                 <div class="form-group">
                     <label for="companyName">Company name <span class="muted">(required)</span></label>
                     <input type="text" id="companyName" placeholder="Acme Renewable Materials SA">
@@ -85,6 +129,15 @@
             <!-- Frameworks & coverage -->
             <h2>Frameworks &amp; coverage</h2>
             <div id="frameworksArea"><span class="muted">Loading frameworks reference…</span></div>
+
+            <!-- Regulatory watch -->
+            <h2>Regulatory watch <span class="chip chip-documented">CsrdTX</span></h2>
+            <p class="muted small">
+                Versioned regulatory knowledge base: every rule set and ESRS version
+                carries a legal status. Proposed rules are reported for forward
+                planning and never silently applied.
+            </p>
+            <div id="regulationsArea"><span class="muted">Loading regulatory watch…</span></div>
         </div>
     </main>
 

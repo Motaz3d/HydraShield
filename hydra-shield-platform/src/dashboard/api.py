@@ -1221,6 +1221,11 @@ def create_app() -> Flask:
 
     app.register_blueprint(sustainability_bp)
 
+    # CsrdTX regulatory intelligence API (/api/v2/csrd/…).
+    from ..climate.api_csrd import csrd as csrd_bp
+
+    app.register_blueprint(csrd_bp)
+
     # Insurance & Environmental Risk API (/api/v2/insurance/…).
     from ..climate.api_insurance import insurance as insurance_bp
 

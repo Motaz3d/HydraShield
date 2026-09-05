@@ -1,0 +1,62 @@
+{
+  "id": "csrd_regulatory_changelog",
+  "name": "CSRD/ESRS regulatory watch — change log",
+  "description": "Chronological record of regulatory events that affect CSRD/ESRS reporting. Each entry states what changed, its legal status, and which engine artefacts it affects. This is the data foundation of the Regulatory Watch: when a new event is ingested, the engine can diff versions and tell each customer exactly what changed for them.",
+  "as_of": "2026-09-05",
+  "events": [
+    {
+      "date": "2022-12-14",
+      "id": "csrd-adopted",
+      "title": "CSRD (EU) 2022/2464 adopted",
+      "status": "in_force",
+      "affects": ["applicability", "wave_calendar"],
+      "summary": "Corporate Sustainability Reporting Directive replaces the NFRD; phased application from FY2024.",
+      "source": "Directive (EU) 2022/2464, OJ L 322, 16.12.2022"
+    },
+    {
+      "date": "2023-07-31",
+      "id": "esrs-2023-adopted",
+      "title": "First set of ESRS adopted",
+      "status": "in_force",
+      "affects": ["esrs_version:esrs_2023", "disclosure_requirements", "datapoints"],
+      "summary": "Delegated Regulation (EU) 2023/2772 — 12 standards (2 cross-cutting, 5 environmental, 4 social, 1 governance).",
+      "source": "Commission Delegated Regulation (EU) 2023/2772"
+    },
+    {
+      "date": "2023-12-19",
+      "id": "thresholds-2023-2775",
+      "title": "Accounting Directive size thresholds updated",
+      "status": "in_force",
+      "affects": ["applicability"],
+      "summary": "Size thresholds raised ~25% for inflation: turnover €50M, balance sheet €25M.",
+      "source": "Commission Delegated Directive (EU) 2023/2775"
+    },
+    {
+      "date": "2025-02-26",
+      "id": "omnibus-1-proposal",
+      "title": "Omnibus I package proposed",
+      "status": "proposed",
+      "affects": ["applicability", "value_chain_cap"],
+      "summary": "Proposal to restrict CSRD scope to undertakings >1000 employees, remove listed SMEs, cap value-chain data requests at VSME level. NOT in force — forward planning only.",
+      "source": "COM(2025) 80 final"
+    },
+    {
+      "date": "2025-04-14",
+      "id": "stop-the-clock",
+      "title": "'Stop-the-clock' directive adopted",
+      "status": "in_force",
+      "affects": ["wave_calendar"],
+      "summary": "Wave 2 and wave 3 application dates postponed by two years (FY2027 and FY2028 respectively).",
+      "source": "Directive (EU) 2025/794"
+    },
+    {
+      "date": "2026-07-03",
+      "id": "esrs-2026-simplified",
+      "title": "Simplified ESRS adopted",
+      "status": "adopted_pending_application",
+      "affects": ["esrs_version:esrs_2026_simplified", "disclosure_requirements", "datapoints"],
+      "summary": "Revised ESRS: mandatory datapoints reduced by more than 60%, total datapoints by more than 70%; double materiality retained. Applies after scrutiny and OJ publication.",
+      "source": "Commission adoption, 2026-07-03"
+    }
+  ]
+}

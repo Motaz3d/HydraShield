@@ -1,0 +1,28 @@
+{
+  "id": "esrs_2026_simplified",
+  "name": "ESRS — simplified set (2026 revision)",
+  "short_name": "ESRS 2026",
+  "status": "adopted_pending_application",
+  "adopted": "2026-07-03",
+  "source": "Commission adoption of revised ESRS, 2026-07-03; application follows completion of the scrutiny period and publication in the Official Journal",
+  "honesty_note": "Adopted but not yet applicable at the time of writing. The engine reports this version for forward planning and diffing; in-force assessments default to esrs_2023 until the revision enters into force.",
+  "reduction_vs_2023": {
+    "mandatory_datapoints_reduction_pct": 60,
+    "total_datapoints_reduction_pct": 70,
+    "note": "Reductions as announced by the Commission at adoption ('more than' these percentages); precise revised counts are declared when the final published text is ingested."
+  },
+  "key_changes": [
+    "Double materiality remains the basis for determining reportable information.",
+    "Mandatory datapoints reduced by more than 60%; total datapoints by more than 70%.",
+    "Simplified materiality assessment process and reduced granularity across topical standards.",
+    "Closer alignment with the value-chain cap: information requests to companies below CSRD scope are limited to the VSME voluntary standard coverage."
+  ],
+  "structure": {
+    "cross_cutting": ["ESRS 1", "ESRS 2"],
+    "topical_environment": ["ESRS E1", "ESRS E2", "ESRS E3", "ESRS E4", "ESRS E5"],
+    "topical_social": ["ESRS S1", "ESRS S2", "ESRS S3", "ESRS S4"],
+    "topical_governance": ["ESRS G1"],
+    "note": "Standard set unchanged in structure; disclosure requirements and datapoints within each standard are simplified. Detailed revised disclosure-requirement lists are ingested from the published text when it enters into force."
+  },
+  "topics_inherits": "esrs_2023"
+}

@@ -333,10 +333,177 @@
         });
     }
 
+    /* ---- CsrdTX: applicability check ---- */
+
+    function applStatus(kind, html) {
+        el('applStatus').innerHTML = '<div class="notice notice-' + esc(kind) + '">' + html + '</div>';
+    }
+
+    function numOrNull(id) {
+        var v = el(id).value.trim();
+        if (!v) return null;
+        var n = Number(v);
+        return isNaN(n) ? null : n;
+    }
+
+    function determinationChip(det) {
+        if (det === 'in_scope') return chip('observed', 'IN SCOPE');
+        if (det === 'out_of_scope') return chip('unknown', 'OUT OF SCOPE');
+        if (det === 'potentially_in_scope') return chip('modelled', 'POTENTIALLY IN SCOPE');
+        return chip('reported', 'REQUIRES LEGAL CONFIRMATION');
+    }
+
+    function renderApplicability(data) {
+        var html = '<div class="panel"><h3>' + esc((data.company || {}).name || 'Company') + ' — ' +
+            'reporting year ' + esc(data.reporting_year) + '</h3>';
+        html += '<p>' + determinationChip(data.determination) + ' ' +
+            '<span class="muted small">Rule set: ' + esc((data.rule_set || {}).name || '—') +
+            ' (' + esc((data.rule_set || {}).status || '') + ')</span></p>';
+
+        if (data.wave) {
+            html += '<div class="table-scroll"><table class="kv-table">' +
+                '<tr><th>Phase-in wave</th><td>' + esc(data.wave.wave) + '</td></tr>' +
+                '<tr><th>Population</th><td>' + esc(data.wave.population) + '</td></tr>' +
+                '<tr><th>First reporting year</th><td>' + esc(data.wave.first_reporting_year) + '</td></tr>' +
+                '<tr><th>First report due</th><td>' + esc(data.wave.first_report_year) + '</td></tr>' +
+                '</table></div>';
+        }
+
+        var size = data.size_evaluation || {};
+        if (size.criteria) {
+            html += '<h4>Size criteria</h4><div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>Criterion</th><th>Result</th></tr></thead><tbody>';
+            Object.keys(size.criteria).forEach(function (k) {
+                html += '<tr><td>' + esc(k) + '</td><td>' + esc(size.criteria[k]) + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+        }
+
+        if ((data.reasons || []).length) {
+            html += '<h4>Reasons</h4><ul class="muted">';
+            data.reasons.forEach(function (r) { html += '<li>' + esc(r) + '</li>'; });
+            html += '</ul>';
+        }
+        if ((data.assumptions || []).length) {
+            html += '<h4>Declared assumptions</h4><ul class="muted">';
+            data.assumptions.forEach(function (a) { html += '<li>' + esc(a) + '</li>'; });
+            html += '</ul>';
+        }
+
+        var fwd = data.forward_outlook || {};
+        if (fwd.rule_set_id) {
+            html += '<p class="muted small"><strong>Forward outlook (proposed rules, never applied):</strong> ' +
+                'under ' + esc(fwd.rule_set_id) + ' the determination would be ' +
+                determinationChip(fwd.determination_if_adopted) + '</p>';
+        }
+        if (data.voluntary_route) {
+            html += '<div class="notice notice-info"><strong>Voluntary route:</strong> ' +
+                esc(data.voluntary_route.note) + '</div>';
+        }
+        html += '<p class="muted small">' + esc(data.honesty_note || '') + '</p></div>';
+        el('applResult').innerHTML = html;
+    }
+
+    function checkApplicability() {
+        var company = {
+            name: el('applName').value.trim(),
+            country: el('applCountry').value.trim() || null,
+            employees: numOrNull('applEmployees'),
+            net_turnover_eur: numOrNull('applTurnover'),
+            balance_sheet_total_eur: numOrNull('applBalance'),
+            reporting_year: numOrNull('applYear'),
+        };
+        var listed = el('applListed').value;
+        if (listed !== '') company.listed = listed === 'true';
+        if (!company.name) {
+            applStatus('error', 'Company name is required.');
+            return;
+        }
+        el('applStatus').innerHTML = '';
+        applStatus('info', 'Evaluating CSRD applicability…');
+        el('checkApplicabilityBtn').disabled = true;
+
+        fetchJSON(API + '/v2/csrd/applicability', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ company: company }),
+        }).then(function (res) {
+            el('checkApplicabilityBtn').disabled = false;
+            if (res.status === 401 || res.status === 403) {
+                applStatus('warn', 'Please <a class="text-link" href="account.html">sign in</a> to run the applicability check.');
+                return;
+            }
+            if (!res.ok || res.body.error) {
+                applStatus('error', esc(res.body.error || 'Applicability check failed'));
+                return;
+            }
+            el('applStatus').innerHTML = '';
+            renderApplicability(res.body);
+        }).catch(function () {
+            el('checkApplicabilityBtn').disabled = false;
+            applStatus('error', 'The applicability service could not be reached.');
+        });
+    }
+
+    /* ---- CsrdTX: regulatory watch ---- */
+
+    function statusChip(status) {
+        if (status === 'in_force') return chip('observed', 'IN FORCE');
+        if (status === 'adopted_pending_application') return chip('modelled', 'PENDING APPLICATION');
+        if (status === 'proposed') return chip('reported', 'PROPOSED');
+        return chip('unknown', esc(status || '—'));
+    }
+
+    function loadRegulations() {
+        fetchJSON(API + '/v2/csrd/regulations').then(function (res) {
+            if (!res.ok || !res.body.esrs_versions) {
+                el('regulationsArea').innerHTML = '<span class="muted">Regulatory watch unavailable.</span>';
+                return;
+            }
+            var data = res.body;
+            var html = '<p class="muted small">Knowledge base as of ' + esc(data.as_of || '—') + '</p>';
+
+            html += '<h3>ESRS versions</h3><div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>Version</th><th>Status</th><th>Adopted</th><th>Source</th>' +
+                '</tr></thead><tbody>';
+            data.esrs_versions.forEach(function (v) {
+                html += '<tr><td>' + esc(v.short_name || v.id) + '</td><td>' + statusChip(v.status) + '</td>' +
+                    '<td>' + esc(v.adopted || '—') + '</td><td class="muted small">' + esc(v.source || '—') + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+
+            html += '<h3>Phase-in waves</h3><div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>Wave</th><th>Population</th><th>First reporting year</th><th>First report</th><th>Status</th>' +
+                '</tr></thead><tbody>';
+            (data.wave_calendar || []).forEach(function (w) {
+                html += '<tr><td>' + esc(w.wave) + '</td><td>' + esc(w.population) + '</td>' +
+                    '<td>' + esc(w.first_reporting_year) + '</td><td>' + esc(w.first_report_year) + '</td>' +
+                    '<td>' + statusChip(w.status) + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+
+            html += '<h3>Change log</h3><div class="table-scroll"><table class="data-table"><thead><tr>' +
+                '<th>Date</th><th>Event</th><th>Status</th><th>Summary</th>' +
+                '</tr></thead><tbody>';
+            (data.changelog || []).forEach(function (e) {
+                html += '<tr><td>' + esc(e.date) + '</td><td>' + esc(e.title) + '</td>' +
+                    '<td>' + statusChip(e.status) + '</td><td class="muted small">' + esc(e.summary) + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+
+            el('regulationsArea').innerHTML = html;
+        }).catch(function () {
+            el('regulationsArea').innerHTML = '<span class="muted">Regulatory watch could not be reached.</span>';
+        });
+    }
+
     function init() {
         el('generateReportBtn').addEventListener('click', function () { generateReport(false); });
         el('downloadPdfBtn').addEventListener('click', function () { generateReport(true); });
+        el('checkApplicabilityBtn').addEventListener('click', checkApplicability);
         loadFrameworks();
+        loadRegulations();
     }
 
     init();

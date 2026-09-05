@@ -1,0 +1,118 @@
+{
+  "id": "esrs_2023",
+  "name": "ESRS — Delegated Regulation (EU) 2023/2772 (original set)",
+  "short_name": "ESRS 2023",
+  "status": "in_force",
+  "adopted": "2023-07-31",
+  "source": "Commission Delegated Regulation (EU) 2023/2772 supplementing Directive 2013/34/EU",
+  "datapoint_count_approx": 1140,
+  "datapoint_count_note": "Approximate, per the EFRAG IG 3 datapoint list; the exact count depends on how conditional and nested datapoints are tallied. Used for reduction tracking only, never stated as exact.",
+  "structure": {
+    "cross_cutting": ["ESRS 1", "ESRS 2"],
+    "topical_environment": ["ESRS E1", "ESRS E2", "ESRS E3", "ESRS E4", "ESRS E5"],
+    "topical_social": ["ESRS S1", "ESRS S2", "ESRS S3", "ESRS S4"],
+    "topical_governance": ["ESRS G1"]
+  },
+  "topics": [
+    {
+      "id": "ESRS2",
+      "name": "General disclosures",
+      "pillar": "cross_cutting",
+      "always_material": true,
+      "disclosure_requirements": [
+        {"id": "ESRS2-BP", "name": "Basis for preparation", "talaix_evidence": "none"},
+        {"id": "ESRS2-GOV", "name": "Governance", "talaix_evidence": "none"},
+        {"id": "ESRS2-SBM", "name": "Strategy, business model, value chain", "talaix_evidence": "none"},
+        {"id": "ESRS2-IRO", "name": "Impacts, risks and opportunities management (IRO-1/IRO-2)", "talaix_evidence": "partial", "note": "Talaix materiality engine produces the IRO identification workflow and scoring; the company's own process description remains company-declared."}
+      ]
+    },
+    {
+      "id": "E1",
+      "name": "Climate change",
+      "pillar": "environment",
+      "disclosure_requirements": [
+        {"id": "E1-1", "name": "Transition plan for climate change mitigation", "talaix_evidence": "none"},
+        {"id": "E1-IRO1", "name": "Material impacts, risks and opportunities — climate (incl. physical risk of own sites)", "talaix_evidence": "evidence_backed", "note": "Site-level physical hazard verification (flood, coastal, wildfire, heat, drought, wind) with claim statuses — the core of the current Talaix evidence pack."},
+        {"id": "E1-2", "name": "Policies related to climate change", "talaix_evidence": "none"},
+        {"id": "E1-3", "name": "Actions and resources", "talaix_evidence": "none"},
+        {"id": "E1-4", "name": "Targets", "talaix_evidence": "none"},
+        {"id": "E1-5", "name": "Energy consumption and mix", "talaix_evidence": "none"},
+        {"id": "E1-6", "name": "Gross Scope 1/2/3 GHG emissions", "talaix_evidence": "none"},
+        {"id": "E1-9", "name": "Anticipated financial effects from material physical and transition risks", "talaix_evidence": "partial", "note": "Physical-risk financial exposure screening from hazard levels; monetary quantification is screening-level, not actuarial."}
+      ]
+    },
+    {
+      "id": "E2",
+      "name": "Pollution",
+      "pillar": "environment",
+      "disclosure_requirements": [
+        {"id": "E2-all", "name": "Pollution of air, water, soil; substances of concern", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "E3",
+      "name": "Water and marine resources",
+      "pillar": "environment",
+      "disclosure_requirements": [
+        {"id": "E3-IRO1", "name": "Water-related physical risk of sites (drought / water stress)", "talaix_evidence": "partial", "note": "Drought and water-stress physical evidence only; consumption and discharge metrics are not covered."},
+        {"id": "E3-4", "name": "Water consumption", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "E4",
+      "name": "Biodiversity and ecosystems",
+      "pillar": "environment",
+      "disclosure_requirements": [
+        {"id": "E4-all", "name": "Biodiversity impacts, dependencies, sites near protected areas", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "E5",
+      "name": "Resource use and circular economy",
+      "pillar": "environment",
+      "disclosure_requirements": [
+        {"id": "E5-all", "name": "Resource inflows/outflows, waste", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "S1",
+      "name": "Own workforce",
+      "pillar": "social",
+      "disclosure_requirements": [
+        {"id": "S1-all", "name": "Working conditions, equal treatment, other work-related rights", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "Workers in the value chain",
+      "pillar": "social",
+      "disclosure_requirements": [
+        {"id": "S2-all", "name": "Value-chain worker impacts", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "Affected communities",
+      "pillar": "social",
+      "disclosure_requirements": [
+        {"id": "S3-all", "name": "Community impacts", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "S4",
+      "name": "Consumers and end-users",
+      "pillar": "social",
+      "disclosure_requirements": [
+        {"id": "S4-all", "name": "Consumer and end-user impacts", "talaix_evidence": "none"}
+      ]
+    },
+    {
+      "id": "G1",
+      "name": "Business conduct",
+      "pillar": "governance",
+      "disclosure_requirements": [
+        {"id": "G1-all", "name": "Corporate culture, supplier relationships, corruption and bribery", "talaix_evidence": "none"}
+      ]
+    }
+  ]
+}

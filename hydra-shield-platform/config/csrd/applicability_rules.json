@@ -1,0 +1,107 @@
+{
+  "id": "csrd_applicability_rules",
+  "name": "CSRD applicability rule sets — versioned",
+  "description": "Deterministic rule sets that decide whether a company is in scope of the EU Corporate Sustainability Reporting Directive. Rules are data, not code: a regulatory change is a new or amended entry here, never an engine rewrite. Every rule carries a legal status and a source; entries whose status is not 'in_force' are reported as such and never silently applied.",
+  "as_of": "2026-09-05",
+  "honesty_note": "Applicability output is a screening determination, not legal advice. Borderline cases are returned as 'requires_legal_confirmation'.",
+  "status_vocabulary": {
+    "in_force": "Adopted, published and applicable law.",
+    "adopted_pending_application": "Adopted but pending scrutiny period, official publication, or a future application date. Reported, not applied.",
+    "proposed": "Legislative proposal only. Never applied; shown for forward planning."
+  },
+  "wave_calendar": [
+    {
+      "wave": 1,
+      "population": "Large public-interest companies (>500 employees) already subject to the NFRD",
+      "first_reporting_year": 2024,
+      "first_report_year": 2025,
+      "status": "in_force",
+      "source": "CSRD (EU) 2022/2464, Art. 5"
+    },
+    {
+      "wave": 2,
+      "population": "Other large undertakings meeting the size criteria",
+      "first_reporting_year": 2027,
+      "first_report_year": 2028,
+      "status": "in_force",
+      "note": "Delayed by two years (originally FY2025/report 2026) by the 'stop-the-clock' directive.",
+      "source": "Directive (EU) 2025/794 amending application dates"
+    },
+    {
+      "wave": 3,
+      "population": "Listed SMEs, small and non-complex credit institutions, captive insurance undertakings",
+      "first_reporting_year": 2028,
+      "first_report_year": 2029,
+      "status": "in_force",
+      "note": "Delayed by two years by Directive (EU) 2025/794; the Omnibus I proposal would remove this wave entirely.",
+      "source": "Directive (EU) 2025/794; COM(2025) 80 (Omnibus I, proposed)"
+    },
+    {
+      "wave": 4,
+      "population": "Non-EU companies with significant EU activity",
+      "first_reporting_year": 2028,
+      "first_report_year": 2029,
+      "status": "in_force",
+      "source": "CSRD (EU) 2022/2464, Art. 40a"
+    }
+  ],
+  "rule_sets": [
+    {
+      "id": "csrd_2023_original",
+      "name": "CSRD (EU) 2022/2464 as adopted — original thresholds",
+      "applies_to_reporting_years": [2024, 2025, 2026, 2027, 2028, 2029, 2030],
+      "status": "in_force",
+      "source": "Directive (EU) 2022/2464; Accounting Directive size thresholds as updated by Delegated Directive (EU) 2023/2775",
+      "eu_undertaking": {
+        "large_min_employees": 250,
+        "turnover_eur": 50000000,
+        "balance_sheet_eur": 25000000,
+        "size_criteria_required": 2,
+        "listed_sme_in_scope": true,
+        "public_interest_employees": 500,
+        "note": "Large undertaking = meets at least 2 of 3 size criteria. Wave 1 (public-interest >500 employees, already under NFRD) reports from FY2024."
+      },
+      "non_eu_undertaking": {
+        "eu_turnover_eur": 150000000,
+        "consecutive_years": 2,
+        "requires_eu_branch_or_subsidiary": true,
+        "note": "Art. 40a: non-EU companies with > €150M net turnover in the EU for two consecutive financial years and at least one EU branch or subsidiary."
+      }
+    },
+    {
+      "id": "omnibus_2025_proposal",
+      "name": "Omnibus I package — proposed scope restriction",
+      "applies_to_reporting_years": [2026, 2027, 2028, 2029, 2030],
+      "status": "proposed",
+      "source": "COM(2025) 80 final, 2025-02-26",
+      "eu_undertaking": {
+        "large_min_employees": 1000,
+        "employees_mandatory": true,
+        "turnover_eur": 50000000,
+        "balance_sheet_eur": 25000000,
+        "size_criteria_required": 2,
+        "listed_sme_in_scope": false,
+        "note": "Proposal: only undertakings with >1000 employees AND (turnover > €50M OR balance sheet > €25M) remain in scope; listed SMEs removed; value-chain cap limits data requests to companies below 1000 employees to the VSME voluntary standard. NOT applied by the engine — reported for forward planning only."
+      },
+      "non_eu_undertaking": {
+        "eu_turnover_eur": 150000000,
+        "consecutive_years": 2,
+        "requires_eu_branch_or_subsidiary": true,
+        "note": "Proposal raises the EU turnover threshold to €450M; kept at the in-force value here and flagged in output."
+      }
+    },
+    {
+      "id": "vsme_voluntary",
+      "name": "VSME — voluntary sustainability reporting standard for non-listed SMEs",
+      "applies_to_reporting_years": [2024, 2025, 2026, 2027, 2028, 2029, 2030],
+      "status": "adopted_pending_application",
+      "source": "EFRAG VSME standard; Commission recommendation on voluntary reporting for SMEs",
+      "note": "Voluntary standard for companies below CSRD thresholds. Doubles as the value-chain cap: in-scope companies may not demand information from smaller value-chain partners beyond what VSME covers.",
+      "eu_undertaking": {
+        "large_min_employees": 250,
+        "listed_sme_in_scope": false,
+        "voluntary": true
+      }
+    }
+  ]
+}
