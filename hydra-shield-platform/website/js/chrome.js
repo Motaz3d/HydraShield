@@ -11,8 +11,8 @@
  * highlights the active item from <body data-page>. This file is the single
  * source of truth for site navigation — an IA change is one edit here.
  *
- * Primary nav: Insurance & Reinsurance · Investment & Siting · Maps ·
- * Reports · Environmental Licensing · Compliance ▾ + Account.
+ * Primary nav: Compliance ▾ · Insurance & Reinsurance · Investment & Siting ·
+ * Maps · Reports · Environmental Licensing + Account.
  * (Investment analysis, siting and funding are one product: intelligence.html
  * hosts them as tabs; legacy solutions.html redirects there.)
  * Legacy marketing pages stay reachable from the footer.
@@ -28,22 +28,24 @@
         ? 'http://localhost:8051/api'
         : '/api';
 
-    /* Top level: single links + dropdown groups. */
+    /* Top level: single links + dropdown groups. Compliance leads — it is the
+     * market-facing spearhead (operator decision 2026-09-06); insurance,
+     * investment and licensing stay as segments served by the same engine. */
     var PRIMARY = [
+        {
+            id: 'compliance', label: 'Compliance', children: [
+                { id: 'compliance-hub', href: 'compliance.html', label: 'Overview' },
+                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
+                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
+                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
+                { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
+            ]
+        },
         { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
         { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting' },
         { id: 'map', href: 'map.html', label: 'Maps' },
         { id: 'reports', href: 'reports.html', label: 'Reports' },
-        { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' },
-        {
-            id: 'compliance', label: 'Compliance', children: [
-                { id: 'compliance-hub', href: 'compliance.html', label: 'Overview' },
-                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
-                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
-                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
-                { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
-            ]
-        }
+        { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
@@ -217,9 +219,10 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
-            '<p>Natural-hazard and climate-extreme intelligence for public and private decisions: ' +
-            'documented evidence on lives at risk and money at stake around any asset, ' +
-            'place or territory — for governments, municipalities, investors, banks, insurers and reinsurers. ' +
+            '<p>Climate-risk compliance evidence and natural-hazard intelligence: documented, ' +
+            'traceable physical-risk proof for EU disclosure — CSRD/ESRS E1, EU Taxonomy DNSH, ' +
+            'EUDR — and for every decision with lives and capital at stake, from governments ' +
+            'and municipalities to investors, banks, insurers and reinsurers. ' +
             'Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
             FOOTER_GROUPS.map(footerGroupHtml).join('') +

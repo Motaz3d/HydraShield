@@ -20,7 +20,7 @@ sys.path.insert(0, ROOT)
 from scripts.marketing_status import workspace_integrity  # noqa: E402
 
 HAZARDS = {"wildfire", "flood", "drought", "heat", "wind", "coastal",
-           "dust", "volcanic"}
+           "cyclone", "dust", "volcanic"}
 
 
 def _load(name):

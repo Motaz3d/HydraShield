@@ -8,7 +8,7 @@ Read this file FIRST. It exists to save exploration time: do not re-scan the tre
 3. **Before finishing any task that changed structure, commands, or progress**: update this `AGENTS.md` (map changes) and `PLAN.md` (status changes) in the same session, without waiting to be asked. Keep both files short — they are loaded every session and cost tokens.
 
 ## What this is
-Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-support platform. Aggregates earth-observation data to analyse multi-hazard risks (wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake) and produce evidence-linked reports for finance, insurance, government, and investment users.
+Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-support platform. Aggregates earth-observation data to analyse multi-hazard risks (wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake) and produce evidence-linked reports for finance, insurance, government, and investment users. **Market-facing identity since 2026-09-06: climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR)** — engine unchanged underneath; decisions + competitor study in `hydra-shield-platform/docs/COMPLIANCE_STRATEGY.md`, phase tracker in `docs/GRC_COMPLIANCE.md`.
 
 ## Top-level layout
 - `hydra-shield-platform/` — the main codebase (everything below). Work happens here.

@@ -15,7 +15,10 @@
     "Asset Manager",
     "Municipal Resilience Officer",
     "Climate Policy Officer",
-    "Research Director"
+    "Research Director",
+    "Compliance Manager",
+    "Supply Chain Compliance Manager",
+    "Procurement Director"
   ],
   "segments": {
     "insurance": {
@@ -1011,13 +1014,95 @@
       "cta": "Monitor your territory",
       "outreach_style": "public-service, operational",
       "evidence_requirements": "official sources; honest availability states"
+    },
+    "sustainability_compliance": {
+      "pain_points": [
+        "ESRS E1 physical-risk evidence must be assembled per site and traced for auditors",
+        "wave deadlines (wave 2 reports on FY2027) force evidence collection now",
+        "their reporting suite does workflow and carbon — the physical-risk layer is missing",
+        "consultants assemble this evidence slowly and expensively"
+      ],
+      "relevant_hazards": [
+        "flood",
+        "wildfire",
+        "heat",
+        "drought",
+        "wind",
+        "coastal",
+        "cyclone"
+      ],
+      "capabilities": [
+        "CSRD applicability screening (rules-as-data, versioned)",
+        "double-materiality scoring with declared weights",
+        "site-level ESRS E1 physical-risk evidence packs",
+        "machine-readable XBRL output",
+        "evidence classes with sources, dates and engine versions"
+      ],
+      "decision_maker_roles": [
+        "Chief Sustainability Officer",
+        "Head of ESG",
+        "CFO",
+        "Compliance Manager"
+      ],
+      "content_topics": [
+        "ESRS E1 physical-risk datapoints explained",
+        "audit-traceable evidence: sources, dates, engine versions",
+        "what the simplified ESRS (adopted 3 Jul 2026) changes",
+        "E1-9 anticipated financial effects: what evidence supports them"
+      ],
+      "offer": "free CSRD scope check → sample evidence pack on their own sites → €490 pilot",
+      "cta": "Check your CSRD scope free",
+      "outreach_style": "regulatory-deadline-driven, precise, no superlatives",
+      "evidence_requirements": "auditor-traceable provenance; screening-level labels stated; Omnibus proposals marked as proposals, never as law"
+    },
+    "eudr_operators": {
+      "pain_points": [
+        "EUDR geolocation evidence obligations are already in force (large operators 30 Dec 2025, SMEs 30 June 2026)",
+        "origin claims need documented geographic screening, not supplier promises",
+        "non-EU exporters into the EU lack affordable EU-facing evidence tooling"
+      ],
+      "relevant_hazards": [
+        "wildfire",
+        "drought",
+        "flood"
+      ],
+      "capabilities": [
+        "geographic origin-claim screening (satellite × claims)",
+        "land-cover and disturbance evidence context",
+        "documented evidence packs with declared gaps"
+      ],
+      "decision_maker_roles": [
+        "Supply Chain Compliance Manager",
+        "Procurement Director",
+        "Compliance Manager"
+      ],
+      "content_topics": [
+        "EUDR geolocation obligations in force — what operators must collect",
+        "what geographic evidence screening can and cannot prove"
+      ],
+      "offer": "sample origin screening on one commodity plot",
+      "cta": "Screen an origin free",
+      "outreach_style": "operational, deadline-aware, honest about limits",
+      "evidence_requirements": "never a 'verified deforestation-free' claim; screening evidence with declared gaps"
     }
   },
   "priority_model": {
     "note": "Priority tiers focus commercial effort; they do not change what the platform offers any user.",
     "primary": {
-      "consulting": {
+      "sustainability_compliance": {
         "tier_focus": "A",
+        "why": "compliance spend is mandatory and deadline-driven (CSRD waves, simplified ESRS adopted 3 Jul 2026); the physical-risk layer is missing from every reporting suite — the fastest path to the first customer",
+        "likely_tier": "professional/business",
+        "communication_angle": "Audit-traceable ESRS E1 physical-risk evidence from your own sites — at a published price, not an enterprise contract",
+        "objections": [
+          "assurance-vs-evidence boundary",
+          "validation status",
+          "post-Omnibus scope uncertainty"
+        ],
+        "follow_up_strategy": "free CSRD scope check → sample evidence pack on their own sites → €490 pilot with a publishable case study"
+      },
+      "consulting": {
+        "tier_focus": "B",
         "why": "consultants resell evidence into many client engagements; fastest path to repeated B2B use",
         "likely_tier": "professional/business",
         "communication_angle": "Reduce the time to assemble documented historical climate-risk evidence",
@@ -1028,7 +1113,7 @@
         "follow_up_strategy": "sample evidence pack for one of their sites, then a walkthrough call"
       },
       "investment": {
-        "tier_focus": "B",
+        "tier_focus": "C",
         "why": "capital allocation needs traceable exposure evidence before commitment",
         "likely_tier": "professional/business",
         "communication_angle": "Assess climate exposure before committing capital",
@@ -1039,7 +1124,7 @@
         "follow_up_strategy": "portfolio-location screening demo, then API discussion"
       },
       "insurance": {
-        "tier_focus": "C",
+        "tier_focus": "D",
         "why": "underwriting/risk context needs documented hazard and exposure history",
         "likely_tier": "professional/business",
         "communication_angle": "Documented historical hazard and exposure profile per insured asset \u2014 not pricing",
@@ -1050,7 +1135,7 @@
         "follow_up_strategy": "historical-evidence sample for a known asset, then pilot"
       },
       "eu_funded_projects": {
-        "tier_focus": "D",
+        "tier_focus": "E",
         "why": "EU projects need evidence/monitoring components and are publicly listed",
         "likely_tier": "research/partnership",
         "communication_angle": "Evidence + monitoring components for funded resilience projects",
@@ -1062,6 +1147,7 @@
       }
     },
     "secondary": [
+      "eudr_operators",
       "banks/banking",
       "real_estate",
       "engineering_firms",
@@ -1163,6 +1249,21 @@
       "solutions",
       "monitoring",
       "funding"
+    ],
+    "sustainability_compliance": [
+      "reports",
+      "hazard_analysis",
+      "historical_events",
+      "exposure",
+      "map",
+      "api"
+    ],
+    "eudr_operators": [
+      "reports",
+      "hazard_analysis",
+      "map",
+      "historical_events",
+      "api"
     ]
   }
 }
