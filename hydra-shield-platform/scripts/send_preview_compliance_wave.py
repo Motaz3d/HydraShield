@@ -14,6 +14,13 @@ if str(ROOT) not in sys.path:
   sys.path.insert(0, str(ROOT))
 
 from src.dashboard.mailer import send_mail, render_template, unsubscribe_mailto
+from src.dashboard import mailer
+
+# Load SMTP secrets when run on the Vultr host (repo at /opt/hydrashield,
+# secrets in /opt/hydrashield/.env). Locally these files do not exist and
+# the preview falls back to the dev outbox — honest, never silent.
+mailer.load_dotenv(str(ROOT / ".env"))
+mailer.load_dotenv(str(ROOT.parent / ".env"))
 
 # Preview samples go to the official platform inbox — never a personal
 # mailbox (repo rule, test-enforced).

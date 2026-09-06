@@ -83,3 +83,12 @@ def test_preview_script_targets_official_inbox_only():
     script = _read(PREVIEW_SCRIPT)
     assert 'DEFAULT_TO = "info@talaix.com"' in script
     assert "PREVIEW_TO" in script
+
+
+def test_preview_script_loads_dotenv_for_vultr_host():
+    """Without load_dotenv, SMTP_HOST is unset on the Vultr host and the
+    preview silently lands in the dev outbox instead of the operator inbox
+    (root cause of the 2026-09-06 'nothing arrived' report)."""
+    script = _read(PREVIEW_SCRIPT)
+    assert "mailer.load_dotenv" in script
+    assert 'ROOT / ".env"' in script
