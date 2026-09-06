@@ -51,15 +51,26 @@ def client(env):
         yield c
 
 
-def _eml_parts(outbox_dir, template):
-    """(raw_text, decoded_plain_body) of the newest <template> outbox mail."""
+def _eml_parts(outbox_dir, template, recipient=None):
+    """(raw_text, decoded_plain_body) of the newest <template> outbox mail.
+
+    With recipient, pick the newest message addressed to that user: a
+    shared outbox accumulates earlier registrations' mail (and their used
+    tokens), so "latest file wins" is not reliable for multi-user flows.
+    """
     files = sorted(outbox_dir.glob(f"*_{template}_*.eml"))
     assert files, f"no {template} email in outbox"
-    raw = files[-1].read_text(encoding="utf-8")
-    msg = email_lib.message_from_string(raw, policy=email_lib.policy.default)
+    msg = chosen_raw = None
+    for path in reversed(files):
+        raw = path.read_text(encoding="utf-8")
+        candidate = email_lib.message_from_string(raw, policy=email_lib.policy.default)
+        if recipient is None or recipient in str(candidate.get("To") or ""):
+            msg, chosen_raw = candidate, raw
+            break
+    assert msg is not None, f"no {template} email for {recipient} in outbox"
     body = msg.get_body(("plain",))
     plain = body.get_content() if body else ""
-    return raw, plain
+    return chosen_raw, plain
 
 
 def _eml_text(outbox_dir, template):
@@ -67,10 +78,10 @@ def _eml_text(outbox_dir, template):
     return raw + "\n" + plain
 
 
-def _verification_token(outbox_dir):
+def _verification_token(outbox_dir, recipient=None):
     # Extract from the decoded plain body only — the raw MIME part is
     # quoted-printable and would corrupt the match ("token=3D…").
-    _, plain = _eml_parts(outbox_dir, "email_verification")
+    _, plain = _eml_parts(outbox_dir, "email_verification", recipient=recipient)
     match = re.search(r"token=([A-Za-z0-9_\-]+)", plain)
     assert match, "no verification token in email"
     return match.group(1)
@@ -87,7 +98,7 @@ def _register(client, email="user@example.org", password="correct horse battery"
 def _register_and_verify(client, env, email="user@example.org",
                          password="correct horse battery"):
     _register(client, email, password)
-    token = _verification_token(env["outbox"])
+    token = _verification_token(env["outbox"], recipient=email)
     resp = client.get(f"/api/v2/auth/verify?token={token}")
     assert resp.status_code == 200, resp.get_json()
     body = resp.get_json()

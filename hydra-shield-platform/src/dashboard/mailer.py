@@ -333,7 +333,11 @@ def _write_outbox(to: str, template: str, msg: EmailMessage) -> str:
     digest = hashlib.sha256(
         f"{to}|{msg['Subject']}|{msg.get_body(('plain',)).get_content()}".encode("utf-8")
     ).hexdigest()[:10]
-    stamp = time.strftime("%Y%m%dT%H%M%S", time.gmtime()) + f"{int(time.time() * 1e6) % 1000000:06d}"
+    # One clock read for both parts: separate gmtime()/time() calls can
+    # straddle a second boundary under preemption and produce a stamp that
+    # sorts before older mail, breaking "newest file" ordering.
+    now = time.time()
+    stamp = time.strftime("%Y%m%dT%H%M%S", time.gmtime(now)) + f"{int(now * 1e6) % 1000000:06d}"
     path = os.path.join(outdir, f"{stamp}_{template}_{digest}.eml")
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(msg.as_string())
