@@ -29,7 +29,13 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `config/` — JSON registries: CSRD rules, species/solutions knowledge, stripe prices.
 - `db/` — SQLite schema: `db/migrations/0001_init.sql`. Runtime cache/accounts DB path via env `HYDRASHIELD_CACHE_DB`.
 - `tests/` — pytest suite (~100 files).
-- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing).
+- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`).
+
+## Open-source engine mirror — tore (binding)
+- Public repo: `../tore` (outside this project root, at `~/Documents/work/tore`) → https://github.com/Motaz3d/tore — "Talaix Open Risk Engine", EUPL-1.2, created 2026-09-06 for the NLnet Restack application.
+- **Rule: every change to the analytical engine must be mirrored to tore.** Engine = `tx_core/`, `src/climate/` (minus `api_*.py` web blueprints), `src/prediction/`, `src/gis_mapping/`, the analytical data-pipeline modules of `src/dashboard/` (cache, change, crime_stats, ecology, explain, exposure, fire_evidence, grid, history, ignition, micro, population, real_analysis, real_data, recommendations, scenarios, site_image, smoke, snapshot, verification_store), `src/hydration_control/`, 4 knowledge registries (`config/loss_registry.json`, `model_registry.json`, `loss_estimate_benchmarks.json`, `cascading_graph.json`), `docs/TX_ENGINE.md`.
+- How: `hydra-shield-platform/scripts/sync_tore.sh --push -m "<message>"` (run from anywhere; `TORE_REPO` env overrides the checkout path). The web layer (Flask app, accounts, billing, marketing, `src/climate/api_*.py`) never goes to tore.
+- Engine changes are not done until the mirror is synced. tore's own files (README, pyproject, CI, examples, `tests/fakes.py`, `tests/test_engine_smoke.py`, its `AGENTS.md`) are edited in the tore checkout directly.
 - `sdk/python/`, `sdk/js/` — client SDKs.
 - `qgis-plugin/hydrashield/` — QGIS plugin.
 - `website/` — static site (HTML/CSS/JS).

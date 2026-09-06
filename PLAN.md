@@ -17,6 +17,7 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 | Tropical cyclones — 7th hazard | ✅ | GDACS (UN-OCHA/EU JRC) live global monitoring: analyze + active-storms map layer; historical tracks via IBTrACS declared candidate (not wired, honestly stated) |
 | International trade movement on the map | 🔶 | Ports/harbours layer live (OSM, 50 km, `/api/trade-infrastructure`); live vessel tracking (AIS) needs a shipping-data provider — declared, not wired |
 | AGENTS.md project map + session protocol | ✅ | 2026-09-05: root `AGENTS.md` maps the repo + auto session protocol (read PLAN.md at start, update both files at end) — saves exploration tokens every session |
+| Analytical engine → public open-source repo (`tore`) | ✅ | 2026-09-06: engine extracted to https://github.com/Motaz3d/tore (EUPL-1.2, "Talaix Open Risk Engine") for the NLnet Restack application — tx_core + src.climate (minus web blueprints) + src.prediction + src.gis_mapping + analytical dashboard data-pipeline + hydration_control + 4 config registries. 34 tests green in standalone venv; verified live end-to-end (8/10 hazards real data at Mersin; dust/volcanic honestly unavailable). **Binding: engine changes must be mirrored — `scripts/sync_tore.sh --push -m "..."`** (rule in root AGENTS.md) |
 
 ## Geographic coverage — "we cover the entire Earth"
 
