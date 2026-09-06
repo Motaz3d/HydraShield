@@ -282,8 +282,8 @@ def in_quiet_hours(prefs: Dict, now_utc: Optional[datetime] = None) -> bool:
         return False
     now = (now_utc or datetime.utcnow()).strftime("%H:%M")
     if start <= end:
-        return start <= now < end
-    return now >= start or now < end  # overnight window, e.g. 22:00-07:00
+        return start <= now <= end
+    return now >= start or now <= end  # overnight window, e.g. 22:00-07:00
 
 
 # ---------------------------------------------------------------------------

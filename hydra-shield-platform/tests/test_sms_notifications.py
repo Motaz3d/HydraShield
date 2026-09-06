@@ -623,6 +623,12 @@ def test_quiet_hours_window_math():
     assert alert_engine.in_quiet_hours(prefs, datetime(2026, 1, 1, 3, 0))
     assert not alert_engine.in_quiet_hours(prefs, datetime(2026, 1, 1, 12, 0))
     assert not alert_engine.in_quiet_hours({"quiet_hours": None})
+    # End is inclusive at minute resolution: 00:00-23:59 means the whole day,
+    # at every wall-clock minute.
+    all_day = {"quiet_hours": {"start": "00:00", "end": "23:59"}}
+    assert alert_engine.in_quiet_hours(all_day, datetime(2026, 1, 1, 0, 0))
+    assert alert_engine.in_quiet_hours(all_day, datetime(2026, 1, 1, 23, 59))
+    assert alert_engine.in_quiet_hours(prefs, datetime(2026, 1, 1, 7, 0))
 
 
 def test_dispatch_max_per_day_enforced(store, env):
