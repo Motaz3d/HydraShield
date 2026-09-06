@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sustainability &amp; CSRD Reporting — Talaix</title>
-    <meta name="description" content="Evidence-backed sustainability reports: company profile + site locations → one CSRD/ESRS-oriented physical-evidence pack. Not assurance, not accreditation.">
+    <title>CSRD Physical-Risk Evidence — Free Applicability Check &amp; ESRS E1 Packs | Talaix</title>
+    <meta name="description" content="Check CSRD applicability free, then build an ESRS E1 physical climate-risk evidence pack from your own sites — with XBRL output, sources and engine versions your auditor can trace. Evidence layer, not assurance.">
     <link rel="canonical" href="https://talaix.com/sustainability.html">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
@@ -19,12 +19,13 @@
 
     <main class="page-main">
         <div class="container">
-            <h1>Sustainability &amp; CSRD Reporting</h1>
+            <h1>CSRD physical-risk evidence — from your own sites</h1>
             <p class="page-lead">
-                Build an evidence-backed sustainability pack from your company profile
-                and a list of sites. The report is oriented to CSRD / ESRS E1 physical
-                climate-risk disclosure, reusing the same real-data verification engine
-                as Green Finance Verification.
+                Wave 2 companies publish their first CSRD report in 2028 covering
+                FY2027 — the evidence year has already started. Talaix builds the
+                physical climate-risk layer of that report: check your scope free,
+                then generate an ESRS E1 evidence pack from your own site coordinates,
+                with sources, dates and engine versions your auditor can trace.
             </p>
             <p class="muted small">
                 Honesty contract: unavailable data is declared, never invented.
@@ -34,6 +35,35 @@
                 are not verified by Talaix. CSRD limited assurance remains with your auditor
                 or independent assurance provider. This pack is an evidence layer, not a
                 substitute for due diligence.
+            </div>
+
+            <h2>Your path to the first evidence pack</h2>
+            <div class="story-grid" style="margin-bottom:30px;">
+                <div class="story-card">
+                    <h3>1 · Check your scope — free</h3>
+                    <p>Five declared facts → a screening determination under the current
+                       wave calendar. Borderline outcomes come back as "requires legal
+                       confirmation" — by design, not by accident.</p>
+                    <a class="text-link" href="#applicability">Check applicability ↓</a>
+                </div>
+                <div class="story-card">
+                    <h3>2 · Build a sample pack</h3>
+                    <p>Your company profile + site coordinates → an ESRS E1 physical-risk
+                       evidence pack: PDF plus machine-readable XBRL. Free up to 25 sites.</p>
+                    <a class="text-link" href="#build">Build a pack ↓</a>
+                </div>
+                <div class="story-card">
+                    <h3>3 · Pilot — €490</h3>
+                    <p>A fixed-price pilot on your real sites, run with you — designed to
+                       become a publishable case study, only with your written approval.</p>
+                    <a class="text-link" href="pricing.html">See the pilot →</a>
+                </div>
+                <div class="story-card">
+                    <h3>4 · Subscribe when it proves itself</h3>
+                    <p>Professional €49/mo (25 sites) or Business €249/mo (100 sites).
+                       Published prices — no enterprise sales cycle.</p>
+                    <a class="text-link" href="pricing.html">See pricing →</a>
+                </div>
             </div>
 
             <details class="expander">
@@ -48,46 +78,9 @@
                 </div>
             </details>
 
-            <!-- Build a report -->
-            <div class="panel">
-                <h2>1. Build a report</h2>
-                <div class="form-group">
-                    <label for="companyName">Company name <span class="muted">(required)</span></label>
-                    <input type="text" id="companyName" placeholder="Acme Renewable Materials SA">
-                    <span class="muted small">Company-supplied — not verified by Talaix.</span>
-                </div>
-                <div class="form-group">
-                    <label for="companySector">Sector</label>
-                    <input type="text" id="companySector" placeholder="e.g. renewable energy manufacturing">
-                </div>
-                <div class="form-group">
-                    <label for="companyCountry">Country</label>
-                    <input type="text" id="companyCountry" placeholder="e.g. Luxembourg">
-                </div>
-                <div class="form-group">
-                    <label for="companyWebsite">Website</label>
-                    <input type="text" id="companyWebsite" placeholder="https://example.com">
-                </div>
-                <div class="form-group">
-                    <label for="companyDescription">Description</label>
-                    <textarea id="companyDescription" rows="3" placeholder="Short company description"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="assetsText">Sites <span class="muted">(one per line: a place name like "Trier, Germany", or name,lat,lon; max 25 on free tier, 100 for subscribers)</span></label>
-                    <textarea id="assetsText" rows="6" placeholder="Trier factory,49.75,6.64&#10;A Coruña port,43.3,-8.4&#10;Sevilla, Spain"></textarea>
-                </div>
-                <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
-                <button class="btn-secondary" id="generateReportBtn">Preview report (JSON view)</button>
-                <button class="btn-secondary" id="downloadXbrlBtn">XBRL (machine-readable)</button>
-                <button class="btn-secondary" id="downloadIxbrlBtn">iXBRL (XHTML)</button>
-                <span class="muted small">XBRL outputs use the CsrdTX engine — a machine-readable assessment extract with a declared Talaix extension taxonomy; not an ESEF filing package.</span>
-                <div id="reportStatus"></div>
-                <div id="reportResult"></div>
-            </div>
-
             <!-- CsrdTX applicability check -->
-            <div class="panel">
-                <h2>2. Check CSRD applicability <span class="chip chip-documented">CsrdTX</span></h2>
+            <div class="panel" id="applicability">
+                <h2>1. Check CSRD applicability — free <span class="chip chip-documented">CsrdTX</span></h2>
                 <p class="muted small">
                     A screening determination from declared facts — not legal advice.
                     Borderline outcomes are returned as <em>requires legal confirmation</em> by design.
@@ -129,6 +122,43 @@
                 <div id="applResult"></div>
             </div>
 
+            <!-- Build a report -->
+            <div class="panel" id="build">
+                <h2>2. Build the evidence pack</h2>
+                <div class="form-group">
+                    <label for="companyName">Company name <span class="muted">(required)</span></label>
+                    <input type="text" id="companyName" placeholder="Acme Renewable Materials SA">
+                    <span class="muted small">Company-supplied — not verified by Talaix.</span>
+                </div>
+                <div class="form-group">
+                    <label for="companySector">Sector</label>
+                    <input type="text" id="companySector" placeholder="e.g. renewable energy manufacturing">
+                </div>
+                <div class="form-group">
+                    <label for="companyCountry">Country</label>
+                    <input type="text" id="companyCountry" placeholder="e.g. Luxembourg">
+                </div>
+                <div class="form-group">
+                    <label for="companyWebsite">Website</label>
+                    <input type="text" id="companyWebsite" placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label for="companyDescription">Description</label>
+                    <textarea id="companyDescription" rows="3" placeholder="Short company description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="assetsText">Sites <span class="muted">(one per line: a place name like "Trier, Germany", or name,lat,lon; max 25 on free tier, 100 for subscribers)</span></label>
+                    <textarea id="assetsText" rows="6" placeholder="Trier factory,49.75,6.64&#10;A Coruña port,43.3,-8.4&#10;Sevilla, Spain"></textarea>
+                </div>
+                <button class="btn-action" id="downloadPdfBtn">Download PDF</button>
+                <button class="btn-secondary" id="generateReportBtn">Preview report (JSON view)</button>
+                <button class="btn-secondary" id="downloadXbrlBtn">XBRL (machine-readable)</button>
+                <button class="btn-secondary" id="downloadIxbrlBtn">iXBRL (XHTML)</button>
+                <span class="muted small">XBRL outputs use the CsrdTX engine — a machine-readable assessment extract with a declared Talaix extension taxonomy; not an ESEF filing package.</span>
+                <div id="reportStatus"></div>
+                <div id="reportResult"></div>
+            </div>
+
             <!-- Frameworks & coverage -->
             <h2>Frameworks &amp; coverage</h2>
             <div id="frameworksArea"><span class="muted">Loading frameworks reference…</span></div>
@@ -141,6 +171,11 @@
                 planning and never silently applied.
             </p>
             <div id="regulationsArea"><span class="muted">Loading regulatory watch…</span></div>
+
+            <p class="muted small" style="text-align:center;margin-top:26px;">
+                Published prices: free tier, pay-per-report €19–39, Professional €49/mo,
+                Business €249/mo, pilot €490 — <a href="pricing.html">see pricing</a>.
+            </p>
         </div>
     </main>
 

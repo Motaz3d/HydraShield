@@ -42,7 +42,7 @@ living phase tracker.
 |---|---|---|
 | 0 — foundation | CSRD rules registry, ESRS E1 brief + case study, licensing page, evidence classes | ✅ done |
 | 1 — compliance evidence pack | CsrdTX rules-as-data engine + XBRL + `/api/v2/csrd` shipped 2026-09-05. Remaining: ESRS E1 datapoint-coverage map per report, E1-9 financial-effects context from loss registries, scenario/time-horizon fields | 🔶 |
-| 2 — commercial wiring | Pricing page live (2026-09-04); compliance-first identity pivot shipped 2026-09-06 (hero/nav/footer/llms.txt, compliance.html wave calendar, +2 segments); remaining: sharpen sustainability.html as the landing funnel, start outreach | 🔶 |
+| 2 — commercial wiring | Pricing page live 2026-09-04 + free CSRD-check row added 2026-09-06; identity pivot + sustainability.html funnel (scope check → sample pack → €490 pilot → subscribe) shipped 2026-09-06; outreach wave 1 drafted (`marketing/outreach/compliance_wave1.md`, human-gated). **Pricing decision: tiers unchanged** — transparent published prices are the wedge. Remaining: wave build script + sends after operator review | 🔶 |
 | 3 — integrations | export formats consumable by GRC/ESG suites; partner API; outreach to 2–3 suite vendors | ⬜ |
 | 4 — trust enablers (internal) | security/GDPR page for procurement; ISO 27001 / SOC 2 gap list | ⬜ |
 
