@@ -51,18 +51,11 @@
                 '<h3>' + esc(b.title) + '</h3>' +
                 '<p class="muted">' + esc(b.summary) + '</p>' +
                 '<p class="muted small">' + (b.source_count || 0) + ' source' + (b.source_count === 1 ? '' : 's') + '</p>' +
-                '<button class="btn-action btn-sm" data-id="' + esc(b.id) + '">Read</button>' +
+                '<a class="btn-action btn-sm" href="briefs/' + esc(b.id) + '.html">Read</a>' +
                 '</div>';
         });
 
         el('briefList').innerHTML = html || '<p class="muted small">No briefs match this filter.</p>';
-
-        el('briefList').querySelectorAll('.brief-card, button[data-id]').forEach(function (node) {
-            node.addEventListener('click', function (ev) {
-                var id = ev.currentTarget.getAttribute('data-id');
-                if (id) openBrief(id);
-            });
-        });
     }
 
     function updateFilterButtons() {
