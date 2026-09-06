@@ -1,9 +1,14 @@
-# Talaix — Compliance Outreach Wave 1 (draft, awaiting operator review)
+# Talaix — Compliance Outreach Wave 1 (script built; preview pending on Vultr)
 
-> حالة الموجة: مسودة جاهزة للمراجعة البشرية. لا شيء أُرسل بعد.
-> Human gate: كل رسالة تُراجع وتُرسل يدوياً. بعد موافقة المشغّل تُبنى موجة
-> الإرسال بنفس نمط scripts/build_eu_*_wave1.py (قائمة انتظار MarketingStore
-> + قالب CRM)، ويُختبر أولاً بريدياً على info@talaix.com.
+> حالة الموجة: وافق المشغّل 2026-09-06. بُنيت أدوات الإرسال؛ لم يُرسل شيء بعد.
+> التنفيذ: القالب `src/dashboard/email_templates/outreach_sustainability_compliance.txt`
+> + جدول الأهداف `compliance_wave1.json` (نفس مجلد هذا الملف)
+> + المعاينة `scripts/send_preview_compliance_wave.py` (تصل إلى info@talaix.com —
+>   محلياً تهبط في data/outbox، الإرسال الحقيقي من Vultr)
+> + الإرسال `scripts/send_compliance_wave1.py` (dry-run افتراضياً، `--send` للتنفيذ،
+>   بوابات التدرّج الزمني وwebform، سقوف يومية، منع تكرار).
+> الترتيب: معاينة على Vultr أولاً، ثم --send بدفعات متدرجة. Position Green
+> يُرسل يدوياً عبر نموذج الشريك الرسمي (لا بريد منشور).
 
 ## قاعدة التصفية (binding)
 

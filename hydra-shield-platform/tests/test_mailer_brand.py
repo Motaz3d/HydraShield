@@ -32,8 +32,8 @@ def test_text_part_carries_corporate_signature():
     msg = mailer._build_message("a@b.c", "Hi", "Body text.")
     text = msg.get_body(("plain",)).get_content()
     assert text.endswith(
-        "--\nTalaix\nEarth Observation & Environmental Risk\n"
-        "Financial Decision Intelligence\n"
+        "--\nTalaix\nClimate-Risk Compliance Evidence for EU Disclosure\n"
+        "Earth Observation & Physical-Risk Intelligence\n"
         "Luxembourg-based technology team\n"
         "info@talaix.com | talaix.com\n"
     )
@@ -42,8 +42,8 @@ def test_text_part_carries_corporate_signature():
 def test_html_shell_carries_signature_with_logo():
     html = mailer._minimal_html("Hello.")
     assert f"cid:{mailer._SIGNATURE_CID}" in html
-    assert "Earth Observation &amp; Environmental Risk" in html
-    assert "Financial Decision Intelligence" in html
+    assert "Climate-Risk Compliance Evidence for EU Disclosure" in html
+    assert "Earth Observation &amp; Physical-Risk Intelligence" in html
     assert "Luxembourg-based technology team" in html
     assert "mailto:info@talaix.com" in html
 

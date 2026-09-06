@@ -70,6 +70,7 @@ _TEMPLATE_NAMES = {
     "outreach_governments",
     "outreach_funders",
     "outreach_journals",
+    "outreach_sustainability_compliance",
     "followup_1",
     "followup_2",
 }
@@ -145,11 +146,12 @@ _BRAND_TEAL = "#47B3A8"
 
 # Corporate signature — appended to EVERY outgoing message (plain text and
 # HTML alternative). In the HTML part the signature logo (logS100.png) leads
-# the block; keep in sync with website/assets/brand/.
+# the block; keep in sync with website/assets/brand/ and the compliance-first
+# identity (operator decision 2026-09-06).
 _SIGNATURE_LINES = (
     "Talaix",
-    "Earth Observation & Environmental Risk",
-    "Financial Decision Intelligence",
+    "Climate-Risk Compliance Evidence for EU Disclosure",
+    "Earth Observation & Physical-Risk Intelligence",
     "Luxembourg-based technology team",
     "info@talaix.com | talaix.com",
 )

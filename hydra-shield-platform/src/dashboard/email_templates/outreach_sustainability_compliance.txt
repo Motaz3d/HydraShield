@@ -1,0 +1,20 @@
+Subject: The physical-risk evidence layer behind {{organization}}'s disclosure
+
+Hi {{contact_name}},
+
+CSRD reports stand or fall on evidence: ESRS E1 asks which physical climate hazards your sites face — and an auditor will ask where every value came from.
+
+Talaix builds exactly that layer: site-coordinate hazard screening from Earth observation and official open data — every value with its source, date and evidence status (OBSERVED through UNKNOWN), plus machine-readable XBRL from our CsrdTX rules engine. Evidence, not assurance; screening-level and honestly labelled.
+
+{{identified_problem}}
+
+For {{organization}}: {{relevant_capability}}
+
+{{custom_message}}
+
+You can check CSRD applicability free at talaix.com/sustainability.html, or send one site's coordinates and we will return a free sample evidence pack.
+
+Worth a short call this week?
+
+---
+Not relevant? One click and we will not write again: {{unsubscribe_url}}
