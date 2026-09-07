@@ -311,25 +311,23 @@ class MarketingStore:
         return bool(row[0]) if row else False
 
     def sent_today_count(self) -> int:
-        """Number of emails sent today via immediate, scheduled or campaign sends."""
+        """Number of emails sent today, counted once per delivered email.
+
+        Every send path — immediate wave scripts, scheduled rows and
+        campaign waves — logs exactly one ``lead_interactions`` row of
+        type ``email`` per delivered message, so that table alone is the
+        correct count. Adding ``scheduled_outreach``/``campaign_waves``
+        sent rows would count the same email twice (the send paths mark
+        both), halving the effective daily cap.
+        """
         today = _utcnow()[:10]
         with self._lock, self._connect() as conn:
-            immediate = conn.execute(
+            sent = conn.execute(
                 "SELECT COUNT(*) FROM lead_interactions"
                 " WHERE type = 'email' AND date >= ?",
                 (today,),
             ).fetchone()[0] or 0
-            scheduled = conn.execute(
-                "SELECT COUNT(*) FROM scheduled_outreach"
-                " WHERE status = 'sent' AND sent_at >= ?",
-                (today,),
-            ).fetchone()[0] or 0
-            waves = conn.execute(
-                "SELECT COUNT(*) FROM campaign_waves"
-                " WHERE status = 'sent' AND sent_at >= ?",
-                (today,),
-            ).fetchone()[0] or 0
-        return int(immediate) + int(scheduled) + int(waves)
+        return int(sent)
 
     # ------------------------------------------------------------------
     # Interaction log

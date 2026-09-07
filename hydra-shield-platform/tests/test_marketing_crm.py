@@ -1178,6 +1178,28 @@ def test_store_sent_today_count(env):
     assert store.sent_today_count() == 1
 
 
+def test_store_sent_today_count_counts_email_once(env):
+    """A delivered scheduled send marks the row sent AND logs one email
+    interaction — the daily count must stay 1, not 2 (regression: the
+    double count used to halve the effective daily cap)."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    row = store.schedule_send(
+        lead_slug="test-bank-two",
+        to_email="b@c.org",
+        contact_name=None,
+        template="outreach_generic",
+        context={},
+        send_at="2026-09-01T09:00",
+    )
+    store.mark_scheduled(row["id"], "sent")
+    store.add_interaction(
+        "test-bank-two", "Scheduled outreach email sent to b@c.org", type="email"
+    )
+    assert store.sent_today_count() == 1
+
+
 # ---------------------------------------------------------------------------
 # CRM auto-send / unsubscribe / preview
 # ---------------------------------------------------------------------------
