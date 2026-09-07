@@ -116,14 +116,15 @@
       "segment": "sustainable_finance",
       "topic": "Exposure before euros: honest non-quantification in climate finance",
       "draft": "2026-09-05-sustainable-finance-honest-exposure.md",
-      "status": "planned"
+      "status": "retired",
+      "retire_reason": "Draft dispatched to the operator 2026-09-04 but publication was never confirmed; slot closed 2026-09-07 as the calendar shifts compliance-first."
     },
     {
       "date": "2026-09-08",
       "pillar": "research",
       "campaign": "E",
-      "segment": "universities",
-      "topic": "Reproducible hazard analysis: content-hashed runs and open registries",
+      "segment": "sustainability_compliance",
+      "topic": "Reproducible evidence for CSRD/ESRS E1: content-hashed runs and open registries (rewritten compliance-first 2026-09-07)",
       "draft": "2026-09-08-research-reproducible-analysis.md",
       "status": "planned"
     },

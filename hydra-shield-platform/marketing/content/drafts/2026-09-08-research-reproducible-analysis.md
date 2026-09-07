@@ -1,29 +1,31 @@
 ---
-segment: universities
+segment: sustainability_compliance
 pillar: research
 campaign: E
-cta: "Reproduce an analysis"
-landing: https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=E
+cta: "See the evidence layer"
+landing: https://talaix.com/compliance.html?utm_source=linkedin&utm_campaign=E
 status: draft
 ---
 
-Reproducibility should not be a favor an analyst does for you. It should
-be the default.
+Under CSRD, a climate-risk number you cannot interrogate is becoming a
+liability.
 
-Every Talaix hazard analysis runs on a typed evidence record: source,
-dataset, period, method, resolution, confidence, license, limitations —
-and a content hash of the run itself. Change any input and the hash
-changes, so two people comparing results are comparing the same run, not
-two lookalikes.
+ESRS E1 asks companies to disclose their material physical climate risks —
+and assurance providers ask where each number came from. "A vendor's model
+said so" is not an evidence trail.
 
-The registries behind it are public: the source registry lists every
-dataset with its license and resolution; observed conditions are stored
-structurally separated from modelled context, so "what was measured" and
-"what was computed" can never silently mix.
+Every Talaix analysis runs on a typed evidence record: source, dataset,
+period, method, resolution, confidence, license, limitations — and a
+content hash of the run itself. Change any input and the hash changes, so
+you and your auditor are comparing the same run, not two lookalikes.
 
-If your group works on hazard methods, the most useful thing we can offer
-is not a conclusion — it is a run you can interrogate:
+The registries behind it are public, and the analytical engine is open
+source (EUPL-1.2). Observed conditions are stored structurally separated
+from modelled context, so "what was measured" and "what was computed" can
+never silently mix inside a disclosure.
 
-https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=E
+Compliance evidence should be interrogable, not bought on trust:
 
-#Reproducibility #EarthObservation #ClimateRisk #OpenScience
+https://talaix.com/compliance.html?utm_source=linkedin&utm_campaign=E
+
+#CSRD #ESRS #ClimateRisk #Compliance #EarthObservation
