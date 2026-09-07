@@ -29,7 +29,7 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `config/` — JSON registries: CSRD rules, species/solutions knowledge, stripe prices.
 - `db/` — SQLite schema: `db/migrations/0001_init.sql`. Runtime cache/accounts DB path via env `HYDRASHIELD_CACHE_DB`.
 - `tests/` — pytest suite (~100 files).
-- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`).
+- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`, investor-deck builder `build_deeptechxl_deck.py` → `marketing/outreach/deeptechxl_pitch_deck.pdf`).
 
 ## Open-source engine mirror — tore (binding)
 - Public repo: `../tore` (outside this project root, at `~/Documents/work/tore`) → https://github.com/Motaz3d/tore — "Talaix Open Risk Engine", EUPL-1.2, created 2026-09-06 for the NLnet Restack application.
@@ -41,7 +41,7 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `website/` — static site (HTML/CSS/JS).
 - `notebooks/` — Jupyter: fire-risk, protection optimisation.
 - `docs/` — product, architecture, API, validation, strategy docs.
-- `marketing/` — campaigns, segments, EU funding, leads.
+- `marketing/` — campaigns, segments, EU funding, leads, `research/` (incl. global investor landscape `.md` + interactive `.html`).
 - `data/` — cache, validation sets, rasters, IBTrACS, dev outbox.
 
 ## Commands (run from hydra-shield-platform/)

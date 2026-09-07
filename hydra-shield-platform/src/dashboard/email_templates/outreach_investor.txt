@@ -1,0 +1,18 @@
+Subject: {{organization}} × Talaix — open climate-risk evidence (pre-seed)
+
+Hi {{contact_name}},
+
+{{thesis_hook}}
+
+Talaix is climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR): site-coordinate multi-hazard screening from Earth observation and official open data — every value with its source, date and evidence status, honestly labelled screening-level (evidence, not assurance) — plus machine-readable XBRL from our CsrdTX rules engine. The analytical engine itself is open source (EUPL-1.2, github.com/Motaz3d/tore): technical diligence can read the code before the first call.
+
+{{portfolio_overlap}}
+
+We are raising EUR 850K pre-seed (24-month runway) into a Dutch BV. {{custom_message}}
+
+The deck is ready — or judge the data first: name any site set and we will return a free sample evidence pack.
+
+Worth a short call this week?
+
+---
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

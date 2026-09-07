@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "sara-assicurazioni",
+    "organization": "Sara Assicurazioni",
+    "country": "IT",
+    "to_email": "info@sara.it",
+    "contact_name": "Sara Assicurazioni underwriting team",
+    "claim_status": "OBSERVED",
+    "source": "https://www.sara.it",
+    "date_checked": "2026-09-07",
+    "identified_problem": "Italian motor and property portfolios carry exactly the hazard mix our engine screens daily — today's live snapshot computes Extreme wildfire risk for Sicily, openly, from public data.",
+    "relevant_capability": "per-location evidence for underwriting files and ORSA documentation: eight hazards, historical events by year, insured-exposure layers, every value with source and evidence status",
+    "custom_message": "Send 2–3 insured locations and we will return free sample risk profiles, so your team can compare the evidence against what you use today.",
+    "send_at": "2026-09-11T08:05:00"
+  },
+  {
+    "slug": "umas-mutua-de-seguros",
+    "organization": "UMAS mutua de seguros",
+    "country": "ES",
+    "to_email": "comercial@umas.es",
+    "contact_name": "UMAS team",
+    "claim_status": "OBSERVED",
+    "source": "https://www.umas.es",
+    "date_checked": "2026-09-07",
+    "identified_problem": "Spanish agricultural and mutual portfolios are on the front line of this season — today's live snapshot computes Extreme wildfire risk for Andalusia (Huelva), openly, from public data.",
+    "relevant_capability": "per-location multi-hazard evidence for underwriting and reinsurance conversations: wildfire, flood, drought, heat and more, with historical events by year and declared evidence status",
+    "custom_message": "Send 2–3 insured locations and we will return free sample risk profiles — evidence your underwriting and ORSA documentation can cite directly.",
+    "send_at": "2026-09-11T08:20:00"
+  }
+]

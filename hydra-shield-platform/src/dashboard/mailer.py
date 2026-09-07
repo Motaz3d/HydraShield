@@ -71,6 +71,7 @@ _TEMPLATE_NAMES = {
     "outreach_funders",
     "outreach_journals",
     "outreach_sustainability_compliance",
+    "outreach_investor",
     "followup_1",
     "followup_2",
 }

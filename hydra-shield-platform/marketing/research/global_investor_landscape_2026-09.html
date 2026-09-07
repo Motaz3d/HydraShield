@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talaix — Global Investor Landscape (2026-09)</title>
+<style>
+  :root{
+    --navy:#17253B; --teal:#529DA7; --teal-d:#3E7E87; --ink:#2A3A4A;
+    --muted:#5E7183; --line:#CFDDE0; --panel:#EEF4F5; --bg:#F7FAFA;
+    --green:#1E7F4F; --amber:#A96F00; --grey:#8CA0B0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.45}
+  header{background:var(--navy);color:#fff;padding:28px 32px 22px}
+  header .brand{font-weight:800;letter-spacing:.35em;font-size:13px;color:var(--teal)}
+  header h1{font-size:24px;margin-top:6px;font-weight:700}
+  header p{color:#C6D5DA;font-size:13px;margin-top:8px;max-width:960px}
+  header .ctx{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px}
+  header .ctx span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+       padding:4px 10px;border-radius:20px}
+  .controls{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);
+       padding:12px 32px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;z-index:10}
+  .controls input[type=search]{padding:8px 12px;border:1px solid var(--line);border-radius:8px;
+       font-size:13px;width:260px}
+  .pill{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:20px;
+       padding:6px 14px;font-size:12px;cursor:pointer}
+  .pill.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .toggle{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;
+       user-select:none}
+  .toggle input{accent-color:var(--teal-d)}
+  #count{font-size:12px;color:var(--muted);margin-left:auto}
+  main{padding:24px 32px 60px;max-width:1280px;margin:0 auto}
+  h2{font-size:18px;color:var(--navy);margin:28px 0 6px}
+  h2 .sub{font-size:12px;color:var(--muted);font-weight:400;margin-left:10px}
+  .note{font-size:12.5px;color:var(--muted);max-width:960px;margin-bottom:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:12px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .card h3{font-size:14px;color:var(--navy)}
+  .card h3 a{color:var(--navy);text-decoration:none;border-bottom:1px dotted var(--teal-d)}
+  .card h3 a:hover{color:var(--teal-d)}
+  .meta{font-size:11.5px;color:var(--muted);margin:4px 0 8px}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .b{font-size:10.5px;padding:2px 8px;border-radius:12px;border:1px solid var(--line)}
+  .b.euY{background:#E7F3EC;color:var(--green);border-color:#BFDCCB}
+  .b.euM{background:#FBF3E0;color:var(--amber);border-color:#EBD9AE}
+  .b.euN{background:#F1F4F6;color:var(--grey)}
+  .b.tick{background:var(--panel);color:var(--navy)}
+  .b.ver{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .b.waveA{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .b.waveB{background:var(--teal-d);color:#fff;border-color:var(--teal-d)}
+  .b.waveC{background:#fff;color:var(--teal-d);border-color:var(--teal-d)}
+  .b.later{background:#F1F4F6;color:var(--grey)}
+  .fit{font-size:12.5px}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);
+       border-radius:10px;overflow:hidden;font-size:12.5px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px;font-size:11.5px}
+  td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+  tr.alt{background:var(--panel)}
+  td a{color:var(--navy);font-weight:600;text-decoration:none;border-bottom:1px dotted var(--teal-d)}
+  td a:hover{color:var(--teal-d)}
+  .waves{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .wave{background:#fff;border:1px solid var(--line);border-left:5px solid var(--navy);
+       border-radius:8px;padding:14px 16px;font-size:12.5px}
+  .wave h3{font-size:13.5px;color:var(--navy);margin-bottom:6px}
+  ol.recheck{font-size:12.5px;color:var(--ink);padding-left:20px;max-width:900px}
+  ol.recheck li{margin-bottom:5px}
+  footer{border-top:1px solid var(--line);padding:18px 32px;font-size:11.5px;color:var(--muted)}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">TALAIX</div>
+  <h1>Global Investor Landscape — Pre-Seed Round (€850K, Dutch BV)</h1>
+  <p>Investment entities similar to DeepTechXL across all six world regions, compiled 2026-09-07.
+     Every entity is scored against three filters: can it invest in an EU-incorporated company,
+     is its initial cheque near €100K–€2M, and does its thesis cover climate / deep-tech /
+     earth-observation / disclosure.</p>
+  <div class="ctx">
+    <span>~100 entities · 6 regions</span>
+    <span>Round: €850K pre-seed · 24 months</span>
+    <span>Deck: deeptechxl_pitch_deck.pdf (sent 2026-09-07)</span>
+    <span>Source: global_investor_landscape_2026-09.md</span>
+  </div>
+</header>
+
+<div class="controls">
+  <input type="search" id="q" placeholder="Search name, city, note…">
+  <button class="pill active" data-region="">All regions</button>
+  <button class="pill" data-region="Europe">Europe</button>
+  <button class="pill" data-region="North America">N. America</button>
+  <button class="pill" data-region="Latin America">LatAm</button>
+  <button class="pill" data-region="Middle East">M. East</button>
+  <button class="pill" data-region="Africa">Africa</button>
+  <button class="pill" data-region="Asia-Pacific">APAC</button>
+  <label class="toggle"><input type="checkbox" id="fEu"> EU-BV compatible only</label>
+  <label class="toggle"><input type="checkbox" id="fVer"> ✅ verified ticket only</label>
+  <label class="toggle"><input type="checkbox" id="fTierA"> Tier-A only</label>
+  <span id="count"></span>
+</div>
+
+<main>
+  <section id="secTierA">
+    <h2>Tier-A shortlist <span class="sub">26 entities, ranked — domicile × ticket × thesis</span></h2>
+    <p class="note">Stack instrument: <b>EIC Fund</b> (up to €2.5M grant + €2.5M equity, M24 target).
+       Upsized-seed options if the round grows to €1M+: World Fund, Extantia (both €1M-floor, verified).</p>
+    <div class="grid" id="tierAGrid"></div>
+  </section>
+
+  <section id="secWaves">
+    <h2>Outreach sequencing <span class="sub">operator-gated, like other waves</span></h2>
+    <div class="waves">
+      <div class="wave"><h3>Now</h3>Reply to DeepTechXL with the deck — <b>done 2026-09-07</b> (from motaz3d@gmail.com, thread continuity).</div>
+      <div class="wave"><h3>Wave A — EU-native (this month)</h3>LUMO Labs · HTGF · BOM/Brabant Ventures · Satgana · Munich Re Ventures · Seraphim Space · Pale Blue Dot · Faber · Cycle Capital · SE Ventures (+ Rockstart / Rubio / 4impact as Dutch syndicate filler).</div>
+      <div class="wave"><h3>Wave B — founder-geography + thematic</h3>Propeller · Israel Cleantech Ventures · Diffusion · Savia · GRIDX · Earth VC · 100x100 · Speciale Invest · Voyager · Buoyant · Fifty Years · Active Impact.</div>
+      <div class="wave"><h3>Wave C — strategic / multilateral</h3>IDB Lab · Mubadala · OurCrowd · Main Sequence · Dalus · Grove · Wa'ed · Catalyst · QSTP · Bpifrance.</div>
+      <div class="wave"><h3>Later stages (file for Series A+)</h3>World Fund / Extantia (€1M floor) · Partech Africa · Norrsken22 · DFIs (BII, FMO, Proparco, IFC, IDB Invest) · GenZero · EIC Fund.</div>
+    </div>
+  </section>
+
+  <section id="secRegions">
+    <h2>All entities by region</h2>
+    <p class="note">Pitch discipline: every outreach references the recipient's thesis and one overlapping
+       portfolio company. No mass template — the compliance identity and the open-core honesty contract
+       are the differentiators.</p>
+    <div id="regionBlocks"></div>
+  </section>
+
+  <section id="secRecheck">
+    <h2>Master re-check list <span class="sub">before any outreach wave</span></h2>
+    <ol class="recheck">
+      <li>Seraphim Space ticket (£100K–2M) — site DNS failed 2026-09-07; re-verify before outreach.</li>
+      <li>Catalyst Fund (BFA Global) — current status/application route unverified.</li>
+      <li>E3 Capital, Novastar (Africa) — sites failed verification; re-check.</li>
+      <li>Suzano Ventures (BR) — no official CVC page found; verify existence before listing.</li>
+      <li>100x100 (ex-Wavemaker Impact) — confirm new mandate/ticket post-rebrand.</li>
+      <li>All inferred ticket sizes — confirm from the latest fund factsheet at pitch time.</li>
+      <li>Type One Ventures, National Grid Partners (US) — unreachable during research; optional adds.</li>
+      <li>Oman Technology Fund — exists (~$150M) but no verifiable pre-seed ticket/climate portfolio; omitted.</li>
+      <li>Asterion (FR) — dropped: existence/details unverifiable 2026-09-07.</li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  Talaix — Confidential · Compiled 2026-09-07 · Data source: marketing/research/global_investor_landscape_2026-09.md ·
+  Honesty contract applies: ticket sizes marked ✅ were verified on a live source that day; everything else is
+  research-grade and must be re-confirmed before use in materials.
+</footer>
+
+<script>
+// [name, region, hq, stage, ticket, verified, euBv(2 yes/1 maybe/0 no), tier, wave, note, url]
+const E = [
+["DeepTechXL","Europe","Eindhoven, NL","Pre-seed–Seed","€100K–€2M",1,2,"A","A","ENGAGED — deck sent 2026-09-07. Fund I €110M; KET Digital Technologies × Sustainability/Security; LPs: ASML, Philips, BOM, TNO, Invest-NL.","https://www.deeptechxl.com"],
+["LUMO Labs","Europe","Eindhoven, NL","Pre-seed","€100–500K",0,2,"A","A","Local venture-builder; DeepTechXL's co-investor in Alphabeats; perfect first cheque + ecosystem embed.","https://lumolabs.eu"],
+["HTGF","Europe","Bonn, DE","Pre-seed–Growth","€800K+",1,2,"A","A","'Climate & Deep Tech' vertical; online pitch submission; ticket ≈ round size — closest structural match after DeepTechXL.","https://www.htgf.de"],
+["BOM / Brabant Ventures","Europe","'s-Hertogenbosch, NL","Seed–Growth","€250K–2M",0,2,"A","A","DeepTechXL's LP and repeat co-investor (TracXon); provincial de-risking for Brabant companies.","https://www.bom.nl"],
+["Satgana","Europe","Paris, FR","Pre-seed–Seed","€100–500K",1,2,"A","A","Earth-tech mandate (Europe+Africa); EO/AI portfolio (Nairobi satellite startup); ticket matches exactly.","https://www.satgana.com"],
+["Munich Re Ventures","Europe","Munich, DE (+SF)","Seed–Growth","~$1–10M",0,2,"A","A","EU-native reinsurance CVC; 'future of risk' — physical climate evidence is their core business.","https://www.munichre.com/ventures"],
+["Seraphim Space","Europe","London, UK","Seed–Growth","£100K–2M",0,2,"A","A","Leading space/EO VC (Spire, ICEYE, Satellite Vu); accelerator + fund. Ticket: re-verify (site DNS failed 09-07).","https://seraphim.vc"],
+["Pale Blue Dot","Europe","Malmö, SE","Pre-seed–Seed","€200K–2M",0,2,"A","A","Backed Normative (carbon accounting) — compliance-SaaS appetite proven.","https://paleblue.vc"],
+["Faber","Europe","Lisbon, PT","Pre-seed–Seed","€100K–1M",0,2,"A","A","Iberian deep-tech/climate/data pre-seed; open application.","https://faber.vc"],
+["Cycle Capital","North America","Montreal, CA","Seed–Growth","~CAD 0.5–5M",0,2,"A","A","Rare North-American fund explicitly operating 'in North America and Europe'; cleantech/deep-tech.","https://cyclecapital.com"],
+["SE Ventures (Schneider)","Europe","Paris, FR (+SG)","Seed–B","~$1–10M",0,2,"A","A","EU corporate CVC; climate SaaS appetite; global reach.","https://www.se.com/ww/en/work/campaign/se-ventures/"],
+["Speciale Invest","Asia-Pacific","Chennai, IN","Pre-seed–Seed","~$1M",1,2,"A","B","'Novel Energy & Planetary Health' + Space Tech; $1M sweet spot matches the round; open form.","https://www.specialeinvest.com"],
+["Propeller","Middle East","Amman, JO","Seed–Pre-A","~$250K–2M",0,2,"A","B","Jordanian-founder bridge; AI/deep-tech Fund III ($50M); MENA→global model.","https://propellerinc.me"],
+["Israel Cleantech Ventures (MoreVC)","Middle East","Ra'anana, IL","Pre-seed–A","$500K–$3.5M",0,2,"A","B","Pure cleantech mandate; strongest thematic overlap in MENA.","https://morevc.com"],
+["Diffusion Capital Partners","Middle East","Istanbul, TR","Pre-seed–A","<€500K",0,2,"A","B","Deep-tech; EU co-financed; comfortable with EU structures; ticket fits a tranche.","https://www.dcp.vc"],
+["Savia Ventures","Latin America","Mexico City, MX","Pre-seed–Seed","$100–500K",0,1,"A","B","Climate pure-play; has a satellite-wildfire portfolio company; EUDR exporter angle.","https://saviaventures.com"],
+["GRIDX","Latin America","Buenos Aires, AR","Pre-seed–Seed","~$250K–1.5M",0,1,"A","B","Deep-science builder; satellite nature-monitoring in portfolio.","https://www.gridexponential.com"],
+["IDB Lab","Latin America","Washington, DC (LAC)","Seed–Early","$250K–2M",0,2,"A","C","Multilateral; EUDR-exporter mandate; grants + equity; regional offices.","https://idblab.org"],
+["Dalus Capital","Latin America","Mexico City, MX","Seed–B","$500K–5M",1,1,"A","C","Impact tech; large ticket range — can cover much of the round.","https://www.daluscapital.com"],
+["Earth Venture Capital","Asia-Pacific","VN / SG","Pre-seed–Seed","~$500K–2M",1,1,"A","B","Pure climate mandate for Emerging Asia (EUDR exporters).","https://earth.vc"],
+["100x100 (ex-Wavemaker Impact)","Asia-Pacific","Singapore","Seed–A","~$500K–2M",0,1,"A","B","APAC commodity-export compliance angle (palm oil, rubber, timber EUDR); rebrand Oct 2025 — pitch the new brand.","https://www.100x100.group"],
+["Main Sequence Ventures","Asia-Pacific","Sydney, AU","Seed–A","~$1–5M",0,1,"A","C","CSIRO-backed; space + climate explicitly.","https://mainsequence.vc"],
+["Mubadala Capital Ventures","Middle East","Abu Dhabi, AE (+London)","Pre-seed–A","$1–5M",0,2,"A","C","Sovereign platform actively investing in EU startups.","https://www.mubadalacapital.ae/ventures"],
+["OurCrowd","Middle East","Jerusalem, IL","Seed–A","$50K+ (platform)",0,2,"A","C","Global platform reach; climate/EO portfolio; comfortable with Dutch BV.","https://www.ourcrowd.com"],
+["DCVC","North America","Palo Alto, US","Seed–B","~$1–10M",0,2,"A","B","Global deep-tech leader; invests in EU entities.","https://www.dcvc.com"],
+["Lux Capital","North America","NYC / SF, US","Seed–Growth","~$1–10M",0,2,"A","B","'Sci-fi to sci-fact'; physical-world AI + sensors; global mandate.","https://luxcapital.com"],
+["Voyager Ventures","North America","SF, US","Seed–A","~$1–3M",0,1,"B","B","Satellites + 'software+AI for physical systems' — excellent thesis fit; pitch with the California SB 261 angle.","https://voyagerventures.com"],
+["Buoyant Ventures","North America","Chicago, US","Seed–A","~$500K–2M",0,1,"B","B","'Climate intelligence' is a named investment theme; needs a credible US expansion plan.","https://buoyant.vc"],
+["Prelude Ventures","North America","SF, US","Seed–A","~$1–5M",0,1,"B","C","Backed Planet Labs — proven EO appetite.","https://preludeventures.com"],
+["Space Capital","North America","NYC, US","Seed","~$250K–2M",0,1,"B","B","Pure-play geospatial/space investor.","https://spacecapital.com"],
+["Lowercarbon Capital","North America","Miami / SF, US","Seed–A","~$1–5M",0,1,"C","C","Top climate brand; adaptation ('buying time') angle.","https://lowercarboncapital.com"],
+["Clean Energy Ventures","North America","Boston, US","Seed–A","~$1–5M",0,1,"C","C","Technical-operator team; hardware+software climate plays.","https://cleanenergyventures.com"],
+["Fifty Years","North America","SF, US","Pre-seed–Seed","~$250K–1M",0,1,"B","B","Open application (5050 programme) — no warm intro needed.","https://www.fiftyyears.com"],
+["Active Impact Investments","North America","Vancouver, CA","Seed","~CAD 250K–1M",0,1,"B","B","Wildfire (Skyward) + ESG disclosure (Manifest Climate) in portfolio.","https://activeimpactinvestments.com"],
+["Evok Innovations","North America","Vancouver, CA","Seed–A","~$1–3M",0,1,"C","C","Hard-tech industrial; sensor-testbed relevance.","https://evokinnovations.com"],
+["Congruent Ventures","North America","SF, US","Formation–A","~$500K–3M",0,0,"later","","North-America-only — listed for completeness, exclude.","https://www.congruentvc.com"],
+["Rockstart","Europe","Amsterdam, NL","Pre-seed–Seed","€100–500K",0,2,"B","A","Energy/agri-food accelerator; open thematic applications; Dutch ecosystem embed.","https://www.rockstart.com"],
+["Rubio Impact Ventures","Europe","Amsterdam, NL","Seed–A","€500K–3M",0,2,"B","A","Leading Dutch impact fund — CSRD/ESRS compliance evidence is an impact thesis.","https://rubio.vc"],
+["4impact","Europe","Rotterdam, NL","Seed–Growth","€500K–3M",0,2,"B","A","Dutch impact investor; EU Taxonomy-aligned narrative.","https://4impact.vc"],
+["PDENH","Europe","Noord-Holland, NL","Seed–Growth","€200K–2M",0,2,"B","A","Regional sustainability capital; may invest nationally.","https://www.pdenh.nl"],
+["Innovation Industries","Europe","Rotterdam / The Hague, NL","Seed–A","€1–5M",0,2,"B","B","Dutch deep-tech hardware (photonics); sensor-testbed angle.","https://innovationindustries.nl"],
+["Cottonwood Technology Fund","Europe","Enschede, NL","Seed–Growth","€500K–3M",0,2,"B","B","Hard-tech (photonics/materials); DeepTechXL co-investor (InPhocal).","https://cottonwood.vc"],
+["Shamrock Ventures","Europe","Amsterdam, NL","Seed","€300K–1M",0,2,"C","","Generalist seed; weaker climate fit.","https://shamrock.vc"],
+["Invest-NL Deep Tech Fund","Europe","The Hague, NL","Growth (direct)","€5M+ direct",0,2,"later","","€610M national fund (expanded Jun 2026); co-investor/follow-on, not lead at this size.","https://invest-nl.nl"],
+["World Fund","Europe","Berlin, DE","Seed–Growth","€1–15M",1,2,"B","B","€1M floor — fits a slightly upsized seed or co-lead.","https://worldfund.vc"],
+["Extantia","Europe","Hamburg, DE","Seed–A","€1–5M",1,2,"B","B","Hard climate-tech; €1M floor.","https://extantia.com"],
+["Verve Ventures","Europe","Zurich, CH","Seed–A","€500K–3M",0,2,"B","B","Swiss deep-tech generalist with climate practice.","https://verve.ventures"],
+["A/O PropTech","Europe","Berlin, DE","Seed–A","€1–5M",0,2,"C","","Real-estate decarbonisation; adjacent angle for property portfolios.","https://aoproptech.com"],
+["Climentum Capital","Europe","Copenhagen / Zurich","A–B","€5–15M",0,2,"later","","Industrial decarbonisation; later stage.","https://climentum.com"],
+["Contrarian Ventures","Europe","Vilnius / Copenhagen","Seed–A","€500K–3M",0,2,"B","B","Baltic-Nordic energy/climate specialist.","https://contrarian.vc"],
+["Maki.vc","Europe","Helsinki, FI","Day 0 / first rounds","<€5M",1,2,"B","B","Nordic deep-tech first-check partner; leads sub-€1M rounds.","https://maki.vc"],
+["Nordic Alpha Partners","Europe","Copenhagen, DK","B–Growth","€10M+",0,2,"later","","Growth only; file for Series B.","https://napholdings.com"],
+["Bpifrance","Europe","Paris, FR","Seed–Growth","€500K–5M",0,2,"B","C","Public investment bank; leverage if French market ties form.","https://www.bpifrance.com"],
+["Elaia","Europe","Paris, FR","Seed–A","€500K–5M",0,2,"C","","Deep-tech generalist; weaker explicit climate.","https://elaia.com"],
+["Demeter","Europe","Paris, FR","A–Growth","€5–50M",0,2,"later","","French cleantech leader; scale-up stage.","https://demeter-im.com"],
+["Octopus Ventures","Europe","London, UK","Seed–A","£500K–5M",0,1,"C","","Large UK seed fund with sustainability practice.","https://octopusventures.com"],
+["ETF Partners","Europe","London, UK","A–B","€5–15M",0,1,"later","","Sustainability growth investor; too large now.","https://etfpartners.com"],
+["Molten Ventures","Europe","London, UK","A–Growth","€5–20M",0,1,"later","","Growth deep-tech; too large now.","https://moltenventures.com"],
+["Kibo Ventures","Europe","Madrid, ES","Seed–A","€500K–3M",0,2,"C","B","Spanish deep-tech; Southern Europe entry.","https://kibo.vc"],
+["Seaya","Europe","Madrid, ES","Seed–A","€1–5M",0,2,"C","","Wallbox heritage; sustainability portfolio.","https://seaya.vc"],
+["Credo Ventures","Europe","Prague, CZ","Seed–A","€500K–3M",0,2,"C","B","Leading CEE deep-tech seed; talent/pilot markets.","https://credoventures.com"],
+["EIC Fund / EIC Accelerator","Europe","Brussels, EU","Seed–A","€2.5M grant + €2.5M equity",1,2,"later","","STACK INSTRUMENT — M24 application in the funding roadmap; credibility multiplier for later VC rounds.","https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en"],
+["EIF","Europe","Luxembourg","Fund-of-funds","—",0,2,"later","","LP in many listed climate VCs; context, not a target.","https://www.eif.org"],
+["FMO","Europe","The Hague, NL","DFI / Growth","$5M+",0,2,"later","","Dutch DFI; validates the NL structure; emerging-market operations; Series A+ partner.","https://www.fmo.nl"],
+["SP Ventures","Latin America","São Paulo, BR","Seed–A","$500K–2M",1,0,"B","B","LatAm agri-climate leader (Fund III $50M verified); needs BR subsidiary planning.","https://spventures.com.br"],
+["EcoEnterprises Fund","Latin America","US / LatAm","Growth","$500K–5M",0,2,"B","C","Forests/biodiversity impact; better as Series A co-investor.","https://ecoenterprisesfund.com"],
+["The Yield Lab LatAm","Latin America","Regional","Pre-seed–Seed","$100–250K + follow-on",0,2,"B","C","Agrifoodtech accelerator; EUDR commodity-exporter angle; smaller tickets.","https://theyieldlab.com"],
+["NXTP","Latin America","AR / BR / MX","Seed–A","$250K–2M",1,2,"B","C","B2B SaaS; 'LatAm & globally' mandate (Fund III $100M verified).","https://nxtp.vc"],
+["Kaszek","Latin America","AR / BR / MX / UY","Seed–B","$1–5M",0,1,"C","C","Deep capital; generalist — co-investor if a climate fund leads.","https://www.kaszek.com"],
+["Alaya Capital","Latin America","Mexico City, MX","Seed–A","~$100K–1M",0,1,"C","","Digital impact seed.","https://alaya-capital.com"],
+["Vox Capital","Latin America","São Paulo, BR","Seed–B","~$200K–2M",0,0,"C","","Brazilian impact platform; BR subsidiary constraint.","https://voxcapital.com.br"],
+["IDB Invest","Latin America","Washington, DC","Growth / infra","$5M+",0,2,"later","","Future credit / project-finance partner for exporter programmes.","https://www.idbinvest.org"],
+["APY Ventures","Middle East","Istanbul, TR","Pre-seed–A","$250K–1M",0,2,"B","B","AI/deep-tech; no local-entity requirement.","https://apyventures.com/en"],
+["Grove Ventures","Middle East","Tel Aviv, IL","Seed–A","$1–10M",0,2,"B","C","Hard-science deep-tech; bigger cheques.","https://grovevc.com"],
+["Wa'ed Ventures (Aramco)","Middle East","Dhahran, SA","Seed–Growth","up to $20M",1,1,"B","C","Sovereign deep-tech appetite (Terraxy soil-climate bet); prefers Saudi operations.","https://www.waed.com"],
+["The Catalyst (Masdar/BP)","Middle East","Abu Dhabi, AE","Pre-seed–Seed","program-based",0,1,"B","C","Thematic bullseye; requires Masdar City free-zone base.","https://catalyst.ae"],
+["QSTP Tech Venture Fund","Middle East","Doha, QA","Pre-seed–Seed","$100–500K",0,1,"B","C","Deep-tech pre-seed; co-invests alongside a lead; Qatar free-zone base.","https://qstp.qa"],
+["Algebra Ventures","Middle East","Cairo, EG","Pre-seed–A","$500K–2M",0,2,"B","C","Established MENA early-stage brand.","https://www.algebraventures.com"],
+["Flat6Labs","Middle East","Cairo (regional)","Pre-seed–Pre-A","$50–500K",1,0,"C","","Regional network; relevant if a local entity is created.","https://www.flat6labs.com"],
+["Oasis500","Middle East","Amman, JO","Pre-seed–Seed","€25–200K",0,1,"B","B","Founder-geography fit; first-tranche/bridge size.","https://oasis500.com"],
+["ISSF","Middle East","Amman, JO","Fund-of-funds","—",0,1,"C","","Not a direct cheque — use for intros to Propeller / Oasis500 / Silicon Badia.","https://issfjo.com"],
+["Sanabil (500 Global accelerator)","Middle East","Riyadh, SA","Pre-seed","$100K",1,0,"C","","Route only if a Saudi entity is ever wanted.","https://www.sanabil.com"],
+["Equator VC","Africa","London / Nairobi","Pre-seed–Seed","unverified",0,0,"B","B","Thematic bullseye (dMRV, parametric insurance); likely needs African ops.","https://www.equator.vc"],
+["Delta40","Africa","Nairobi / Lagos","Idea–Seed","unverified",0,0,"B","","Climate venture studio; 'Build with us' form.","https://www.delta40.com"],
+["Africa Climate Ventures","Africa","South Africa","Early / Growth","unverified",0,0,"C","","African climate-unicorns mandate.","https://africaclimateventures.com"],
+["Persistent Energy","Africa","Nairobi / NY / Zurich","Early","unverified ($70M fund target)",0,1,"C","","Climate venture builder; African ops expected.","https://persistent.energy"],
+["TLcom","Africa","Nairobi / London","Pre-seed–B","unverified",0,0,"C","","Backed Pula (agri climate-risk data) — appetite for EO/data plays.","https://tlcomcapital.com"],
+["Knife Capital","Africa","Cape Town / London","A–B","unverified (Fund III $50M)",0,1,"later","","Explicit SpaceTech interest (VoxCroft exit); follow-on fund.","https://knifecap.com"],
+["4Di Capital","Africa","Cape Town / Atlanta","Seed","unverified",0,1,"C","","Backed Aerobotics (agri EO/AI); Africa base likely required.","https://4dicapital.com"],
+["Catalyst Fund (BFA Global)","Africa","—","Pre-seed–Seed","unverified",0,1,"C","","Status unverified 2026-09-07 — re-check manually.","https://bfaglobal.com/catalyst-fund/"],
+["Partech Africa","Africa","Paris / regional","Seed–C","€1–15M",1,0,"later","","€1M floor; Series A follow-on.","https://partechpartners.com"],
+["Norrsken22","Africa","Stockholm / regional","B–C","$3–10M+",0,0,"later","","Growth-stage African tech.","https://norrsken22.com"],
+["BII","Africa","London, UK","DFI / Growth","$10M+",0,2,"later","","UK DFI; Series B/C or fund-of-funds route.","https://www.bii.co.uk"],
+["Proparco (AFD)","Africa","Paris, FR","DFI / Growth","€5M+",0,2,"later","","French DFI; follow-on or blended finance.","https://www.proparco.fr"],
+["IFC","Africa","Washington, DC","DFI / Growth","$5M+",1,2,"later","","Multilateral; LP in African funds (indirect exposure).","https://www.ifc.org"],
+["Avaana Capital","Asia-Pacific","Mumbai, IN","Seed–A","~$500K–2M",1,2,"B","B","Energy/agri/AI deep-tech; backs global-market companies.","https://www.avaanacapital.com"],
+["Real Tech Fund","Asia-Pacific","Tokyo, JP","Seed–Early A","~$1–3M",0,1,"B","C","Deep tech incl. space; sensor-testbed relevance; Japanese corporate channel.","https://www.rt-fund.com"],
+["UTEC","Asia-Pacific","Tokyo, JP","Seed–A","~$1–5M",0,1,"B","C","University-linked deep tech (ispace heritage); needs a Japan research tie.","https://www.utec-llp.com"],
+["FuturePlay","Asia-Pacific","Seoul, KR","Pre-seed–Seed","~$300K–1M",0,0,"C","","Deep-tech accelerator; Korea-centric.","https://futureplay.co.kr"],
+["ParticleX","Asia-Pacific","Hong Kong","Pre-seed–Seed","~$500K–1M",0,1,"C","","Space tech; see geopolitical flag (HK/China-linked capital).","https://www.particlex.com"],
+["WNT Ventures","Asia-Pacific","New Zealand","Pre-seed–Seed","~NZ$250K–1M",0,0,"C","","NZ-focused deep tech.","https://wntventures.com"],
+["SEEDS Capital","Asia-Pacific","Singapore","Seed–A","~$1–5M (co-invest)",0,0,"later","","Requires SG entity; APAC-expansion phase instrument.","https://www.seeds.capital.sg"],
+["Breakthrough Victoria","Asia-Pacific","Melbourne, AU","Seed–Growth","~$500K–5M",0,0,"later","","Requires Victorian nexus.","https://breakthroughvictoria.vic.gov.au"],
+["NZGCP (Aspire)","Asia-Pacific","Wellington, NZ","PoC–Seed","~NZ$1M",1,0,"later","","NZ-registered companies only.","https://www.nzgcp.co.nz"],
+["GenZero","Asia-Pacific","Singapore (Temasek)","A–Growth","$5–20M",0,1,"later","","Too late-stage now; Series A target.","https://genzero.sg"],
+["Gobi Partners","Asia-Pacific","HK / CN","Seed–Growth","varies",0,1,"later","","GEOPOLITICAL FLAG — EU investment-screening/data-sovereignty scrutiny for an EU-compliance EO company; not recommended this round.","https://gobivc.com"]
+];
+
+const REGIONS = ["Europe","North America","Latin America","Middle East","Africa","Asia-Pacific"];
+const state = {q:"", region:"", eu:false, ver:false, tierA:false};
+
+function euBadge(v){
+  if(v===2) return '<span class="b euY">EU-BV ✓</span>';
+  if(v===1) return '<span class="b euM">EU-BV ~</span>';
+  return '<span class="b euN">EU-BV ✗</span>';
+}
+function waveBadge(w){
+  if(!w) return '';
+  return `<span class="b wave${w}">Wave ${w}</span>`;
+}
+function card(e){
+  const ver = e[5] ? '<span class="b ver">✓ verified</span>' : '';
+  const later = e[7]==='later' ? '<span class="b later">later stage</span>' : '';
+  return `<div class="card" data-search="${(e[0]+' '+e[2]+' '+e[9]).toLowerCase()}">
+    <h3><a href="${e[10]}" target="_blank" rel="noopener">${e[0]}</a></h3>
+    <div class="meta">${e[2]} · ${e[3]}</div>
+    <div class="badges"><span class="b tick">${e[4]}</span>${ver}${euBadge(e[6])}${waveBadge(e[8])}${later}</div>
+    <div class="fit">${e[9]}</div>
+  </div>`;
+}
+function row(e,i){
+  const ver = e[5] ? ' ✅' : '';
+  const eu = e[6]===2?'✓':(e[6]===1?'~':'✗');
+  return `<tr class="${i%2?'alt':''}" data-search="${(e[0]+' '+e[2]+' '+e[9]).toLowerCase()}">
+    <td><a href="${e[10]}" target="_blank" rel="noopener">${e[0]}</a></td>
+    <td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}${ver}</td>
+    <td>${eu}</td><td>${e[7]==='later'?'later':(e[7]==='A'?'Tier-A':e[7])}${e[8]?' · W'+e[8]:''}</td>
+    <td>${e[9]}</td></tr>`;
+}
+function visible(e){
+  if(state.eu && e[6]!==2) return false;
+  if(state.ver && e[5]!==1) return false;
+  if(state.tierA && e[7]!=='A') return false;
+  if(state.region && e[1]!==state.region) return false;
+  if(state.q){
+    const s=(e[0]+' '+e[2]+' '+e[9]).toLowerCase();
+    if(!s.includes(state.q)) return false;
+  }
+  return true;
+}
+function render(){
+  const tierA = E.filter(e=>e[7]==='A');
+  document.getElementById('tierAGrid').innerHTML = tierA.filter(visible).map(card).join('');
+  let total = tierA.filter(visible).length;
+  const blocks = REGIONS.map(r=>{
+    const list = E.filter(e=>e[1]===r).filter(visible);
+    total += list.length;
+    if(!list.length) return '';
+    return `<h2 style="margin-top:22px">${r} <span class="sub">${list.length} entities</span></h2>
+      <table><thead><tr><th>Entity</th><th>HQ</th><th>Stage</th><th>Ticket</th><th>EU-BV</th><th>Tier/Wave</th><th>Fit note</th></tr></thead>
+      <tbody>${list.map(row).join('')}</tbody></table>`;
+  }).join('');
+  document.getElementById('regionBlocks').innerHTML = blocks;
+  document.getElementById('count').textContent = `showing ${total} of ${E.length}`;
+}
+document.getElementById('q').addEventListener('input', ev=>{state.q=ev.target.value.toLowerCase();render();});
+document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click', ()=>{
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active'); state.region=p.dataset.region; render();
+}));
+document.getElementById('fEu').addEventListener('change', ev=>{state.eu=ev.target.checked;render();});
+document.getElementById('fVer').addEventListener('change', ev=>{state.ver=ev.target.checked;render();});
+document.getElementById('fTierA').addEventListener('change', ev=>{state.tierA=ev.target.checked;render();});
+render();
+</script>
+</body>
+</html>

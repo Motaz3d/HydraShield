@@ -315,6 +315,15 @@ def test_no_personal_gmail_as_sender_anywhere():
     guard list and the private operational reference inside
     docs/EMAIL_ARCHITECTURE.md (never rendered publicly)."""
     import re
+    # Operator decision 2026-09-07 (PLAN.md investor track): the founder's
+    # personal mailbox is the DeepTechXL reply channel, so it appears on the
+    # deck contact card and in the investor-research record. Both are
+    # private investor-facing artifacts — never a sender path or public page.
+    operator_approved = (
+        os.path.join("scripts", "build_deeptechxl_deck.py"),
+        os.path.join("marketing", "research",
+                     "global_investor_landscape_2026-09.html"),
+    )
     pattern = re.compile(r"motaz3d@gmail\.com|motazomarien@gmail\.com")
     for sub in ("src", "website", "scripts", "marketing", "docs"):
         for dirpath, _dirs, files in os.walk(os.path.join(ROOT, sub)):
@@ -326,6 +335,8 @@ def test_no_personal_gmail_as_sender_anywhere():
                 path = os.path.join(dirpath, name)
                 if path.endswith(os.path.join("docs", "EMAIL_ARCHITECTURE.md")):
                     continue  # private operational reference, not rendered
+                if any(path.endswith(suffix) for suffix in operator_approved):
+                    continue  # operator-approved investor artifacts (see above)
                 for lineno, line in enumerate(open(path, encoding="utf-8"), 1):
                     if pattern.search(line) and "FORBIDDEN_SENDERS" not in line:
                         raise AssertionError(
