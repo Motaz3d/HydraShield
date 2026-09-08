@@ -497,6 +497,66 @@ def test_process_message_auto_reply_body_phrase_does_not_stop_outreach(env):
     assert not store.is_unsubscribed("campaign-bank-one")
 
 
+def test_process_message_plus_tagged_sender_matches_base_contact(env):
+    """Intake bots answer from a plus-tagged alias of the mailbox we wrote to
+    (observed 2026-09-08: pitch+noreply@faber.vc answering pitch@faber.vc).
+    The sender must still match the lead, and the intake-bot wording must
+    classify as an auto-reply — never a human reply."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "pitch@faber.vc"}])
+
+    mod = _load_check_replies()
+    msg = EmailMessage()
+    msg["From"] = "Pitch emails <pitch+noreply@faber.vc>"
+    msg["Subject"] = "Faber × Talaix — open climate-risk evidence (pre-seed)"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg.set_content(
+        "Thank you for your contact and for giving us the opportunity to "
+        "learn about you and your project.\n\nWe will review your plans in "
+        "light of our investment criteria and hopefully come back to you to "
+        "engage in a deeper discussion."
+    )
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "auto_reply", False)
+
+    state = store.get_state("campaign-bank-one")
+    assert not state or state.get("outreach_status") != "replied"
+    interactions = store.list_interactions("campaign-bank-one")
+    assert all(i["type"] == "note" for i in interactions)
+
+
+def test_process_message_intake_bot_body_phrase_is_auto_reply(env):
+    """4impact's intake notice (observed 2026-09-08): exact sender match, no
+    autoresponder headers, but the body states applications sent to this
+    address are not processed — a machine notice, not a human reply."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "connect@4impact.vc"}])
+
+    mod = _load_check_replies()
+    msg = EmailMessage()
+    msg["From"] = "4impact capital <connect@4impact.vc>"
+    msg["Subject"] = "Thank you for reaching out to 4impact capital"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg.set_content(
+        "Dear sender,\n\nThank you for reaching out to 4impact capital. "
+        "Please refer to the below as next steps.\n\n***We do not process "
+        "any startup applications sent to this email address.***"
+    )
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "auto_reply", False)
+
+    state = store.get_state("campaign-bank-one")
+    assert not state or state.get("outreach_status") != "replied"
+
+
 def test_process_message_notifies_operator_on_human_reply(env, monkeypatch):
     """A genuine reply must be surfaced to the operator inbox."""
     from src.dashboard.marketing_store import MarketingStore

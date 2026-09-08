@@ -32,10 +32,11 @@ LUMO Labs · HTGF · BOM/Brabant Ventures · Faber · Cycle Capital · Rockstart
 Propeller · MoreVC/Israel Cleantech · Diffusion Capital · GRIDX · Earth VC ·
 Speciale Invest · Mubadala Capital Ventures · Lux Capital.
 
-## Webform-only — operator submits manually (6)
+## Webform-only — operator submits manually (7)
 
 | Fund | Form | Note |
 |---|---|---|
+| 4impact | https://4impact.vc/contact (multi-step form: deck link, impact pillar, description) | **Added 2026-09-08**: email went out with wave A but the auto-reply states startup applications sent to connect@ are **not processed** — the deck must go through the form. P.S. in the auto-reply invites a direct reply for anything the form does not cover |
 | Satgana | https://eu-dealflow.edda.co/form/form-widget/embed/UiG2PiJ47dM7MwYSDHNL/satgana | Founders explicitly directed to Edda; jointhejourney@ is the SFDR mailbox, not the pitch route |
 | Munich Re Ventures | https://munichreventures.typeform.com/sharepitchdeck | Typeform looks inactive (redirects to generic landing) — re-check; Timur Davis (Director, Resilient Future) published |
 | Seraphim Space | https://platform.seraphim.vc/access | Official pitch platform; Rob Desborough (GP) published |

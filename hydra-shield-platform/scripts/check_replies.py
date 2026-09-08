@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Read the outreach reply inbox (IMAP) and update the CRM.
 
-For each unseen message, match the sender address to a stored lead contact.
-On match the message is classified first:
+For each unseen message, match the sender address to a stored lead contact
+(plus-tagged sender aliases such as ``pitch+noreply@fund.vc`` are normalised
+to the base mailbox — intake bots routinely answer from a tagged alias of the
+published address). On match the message is classified first:
 
   - **Auto-reply** (RFC 3834 ``Auto-Submitted`` header, autoresponder
     headers, machine sender addresses, or stock phrases like "system
@@ -109,6 +111,9 @@ _AUTO_BODY_PHRASES = (
     "on vacation",
     "do not reply",
     "this message was sent automatically",
+    # VC/corporate intake-bot boilerplate (observed in production 2026-09-08).
+    "thank you for your contact",
+    "we do not process any startup applications",
     "رد تلقائي",
     "رسالة تلقائية",
 )
@@ -334,6 +339,16 @@ def _extract_address(from_header: str) -> Optional[str]:
     return None
 
 
+def _base_address(addr: str) -> str:
+    """Strip a plus-tag sub-address (``pitch+noreply@fund.vc`` →
+    ``pitch@fund.vc``) so intake bots answering from a tagged alias still
+    match the published mailbox stored on the lead."""
+    local, sep, domain = (addr or "").partition("@")
+    if sep and "+" in local:
+        return f"{local.split('+', 1)[0]}@{domain}"
+    return addr
+
+
 def _body_text(msg: email.message.EmailMessage) -> str:
     """Extract a plain-text body snippet for heuristic checks."""
     parts: List[str] = []
@@ -395,7 +410,7 @@ def _process_message(
     if _is_bounce(from_addr, email_msg.get("Subject", "")):
         return _handle_bounce(store, email_msg, contacts)
 
-    lead_slug = contacts.get(from_addr)
+    lead_slug = contacts.get(from_addr) or contacts.get(_base_address(from_addr))
     if not lead_slug:
         return None
 

@@ -4,7 +4,8 @@ pillar: research
 campaign: E
 cta: "See the evidence layer"
 landing: https://talaix.com/compliance.html?utm_source=linkedin&utm_campaign=E
-status: draft
+status: published
+published_at: 2026-09-08
 ---
 
 Under CSRD, a climate-risk number you cannot interrogate is becoming a
