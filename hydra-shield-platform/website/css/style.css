@@ -1025,12 +1025,14 @@ body {
 
 .nav-account {
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 .nav-account a {
     border: 1px solid rgba(255,255,255,0.25);
     border-radius: var(--radius-sm);
     padding: 8px 18px;
+    white-space: nowrap;
 }
 
 .nav-account a:hover,
