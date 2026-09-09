@@ -32,17 +32,22 @@ LUMO Labs · HTGF · BOM/Brabant Ventures · Faber · Cycle Capital · Rockstart
 Propeller · MoreVC/Israel Cleantech · Diffusion Capital · GRIDX · Earth VC ·
 Speciale Invest · Mubadala Capital Ventures · Lux Capital.
 
-## Webform-only — operator submits manually (7)
+## Webform-only — operator submits manually (8)
+
+**Deck link for all forms (public, verified 2026-09-09):**
+https://drive.google.com/file/d/1Mbs4PxKYbz_uxmaHFtm8nKbyXVH6ynrK/view?usp=drive_link
+(file: `talaix_preseed_deck.pdf` — the generic deck, never the DeepTechXL-branded one)
 
 | Fund | Form | Note |
 |---|---|---|
-| 4impact | https://4impact.vc/contact (multi-step form: deck link, impact pillar, description) | **Added 2026-09-08**: email went out with wave A but the auto-reply states startup applications sent to connect@ are **not processed** — the deck must go through the form. P.S. in the auto-reply invites a direct reply for anything the form does not cover |
-| Satgana | https://eu-dealflow.edda.co/form/form-widget/embed/UiG2PiJ47dM7MwYSDHNL/satgana | Founders explicitly directed to Edda; jointhejourney@ is the SFDR mailbox, not the pitch route |
-| Munich Re Ventures | https://munichreventures.typeform.com/sharepitchdeck | Typeform looks inactive (redirects to generic landing) — re-check; Timur Davis (Director, Resilient Future) published |
-| Seraphim Space | https://platform.seraphim.vc/access | Official pitch platform; Rob Desborough (GP) published |
-| Savia Ventures | https://airtable.com/appr5hkzDkgwBkL2u/shrtdnsDCpJyWMgwP | Real domain saviaventures.com (savia.vc parked); Andrés Baehr (MP) published |
-| OurCrowd | https://www.ourcrowd.com/contact-us | Form routes to investment team |
-| IDB Lab | https://airtable.com/apperI6xBpfHml1rE/pagoG70Ks13qsy4JU/form | **Eligibility flag:** ≥80% LAC focus, co-invest only, C&D-country tickets — EU startup likely ineligible; hold unless operator wants the EUDR-exporter angle tested |
+| ~~Speciale Invest~~ ✅ | https://form.typeform.com/to/yYgnIq1Z | **SUBMITTED 2026-09-09** (~10:00 local) via the live website Typeform (the Jotform in their auto-reply was dead). Warm: their auto-reply minutes after the wave-C send (09:20) asked for deck/metrics/product access. Answers: Climate Tech; B2B + B2B2C; Global + EU beachhead (EUDR India/SEA exporter angle); building since 2026-08 (1 month, honest); Pilot stage; USP = transparent pricing + audit-grade evidence classes + compliance-native XBRL; pre-revenue; no prior funding; ask ≈ $900K (€850K) |
+| ~~4impact~~ ✅ | https://4impact.vc/contact (multi-step form: deck link, impact pillar, description) | **SUBMITTED 2026-09-09** with the Drive deck link; impact pillar = Environment; email had gone out with wave A but the auto-reply said applications to connect@ are not processed |
+| ~~Satgana~~ ✅ | https://eu-dealflow.edda.co/form/form-widget/embed/UiG2PiJ47dM7MwYSDHNL/satgana | **SUBMITTED 2026-09-09** (Edda receipt PDF `~/Downloads/Webform - Talaix - 2026-09-09.pdf` verified): Climate Change Management & Reporting · software product · SDG 13 · climate change adaptation · Pre-seed 850K EUR, 0 committed · Europe target · Luxembourg. Cheques €100–350K lead/co-invest — smaller than our full ask, syndicate framing used |
+| ~~Munich Re Ventures~~ ⛔ | — | **DROPPED 2026-09-09 — no working route:** the Typeform (sharepitchdeck) redirects to Typeform's dead-form landing; munichreventures.com does not respond; munichre.vc dead; ventures.munichre.com is an employee-only Microsoft login. No public pitch channel exists today — moved to the no-verified-route bucket (like Dalus/DCVC). Revisit only via warm intro or if a new form appears; Timur Davis (Director, Resilient Future) remains the published contact |
+| ~~Seraphim Space~~ ✅ | https://seraphim.vc/contact (CF7 form: "Pitch decks and General Engagement — submit your pitch deck for review by our team") | **SUBMITTED 2026-09-09** via the contact-page form (deck Drive link + SpaceTech-fit message). platform.seraphim.vc/access is only the Mission-cohort pitch VIEWER (registered ✅ as non-investor space-industry expert — useful for ecosystem visibility, not an application). Accelerator (cohort) applications open periodically (last window 11 Dec '24–2 Feb '25 — closed; watch for next cohort). Rob Desborough (GP) published |
+| ~~Savia Ventures~~ ✅ | https://airtable.com/appr5hkzDkgwBkL2u/shrtdnsDCpJyWMgwP | **SUBMITTED 2026-09-09**. Note: Savia requires a LatAm link — answered honestly with the EUDR angle (geolocation screening for LatAm commodity exporters to the EU, H2 2027 roadmap); eligibility their call. Round quoted USD 900K (= EUR 850K); valuation left as convertible-to-be-set (no invented number). Real domain saviaventures.com (savia.vc parked); Andrés Baehr (MP) published |
+| ~~OurCrowd~~ ✅ | https://www.ourcrowd.com/contact-us | **SUBMITTED 2026-09-09** (confirmation "Your message has been sent"). General contact form routing to the investment team; weakest thesis fit (generalist crowdfunding VC) — short direct pitch + deck link used |
+| ~~IDB Lab~~ ⛔ | — | **DROPPED 2026-09-09 — operator decision (delegated to copilot):** structurally ineligible (≥80% LAC focus, co-invest only, C&D-country tickets; EU pre-incorporation startup). The honest EUDR-exporter angle was already spent on Savia, whose rules explicitly allow "plans to expand to LatAm" — IDB Lab's statute does not. Honest skip, same precedent as Rubio |
 
 ## Excluded (2)
 

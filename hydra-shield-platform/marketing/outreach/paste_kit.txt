@@ -1,0 +1,74 @@
+TALAIX PASTE KIT — approved outreach snippets, plain text, copy-ready
+Last updated: 2026-09-09 (after 4impact, Speciale, Seraphim, Satgana submissions)
+Rule: every block below is one continuous text — copy the whole block, nothing else.
+Update this file whenever approved wording changes; re-drafts must stay consistent with it.
+
+=== ONE SENTENCE DESCRIPTION ===
+Talaix turns Earth-observation data into audit-ready climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR) — every value with its source and evidence status, transparently priced.
+
+=== SHORT DESCRIPTION (3 SENTENCES) ===
+Talaix turns Earth-observation and official open data into climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR). Companies get site-coordinate multi-hazard screening where every value carries its source, date and evidence status, plus machine-readable XBRL from our CsrdTX rules engine — sold as transparently priced evidence packs. The analytical engine itself is open source (EUPL-1.2, github.com/Motaz3d/tore), so technical diligence can read the code before the first call.
+
+=== USP (3 FACTORS) ===
+1. The only transparently priced physical climate-risk evidence: specialists (Jupiter, Climate X, Mitiga, XDI) sell opaque 5–7-figure enterprise contracts; GRC/CSRD suites (Workiva, Position Green, SAP) manage workflow but generate no physical-risk evidence at all. We publish our prices: €19 per report, €49–249/month. 2. Audit-grade honesty as architecture, not marketing: every datapoint carries its source, method, reference period and evidence class (OBSERVED → ESTIMATED → FRAMEWORK → UNKNOWN) — "unavailable is stated, never filled in". The analytical engine is open source (tore, EUPL-1.2), so any auditor can verify the code instead of trusting a black box. 3. Compliance-native output at near-zero marginal cost: evidence maps directly to CSRD/ESRS E1 datapoints with machine-readable XBRL from our CsrdTX rules engine — self-serve from site coordinates to audit-ready pack in minutes, fully automated (no consultants), so the €19 entry tier is economically impossible for incumbent vendors.
+
+=== KEY METRICS LINE ===
+8-hazard climate engine · 1,670 automated tests · CsrdTX + XBRL + API v2 shipped · published self-serve pricing €19–249 · pre-revenue by design, first pilot outreach in flight.
+
+=== STAGE / HONEST STATUS ===
+Live platform (talaix.com) with published pricing and a self-serve funnel; pre-revenue by design — zero paying customers today, first pilot wave (€490 pilot programme) in outreach. Pre-incorporation: Dutch BV planned with this round; founder based in Luxembourg. Building since August 2026.
+
+=== FUNDING ASK (EUR) ===
+EUR 850K pre-seed (equity or convertible) — lead or co-lead, syndication welcome; 24-month runway into a Dutch BV.
+
+=== FUNDING ASK (USD, IN WORDS — no digits) ===
+Nine hundred thousand US Dollars — equivalent to our pre-seed ask of eight hundred and fifty thousand Euros into a Dutch BV.
+
+=== CLIMATE-ADAPTATION ANGLE (climate funds) ===
+Climate adaptation, not just mitigation: Talaix is the evidence layer thousands of EU companies will legally need to disclose and manage their physical climate risk — CSRD/ESRS E1 is in force and EUDR is live since 30 Dec 2025; compliance budgets are mandatory and deadline-driven, not discretionary.
+
+=== SPACETECH ANGLE (space funds) ===
+Our entire engine runs on satellite data (Copernicus Sentinel, NASA FIRMS) — Earth observation is not an input we buy, it is what we are built on. SpaceTech fit meets a legal deadline: EU disclosure law forces thousands of companies to buy site-level physical climate-risk evidence.
+
+=== EUDR EXPORTER ANGLE (Asia/India funds) ===
+EUDR geolocation screening directly serves Indian and SEA commodity exporters (coffee, cocoa, rubber, palm oil, timber) selling into the EU — a satellite-native, least-contested niche with regulation already in force.
+
+=== SUPPORT NEEDED (beyond funding) ===
+Introductions to climate/EO corporates and follow-on investors; support designing first paid pilots and EU enterprise sales; LP network for round syndication.
+
+=== HOW DID YOU HEAR ===
+Independent research on European pre-seed climate investors — your thesis came out as a top fit for what we are building.
+
+=== ANYTHING ELSE / EXTRA DETAILS ===
+Pre-incorporation: Dutch BV planned with this round; founder based in Luxembourg. The platform is live (talaix.com) with published pricing and a self-serve funnel — pre-revenue by design, first pilot outreach in flight. The analytical engine is fully open source (tore, EUPL-1.2, github.com/Motaz3d/tore), so technical diligence can start today.
+
+=== LINKS ===
+Website: https://talaix.com
+Deck (public Drive link): https://drive.google.com/file/d/1Mbs4PxKYbz_uxmaHFtm8nKbyXVH6ynrK/view?usp=drive_link
+Reports portal: https://talaix.com/reports.html
+Open-source engine: https://github.com/Motaz3d/tore
+Founder LinkedIn: https://www.linkedin.com/in/motaz-omarien-8394359/
+Company LinkedIn: https://www.linkedin.com/company/talaix/
+Email: info@talaix.com
+Founder email: motaz3d@gmail.com
+Phone: +352 661811680
+
+=== FORM CHEAT VALUES ===
+Category: Climate Tech (secondary: SpaceTech)
+Business model: B2B + B2B2C
+Industry: Climate Change Management and Reporting (or Climate Tech)
+Technology: Only or mainly software product (EO + AI/ML + SaaS)
+SDG: SDG 13 — Climate Action
+Environmental Sustainability Objective: Climate change adaptation
+Stage: Pilot stage / Beta (pre-revenue, live product)
+Revenue last 12 months: EUR 0 — pre-revenue
+Round: Pre-Seed
+Raising: 850 K (format: 850 K, not 850,000)
+Committed so far: 0 K
+Currency: EUR
+Founders: 1 (solo founder)
+Country: Luxembourg (pre-incorporation; Dutch BV planned with the round)
+Target market: Europe beachhead; engine global
+Building since: August 2026 (about 1 month — verifiable via public repo)
+Prior funding: None (bootstrapped)
+Deal sharing: Yes

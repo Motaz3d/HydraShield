@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Build the Talaix pitch deck PDF for DeepTechXL (16:9, reportlab).
+"""Build the Talaix pitch deck PDF (16:9, reportlab).
 
 Usage:
-    .venv/bin/python scripts/build_deeptechxl_deck.py
+    .venv/bin/python scripts/build_deeptechxl_deck.py                 # generic pre-seed deck
+    .venv/bin/python scripts/build_deeptechxl_deck.py --fund deeptechxl  # DeepTechXL-branded deck
 
-Output: marketing/outreach/deeptechxl_pitch_deck.pdf
+Output: marketing/outreach/talaix_preseed_deck.pdf (generic)
+        marketing/outreach/deeptechxl_pitch_deck.pdf (--fund deeptechxl)
 """
 
+import argparse
 from pathlib import Path
 
 from reportlab.lib.colors import HexColor, white
@@ -19,6 +22,33 @@ from reportlab.platypus import Paragraph, Table, TableStyle
 ROOT = Path(__file__).resolve().parents[1]
 LOGO = ROOT.parent / "pic" / "LogoWithText.png"
 OUT = ROOT / "marketing" / "outreach" / "deeptechxl_pitch_deck.pdf"
+
+# Fund-facing strings, swapped by --fund in main(). Defaults reproduce the
+# DeepTechXL-branded deck; "generic" produces the webform/shareable version.
+PROFILE = {
+    "fund": "deeptechxl",
+    "footer": "Talaix — Confidential · Prepared for DeepTechXL · September 2026",
+    "cover": "Prepared for DeepTechXL  ·  Eindhoven  ·  September 2026",
+    "pdf_title": "Talaix — Pitch Deck for DeepTechXL (September 2026)",
+    "funding_fit": "<b>€850K pre-seed</b> (equity or convertible) — inside DeepTechXL's €100K–€2M "
+                   "initial-ticket range; lead or co-lead, syndication welcome",
+    "team_eco": "<b>Advisory &amp; ecosystem:</b> targeting the High Tech Campus / TU/e network for scientific "
+                "validation and first municipal pilots; open to DeepTechXL introductions across the Brabant "
+                "ecosystem (BOM, The Gate, HighTechXL) for pilot sites and follow-on syndication.",
+}
+
+GENERIC_PROFILE = {
+    "fund": "generic",
+    "footer": "Talaix — Confidential · Pre-seed · September 2026",
+    "cover": "Pre-seed deck  ·  September 2026",
+    "pdf_title": "Talaix — Pre-seed Pitch Deck (September 2026)",
+    "funding_fit": "<b>€850K pre-seed</b> (equity or convertible) — lead or co-lead, syndication welcome",
+    "team_eco": "<b>Advisory &amp; ecosystem:</b> targeting the High Tech Campus / TU/e network for scientific "
+                "validation and first municipal pilots; open to investor introductions across the Brabant "
+                "ecosystem (BOM, The Gate, HighTechXL) for pilot sites and follow-on syndication.",
+}
+
+GENERIC_OUT = ROOT / "marketing" / "outreach" / "talaix_preseed_deck.pdf"
 
 PAGE_W, PAGE_H = 960.0, 540.0  # 16:9
 MARGIN = 54.0
@@ -57,7 +87,7 @@ SUB_ST = ParagraphStyle("sub_white", fontName=F, fontSize=12.5, leading=17,
 def footer(c, num, total):
     c.setFont(F, 7.5)
     c.setFillColor(FAINT)
-    c.drawString(MARGIN, 26, "Talaix — Confidential · Prepared for DeepTechXL · September 2026")
+    c.drawString(MARGIN, 26, PROFILE["footer"])
     c.drawRightString(PAGE_W - MARGIN, 26, f"{num} / {total}")
     c.setStrokeColor(LINE)
     c.setLineWidth(0.6)
@@ -204,7 +234,7 @@ def slide_title(c, num, total):
     c.line(100, 92, PAGE_W - 100, 92)
     c.setFillColor(HexColor("#C6D5DA"))
     c.setFont(F, 10.5)
-    c.drawCentredString(PAGE_W / 2, 72, "Prepared for DeepTechXL  ·  Eindhoven  ·  September 2026")
+    c.drawCentredString(PAGE_W / 2, 72, PROFILE["cover"])
     c.setFont(F, 9.5)
     c.drawCentredString(PAGE_W / 2, 55, "Motaz Omarien, Founder  ·  motaz3d@gmail.com  ·  +352 661811680  ·  talaix.com")
     c.setFont(FO, 8.5)
@@ -521,11 +551,7 @@ def slide_team(c, num, total):
         "<b>Commercial &amp; pilot lead</b> — pilot conversions, GRC-suite partnerships, EUDR exporter outreach",
     ], MARGIN + col_w + 30, y0 - 24, col_w, BULLET_SM)
     y2 = min(y1, y2b) - 26
-    panel(c, MARGIN, y2, PAGE_W - 2 * MARGIN, 10, [
-        "<b>Advisory &amp; ecosystem:</b> targeting the High Tech Campus / TU/e network for scientific "
-        "validation and first municipal pilots; open to DeepTechXL introductions across the Brabant ecosystem "
-        "(BOM, The Gate, HighTechXL) for pilot sites and follow-on syndication.",
-    ])
+    panel(c, MARGIN, y2, PAGE_W - 2 * MARGIN, 10, [PROFILE["team_eco"]])
     footer(c, num, total)
 
 
@@ -535,8 +561,7 @@ def slide_funding(c, num, total):
     c.setFont(FB, 12); c.setFillColor(NAVY)
     c.drawString(MARGIN, y, "The ask")
     y1 = bullets(c, [
-        "<b>€850K pre-seed</b> (equity or convertible) — inside DeepTechXL's €100K–€2M initial-ticket range; "
-        "lead or co-lead, syndication welcome",
+        PROFILE["funding_fit"],
         "24 months of runway at a lean 3–4 FTE burn (~€25–35K/month) in Eindhoven",
         "<b>Calibration:</b> comparable European climate/EO early rounds closed at €1M–€1.8M "
         "(Dryad, repath, Mitiga, Coolset) — we ask less because the platform is already built",
@@ -598,20 +623,64 @@ def slide_why(c, num, total):
     footer(c, num, total)
 
 
+def slide_why_generic(c, num, total):
+    y = header(c, "Why Talaix · Why now", "A working platform ahead of a regulated-demand wave")
+    col_w = (PAGE_W - 2 * MARGIN - 30) / 2
+    c.setFont(FB, 12); c.setFillColor(NAVY)
+    c.drawString(MARGIN, y, "Why now")
+    y1 = bullets(c, [
+        "<b>Regulated demand on a fixed calendar:</b> EUDR in force since 30 Dec 2025; CSRD Wave 2 reports "
+        "FY2027 — compliance budgets are mandatory and deadline-driven, not discretionary",
+        "<b>Consolidation at the top:</b> MSCI/First Street, ISS STOXX/Sust Global, Moody's/RMS — "
+        "physical-risk evidence is proven must-have, and the mid-market is left open at transparent prices",
+        "<b>The platform is already built:</b> 8-hazard engine, CsrdTX + XBRL, API v2, live self-serve "
+        "funnel — this round funds validation and go-to-market, not a build",
+    ], MARGIN, y - 18, col_w, BULLET_SM)
+    c.drawString(MARGIN + col_w + 30, y, "Why Talaix")
+    y2 = bullets(c, [
+        "<b>Honesty as a product feature:</b> every datapoint carries source, method and evidence class; "
+        "the engine is open source (tore, EUPL-1.2) — diligence can read the code today",
+        "<b>Near-zero marginal cost:</b> automated evidence packs from €19 — a tier opaque enterprise "
+        "vendors structurally cannot serve",
+        "<b>Open-core defensibility:</b> GitLab/Elastic/Confluent precedent; curated loss and benchmark "
+        "registries accumulate as proprietary data assets",
+        "<b>EU base:</b> Dutch BV at High Tech Campus Eindhoven planned with this round; founder relocating",
+    ], MARGIN + col_w + 30, y - 18, col_w, BULLET_SM)
+    y = min(y1, y2) - 14
+    panel(c, MARGIN, y, PAGE_W - 2 * MARGIN, 12, [
+        "<b>Next step:</b> we would welcome a 30-minute introductory call to walk through the engine live "
+        "(talaix.com — the product, not a demo video) and discuss fit with your investment strategy."
+        "<br/><br/><b>Motaz Omarien</b> · Founder · motaz3d@gmail.com · +352 661811680 · talaix.com",
+    ])
+    footer(c, num, total)
+
+
 SLIDES = [
     slide_title, slide_problem, slide_solution, slide_technology, slide_stage,
     slide_market, slide_business_model, slide_competition, slide_ip, slide_team,
     slide_funding, slide_why,
 ]
 
+SLIDES_GENERIC = SLIDES[:-1] + [slide_why_generic]
+
 
 def main():
+    global OUT
+    parser = argparse.ArgumentParser(description="Build the Talaix pre-seed pitch deck PDF")
+    parser.add_argument("--fund", default="generic", choices=["generic", "deeptechxl"],
+                        help="deeptechxl reproduces the DeepTechXL-branded deck; "
+                             "generic (default) is the shareable webform version")
+    args = parser.parse_args()
+    if args.fund == "generic":
+        PROFILE.update(GENERIC_PROFILE)
+        OUT = GENERIC_OUT
+    slides = SLIDES if PROFILE["fund"] == "deeptechxl" else SLIDES_GENERIC
     OUT.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(OUT), pagesize=(PAGE_W, PAGE_H))
-    c.setTitle("Talaix — Pitch Deck for DeepTechXL (September 2026)")
+    c.setTitle(PROFILE["pdf_title"])
     c.setAuthor("Motaz Omarien — Talaix")
-    total = len(SLIDES)
-    for i, fn in enumerate(SLIDES, 1):
+    total = len(slides)
+    for i, fn in enumerate(slides, 1):
         c.setFillColor(white)
         c.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
         fn(c, i, total)

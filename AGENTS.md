@@ -7,6 +7,11 @@ Read this file FIRST. It exists to save exploration time: do not re-scan the tre
 2. **During work**: prefer the paths in this map over searching; search only when the map lacks what you need.
 3. **Before finishing any task that changed structure, commands, or progress**: update this `AGENTS.md` (map changes) and `PLAN.md` (status changes) in the same session, without waiting to be asked. Keep both files short — they are loaded every session and cost tokens.
 
+## Operator paste-ready text rule (binding, operator directive 2026-09-09)
+- When giving the operator text to paste into webforms/emails, output it as **plain continuous text**: no blockquote bars (`>`, `│`), no table cells, no code fences, no mid-sentence line wraps. Each snippet must be copyable in one action, exactly as it will be pasted.
+- Canonical approved snippets live in `hydra-shield-platform/marketing/outreach/paste_kit.txt` — quote from it instead of re-drafting, and update it when approved wording changes.
+- Founder LinkedIn: https://www.linkedin.com/in/motaz-omarien-8394359/ · Company page: https://www.linkedin.com/company/talaix/ (always share without `?viewAsMember=true`).
+
 ## What this is
 Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-support platform. Aggregates earth-observation data to analyse multi-hazard risks (wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake) and produce evidence-linked reports for finance, insurance, government, and investment users. **Market-facing identity since 2026-09-06: climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR)** — engine unchanged underneath; decisions + competitor study in `hydra-shield-platform/docs/COMPLIANCE_STRATEGY.md`, phase tracker in `docs/GRC_COMPLIANCE.md`.
 
@@ -29,7 +34,7 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `config/` — JSON registries: CSRD rules, species/solutions knowledge, stripe prices.
 - `db/` — SQLite schema: `db/migrations/0001_init.sql`. Runtime cache/accounts DB path via env `HYDRASHIELD_CACHE_DB`.
 - `tests/` — pytest suite (~100 files).
-- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`, investor-deck builder `build_deeptechxl_deck.py` → `marketing/outreach/deeptechxl_pitch_deck.pdf`).
+- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`, investor-deck builder `build_deeptechxl_deck.py` → default generic `marketing/outreach/talaix_preseed_deck.pdf`, `--fund deeptechxl` → `deeptechxl_pitch_deck.pdf`).
 
 ## Open-source engine mirror — tore (binding)
 - Public repo: `../tore` (outside this project root, at `~/Documents/work/tore`) → https://github.com/Motaz3d/tore — "Talaix Open Risk Engine", EUPL-1.2, created 2026-09-06 for the NLnet Restack application.
