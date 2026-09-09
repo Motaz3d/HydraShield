@@ -65,6 +65,12 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 |---|---|---|
 | AI pre-company workshop proposal for ADEM (EN/DE/FR) | 🔶 | 2026-09-09: full 3-month intensive workshop dossier in `hydra-shield-platform/marketing/outreach/adem_precompany_workshop/` (`proposal_en.md`, `proposal_de.md`, `proposal_fr.md`) — trainer-as-participant model, case-by-case per specialty, AI for marketing/routine-automation/media outreach, UWV+VDAB/Actiris/Forem cross-border dimension, indicative tariff (€1,150/participant · €9,600 group · −20% pilot). **PDF attachment ready**: `ADEM_PreCompany_Workshop_Proposal.pdf` (9 pp, FR→DE→EN, 23 KB, built by `build_pdf.py` — render-verified). Paste-ready form message (3 languages) in `adem_form_message.txt`. **Submission via** https://adem.public.lu/en/support/contact.html — Subject = **"training"** (routes to Service Formation; verified against dropdown options), matricule in file-number field, email motaz3d@gmail.com, phone 661811680, country Luxembourg, PDF attached. **Follow-up plan**: if no reply in ~1 week call jobseeker line (+352) 247-88888 referencing send date; also mention proposal to personal ADEM counsellor at next appointment; frame as feeding ADEM's jobseeker business-creation track. Risk assessed: zero — Contact Center routing is the expected first step |
 
+## Technology Park Ljubljana — incubation call (operator-manual)
+
+| Item | Status | Notes |
+|---|---|---|
+| TP Ljubljana reply — call scheduling | 🔶 | 2026-09-09: Milan Lazarević (Start-up Community manager, milan.lazarevic@tp-lj.si) replied to the operator's 2026-08-12 HydraShield intro email — proposes online call **Mon 2026-09-14 or Tue 2026-09-15** re incubation/acceleration; coworker **Matej CC'd for AI/innovation**. Reply drafted (plain paste-ready) in `marketing/outreach/tp_ljubljana_reply_2026-09-09.txt`: proposes Mon 14 10:00 or Tue 15 14:00 Ljubljana time, flexible, agenda = incubation/acceleration + research partners + SI/EU R&D funding, live platform demo offered. Operator sends **Reply All from motaz3d@gmail.com** (thread continuity) |
+
 ## Luxembourg Space Agency — warm reply (operator-manual)
 
 | Item | Status | Notes |
