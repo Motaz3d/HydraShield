@@ -75,7 +75,7 @@ Legend: ✅ done · 🔶 partially done / in progress · ⬜ planned
 
 | Item | Status | Notes |
 |---|---|---|
-| LSA introductory call | 🔶 | Dr. Alberto Maulu (Manager – Technologies, alberto.maulu@space-agency.lu) replied 2026-09-09 09:45 to the operator's 2026-08-28 email ("Luxembourg Space & Funding Opportunities"): proposes **Thu 2026-09-10 15:00 CET** or **Fri morning next week** for a virtual intro call — wants to understand the business, plans and interest in Luxembourg to assess support. Reply drafted in session 2026-09-09; operator sends from info@talaix.com |
+| LSA introductory call | 🔶 | Dr. Alberto Maulu (Manager – Technologies, alberto.maulu@space-agency.lu) replied 2026-09-09 09:45 to the operator's 2026-08-28 email ("Luxembourg Space & Funding Opportunities"): proposes **Thu 2026-09-10 15:00 CET** or **Fri morning next week** for a virtual intro call — wants to understand the business, plans and interest in Luxembourg to assess support. Reply drafted in session 2026-09-09; operator sends from info@talaix.com. **Call prep one-pager: `marketing/outreach/lsa_call_prep_2026-09-10.md`** — 3-min pitch, 8 asks restructured (incubation ESA BIC/LuxIMPULSE, data-access tiers, SMS reframed as LU-Alert-complementary — never "competes with government", logo only via programme branding rights, LIST/SnT/ESERO academic tracks, €850K pre-seed co-funding, dual-use one-liner + written follow-up, network ask), demo plan, red lines, same-evening thank-you email plan |
 
 ## Funders outreach wave 1 (draft, awaiting operator review)
 
