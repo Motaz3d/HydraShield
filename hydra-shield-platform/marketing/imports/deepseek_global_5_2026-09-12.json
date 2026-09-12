@@ -19,7 +19,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "vechtstromen-nl.a-v1.mx.microsoft."
     },
     {
       "organization": "Waterschap De Dommel",
@@ -37,7 +38,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "dommel-nl.y-v1.mx.microsoft."
     },
     {
       "organization": "Waterschap Vallei en Veluwe",
@@ -55,7 +57,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "valleiveluwe-nl01e.mail.protection.outlook.com."
     },
     {
       "organization": "Waterschap Drents Overijsselse Delta",
@@ -73,7 +76,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "wdodelta-nl.q-v1.mx.microsoft."
     },
     {
       "organization": "Hoogheemraadschap De Stichtse Rijnlanden",
@@ -91,7 +95,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "hdsr-nl.w-v1.mx.microsoft."
     },
     {
       "organization": "Waterschap Scheldestromen",
@@ -109,7 +114,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "scheldestromen-nl.h-v1.mx.microsoft."
     },
     {
       "organization": "enercity",
@@ -127,7 +133,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Municipal utility authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "enercity-de.mail.protection.outlook.com."
     },
     {
       "organization": "Waterschap Rivierenland",
@@ -145,7 +152,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "wsrl-nl.mail.protection.outlook.com."
     },
     {
       "organization": "Waterschap Hollandse Delta",
@@ -163,7 +171,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "wshd-nl.s-v1.mx.microsoft."
     },
     {
       "organization": "Waterschap Rijn en IJssel",
@@ -181,7 +190,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water board authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "wrij-nl.mail.protection.outlook.com."
     },
     {
       "organization": "Deutscher Wetterdienst",
@@ -199,7 +209,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Weather service authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "zbcsgdop.dwd.de."
     },
     {
       "organization": "Umweltbundesamt",
@@ -217,7 +228,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Environment agency authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail1.uba.de."
     },
     {
       "organization": "Stadtwerke Muenster",
@@ -235,7 +247,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Municipal utility authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail2.stadtwerke-muenster.de."
     },
     {
       "organization": "Stadtwerke Nuernberg",
@@ -253,7 +266,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Municipal utility authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "nergie-de0c.mail.protection.outlook.com."
     },
     {
       "organization": "Port of Rostock",
@@ -271,7 +285,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "sw2k22a.rostock-port.de."
     },
     {
       "organization": "LfU Bayern",
@@ -289,7 +304,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Environment agency authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail.bayern.de."
     },
     {
       "organization": "Port of Koper",
@@ -307,7 +323,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "lukakp-si01b.mail.protection.outlook.com."
     },
     {
       "organization": "Port of Gdynia",
@@ -325,7 +342,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail.port.gdynia.pl."
     },
     {
       "organization": "Port of Algeciras",
@@ -343,7 +361,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "apbaes-mail-onmicrosoft-com.mail.protection.outlook.com."
     },
     {
       "organization": "Port of Civitavecchia",
@@ -361,7 +380,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "portidiroma.esvacloud.com."
     },
     {
       "organization": "Port of Bergen",
@@ -379,7 +399,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "bergenhavn-no.mail.protection.outlook.com."
     },
     {
       "organization": "Port of Stockholm",
@@ -397,7 +418,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "uxantispam001.stockholm.se."
     },
     {
       "organization": "Environment Agency",
@@ -415,7 +437,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Environment agency authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "environmentagency-gov-uk02i.mail.protection.outlook.com."
     },
     {
       "organization": "Aarhus Vand",
@@ -433,7 +456,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Water utility authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "aarhusvand-dk.mail.protection.outlook.com."
     },
     {
       "organization": "HOFOR",
@@ -451,7 +475,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Municipal utility authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "hofor-dk.mail.protection.outlook.com."
     },
     {
       "organization": "Port Authority of NSW",
@@ -469,7 +494,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Port authority authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "au-smtp-inbound-1.mimecast.com."
     },
     {
       "organization": "European Investment Bank",
@@ -487,7 +513,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx1.hc1688-68.eu.iphmx.com."
     }
   ]
 }

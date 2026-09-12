@@ -1,0 +1,24 @@
+{
+  "organization": "Vidrala",
+  "segment": "sustainability_compliance",
+  "country": "ES",
+  "website": "https://www.vidrala.com",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Glass packaging company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-global-8-2026-09-12 batch.",
+      "source": "https://www.vidrala.com/imprint"
+    }
+  ],
+  "source": "https://www.vidrala.com/imprint",
+  "date_checked": "2026-09-12"
+}
