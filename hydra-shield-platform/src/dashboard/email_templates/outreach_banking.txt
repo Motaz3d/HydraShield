@@ -1,10 +1,10 @@
-Subject: Physical evidence behind the loan book — {{organization}}
+Subject: Physical-risk evidence for the loan book — {{organization}}
 
 Hi {{contact_name}},
 
-Supervisors now ask banks one hard question: what physical evidence stands behind the "green" claims in the loan book?
+EBA Pillar 3 ESG disclosures and EU Taxonomy alignment checks now require banks to show the physical climate exposure behind their loans — not a score, but evidence tied to collateral locations.
 
-Talaix supplies it: every financed asset screened against eight hazards, from Earth observation and official data — each value with its source and evidence status, ready for credit files, EU Taxonomy DNSH, CSRD and TCFD/ISSB workflows. Evidence, not accreditation.
+Talaix supplies that evidence layer: ten hazards screened per financed asset, from Earth observation and official open data, every value with its source, date and evidence status. We do not produce capital requirements or accreditation; we give credit files and disclosure workflows documented, defensible inputs.
 
 {{identified_problem}}
 

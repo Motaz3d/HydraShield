@@ -1,10 +1,10 @@
-Subject: Climate evidence behind the assets — {{organization}}
+Subject: Physical-risk evidence behind the portfolio — {{organization}}
 
 Hi {{contact_name}},
 
-Investors and regulators now ask one hard question: what physical climate exposure sits inside the portfolio — and can you prove it?
+SFDR, EU Taxonomy DNSH and investor due-diligence now ask one question: what physical climate exposure sits in the portfolio — and can you prove it with sources?
 
-Talaix answers it: eight hazards screened per asset, anywhere on Earth, from Earth observation and official data. Every figure carries its source and evidence status.
+Talaix answers it: ten hazards screened per asset, anywhere on Earth, from Earth observation and official open data. Every figure carries its source, date and evidence status. Screening-level, not assurance; a defensible input for fund documentation and client reporting.
 
 {{identified_problem}}
 

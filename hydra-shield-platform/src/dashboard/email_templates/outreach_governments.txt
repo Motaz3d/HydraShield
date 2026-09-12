@@ -1,10 +1,10 @@
-Subject: Exposure and event evidence for public mandates — {{organization}}
+Subject: Multi-hazard evidence for public mandates — {{organization}}
 
 Hi {{contact_name}},
 
-Civil-protection and resilience planning needs answers in plain terms: what is happening, who and what is exposed, and where should prevention budgets go first?
+Resilience planning, civil-protection briefings and EU funding applications all need the same thing: location-level evidence of hazards and exposure that can be defended in front of auditors and review panels.
 
-Talaix is a climate-extreme intelligence platform for governments and municipalities. We compute eight hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure, tropical cyclones and earthquakes — from Earth observation, official open data and documented historical events, and we count the exposure: population and settlements, hospitals and schools, buildings, transport, energy, water. Monitored areas carry watch status with email/SMS alerts, and historical event evidence supports prevention programmes. Sources and evidence status are stated with every result — defensible where public mandates demand it.
+Talaix is a climate-extreme intelligence platform for governments and municipalities. We compute ten hazards — wildfire, flood, drought, extreme heat, extreme wind, coastal exposure, tropical cyclones, earthquakes, dust storms and volcanic activity — from Earth observation, official open data and documented historical events, and we count the exposure: population and settlements, hospitals and schools, buildings, transport, energy, water. We do not replace national services; we complement them with an open, source-traceable evidence layer that supports RRF, LIFE and adaptation-programme applications.
 
 {{identified_problem}}
 
@@ -12,7 +12,7 @@ For {{organization}}, the most relevant part: {{relevant_capability}}
 
 {{custom_message}}
 
-We can run a free pilot over a priority area for {{organization}} and demonstrate the evidence and alerting live.
+We can run a free pilot over a priority area for {{organization}} and demonstrate the evidence live.
 
 Would a short call this week be useful?
 

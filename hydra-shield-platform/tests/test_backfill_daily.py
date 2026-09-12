@@ -107,15 +107,18 @@ def test_priority_order_across_segments(backfill_mod, store):
     _add_contact(store, "consultant-a", "info@consultant-a.example")
     _write_lead(leads_dir, "compliance-a", _make_lead("compliance-a", "sustainability_compliance"))
     _add_contact(store, "compliance-a", "info@compliance-a.example")
-    _write_lead(leads_dir, "bank-a", _make_lead("bank-a", "banking"))
-    _add_contact(store, "bank-a", "info@bank-a.example")
+    _write_lead(leads_dir, "eudr-a", _make_lead("eudr-a", "eudr_operators"))
+    _add_contact(store, "eudr-a", "info@eudr-a.example")
+    _write_lead(leads_dir, "lab-a", _make_lead("lab-a", "research_centers"))
+    _add_contact(store, "lab-a", "info@lab-a.example")
 
     plan = mod._plan_day(day, 3, store, mod._load_leads(),
                          mod._contacts_by_slug(store), {}, day)
     slugs = [e["slug"] for e in plan["entries"]]
     assert slugs[0] == "consultant-a"
     assert "compliance-a" in slugs
-    assert "bank-a" not in slugs
+    assert "eudr-a" in slugs
+    assert "lab-a" not in slugs
 
 
 def test_dedup_and_idempotency_on_rerun(backfill_mod, store):
@@ -217,12 +220,12 @@ def test_window_ended_skips_today(backfill_mod, store):
     assert len(plan["entries"]) == 0
 
 
-def test_stale_segments_never_selected_and_reported(backfill_mod, store):
+def test_non_strategy_segments_never_selected_and_reported(backfill_mod, store):
     mod, db_path, leads_dir, _ = backfill_mod
     day = datetime(2026, 9, 12, 10, 0, 0)
 
-    _write_lead(leads_dir, "bank-a", _make_lead("bank-a", "banking"))
-    _add_contact(store, "bank-a", "info@bank-a.example")
+    _write_lead(leads_dir, "lab-a", _make_lead("lab-a", "research_centers"))
+    _add_contact(store, "lab-a", "info@lab-a.example")
 
     leads = mod._load_leads()
     contacts = mod._contacts_by_slug(store)
@@ -230,19 +233,31 @@ def test_stale_segments_never_selected_and_reported(backfill_mod, store):
     pool = mod._emailable_pool(leads, contacts, emailed, excluded,
                                scheduled_any, outreach_slugs)
 
-    assert pool["banking"]["emailable"] == 1
+    assert pool["research_centers"]["emailable"] == 1
 
     plan = mod._plan_day(day, 3, store, leads, contacts, pool, day)
-    assert all(e["slug"] != "bank-a" for e in plan["entries"])
+    assert all(e["slug"] != "lab-a" for e in plan["entries"])
 
 
-def test_insurance_segment_is_held_as_stale(backfill_mod, store):
+def test_newly_enabled_segments_selected_with_correct_templates(backfill_mod, store):
     mod, db_path, leads_dir, _ = backfill_mod
     day = datetime(2026, 9, 12, 10, 0, 0)
 
-    _write_lead(leads_dir, "insurer-a", _make_lead("insurer-a", "insurance"))
-    _add_contact(store, "insurer-a", "info@insurer-a.example")
+    segments = [
+        ("insurance", "outreach_insurance"),
+        ("banking", "outreach_banking"),
+        ("real_estate", "outreach_real_estate"),
+        ("governments", "outreach_governments"),
+        ("investment", "outreach_investment"),
+    ]
+    for slug, segment in [(s, s) for s, _ in segments]:
+        _write_lead(leads_dir, slug, _make_lead(slug, segment))
+        _add_contact(store, slug, f"info@{slug}.example")
 
-    plan = mod._plan_day(day, 3, store, mod._load_leads(),
+    plan = mod._plan_day(day, 10, store, mod._load_leads(),
                          mod._contacts_by_slug(store), {}, day)
-    assert all(e["slug"] != "insurer-a" for e in plan["entries"])
+    expected = {seg: tpl for seg, tpl in segments}
+    selected = {e["slug"]: e["template"] for e in plan["entries"]}
+    for seg, tpl in expected.items():
+        assert seg in selected, f"{seg} not selected"
+        assert selected[seg] == tpl, f"{seg} got {selected[seg]} expected {tpl}"

@@ -6,13 +6,24 @@ then tops up each day's scheduled_outreach rows to the configured daily target.
 Already-scheduled/approved waves take their share first; any remaining share
 is filled from the archive in strict segment priority.
 
+Priority order (each segment exhausted before the next):
+  consultants / environmental_consulting -> outreach_environmental_consulting
+  sustainability_compliance              -> outreach_sustainability_compliance
+  eudr_operators                         -> outreach_sustainability_compliance
+  insurance                              -> outreach_insurance
+  banking                                -> outreach_banking
+  real_estate                            -> outreach_real_estate
+  governments                            -> outreach_governments
+  investment                             -> outreach_investment
+Segments outside this list (e.g. research_centers) are reported as held.
+
 Safety rules:
 - DRY RUN by default; writing requires --schedule.
 - No real email is sent here — rows are queued for the cron processor.
 - Idempotent: re-running never double-queues the same lead or campaign tag.
 - Only verified (OBSERVED) published mailboxes are used.
 - DPO/privacy/abuse mailboxes are rejected; general/role mailboxes are preferred.
-- Segments without a current post-pivot template are reported as held.
+- Segments with no current strategy are reported as held, not emailed.
 """
 from __future__ import annotations
 
@@ -46,10 +57,15 @@ _EU_UK = {"AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE",
           "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT",
           "RO", "SK", "SI", "ES", "SE", "GB", "CH", "NO", "IS", "LI"}
 
-# Current post-pivot templates. Everything else is held as stale.
+# Current segment templates. Everything not in this priority list is held
+# because there is no current outreach strategy for it (e.g. research_centers).
 _CONSULTING_TEMPLATE = "outreach_environmental_consulting"
 _COMPLIANCE_TEMPLATE = "outreach_sustainability_compliance"
 _INSURANCE_TEMPLATE = "outreach_insurance"
+_BANKING_TEMPLATE = "outreach_banking"
+_REAL_ESTATE_TEMPLATE = "outreach_real_estate"
+_GOVERNMENTS_TEMPLATE = "outreach_governments"
+_INVESTMENT_TEMPLATE = "outreach_investment"
 
 # Segment priority order. Segments mapping to the same template are grouped
 # so they can be exhausted before moving to the next template family.
@@ -57,16 +73,12 @@ _PRIORITY: List[Tuple[Tuple[str, ...], str]] = [
     (("consultants", "environmental_consulting"), _CONSULTING_TEMPLATE),
     (("sustainability_compliance",), _COMPLIANCE_TEMPLATE),
     (("eudr_operators",), _COMPLIANCE_TEMPLATE),
+    (("insurance",), _INSURANCE_TEMPLATE),
+    (("banking",), _BANKING_TEMPLATE),
+    (("real_estate",), _REAL_ESTATE_TEMPLATE),
+    (("governments",), _GOVERNMENTS_TEMPLATE),
+    (("investment",), _INVESTMENT_TEMPLATE),
 ]
-
-# Insurance is treated specially: the only insurance template we have is the
-# one used by the 2026-09-11 fresh batch. Under the 2026-09-06 pivot it is
-# classified as stale (it does not speak the CSRD/EUDR compliance angle), so
-# the backfill skips the insurance segment by default. Flip this flag to True
-# only after operator approval of the insurance angle as post-pivot.
-_INCLUDE_INSURANCE = False
-if _INCLUDE_INSURANCE:
-    _PRIORITY.append((("insurance",), _INSURANCE_TEMPLATE))
 
 _STAGGER_MIN = 5
 _WINDOW_START_H = int(os.environ.get("OUTREACH_WINDOW_START") or 7)
@@ -79,10 +91,46 @@ def _capability(country: str, template: str) -> str:
     is_eu_uk = country in _EU_UK
 
     if template == _INSURANCE_TEMPLATE:
-        base = ("per-location multi-hazard evidence for underwriting files "
+        return ("per-location multi-hazard evidence for underwriting files "
                 "and ORSA documentation — hazards, historical events by year, "
                 "insured-exposure layers, every value with source and evidence status")
-        return base
+
+    if template == _BANKING_TEMPLATE:
+        base = ("ten-hazard screening of collateral and loan-book locations "
+                "from Earth observation and official open data — every value "
+                "with source, date and evidence status")
+        if is_eu_uk:
+            return (base + ", ready for EBA Pillar 3 ESG, EU Taxonomy DNSH "
+                    "and CSRD/ESRS E1 evidence files")
+        return (base + ", ready for physical-risk credit files and disclosure "
+                "workflows; EU collateral also receives CSRD/EU Taxonomy context")
+
+    if template == _INVESTMENT_TEMPLATE:
+        base = ("portfolio-level physical-risk screening per asset, anywhere on "
+                "Earth, from Earth observation and official open data — every "
+                "value with source, date and evidence status")
+        if is_eu_uk:
+            return (base + ", formatted as defensible input for SFDR and EU "
+                    "Taxonomy DNSH due-diligence")
+        return (base + ", formatted as defensible input for physical-risk "
+                "due-diligence and client reporting")
+
+    if template == _REAL_ESTATE_TEMPLATE:
+        base = ("site-coordinate hazard screening for acquisitions and assets "
+                "from Earth observation and official open data — every value "
+                "with source, date and evidence status")
+        if is_eu_uk:
+            return (base + ", plus CSRD/ESRS E1 physical-risk evidence blocks "
+                    "where disclosure obligations apply")
+        return (base + ", ready for acquisition screening, planning support "
+                "and asset monitoring")
+
+    if template == _GOVERNMENTS_TEMPLATE:
+        return ("multi-hazard exposure screening and event evidence for "
+                "municipalities and regions — population, buildings, transport, "
+                "energy, water and critical infrastructure — every value with "
+                "source, date and evidence status, ready for RRF, LIFE and "
+                "adaptation-programme applications")
 
     if template == _COMPLIANCE_TEMPLATE:
         base = ("site-coordinate hazard screening from Earth observation and "
@@ -257,6 +305,7 @@ def _select_for_segment(leads: Dict[str, dict], contacts_by_slug: Dict[str, List
         source = source if source.startswith("http") else (lead.get("website") or lead.get("source") or "")
         selected.append({
             "slug": slug,
+            "segment": segments[0],
             "organization": org,
             "country": country,
             "to_email": email,
@@ -394,6 +443,12 @@ def _plan_day(day: datetime, target: int, store: MarketingStore,
     if remaining > 0:
         result["unmet"] = remaining
 
+    if not entries:
+        result["skipped"] = True
+        result["reason"] = "no eligible leads found"
+        result["entries"] = []
+        return result
+
     slots = _slots_for_day(day, len(entries), store)
     if not slots:
         result["skipped"] = True
@@ -457,20 +512,20 @@ def _print_pool_report(pool: Dict[str, Dict]) -> None:
     for segments, _ in _PRIORITY:
         current_segments.update(segments)
 
-    stale_held = 0
+    held_total = 0
     for segment in sorted(pool):
         info = pool[segment]
         emailable = info["emailable"]
         held = emailable if segment not in current_segments else 0
-        stale_held += held
+        held_total += held
         reasons = info["reasons"]
         reason_str = ", ".join(
             f"{k}={v}" for k, v in reasons.items() if v
         ) or "none"
-        status = "current" if segment in current_segments else "stale-template"
+        status = "current" if segment in current_segments else "no current strategy"
         print(f"  {segment:30s} total={info['total']:5d}  emailable={emailable:5d}  "
               f"({status})  reasons: {reason_str}")
-    print(f"  {'TOTAL emailable held for stale templates':50s} {stale_held}")
+    print(f"  {'TOTAL emailable held (no current strategy)':50s} {held_total}")
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
