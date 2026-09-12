@@ -4,7 +4,7 @@ pillar: satellite_observations
 campaign: K
 cta: "Try the analysis API / QGIS plugin"
 landing: https://talaix.com/map.html?utm_source=linkedin&utm_campaign=K
-status: draft
+status: published
 ---
 
 What did the satellite actually see?

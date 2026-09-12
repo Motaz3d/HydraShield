@@ -1,0 +1,31 @@
+THANK-YOU EMAIL — send Tuesday (2026-09-15) as a reply in the same thread from info@talaix.com (thread continuity)
+To: alberto.maulu@space-agency.lu (Dr. Alberto Maulu, Manager – Technologies, LSA)
+ATTACH these 4 PDFs (the materials he asked for — prepared for the Agency):
+  1. marketing/outreach/lsa_package/Talaix_LSA_Data_Requirements.pdf
+  2. marketing/outreach/lsa_package/Talaix_Roadmap_24M.pdf
+  3. marketing/outreach/lsa_package/Talaix_Business_Plan.pdf
+  4. marketing/outreach/lsa_pitch_deck.pdf
+Drafted 2026-09-10 after the intro call. Paste as-is.
+
+=== START OF MESSAGE ===
+
+Dear Dr. Maulu,
+
+Thank you for taking the time to meet with me last Thursday. I greatly appreciated the openness of the discussion and your direct, practical feedback.
+
+As requested, please find attached the four documents prepared for the Agency: the precise satellite data requirements of the platform — sensors, variables, resolution and revisit frequency; a 24-month roadmap with dates, costs and customer milestones; a pitch deck prepared specifically for the Luxembourg Space Agency; and the business plan.
+
+Your central message — customers first — is reflected in the roadmap, which starts from the customer rather than the technology. Your feedback on the website navigation has been noted and will be addressed.
+
+I have also taken note of your advice regarding engagement with the Luxembourg space community. I would welcome any recommendations on the events or organisations in which I should participate.
+
+Allow me also to introduce myself properly, which I did not do adequately during the call: I am Motaz Omarien, founder of Talaix. I have been developing the platform since August; it is live at talaix.com and operates entirely on Earth-observation data — Copernicus Sentinel, Landsat, FIRMS and approximately 25 integrated datasets — transforming them into climate-risk evidence for EU disclosure requirements. I would welcome the opportunity to present the project in greater detail at your convenience.
+
+Thank you again for your time and consideration. I remain at your disposal for any further information.
+
+Yours sincerely,
+Motaz Omarien
+Founder — Talaix
+info@talaix.com · +352 661 811 680 · talaix.com · linkedin.com/in/motaz-omarien-8394359
+
+=== END OF MESSAGE ===

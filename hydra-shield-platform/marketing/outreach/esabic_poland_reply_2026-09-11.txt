@@ -1,0 +1,28 @@
+REPLY DRAFT — send from motaz3d@gmail.com in the same Gmail thread (Reply, thread continuity)
+To: michal.chwieduk@esabic.pl
+Drafted 2026-09-11. Paste as-is (plain continuous text).
+
+=== START OF MESSAGE ===
+
+Dear Mr Chwieduk,
+
+Thank you for your reply and for the clear answers — that is exactly the guidance I needed, and the late timing is not a problem.
+
+A short update since my August message, so that we assess the correct scope. The project has since been rebranded from HydraShield Earth Systems to Talaix, and it has broadened from wildfire alone into a multi-hazard climate-risk platform. It is now a live platform built on Copernicus Sentinel and other open Earth-observation data, covering ten natural hazards (wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake and others) and producing evidence-linked risk reports for financial, insurance and public-sector users. Our current market focus is climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1 and the EU Taxonomy). The analytical engine is open source (EUPL-1.2), so technical due diligence can read the code directly. I can show the live platform during the call.
+
+On the residency and work-permit point, let me clarify my situation, as it may simplify matters: I am a citizen of Finland and therefore an EU citizen. If I understand the rules correctly, an EU citizen does not require a Polish work permit; the applicable step is registration of residence for a stay beyond three months. I am fully prepared to establish the company in Poland and to be based there for the incubation period. Could you confirm what this means in practice for the application — which documents an EU-citizen founder should provide at submission, and whether a registration of residence (and PESEL, if relevant) is sufficient, or whether anything further is expected?
+
+An online meeting would be very welcome. I could do Wednesday 16 September at 10:00, or Tuesday 22 September at 13:00 (both Luxembourg/Poland time); if another slot within your windows suits you better, I am flexible.
+
+For the agenda, I would suggest four points: first, confirming the fit of the current scope against ESA BIC Poland's criteria; second, the residency and registration requirements for an EU-citizen founder; third, the funding structure — the 50,000 EUR support and the 100,000 EUR Incubation Boost — and what it covers; and fourth, the application timeline and next steps.
+
+If helpful, I am happy to send a short one-pager or executive summary before the call so you can prepare.
+
+Thank you again for your time.
+
+Kind regards,
+Motaz Omarien
+Founder & CEO, Talaix
+motaz3d@gmail.com · +352 661 811 680 · talaix.com · linkedin.com/in/motaz-omarien-8394359
+
+=== END OF MESSAGE ===

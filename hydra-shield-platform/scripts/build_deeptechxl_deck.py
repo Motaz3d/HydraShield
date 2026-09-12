@@ -4,9 +4,11 @@
 Usage:
     .venv/bin/python scripts/build_deeptechxl_deck.py                 # generic pre-seed deck
     .venv/bin/python scripts/build_deeptechxl_deck.py --fund deeptechxl  # DeepTechXL-branded deck
+    .venv/bin/python scripts/build_deeptechxl_deck.py --fund lsa          # Luxembourg Space Agency deck
 
 Output: marketing/outreach/talaix_preseed_deck.pdf (generic)
         marketing/outreach/deeptechxl_pitch_deck.pdf (--fund deeptechxl)
+        marketing/outreach/lsa_pitch_deck.pdf (--fund lsa)
 """
 
 import argparse
@@ -48,7 +50,23 @@ GENERIC_PROFILE = {
                 "ecosystem (BOM, The Gate, HighTechXL) for pilot sites and follow-on syndication.",
 }
 
+LSA_PROFILE = {
+    "fund": "lsa",
+    "footer": "Talaix — Confidential · Prepared for the Luxembourg Space Agency · September 2026",
+    "cover": "Prepared for the Luxembourg Space Agency  ·  September 2026",
+    "pdf_title": "Talaix — Pitch Deck for the Luxembourg Space Agency (September 2026)",
+    "funding_fit": "<b>€850K pre-seed</b> (equity or convertible) — complemented by Luxembourg/ESA programme co-funding (ESA BIC Luxembourg, LuxIMPULSE, ESA Business Applications feasibility study)",
+    "team_eco": "<b>Advisory &amp; ecosystem:</b> building in the Luxembourg space-data ecosystem — LIST and SnT (University of Luxembourg) for scientific validation, Luxinnovation for company formation and grants; LSA guidance on the right programme tracks.",
+}
+
+LSA_OUT = ROOT / "marketing" / "outreach" / "lsa_pitch_deck.pdf"
 GENERIC_OUT = ROOT / "marketing" / "outreach" / "talaix_preseed_deck.pdf"
+
+
+def _p(default, lsa):
+    """Return the LSA variant when the active profile is lsa, else default."""
+    return lsa if PROFILE["fund"] == "lsa" else default
+
 
 PAGE_W, PAGE_H = 960.0, 540.0  # 16:9
 MARGIN = 54.0
@@ -330,7 +348,8 @@ def slide_technology(c, num, total):
             "Copernicus Sentinel-1/2/3, EFFIS, C3S climate services",
             "NASA FIRMS observed-fire history layer",
             "OSM/ohsome exposure (buildings, critical facilities, infrastructure)",
-            "NL BAG cadastre — real building floor areas; Eurostat construction-cost calibration",
+            _p("NL BAG cadastre — real building floor areas; Eurostat construction-cost calibration",
+               "Luxembourg ACT cadastre — real building floor areas; Eurostat construction-cost calibration"),
         ]),
         ("TX Engine — multi-hazard core", [
             "8 hazards: wildfire, flood, drought, heat, wind, coastal, cyclone, earthquake",
@@ -385,22 +404,25 @@ def slide_stage(c, num, total):
     y1 = bullets(c, [
         "Multi-hazard engine, API v2, PDF evidence reports, SDKs, QGIS plugin — all operational",
         "Compliance products: ESRS E1 evidence brief + published case study, scope checker, pricing page",
-        "Open-source engine mirror (<b>tore</b>, EUPL-1.2) published for the NLnet Restack application",
+        _p("Open-source engine mirror (<b>tore</b>, EUPL-1.2) published for the NLnet Restack application",
+           "Open-source engine mirror (<b>tore</b>, EUPL-1.2) published for programme co-funding applications (NLnet Restack, ESA BIC Luxembourg)"),
         "Sales funnel live; first-customer motion ready (scope check → sample → pilot → subscription)",
     ], MARGIN, y - 18, col_w, BULLET_SM)
     c.drawString(MARGIN + col_w + 30, y, "Honest status")
     y2 = bullets(c, [
         "<b>Pre-revenue</b> — zero paying customers today; pilot programme opens the first wave",
         "Screening-level labels until model validation vs documented events completes",
-        "Company formation: Dutch BV at High Tech Campus, Eindhoven — planned with this round "
-        "(see IP &amp; funding slides)",
+        _p("Company formation: Dutch BV at High Tech Campus, Eindhoven — planned with this round "
+           "(see IP &amp; funding slides)",
+           "Company formation: Luxembourg S.à r.l. — planned with this round, with LSA guidance on the fitting instrument (ESA BIC Luxembourg / LuxIMPULSE)"),
         "Founder-built to date — this round funds the first team (see Team)",
     ], MARGIN + col_w + 30, y - 18, col_w, BULLET_SM)
     y = min(y1, y2) - 22
     c.setFont(FB, 12); c.setFillColor(NAVY)
     c.drawString(MARGIN, y, "Roadmap to seed")
     phase_strip(c, [
-        ("Q4 2026", "Dutch BV at High Tech Campus; IP assigned (inbreng in natura); trademark filed; WBSO active"),
+        ("Q4 2026", _p("Dutch BV at High Tech Campus; IP assigned (inbreng in natura); trademark filed; WBSO active",
+                        "Luxembourg S.à r.l. incorporated; IP assigned to the company; trademark filed (EUIPO); ESA BIC Luxembourg application submitted")),
         ("H1 2027", "Model validation vs documented events; sensor testbed live; first paying pilots"),
         ("H2 2027", "Pilots → subscriptions; first GRC-suite integration; EUDR exporter wave"),
         ("2028", "Seed round; EIC Accelerator application (€2.5M grant + equity) with pilot evidence"),
@@ -497,56 +519,78 @@ def slide_competition(c, num, total):
 
 
 def slide_ip(c, num, total):
-    y = header(c, "Intellectual property", "Open-core IP strategy, clean chain of title into the Dutch BV")
+    y = header(c, "Intellectual property", _p("Open-core IP strategy, clean chain of title into the Dutch BV",
+                                               "Open-core IP strategy, clean chain of title into the Luxembourg company"))
     col_w = (PAGE_W - 2 * MARGIN - 30) / 2
     c.setFont(FB, 12); c.setFillColor(NAVY)
     c.drawString(MARGIN, y, "Chain of title at incorporation")
     y1 = bullets(c, [
-        "<b>Contribution in kind (inbreng in natura):</b> the full pre-incorporation IP portfolio — code, models, "
-        "knowledge registries, documentation, brand, domains — contributed to the BV in exchange for founder "
-        "shares; described and valued in the notarial deed (flex-BV: no auditor required)",
+        _p("<b>Contribution in kind (inbreng in natura):</b> the full pre-incorporation IP portfolio — code, models, "
+           "knowledge registries, documentation, brand, domains — contributed to the BV in exchange for founder "
+           "shares; described and valued in the notarial deed (flex-BV: no auditor required)",
+           "<b>Contribution in kind (apport en nature):</b> the full pre-incorporation IP portfolio — code, models, "
+           "knowledge registries, documentation, brand, domains — contributed to the S.à r.l. in exchange for founder "
+           "shares (apport en nature), described in the incorporation deed"),
         "<b>Tax-clean &amp; VC-standard:</b> no immediate income-tax charge on a genuine contribution in kind, "
         "supported by a contemporaneous valuation memo; no licence/terbeschikking construction",
-        "<b>Trademark:</b> \"Talaix\" to be filed at BOIP/EUIPO (classes 9 &amp; 42) at incorporation, "
-        "held by the BV",
+        _p("<b>Trademark:</b> \"Talaix\" to be filed at BOIP/EUIPO (classes 9 &amp; 42) at incorporation, "
+           "held by the BV",
+           "<b>Trademark:</b> \"Talaix\" to be filed at EUIPO (classes 9 &amp; 42) at incorporation, "
+           "held by the company"),
         "<b>Contributors &amp; team:</b> CLA to govern the open-source repo (company keeps enforce/relicence "
         "rights); every hire signs explicit IP assignment",
     ], MARGIN, y - 18, col_w, BULLET_SM)
     c.drawString(MARGIN + col_w + 30, y, "Open core — why the moat holds")
     y2 = bullets(c, [
-        "<b>Open (tore, EUPL-1.2):</b> the analytical engine — auditor trust anchor, public-funding eligibility "
-        "(NLnet Restack filed); interoperable copyleft does not contaminate the API-calling proprietary layer "
-        "and blocks competitors from enclosing the engine",
-        "<b>Closed (the BV):</b> web platform, accounts &amp; billing, compliance knowledge registries "
-        "(CSRD rules, loss registry, benchmarks, cascading graph), operational pipeline, brand",
+        _p("<b>Open (tore, EUPL-1.2):</b> the analytical engine — auditor trust anchor, public-funding eligibility "
+           "(NLnet Restack filed); interoperable copyleft does not contaminate the API-calling proprietary layer "
+           "and blocks competitors from enclosing the engine",
+           "<b>Open (tore, EUPL-1.2):</b> the analytical engine — auditor trust anchor, public-funding eligibility "
+           "(ESA BIC Luxembourg / LuxIMPULSE pipeline); interoperable copyleft does not contaminate the API-calling proprietary layer "
+           "and blocks competitors from enclosing the engine"),
+        _p("<b>Closed (the BV):</b> web platform, accounts &amp; billing, compliance knowledge registries "
+           "(CSRD rules, loss registry, benchmarks, cascading graph), operational pipeline, brand",
+           "<b>Closed (the company):</b> web platform, accounts &amp; billing, compliance knowledge registries "
+           "(CSRD rules, loss registry, benchmarks, cascading graph), operational pipeline, brand"),
         "<b>Precedent:</b> GitLab, Elastic, Confluent, QuestDB — venture-scale on open cores",
-        "<b>NL IP economics:</b> WBSO R&amp;D wage-tax credit (32% first bracket) filed at incorporation → "
-        "unlocks the Innovation Box (9% vs 25% CIT) on qualifying IP profits",
+        _p("<b>NL IP economics:</b> WBSO R&amp;D wage-tax credit (32% first bracket) filed at incorporation → "
+           "unlocks the Innovation Box (9% vs 25% CIT) on qualifying IP profits",
+           "<b>LU IP economics:</b> R&amp;D tax credit and IP box regime (≈5% effective rate on qualifying IP income) filed at incorporation → "
+           "unlocks preferential taxation on qualifying IP profits"),
         "<b>Patent assessment</b> planned for the soil-to-fuel moisture-transfer methods during field validation",
     ], MARGIN + col_w + 30, y - 18, col_w, BULLET_SM)
     y = min(y1, y2) - 12
     panel(c, MARGIN, y, PAGE_W - 2 * MARGIN, 10, [
-        "<b>What an investor gets:</b> a BV holding the brand, the commercial platform, the compliance data "
-        "assets and the customer relationships — with the open engine as a credibility asset, not a leakage "
-        "risk (EUPL-1.2 copyleft keeps commercial forks honest).",
+        _p("<b>What an investor gets:</b> a BV holding the brand, the commercial platform, the compliance data "
+           "assets and the customer relationships — with the open engine as a credibility asset, not a leakage "
+           "risk (EUPL-1.2 copyleft keeps commercial forks honest).",
+           "<b>What an investor gets:</b> a company holding the brand, the commercial platform, the compliance data "
+           "assets and the customer relationships — with the open engine as a credibility asset, not a leakage "
+           "risk (EUPL-1.2 copyleft keeps commercial forks honest)."),
     ])
     footer(c, num, total)
 
 
 def slide_team(c, num, total):
-    y = header(c, "Team", "Founder-led, building the Eindhoven core team")
+    y = header(c, "Team", _p("Founder-led, building the Eindhoven core team",
+                              "Founder-led, building the Luxembourg core team"))
     col_w = (PAGE_W - 2 * MARGIN - 30) / 2
     y0 = y
     y1 = panel(c, MARGIN, y0, col_w, 12, [
-        "<b>Motaz Omarien — Founder</b><br/>Designed and built the entire platform single-handedly: the "
-        "multi-hazard TX engine, EO ingestion, the CsrdTX compliance layer (rules-as-data + XBRL), API v2, "
-        "billing and the self-serve funnel — 1,670 tests of engineering depth, plus the market study and "
-        "compliance strategy behind the positioning. Prepared to relocate and incorporate in Eindhoven.",
+        _p("<b>Motaz Omarien — Founder</b><br/>Designed and built the entire platform single-handedly: the "
+           "multi-hazard TX engine, EO ingestion, the CsrdTX compliance layer (rules-as-data + XBRL), API v2, "
+           "billing and the self-serve funnel — 1,670 tests of engineering depth, plus the market study and "
+           "compliance strategy behind the positioning. Prepared to relocate and incorporate in Eindhoven.",
+           "<b>Motaz Omarien — Founder</b><br/>Designed and built the entire platform single-handedly: the "
+           "multi-hazard TX engine, EO ingestion, the CsrdTX compliance layer (rules-as-data + XBRL), API v2, "
+           "billing and the self-serve funnel — 1,670 tests of engineering depth, plus the market study and "
+           "compliance strategy behind the positioning. Based in Luxembourg; incorporating in Luxembourg."),
     ])
     c.setFont(FB, 12); c.setFillColor(NAVY)
     c.drawString(MARGIN + col_w + 30, y0 - 4, "Hiring plan for this round (2–3 FTE)")
     y2b = bullets(c, [
-        "<b>Climate/ML validation scientist</b> — model validation vs documented events (Eindhoven/TU/e pool)",
+        _p("<b>Climate/ML validation scientist</b> — model validation vs documented events (Eindhoven/TU/e pool)",
+           "<b>Climate/ML validation scientist</b> — model validation vs documented events (LIST / SnT / University of Luxembourg pool)"),
         "<b>Geospatial software engineer</b> — EO pipeline depth, performance, partner API",
         "<b>Commercial &amp; pilot lead</b> — pilot conversions, GRC-suite partnerships, EUDR exporter outreach",
     ], MARGIN + col_w + 30, y0 - 24, col_w, BULLET_SM)
@@ -562,26 +606,32 @@ def slide_funding(c, num, total):
     c.drawString(MARGIN, y, "The ask")
     y1 = bullets(c, [
         PROFILE["funding_fit"],
-        "24 months of runway at a lean 3–4 FTE burn (~€25–35K/month) in Eindhoven",
+        _p("24 months of runway at a lean 3–4 FTE burn (~€25–35K/month) in Eindhoven",
+           "24 months of runway at a lean 3–4 FTE burn (~€25–35K/month) in Luxembourg"),
         "<b>Calibration:</b> comparable European climate/EO early rounds closed at €1M–€1.8M "
         "(Dryad, repath, Mitiga, Coolset) — we ask less because the platform is already built",
-        "<b>Non-dilutive stack extends runway:</b> NLnet Restack (applied), Copernicus Incubation "
-        "(€50K equity-free), CASSINI (€100K), WBSO",
-        "Company formation: Dutch BV at High Tech Campus Eindhoven; founder relocating",
+        _p("<b>Non-dilutive stack extends runway:</b> NLnet Restack (applied), Copernicus Incubation "
+           "(€50K equity-free), CASSINI (€100K), WBSO",
+           "<b>Non-dilutive stack extends runway:</b> ESA BIC Luxembourg / LuxIMPULSE, ESA Business Applications feasibility study, CASSINI (€100K)"),
+        _p("Company formation: Dutch BV at High Tech Campus Eindhoven; founder relocating",
+           "Company formation: Luxembourg S.à r.l.; founder already based in Luxembourg"),
     ], MARGIN, y - 18, col_w, BULLET_SM)
     c.drawString(MARGIN + col_w + 30, y, "Use of funds")
     y2 = tbl(c, [
         ["Area", "Share", "What it buys"],
         ["Product &amp; validation", "~55%", "2 technical FTE; model validation campaign; E1-9 depth; partner API"],
         ["Commercial", "~25%", "pilot lead; 3–5 pilots; GRC-suite + EUDR exporter outreach"],
-        ["Operations", "~20%", "BV setup, IP assignment, trademarks, hosting, compliance"],
+        ["Operations", "~20%", _p("BV setup, IP assignment, trademarks, hosting, compliance",
+                                   "Company setup, IP assignment, trademarks, hosting, compliance")],
     ], [col_w * 0.32, col_w * 0.16, col_w * 0.52], MARGIN + col_w + 30, y - 18)
     y = min(y1, y2) - 16
     c.setFont(FB, 12); c.setFillColor(NAVY)
     c.drawString(MARGIN, y, "Milestones this round buys (24 months)")
     bullets(c, [
-        "<b>M6:</b> BV incorporated with clean IP chain (inbreng in natura); WBSO active; validation vs "
-        "documented events published → screening labels upgraded where the evidence supports it",
+        _p("<b>M6:</b> BV incorporated with clean IP chain (inbreng in natura); WBSO active; validation vs "
+           "documented events published → screening labels upgraded where the evidence supports it",
+           "<b>M6:</b> S.à r.l. incorporated with clean IP chain; ESA BIC Luxembourg application filed; validation vs "
+           "documented events published → screening labels upgraded where the evidence supports it"),
         "<b>M12:</b> 3–5 paying pilots converted to subscriptions; first GRC-suite integration live; "
         "€50K+ ARR run-rate",
         "<b>M18:</b> EUDR exporter wave + EBA/EIOPA reuse pack; €150K ARR run-rate",
@@ -655,6 +705,34 @@ def slide_why_generic(c, num, total):
     footer(c, num, total)
 
 
+def slide_why_lsa(c, num, total):
+    y = header(c, "Why the Luxembourg Space Agency · Why Luxembourg",
+               "An EO-native platform: satellite data is not an input we buy — it is what we are built on")
+    col_w = (PAGE_W - 2 * MARGIN - 30) / 2
+    c.setFont(FB, 12); c.setFillColor(NAVY)
+    c.drawString(MARGIN, y, "Fit with the LSA opportunity")
+    y1 = bullets(c, [
+        "Earth observation is the engine's foundation: Sentinel-2, Landsat, NASA FIRMS, ESA WorldCover and ~25 integrated open datasets",
+        "EU disclosure law (CSRD/ESRS E1, EUDR) turns Earth observation into a deadline-driven paid market",
+        "Programme co-funding (ESA BIC, LuxIMPULSE, ESA Business Applications) de-risks the €850K pre-seed round",
+        "the commitment to Luxembourg is already made",
+    ], MARGIN, y - 18, col_w, BULLET_SM)
+    c.drawString(MARGIN + col_w + 30, y, "Why Luxembourg")
+    y2 = bullets(c, [
+        "National space strategy and a dense space-data ecosystem (LIST, SnT, Luxinnovation)",
+        "ESA BIC Luxembourg / LuxIMPULSE as the company-formation ladder for a pre-company project",
+        "Founder already lives in Luxembourg — incorporation here is the natural path",
+        "English-speaking, business-friendly gateway to EU programmes and ESA channels",
+    ], MARGIN + col_w + 30, y - 18, col_w, BULLET_SM)
+    y = min(y1, y2) - 14
+    panel(c, MARGIN, y, PAGE_W - 2 * MARGIN, 12, [
+        "<b>Next step:</b> we would welcome a 30-minute introductory call to walk through the engine live "
+        "(talaix.com — the product, not a demo video) and discuss fit with the Luxembourg Space Agency's programme strategy."
+        "<br/><br/><b>Motaz Omarien</b> · Founder · motaz3d@gmail.com · +352 661811680 · talaix.com",
+    ])
+    footer(c, num, total)
+
+
 SLIDES = [
     slide_title, slide_problem, slide_solution, slide_technology, slide_stage,
     slide_market, slide_business_model, slide_competition, slide_ip, slide_team,
@@ -667,14 +745,23 @@ SLIDES_GENERIC = SLIDES[:-1] + [slide_why_generic]
 def main():
     global OUT
     parser = argparse.ArgumentParser(description="Build the Talaix pre-seed pitch deck PDF")
-    parser.add_argument("--fund", default="generic", choices=["generic", "deeptechxl"],
+    parser.add_argument("--fund", default="generic", choices=["generic", "deeptechxl", "lsa"],
                         help="deeptechxl reproduces the DeepTechXL-branded deck; "
+                             "lsa produces the Luxembourg Space Agency variant; "
                              "generic (default) is the shareable webform version")
     args = parser.parse_args()
     if args.fund == "generic":
         PROFILE.update(GENERIC_PROFILE)
         OUT = GENERIC_OUT
-    slides = SLIDES if PROFILE["fund"] == "deeptechxl" else SLIDES_GENERIC
+    elif args.fund == "lsa":
+        PROFILE.update(LSA_PROFILE)
+        OUT = LSA_OUT
+    if PROFILE["fund"] == "deeptechxl":
+        slides = SLIDES
+    elif PROFILE["fund"] == "lsa":
+        slides = SLIDES[:-1] + [slide_why_lsa]
+    else:
+        slides = SLIDES_GENERIC
     OUT.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(OUT), pagesize=(PAGE_W, PAGE_H))
     c.setTitle(PROFILE["pdf_title"])

@@ -7,6 +7,10 @@
     "2026-09-08": {
       "draft": "2026-09-08-research-reproducible-analysis.md",
       "sent_at": "2026-09-08T07:00:03"
+    },
+    "2026-09-10": {
+      "draft": "2026-09-10-sentinel2-vegetation-moisture.md",
+      "sent_at": "2026-09-10T08:00:03"
     }
   },
   "reminded": {}

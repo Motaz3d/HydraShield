@@ -34,7 +34,7 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `config/` — JSON registries: CSRD rules, species/solutions knowledge, stripe prices.
 - `db/` — SQLite schema: `db/migrations/0001_init.sql`. Runtime cache/accounts DB path via env `HYDRASHIELD_CACHE_DB`.
 - `tests/` — pytest suite (~100 files).
-- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`, investor-deck builder `build_deeptechxl_deck.py` → default generic `marketing/outreach/talaix_preseed_deck.pdf`, `--fund deeptechxl` → `deeptechxl_pitch_deck.pdf`, `md_to_pdf.py` — generic Markdown→A4 PDF renderer for proposals/prep docs).
+- `scripts/` — operational scripts (training, validation, snapshots, outreach, billing, `sync_tore.sh`, investor-deck builder `build_deeptechxl_deck.py` → default generic `marketing/outreach/talaix_preseed_deck.pdf`, `--fund deeptechxl` → `deeptechxl_pitch_deck.pdf`, `--fund lsa` → `marketing/outreach/lsa_pitch_deck.pdf`, `md_to_pdf.py` — generic Markdown→A4 PDF renderer for proposals/prep docs). Outreach: `scripts/backfill_daily.py` (dry-run default, `--schedule`) tops up `scheduled_outreach` to the daily cap; called from `scripts/email_cron.sh` after `process_scheduled_outreach.py`.
 
 ## Open-source engine mirror — tore (binding)
 - Public repo: `../tore` (outside this project root, at `~/Documents/work/tore`) → https://github.com/Motaz3d/tore — "Talaix Open Risk Engine", EUPL-1.2, created 2026-09-06 for the NLnet Restack application.
