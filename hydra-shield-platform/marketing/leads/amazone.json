@@ -1,0 +1,24 @@
+{
+  "organization": "Amazone",
+  "segment": "sustainability_compliance",
+  "country": "DE",
+  "website": "https://www.amazone.de",
+  "priority": "medium",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Agricultural machinery company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-global-10-2026-09-12 batch.",
+      "source": "https://www.amazone.de/impressum"
+    }
+  ],
+  "source": "https://www.amazone.de/impressum",
+  "date_checked": "2026-09-12"
+}
