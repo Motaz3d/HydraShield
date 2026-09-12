@@ -1,0 +1,24 @@
+{
+  "organization": "Environment Agency",
+  "segment": "governments",
+  "country": "GB",
+  "website": "https://www.gov.uk",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Environment agency authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-global-5-2026-09-12 batch.",
+      "source": "https://www.gov.uk/government/organisations/environment-agency"
+    }
+  ],
+  "source": "https://www.gov.uk/government/organisations/environment-agency",
+  "date_checked": "2026-09-12"
+}
