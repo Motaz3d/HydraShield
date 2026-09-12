@@ -115,9 +115,9 @@ def test_priority_order_across_segments(backfill_mod, store):
     plan = mod._plan_day(day, 3, store, mod._load_leads(),
                          mod._contacts_by_slug(store), {}, day)
     slugs = [e["slug"] for e in plan["entries"]]
-    assert slugs[0] == "consultant-a"
-    assert "compliance-a" in slugs
+    assert slugs[0] == "compliance-a"
     assert "eudr-a" in slugs
+    assert "consultant-a" in slugs
     assert "lab-a" not in slugs
 
 

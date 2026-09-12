@@ -73,7 +73,6 @@ _INVESTMENT_TEMPLATE = "outreach_investment"
 # Segment priority order. Segments mapping to the same template are grouped
 # so they can be exhausted before moving to the next template family.
 _PRIORITY: List[Tuple[Tuple[str, ...], str]] = [
-    (("consultants", "environmental_consulting"), _CONSULTING_TEMPLATE),
     (("sustainability_compliance",), _COMPLIANCE_TEMPLATE),
     (("eudr_operators",), _COMPLIANCE_TEMPLATE),
     (("insurance",), _INSURANCE_TEMPLATE),
@@ -81,6 +80,7 @@ _PRIORITY: List[Tuple[Tuple[str, ...], str]] = [
     (("real_estate",), _REAL_ESTATE_TEMPLATE),
     (("governments",), _GOVERNMENTS_TEMPLATE),
     (("investment",), _INVESTMENT_TEMPLATE),
+    (("consultants", "environmental_consulting"), _CONSULTING_TEMPLATE),
 ]
 
 _STAGGER_MIN = 5
