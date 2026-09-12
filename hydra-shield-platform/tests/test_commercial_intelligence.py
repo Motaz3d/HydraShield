@@ -324,6 +324,13 @@ def test_no_personal_gmail_as_sender_anywhere():
         os.path.join("marketing", "research",
                      "global_investor_landscape_2026-09.html"),
     )
+    # Operator decision 2026-09-09 (PLAN.md ADEM section): the pre-company
+    # workshop proposal is the operator's personal initiative with no Talaix
+    # branding, so the personal mailbox is the correct contact channel there.
+    operator_personal_dirs = (
+        os.path.join("marketing", "outreach",
+                     "adem_precompany_workshop") + os.sep,
+    )
     pattern = re.compile(r"motaz3d@gmail\.com|motazomarien@gmail\.com")
     for sub in ("src", "website", "scripts", "marketing", "docs"):
         for dirpath, _dirs, files in os.walk(os.path.join(ROOT, sub)):
@@ -337,6 +344,8 @@ def test_no_personal_gmail_as_sender_anywhere():
                     continue  # private operational reference, not rendered
                 if any(path.endswith(suffix) for suffix in operator_approved):
                     continue  # operator-approved investor artifacts (see above)
+                if any(marker in path for marker in operator_personal_dirs):
+                    continue  # operator personal initiative (see above)
                 for lineno, line in enumerate(open(path, encoding="utf-8"), 1):
                     if pattern.search(line) and "FORBIDDEN_SENDERS" not in line:
                         raise AssertionError(

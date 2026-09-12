@@ -26,6 +26,11 @@ fi
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') outreach processor ==="
 .venv/bin/python scripts/process_scheduled_outreach.py
 
+# Daily backfill: top up scheduled_outreach to the daily target after the
+# processor has drained its due rows. Idempotent, dry-run-safe, non-fatal.
+echo "=== $(date '+%Y-%m-%d %H:%M:%S') daily backfill ==="
+.venv/bin/python scripts/backfill_daily.py --schedule --days 2 || true
+
 # LinkedIn content dispatch: emails today's due draft to the operator
 # (idempotent — marketing/content/.dispatch_state.json prevents resends).
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') content dispatcher ==="
