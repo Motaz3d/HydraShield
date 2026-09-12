@@ -1,0 +1,24 @@
+{
+  "organization": "Atrium Ljungberg",
+  "segment": "real_estate",
+  "country": "SE",
+  "website": "https://www.al.se",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Listed real-estate investor with property portfolios exposed to flood, heat and coastal hazards, required to report physical climate risk under CSRD/ESRS E1.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-realestate-1-2026-09-12 batch.",
+      "source": "https://www.al.se/imprint"
+    }
+  ],
+  "source": "https://www.al.se/imprint",
+  "date_checked": "2026-09-12"
+}

@@ -1,0 +1,24 @@
+{
+  "organization": "Moelven",
+  "segment": "eudr_operators",
+  "country": "NO",
+  "website": "https://www.moelven.com",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Wood operator/trader exposed to drought, fire and deforestation-linked due-diligence obligations under the EU Deforestation Regulation.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-eudr-1-2026-09-12 batch.",
+      "source": "https://www.moelven.com/imprint"
+    }
+  ],
+  "source": "https://www.moelven.com/imprint",
+  "date_checked": "2026-09-12"
+}
