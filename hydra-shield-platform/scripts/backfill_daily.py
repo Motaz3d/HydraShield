@@ -55,6 +55,10 @@ _BAD_LOCAL = re.compile(
 _GENERAL_LOCAL = re.compile(
     r"^(info|contact|hello|office|mail|service|comercial|welcome|post|"
     r"enquiries|general|sekretariat|reception|connect)", re.IGNORECASE)
+# Verification states the backfill may schedule: OBSERVED (seen literally on an
+# official page) and operator_collected (operator-manual research the operator
+# has vouched for as verified — e.g. the Luxembourg archive).
+_VERIFIED = {"OBSERVED", "operator_collected"}
 
 _EU_UK = {"AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE",
           "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT",
@@ -202,7 +206,7 @@ def _eligible_email(contacts: Sequence[tuple]) -> Optional[Tuple[str, str, str, 
     usable = [
         (email, source, created_at)
         for email, source, created_at, verification in contacts
-        if verification == "OBSERVED" and not _BAD_LOCAL.match(email.split("@")[0])
+        if verification in _VERIFIED and not _BAD_LOCAL.match(email.split("@")[0])
     ]
     if not usable:
         return None
@@ -271,7 +275,7 @@ def _emailable_pool(leads: Dict[str, dict], contacts_by_slug: Dict[str, List],
             info["reasons"]["in_outreach_wave_file"] += 1
             continue
         contacts = contacts_by_slug.get(slug, [])
-        observed = [c for c in contacts if c[3] == "OBSERVED"]
+        observed = [c for c in contacts if c[3] in _VERIFIED]
         if not observed:
             info["reasons"]["no_observed_contact"] += 1
             continue
