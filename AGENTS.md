@@ -49,6 +49,11 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `marketing/` — campaigns, segments, EU funding, leads, `research/` (incl. global investor landscape `.md` + interactive `.html`).
 - `data/` — cache, validation sets, rasters, IBTrACS, dev outbox.
 
+## Production server access (verified 2026-09-12)
+- `ssh mtz` = the Vultr production host (root@45.77.54.166, key `~/.ssh/id_ed25519`). App at `/opt/hydrashield`, runs via `docker compose` (service `api`); DB in docker volume at `/data/hydrashield_cache.sqlite3` (container path). Container `/code` is READ-ONLY — scripts that write files (e.g. `import_contacts.py` creating lead files) must create files in Git first, deploy, then run inside the container for the DB part.
+- **Crontab reality** (root on mtz): runs `docker compose exec -T api python scripts/process_scheduled_outreach.py`, then `scripts/backfill_daily.py --schedule --days 2`, then `scripts/check_replies.py` every 5 min — it does NOT call `scripts/email_cron.sh` (that file's backfill line is documentation-only; edit the live crontab on mtz for cron changes).
+- Container env: `DAILY_SEND_CAP=20` via compose default; sends workday-only Mon–Fri UTC 07–17 (`_business_day` in `process_scheduled_outreach.py`).
+
 ## Commands (run from hydra-shield-platform/)
 - Install: `pip install -e ".[dev]"` (or `pip install -r requirements-dev.txt`)
 - Tests: `python -m pytest tests/ -v`
