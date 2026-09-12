@@ -1,0 +1,24 @@
+{
+  "organization": "Berlin Hyp",
+  "segment": "banking",
+  "country": "DE",
+  "website": "https://www.berlinhyp.de",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
+  "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-finance-1-2026-09-12 batch.",
+      "source": "https://www.berlinhyp.de/impressum"
+    }
+  ],
+  "source": "https://www.berlinhyp.de/impressum",
+  "date_checked": "2026-09-12"
+}
