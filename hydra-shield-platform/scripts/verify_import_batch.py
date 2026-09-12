@@ -59,6 +59,7 @@ def fetch(url: str, timeout: int = 12) -> Optional[str]:
 def page_has_email(body: Optional[str], email: str) -> bool:
     if not body:
         return False
+    body = body.lower()
     email = email.lower()
     deobfuscated = (body.replace(" [at] ", "@").replace("(at)", "@")
                     .replace("[at]", "@").replace("&#64;", "@"))
