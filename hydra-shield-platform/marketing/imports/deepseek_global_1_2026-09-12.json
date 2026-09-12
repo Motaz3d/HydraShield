@@ -19,7 +19,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Construction company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mxa-000c3201.gslb.pphosted.com."
     },
     {
       "organization": "SalMar",
@@ -37,7 +38,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Salmon farming company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx1.hc242-21.eu.iphmx.com."
     },
     {
       "organization": "Leroy Seafood",
@@ -55,7 +57,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Salmon farming company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "leroyseafood-com.mail.protection.outlook.com."
     },
     {
       "organization": "Falkensteiner",
@@ -73,7 +76,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Hotels company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail.proasp.at."
     },
     {
       "organization": "Alltours",
@@ -91,7 +95,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Tourism company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail.alltours.de."
     },
     {
       "organization": "Steigenberger",
@@ -109,7 +114,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Hotels company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "steigenberger-com.mail.protection.outlook.com."
     },
     {
       "organization": "Dorint",
@@ -127,7 +133,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Hotels company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx0161.ppsmtp.com."
     },
     {
       "organization": "KUKA",
@@ -145,7 +152,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Robotics company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "kuka-com.mail.protection.outlook.com."
     },
     {
       "organization": "Muller Group",
@@ -163,7 +171,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Dairy company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx3.armacom.ch."
     },
     {
       "organization": "Pfeifer & Langen",
@@ -181,7 +190,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Sugar company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx.colhub.info."
     },
     {
       "organization": "Stadtwerke Koln",
@@ -199,7 +209,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "smtpp-11.rheinenergie.com."
     },
     {
       "organization": "Mainova",
@@ -217,7 +228,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx01.hornetsecurity.com."
     },
     {
       "organization": "Stadtwerke Munchen",
@@ -235,7 +247,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail1.swm.de."
     },
     {
       "organization": "Thuga",
@@ -253,7 +266,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "thuega-de.mail.protection.outlook.com."
     },
     {
       "organization": "Mecklenburgische",
@@ -271,7 +285,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mecklenburgische-de.mail.protection.outlook.com."
     },
     {
       "organization": "DEVK",
@@ -289,7 +304,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "devk-de.mail.protection.outlook.com."
     },
     {
       "organization": "Itzehoer",
@@ -307,7 +323,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail2.itzehoer.de."
     },
     {
       "organization": "BVR",
@@ -325,7 +342,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "smtp2.bvr.de."
     },
     {
       "organization": "Volkswohl Bund",
@@ -343,7 +361,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail.volkswohl-bund.de."
     },
     {
       "organization": "Stadtsparkasse Munchen",
@@ -361,7 +380,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "d01es.mail.s-web.de."
     },
     {
       "organization": "Energie Steiermark",
@@ -379,7 +399,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "esteiermark-com0c.mail.protection.outlook.com."
     },
     {
       "organization": "DSGV",
@@ -397,7 +418,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "q02es.mail.s-web.de."
     },
     {
       "organization": "Salzburg AG",
@@ -415,7 +437,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "salzburgag-at02b.mail.protection.outlook.com."
     },
     {
       "organization": "Buhler Group",
@@ -433,7 +456,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Food processing machinery company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "buhlergroup-com.mail.protection.outlook.com."
     },
     {
       "organization": "Duisburger Hafen",
@@ -451,7 +475,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Ports authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "duisport-de.mail.protection.outlook.com."
     },
     {
       "organization": "Linz AG",
@@ -469,7 +494,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "linzag-at.mail.protection.outlook.com."
     },
     {
       "organization": "Bucher Industries",
@@ -487,7 +513,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Machinery company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "bucherindustries-com.mail.protection.outlook.com."
     },
     {
       "organization": "KELAG",
@@ -505,7 +532,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utilities company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "d304324.b.ess.de.barracudanetworks.com."
     },
     {
       "organization": "SV SparkassenVersicherung",
@@ -523,7 +551,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "sv-de.mail.protection.outlook.com."
     },
     {
       "organization": "Datwyler",
@@ -541,7 +570,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Industrial components company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mxa-004c7f01.gslb.pphosted.com."
     },
     {
       "organization": "Sonova",
@@ -559,7 +589,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Hearing instruments company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "sonova-com.mail.protection.outlook.com."
     },
     {
       "organization": "Indutrade",
@@ -577,7 +608,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Industrial components company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "indutrade-com.mail.protection.outlook.com."
     },
     {
       "organization": "Siegfried",
@@ -595,7 +627,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Pharma manufacturing company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mxa-00823301.gslb.pphosted.com."
     },
     {
       "organization": "Autoneum",
@@ -613,7 +646,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Automotive company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "autoneum-com.mail.protection.outlook.com."
     },
     {
       "organization": "Getinge",
@@ -631,7 +665,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Medical technology company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "de-smtp-inbound-1.mimecast.com."
     },
     {
       "organization": "Tikkurila",
@@ -649,7 +684,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Paints company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "tikkurila-com.mail.protection.outlook.com."
     },
     {
       "organization": "Protector Forsikring",
@@ -667,7 +703,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "protectorforsikring-no.mail.protection.outlook.com."
     },
     {
       "organization": "Globus",
@@ -685,7 +722,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Retail company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx03.hornetsecurity.com."
     },
     {
       "organization": "PHW Group",
@@ -703,7 +741,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Poultry company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx14d.antispameurope.com."
     },
     {
       "organization": "Peri",
@@ -721,7 +760,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Formwork and scaffolding company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "peri-com.mail.protection.outlook.com."
     },
     {
       "organization": "bremenports",
@@ -739,7 +779,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Ports authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "smail-bpo.dts-security.de."
     },
     {
       "organization": "TeamViewer",
@@ -757,7 +798,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Software company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "de-smtp-inbound-1.mimecast.com."
     },
     {
       "organization": "Doka",
@@ -775,7 +817,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Formwork company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mxa-004cf201.gslb.pphosted.com."
     },
     {
       "organization": "Port of Barcelona",
@@ -793,7 +836,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Ports authority with coastal and public infrastructure exposed to flood, storm surge and sea-level rise, required to assess physical climate risk for EU Taxonomy DNSH and adaptation planning.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EU Taxonomy DNSH and climate adaptation planning.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "portdebarcelona-cat.mail.protection.outlook.com."
     },
     {
       "organization": "VGH",
@@ -811,7 +855,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx.ivv.de."
     },
     {
       "organization": "BGV Badische",
@@ -829,7 +874,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and casualty books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II ORSA and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mail4.bgv.de."
     },
     {
       "organization": "Frankfurter Volksbank",
@@ -847,7 +893,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "rmail22.gadmail.de."
     },
     {
       "organization": "Rothkoetter",
@@ -865,7 +912,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Poultry company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx10.emsland-frischgefluegel.de."
     },
     {
       "organization": "Umweltbank",
@@ -883,7 +931,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "fakemx.noris.net."
     },
     {
       "organization": "GLS Bank",
@@ -901,7 +950,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "wmail22.gadmail.de."
     },
     {
       "organization": "N26",
@@ -919,7 +969,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with a loan book, mortgages and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "aspmx.l.google.com."
     },
     {
       "organization": "Krone",
@@ -937,7 +988,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Agricultural machinery company with operations and sites exposed to flood, heat, storm and other physical climate hazards, legally required to report them under CSRD/ESRS E1.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx1.it-p-s.com."
     }
   ]
 }

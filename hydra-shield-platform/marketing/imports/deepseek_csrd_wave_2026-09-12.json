@@ -19,7 +19,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Chemicals and consumer-goods group with energy-intensive plants and EU-wide sites exposed to flood, heat and water stress, under CSRD/ESRS E1 disclosure duty.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "henkel-com.d-v1.mx.microsoft."
     },
     {
       "organization": "Heidelberg Materials AG",
@@ -37,7 +38,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Global cement producer with quarries and kilns across flood- and heat-exposed regions, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "heidelbergmaterials-com.mail.protection.outlook.com."
     },
     {
       "organization": "thyssenkrupp AG",
@@ -55,7 +57,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Industrial group with steel and plant sites on flood-exposed rivers and energy-intensive operations, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "thyssenkrupp-com.mail.protection.outlook.com."
     },
     {
       "organization": "Deutsche Bank AG",
@@ -73,7 +76,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Large bank with a loan book and real-estate collateral exposed to flood, heat and coastal hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "smtp24.db.com."
     },
     {
       "organization": "EnBW Energie Baden-Wurttemberg AG",
@@ -91,7 +95,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Utility with power plants, grids and renewables exposed to flood, wind, heat and drought, required to report physical climate risk under CSRD.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "enbw-com.mail.protection.outlook.com."
     },
     {
       "organization": "Symrise AG",
@@ -109,7 +114,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Flavour and fragrance group with global production and agricultural sourcing exposed to heat, drought and water stress, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "symrise-com.mail.protection.outlook.com."
     },
     {
       "organization": "Aurubis AG",
@@ -127,7 +133,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Copper producer with smelters and port-linked sites exposed to flood and heat, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx2.hc1207-1.eu.iphmx.com."
     },
     {
       "organization": "Signal Iduna Gruppe",
@@ -145,7 +152,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insurer with property and health books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II and CSRD.",
       "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "ms01.signal-iduna.de."
     },
     {
       "organization": "voestalpine AG",
@@ -163,7 +171,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Steel and technology group with energy-intensive, river-linked sites exposed to flood and heat, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "voestalpine.mail.protection.outlook.com."
     },
     {
       "organization": "ANDRITZ AG",
@@ -181,7 +190,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Industrial plant supplier with global manufacturing sites exposed to flood, heat and water stress, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "andritz-com.mail.protection.outlook.com."
     },
     {
       "organization": "BAWAG Group AG",
@@ -199,7 +209,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Bank with retail and real-estate exposure to flood and heat hazards, required to disclose climate physical risk under EBA Pillar 3 ESG and CSRD.",
       "relevant_capability": "Site-level physical-risk evidence for EBA Pillar 3 ESG and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "bawaggroup-com.mail.protection.outlook.com."
     },
     {
       "organization": "Lenzing AG",
@@ -217,7 +228,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Wood-based fibre producer sourcing pulp from forest supply chains, exposed to drought and fire risk and subject to EUDR due-diligence and CSRD disclosure.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mx01.lenzing.com."
     },
     {
       "organization": "Recticel NV",
@@ -235,7 +247,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Insulation and engineered-foam group with production sites exposed to flood and heat, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "recticel-com.mail.protection.outlook.com."
     },
     {
       "organization": "BESIX Group",
@@ -253,7 +266,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "International contractor with projects in flood, heat and coastal-exposed regions, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "besix-com.mail.protection.outlook.com."
     },
     {
       "organization": "SSAB AB",
@@ -271,7 +285,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Steel producer with Nordic plants exposed to flood, water and energy risk, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "ssab-com.mail.protection.outlook.com."
     },
     {
       "organization": "Mondi Group",
@@ -289,7 +304,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Packaging and paper group sourcing wood fibre, exposed to drought, fire and flood and subject to EUDR due-diligence and CSRD disclosure.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "mxa-001d5601.gslb.pphosted.com."
     },
     {
       "organization": "Nutreco N.V.",
@@ -307,7 +323,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Animal-nutrition group sourcing soy and feed commodities exposed to drought and heat, with EUDR due-diligence obligations.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "nutreco-com.mail.protection.outlook.com."
     },
     {
       "organization": "Arcadis N.V.",
@@ -325,7 +342,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Design and engineering consultancy delivering climate-resilience projects and reporting its own climate risk under CSRD.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "arcadis-com.mail.protection.outlook.com."
     },
     {
       "organization": "Damen Shipyards Group",
@@ -343,7 +361,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Shipbuilder with coastal yards exposed to storm surge, flood and sea-level rise, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "damen-com.mail.protection.outlook.com."
     },
     {
       "organization": "N.V. Nederlandse Gasunie",
@@ -361,7 +380,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Gas transmission system operator with pipeline and coastal infrastructure exposed to flood and subsidence, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "gasunie-nl.mail.protection.outlook.com."
     },
     {
       "organization": "Laboratorios Farmaceuticos Rovi S.A.",
@@ -379,7 +399,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Pharmaceutical group with manufacturing sites exposed to water stress, heat and flood, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "rovi-es.mail.protection.outlook.com."
     },
     {
       "organization": "Warehouses De Pauw (WDP)",
@@ -397,7 +418,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Logistics real-estate investor with warehouses exposed to flood and heat across Europe, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "d312890.b.ess.de.barracudanetworks.com."
     },
     {
       "organization": "Deceuninck NV",
@@ -415,7 +437,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Building-products manufacturer with plants exposed to flood, heat and storm, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "securemail.deceuninck.com."
     },
     {
       "organization": "Fluxys SA",
@@ -433,7 +456,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Gas infrastructure operator with pipelines and coastal terminals exposed to flood and sea-level rise, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "fluxys-com.mail.protection.outlook.com."
     },
     {
       "organization": "LKAB",
@@ -451,7 +475,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Mining group with Arctic operations exposed to permafrost thaw, flood and water stress, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "lkab-com.mail.protection.outlook.com."
     },
     {
       "organization": "SCA (Svenska Cellulosa Aktiebolaget)",
@@ -469,7 +494,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Forest-products group with a large wood supply exposed to fire, drought and storm and subject to EUDR due-diligence and CSRD disclosure.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "sca-com.mail.protection.outlook.com."
     },
     {
       "organization": "Holmen AB",
@@ -487,7 +513,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Forest owner and wood-products group exposed to fire, drought and storm and subject to EUDR due-diligence and CSRD disclosure.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "holmen-com.mail.protection.outlook.com."
     },
     {
       "organization": "AAK AB",
@@ -505,7 +532,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Vegetable-oils group sourcing palm and other EUDR commodities exposed to drought and deforestation-linked due-diligence obligations.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "eu-smtp-inbound-1.mimecast.com."
     },
     {
       "organization": "CD Projekt S.A.",
@@ -523,7 +551,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Listed developer with CSRD/ESRS E1 reporting duty and studio and office sites exposed to urban heat and flood.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "aspmx.l.google.com."
     },
     {
       "organization": "Orsted A/S",
@@ -541,7 +570,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Offshore-wind developer with coastal and marine assets exposed to storm, wave and sea-level rise, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "orsted-com.mail.protection.outlook.com."
     },
     {
       "organization": "Sogrape Vinhos S.A.",
@@ -559,7 +589,8 @@
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Wine group with vineyards exposed to drought, heat and water stress, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
+      "date_checked": "2026-09-12",
+      "mx_host": "sogrape-com.mail.protection.outlook.com."
     }
   ]
 }
