@@ -261,3 +261,15 @@ def test_newly_enabled_segments_selected_with_correct_templates(backfill_mod, st
     for seg, tpl in expected.items():
         assert seg in selected, f"{seg} not selected"
         assert selected[seg] == tpl, f"{seg} got {selected[seg]} expected {tpl}"
+
+
+def test_workdays_skip_weekends(backfill_mod):
+    mod, *_ = backfill_mod
+    # 2026-09-12 is a Saturday, 2026-09-13 a Sunday.
+    workdays, weekends = mod._workdays(datetime(2026, 9, 12, 10, 0, 0), 2)
+    assert [d.date().isoformat() for d in workdays] == ["2026-09-14", "2026-09-15"]
+    assert [d.date().isoformat() for d in weekends] == ["2026-09-12", "2026-09-13"]
+    # A Friday start plans Friday + Monday, never the weekend.
+    workdays, weekends = mod._workdays(datetime(2026, 9, 11, 10, 0, 0), 2)
+    assert [d.date().isoformat() for d in workdays] == ["2026-09-11", "2026-09-14"]
+    assert all(d.weekday() < 5 for d in workdays)

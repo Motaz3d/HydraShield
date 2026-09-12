@@ -17,6 +17,9 @@ Priority order (each segment exhausted before the next):
   investment                             -> outreach_investment
 Segments outside this list (e.g. research_centers) are reported as held.
 
+Workdays only (operator directive 2026-09-12): no rows are scheduled on
+Saturday/Sunday (UTC); the processor likewise defers weekend sends to Monday.
+
 Safety rules:
 - DRY RUN by default; writing requires --schedule.
 - No real email is sent here — rows are queued for the cron processor.
@@ -528,6 +531,25 @@ def _print_pool_report(pool: Dict[str, Dict]) -> None:
     print(f"  {'TOTAL emailable held (no current strategy)':50s} {held_total}")
 
 
+def _workdays(now: datetime, n: int) -> Tuple[List[datetime], List[datetime]]:
+    """Next n workdays (Mon–Fri UTC) from today's date.
+
+    Operator directive 2026-09-12: outreach sends are workday-only — no
+    Saturday/Sunday scheduling. Returns (workdays, skipped_weekend_days).
+    """
+    workdays: List[datetime] = []
+    weekends: List[datetime] = []
+    for offset in range(n * 2 + 3):
+        if len(workdays) >= n:
+            break
+        day = now.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=offset)
+        if day.weekday() >= 5:
+            weekends.append(day)
+            continue
+        workdays.append(day)
+    return workdays, weekends
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--days", type=int, default=2,
@@ -557,8 +579,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     print("=" * 70)
 
     summaries: List[dict] = []
-    for offset in range(args.days):
-        day = now.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=offset)
+    workdays, weekends = _workdays(now, args.days)
+    for day in weekends:
+        print(f"\n{day.date().isoformat()}: skipped — weekend (workday-only sends)")
+    for day in workdays:
         plan = _plan_day(day, target, store, leads, contacts_by_slug, pool, now)
         summary = _write_day(plan, store, dry)
         summaries.append(summary)

@@ -23,6 +23,9 @@ def env(tmp_path, monkeypatch):
     monkeypatch.setenv("HYDRASHIELD_OUTBOX_DIR", str(outbox_dir))
     for var in ("SMTP_HOST", "SMTP_USER", "HUNTER_API_KEY", "IMAP_HOST"):
         monkeypatch.delenv(var, raising=False)
+    # Processing-logic tests must run on any weekday the suite happens to run;
+    # the workday-only rule itself is covered in test_outreach_reliability.py.
+    monkeypatch.setenv("OUTREACH_SEND_WEEKENDS", "1")
 
     import src.dashboard.cache as cache_mod
     import src.dashboard.admin_intel as intel_mod

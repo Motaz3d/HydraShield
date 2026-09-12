@@ -32,6 +32,10 @@ def env(tmp_path, monkeypatch):
                 "OUTREACH_WINDOW_START", "OUTREACH_WINDOW_END",
                 "HUNTER_API_KEY"):
         monkeypatch.delenv(var, raising=False)
+    # This module tests processing logic, not the calendar: keep sends allowed
+    # on any weekday the suite happens to run. Workday-only behavior itself is
+    # covered by test_business_day_weekends_blocked.
+    monkeypatch.setenv("OUTREACH_SEND_WEEKENDS", "1")
 
     import src.dashboard.cache as cache_mod
     import src.dashboard.admin_intel as intel_mod
@@ -351,3 +355,15 @@ def test_per_lead_auto_send_queues_without_global_flag(env, store):
     notes = [i for i in store.list_interactions("test-bank-one")
              if "per-lead auto-send" in i["summary"]]
     assert notes
+
+
+def test_business_day_weekends_blocked(env, monkeypatch):
+    """Operator directive 2026-09-12: sends are workday-only unless overridden."""
+    mod = _load_processor()
+    monkeypatch.delenv("OUTREACH_SEND_WEEKENDS", raising=False)
+    assert mod._business_day(datetime(2026, 9, 11, 12, 0, 0)) is True   # Friday
+    assert mod._business_day(datetime(2026, 9, 12, 12, 0, 0)) is False  # Saturday
+    assert mod._business_day(datetime(2026, 9, 13, 12, 0, 0)) is False  # Sunday
+    assert mod._business_day(datetime(2026, 9, 14, 12, 0, 0)) is True   # Monday
+    monkeypatch.setenv("OUTREACH_SEND_WEEKENDS", "1")
+    assert mod._business_day(datetime(2026, 9, 12, 12, 0, 0)) is True

@@ -74,6 +74,15 @@ def _window_open(now: datetime) -> bool:
     return hour >= start_h or hour < end_h  # window crossing midnight
 
 
+def _business_day(now: datetime) -> bool:
+    """Operator directive 2026-09-12: outreach sends happen only on official
+    workdays (Mon–Fri, UTC). Weekend rows stay pending and go out on Monday.
+    Set OUTREACH_SEND_WEEKENDS=1 to override."""
+    if os.environ.get("OUTREACH_SEND_WEEKENDS"):
+        return True
+    return now.weekday() < 5
+
+
 def _verify_before_send(store: MarketingStore, lead_slug: str, to_email: str,
                         contact=None) -> tuple:
     """Pre-send Hunter.io verification layer (send_plan §7.1).
@@ -278,6 +287,10 @@ def _process_waves(store: MarketingStore) -> dict:
 
 def main() -> int:
     now = datetime.utcnow()
+    if not _business_day(now):
+        print(f"{now.isoformat()} — weekend: outreach sends are workday-only; "
+              f"rows stay pending until Monday")
+        return 0
     if not _window_open(now):
         print(f"{now.isoformat()} — outside send window "
               f"(OUTREACH_WINDOW_START/END); nothing processed")
