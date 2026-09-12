@@ -1,0 +1,24 @@
+{
+  "organization": "Signal Iduna Gruppe",
+  "segment": "insurance",
+  "country": "DE",
+  "website": "https://www.signal-iduna.de",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Insurer with property and health books exposed to rising flood, storm and heat losses, required to report climate physical risk under Solvency II and CSRD.",
+  "relevant_capability": "Location-level physical-risk evidence for Solvency II ORSA and CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-csrd-wave-2026-09-12 batch.",
+      "source": "https://www.signal-iduna.de/impressum"
+    }
+  ],
+  "source": "https://www.signal-iduna.de/impressum",
+  "date_checked": "2026-09-12"
+}

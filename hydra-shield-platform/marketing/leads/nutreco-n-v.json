@@ -1,0 +1,24 @@
+{
+  "organization": "Nutreco N.V.",
+  "segment": "eudr_operators",
+  "country": "NL",
+  "website": "https://www.nutreco.com",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Animal-nutrition group sourcing soy and feed commodities exposed to drought and heat, with EUDR due-diligence obligations.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-csrd-wave-2026-09-12 batch.",
+      "source": "https://www.nutreco.com/en/contact"
+    }
+  ],
+  "source": "https://www.nutreco.com/en/contact",
+  "date_checked": "2026-09-12"
+}

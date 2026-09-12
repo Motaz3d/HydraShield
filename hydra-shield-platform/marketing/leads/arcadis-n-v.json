@@ -1,0 +1,24 @@
+{
+  "organization": "Arcadis N.V.",
+  "segment": "sustainability_compliance",
+  "country": "NL",
+  "website": "https://www.arcadis.com",
+  "priority": "medium",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Design and engineering consultancy delivering climate-resilience projects and reporting its own climate risk under CSRD.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-csrd-wave-2026-09-12 batch.",
+      "source": "https://www.arcadis.com/en/contact"
+    }
+  ],
+  "source": "https://www.arcadis.com/en/contact",
+  "date_checked": "2026-09-12"
+}

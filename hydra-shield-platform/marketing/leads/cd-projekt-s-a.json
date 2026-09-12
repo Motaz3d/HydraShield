@@ -1,0 +1,24 @@
+{
+  "organization": "CD Projekt S.A.",
+  "segment": "sustainability_compliance",
+  "country": "PL",
+  "website": "https://www.cdprojekt.com",
+  "priority": "medium",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Listed developer with CSRD/ESRS E1 reporting duty and studio and office sites exposed to urban heat and flood.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-csrd-wave-2026-09-12 batch.",
+      "source": "https://www.cdprojekt.com/en/contact"
+    }
+  ],
+  "source": "https://www.cdprojekt.com/en/contact",
+  "date_checked": "2026-09-12"
+}

@@ -1,0 +1,24 @@
+{
+  "organization": "Henkel AG & Co. KGaA",
+  "segment": "sustainability_compliance",
+  "country": "DE",
+  "website": "https://www.henkel.com",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Chemicals and consumer-goods group with energy-intensive plants and EU-wide sites exposed to flood, heat and water stress, under CSRD/ESRS E1 disclosure duty.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-csrd-wave-2026-09-12 batch.",
+      "source": "https://www.henkel.com/imprint"
+    }
+  ],
+  "source": "https://www.henkel.com/imprint",
+  "date_checked": "2026-09-12"
+}

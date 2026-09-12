@@ -1,0 +1,24 @@
+{
+  "organization": "Suedzucker AG",
+  "segment": "sustainability_compliance",
+  "country": "DE",
+  "website": "https://www.suedzucker.com",
+  "priority": "high",
+  "urgency": "medium",
+  "outreach_status": "researched",
+  "recommended_product": "climate_risk_intelligence",
+  "next_action": "Qualify: verify current public signal and select contact route",
+  "identified_problem": "Sugar and food group with beet fields and processing plants exposed to drought, heat and water stress, CSRD-obligated.",
+  "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
+  "status": "open",
+  "interactions": [
+    {
+      "date": "2026-09-12",
+      "type": "discovered",
+      "summary": "Imported via deepseek-csrd-wave-2026-09-12 batch.",
+      "source": "https://www.suedzucker.com/imprint"
+    }
+  ],
+  "source": "https://www.suedzucker.com/imprint",
+  "date_checked": "2026-09-12"
+}

@@ -1,7 +1,7 @@
 {
   "batch": "deepseek-csrd-wave-2026-09-12",
   "imported_at": "2026-09-12",
-  "note": "DeepSeek external research batch: CSRD/EUDR-obligated large companies. Every email was observed on the company's own official imprint/legal-notice page on 2026-09-12; no address is guessed or pattern-derived. Data-protection, legal and noreply mailboxes were excluded. | verified 2026-09-12: 21 source-confirmed, 20 source URL corrected, 9 dropped (email not found on official domain)",
+  "note": "DeepSeek external research batch: CSRD/EUDR-obligated large companies. Every email was observed on the company's own official imprint/legal-notice page on 2026-09-12; no address is guessed or pattern-derived. Data-protection, legal and noreply mailboxes were excluded. | verified 2026-09-12: 21 source-confirmed, 20 source URL corrected, 9 dropped (email not found on official domain) | dedup 2026-09-12: dropped OMV Aktiengesellschaft, Neste Oyj, Accor SA — already covered by csrd_companies_wave1 (OMV emailed 09-10; Accor/Neste in the same wave's list)",
   "contacts": [
     {
       "organization": "Henkel AG & Co. KGaA",
@@ -184,24 +184,6 @@
       "date_checked": "2026-09-12"
     },
     {
-      "organization": "OMV Aktiengesellschaft",
-      "country": "AT",
-      "segment": "sustainability_compliance",
-      "website": "https://www.omv.com",
-      "email": "info@omv.com",
-      "person": null,
-      "role": "General enquiries",
-      "email_type": "general",
-      "source_url": "https://www.omv.com/en/imprint",
-      "source_type": "official",
-      "verification": "OBSERVED",
-      "priority": "high",
-      "recommended_product": "climate_risk_intelligence",
-      "identified_problem": "Integrated energy group with refineries and assets exposed to flood, heat and coastal hazards, CSRD-obligated.",
-      "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
-    },
-    {
       "organization": "voestalpine AG",
       "country": "AT",
       "segment": "sustainability_compliance",
@@ -364,24 +346,6 @@
       "date_checked": "2026-09-12"
     },
     {
-      "organization": "Neste Oyj",
-      "country": "FI",
-      "segment": "sustainability_compliance",
-      "website": "https://www.neste.com",
-      "email": "neste@neste.com",
-      "person": null,
-      "role": "General enquiries",
-      "email_type": "general",
-      "source_url": "https://www.neste.com/imprint",
-      "source_type": "official",
-      "verification": "OBSERVED",
-      "priority": "high",
-      "recommended_product": "climate_risk_intelligence",
-      "identified_problem": "Renewable-fuels producer with refineries and bio-feedstock sourcing exposed to flood, heat and drought, CSRD-obligated.",
-      "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
-    },
-    {
       "organization": "adidas AG",
       "country": "DE",
       "segment": "sustainability_compliance",
@@ -504,24 +468,6 @@
       "priority": "high",
       "recommended_product": "climate_risk_intelligence",
       "identified_problem": "Gas transmission system operator with pipeline and coastal infrastructure exposed to flood and subsidence, CSRD-obligated.",
-      "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
-      "date_checked": "2026-09-12"
-    },
-    {
-      "organization": "Accor SA",
-      "country": "FR",
-      "segment": "sustainability_compliance",
-      "website": "https://group.accor.com",
-      "email": "groupwebsite.globalcommunications@accor.com",
-      "person": null,
-      "role": "Global Communications",
-      "email_type": "department",
-      "source_url": "https://group.accor.com/contact",
-      "source_type": "official",
-      "verification": "OBSERVED",
-      "priority": "high",
-      "recommended_product": "climate_risk_intelligence",
-      "identified_problem": "Global hotel group with coastal and urban properties exposed to heat, flood and coastal hazards, CSRD-obligated.",
       "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for CSRD/ESRS E1.",
       "date_checked": "2026-09-12"
     },
