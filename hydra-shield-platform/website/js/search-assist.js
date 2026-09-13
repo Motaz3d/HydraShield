@@ -419,6 +419,8 @@
         return pageCfg[key] || null;
     }
 
+    var blurTimer = null;
+
     function init() {
         // Delegated so dynamically created inputs (industries hub, widgets)
         // get the same treatment without extra wiring. Covers text, search,
@@ -428,11 +430,17 @@
             var input = e.target.closest(SELECTOR);
             if (!input) return;
             var cfg = configFor(input);
-            if (cfg) openFor(input, cfg);
+            if (cfg) {
+                // A pending close from the previous field must not fire after
+                // this field has already opened — cancel it first.
+                if (blurTimer) { clearTimeout(blurTimer); blurTimer = null; }
+                openFor(input, cfg);
+            }
         });
         document.addEventListener('focusout', function (e) {
             if (e.target.matches && (e.target.matches('input') || e.target.matches('textarea'))) {
-                setTimeout(closeAll, 120);
+                if (blurTimer) clearTimeout(blurTimer);
+                blurTimer = setTimeout(closeAll, 120);
             }
         });
         document.addEventListener('keydown', function (e) {
