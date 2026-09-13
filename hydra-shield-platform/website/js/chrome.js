@@ -28,24 +28,30 @@
         ? 'http://localhost:8051/api'
         : '/api';
 
-    /* Top level: single links + dropdown groups. Compliance leads — it is the
-     * market-facing spearhead (operator decision 2026-09-06); insurance,
-     * investment and licensing stay as segments served by the same engine. */
+    /* Top level: challenge-first. The six challenges live on the homepage
+     * (index.html); this nav keeps every capability one click away under
+     * "Capabilities" so nothing is ever buried. (operator decision 2026-09-13) */
     var PRIMARY = [
+        { id: 'home', href: 'index.html', label: 'Start' },
+        { id: 'industries', href: 'industries.html', label: "Who it's for" },
         {
-            id: 'compliance', label: 'Compliance', children: [
-                { id: 'compliance-hub', href: 'compliance.html', label: 'Overview' },
+            id: 'capabilities', label: 'Capabilities', children: [
+                { id: 'compliance-hub', href: 'compliance.html', label: 'Compliance overview' },
                 { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
                 { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
                 { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
-                { id: 'forensics', href: 'forensics.html', label: 'Forensics' }
+                { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
+                { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
+                { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting' },
+                { id: 'map', href: 'map.html', label: 'Maps' },
+                { id: 'reports', href: 'reports.html', label: 'Reports' },
+                { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' },
+                { id: 'academy', href: 'academy.html', label: 'Academy' },
+                { id: 'verify', href: 'verify.html', label: 'Verify a document' },
+                { id: 'sources', href: 'sources.html', label: 'Data sources' }
             ]
         },
-        { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
-        { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting' },
-        { id: 'map', href: 'map.html', label: 'Maps' },
-        { id: 'reports', href: 'reports.html', label: 'Reports' },
-        { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' }
+        { id: 'pricing', href: 'pricing.html', label: 'Pricing' }
     ];
 
     /* Flat list of every linkable item (footer + anywhere a full map is needed). */
