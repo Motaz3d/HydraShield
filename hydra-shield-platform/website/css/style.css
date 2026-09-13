@@ -1266,6 +1266,51 @@ body {
 .chip-not_quantified,
 .chip-insufficient_data { background: rgba(148,163,184,.2); color: #475569; }
 
+/* Sector exposure toggle chips (intelligence.html#sector) */
+.sector-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+.sector-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1.5px solid #cbd5e1;
+    background: #fff;
+    color: #1e293b;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.1;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.sector-chip::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    flex: 0 0 auto;
+    transition: background .15s ease;
+}
+.sector-chip:hover {
+    border-color: #0ea5e9;
+    color: #0369a1;
+}
+.sector-chip.active {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: #fff;
+    box-shadow: 0 6px 14px -8px rgba(14,165,233,.7);
+}
+.sector-chip.active::before {
+    background: #fff;
+}
+
 /* ============================================
    Product pages (Map / Events / Intelligence /
    Solutions / Economy / Reports / Account)
