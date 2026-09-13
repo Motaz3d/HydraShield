@@ -11,6 +11,10 @@
     "2026-09-10": {
       "draft": "2026-09-10-sentinel2-vegetation-moisture.md",
       "sent_at": "2026-09-10T08:00:03"
+    },
+    "2026-09-13": {
+      "draft": "2026-09-12-construction-hazard-aware-siting.md",
+      "sent_at": "2026-09-13T16:00:05"
     }
   },
   "reminded": {}
