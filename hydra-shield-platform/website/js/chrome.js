@@ -374,6 +374,12 @@
         tiersScript.src = 'js/tiers.js';
         tiersScript.defer = true;
         document.head.appendChild(tiersScript);
+
+        // Short guided path (service pages): self-contained stepper, no-op if absent.
+        var qpScript = document.createElement('script');
+        qpScript.src = 'js/quickpath.js';
+        qpScript.defer = true;
+        document.head.appendChild(qpScript);
     }
 
     // chrome.js is included after the mount divs, so the DOM is ready.
