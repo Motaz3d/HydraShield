@@ -172,18 +172,22 @@
             },
             applEmployees: {
                 tips: ['CSRD threshold: more than 250 average employees.'],
+                chips: ['250', '500', '1000'],
                 live: null
             },
             applTurnover: {
                 tips: ['CSRD threshold: net turnover above €50M.'],
+                chips: ['€50M|50000000', '€100M|100000000'],
                 live: null
             },
             applBalance: {
                 tips: ['CSRD threshold: balance-sheet total above €25M.'],
+                chips: ['€25M|25000000', '€50M|50000000'],
                 live: null
             },
             applYear: {
                 tips: ['Reporting year — wave-2 reports cover FY2027.'],
+                chips: ['2027', '2028'],
                 live: null
             }
         },
@@ -364,7 +368,10 @@
         if (!chips || !chips.length) return '';
         return '<div class="sa-section"><div class="sa-heading">Quick picks</div><div class="sa-chips">' +
             chips.slice(0, MAX_CHIPS).map(function (c) {
-                return '<button type="button" class="sa-chip" data-value="' + esc(c) + '">' + esc(c) + '</button>';
+                var parts = String(c).split('|');
+                var label = parts[0];
+                var value = parts.length > 1 ? parts.slice(1).join('|') : parts[0];
+                return '<button type="button" class="sa-chip" data-value="' + esc(value) + '">' + esc(label) + '</button>';
             }).join('') +
             '</div></div>';
     }
