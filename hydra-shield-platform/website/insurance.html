@@ -30,10 +30,10 @@
                 Honesty contract: unavailable data is declared, never invented.
             </p>
 
-            <div class="quickpath" data-steps="assetLocInput:Assess an asset,portfolioName:Portfolio check"></div>
+            <div class="quickpath" data-mode="hide" data-steps="ins-asset:Assess an asset,ins-portfolio:Portfolio check"></div>
 
             <!-- Single asset profile -->
-            <div class="panel">
+            <div class="panel" id="ins-asset">
                 <h2>Assess an insured asset</h2>
                 <div class="toolbar" style="align-items:flex-start;">
                     <div class="form-group" style="flex:1;">
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Portfolio check -->
-            <div class="panel">
+            <div class="panel" id="ins-portfolio">
                 <h2>Insured portfolio check</h2>
                 <p class="muted small">
                     One asset per line: <code>name,lat,lon</code>. Optional radius applies to
