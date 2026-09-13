@@ -161,6 +161,30 @@
             companyWebsite: {
                 tips: ['Optional — appears in the report header.'],
                 live: null
+            },
+            assetsText: {
+                tips: [
+                    'One site per line: a place name, or name,lat,lon — max 25 free, 100 for subscribers.',
+                    'Each site becomes its own per-hazard assessment in the pack.'
+                ],
+                chips: ['Trier factory,49.75,6.64', 'A Coruña port,43.3,-8.4'],
+                live: null
+            },
+            applEmployees: {
+                tips: ['CSRD threshold: more than 250 average employees.'],
+                live: null
+            },
+            applTurnover: {
+                tips: ['CSRD threshold: net turnover above €50M.'],
+                live: null
+            },
+            applBalance: {
+                tips: ['CSRD threshold: balance-sheet total above €25M.'],
+                live: null
+            },
+            applYear: {
+                tips: ['Reporting year — wave-2 reports cover FY2027.'],
+                live: null
             }
         },
         greenfinance: {
@@ -175,6 +199,11 @@
             portfolioName: {
                 tips: ['Name this portfolio batch — used as its label in the report.'],
                 live: null
+            },
+            portfolioText: {
+                tips: ['One asset per line: name,lat,lon — each asset is screened individually.'],
+                chips: ['Asset A,49.75,6.64'],
+                live: null
             }
         },
         insurance: {
@@ -186,6 +215,19 @@
             portfolioName: {
                 tips: ['Name this insured portfolio — used as its label in the report.'],
                 live: null
+            },
+            radiusInput: {
+                tips: ['Screening radius in km around the asset (default 50).'],
+                live: null
+            },
+            portfolioText: {
+                tips: ['One asset per line: name,lat,lon — each asset is profiled per peril.'],
+                chips: ['Asset A,49.75,6.64'],
+                live: null
+            },
+            portfolioRadiusInput: {
+                tips: ['Screening radius in km for the portfolio.'],
+                live: null
             }
         },
         forensics: {
@@ -196,6 +238,14 @@
             },
             caseTitle: {
                 tips: ['A short title for this case — visible in the evidence pack.'],
+                live: null
+            },
+            caseRadiusInput: {
+                tips: ['Search radius in km around the case site (default 25).'],
+                live: null
+            },
+            caseDocs: {
+                tips: ['Optional: paste or describe the documents the claim is based on.'],
                 live: null
             }
         },
@@ -212,6 +262,14 @@
             commodityInput: {
                 tips: ['EUDR covers cattle, cocoa, coffee, oil palm, rubber, soya and wood.'],
                 chips: ['soy', 'cocoa', 'palm oil'],
+                live: null
+            },
+            plotsText: {
+                tips: [
+                    'One plot per line: name,lat,lon — up to 25 on the free tier.',
+                    'Coordinates keep the screening honest — a place name alone is approximate.'
+                ],
+                chips: ['Plot A,49.75,6.64', 'Plot B,43.3,-8.4'],
                 live: null
             }
         },
@@ -250,6 +308,14 @@
             },
             licTitle: {
                 tips: ['Project title — e.g. "Helios 50 MW".'],
+                live: null
+            },
+            licRadiusInput: {
+                tips: ['Screening radius in km around the site (default 25).'],
+                live: null
+            },
+            licDescription: {
+                tips: ['Short project description — e.g. ground-mounted solar plant.'],
                 live: null
             }
         }
@@ -355,15 +421,17 @@
 
     function init() {
         // Delegated so dynamically created inputs (industries hub, widgets)
-        // get the same treatment without extra wiring.
+        // get the same treatment without extra wiring. Covers text, search,
+        // number and textarea so every field can carry a helper dropdown.
+        var SELECTOR = 'input[type="text"], input[type="search"], input[type="number"], textarea';
         document.addEventListener('focusin', function (e) {
-            var input = e.target.closest('input[type="text"], input[type="search"]');
+            var input = e.target.closest(SELECTOR);
             if (!input) return;
             var cfg = configFor(input);
             if (cfg) openFor(input, cfg);
         });
         document.addEventListener('focusout', function (e) {
-            if (e.target.matches && e.target.matches('input')) {
+            if (e.target.matches && (e.target.matches('input') || e.target.matches('textarea'))) {
                 setTimeout(closeAll, 120);
             }
         });
@@ -371,7 +439,7 @@
             if (e.key === 'Escape') closeAll();
         });
         document.addEventListener('click', function (e) {
-            if (!e.target.closest('.sa-dropdown') && !e.target.closest('input')) closeAll();
+            if (!e.target.closest('.sa-dropdown') && !e.target.closest('input, textarea')) closeAll();
         });
     }
 
