@@ -1,15 +1,19 @@
 /* Talaix QuickPath — short guided path (stepper) for service pages.
  *
- * Adds a compact, sticky stepper above a page's key sections so the path to
- * the goal is short and obvious, while the full page stays below (nothing lost).
+ * Two modes:
+ *   - "scroll" (default): a sticky stepper that scrolls to each section and
+ *     highlights it. Low-risk for pages with layout-dependent widgets (maps).
+ *   - "hide": true progressive disclosure — only the active step's section is
+ *     visible, the rest are hidden. This is the short "tunnel" experience.
  *
- * Usage — add a mount div anywhere on the page:
- *     <div class="quickpath" data-steps="applicability:Check your scope,build:Build the pack"></div>
- *   Each entry is `sectionId:Label` (label optional; falls back to the id).
+ * Usage:
+ *     <div class="quickpath" data-mode="hide"
+ *          data-steps="applicability:Check your scope,build:Build the pack"></div>
+ *   Each entry is `elementId:Label` (comma-separated). In "hide" mode the
+ *   target elements must be block containers (sections/panels), not inputs.
  *
  * Self-contained: injects its own styles only when a mount is present, and is
- * a no-op on pages without one. Loaded lazily from chrome.js so every service
- * page can opt in without extra wiring.
+ * a no-op on pages without one. Loaded lazily from chrome.js.
  */
 (function () {
     'use strict';
@@ -26,13 +30,16 @@
         '.qp-step.active .qp-num{background:var(--primary);color:#fff}',
         '.qp-step.done .qp-num{background:var(--brand-teal);color:#fff}',
         '.qp-sep{width:18px;height:2px;background:rgba(15,23,42,.12);border-radius:2px;margin:0 6px}',
-        '.qp-nav{display:flex;gap:8px}',
+        '.qp-nav{display:flex;align-items:center;gap:8px}',
         '.qp-prev,.qp-next{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:.9rem;padding:9px 16px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease}',
         '.qp-next{background:var(--primary);color:#fff}',
         '.qp-next:hover{background:var(--primary-dark)}',
         '.qp-prev{background:transparent;color:var(--text-light);border-color:rgba(15,23,42,.15)}',
         '.qp-prev:disabled{opacity:.4;cursor:not-allowed}',
         '.qp-prev:not(:disabled):hover{color:var(--primary);border-color:var(--primary)}',
+        '.qp-showall{background:transparent;border:none;cursor:pointer;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:.82rem;color:var(--text-light);text-decoration:underline;padding:9px 4px}',
+        '.qp-showall:hover{color:var(--primary)}',
+        '.qp-hidden{display:none !important}',
         '@media(max-width:640px){.qp{position:relative;top:auto}.qp-inner{flex-direction:column;align-items:stretch}.qp-nav{justify-content:space-between}}'
     ].join('\n');
 
@@ -46,8 +53,9 @@
     }
 
     function mountOne(el) {
+        var mode = el.getAttribute('data-mode') || 'scroll';
         var targets = parseSteps(el.getAttribute('data-steps')).map(function (s) {
-            return { label: s.label, el: document.getElementById(s.id) };
+            return { id: s.id, label: s.label, el: document.getElementById(s.id) };
         }).filter(function (t) { return t.el; });
         if (targets.length < 2) return;
 
@@ -59,12 +67,15 @@
         }).join('<span class="qp-sep" aria-hidden="true"></span>');
         bar.innerHTML = '<div class="qp-inner"><div class="qp-chips">' + chips + '</div>' +
             '<div class="qp-nav"><button type="button" class="qp-prev" disabled>← Back</button>' +
-            '<button type="button" class="qp-next">Continue →</button></div></div>';
+            '<button type="button" class="qp-next">Continue →</button>' +
+            (mode === 'hide' ? '<button type="button" class="qp-showall">Show full page</button>' : '') +
+            '</div></div>';
         el.appendChild(bar);
 
         var stepBtns = bar.querySelectorAll('.qp-step');
         var prevBtn = bar.querySelector('.qp-prev');
         var nextBtn = bar.querySelector('.qp-next');
+        var showAllBtn = bar.querySelector('.qp-showall');
         var current = 0;
 
         function setActive(i) {
@@ -77,31 +88,58 @@
             nextBtn.textContent = i === targets.length - 1 ? 'Done ✓' : 'Continue →';
         }
 
-        function go(i) {
-            setActive(i);
-            var y = targets[i].el.getBoundingClientRect().top + window.pageYOffset - 130;
+        function scrollToBar() {
+            var y = bar.getBoundingClientRect().top + window.pageYOffset - 90;
             window.scrollTo({ top: y, behavior: 'smooth' });
         }
 
-        stepBtns.forEach(function (b, i) {
-            b.addEventListener('click', function () { go(i); });
-        });
-        nextBtn.addEventListener('click', function () { go(Math.min(current + 1, targets.length - 1)); });
-        prevBtn.addEventListener('click', function () { go(Math.max(current - 1, 0)); });
-
-        var ticking = false;
-        window.addEventListener('scroll', function () {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(function () {
-                var idx = current;
-                targets.forEach(function (t, i) {
-                    if (t.el.getBoundingClientRect().top < window.innerHeight * 0.4) idx = i;
-                });
-                if (idx !== current) setActive(idx);
-                ticking = false;
+        if (mode === 'hide') {
+            function reveal(i) {
+                targets.forEach(function (t, j) { t.el.classList.toggle('qp-hidden', j !== i); });
+                setActive(i);
+                scrollToBar();
+            }
+            stepBtns.forEach(function (b, i) { b.addEventListener('click', function () { reveal(i); }); });
+            nextBtn.addEventListener('click', function () { reveal(Math.min(current + 1, targets.length - 1)); });
+            prevBtn.addEventListener('click', function () { reveal(Math.max(current - 1, 0)); });
+            showAllBtn.addEventListener('click', function () {
+                targets.forEach(function (t) { t.el.classList.remove('qp-hidden'); });
+                showAllBtn.style.display = 'none';
+                scrollToBar();
             });
-        }, { passive: true });
+            document.addEventListener('click', function (ev) {
+                var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+                if (!a) return;
+                var id = a.getAttribute('href').slice(1);
+                for (var j = 0; j < targets.length; j++) {
+                    if (targets[j].id === id) { ev.preventDefault(); reveal(j); break; }
+                }
+            });
+            reveal(0);
+        } else {
+            function go(i) {
+                setActive(i);
+                var y = targets[i].el.getBoundingClientRect().top + window.pageYOffset - 130;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+            stepBtns.forEach(function (b, i) { b.addEventListener('click', function () { go(i); }); });
+            nextBtn.addEventListener('click', function () { go(Math.min(current + 1, targets.length - 1)); });
+            prevBtn.addEventListener('click', function () { go(Math.max(current - 1, 0)); });
+
+            var ticking = false;
+            window.addEventListener('scroll', function () {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function () {
+                    var idx = current;
+                    targets.forEach(function (t, i) {
+                        if (t.el.getBoundingClientRect().top < window.innerHeight * 0.4) idx = i;
+                    });
+                    if (idx !== current) setActive(idx);
+                    ticking = false;
+                });
+            }, { passive: true });
+        }
     }
 
     function init() {
