@@ -28,7 +28,7 @@
             <p class="muted small">
                 Honesty contract: unavailable data is declared, never invented.
             </p>
-            <div class="quickpath" data-steps="supplierInput:Screen the claim,downloadClaimPdfBtn:Export evidence"></div>
+            <div class="quickpath" data-mode="hide" data-steps="sc-claim:Screen the claim,sc-frameworks:Frameworks &amp; scope"></div>
             <div class="notice notice-warn">
                 <strong>Screening evidence only.</strong> This is <strong>NOT</strong> a EUDR
                 compliance verification, <strong>NOT</strong> a deforestation-free certificate,
@@ -51,7 +51,7 @@
             </details>
 
             <!-- Claim form -->
-            <div class="panel">
+            <div class="panel" id="sc-claim">
                 <h2>Screen a claim</h2>
                 <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
                     <div class="form-group" style="flex:1; min-width:160px;">
@@ -81,22 +81,24 @@
             </div>
 
             <!-- Frameworks & scope -->
-            <h2>Frameworks &amp; scope</h2>
-            <div class="card-grid">
-                <div class="item-card">
-                    <h3>EU Deforestation Regulation</h3>
-                    <span class="chip chip-documented">regulatory context</span>
-                    <p class="muted">Requires proof of deforestation-free status after 31 Dec 2020. Talaix currently provides only a partial evidence layer.</p>
-                </div>
-                <div class="item-card">
-                    <h3>UK Forest Risk Commodity Scheme</h3>
-                    <span class="chip chip-documented">regulatory context</span>
-                    <p class="muted">Operator-level due-diligence evidence can be supported, but forest-loss verification is not available.</p>
-                </div>
-                <div class="item-card">
-                    <h3>Green Claims</h3>
-                    <span class="chip chip-modelled">commercial context</span>
-                    <p class="muted">Reports existing evidence and missing evidence. A claim cannot be verified green without a forest-loss time series.</p>
+            <div id="sc-frameworks">
+                <h2>Frameworks &amp; scope</h2>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <h3>EU Deforestation Regulation</h3>
+                        <span class="chip chip-documented">regulatory context</span>
+                        <p class="muted">Requires proof of deforestation-free status after 31 Dec 2020. Talaix currently provides only a partial evidence layer.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>UK Forest Risk Commodity Scheme</h3>
+                        <span class="chip chip-documented">regulatory context</span>
+                        <p class="muted">Operator-level due-diligence evidence can be supported, but forest-loss verification is not available.</p>
+                    </div>
+                    <div class="item-card">
+                        <h3>Green Claims</h3>
+                        <span class="chip chip-modelled">commercial context</span>
+                        <p class="muted">Reports existing evidence and missing evidence. A claim cannot be verified green without a forest-loss time series.</p>
+                    </div>
                 </div>
             </div>
 

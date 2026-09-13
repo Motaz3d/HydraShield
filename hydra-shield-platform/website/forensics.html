@@ -28,7 +28,7 @@
             <p class="muted small">
                 Honesty contract: unavailable data is declared, never invented.
             </p>
-            <div class="quickpath" data-steps="caseTitle:Open a case,typologyCards:Typologies &amp; frameworks"></div>
+            <div class="quickpath" data-mode="hide" data-steps="for-case:Open a case,for-typologies:Typologies &amp; frameworks"></div>
             <div class="notice notice-warn">
                 <strong>Investigative evidence pack only.</strong> Talaix does
                 <strong>NOT</strong> determine legality or criminal conduct, holds
@@ -49,7 +49,7 @@
             </details>
 
             <!-- Case form -->
-            <div class="panel">
+            <div class="panel" id="for-case">
                 <h2>Open a case</h2>
                 <div class="toolbar" style="align-items:flex-start; flex-wrap:wrap; gap:12px;">
                     <div class="form-group" style="flex:1; min-width:200px;">
@@ -93,8 +93,10 @@
             </div>
 
             <!-- Typologies & frameworks -->
-            <h2>Typologies &amp; frameworks</h2>
-            <div id="typologyCards" class="card-grid"></div>
+            <div id="for-typologies">
+                <h2>Typologies &amp; frameworks</h2>
+                <div id="typologyCards" class="card-grid"></div>
+            </div>
 
             <div class="card-grid" style="margin-top:24px;">
                 <div class="item-card">
