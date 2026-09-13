@@ -101,7 +101,9 @@ def test_deficit_math_with_existing_scheduled_rows(backfill_mod, store):
 
 def test_priority_order_across_segments(backfill_mod, store):
     mod, db_path, leads_dir, _ = backfill_mod
-    day = datetime(2026, 9, 12, 10, 0, 0)
+    # From 2026-09-20 the EUDR angle leads the priority list (operator
+    # directive 2026-09-12).
+    day = datetime(2026, 9, 20, 10, 0, 0)
 
     _write_lead(leads_dir, "consultant-a", _make_lead("consultant-a", "consultants"))
     _add_contact(store, "consultant-a", "info@consultant-a.example")
@@ -115,10 +117,32 @@ def test_priority_order_across_segments(backfill_mod, store):
     plan = mod._plan_day(day, 3, store, mod._load_leads(),
                          mod._contacts_by_slug(store), {}, day)
     slugs = [e["slug"] for e in plan["entries"]]
-    assert slugs[0] == "compliance-a"
-    assert "eudr-a" in slugs
+    assert slugs[0] == "eudr-a"
+    assert "compliance-a" in slugs
     assert "consultant-a" in slugs
     assert "lab-a" not in slugs
+    templates = {e["slug"]: e["template"] for e in plan["entries"]}
+    assert templates["eudr-a"] == "outreach_eudr_exporters"
+
+
+def test_eudr_before_switch_keeps_pool_with_compliance_template(backfill_mod, store):
+    mod, db_path, leads_dir, _ = backfill_mod
+    # The Friday before the switch: the daily volume is never reduced, so EUDR
+    # leads stay in the pool — but with the generic compliance template, not
+    # the dedicated EUDR angle (operator directive 2026-09-12).
+    day = datetime(2026, 9, 18, 10, 0, 0)
+
+    _write_lead(leads_dir, "eudr-a", _make_lead("eudr-a", "eudr_operators"))
+    _add_contact(store, "eudr-a", "info@eudr-a.example")
+    _write_lead(leads_dir, "compliance-a", _make_lead("compliance-a", "sustainability_compliance"))
+    _add_contact(store, "compliance-a", "info@compliance-a.example")
+
+    plan = mod._plan_day(day, 3, store, mod._load_leads(),
+                         mod._contacts_by_slug(store), {}, day)
+    templates = {e["slug"]: e["template"] for e in plan["entries"]}
+    assert "eudr-a" in templates
+    assert templates["eudr-a"] == "outreach_sustainability_compliance"
+    assert plan["entries"][0]["slug"] == "compliance-a"
 
 
 def test_dedup_and_idempotency_on_rerun(backfill_mod, store):

@@ -1089,6 +1089,17 @@
   "priority_model": {
     "note": "Priority tiers focus commercial effort; they do not change what the platform offers any user.",
     "primary": {
+      "eudr_operators": {
+        "tier_focus": "A",
+        "why": "least-contested niche (operator ruling 2026-09-12): EUDR geolocation obligations are already in force, and non-EU exporters selling into the EU lack affordable EU-facing evidence tooling",
+        "likely_tier": "professional/business",
+        "communication_angle": "Plot-level EUDR origin evidence from Earth observation \u2014 screening evidence with declared gaps, at a published price",
+        "objections": [
+          "never a deforestation-free or compliance claim",
+          "supply-chain data granularity"
+        ],
+        "follow_up_strategy": "free sample origin screening on one plot, then the \u20ac490 pilot"
+      },
       "sustainability_compliance": {
         "tier_focus": "A",
         "why": "compliance spend is mandatory and deadline-driven (CSRD waves, simplified ESRS adopted 3 Jul 2026); the physical-risk layer is missing from every reporting suite — the fastest path to the first customer",
@@ -1147,7 +1158,6 @@
       }
     },
     "secondary": [
-      "eudr_operators",
       "banks/banking",
       "real_estate",
       "engineering_firms",
