@@ -135,6 +135,34 @@
                 live: 'snapshot'
             }
         },
+        sustainability: {
+            applName: {
+                tips: ['Your legal company name — used only for the screening determination.'],
+                live: null
+            },
+            applCountry: {
+                tips: ['Country of establishment — drives the CSRD wave calendar.'],
+                chips: ['Luxembourg', 'Germany', 'France', 'United States'],
+                live: null
+            },
+            companyName: {
+                tips: ['Company-supplied — not verified by Talaix.'],
+                live: null
+            },
+            companySector: {
+                tips: ['The sector drives which ESRS datapoints are material.'],
+                chips: ['renewable energy', 'manufacturing', 'real estate', 'agriculture'],
+                live: null
+            },
+            companyCountry: {
+                chips: ['Luxembourg', 'Germany', 'France'],
+                live: null
+            },
+            companyWebsite: {
+                tips: ['Optional — appears in the report header.'],
+                live: null
+            }
+        },
         greenfinance: {
             assetLocInput: {
                 tips: [
@@ -143,6 +171,10 @@
                 ],
                 chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'],
                 live: 'snapshot'
+            },
+            portfolioName: {
+                tips: ['Name this portfolio batch — used as its label in the report.'],
+                live: null
             }
         },
         insurance: {
@@ -150,6 +182,10 @@
                 tips: ['The profile screens perils at the exact site — screening levels, never loss promises.'],
                 chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'],
                 live: 'snapshot'
+            },
+            portfolioName: {
+                tips: ['Name this insured portfolio — used as its label in the report.'],
+                live: null
             }
         },
         forensics: {
@@ -157,9 +193,17 @@
                 tips: ['The case site anchors every cross-check: map, satellite and documented events.'],
                 chips: ['Clervaux, Luxembourg', '50.06, 6.03'],
                 live: null
+            },
+            caseTitle: {
+                tips: ['A short title for this case — visible in the evidence pack.'],
+                live: null
             }
         },
         supplychain: {
+            supplierInput: {
+                tips: ['Supplier name — company-supplied, not verified by Talaix.'],
+                live: null
+            },
             countryInput: {
                 tips: ['Origin claims are screened against documented deforestation and hazard datasets.'],
                 chips: ['Brazil', 'Indonesia', 'Ghana'],
@@ -197,6 +241,15 @@
             licSiteInput: {
                 tips: ['The site anchors the licensing dossier: hazards, exposure and documented context.'],
                 chips: ['Almería, Spain', '39.62, 22.39'],
+                live: null
+            },
+            licJurisdiction: {
+                tips: ['The permitting jurisdiction — e.g. region and country.'],
+                chips: ['Almería, Spain', 'Wallonia, Belgium'],
+                live: null
+            },
+            licTitle: {
+                tips: ['Project title — e.g. "Helios 50 MW".'],
                 live: null
             }
         }
