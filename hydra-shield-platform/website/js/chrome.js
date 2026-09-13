@@ -89,7 +89,6 @@
                 'insurance',
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
-                { id: 'pricing', href: 'pricing.html', label: 'Pricing' },
                 'licensing'
             ]
         },
@@ -141,6 +140,7 @@
         { href: 'technology.html', label: 'Technology' },
         { href: 'applications.html', label: 'Applications' },
         { href: 'roadmap.html', label: 'Roadmap' },
+        { href: 'pricing.html', label: 'Pricing' },
         { href: 'privacy.html', label: 'Privacy' },
         { href: 'contact.html', label: 'Contact' }
     ];
