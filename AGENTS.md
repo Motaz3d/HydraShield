@@ -43,9 +43,9 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - Engine changes are not done until the mirror is synced. tore's own files (README, pyproject, CI, examples, `tests/fakes.py`, `tests/test_engine_smoke.py`, its `AGENTS.md`) are edited in the tore checkout directly.
 - `sdk/python/`, `sdk/js/` — client SDKs.
 - `qgis-plugin/hydrashield/` — QGIS plugin.
-- `website/` — static site (HTML/CSS/JS).
+- `website/` — static site (HTML/CSS/JS). Challenge-first IA (2026-09-13): homepage = one-question hero + 6 challenge cards; nav in `js/chrome.js` = Start · Who it's for · Capabilities ▾ (full dropdown) · Pricing; footer keeps the full page map (nothing lost).
 - `notebooks/` — Jupyter: fire-risk, protection optimisation.
-- `docs/` — product, architecture, API, validation, strategy docs.
+- `docs/` — product, architecture, API, validation, strategy docs (incl. `MARKET_AND_COMPETITORS_2026-09.md` — market/competitor study, specialists live-verified 2026-09-12, + the EUDR-exporter priority ruling).
 - `marketing/` — campaigns, segments, EU funding, leads, `research/` (incl. global investor landscape `.md` + interactive `.html`).
 - `data/` — cache, validation sets, rasters, IBTrACS, dev outbox.
 
