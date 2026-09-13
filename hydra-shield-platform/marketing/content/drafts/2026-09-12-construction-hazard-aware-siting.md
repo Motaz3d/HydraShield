@@ -4,7 +4,7 @@ pillar: climate_risk_for_business
 campaign: I
 cta: "Screen a project site"
 landing: https://talaix.com/solutions.html?utm_source=linkedin&utm_campaign=I
-status: draft
+status: queued
 ---
 
 The cheapest climate adaptation in construction is the decision made
