@@ -103,6 +103,16 @@
                 tips: ['Solutions are matched to the exact site — with limitations stated.'],
                 chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'],
                 live: 'snapshot'
+            },
+            'sec-loc-input': {
+                tips: ['Screen the location against the selected sector exposure profile.'],
+                chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'],
+                live: 'snapshot'
+            },
+            fundLocWidget_q: {
+                tips: ['Match public funding programmes to this location.'],
+                chips: ['Clervaux, Luxembourg', 'Faro, Portugal'],
+                live: null
             }
         },
         about: {
