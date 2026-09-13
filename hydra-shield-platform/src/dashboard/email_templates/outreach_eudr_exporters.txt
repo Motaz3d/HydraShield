@@ -1,0 +1,18 @@
+Subject: EUDR geolocation evidence for {{organization}}'s EU-bound commodities
+
+Hi {{contact_name}},
+
+EUDR due diligence is already in force: operators and traders placing cattle, cocoa, coffee, palm oil, rubber, soya and wood on the EU market must hold plot-level geolocation and due-diligence evidence — and exporters selling into the EU carry the burden of proving origin.
+
+Talaix builds the geographic evidence layer for that file: plot-coordinate screening from Earth observation and official open data — land-cover and disturbance context plus flood, drought and wildfire hazard — every value with its source, date and evidence status (OBSERVED through UNKNOWN). This is screening evidence with declared gaps: never a "deforestation-free" claim and never EUDR compliance verification. That boundary is printed on every output.
+
+{{identified_problem}}
+
+For {{organization}}: {{relevant_capability}}
+
+Send one origin plot's coordinates and we will return a free sample screening pack. Prices are published (free tier, then from €49/month) — no enterprise sales cycle.
+
+Worth a short call?
+
+---
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

@@ -7,15 +7,21 @@ Already-scheduled/approved waves take their share first; any remaining share
 is filled from the archive in strict segment priority.
 
 Priority order (each segment exhausted before the next):
-  consultants / environmental_consulting -> outreach_environmental_consulting
+  eudr_operators                         -> outreach_eudr_exporters
   sustainability_compliance              -> outreach_sustainability_compliance
-  eudr_operators                         -> outreach_sustainability_compliance
   insurance                              -> outreach_insurance
   banking                                -> outreach_banking
   real_estate                            -> outreach_real_estate
   governments                            -> outreach_governments
   investment                             -> outreach_investment
+  consultants / environmental_consulting -> outreach_environmental_consulting
 Segments outside this list (e.g. research_centers) are reported as held.
+
+Operator directive 2026-09-12: the non-EU exporter / EUDR geolocation angle is
+the least-contested niche. From 2026-09-20 onward eudr_operators leads the list
+and is presented with the dedicated outreach_eudr_exporters template. Before
+that date the previous behaviour is kept — EUDR leads stay in the pool (the
+daily volume is never reduced) and receive the generic compliance message.
 
 Workdays only (operator directive 2026-09-12): no rows are scheduled on
 Saturday/Sunday (UTC); the processor likewise defers weekend sends to Monday.
@@ -68,14 +74,23 @@ _EU_UK = {"AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE",
 # because there is no current outreach strategy for it (e.g. research_centers).
 _CONSULTING_TEMPLATE = "outreach_environmental_consulting"
 _COMPLIANCE_TEMPLATE = "outreach_sustainability_compliance"
+_EUDR_TEMPLATE = "outreach_eudr_exporters"
 _INSURANCE_TEMPLATE = "outreach_insurance"
 _BANKING_TEMPLATE = "outreach_banking"
 _REAL_ESTATE_TEMPLATE = "outreach_real_estate"
 _GOVERNMENTS_TEMPLATE = "outreach_governments"
 _INVESTMENT_TEMPLATE = "outreach_investment"
 
+# Operator directive 2026-09-12: the non-EU exporter / EUDR geolocation angle is
+# the least-contested niche. From this date eudr_operators leads the priority
+# list and is presented with the dedicated EUDR template. Before it the
+# previous behaviour is kept — EUDR leads stay in the pool (the daily volume is
+# never reduced) and receive the generic compliance message.
+_EUDR_PRIORITY_FROM = datetime(2026, 9, 20).date()
+
 # Segment priority order. Segments mapping to the same template are grouped
 # so they can be exhausted before moving to the next template family.
+# This is the pre-2026-09-20 order (EUDR present, generic compliance template).
 _PRIORITY: List[Tuple[Tuple[str, ...], str]] = [
     (("sustainability_compliance",), _COMPLIANCE_TEMPLATE),
     (("eudr_operators",), _COMPLIANCE_TEMPLATE),
@@ -92,10 +107,35 @@ _WINDOW_START_H = int(os.environ.get("OUTREACH_WINDOW_START") or 7)
 _WINDOW_END_H = int(os.environ.get("OUTREACH_WINDOW_END") or 17)
 
 
+def _active_priority(day: datetime) -> List[Tuple[Tuple[str, ...], str]]:
+    """Priority list for one send day (EUDR switch, operator directive 2026-09-12).
+
+    The pool is never reduced: EUDR leads are always eligible. From
+    ``_EUDR_PRIORITY_FROM`` (2026-09-20) they move to the top and are presented
+    with the dedicated ``outreach_eudr_exporters`` template; before that date
+    they keep their previous position and the generic compliance template.
+    """
+    if day.date() < _EUDR_PRIORITY_FROM:
+        return _PRIORITY
+    return [(("eudr_operators",), _EUDR_TEMPLATE)] + [
+        entry for entry in _PRIORITY if entry[0] != ("eudr_operators",)
+    ]
+
+
 def _capability(country: str, template: str) -> str:
     """Capability line tailored to the template and region."""
     country = (country or "").upper()
     is_eu_uk = country in _EU_UK
+
+    if template == _EUDR_TEMPLATE:
+        base = ("plot-level origin screening for EUDR due-diligence — land-cover "
+                "and disturbance context plus flood, drought and wildfire hazard, "
+                "every value with source, date and evidence status")
+        if is_eu_uk:
+            return (base + ", ready to sit alongside your EUDR due-diligence "
+                    "statement and CSRD/ESRS E1 disclosure")
+        return (base + ", built for exporters selling into the EU — evidence "
+                "with declared gaps, never a compliance or deforestation-free claim")
 
     if template == _INSURANCE_TEMPLATE:
         return ("per-location multi-hazard evidence for underwriting files "
@@ -433,7 +473,7 @@ def _plan_day(day: datetime, target: int, store: MarketingStore,
 
     entries: List[dict] = []
     remaining = to_add
-    for segments, template in _PRIORITY:
+    for segments, template in _active_priority(day):
         if remaining <= 0:
             break
         picks = _select_for_segment(leads, contacts_by_slug, segments, template,
