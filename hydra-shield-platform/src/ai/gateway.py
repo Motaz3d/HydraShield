@@ -1,11 +1,12 @@
 """
 Server-side AI gateway for the Talaix platform.
 
-Provides a cheap-first, tiered interface to the Kimi API. The gateway is
-opt-in via ``KIMI_API_KEY``; when the key is absent every call raises
-``AIUnavailable`` so callers can degrade gracefully.
+Provides a cheap-first, tiered interface to a chat-completions API. The gateway
+is opt-in: it is configured either by ``KIMI_API_KEY`` (hosted providers) or by
+selecting the free ``local`` provider, which needs no key at all. When neither
+is available every call raises ``AIUnavailable`` so callers degrade gracefully.
 
-Two providers are supported (``KIMI_PROVIDER``):
+Three provider families are supported (``KIMI_PROVIDER``):
 
 - ``code`` (default): the Kimi Code API bundled with a Kimi membership
   (https://api.kimi.com/coding/v1). Cheap tier ``kimi-for-coding``,
@@ -14,6 +15,12 @@ Two providers are supported (``KIMI_PROVIDER``):
   (https://api.moonshot.cn/v1 — or ``platform-international`` for
   https://api.moonshot.ai/v1). Cheap tier ``moonshot-v1-8k``, strong
   tier ``kimi-k2-0711-preview``.
+- ``local``: **free and in-house** — any OpenAI-compatible server running on
+  your own hardware (Ollama, llama.cpp ``--server``, vLLM, LM Studio). No
+  subscription, no API key, and no prompt ever leaves the machine. Point it at
+  the server with ``LOCAL_AI_BASE_URL`` (default
+  ``http://127.0.0.1:11434/v1/chat/completions``, the Ollama default) and pick
+  models with ``LOCAL_AI_MODEL_CHEAP`` / ``LOCAL_AI_MODEL_STRONG``.
 
 ``KIMI_BASE_URL`` overrides the endpoint outright, and
 ``KIMI_MODEL_CHEAP`` / ``KIMI_MODEL_STRONG`` override the per-provider
@@ -21,7 +28,8 @@ default model ids (use them when the platform introduces new model ids —
 never let callers pick models ad hoc).
 
 Usage is logged to the shared platform SQLite database so daily caps can be
-enforced and operators can audit spend.
+enforced and operators can audit spend — for the local provider the log is a
+volume/audit record rather than a cost record.
 """
 
 from __future__ import annotations
@@ -35,6 +43,9 @@ from typing import Any, Dict, Optional
 import requests
 
 from ..dashboard.cache import default_cache
+
+#: Ollama's OpenAI-compatible default; override with LOCAL_AI_BASE_URL.
+_LOCAL_AI_DEFAULT_URL = "http://127.0.0.1:11434/v1/chat/completions"
 
 _PROVIDERS: Dict[str, Dict[str, Any]] = {
     "code": {
@@ -51,6 +62,16 @@ _PROVIDERS: Dict[str, Dict[str, Any]] = {
         "base_url": "https://api.moonshot.ai/v1/chat/completions",
         "cheap": "moonshot-v1-8k",
         "strong": "kimi-k2-0711-preview",
+    },
+    # Free / in-house: no subscription and no API key. Requires only a local
+    # OpenAI-compatible server (e.g. `ollama serve` + `ollama pull
+    # qwen2.5:7b-instruct`). Set KIMI_PROVIDER=local to run every AI feature
+    # on your own hardware, with prompts never leaving the machine.
+    "local": {
+        "base_url": _LOCAL_AI_DEFAULT_URL,
+        "cheap": "qwen2.5:7b-instruct",
+        "strong": "qwen2.5:14b-instruct",
+        "requires_key": False,
     },
 }
 
@@ -82,13 +103,31 @@ class AIUnavailable(Exception):
     pass
 
 
+def _provider_name() -> str:
+    """The configured provider name (never raises)."""
+    return (os.environ.get("KIMI_PROVIDER") or "code").strip().lower() or "code"
+
+
+def _is_local() -> bool:
+    """True when the free in-house provider is selected."""
+    return _provider_name() == "local"
+
+
 def configured() -> bool:
-    """Return True when a non-empty ``KIMI_API_KEY`` is present."""
+    """True when the gateway can run: the local provider needs no key."""
+    if _is_local():
+        return True
     return bool(os.environ.get("KIMI_API_KEY", "").strip())
 
 
 def _api_key() -> str:
-    """Return the configured API key, or raise AIUnavailable."""
+    """Return the configured API key, or raise AIUnavailable.
+
+    The in-house local provider has no key by design, so it returns "" and the
+    request is sent without an Authorization header.
+    """
+    if _is_local():
+        return ""
     key = os.environ.get("KIMI_API_KEY", "").strip()
     if not key:
         raise AIUnavailable("AI gateway is not configured (KIMI_API_KEY is missing)")
@@ -177,8 +216,20 @@ def _provider() -> Dict[str, Any]:
 
 
 def _base_url() -> str:
+    """Endpoint for the active provider.
+
+    ``KIMI_BASE_URL`` wins for any provider; the in-house local provider also
+    accepts ``LOCAL_AI_BASE_URL``, so a local server on another port or machine
+    does not need the vendor-named variable.
+    """
     override = (os.environ.get("KIMI_BASE_URL") or "").strip()
-    return override or _provider()["base_url"]
+    if override:
+        return override
+    if _is_local():
+        local = (os.environ.get("LOCAL_AI_BASE_URL") or "").strip()
+        if local:
+            return local
+    return _provider()["base_url"]
 
 
 def _resolve_model(task_kind: str) -> str:
@@ -187,8 +238,16 @@ def _resolve_model(task_kind: str) -> str:
         raise AIUnavailable(f"unknown task kind: {task_kind}")
     tier = TASK_TIERS[task_kind]
     if tier == "cheap":
-        return (os.environ.get("KIMI_MODEL_CHEAP") or "").strip() or _provider()["cheap"]
-    return (os.environ.get("KIMI_MODEL_STRONG") or "").strip() or _provider()["strong"]
+        return (
+            (os.environ.get("KIMI_MODEL_CHEAP") or "").strip()
+            or (_is_local() and (os.environ.get("LOCAL_AI_MODEL_CHEAP") or "").strip())
+            or _provider()["cheap"]
+        )
+    return (
+        (os.environ.get("KIMI_MODEL_STRONG") or "").strip()
+        or (_is_local() and (os.environ.get("LOCAL_AI_MODEL_STRONG") or "").strip())
+        or _provider()["strong"]
+    )
 
 
 def _post(url: str, headers: Dict[str, str], payload: Dict[str, Any], timeout: float) -> Dict[str, Any]:
@@ -249,10 +308,10 @@ def complete(
         "max_tokens": max(max_tokens, 1),
         "temperature": 0,
     }
-    headers = {
-        "Authorization": f"Bearer {key}",
-        "Content-Type": "application/json",
-    }
+    # The in-house local provider has no key: send no Authorization header.
+    headers = {"Content-Type": "application/json"}
+    if key:
+        headers["Authorization"] = f"Bearer {key}"
 
     data = _post(_base_url(), headers, payload, timeout)
 

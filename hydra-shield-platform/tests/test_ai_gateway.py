@@ -362,3 +362,103 @@ def test_unknown_provider_raises(monkeypatch):
     monkeypatch.setenv("KIMI_PROVIDER", "nonsense")
     with pytest.raises(gateway.AIUnavailable, match="KIMI_PROVIDER"):
         gateway.complete("polish", "text")
+
+
+# -----------------------------------------------------------------------------
+# Free, in-house provider (KIMI_PROVIDER=local)
+#
+# The platform must be able to run every AI feature on its own hardware with no
+# subscription at all: any OpenAI-compatible local server (Ollama, llama.cpp
+# --server, vLLM, LM Studio) needs no API key, and prompts never leave the
+# machine.
+# -----------------------------------------------------------------------------
+
+
+def test_local_provider_needs_no_api_key(monkeypatch):
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    assert gateway.configured() is True
+
+
+def test_local_provider_defaults_to_the_ollama_endpoint(monkeypatch):
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    monkeypatch.delenv("KIMI_BASE_URL", raising=False)
+    monkeypatch.delenv("LOCAL_AI_BASE_URL", raising=False)
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("polish", "draft")
+    assert captured["url"] == "http://127.0.0.1:11434/v1/chat/completions"
+    assert captured["payload"]["model"] == "qwen2.5:7b-instruct"
+
+
+def test_local_provider_sends_no_authorization_header(monkeypatch):
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    captured: Dict[str, Any] = {}
+
+    def fake_post(url, headers, payload, timeout):
+        captured["headers"] = headers
+        return _ok_response("ok")
+
+    monkeypatch.setattr(gateway, "_post", fake_post)
+    gateway.complete("polish", "draft")
+    assert "Authorization" not in captured["headers"]
+
+
+def test_local_provider_can_be_pointed_at_another_host_and_model(monkeypatch):
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    monkeypatch.delenv("KIMI_BASE_URL", raising=False)
+    monkeypatch.setenv("LOCAL_AI_BASE_URL",
+                       "http://gpu-box.local:8000/v1/chat/completions")
+    monkeypatch.setenv("LOCAL_AI_MODEL_CHEAP", "llama3.1:8b-instruct")
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("classify", "text")
+    assert captured["url"] == "http://gpu-box.local:8000/v1/chat/completions"
+    assert captured["payload"]["model"] == "llama3.1:8b-instruct"
+
+
+def test_kimi_base_url_still_wins_over_local_ai_base_url(monkeypatch):
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    monkeypatch.setenv("LOCAL_AI_BASE_URL", "http://ignored:11434/v1/chat/completions")
+    monkeypatch.setenv("KIMI_BASE_URL", "http://explicit:9999/v1/chat/completions")
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("polish", "text")
+    assert captured["url"] == "http://explicit:9999/v1/chat/completions"
+
+
+def test_local_provider_strong_tier(monkeypatch):
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    monkeypatch.delenv("KIMI_MODEL_STRONG", raising=False)
+    monkeypatch.delenv("LOCAL_AI_MODEL_STRONG", raising=False)
+    captured: Dict[str, Any] = {}
+    _capture_post(monkeypatch, captured)
+    gateway.complete("deep_analysis", "long prompt")
+    assert captured["payload"]["model"] == "qwen2.5:14b-instruct"
+
+
+def test_local_provider_still_logs_usage_and_respects_the_cap(monkeypatch, env):
+    """Free does not mean unmeasured: the audit trail and the cap still apply."""
+    monkeypatch.setenv("KIMI_PROVIDER", "local")
+    monkeypatch.delenv("KIMI_API_KEY", raising=False)
+    monkeypatch.setenv("AI_DAILY_CALL_CAP", "1")
+    monkeypatch.setattr(gateway, "_post", lambda *a, **k: _ok_response())
+    gateway.complete("polish", "one")
+    assert gateway.calls_today() == 1
+    with pytest.raises(gateway.AIUnavailable, match="cap reached"):
+        gateway.complete("polish", "two")
+
+
+def test_hosted_providers_still_require_a_key(monkeypatch):
+    """Adding the free provider must not weaken the hosted ones."""
+    for provider in ("code", "platform", "platform-international"):
+        monkeypatch.setenv("KIMI_PROVIDER", provider)
+        monkeypatch.delenv("KIMI_API_KEY", raising=False)
+        assert gateway.configured() is False, provider
+        with pytest.raises(gateway.AIUnavailable):
+            gateway.complete("polish", "text")
