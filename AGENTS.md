@@ -44,9 +44,10 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 - `sdk/python/`, `sdk/js/` — client SDKs.
 - `qgis-plugin/hydrashield/` — QGIS plugin.
 - `website/` — static site (HTML/CSS/JS). Challenge-first IA (2026-09-13): homepage = one-question hero + 6 challenge cards; nav in `js/chrome.js` = Start · Who it's for · Capabilities ▾ (full dropdown) · Pricing; footer keeps the full page map (nothing lost). Guided stepper: `js/quickpath.js` (auto-loaded from chrome.js, no-op without a mount) renders a progressive-disclosure tunnel via `<div class="quickpath" data-mode="hide" data-steps="id:Label,...">` — CSRD, Green Finance, EUDR, Insurance, Forensics, Licensing. Search-assist: `js/search-assist.js` gives every form field (text/number/textarea) a context helper dropdown.
+- `website/` plain-language + graphics layer (2026-09-14): `css/viz.css`, `js/glossary.js`, `js/viz.js`, `glossary.html` — all auto-loaded from `chrome.js`. Glossary = 45 plain-English term tooltips (acronyms + phrases — CSRD/ESRS/DNSH/EUDR/XBRL, double materiality, per-peril, actuarial, physical risk… — auto-enhanced site-wide) + A–Z `glossary.html`; viz = dependency-free meters/rings/bars/timelines/steps/stats/legend via `data-viz` attributes. Applied to index, compliance, sustainability, green-finance, insurance, supplychain, forensics, licensing, technology.
 - `notebooks/` — Jupyter: fire-risk, protection optimisation.
 - `docs/` — product, architecture, API, validation, strategy docs (incl. `MARKET_AND_COMPETITORS_2026-09.md` — market/competitor study, specialists live-verified 2026-09-12, + the EUDR-exporter priority ruling).
-- `marketing/` — campaigns, segments, EU funding, leads, `research/` (incl. global investor landscape `.md` + interactive `.html`).
+- `marketing/` — campaigns, segments, EU funding, leads, `research/` (incl. global investor landscape `.md` + interactive `.html`), `outreach/` (wave lists, decks, `paste_kit.txt`, `archive/` = archived inbound correspondence + its analysis).
 - `data/` — cache, validation sets, rasters, IBTrACS, dev outbox.
 
 ## Production server access (verified 2026-09-12)

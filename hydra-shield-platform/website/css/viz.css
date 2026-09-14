@@ -1,0 +1,254 @@
+/* ============================================================
+   Talaix — Plain-language glossary + data-visualization layer
+   Loaded site-wide by chrome.js. Dependency-free (CSS/SVG only),
+   consistent with the existing design tokens in style.css.
+   ============================================================ */
+
+/* ---- Plain-language glossary tooltips ----------------------- */
+.term {
+    border-bottom: 1px dashed rgba(14, 165, 233, 0.55);
+    color: #0369A1;
+    cursor: help;
+    white-space: nowrap;
+}
+a.term { cursor: help; }
+
+.term-tip {
+    position: absolute;
+    z-index: 3000;
+    max-width: 340px;
+    background: #0F172A;
+    color: #E2E8F0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    box-shadow: 0 14px 40px rgba(2, 6, 23, 0.45);
+    pointer-events: none;
+    font-family: var(--font-main, 'Inter', sans-serif);
+}
+.term-tip .tt-term {
+    display: block;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 2px;
+}
+.term-tip .tt-full {
+    display: block;
+    font-size: 0.74rem;
+    color: #7DD3FC;
+    margin-bottom: 6px;
+}
+.term-tip .tt-group {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.18);
+    color: #6EE7B7;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ---- Hazard / risk meter (5-step colour ramp) --------------- */
+.viz-meter { margin: 14px 0; }
+.viz-meter-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+.viz-meter-label { font-size: 0.86rem; font-weight: 600; color: var(--text, #1E293B); }
+.viz-meter-value { font-size: 0.78rem; font-weight: 700; color: #475569; white-space: nowrap; }
+.viz-meter-track {
+    display: flex;
+    gap: 3px;
+    height: 12px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #E2E8F0;
+}
+.viz-meter-seg {
+    flex: 1;
+    height: 100%;
+    border-radius: 999px;
+    background: transparent;
+    transition: background 0.35s ease;
+}
+.viz-meter-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 0.68rem;
+    color: #94A3B8;
+}
+.viz-meter.dark .viz-meter-label { color: #E2E8F0; }
+.viz-meter.dark .viz-meter-value { color: #CBD5E1; }
+.viz-meter.dark .viz-meter-track { background: rgba(255, 255, 255, 0.12); }
+.viz-meter.dark .viz-meter-scale { color: #64748B; }
+
+/* ---- Percentage ring (SVG donut) ---------------------------- */
+.viz-ring { display: flex; align-items: center; gap: 16px; margin: 14px 0; }
+.viz-ring-fig { position: relative; width: 84px; height: 84px; flex: 0 0 auto; }
+.viz-ring-fig svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.viz-ring-bg { fill: none; stroke: #E2E8F0; stroke-width: 9; }
+.viz-ring-val { fill: none; stroke: url(#vizRingGrad); stroke-width: 9; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+.viz-ring-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text, #1E293B);
+}
+.viz-ring-body .viz-ring-title { font-weight: 700; font-size: 0.95rem; color: var(--text, #1E293B); }
+.viz-ring-body .viz-ring-sub { font-size: 0.82rem; color: #64748B; margin-top: 2px; }
+.viz-ring.dark .viz-ring-bg { stroke: rgba(255, 255, 255, 0.14); }
+.viz-ring.dark .viz-ring-num { color: #FFFFFF; }
+.viz-ring.dark .viz-ring-title { color: #FFFFFF; }
+.viz-ring.dark .viz-ring-sub { color: #94A3B8; }
+
+/* ---- Simple bar chart --------------------------------------- */
+.viz-bars { display: flex; gap: 14px; align-items: flex-end; margin: 14px 0; }
+.viz-bar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.viz-bar-col {
+    width: 100%;
+    min-height: 4px;
+    border-radius: 8px 8px 0 0;
+    background: var(--gradient, linear-gradient(180deg, #0EA5E9 0%, #10B981 100%));
+    transition: height 0.5s ease;
+}
+.viz-bar-label { font-size: 0.72rem; color: #64748B; text-align: center; line-height: 1.2; }
+.viz-bar-value { font-size: 0.72rem; font-weight: 700; color: #475569; }
+
+/* ---- Regulatory / process timeline -------------------------- */
+.viz-timeline { display: flex; gap: 0; margin: 20px 0; overflow-x: auto; padding-bottom: 6px; }
+.viz-tl-item { position: relative; flex: 1 0 150px; padding: 0 16px 0 0; }
+.viz-tl-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 20px;
+    right: 4px;
+    height: 2px;
+    background: #CBD5E1;
+}
+.viz-tl-dot {
+    position: relative;
+    z-index: 1;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid #FFFFFF;
+    background: #0EA5E9;
+    box-shadow: 0 0 0 1px #0EA5E9;
+    margin-bottom: 10px;
+}
+.viz-tl-dot.done { background: #10B981; box-shadow: 0 0 0 1px #10B981; }
+.viz-tl-dot.now { background: #F59E0B; box-shadow: 0 0 0 1px #F59E0B; }
+.viz-tl-dot.later { background: #94A3B8; box-shadow: 0 0 0 1px #94A3B8; }
+.viz-tl-year { font-size: 0.8rem; font-weight: 700; color: var(--text, #1E293B); }
+.viz-tl-title { font-size: 0.8rem; font-weight: 600; color: #334155; margin-top: 2px; line-height: 1.3; }
+.viz-tl-sub { font-size: 0.72rem; color: #64748B; margin-top: 3px; line-height: 1.35; }
+.viz-timeline.dark .viz-tl-item:not(:last-child)::after { background: rgba(255, 255, 255, 0.2); }
+.viz-timeline.dark .viz-tl-dot { border-color: #0F172A; }
+.viz-timeline.dark .viz-tl-year { color: #FFFFFF; }
+.viz-timeline.dark .viz-tl-title { color: #CBD5E1; }
+.viz-timeline.dark .viz-tl-sub { color: #94A3B8; }
+
+/* ---- Process steps (static graphic) -------------------------- */
+.viz-steps { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0; }
+.viz-step {
+    flex: 1 1 180px;
+    background: #FFFFFF;
+    border: 1px solid var(--border, #E2E8F0);
+    border-radius: var(--radius-md, 16px);
+    padding: 16px;
+    position: relative;
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,0.06));
+}
+.viz-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--gradient, linear-gradient(135deg, #0EA5E9, #10B981));
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.viz-step-title { font-weight: 700; font-size: 0.92rem; color: var(--text, #1E293B); }
+.viz-step-sub { font-size: 0.8rem; color: #64748B; margin-top: 4px; line-height: 1.45; }
+
+/* ---- Stat callout (big number) ------------------------------- */
+.viz-stat { display: flex; align-items: baseline; gap: 8px; margin: 6px 0; }
+.viz-stat-num { font-size: 2rem; font-weight: 800; color: var(--text, #1E293B); font-family: var(--font-display, 'Space Grotesk', sans-serif); }
+.viz-stat-num.grad { background: var(--gradient, linear-gradient(135deg, #0EA5E9, #10B981)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.viz-stat-label { font-size: 0.85rem; color: #64748B; }
+.viz-stat.dark .viz-stat-num { color: #FFFFFF; }
+.viz-stat.dark .viz-stat-label { color: #94A3B8; }
+
+/* ---- Legend row (visual scale) ------------------------------- */
+.viz-legend { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin: 12px 0; }
+.viz-legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: #475569; }
+.viz-legend-swatch { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
+
+/* ---- Glossary page (plain-English A–Z) ----------------------- */
+.glossary-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 28px; }
+.glossary-nav a {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #0369A1;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.glossary-nav a:hover { background: #0EA5E9; border-color: #0EA5E9; color: #FFFFFF; }
+.glossary-letter { margin-bottom: 28px; }
+.glossary-letter h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0EA5E9;
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+}
+.glossary-entry {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: var(--radius-md, 16px);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+}
+.glossary-entry h3 { font-size: 1rem; font-weight: 700; color: var(--text, #1E293B); margin-bottom: 2px; }
+.glossary-entry .tt-full { font-weight: 500; color: #64748B; font-size: 0.85rem; }
+.glossary-entry p { font-size: 0.9rem; color: #475569; margin-top: 6px; }
+.glossary-entry .tt-group {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #047857;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}

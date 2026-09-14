@@ -237,6 +237,7 @@
             '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
             '<p><a href="verify.html">Verify a document</a></p>' +
+            '<p><a href="glossary.html">Plain-English glossary</a></p>' +
             '<p><a href="/sources">Data sources</a></p>' +
             '<p><a href="/api/sources" target="_blank" rel="noopener">Data-source registry (API)</a></p>' +
             '<p><a href="/api/v2/registry" target="_blank" rel="noopener">Data Observatory (API)</a></p>' +
@@ -380,6 +381,20 @@
         qpScript.src = 'js/quickpath.js';
         qpScript.defer = true;
         document.head.appendChild(qpScript);
+
+        // Plain-language glossary + data-visualization layer (site-wide).
+        var vizCss = document.createElement('link');
+        vizCss.rel = 'stylesheet';
+        vizCss.href = 'css/viz.css';
+        document.head.appendChild(vizCss);
+        var glossaryScript = document.createElement('script');
+        glossaryScript.src = 'js/glossary.js';
+        glossaryScript.defer = true;
+        document.head.appendChild(glossaryScript);
+        var vizScript = document.createElement('script');
+        vizScript.src = 'js/viz.js';
+        vizScript.defer = true;
+        document.head.appendChild(vizScript);
     }
 
     // chrome.js is included after the mount divs, so the DOM is ready.
