@@ -34,9 +34,16 @@
       "type": "discovered",
       "summary": "Discovered via Wikidata organization inventory (bank).",
       "source": "https://www.wikidata.org/wiki/Q62267023"
+    },
+    {
+      "date": "2026-09-13",
+      "type": "contacted",
+      "summary": "Blocked in transit — no human read it. The 2026-09-12 banking outreach (scheduled_outreach #138, subject \"Physical-risk evidence for the loan book — Standard Chartered Taiwan\") was sent to askhr@sc.com and tagged [Newly Registered Domain][External] by Standard Chartered's mail gateway; it landed in the AskHR intake queue, which auto-opened and cancelled ServiceNow HR case HRC6274378 (notification 2026-09-13 12:20 local from scbnow01@service-now.com). Not a reply and not a bounce (the address is live, so the bounce guard correctly stayed silent). The three stored contacts (askhr@, phishing@, security@ — talaix-discovery 2026-09-02) are HR/abuse desks, not a risk route: wrong contact, not wrong segment. Archive + analysis: marketing/outreach/archive/2026-09-13-standard-chartered-askhr-case-cancelled.md",
+      "source": "operator inbox — AskHR (scbnow01@service-now.com) case HRC6274378",
+      "next_action": "Do not re-send to askhr@sc.com; purge the three stale contacts; re-route via a published risk/sustainability/IR contact or park the lead"
     }
   ],
-  "next_action": "Qualify: verify current public signal and select contact route",
+  "next_action": "Re-route only: no further send until a genuine risk/sustainability/IR contact is found (askhr@sc.com is an HR intake and was auto-cancelled)",
   "owner": "operator",
   "source": "https://www.wikidata.org/wiki/Q62267023",
   "date_checked": "2026-08-27",
