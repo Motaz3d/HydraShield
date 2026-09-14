@@ -28,14 +28,17 @@
         ? 'http://localhost:8051/api'
         : '/api';
 
-    /* Top level: challenge-first. The six challenges live on the homepage
-     * (index.html); this nav keeps every capability one click away under
-     * "Capabilities" so nothing is ever buried. (operator decision 2026-09-13) */
+    /* Top level: clarity-first. The homepage explains what Talaix is, what you
+     * get and what it costs; every capability lives one click away under
+     * "Capabilities" (whose first entry is the single capabilities.html map,
+     * so a first-time visitor is never dropped into a 14-item list).
+     * (operator decision 2026-09-14) */
     var PRIMARY = [
-        { id: 'home', href: 'index.html', label: 'Start' },
+        { id: 'home', href: 'index.html#how-it-works', label: 'How it works' },
         { id: 'industries', href: 'industries.html', label: "Who it's for" },
         {
             id: 'capabilities', label: 'Capabilities', children: [
+                { id: 'capabilities', href: 'capabilities.html', label: 'All capabilities (one page)' },
                 { id: 'compliance-hub', href: 'compliance.html', label: 'Compliance overview' },
                 { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
                 { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
@@ -135,6 +138,7 @@
     }
 
     var LEGACY = [
+        { href: 'about.html', label: 'About Talaix' },
         { href: 'problem.html', label: 'The Problem' },
         { href: 'solution.html', label: 'Our Solution' },
         { href: 'technology.html', label: 'Technology' },
@@ -236,6 +240,7 @@
             LEGACY.map(function (i) { return '<li><a href="' + i.href + '">' + i.label + '</a></li>'; }).join('') +
             '</ul></div>' +
             '<div class="footer-contact"><h4>Evidence</h4>' +
+            '<p><a href="sample.html">Sample evidence pack</a></p>' +
             '<p><a href="verify.html">Verify a document</a></p>' +
             '<p><a href="glossary.html">Plain-English glossary</a></p>' +
             '<p><a href="/sources">Data sources</a></p>' +
@@ -396,6 +401,16 @@
         vizScript.defer = true;
         document.head.appendChild(vizScript);
     }
+
+    // Purchase panel (js/buy.js): the reusable "buy it" block. It renders only
+    // where a [data-buy-report] / [data-buy-tier] mount exists, so it is loaded
+    // site-wide instead of being remembered per page.
+    (function loadBuyPanel() {
+        var buyScript = document.createElement('script');
+        buyScript.src = 'js/buy.js';
+        buyScript.defer = true;
+        document.head.appendChild(buyScript);
+    })();
 
     // chrome.js is included after the mount divs, so the DOM is ready.
     init();
