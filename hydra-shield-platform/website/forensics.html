@@ -41,10 +41,13 @@
                 <summary>See a real example</summary>
                 <div>
                     <p class="muted small">Real engine output, Mato Grosso soy farm, 2026-08-25 — run your own below.</p>
-                    <ul class="muted">
-                        <li><code>site_forested</code> → <strong>consistent</strong> (tree cover 74.4%, ESA WorldCover).</li>
-                        <li><code>no_burning</code> → <strong>cannot_assess</strong> (FIRMS key not configured — declared).</li>
-                    </ul>
+                    <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:center;">
+                        <div class="viz-ring" data-viz="ring" data-value="74" data-title="Tree cover" data-sub="74.4% · ESA WorldCover"></div>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <span class="chip chip-observed" style="align-self:flex-start;">site_forested → consistent</span>
+                            <span class="chip chip-unknown" style="align-self:flex-start;">no_burning → cannot_assess (FIRMS key not configured)</span>
+                        </div>
+                    </div>
                 </div>
             </details>
 
