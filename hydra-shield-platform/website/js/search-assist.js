@@ -429,11 +429,61 @@
         }
     }
 
+    /* Additional per-field configs — kept separate so the main CONFIG above
+     * stays easy to scan. Every field listed here gets a tailored helper;
+     * any other text/number/textarea field still gets a sensible generic
+     * helper via defaultConfig() below, so no search box is ever left empty. */
+    var EXTRA_CONFIG = {
+        reports: {
+            radiusInput: { tips: ['Search radius in km around the location (default 50).'], live: null },
+            companyName: { tips: ['Company name — company-supplied, not verified by Talaix.'], live: null },
+            companySector: { tips: ['The sector drives which datapoints are material.'], chips: ['renewable energy', 'manufacturing', 'real estate', 'agriculture'], live: null },
+            companyCountry: { chips: ['Luxembourg', 'Germany', 'France'], live: null },
+            companyWebsite: { tips: ['Optional — appears in the report header.'], live: null },
+            companyDescription: { tips: ['Short company description — appears in the report.'], live: null },
+            assetsText: { tips: ['One site per line: name,lat,lon — each site is assessed individually.'], chips: ['Headquarters,49.6116,6.1319', 'Sevilla, Spain'], live: null },
+            draftTitle: { tips: ['Report title — editable before PDF export.'], live: null }
+        },
+        intelligence: {
+            eventsRadius: { tips: ['Search radius in km for historical events (default 50).'], live: null },
+            economyRadius: { tips: ['Radius in km for the economic-exposure profile (default 5).'], live: null }
+        },
+        map: {
+            advCompareInput: { tips: ['Compare this place against another — place name or lat,lon.'], chips: ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'], live: 'snapshot' }
+        },
+        forensics: {
+            caseClaimText: { tips: ['Optional: the exact claim under investigation — quoted verbatim in the evidence pack.'], live: null }
+        },
+        academy: {
+            verifyCertId: { tips: ['Paste a certificate ID (TX-…) to verify its authenticity.'], live: null }
+        }
+    };
+
+    function isLocationField(input) {
+        var key = (input.id || input.getAttribute('name') || '').toLowerCase();
+        return /(loc|location|site|place|asset|plot|portfolio|area|address|coordinates|lat|lon|compare)/.test(key);
+    }
+
+    function defaultConfig(input) {
+        var cfg = {
+            tips: ['Type a place name, coordinates (lat,lon), or the value this field expects.'],
+            live: null
+        };
+        if (isLocationField(input)) {
+            cfg.tips = ['Type a place name or coordinates (lat,lon) — both work.'];
+            cfg.chips = ['Clervaux, Luxembourg', 'Faro, Portugal', '50.06, 6.03'];
+        }
+        return cfg;
+    }
+
     function configFor(input) {
-        var pageCfg = CONFIG[pageId()];
-        if (!pageCfg) return null;
+        var pid = pageId();
         var key = input.id || input.getAttribute('name') || '';
-        return pageCfg[key] || null;
+        var pageCfg = CONFIG[pid];
+        if (pageCfg && pageCfg[key]) return pageCfg[key];
+        var extraCfg = EXTRA_CONFIG[pid];
+        if (extraCfg && extraCfg[key]) return extraCfg[key];
+        return defaultConfig(input);
     }
 
     var blurTimer = null;

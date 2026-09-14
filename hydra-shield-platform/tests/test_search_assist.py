@@ -109,3 +109,17 @@ def test_config_keys_match_real_data_pages():
 
     missing = keys - data_pages
     assert not missing, f"CONFIG keys without a matching data-page: {missing}"
+
+
+def test_every_field_gets_a_helper_dropdown():
+    """Every text/number/textarea field on the covered pages gets a dropdown:
+    targeted configs for the previously-uncovered fields, plus a generic
+    fallback so no search box is ever left empty."""
+    js = _read("website/js/search-assist.js")
+    assert "EXTRA_CONFIG" in js
+    assert "defaultConfig" in js
+    assert "isLocationField" in js
+    for key in ("radiusInput", "companySector", "assetsText", "draftTitle",
+                "advCompareInput", "caseClaimText", "verifyCertId",
+                "eventsRadius", "economyRadius"):
+        assert key in js, key
