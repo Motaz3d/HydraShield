@@ -3644,3 +3644,77 @@ body.search-open {
 .link-subtle:hover {
     color: var(--primary);
 }
+
+/* --- Purchase panel (js/buy.js) -------------------------------------
+   The one "buy it" block: price, what you receive, the three steps and the
+   invoice route. Rendered only where a [data-buy-report]/[data-buy-tier]
+   mount exists. */
+.buy-panel {
+    border: 1px solid var(--light-3);
+    border-left: 4px solid var(--primary);
+    border-radius: 10px;
+    background: #f8fafc;
+    padding: 22px 24px;
+    margin: 26px 0;
+    scroll-margin-top: 90px;
+}
+.buy-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+.buy-head h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+.buy-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 2px 0 10px;
+}
+.buy-lead {
+    color: var(--muted);
+    margin: 0 0 12px;
+}
+.buy-includes,
+.buy-steps {
+    margin: 0 0 14px 18px;
+    padding: 0;
+}
+.buy-includes li {
+    margin-bottom: 5px;
+}
+.buy-steps {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+.buy-steps li {
+    margin-bottom: 4px;
+}
+.buy-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.buy-status:empty {
+    display: none;
+}
+.buy-honest {
+    margin-top: 10px;
+}
+
+/* --- Post-purchase / interrupted purchase (js/postpurchase.js) ------- */
+.postpurchase {
+    border-left: 4px solid var(--accent);
+}
+.postpurchase .card-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}

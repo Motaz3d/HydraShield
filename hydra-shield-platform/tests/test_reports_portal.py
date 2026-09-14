@@ -62,7 +62,7 @@ def test_report_builder_embedded_in_reports_portal():
 def test_reports_portal_has_real_examples():
     html = _read(os.path.join(WEBSITE, "reports.html"))
     assert "Clervaux, Luxembourg, 2026-08-25" in html
-    assert "6 of 6 hazards assessed" in html
+    assert "6 of the 6 DNSH-relevant hazards assessed" in html
     assert "Demo Estates SA" in html
     assert "ESRS E1 physical risk" in html
 
@@ -116,7 +116,7 @@ def test_product_page_has_real_example_expander(page):
 def test_green_finance_example_content():
     html = _read(os.path.join(WEBSITE, "green-finance.html"))
     assert "Clervaux, Luxembourg, 2026-08-25" in html
-    assert "6 of 6 hazards assessed" in html
+    assert "6 of the 6 DNSH hazards relevant to this asset assessed" in html
     assert "Drought" in html and "Severe" in html
 
 

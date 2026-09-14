@@ -10,6 +10,12 @@
 > claim carries an evidence status (OBSERVED / DOCUMENTED / REPORTED /
 > MODELLED / INFERRED / UNKNOWN).
 
+## Start here
+
+- [Capabilities (one page)](https://talaix.com/capabilities.html): the whole product on a single page — compliance, insurance, investment & siting, maps & monitoring, report families, licensing, academy
+- [Sample evidence pack](https://talaix.com/sample.html): a real evidence pack you can read without signing up — real engine output for Clervaux, Luxembourg (2026-08-25), PDF
+- [About Talaix](https://talaix.com/about.html): who is behind the evidence — Luxembourg-based, founder-led, analytical engine open-source under EUPL-1.2
+
 ## Product pages
 
 - [Compliance & Sustainable Finance](https://talaix.com/compliance.html): the hub — EU Taxonomy DNSH, EBA Pillar 3, CSRD/ESRS E1, EIOPA/Solvency II, EUDR, plus the regulatory wave calendar
