@@ -66,10 +66,10 @@ for a site, the row is returned as UNKNOWN and listed under declared gaps — ne
 filled in.
 
 ## 3. Compliance mapping (CSRD / ESRS)
-| Area | Status |
-| ESRS E1 — physical climate risk | covered_by_evidence |
-| ESRS E3 — water and marine resources | partial |
-| Other ESRS areas | not_covered (declared) |
+| Disclosure area | Coverage |
+| ESRS E1 — physical climate risk | Covered by evidence |
+| ESRS E3 — water and marine resources | Partially covered |
+| Other ESRS areas | Not covered — declared boundary |
 
 This is an evidence layer, not assurance. CSRD limited assurance remains with your
 auditor or independent assurance provider.

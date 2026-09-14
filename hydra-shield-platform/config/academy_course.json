@@ -710,14 +710,14 @@
           "minutes": 17,
           "summary": "How to cross-read sustainability disclosures and insurance risk profiles for the same underlying exposure.",
           "objectives": [
-            "Read ESRS coverage tags (covered_by_evidence, partial, not_covered) as boundaries",
+            "Read ESRS coverage statuses (covered by evidence, partially covered, not covered) as disclosure boundaries",
             "Explain the structure of an Insurance Environmental Risk Profile — and what it explicitly excludes",
             "Cross-read lender, insurer and disclosure views of the same site"
           ],
           "sections": [
             {
               "heading": "ESRS coverage map and boundaries",
-              "body": "Talaix sustainability reports map evidence to ESRS disclosure requirements using coverage tags such as covered_by_evidence, partial or not_covered. This tells the user where the platform can support a CSRD disclosure and where the company must provide additional information or state a boundary. The mapping is evidence-based, not a guarantee of assurance. The boundary statement is a feature, not a defect: assurance providers and auditors need to see exactly which disclosure elements rest on platform evidence and which rest on company documentation. A report that claims full coverage without boundaries should attract more scepticism, not less."
+              "body": "Talaix sustainability reports map evidence to ESRS disclosure requirements using coverage statuses: covered by evidence, partially covered, or not covered. This tells the user where the platform can support a CSRD disclosure and where the company must provide additional information or state a boundary. The mapping is evidence-based, not a guarantee of assurance. The boundary statement is a feature, not a defect: assurance providers and auditors need to see exactly which disclosure elements rest on platform evidence and which rest on company documentation. A report that claims full coverage without boundaries should attract more scepticism, not less."
             },
             {
               "heading": "Insurance risk profile structure",
@@ -733,7 +733,7 @@
             },
             {
               "heading": "Common misreadings — and their corrections",
-              "body": "Four misreadings appear repeatedly in practice. First, 'not_covered means non-compliant' — no: it means the platform has no evidence for that requirement; the company must supply its own or state the boundary. Second, 'an elevated hazard level means uninsurable' — no: a level is a screening signal, not a price; pricing belongs to actuarial work with exposure and vulnerability detail. Third, 'a long DOCUMENTED event history predicts the next event' — no: history describes what happened, not when it will recur; return periods are statistical averages, not schedules. Fourth, 'a coverage tag is an assurance opinion' — no: the tags describe evidence boundaries; assurance comes from the statutory auditor or accredited provider. Each correction is the same discipline: read the label before the conclusion."
+              "body": "Four misreadings appear repeatedly in practice. First, 'not covered means non-compliant' — no: it means the platform has no evidence for that requirement; the company must supply its own or state the boundary. Second, 'an elevated hazard level means uninsurable' — no: a level is a screening signal, not a price; pricing belongs to actuarial work with exposure and vulnerability detail. Third, 'a long DOCUMENTED event history predicts the next event' — no: history describes what happened, not when it will recur; return periods are statistical averages, not schedules. Fourth, 'a coverage tag is an assurance opinion' — no: the tags describe evidence boundaries; assurance comes from the statutory auditor or accredited provider. Each correction is the same discipline: read the label before the conclusion."
             }
           ],
           "key_terms": [
@@ -750,7 +750,7 @@
           },
           "quiz": [
             {
-              "question": "In a Talaix sustainability report, 'not_covered' means:",
+              "question": "In a Talaix sustainability report, a disclosure area shown as 'not covered' means:",
               "options": [
                 "The disclosure is guaranteed by an auditor.",
                 "The platform has no evidence for that ESRS requirement.",
@@ -758,7 +758,7 @@
                 "The requirement does not apply."
               ],
               "correct_index": 1,
-              "explanation": "'not_covered' means the platform cannot currently supply evidence; the company must provide other evidence or state the boundary.",
+              "explanation": "'Not covered' means the platform cannot currently supply evidence; the company must provide other evidence or state the boundary.",
               "concepts": [
                 "esrs_coverage"
               ]

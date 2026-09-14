@@ -23,10 +23,13 @@ from .verification_report import (
     _SUBTITLE,
     _TITLE,
     _checklist_table,
+    _TD,
+    _TH,
     _evidence_table,
     _kv_table,
     _xml,
 )
+from ..climate.sustainability import coverage_label
 
 REPORT_ENGINE_VERSION = "1.0.0"
 
@@ -60,13 +63,16 @@ def _footer(canvas, doc):
 
 
 def _coverage_table(coverage_map: List[Dict[str, Any]]) -> Table:
-    rows = [["Area", "Ref", "Coverage", "Note"]]
+    rows = [[
+        Paragraph("Disclosure area", _TH), Paragraph("Reference", _TH),
+        Paragraph("Coverage", _TH), Paragraph("Note", _TH),
+    ]]
     for item in coverage_map:
         rows.append([
-            _xml(item.get("area")),
-            _xml(item.get("ref")),
-            _xml(item.get("coverage")),
-            _xml(item.get("note")),
+            Paragraph(_xml(item.get("area")), _TD),
+            Paragraph(_xml(item.get("ref")), _TD),
+            Paragraph(_xml(coverage_label(item.get("coverage"))), _TD),
+            Paragraph(_xml(item.get("note")), _TD),
         ])
     t = Table(rows, colWidths=(55 * mm, 28 * mm, 32 * mm, 55 * mm))
     t.setStyle(TableStyle([
@@ -141,8 +147,9 @@ def build_sustainability_pdf(payload: Dict[str, Any]) -> bytes:
     # ---- Disclosure coverage map -------------------------------------------
     story.append(Paragraph("Disclosure coverage map", _S))
     story.append(Paragraph(
-        _xml("Items marked 'not_covered' are declared boundaries of this pack, not omissions. "
-             "They require company data or other assurance providers."),
+        _xml("Rows shown as 'Not covered — declared boundary' are declared boundaries of "
+             "this pack, not omissions. They require company data or another assurance "
+             "provider."),
         _B,
     ))
     story.append(_coverage_table(coverage_map))
@@ -178,9 +185,10 @@ def build_sustainability_pdf(payload: Dict[str, Any]) -> bytes:
         # Build a lightweight checklist from hazard_levels if available, otherwise note.
         hazard_levels = site.get("hazard_levels") or {}
         if hazard_levels:
-            rows = [["Hazard", "Level"]]
+            rows = [[Paragraph("Hazard", _TH), Paragraph("Level", _TH)]]
             for hazard, level in hazard_levels.items():
-                rows.append([_xml(hazard), _xml(level)])
+                rows.append([Paragraph(_xml(hazard), _TD),
+                             Paragraph(_xml(level), _TD)])
             t = Table(rows, colWidths=(80 * mm, 80 * mm))
             t.setStyle(TableStyle([
                 ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),

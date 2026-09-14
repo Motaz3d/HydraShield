@@ -22,7 +22,10 @@ import io
 import json
 from typing import Dict, List, Optional
 
+from ..climate.solutions import fit_band_label
 from ..climate.tx_seal import issue_seal
+from .ignition import component_label
+from .report_language import human_label
 
 try:
     from reportlab.lib import colors
@@ -512,7 +515,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             ["FWI / class", f"{_fmt(fd.get('fwi'), '', 1)} — {fd.get('class')} (EFFIS: {fd.get('effis_class')})"],
             ["FFMC / DMC / DC", f"{_fmt(fd.get('ffmc'), '', 1)} / {_fmt(fd.get('dmc'), '', 1)} / {_fmt(fd.get('dc'), '', 1)}"],
             ["ISI / BUI", f"{_fmt(fd.get('isi'), '', 1)} / {_fmt(fd.get('bui'), '', 1)}"],
-            ["Trend", (analysis.get("fire_danger_trend") or {}).get("trend", "unknown")],
+            ["Trend", human_label((analysis.get("fire_danger_trend") or {}).get("trend") or "unknown")],
         ]))
         chart = _fwi_chart(fd)
         if chart:
@@ -584,7 +587,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                  f"{_fmt(population.get('radius_km'), ' km')} of the analysed point (MODELLED)"],
                 ["Mean density",
                  _fmt(population.get("mean_density_per_km2"), " people/km²") + " (MODELLED)"],
-                ["Density level", population.get("density_level") or "unavailable"],
+                ["Density level", human_label(population.get("density_level") or "unavailable")],
                 ["Reference", f"{population.get('product') or 'unavailable'}, reference year "
                  f"{population.get('reference_year') or 'unavailable'}"],
                 ["Hazard class", f"{population.get('hazard_class') or 'unavailable'} (DERIVED)"],
@@ -620,7 +623,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                 story.append(Spacer(1, 6))
             cf = population.get("critical_facilities")
             if cf:
-                cf_pairs = [(k.replace("_", " "), v) for k, v in cf.items()
+                cf_pairs = [(human_label(k), v) for k, v in cf.items()
                             if isinstance(v, (int, float)) and v > 0]
                 cf_chart = _bar_chart(
                     "Mapped critical facilities (OpenStreetMap — counts are a "
@@ -648,8 +651,8 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                  f"{_fmt(ignition.get('indicator'), '', 1)} / 100 — "
                  f"{ignition.get('class') or 'unavailable'} (DERIVED, relative)"],
                 ["Input coverage",
-                 ", ".join(str(c).replace("_", " ")
-                           for c in (ignition.get("input_coverage") or [])) or "unavailable"],
+                 ", ".join(component_label(c)
+                           for c in (ignition.get("input_coverage") or [])) or "Not available"],
             ]
             if ignition.get("coverage_note"):
                 rows.append(["Coverage note", ignition["coverage_note"]])
@@ -659,7 +662,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
                 story.append(Paragraph(
                     "Components (declared threshold functions, a-priori weights): "
                     + "; ".join(
-                        f"{name.replace('_', ' ')} score {_fmt(c.get('score'))}, "
+                        f"{component_label(name)} score {_fmt(c.get('score'))}, "
                         f"weight {_fmt(c.get('weight'), '', 2)} — {c.get('basis')}"
                         for name, c in comp.items()), _SM))
             # Mandatory honesty notes (wording fixed by the ignition layer).
@@ -803,7 +806,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             for s in fitted[:5]:
                 rows.append([
                     Paragraph(f"<b>{s.get('name')}</b>", _SM),
-                    s.get("fit_band", "—").replace("_", " "),
+                    fit_band_label(s.get("fit_band")),
                     Paragraph(s.get("why_it_fits") or "", _SM),
                     Paragraph("; ".join(s.get("limitations") or []), _SM),
                 ])
@@ -1013,7 +1016,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         main = []
         for k in ("satellite", "weather", "fire_danger", "terrain", "landcover"):
             p = provenance.get(k) or {}
-            main.append([k.replace("_", " "), _kind_label(p.get("kind")),
+            main.append([human_label(k), _kind_label(p.get("kind")),
                          Paragraph(str(p.get("source") or "—"), _SM),
                          str(p.get("acquired") or "—")])
         t6s = Table([["Component", "Kind", "Source", "Acquired"]] + main,
@@ -1030,7 +1033,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
         story.append(Paragraph(S("Data sources & provenance"), _S))
         rows = [["Component", "Kind", "Source", "Acquired", "Limitations"]]
         for k, p in provenance.items():
-            rows.append([k.replace("_", " "), _kind_label(p.get("kind")),
+            rows.append([human_label(k), _kind_label(p.get("kind")),
                          Paragraph(str(p.get("source") or "—"), _SM),
                          str(p.get("acquired") or "—"),
                          Paragraph(str(p.get("limitations") or "—"), _SM)])
@@ -1086,7 +1089,7 @@ def build_report_pdf(analysis: Dict, history: Optional[Dict] = None,
             weights = ignition.get("weights") or {}
             if weights:
                 meth_rows.append(["Ignition weights (a priori)",
-                                  ", ".join(f"{k.replace('_', ' ')} {v}"
+                                  ", ".join(f"{component_label(k)} {v}"
                                             for k, v in weights.items())])
             meth_rows.append(["Ignition validation",
                               (ignition.get("validation_status") or {}).get("status")

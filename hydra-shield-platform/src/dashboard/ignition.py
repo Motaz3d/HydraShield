@@ -57,6 +57,21 @@ MODEL_VERSION = "rili-1.0.0"  # bump on any weight/threshold change (provenance)
 #: Declared component weights (a priori, NOT fitted to observations).
 WEIGHTS = {"fire_weather": 0.5, "human_presence": 0.3, "fuel_dryness": 0.2}
 
+#: Business-language labels for the ignition components. The keys stay the
+#: machine contract; customer-facing documents print the label.
+COMPONENT_LABELS = {
+    "fire_weather": "Fire weather",
+    "human_presence": "Human presence",
+    "fuel_dryness": "Fuel dryness",
+}
+
+
+def component_label(name: Optional[str]) -> str:
+    """Return the business-language label for an ignition component."""
+    if not name:
+        return "Not assessed"
+    return COMPONENT_LABELS.get(name, str(name).replace("_", " ").strip().capitalize())
+
 #: Declared indicator classes (screening communication only).
 CLASSES = [(25.0, "low"), (45.0, "moderate"), (65.0, "elevated"), (101.0, "high")]
 
@@ -256,7 +271,7 @@ def indicator_from_components(
         missing = sorted(set(WEIGHTS) - set(coverage))
         coverage_note = (
             "Reduced input coverage: missing component(s) "
-            + ", ".join(missing)
+            + ", ".join(component_label(name) for name in missing)
             + " — declared weights renormalised over available components."
         )
 

@@ -98,6 +98,21 @@ _SM = ParagraphStyle("small", fontName="Helvetica", fontSize=8, leading=11,
 _TH = ParagraphStyle("th", fontName="Helvetica-Bold", fontSize=8, leading=10,
                      textColor=colors.white)
 _TD = ParagraphStyle("td", fontName="Helvetica", fontSize=8, leading=10)
+_KV_LABEL = ParagraphStyle("kv_label", fontName="Helvetica-Bold", fontSize=8.5,
+                           leading=11, textColor=_MUTED)
+_KV_VALUE = ParagraphStyle("kv_value", fontName="Helvetica", fontSize=8.5,
+                           leading=11)
+
+
+def _as_cell(value: Any, style: ParagraphStyle) -> Any:
+    """Wrap a table cell so markup is interpreted and long text wraps.
+
+    A raw string in a reportlab table is drawn literally (an escaped ``&amp;``
+    would print as-is) and never wraps; ``Paragraph`` fixes both.
+    """
+    if hasattr(value, "wrap"):  # already a flowable (Paragraph, Image, Table)
+        return value
+    return Paragraph(str("" if value is None else value), style)
 
 
 def _footer(canvas, doc):
@@ -129,7 +144,10 @@ def _footer(canvas, doc):
 
 
 def _kv_table(rows: List[List[Any]], widths=(45 * mm, 115 * mm)) -> Table:
-    t = Table(rows, colWidths=list(widths))
+    cells = [[_as_cell(cell, _KV_LABEL if i == 0 else _KV_VALUE)
+              for i, cell in enumerate(row)]
+             for row in rows]
+    t = Table(cells, colWidths=list(widths))
     t.setStyle(TableStyle([
         ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
         ("FONTNAME", (1, 0), (1, -1), "Helvetica"),
@@ -145,17 +163,20 @@ def _kv_table(rows: List[List[Any]], widths=(45 * mm, 115 * mm)) -> Table:
 def _checklist_table(checks: List[Dict[str, Any]]) -> Table:
     """DNSH hazard checklist table."""
     rows = [[
-        "Taxonomy hazard", "Class", "Claim status", "Level", "Confidence",
+        Paragraph("Taxonomy hazard", _TH), Paragraph("Class", _TH),
+        Paragraph("Claim status", _TH), Paragraph("Level", _TH),
+        Paragraph("Confidence", _TH),
     ]]
     for c in checks:
         level = c.get("level") or {}
         level_text = level.get("label") or "—"
         rows.append([
-            _xml(c.get("taxonomy_label")),
-            _xml(" & ".join(cls.capitalize() for cls in c.get("risk_class", []))),
-            _xml(c.get("claim_status", "UNKNOWN")),
-            _xml(level_text),
-            _xml(c.get("confidence", "—")),
+            Paragraph(_xml(c.get("taxonomy_label")), _TD),
+            Paragraph(_xml(" & ".join(cls.capitalize()
+                                      for cls in c.get("risk_class", []))), _TD),
+            Paragraph(_xml(c.get("claim_status", "UNKNOWN")), _TD),
+            Paragraph(_xml(level_text), _TD),
+            Paragraph(_xml(c.get("confidence", "—")), _TD),
         ])
     t = Table(rows, colWidths=(55 * mm, 28 * mm, 30 * mm, 35 * mm, 22 * mm))
     t.setStyle(TableStyle([
