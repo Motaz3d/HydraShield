@@ -26,6 +26,7 @@ from .verification_report import (
     _kv_table,
     _xml,
 )
+from .report_language import human_label
 
 REPORT_ENGINE_VERSION = "1.1.1"
 
@@ -75,7 +76,7 @@ def _peril_overview_table(perils: List[Dict[str, Any]]) -> Table:
             Paragraph(_xml(p.get("current_level")), _TD),
             Paragraph(_xml(p.get("claim_status")), _TD),
             Paragraph(_xml(p.get("confidence")), _TD),
-            Paragraph(_xml(p.get("events_status")), _TD),
+            Paragraph(_xml(human_label(p.get("events_status"))), _TD),
             Paragraph(_xml(p.get("events_count")), _TD),
         ])
     t = Table(rows, colWidths=(45 * mm, 25 * mm, 25 * mm, 22 * mm, 25 * mm, 22 * mm))
@@ -97,8 +98,8 @@ def _events_summary_list(events: List[Dict[str, Any]]) -> str:
         return "No events in summary."
     parts = []
     for ev in events:
-        pairs = [f"{k}={v}" for k, v in ev.items()]
-        parts.append("; ".join(pairs))
+        pairs = [f"{human_label(k)}: {v}" for k, v in ev.items()]
+        parts.append(" · ".join(pairs))
     return "<br/>".join(f"• {_xml(part)}" for part in parts)
 
 
@@ -130,7 +131,7 @@ def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
         if act.get("status") != "ok":
             rows.append([
                 Paragraph(_xml(p.get("peril")), _TD_SM),
-                Paragraph(f"{_xml(act.get('status', 'unavailable'))} — see details", _TD_SM),
+                Paragraph(f"{_xml(human_label(act.get('status') or 'unavailable'))} — see details", _TD_SM),
                 Paragraph("—", _TD_SM), Paragraph("—", _TD_SM), Paragraph("—", _TD_SM),
                 Paragraph("—", _TD_SM), Paragraph("—", _TD_SM), Paragraph("—", _TD_SM),
                 Paragraph("—", _TD_SM),
@@ -139,11 +140,11 @@ def _actuarial_account_table(perils: List[Dict[str, Any]]) -> Table:
         f = act.get("frequency") or {}
         trend = act.get("trend") or {}
         trend_cell = (
-            f"{trend.get('direction')} ×{trend.get('annual_multiplier')}"
-            if trend.get("status") == "ok" else "n/a"
+            f"{human_label(trend.get('direction'))} ×{trend.get('annual_multiplier')}"
+            if trend.get("status") == "ok" else "Not available"
         )
         primary = _primary_severity_metric(act.get("severity") or {})
-        sev_cell = f"{primary[1].get('mean')} ({primary[0]})" if primary else "—"
+        sev_cell = f"{primary[1].get('mean')} ({human_label(primary[0])})" if primary else "—"
         cr = act.get("collective_risk") or {}
         rp = act.get("return_period_years")
         cells = [

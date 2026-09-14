@@ -123,7 +123,8 @@ def test_green_finance_example_content():
 def test_sustainability_example_content():
     html = _read(os.path.join(WEBSITE, "sustainability.html"))
     assert "Demo Estates SA" in html
-    assert "covered_by_evidence" in html
+    assert "covered by evidence" in html
+    assert "covered_by_evidence" not in html
 
 
 def test_insurance_example_content():

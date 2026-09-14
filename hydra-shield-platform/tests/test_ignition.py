@@ -78,8 +78,9 @@ def test_indicator_weight_renormalisation_when_components_missing():
     assert out["indicator"] == 95.0
     assert out["input_coverage"] == ["fire_weather"]
     assert "renormalised" in out["coverage_note"]
-    assert "human_presence" in out["coverage_note"]
-    assert "fuel_dryness" in out["coverage_note"]
+    # The note is printed in customer reports, so it carries business labels.
+    assert "Human presence" in out["coverage_note"]
+    assert "Fuel dryness" in out["coverage_note"]
 
 
 def test_indicator_human_presence_subweights():
@@ -210,7 +211,7 @@ def test_ignition_block_degraded_quality_with_reduced_coverage(monkeypatch):
     block = ignition_module.build_ignition_block(analysis)
     assert block["status"] == "ok"
     assert block["coverage_note"]
-    assert "fuel_dryness" in block["coverage_note"]
+    assert "Fuel dryness" in block["coverage_note"]
     assert block["provenance"]["quality"] == "degraded"
 
 

@@ -218,6 +218,23 @@ def cmd_frameworks(client: TalaixClient, args):
     return client.sustainability_frameworks()
 
 
+#: Business-language labels for the ESRS coverage statuses. The raw status
+#: stays the machine value on the wire; the printed table shows the label.
+_COVERAGE_LABELS = {
+    "covered_by_evidence": "Covered by evidence",
+    "partial": "Partially covered",
+    "not_covered": "Not covered — declared boundary",
+}
+
+
+def _coverage_label(status) -> str:
+    """Readable label for an ESRS coverage status (never an identifier)."""
+    if not status:
+        return "—"
+    return _COVERAGE_LABELS.get(
+        status, str(status).replace("_", " ").strip().capitalize())
+
+
 def render_frameworks(result: dict) -> None:
     frameworks = result.get("frameworks") or []
     if not frameworks:
@@ -227,12 +244,12 @@ def render_frameworks(result: dict) -> None:
         print(f"Framework: {fw.get('name', '—')}")
         coverage = fw.get("coverage_map") or []
         if coverage:
-            print(f"{'AREA':<30} {'REF':<20} {'COVERAGE':<14}")
+            print(f"{'AREA':<30} {'REF':<18} {'COVERAGE':<30}")
             for row in coverage:
                 area = (row.get("area") or "—")[:28]
-                ref = (row.get("ref") or "—")[:18]
-                cov = row.get("coverage") or "—"
-                print(f"{area:<30} {ref:<20} {cov:<14}")
+                ref = (row.get("ref") or "—")[:16]
+                cov = _coverage_label(row.get("coverage"))
+                print(f"{area:<30} {ref:<18} {cov:<30}")
         print()
 
 

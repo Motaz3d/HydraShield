@@ -115,12 +115,12 @@
 
     function renderCoverageMap(coverage) {
         var html = '<div class="table-scroll"><table class="data-table"><thead><tr>' +
-            '<th>Area</th><th>Ref</th><th>Coverage</th><th>Note</th>' +
+            '<th>Disclosure area</th><th>Reference</th><th>Coverage</th><th>Note</th>' +
             '</tr></thead><tbody>';
         coverage.forEach(function (item) {
             var statusChip;
             if (item.coverage === 'covered_by_evidence') statusChip = chip('observed', 'COVERED');
-            else if (item.coverage === 'partial') statusChip = chip('modelled', 'PARTIAL');
+            else if (item.coverage === 'partial') statusChip = chip('modelled', 'PARTIALLY COVERED');
             else statusChip = chip('unknown', 'NOT COVERED');
             html += '<tr>' +
                 '<td>' + esc(item.area) + '</td>' +

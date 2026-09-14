@@ -71,6 +71,28 @@ SUSTAINABILITY_FRAMEWORKS = [
     },
 ]
 
+#: Business-language labels for the ESRS coverage statuses. The machine values
+#: ("covered_by_evidence", "partial", "not_covered") are the stable contract
+#: consumed by the API, the SDK and the web application; every customer-facing
+#: document prints the label below, never the raw identifier.
+COVERAGE_LABELS = {
+    "covered_by_evidence": "Covered by evidence",
+    "partial": "Partially covered",
+    "not_covered": "Not covered — declared boundary",
+}
+
+
+def coverage_label(status: Optional[str]) -> str:
+    """Return the business-language label for an ESRS coverage status.
+
+    Unknown statuses are rendered as readable prose rather than an internal
+    identifier, so a new status can never leak ``snake_case`` into a report.
+    """
+    if not status:
+        return "Not assessed"
+    return COVERAGE_LABELS.get(status, str(status).replace("_", " ").strip().capitalize())
+
+
 ESRS_COVERAGE = [
     {
         "area": "ESRS 2 — Governance & strategy",

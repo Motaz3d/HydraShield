@@ -338,7 +338,7 @@
       "label": "ESRS coverage map and boundaries",
       "kind": "concept",
       "module_id": "read-disclosures",
-      "summary": "Evidence mapped to ESRS requirements as covered_by_evidence, partial or not_covered — a boundary, not a guarantee.",
+      "summary": "Evidence mapped to ESRS requirements as covered by evidence, partially covered, or not covered — a declared boundary, not a guarantee.",
       "prerequisites": ["disclosures_hub"],
       "tracks": ["finance", "government"]
     },

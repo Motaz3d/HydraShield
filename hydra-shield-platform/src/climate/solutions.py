@@ -54,6 +54,22 @@ GUARANTEE_DISCLAIMER = "No solution guarantees prevention of an event."
 #: Declared fit-band thresholds over fit_score (see module docstring).
 FIT_BANDS = {"high": 0.99, "moderate": 0.5}
 
+#: Business-language labels for the declared fit bands. The band value stays the
+#: machine contract; customer-facing documents print the label.
+FIT_BAND_LABELS = {
+    "high": "High",
+    "moderate": "Moderate",
+    "low": "Low",
+    "hazard_match_only": "Hazard match only",
+}
+
+
+def fit_band_label(band: Optional[str]) -> str:
+    """Return the business-language label for a declared fit band."""
+    if not band:
+        return "Not assessed"
+    return FIT_BAND_LABELS.get(band, str(band).replace("_", " ").strip().capitalize())
+
 #: Declared future monetary fields (docs/SOLUTIONS_INTELLIGENCE.md §5).
 #: Every one is "not_quantified" until a documented value with method,
 #: assumptions and source exists. Never fabricate ROI.

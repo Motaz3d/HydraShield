@@ -331,9 +331,10 @@ def _sustainability_sections(payload: Dict[str, Any]) -> List[Dict[str, Any]]:
     partial = [c for c in coverage if c.get("coverage") == "partial"]
     not_covered = [c for c in coverage if c.get("coverage") not in ("covered_by_evidence", "partial")]
     coverage_text = (
-        f"Disclosure coverage map: {len(covered)} area(s) covered by evidence, "
-        f"{len(partial)} partial, {len(not_covered)} not covered. "
-        "This report provides physical climate-risk evidence for the company's sites; "
+        f"Disclosure coverage map: {len(covered)} disclosure area(s) covered by "
+        f"evidence, {len(partial)} partially covered, and {len(not_covered)} not "
+        "covered (declared boundaries). "
+        "This report provides physical-climate-risk evidence for the company's sites; "
         "GHG emissions, transition plans, governance and social disclosures are outside scope."
     )
     sections.append({
