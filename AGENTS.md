@@ -26,7 +26,7 @@ Talaix (formerly HydraShield): climate-extreme intelligence & economic decision-
 ## Inside hydra-shield-platform/
 - `src/` — main Python package (importable as `src`):
   - `src/climate/` — multi-hazard core
-  - `src/dashboard/` — Flask API (`api.py`, port 8051), cache, jobs, reports, accounts; runner: `run_dashboard.py`
+  - `src/dashboard/` — Flask API (`api.py`, port 8051), cache, jobs, reports, accounts; runner: `run_dashboard.py`. `/api/report` is **entitlement-gated**: `type=simple` is free for everyone, `type=decision` (€19) and `type=scientific` (€39) need an active subscription or a completed purchase of that exact pack (`_report_entitlement_gate` in `api.py` + `BillingStore.has_purchase`), and the check runs before any analysis work; contract in `tests/test_report_entitlement.py`. `/api/v2/report-builder/` is gated to `registered` only.
   - `src/gis_mapping/` — earth-observation ingestion
   - `src/prediction/` — FWI, spread, risk ML
   - `src/hydration_control/`, `src/security/`, `src/ai/`

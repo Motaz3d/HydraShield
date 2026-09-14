@@ -662,7 +662,7 @@ def test_report_endpoint_returns_pdf(client, monkeypatch):
     monkeypatch.setattr(cci_mod, "calibration",
                         lambda geo, basis_year=2023: {"status": "unavailable",
                                                       "reason": "offline test"})
-    resp = client.get("/api/report?lat=37.6&lon=-6.5")
+    resp = client.get("/api/report?lat=37.6&lon=-6.5&type=simple")
     assert resp.status_code == 200
     assert resp.mimetype == "application/pdf"
     assert resp.data[:5] == b"%PDF-"

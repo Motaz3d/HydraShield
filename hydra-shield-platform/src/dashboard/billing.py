@@ -215,6 +215,23 @@ class BillingStore:
                 (user_id, kind, stripe_checkout_session_id, status, _utcnow()),
             )
 
+    def has_purchase(self, user_id: int, kind: str) -> bool:
+        """True when a completed purchase of ``kind`` belongs to this user.
+
+        Entitlement check for the pay-per-report packs (``report_decision``
+        / ``report_scientific``): those PDFs were previously downloadable by
+        anyone from /api/report, which made the published €19/€39 prices
+        unenforceable.
+        """
+        with self._lock, self._connect() as conn:
+            row = conn.execute(
+                "SELECT 1 FROM billing_purchases"
+                " WHERE user_id = ? AND kind = ? AND status = 'completed'"
+                " LIMIT 1",
+                (user_id, kind),
+            ).fetchone()
+        return row is not None
+
 
 # ---------------------------------------------------------------------------
 # UserStore extensions used by webhooks

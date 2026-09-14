@@ -230,6 +230,87 @@ def create_app() -> Flask:
         )
 
     # ------------------------------------------------------------------
+    # Pay-per-report entitlement. The free tier promises a free *simple*
+    # report; `decision` (€19) and `scientific` (€39) are the published
+    # pay-per-report packs, and before this gate existed anyone could fetch
+    # them straight from /api/report.
+    _PAID_REPORT_KINDS = {
+        "decision": ("report_decision", "€19"),
+        "scientific": ("report_scientific", "€39"),
+    }
+
+    def _report_entitlement_gate(report_type: str):
+        """Return a 402 response when the caller is not entitled to this paid
+        report type, or None when the request may proceed."""
+        spec = _PAID_REPORT_KINDS.get(report_type)
+        if spec is None:
+            return None  # 'simple' is free for everyone
+        kind, price = spec
+
+        from .accounts import UserStore
+        from .auth_api import ROLE_RANK, current_user
+        from .billing import BillingStore
+        from .registry_pages import prefers_html
+
+        user = current_user()
+        entitled = False
+        if user is not None:
+            try:
+                if ROLE_RANK.get(user.get("role"), 0) >= ROLE_RANK["admin"]:
+                    entitled = True
+                elif UserStore().get_active_subscription(user["id"]):
+                    entitled = True
+                elif BillingStore().has_purchase(user["id"], kind):
+                    entitled = True
+            except Exception:
+                # Never release a paid pack because a lookup failed.
+                entitled = False
+        if entitled:
+            return None
+
+        if prefers_html():
+            body = (
+                "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>"
+                "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                "<meta name='robots' content='noindex, nofollow'>"
+                f"<title>{report_type.capitalize()} report — purchase required | Talaix</title>"
+                "<style>body{font-family:Inter,-apple-system,sans-serif;background:#F8FAFC;"
+                "color:#1E293B;display:flex;align-items:center;justify-content:center;"
+                "min-height:100vh;margin:0}.card{background:#fff;border:1px solid #E2E8F0;"
+                "border-radius:14px;padding:34px 38px;max-width:560px;"
+                "box-shadow:0 2px 8px rgba(0,0,0,.06)}h1{font-size:22px;margin:0 0 6px}"
+                "p{color:#64748B;font-size:14px;line-height:1.6}a{color:#0369A1;font-weight:600}"
+                ".price{font-size:30px;font-weight:700;color:#0EA5E9;margin:2px 0 14px}</style>"
+                "</head><body><div class='card'>"
+                f"<h1>{report_type.capitalize()} report — purchase required</h1>"
+                f"<div class='price'>{price}</div>"
+                "<p>This is one of the pay-per-report evidence packs. The "
+                "<strong>simple</strong> report stays free and needs no account; the "
+                "decision and scientific packs are released to an active subscription "
+                "or a completed purchase of that pack.</p>"
+                "<p><a href='/reports.html#builder'>Buy or generate this pack &rarr;</a><br>"
+                "<a href='/reports.html'>Get the free simple report &rarr;</a> &middot; "
+                "<a href='/pricing.html'>See pricing &rarr;</a> &middot; "
+                "<a href='/account.html?reason=signin&amp;next=reports.html'>Sign in &rarr;</a></p>"
+                "</div></body></html>"
+            )
+            return body, 402
+
+        return jsonify({
+            "error": "purchase_required",
+            "message": (f"The {report_type} report is a paid pack ({price}). "
+                        "Sign in with an active subscription, or buy this pack. "
+                        "The simple report is free and needs no account."),
+            "status": 402,
+            "report_type": report_type,
+            "kind": kind,
+            "price": price,
+            "buy_url": "/reports.html#builder",
+            "free_report_url": "/reports.html",
+            "sign_in_url": "/account.html?reason=signin&next=reports.html",
+        }), 402
+
+    # ------------------------------------------------------------------
     def _operator_gate(page_name: str):
         """Auth gate for operator pages. Returns a response (sign-in
         redirect / 401 / branded 403) when access is denied, or None when
@@ -526,6 +607,24 @@ def create_app() -> Flask:
                 return _error("Provide ?location=... or ?lat=...&lon=...", 400)
             name = f"{lat:.4f}, {lon:.4f}"
 
+        # Resolve and gate the report type first: the pay-per-report check
+        # must run before any analysis work, so an unentitled request is
+        # answered immediately rather than after a full (slow) computation.
+        report_type = (request.args.get("type") or "decision").strip().lower()[:20]
+        from . import report as report_module
+
+        if report_type not in report_module.REPORT_TYPES:
+            return _error(
+                "type must be one of: " + ", ".join(report_module.REPORT_TYPES), 400)
+
+        # Pay-per-report entitlement. `simple` is free for everyone; the
+        # decision (€19) and scientific (€39) packs require an active
+        # subscription or a completed purchase of that pack, so the paid
+        # PDFs cannot be pulled straight from the URL.
+        denied = _report_entitlement_gate(report_type)
+        if denied is not None:
+            return denied
+
         try:
             result = _cached_analysis(round(lat, 4), round(lon, 4), name)
         except Exception as exc:
@@ -541,13 +640,6 @@ def create_app() -> Flask:
                     history = h
             except Exception:
                 history = None  # history is optional; never fabricated
-
-        report_type = (request.args.get("type") or "decision").strip().lower()[:20]
-        from . import report as report_module
-
-        if report_type not in report_module.REPORT_TYPES:
-            return _error(
-                "type must be one of: " + ", ".join(report_module.REPORT_TYPES), 400)
 
         # Real fire-danger grid for the map graphic (decision/scientific).
         grid = None
