@@ -53,6 +53,13 @@ Email: info@talaix.com
 Founder email: motaz3d@gmail.com
 Phone: +352 661811680
 
+=== LINKEDIN SERVICES PAGE (company page setup, 2026-09-14) ===
+Services (add up to 10; type each keyword and pick the closest LinkedIn autocomplete match): Environmental Consulting / Climate Change Consulting / Data Analysis / Risk Assessment / Regulatory Compliance / Sustainability Consulting / Geographic Information Systems (GIS) / Business Intelligence / Due Diligence / Market Research
+Description (456 of 500 chars — copy as one block):
+Talaix turns Earth-observation and official open data into climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR). Companies get site-coordinate multi-hazard screening where every value carries its source, date and evidence status, plus machine-readable XBRL from our CsrdTX rules engine. The analytical engine is open source (EUPL-1.2), so any auditor can verify the code. Transparently priced from €19 per evidence pack.
+Work location: tick both — Kirchberg, Luxembourg AND "We are able to provide services remotely".
+Pricing: "Starting at" EUR 19 — NOT hourly rate (a €19/hour signal reads as cheap consulting and conflicts with the product), NOT "contact for pricing" (published prices are the USP).
+
 === FORM CHEAT VALUES ===
 Category: Climate Tech (secondary: SpaceTech)
 Business model: B2B + B2B2C

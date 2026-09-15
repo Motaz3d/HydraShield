@@ -4,7 +4,7 @@ pillar: annual_reports
 campaign: H
 cta: "See the evidence architecture"
 landing: https://talaix.com/technology.html?utm_source=linkedin&utm_campaign=H
-status: draft
+status: queued
 ---
 
 An annual climate-extremes report is only worth publishing if every
