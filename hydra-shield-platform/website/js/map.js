@@ -1555,6 +1555,7 @@
             '</table>' +
             '<a class="text-link" href="intelligence.html?location=' +
             encodeURIComponent(res.lat.toFixed(5) + ',' + res.lon.toFixed(5)) +
+            '&name=' + encodeURIComponent(res.name || '') +
             '">Analyze this place &rarr;</a></div>';
     }
 
