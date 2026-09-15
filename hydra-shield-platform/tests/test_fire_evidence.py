@@ -228,6 +228,18 @@ def test_pdf_contains_footer_page_numbers():
     assert "Talaix — real-data wildfire decision support" in text
 
 
+def test_pdf_footer_carries_the_tx_seal():
+    """Operator report 2026-09-15: the decision report footer showed only the
+    report ID, so there was no seal code to enter on verify.html. The footer
+    must print "verify TX-XXXX-XXXX-XXXX" (the code from authenticity.code)."""
+    pytest.importorskip("reportlab")
+    pypdf = pytest.importorskip("pypdf")
+    pdf = report_module.build_report_pdf(_payload(), report_type="decision")
+    text = "\n".join(page.extract_text() or ""
+                     for page in pypdf.PdfReader(io.BytesIO(pdf)).pages)
+    assert "verify TX-" in text
+
+
 def test_pdf_map_section_present_with_grid():
     pytest.importorskip("reportlab")
     pypdf = pytest.importorskip("pypdf")
