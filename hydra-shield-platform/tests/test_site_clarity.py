@@ -196,6 +196,18 @@ def test_nav_labels_are_plain_and_the_company_page_is_reachable():
     assert "capabilities.html" in js
 
 
+def test_capabilities_dropdown_is_trimmed_to_the_core_doors():
+    """Operator decision 2026-09-15: the Capabilities dropdown exposes only the
+    core doors; specialist tools are demoted out of the menu (marked nav:false)
+    but remain declared so the footer and the capability map still reach them."""
+    js = _read("website/js/chrome.js")
+    assert js.count("nav: false") == 7
+    for label in ("Forensics", "Investment & Siting", "Reports",
+                  "Environmental Licensing", "Academy",
+                  "Verify a document", "Data sources"):
+        assert f"label: '{label}', nav: false" in js, label
+
+
 def test_sitemap_lists_the_new_pages():
     xml = _read("website/sitemap.xml")
     for url in ("https://talaix.com/capabilities.html",

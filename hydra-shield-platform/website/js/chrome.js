@@ -11,11 +11,12 @@
  * highlights the active item from <body data-page>. This file is the single
  * source of truth for site navigation — an IA change is one edit here.
  *
- * Primary nav: Compliance ▾ · Insurance & Reinsurance · Investment & Siting ·
- * Maps · Reports · Environmental Licensing + Account.
- * (Investment analysis, siting and funding are one product: intelligence.html
- * hosts them as tabs; legacy solutions.html redirects there.)
- * Legacy marketing pages stay reachable from the footer.
+ * Primary nav: How it works · Who it's for · Capabilities ▾ · Pricing.
+ * The Capabilities dropdown exposes only the core doors (CSRD/ESRS E1, Green
+ * Finance DNSH, EUDR, Insurance, Maps + the one-page capability map); the
+ * specialist tools (forensics, licensing, siting/funding, reports, academy,
+ * verify, sources) stay reachable from the footer and capabilities.html.
+ * (operator decision 2026-09-15)
  */
 (function () {
     'use strict';
@@ -29,10 +30,11 @@
         : '/api';
 
     /* Top level: clarity-first. The homepage explains what Talaix is, what you
-     * get and what it costs; every capability lives one click away under
-     * "Capabilities" (whose first entry is the single capabilities.html map,
-     * so a first-time visitor is never dropped into a 14-item list).
-     * (operator decision 2026-09-14) */
+     * get and what it costs; the core doors live under "Capabilities" (first
+     * entry = the single capabilities.html map). Specialist tools are demoted
+     * out of the dropdown (nav:false) but stay reachable from the footer and
+     * the capability map — nothing is lost, only de-prioritised in the menu.
+     * (operator decision 2026-09-15) */
     var PRIMARY = [
         { id: 'home', href: 'index.html#how-it-works', label: 'How it works' },
         { id: 'industries', href: 'industries.html', label: "Who it's for" },
@@ -43,15 +45,15 @@
                 { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
                 { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
                 { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
-                { id: 'forensics', href: 'forensics.html', label: 'Forensics' },
                 { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
-                { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting' },
                 { id: 'map', href: 'map.html', label: 'Maps' },
-                { id: 'reports', href: 'reports.html', label: 'Reports' },
-                { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing' },
-                { id: 'academy', href: 'academy.html', label: 'Academy' },
-                { id: 'verify', href: 'verify.html', label: 'Verify a document' },
-                { id: 'sources', href: 'sources.html', label: 'Data sources' }
+                { id: 'forensics', href: 'forensics.html', label: 'Forensics', nav: false },
+                { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting', nav: false },
+                { id: 'reports', href: 'reports.html', label: 'Reports', nav: false },
+                { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing', nav: false },
+                { id: 'academy', href: 'academy.html', label: 'Academy', nav: false },
+                { id: 'verify', href: 'verify.html', label: 'Verify a document', nav: false },
+                { id: 'sources', href: 'sources.html', label: 'Data sources', nav: false }
             ]
         },
         { id: 'pricing', href: 'pricing.html', label: 'Pricing' }
@@ -191,7 +193,7 @@
                 '<div class="nav-dropdown nav-dropdown-mega">' + cols + '</div></li>';
         }
         var groupActive = item.children.some(function (c) { return c.id === PAGE; });
-        var links = item.children.map(function (c) {
+        var links = item.children.filter(function (c) { return c.nav !== false; }).map(function (c) {
             var active = c.id === PAGE ? ' class="active" aria-current="page"' : '';
             return '<li><a href="' + c.href + '"' + active + '>' + c.label + '</a></li>';
         }).join('');
