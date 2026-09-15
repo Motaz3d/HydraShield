@@ -123,3 +123,17 @@ def test_every_field_gets_a_helper_dropdown():
                 "advCompareInput", "caseClaimText", "verifyCertId",
                 "eventsRadius", "economyRadius"):
         assert key in js, key
+
+
+def test_dropdown_reopens_on_every_focus_or_click():
+    """Operator bug report 2026-09-15: the helper appeared only once. A click
+    on an already-focused field fires no focusin, so the dropdown must also
+    open on a mouse click — and skip a redundant rebuild when it is already
+    open for that field (no flicker / re-fetch)."""
+    js = _read("website/js/search-assist.js")
+    # Focus and click both route through the same opener.
+    assert "openInput(input)" in js
+    # The click handler opens (not just closes) when the target is a field.
+    assert "if (input) { openInput(input); return; }" in js
+    # Guard against rebuilding an already-open dropdown for the same input.
+    assert "dd && dd.classList.contains(OPEN_CLASS)" in js

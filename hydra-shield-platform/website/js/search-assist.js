@@ -393,8 +393,11 @@
     }
 
     function openFor(input, cfg) {
-        closeAll();
         var dd = input._saDropdown;
+        if (dd && dd.classList.contains(OPEN_CLASS)) {
+            return; // already open for this input — a click while it holds focus
+        }
+        closeAll();
         if (!dd) {
             dd = document.createElement('div');
             dd.className = 'sa-dropdown';
@@ -427,6 +430,17 @@
         if (cfg.live === 'snapshot') {
             liveSnapshot(dd.querySelector('.sa-live'));
         }
+    }
+
+    /* Open the helper for an input on either keyboard focus or a mouse click.
+     * A click is handled separately from focusin because a click on an input
+     * that is already focused fires no focusin, yet the user still expects the
+     * dropdown to appear every time they press the field. */
+    function openInput(input) {
+        var cfg = configFor(input);
+        if (!cfg) return;
+        if (blurTimer) { clearTimeout(blurTimer); blurTimer = null; }
+        openFor(input, cfg);
     }
 
     /* Additional per-field configs — kept separate so the main CONFIG above
@@ -496,13 +510,7 @@
         document.addEventListener('focusin', function (e) {
             var input = e.target.closest(SELECTOR);
             if (!input) return;
-            var cfg = configFor(input);
-            if (cfg) {
-                // A pending close from the previous field must not fire after
-                // this field has already opened — cancel it first.
-                if (blurTimer) { clearTimeout(blurTimer); blurTimer = null; }
-                openFor(input, cfg);
-            }
+            openInput(input);
         });
         document.addEventListener('focusout', function (e) {
             if (e.target.matches && (e.target.matches('input') || e.target.matches('textarea'))) {
@@ -514,7 +522,9 @@
             if (e.key === 'Escape') closeAll();
         });
         document.addEventListener('click', function (e) {
-            if (!e.target.closest('.sa-dropdown') && !e.target.closest('input, textarea')) closeAll();
+            var input = e.target.closest(SELECTOR);
+            if (input) { openInput(input); return; }
+            if (!e.target.closest('.sa-dropdown')) closeAll();
         });
     }
 
