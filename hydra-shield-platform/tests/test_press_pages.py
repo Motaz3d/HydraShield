@@ -110,6 +110,21 @@ def test_map_act_on_point_links_press_pack():
     assert "press.html?location=" in mapjs
 
 
+def test_map_analyze_link_carries_the_place_name():
+    """Operator report 2026-09-15: 'Analyze this place' from the map opened
+    intelligence.html with coordinates only, so the resolved name rendered as
+    "45.5732, 15.2026" and the searched place name was lost. The deep link now
+    carries ?name= and intelligence.js restores it for the analysis."""
+    mapjs = _read("website/js/map.js")
+    assert "intelligence.html?location=" in mapjs
+    assert "&name=" in mapjs
+    assert "encodeURIComponent(res.name || '')" in mapjs
+    js = _read("website/js/intelligence.js")
+    assert "urlName = params.get('name')" in js
+    assert "if (urlName && q === urlLocation)" in js
+    assert "loc.name = urlName" in js
+
+
 def test_press_page_has_steps_example_and_pack_contents():
     html = _read("website/press.html")
     assert "pressExampleBtn" in html

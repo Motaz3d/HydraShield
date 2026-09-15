@@ -19,6 +19,8 @@
     var hazards = [];
     var currentHazard = null;
     var resolvedLoc = null;   // canonical location from HS.location widget
+    var urlLocation = '';     // ?location= deep-link (exact coordinates)
+    var urlName = '';         // ?name= deep-link (human-readable place name)
 
     // Pseudo-tabs merged into this hub: full tools, not registry hazards.
     var PSEUDO_TABS = [
@@ -148,6 +150,11 @@
                 el('analyzeBtn').disabled = false;
                 renderStatus('error', loc.error || 'Location could not be resolved.');
                 return;
+            }
+            // A deep-link from the map carries the human-readable place name in
+            // ?name=; coordinates alone would render as "45.5732, 15.2026".
+            if (urlName && q === urlLocation) {
+                loc.name = urlName;
             }
             HS.rememberLocation({ name: loc.name, lat: loc.lat, lon: loc.lon });
             renderStatus('info', 'Running ' + currentHazard + ' analysis for ' + loc.name + '…');
@@ -436,6 +443,8 @@
         var params = new URLSearchParams(location.search);
         var q = params.get('location');
         if (q && el('locWidget_q')) el('locWidget_q').value = q;
+        urlLocation = q || '';
+        urlName = params.get('name') || '';
         var hash = (location.hash || '').replace('#', '');
         // ?mode=events|economy deep-links the merged tools (#hash also works).
         loadHazards(params.get('mode') || hash || undefined);
