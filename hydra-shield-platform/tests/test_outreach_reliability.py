@@ -248,6 +248,83 @@ def test_processor_fails_after_attempt_budget(env, store, monkeypatch):
 
 
 # ---------------------------------------------------------------------------
+# Processor: anti-burst per-run cap
+# ---------------------------------------------------------------------------
+
+def test_processor_caps_sends_per_run(env, store):
+    """With several rows due at once, only OUTREACH_MAX_PER_RUN (default 1)
+    goes out; the rest stay scheduled for the next cron tick."""
+    past = _past()
+    rows = [
+        store.schedule_send(
+            lead_slug="test-bank-one",
+            to_email=f"burst{i}@testbankone.com",
+            contact_name=f"Burst {i}",
+            template="outreach_generic",
+            context={"organization": "Test Bank One"},
+            send_at=past,
+        )
+        for i in range(3)
+    ]
+    mod = _load_processor()
+    assert mod._MAX_PER_RUN == 1
+    assert mod.main() == 0
+
+    statuses = [store.get_scheduled(r["id"])["status"] for r in rows]
+    assert statuses.count("sent") == 1
+    assert statuses.count("scheduled") == 2
+    assert len(list(Path(env["outbox"]).glob("*.eml"))) == 1
+
+
+def test_processor_budget_override_allows_more_per_run(env, store, monkeypatch):
+    past = _past()
+    rows = [
+        store.schedule_send(
+            lead_slug="test-bank-one",
+            to_email=f"burst{i}@testbankone.com",
+            contact_name=f"Burst {i}",
+            template="outreach_generic",
+            context={"organization": "Test Bank One"},
+            send_at=past,
+        )
+        for i in range(3)
+    ]
+    mod = _load_processor()
+    monkeypatch.setattr(mod, "_MAX_PER_RUN", 3)
+    assert mod.main() == 0
+
+    statuses = [store.get_scheduled(r["id"])["status"] for r in rows]
+    assert statuses.count("sent") == 3
+    assert len(list(Path(env["outbox"]).glob("*.eml"))) == 3
+
+
+def test_processor_retry_lands_on_five_minute_slot(env, store, monkeypatch):
+    """A rescheduled row must land on a :00-second, 5-minute boundary so it
+    never bursts alongside a scheduled send at the next cron tick."""
+    row = store.schedule_send(
+        lead_slug="test-bank-one",
+        to_email="someone@testbankone.com",
+        contact_name="Sam",
+        template="outreach_generic",
+        context={"organization": "Test Bank One"},
+        send_at=_past(),
+    )
+    mod = _load_processor()
+
+    def _boom(*args, **kwargs):
+        raise OSError("temporary SMTP connection reset")
+
+    monkeypatch.setattr(mod, "send_mail", _boom)
+    assert mod.main() == 0
+
+    updated = store.get_scheduled(row["id"])
+    assert updated["status"] == "scheduled"
+    assert updated["send_at"].endswith(":00")
+    minute = int(updated["send_at"][14:16])
+    assert minute % 5 == 0
+
+
+# ---------------------------------------------------------------------------
 # Processor: contact selection and send window
 # ---------------------------------------------------------------------------
 

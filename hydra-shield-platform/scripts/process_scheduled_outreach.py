@@ -10,7 +10,11 @@ Reliability rules:
   nothing more goes out.
 - A transient SMTP failure does not kill a row: it is rescheduled
   (+``OUTREACH_RETRY_MINUTES``, default 30) up to ``OUTREACH_MAX_ATTEMPTS``
-  times (default 3) before it is marked failed.
+  times (default 3) before it is marked failed. Retries are re-aligned to the
+  5-minute :00-slot grid so they never collide with a scheduled send.
+- At most ``OUTREACH_MAX_PER_RUN`` emails (default 1) are sent per run, so
+  the 5-minute cron cadence stays the pacing even when several rows become
+  due at once (missed tick, slow SMTP, sub-minute timestamps).
 - Sends only happen inside the optional UTC window
   ``OUTREACH_WINDOW_START``/``OUTREACH_WINDOW_END`` (hours 0-23; unset =
   always open). Use it to keep cold outreach inside business hours.
@@ -51,6 +55,17 @@ _ADVANCE_FROM = {"researched", "qualified", "draft_prepared"}
 _DAILY_SEND_CAP = int(os.environ.get("DAILY_SEND_CAP") or 20)
 _MAX_ATTEMPTS = int(os.environ.get("OUTREACH_MAX_ATTEMPTS") or 3)
 _RETRY_MINUTES = int(os.environ.get("OUTREACH_RETRY_MINUTES") or 30)
+
+# Anti-burst guard: at most this many emails are attempted per processor run.
+# The cron runs every 5 minutes, so the default of 1 keeps the natural
+# 5-minute stagger even when several rows are due at once (missed tick, slow
+# SMTP, or a sub-minute timestamp). Raise it only if the queue must drain
+# faster than the cron cadence allows.
+_MAX_PER_RUN = int(os.environ.get("OUTREACH_MAX_PER_RUN") or 1)
+
+# Cron cadence and backfill stagger are both 5 minutes; retries are aligned
+# to the same :00-slot grid so they never burst alongside a scheduled send.
+_SLOT_MINUTES = 5
 
 # Contact verification verdicts (Hunter.io) that must never be mailed.
 _BAD_VERIFICATIONS = {"invalid", "disposable", "undeliverable"}
@@ -141,16 +156,24 @@ def _handle_failure(store: MarketingStore, row: dict, detail: str) -> str:
     once the attempt budget is spent. Returns the resulting state string."""
     attempts = (row.get("attempts") or 0) + 1
     if attempts < _MAX_ATTEMPTS:
-        retry_at = (datetime.utcnow() + timedelta(minutes=_RETRY_MINUTES)).isoformat()[:19]
+        retry_dt = datetime.utcnow() + timedelta(minutes=_RETRY_MINUTES)
+        # Align the retry to the next :00 slot on the 5-minute grid so a
+        # rescheduled row never lands on a sub-minute timestamp that collides
+        # with the cron tick and bursts alongside other due rows.
+        retry_dt = retry_dt.replace(second=0, microsecond=0)
+        remainder = retry_dt.minute % _SLOT_MINUTES
+        if remainder:
+            retry_dt += timedelta(minutes=_SLOT_MINUTES - remainder)
+        retry_at = retry_dt.isoformat()[:19]
         store.reschedule_scheduled(row["id"], retry_at, error=detail)
         return f"retry {attempts}/{_MAX_ATTEMPTS - 1} at {retry_at}: {detail}"
     store.mark_scheduled(row["id"], "failed", error=detail)
     return f"failed after {attempts} attempt(s): {detail}"
 
 
-def _process_scheduled(store: MarketingStore) -> dict:
+def _process_scheduled(store: MarketingStore, budget: list) -> dict:
     due = store.list_scheduled(due_before=datetime.utcnow().isoformat())
-    sent = failed = retried = skipped = cap_hits = 0
+    sent = failed = retried = skipped = cap_hits = budget_hits = 0
     for row in due:
         sid = row["id"]
         lead_slug = row["lead_slug"]
@@ -175,6 +198,11 @@ def _process_scheduled(store: MarketingStore) -> dict:
             cap_hits += 1
             break
 
+        if budget[0] <= 0:
+            print(f"[scheduled {sid}] {lead_slug} -> per-run budget reached, leaving pending")
+            budget_hits += 1
+            break
+
         to_email = row["to_email"]
         template = row["template"]
         context = row.get("context") or {}
@@ -197,6 +225,7 @@ def _process_scheduled(store: MarketingStore) -> dict:
         )
         if success:
             print(f"[scheduled {sid}] {lead_slug} -> sent ({detail})")
+            budget[0] -= 1
             sent += 1
         else:
             outcome = _handle_failure(store, row, detail)
@@ -208,12 +237,13 @@ def _process_scheduled(store: MarketingStore) -> dict:
                 failed += 1
 
     return {"sent": sent, "failed": failed, "retried": retried,
-            "skipped": skipped, "cap_hits": cap_hits, "due": len(due)}
+            "skipped": skipped, "cap_hits": cap_hits,
+            "budget_hits": budget_hits, "due": len(due)}
 
 
-def _process_waves(store: MarketingStore) -> dict:
+def _process_waves(store: MarketingStore, budget: list) -> dict:
     due = store.pending_waves(due_before=datetime.utcnow().isoformat())
-    sent = failed = skipped = cap_hits = 0
+    sent = failed = skipped = cap_hits = budget_hits = 0
     for row in due:
         wid = row["id"]
         lead_slug = row["lead_slug"]
@@ -235,6 +265,11 @@ def _process_waves(store: MarketingStore) -> dict:
         if store.sent_today_count() >= _DAILY_SEND_CAP:
             print(f"[wave {wid}] {lead_slug} -> daily cap reached, leaving pending")
             cap_hits += 1
+            break
+
+        if budget[0] <= 0:
+            print(f"[wave {wid}] {lead_slug} -> per-run budget reached, leaving pending")
+            budget_hits += 1
             break
 
         contacts = store.list_contacts(lead_slug)
@@ -262,6 +297,7 @@ def _process_waves(store: MarketingStore) -> dict:
             )
             if success:
                 print(f"[wave {wid}] {lead_slug} -> sent ({detail})")
+                budget[0] -= 1
                 sent += 1
             else:
                 store.mark_wave(wid, "failed", error=detail)
@@ -282,7 +318,8 @@ def _process_waves(store: MarketingStore) -> dict:
         print(f"[wave {wid}] {lead_slug} -> skipped_undeliverable (all contacts)")
         skipped += 1
 
-    return {"sent": sent, "failed": failed, "skipped": skipped, "cap_hits": cap_hits, "due": len(due)}
+    return {"sent": sent, "failed": failed, "skipped": skipped,
+            "cap_hits": cap_hits, "budget_hits": budget_hits, "due": len(due)}
 
 
 def main() -> int:
@@ -301,8 +338,9 @@ def main() -> int:
               "outbox and are NOT delivered. Set SMTP_HOST/… to send for real.")
 
     store = MarketingStore()
-    scheduled = _process_scheduled(store)
-    waves = _process_waves(store)
+    budget = [_MAX_PER_RUN]
+    scheduled = _process_scheduled(store, budget)
+    waves = _process_waves(store, budget)
 
     if scheduled["due"] == 0 and waves["due"] == 0:
         print(f"{now.isoformat()} — no scheduled outreach or campaign waves due")
