@@ -304,7 +304,7 @@
             '    </ul>' +
             '    <div class="hub-actions">' +
             '      <a href="account.html" class="btn btn-primary" id="audienceRegisterBtn">Create a free account</a>' +
-            '      <a href="account.html" class="btn btn-outline">Sign in</a>' +
+            '      <a href="account.html" class="btn btn-outline-dark">Sign in</a>' +
             '    </div>' +
             '    <p class="muted small">Free tier, no card. Paid tiers exist for heavier use — ' +
             '    the platform says so at the moment you reach them.</p>' +
@@ -433,7 +433,7 @@
         }).join('');
         Array.prototype.forEach.call(el('sectorTabs').children, function (btn) {
             var active = btn.getAttribute('data-sector') === id;
-            btn.className = active ? 'btn btn-primary' : 'btn btn-outline';
+            btn.className = active ? 'btn btn-primary' : 'btn btn-outline-dark';
         });
         renderHub(s.hub);
         wireHub(id);
@@ -458,7 +458,7 @@
 
     function init() {
         el('sectorTabs').innerHTML = SECTOR_ORDER.map(function (id) {
-            return '<button type="button" class="btn btn-outline" data-sector="' + id + '">' +
+            return '<button type="button" class="btn btn-outline-dark" data-sector="' + id + '">' +
                 esc(SECTORS[id].tab) + '</button>';
         }).join('');
         Array.prototype.forEach.call(el('sectorTabs').children, function (btn) {

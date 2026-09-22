@@ -221,3 +221,44 @@ def test_llms_txt_points_assistants_at_the_start_here_pages():
     assert "## Start here" in txt
     for url in ("capabilities.html", "sample.html", "about.html"):
         assert url in txt, url
+
+
+# ---------------------------------------------------------------------------
+# Contrast: the white-on-dark variant must not land on a light section
+# ---------------------------------------------------------------------------
+
+def test_industries_tabs_are_readable_on_the_light_background():
+    """Operator report 2026-09-22: on talaix.com/industries.html the sector tab
+    row (Banks & lenders · Government · Insurance · Investors · Real estate ·
+    Consultants & auditors) was invisible — the tabs were built with
+    `.btn-outline`, the *white-on-dark* variant (white label, 30%-white border,
+    transparent fill), while the row sits in a `.content-section` on the light
+    body. Five of the six tabs were white-on-white; only the selected one
+    (`.btn-primary`) was visible.
+
+    `.btn-outline` stays correct inside the dark `.page-hero`, where the sector
+    action buttons live, so the guard is on the `class="btn btn-outline"` HTML
+    form — in this file it is only ever injected into a light container."""
+    js = _read("website/js/industries.js")
+    assert 'class="btn btn-outline"' not in js
+    # The tab row: first render and the active/inactive toggle.
+    assert 'class="btn btn-outline-dark" data-sector=' in js
+    assert "active ? 'btn btn-primary' : 'btn btn-outline-dark'" in js
+    # The hub's secondary action sits in a white `.panel` on the light section.
+    assert 'class="btn btn-outline-dark">Sign in' in js
+    # Every remaining white-on-dark use is a sector action button (dark hero).
+    hero_uses = [ln for ln in js.splitlines() if "'btn btn-outline'" in ln]
+    assert hero_uses, "the dark hero still needs the white-on-dark variant"
+    assert all("['" in ln for ln in hero_uses), hero_uses
+
+
+def test_the_light_background_outline_variant_still_has_real_contrast():
+    """`.btn-outline-dark` is the only outline variant usable on a light
+    section, so it must stay dark-on-transparent — readable before hover — and
+    `.btn-outline` must stay the white-on-dark one, which is why the tabs broke."""
+    css = _read("website/css/style.css")
+    on_light = css.split(".btn-outline-dark {", 1)[1].split("}", 1)[0]
+    assert "transparent" in on_light
+    assert "var(--primary-dark)" in on_light
+    on_dark = css.split(".btn-outline {", 1)[1].split("}", 1)[0]
+    assert "var(--white)" in on_dark
