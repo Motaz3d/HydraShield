@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كيف يستخدم المستخدم العادي Talaix عبر MCP؟</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#0EA5E9; --sky-strong:#0284C7; --sky-soft:#E0F2FE;
+    --ink:#0B1220; --ink-2:#1E293B; --body:#334155; --muted:#64748B;
+    --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF;
+    --green:#10B981; --green-soft:#D1FAE5;
+    --amber:#F59E0B; --amber-soft:#FEF3C7;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'IBM Plex Sans Arabic',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--body);background:var(--bg);line-height:1.85;-webkit-font-smoothing:antialiased}
+  .latin{font-family:'Space Grotesk','Inter',sans-serif;direction:ltr;unicode-bidi:isolate}
+  code{font-family:'Inter',ui-monospace,monospace;direction:ltr;unicode-bidi:isolate;background:#0F172A;color:#7DD3FC;padding:.1rem .45rem;border-radius:6px;font-size:.85em;white-space:nowrap}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  h1,h2,h3,h4{font-family:'IBM Plex Sans Arabic',sans-serif;color:var(--ink)}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.93);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;text-decoration:none;font-family:'Space Grotesk',sans-serif}
+  .brand .dot{width:10px;height:10px;border-radius:3px;background:linear-gradient(135deg,var(--sky),#38BDF8)}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap}
+  .nav-links a{color:#CBD5E1;text-decoration:none;font-size:.85rem;padding:.45rem .7rem;border-radius:8px;transition:.15s}
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+  .nav-tag{font-size:.72rem;color:#FDE68A;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.35);padding:.2rem .6rem;border-radius:999px;font-weight:600;white-space:nowrap}
+
+  .hero{background:radial-gradient(1100px 500px at 15% -10%,rgba(14,165,233,.35),transparent 60%),radial-gradient(800px 420px at 90% 110%,rgba(139,92,246,.28),transparent 55%),linear-gradient(180deg,#0B1220 0%,#0F172A 100%);color:#E2E8F0;padding:64px 0 76px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:#7DD3FC;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.35);padding:.35rem .8rem;border-radius:999px}
+  h1{font-weight:700;font-size:clamp(1.6rem,3.6vw,2.5rem);line-height:1.4;margin:20px 0 16px;color:#fff}
+  h1 .accent{background:linear-gradient(120deg,#38BDF8,#8B5CF6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:1.08rem;color:#CBD5E1;max-width:780px;margin:0}
+  .answer{margin-top:30px;background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(14,165,233,.16));border:1px solid rgba(52,211,153,.35);border-radius:var(--radius);padding:20px 22px}
+  .answer .lbl{font-size:.78rem;font-weight:700;color:#34D399;margin-bottom:6px}
+  .answer p{margin:0;font-size:1.06rem;color:#F1F5F9;font-weight:600}
+
+  section{padding:54px 0}
+  section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{margin-bottom:28px}
+  .sec-num{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--sky-strong);letter-spacing:.12em}
+  h2{font-weight:700;font-size:clamp(1.3rem,2.3vw,1.75rem);margin:8px 0 10px;line-height:1.45}
+  .sec-sub{color:var(--muted);max-width:800px;margin:0}
+
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 6px;font-size:1.06rem}
+  .card p{margin:0 0 10px;font-size:.94rem}
+  .card ul{margin:0;padding-right:1.1rem;font-size:.92rem}
+  .card li{margin-bottom:6px}
+
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px}
+  .step .n{flex:0 0 38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--sky),#6366F1);color:#fff;font-weight:700;display:grid;place-items:center;font-family:'Space Grotesk',sans-serif}
+  .step h4{margin:0 0 4px;font-size:1.02rem}
+  .step p{margin:0;font-size:.93rem}
+
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  th,td{text-align:right;padding:13px 15px;border-bottom:1px solid var(--line);font-size:.92rem;vertical-align:top}
+  th{background:#F1F5F9;color:var(--ink);font-weight:700}
+  tr:last-child td{border-bottom:none}
+  td .lat{font-family:'Inter',ui-monospace,monospace;direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+  pre{background:#0B1220;color:#E2E8F0;border-radius:12px;padding:16px 18px;overflow-x:auto;direction:ltr;text-align:left;
+      font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:.84rem;line-height:1.6;margin:10px 0}
+  pre .s{color:#A7F3D0}
+  pre .p{color:#94A3B8}
+  pre .k{color:#7DD3FC}
+
+  .yes{background:var(--green-soft);color:#047857;font-weight:700;padding:.15rem .6rem;border-radius:999px;font-size:.78rem}
+  .no{background:#FEE2E2;color:#B91C1C;font-weight:700;padding:.15rem .6rem;border-radius:999px;font-size:.78rem}
+  .notice{background:var(--amber-soft);border:1px solid #FDE68A;border-radius:var(--radius);padding:16px 18px;font-size:.93rem}
+  .notice strong{color:#B45309}
+  .pill{font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:999px;margin-left:6px}
+
+  footer{background:var(--ink);color:#94A3B8;padding:34px 0;font-size:.82rem}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+  footer b{color:#E2E8F0}
+
+  @media(max-width:820px){ .g2,.g3{grid-template-columns:1fr} .nav-links{display:none} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span><span>Talaix · MCP</span></a>
+    <div class="nav-links">
+      <a href="#idea">الفكرة</a>
+      <a href="#need">ماذا يحتاج</a>
+      <a href="#steps">الخطوات</a>
+      <a href="#clients">التطبيقات</a>
+      <a href="#download">تنزيل برنامج؟</a>
+      <a href="#notes">ملاحظات</a>
+    </div>
+    <span class="nav-tag">شرح داخلي</span>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="kicker">شرح داخلي · كيفية الاستخدام · سبتمبر ٢٠٢٦</span>
+    <h1>كيف يستخدم المستخدم العادي <span class="accent">خدمة Talaix عبر MCP</span>؟</h1>
+    <p class="lede">
+      السؤال: أظهرنا كود إعداد فقط — فكيف يستخدمه شخص عادي فعلاً؟ الجواب: <b>يحتاج تطبيقاً واحداً</b>
+      يدعم MCP (مساعد ذكاء اصطناعي)، ويضيف فيه رابط Talaix. لا يُنزّل أي شيء من Talaix، ولا يُثبّت خدمة.
+    </p>
+    <div class="answer">
+      <div class="lbl">الخلاصة</div>
+      <p>نعم، يلزمه برنامج واحد: تطبيق ذكاء اصطناعي يدعم MCP. أمّا Talaix فهي خدمة سحابية عبر رابط واحد — لا تنزيل ولا تثبيت.</p>
+    </div>
+  </div>
+</header>
+
+<!-- الفكرة -->
+<section id="idea">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <h2>الفكرة ببساطة</h2>
+      <p class="sec-sub">ما هو MCP؟ ولماذا يُظهر كوداً في مكان ما؟</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>ما هو MCP؟</h3>
+        <p><b class="latin">MCP</b> (بروتوكول سياق النموذج) معيار يسمح لتطبيق الذكاء الاصطناعي باستدعاء <b>أدوات خارجية</b> جاهزة — بدل أن يخمّن. بدل أن «يتكلّم» فقط، صار يستطيع <b>أن ينفّذ</b>.</p>
+        <p>Talaix تعرّف أدواتها التسع عبر هذا المعيار، فيستدعيها المساعد مباشرة.</p>
+      </div>
+      <div class="card">
+        <h3>ماذا يوفّر Talaix؟</h3>
+        <p>رابط واحد فقط:</p>
+        <pre><span class="s">https://talaix.com/api/mcp</span></pre>
+        <ul>
+          <li>لا تسجيل مطلوب للتحليل للقراءة.</li>
+          <li>9 أدوات: تحليل مخاطر، تحقّق من أصل، ملف تأميني، مطابقة خرائط، أوراق، مصادر…</li>
+          <li>الحدّ: 30 طلباً/دقيقة لكل عميل.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ماذا يحتاج -->
+<section class="alt" id="need">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <h2>ماذا يحتاج المستخدم بالضبط؟</h2>
+      <p class="sec-sub">ثلاثة أشياء، واحد منها فقط يُنزَّل.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card">
+        <h3><span class="pill" style="background:#DBEAFE;color:#1D4ED8">١ · يُنزَّل</span></h3>
+        <p><b>تطبيق ذكاء اصطناعي يدعم MCP</b> — مثل Claude Desktop أو Cursor أو VS Code مع Copilot. هذا هو «العميل».</p>
+      </div>
+      <div class="card">
+        <h3><span class="pill" style="background:#D1FAE5;color:#047857">٢ · يُنسَخ</span></h3>
+        <p><b>رابط Talaix</b> — يُضاف في إعدادات MCP داخل التطبيق (سطر واحد).</p>
+      </div>
+      <div class="card">
+        <h3><span class="pill" style="background:#FEF3C7;color:#B45309">٣ · اختياري</span></h3>
+        <p><b>حساب Talaix</b> — مطلوب لاحقاً فقط لضوابط الحوكمة (صلاحيات لكل وكيل، موافقات، تدقيق). التحليل للقراءة لا يحتاجه.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- الخطوات -->
+<section id="steps">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <h2>أربع خطوات</h2>
+      <p class="sec-sub">من الصفر إلى أول استدعاء، في دقائق.</p>
+    </div>
+    <div class="step"><span class="n">1</span><div><h4>نزّل تطبيقاً يدعم MCP</h4><p>Claude Desktop أو Cursor أو VS Code (+ Copilot)… افتحه وسجّل الدخول بحسابك فيه.</p></div></div>
+    <div class="step"><span class="n">2</span><div><h4>افتح إعدادات MCP</h4><p>غالباً: الإعدادات → MCP، أو ملف إعداد <code>mcp.json</code>، أو «Connectors» في Claude.</p></div></div>
+    <div class="step"><span class="n">3</span><div><h4>الصق الإعداد</h4><p>أضف خادم Talaix في قائمة الخوادم، ثم أعد تشغيل التطبيق.</p></div></div>
+    <div class="step"><span class="n">4</span><div><h4>اطلب من المساعد</h4><p>اكتب طلباً عادياً، مثل: «حلّل خطر الفيضان والحرائق في 45.42، 12.33». فيستدعي المساعد أدوات Talaix ويعطيك النتيجة.</p></div></div>
+  </div>
+</section>
+
+<!-- التطبيقات -->
+<section class="alt" id="clients">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <h2>كيف تضيفه في كل تطبيق</h2>
+      <p class="sec-sub">التفاصيل الدقيقة تختلف بحسب إصدار التطبيق — راجع توثيق تطبيقك عند اللزوم.</p>
+    </div>
+    <table>
+      <thead><tr><th>التطبيق</th><th>كيف</th><th>الإعداد</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Claude Desktop / Claude.ai</td>
+          <td>الإعدادات → <b>Connectors</b> → «Add custom connector» والصق الرابط. أو ملف <span class="lat">claude_desktop_config.json</span>.</td>
+          <td><pre style="margin:0"><span class="p">{</span> <span class="s">"mcpServers"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"talaix"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://talaix.com/api/mcp"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></pre></td>
+        </tr>
+        <tr>
+          <td>Cursor</td>
+          <td>ملف <span class="lat">~/.cursor/mcp.json</span> (عام) أو <span class="lat">.cursor/mcp.json</span> (للمشروع)، أو الإعدادات → MCP.</td>
+          <td><pre style="margin:0"><span class="p">{</span> <span class="s">"mcpServers"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"talaix"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://talaix.com/api/mcp"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></pre></td>
+        </tr>
+        <tr>
+          <td>VS Code (Copilot)</td>
+          <td>ملف <span class="lat">.vscode/mcp.json</span> — لاحظ أن المفتاح هنا <span class="lat">servers</span> لا <span class="lat">mcpServers</span>.</td>
+          <td><pre style="margin:0"><span class="p">{</span> <span class="s">"servers"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"talaix"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"type"</span><span class="p">:</span> <span class="s">"http"</span><span class="p">,</span> <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://talaix.com/api/mcp"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></pre></td>
+        </tr>
+        <tr>
+          <td>Claude Code (سطر أوامر)</td>
+          <td>أمر واحد في الطرفية.</td>
+          <td><pre style="margin:0"><span class="k">claude</span> mcp add --transport http talaix https://talaix.com/api/mcp</pre></td>
+        </tr>
+        <tr>
+          <td>Windsurf · Cline · Continue · Zed · LM Studio</td>
+          <td>تطبيقات تدعم MCP؛ أضف الخادم من ملف/شاشة MCP الخاصة بها بالصيغة نفسها (<span class="lat">mcpServers → url</span>).</td>
+          <td><span class="lat">url: https://talaix.com/api/mcp</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- تنزيل -->
+<section id="download">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <h2>هل يلزم تنزيل برنامج أو خدمة؟</h2>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="yes">نعم</span> تطبيق العميل</h3>
+        <p>يجب أن يكون لدى المستخدم تطبيق ذكاء اصطناعي يدعم MCP. بعضها مجاني (Cursor، VS Code، Claude Code) وبعضها باشتراك (Claude Pro/Max).</p>
+      </div>
+      <div class="card">
+        <h3><span class="no">لا</span> من جهة Talaix</h3>
+        <p>Talaix خدمة سحابية عبر رابط. <b>لا يُنزّل</b> المستخدم أي برنامج من Talaix، ولا يُشغّل أي خادم، ولا يحتاج VPN أو فتح منافذ.</p>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:18px;">
+      <strong>استثناء واحد:</strong> بعض التطبيقات القديمة تدعم فقط الخوادم المحلية (stdio). عندها تحتاج جسراً صغيراً باسم
+      <span class="latin">mcp-remote</span> (يعمل بـ <span class="latin">npx</span> ويتطلّب تثبيت Node.js). التطبيقات الحديثة التي تدعم
+      النقل عبر HTTP (<span class="latin">Streamable HTTP</span>) لا تحتاج أي جسر.
+    </div>
+  </div>
+</section>
+
+<!-- ملاحظات -->
+<section class="alt" id="notes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <h2>ملاحظات تقنية مهمّة</h2>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>النقل</h3>
+        <ul>
+          <li>النقل: <b class="latin">Streamable HTTP</b> (طلب/استجابة) — بلا بثّ SSE في هذه النسخة.</li>
+          <li>عامّ للقراءة فقط، بمعدّل 30 طلباً/دقيقة.</li>
+          <li>تم التحقق: الخادم يستجيب الآن بـ <span class="latin">protocolVersion 2025-06-18</span> و9 أدوات.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>ماذا يستطيع أن يسأل؟</h3>
+        <ul>
+          <li>«ما مستوى خطر الحرائق في موقعي؟»</li>
+          <li>«تحقّق من هذا الأصل لمتطلبات DNSH».</li>
+          <li>«ما تاريخ الأحداث لهذا الموقع؟»</li>
+          <li>«ما مصادر البيانات المتاحة، وما غير المتاح؟»</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sec-sub" style="margin-top:20px;">
+      الأمانة مدمجة: الأدوات تعلن حدودها (لا ادّعاء اعتماد، لا تقدير خسائر، البيانات غير المتاحة تُعلَن ولا تُختلق).
+      وضوابط الحوكمة (صلاحيات لكل وكيل، موافقات بشرية، سجل تدقيق) هي الطبقة الإضافية التي تُدار من حساب Talaix.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b>وثيقة داخلية</b> — للتقييم · سبتمبر ٢٠٢٦</span>
+    <span class="latin">Talaix · MCP — how a normal user connects</span>
+  </div>
+</footer>
+
+</body>
+</html>

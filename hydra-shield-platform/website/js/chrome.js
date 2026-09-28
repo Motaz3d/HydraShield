@@ -96,7 +96,8 @@
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
                 'licensing',
-                'agent-access'
+                'agent-access',
+                { id: 'agent-access-setup', href: 'agent-access-setup.html', label: 'Agent setup (MCP)' }
             ]
         },
         {

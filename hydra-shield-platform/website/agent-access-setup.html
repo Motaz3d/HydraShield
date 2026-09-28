@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect your AI agent — MCP setup guide | Talaix</title>
+    <meta name="description" content="How to connect any MCP-capable AI assistant (Claude, Cursor, VS Code, Claude Code, Windsurf) to the Talaix evidence engine. One URL, nothing to install from Talaix.">
+    <link rel="canonical" href="https://talaix.com/agent-access-setup.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
+    <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        pre.code{background:var(--dark);color:#E2E8F0;border-radius:12px;padding:16px 18px;overflow-x:auto;
+            font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:.84rem;line-height:1.6;margin:10px 0}
+        pre.code .s{color:#A7F3D0}
+        pre.code .p{color:#94A3B8}
+        pre.code .k{color:#7DD3FC}
+        .url-box{background:var(--dark);color:#7DD3FC;border-radius:12px;padding:14px 18px;
+            font-family:ui-monospace,Menlo,monospace;font-size:.95rem;direction:ltr;text-align:left;margin:8px 0}
+        .steps{counter-reset:step;display:grid;gap:12px}
+        .step-row{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--light-2);
+            border-radius:var(--radius-md);padding:16px 18px}
+        .step-row::before{counter-increment:step;content:counter(step);flex:0 0 36px;height:36px;border-radius:11px;
+            background:linear-gradient(135deg,var(--primary),#6366F1);color:#fff;display:grid;place-items:center;
+            font-weight:700;font-family:var(--font-display);font-size:.95rem}
+        .step-row h3{margin:0 0 4px;font-size:1.02rem;color:var(--dark)}
+        .step-row p{margin:0;font-size:.93rem;color:var(--dark-3)}
+        .yes{background:#D1FAE5;color:#047857;font-weight:700;padding:.15rem .6rem;border-radius:999px;font-size:.78rem}
+        .no{background:#FEE2E2;color:#B91C1C;font-weight:700;padding:.15rem .6rem;border-radius:999px;font-size:.78rem}
+        .client-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--light-2);
+            border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+        .client-table th,.client-table td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--light-2);
+            font-size:.9rem;vertical-align:top}
+        .client-table th{background:var(--light-2);color:var(--dark);font-weight:700}
+        .client-table tr:last-child td{border-bottom:none}
+        .client-table pre.code{margin:0;font-size:.78rem;padding:12px 14px}
+        .mono{font-family:ui-monospace,Menlo,monospace;direction:ltr;unicode-bidi:isolate;font-size:.86em}
+        @media(max-width:760px){ .client-table,.client-table thead,.client-table tbody,.client-table th,.client-table td,.client-table tr{display:block} .client-table th{display:none} }
+    </style>
+</head>
+<body data-page="agent-access-setup">
+    <div id="site-header"></div>
+
+    <header class="page-hero">
+        <div class="container page-hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Setup guide · MCP
+            </div>
+            <h1>Connect your AI agent to <span class="gradient-text">the Talaix evidence engine</span></h1>
+            <p>
+                You need one app that speaks MCP — nothing to install from Talaix. Add a single URL and
+                your assistant can call Talaix's nine evidence tools: hazard analysis, asset verification,
+                insurance profiles, map checks, briefs and the source registry.
+            </p>
+            <div class="hero-actions" style="margin-top:22px;">
+                <a href="#clients" class="btn btn-primary">Add it to your client</a>
+                <a href="agent-access.html" class="btn btn-outline">What is Agent Access?</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-main">
+        <div class="container">
+
+            <!-- What you need -->
+            <div class="section-header" id="need">
+                <span class="section-tag">What you need</span>
+                <h2 class="section-title">Three things — only one is downloaded</h2>
+                <p class="section-subtitle">A tunnel is not needed, no VPN, no open ports, no server to run. It is a URL.</p>
+            </div>
+            <div class="story-grid" style="margin-bottom:34px;">
+                <div class="story-card">
+                    <h3>1 · Download</h3>
+                    <p>An AI assistant that supports MCP — Claude Desktop, Cursor, VS Code with Copilot, Windsurf, Claude Code. This is the "client".</p>
+                </div>
+                <div class="story-card">
+                    <h3>2 · Copy</h3>
+                    <p>The Talaix server URL — pasted into the client's MCP settings. One line of configuration.</p>
+                </div>
+                <div class="story-card">
+                    <h3>3 · Optional</h3>
+                    <p>A Talaix account — needed only for governance (per-agent permissions, approvals, audit). Read-only analysis does not need one.</p>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-bottom:34px;" id="url">
+                <h3 style="margin-top:0;">The server URL</h3>
+                <div class="url-box">https://talaix.com/api/mcp</div>
+                <p class="muted small" style="margin-bottom:0;">
+                    Public, read-only, rate-limited to 30 requests/minute per client. No API key required.
+                </p>
+            </div>
+
+            <!-- What is MCP -->
+            <div class="section-header">
+                <span class="section-tag">Background</span>
+                <h2 class="section-title">What is MCP, in one paragraph</h2>
+            </div>
+            <div class="panel" style="margin-bottom:34px;">
+                <p>
+                    MCP (Model Context Protocol) is a standard that lets an AI assistant call <b>external tools</b>
+                    instead of guessing. Talaix publishes its evidence engine as such a server, so any MCP-capable
+                    assistant can run a real hazard analysis, verify an asset or pull the data-source registry —
+                    with the source, date and confidence attached to every figure.
+                </p>
+            </div>
+
+            <!-- Four steps -->
+            <div class="section-header" id="steps">
+                <span class="section-tag">Four steps</span>
+                <h2 class="section-title">From zero to your first call</h2>
+            </div>
+            <div class="steps" style="margin-bottom:34px;">
+                <div class="step-row"><div><h3>Install an MCP-capable app</h3><p>Claude Desktop, Cursor or VS Code with Copilot — open it and sign in to your account there.</p></div></div>
+                <div class="step-row"><div><h3>Open its MCP settings</h3><p>Usually Settings → MCP, an <span class="mono">mcp.json</span> file, or "Connectors" in Claude.</p></div></div>
+                <div class="step-row"><div><h3>Paste the configuration</h3><p>Add the Talaix server (see the table below), then restart the app.</p></div></div>
+                <div class="step-row"><div><h3>Ask a normal question</h3><p>For example: "Analyse flood and wildfire risk at 45.42, 12.33". The assistant calls the Talaix tools and answers with the evidence.</p></div></div>
+            </div>
+
+            <!-- Clients -->
+            <div class="section-header" id="clients">
+                <span class="section-tag">Per client</span>
+                <h2 class="section-title">Add it to your client</h2>
+                <p class="section-subtitle">Exact wording varies by app version — check your client's documentation if something moved.</p>
+            </div>
+            <table class="client-table" style="margin-bottom:34px;">
+                <thead><tr><th style="width:22%">Client</th><th style="width:38%">How</th><th>Configuration</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Claude Desktop / Claude.ai</b></td>
+                        <td>Settings → <b>Connectors</b> → "Add custom connector" and paste the URL. Or the config file <span class="mono">claude_desktop_config.json</span>.</td>
+                        <td><pre class="code"><span class="p">{</span> <span class="s">"mcpServers"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"talaix"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://talaix.com/api/mcp"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></pre></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cursor</b></td>
+                        <td>Config file <span class="mono">~/.cursor/mcp.json</span> (global) or <span class="mono">.cursor/mcp.json</span> (per project), or Settings → MCP.</td>
+                        <td><pre class="code"><span class="p">{</span> <span class="s">"mcpServers"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"talaix"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://talaix.com/api/mcp"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></pre></td>
+                    </tr>
+                    <tr>
+                        <td><b>VS Code (Copilot)</b></td>
+                        <td>File <span class="mono">.vscode/mcp.json</span> — note the key is <span class="mono">servers</span>, not <span class="mono">mcpServers</span>.</td>
+                        <td><pre class="code"><span class="p">{</span> <span class="s">"servers"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"talaix"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"type"</span><span class="p">:</span> <span class="s">"http"</span><span class="p">,</span> <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://talaix.com/api/mcp"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></pre></td>
+                    </tr>
+                    <tr>
+                        <td><b>Claude Code (CLI)</b></td>
+                        <td>One command in your terminal.</td>
+                        <td><pre class="code"><span class="k">claude</span> mcp add --transport http talaix https://talaix.com/api/mcp</pre></td>
+                    </tr>
+                    <tr>
+                        <td><b>Windsurf · Cline · Continue · Zed · LM Studio</b></td>
+                        <td>All support MCP; add the server from their own MCP file or screen, using the same shape (<span class="mono">mcpServers → url</span>).</td>
+                        <td><span class="mono">url: https://talaix.com/api/mcp</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Download -->
+            <div class="section-header" id="download">
+                <span class="section-tag">Download?</span>
+                <h2 class="section-title">Do you need to download a program or a service?</h2>
+            </div>
+            <div class="card-grid" style="margin-bottom:22px;">
+                <div class="item-card">
+                    <h3><span class="yes">Yes</span> the client app</h3>
+                    <p>The user must have an AI assistant that supports MCP. Some are free (Cursor, VS Code, Claude Code); Claude Pro/Max is a subscription.</p>
+                </div>
+                <div class="item-card">
+                    <h3><span class="no">No</span> from Talaix</h3>
+                    <p>Talaix is a cloud service reached by URL. The user installs nothing from Talaix, runs no server, and needs no VPN or open ports.</p>
+                </div>
+            </div>
+            <div class="notice notice-warn">
+                <strong>One exception.</strong> Older clients that only support local (stdio) servers need a small
+                bridge called <span class="mono">mcp-remote</span> (run with <span class="mono">npx</span>, requires Node.js).
+                Modern clients that support HTTP transport (<span class="mono">Streamable HTTP</span>) need no bridge at all.
+            </div>
+
+            <!-- Notes -->
+            <div class="section-header" id="notes" style="margin-top:34px;">
+                <span class="section-tag">Technical notes</span>
+                <h2 class="section-title">What to expect</h2>
+            </div>
+            <div class="card-grid" style="margin-bottom:34px;">
+                <div class="item-card">
+                    <h3>Transport</h3>
+                    <ul class="muted">
+                        <li><b>Streamable HTTP</b> request/response — no SSE streaming in this version.</li>
+                        <li>Public read-only, 30 requests/minute per client.</li>
+                        <li>Verified live: the server answers with <span class="mono">protocolVersion 2025-06-18</span> and 9 tools.</li>
+                    </ul>
+                </div>
+                <div class="item-card">
+                    <h3>What you can ask</h3>
+                    <ul class="muted">
+                        <li>"What is the wildfire and flood risk at my site?"</li>
+                        <li>"Verify this asset against EU Taxonomy DNSH."</li>
+                        <li>"What is the event history for this location?"</li>
+                        <li>"Which data sources are available, and which are not?"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 style="margin-top:0;">Ready to try it?</h2>
+                <p>
+                    Point your client at the URL above and call the tools now — no account needed for read-only
+                    analysis. When you want named agents, per-tool permissions, approvals and an audit trail,
+                    sign in — Agent Access is part of your Talaix account.
+                </p>
+                <p>
+                    <a class="btn-action" href="agent-access.html">Open Agent Access</a>
+                    <a class="btn-action btn-quiet" href="#clients" style="margin-left:10px;">See the config again</a>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="js/chrome.js"></script>
+</body>
+</html>

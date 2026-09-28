@@ -250,6 +250,22 @@ def test_agent_access_is_self_serve_not_email_gated():
         assert token in html, token
 
 
+def test_agent_access_setup_guide_is_published():
+    """Operator 2026-09-28: the MCP setup guide (how a normal user connects)
+    must be a public page, linked from the Agent Access page, the footer, the
+    capability map and the sitemap."""
+    html = _read("website/agent-access-setup.html")
+    assert 'data-page="agent-access-setup"' in html
+    assert "https://talaix.com/api/mcp" in html
+    for token in ("Claude", "Cursor", "VS Code", "Streamable HTTP"):
+        assert token in html, token
+    assert "agent-access-setup.html" in _read("website/agent-access.html")
+    assert "agent-access-setup.html" in _read("website/js/chrome.js")
+    assert "agent-access-setup.html" in _read("website/capabilities.html")
+    assert "https://talaix.com/agent-access-setup.html" in _read("website/sitemap.xml")
+    assert "agent-access-setup.html" in _read("website/llms.txt")
+
+
 def test_llms_txt_points_assistants_at_the_start_here_pages():
     txt = _read("website/llms.txt")
     assert "## Start here" in txt
