@@ -19,6 +19,30 @@
     "2026-09-15": {
       "draft": "2026-09-15-annual-report-sourcing-rules.md",
       "sent_at": "2026-09-15T07:00:04"
+    },
+    "2026-09-16": {
+      "draft": "2026-09-16-weekly-climate-extremes-digest.md",
+      "sent_at": "2026-09-16T07:10:07"
+    },
+    "2026-09-20": {
+      "draft": "2026-09-20-transparency-missing-data-key.md",
+      "sent_at": "2026-09-20T16:00:03"
+    },
+    "2026-09-22": {
+      "draft": "2026-09-22-dnsh-credit-decision.md",
+      "sent_at": "2026-09-22T07:35:05"
+    },
+    "2026-09-23": {
+      "draft": "2026-09-23-infrastructure-exposure-layers.md",
+      "sent_at": "2026-09-23T07:20:05"
+    },
+    "2026-09-24": {
+      "draft": "2026-09-24-banking-eba-pillar3-collateral.md",
+      "sent_at": "2026-09-24T08:55:12"
+    },
+    "2026-09-27": {
+      "draft": "2026-09-27-transparency-number-without-source.md",
+      "sent_at": "2026-09-27T16:30:09"
     }
   },
   "reminded": {}

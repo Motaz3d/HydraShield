@@ -4,7 +4,7 @@ pillar: technology_discoveries
 campaign: H
 cta: "See the evidence architecture"
 landing: https://talaix.com/technology.html?utm_source=linkedin&utm_campaign=H
-status: draft
+status: queued
 ---
 
 Transparency series #1: Why we show the missing data key instead of

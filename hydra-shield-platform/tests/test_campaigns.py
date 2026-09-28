@@ -560,6 +560,37 @@ def test_process_message_intake_bot_body_phrase_is_auto_reply(env):
     assert not state or state.get("outreach_status") != "replied"
 
 
+def test_process_message_danske_style_ticket_ack_is_auto_reply(env):
+    """Danske Bank's web-ticket intake acknowledgement (observed 2026-09-16):
+    a ticket mailbox that matches the stored contact, no autoresponder headers,
+    body "Thank you for contacting us ... preparing a personalised response".
+    A machine acknowledgement, never a human reply — outreach continues."""
+    from src.dashboard.marketing_store import MarketingStore
+
+    store = MarketingStore(str(env["db"]))
+    store.add_contacts("campaign-bank-one", [{"email": "r3778web@danskebank.dk"}])
+
+    mod = _load_check_replies()
+    msg = EmailMessage()
+    msg["From"] = "Danske Bank - Kundekontakt <r3778web@danskebank.dk>"
+    msg["Subject"] = "Re: [#2563772] Physical-risk evidence for the loan book"
+    msg["Date"] = datetime.utcnow().isoformat() + "Z"
+    msg.set_content(
+        "Tak for din henvendelse. Vi saetter stor pris paa at hoere fra dig.\n\n"
+        "Thank you for contacting us. We are preparing a personalised "
+        "response to you soon."
+    )
+
+    contacts = mod._load_contacts(store)
+    result = mod._process_message(store, msg, contacts)
+    assert result == ("campaign-bank-one", "auto_reply", False)
+
+    state = store.get_state("campaign-bank-one")
+    assert not state or state.get("outreach_status") != "replied"
+    interactions = store.list_interactions("campaign-bank-one")
+    assert all(i["type"] == "note" for i in interactions)
+
+
 def test_process_message_notifies_operator_on_human_reply(env, monkeypatch):
     """A genuine reply must be surfaced to the operator inbox."""
     from src.dashboard.marketing_store import MarketingStore

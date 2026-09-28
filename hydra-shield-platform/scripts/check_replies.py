@@ -113,6 +113,10 @@ _AUTO_BODY_PHRASES = (
     "this message was sent automatically",
     # VC/corporate intake-bot boilerplate (observed in production 2026-09-08).
     "thank you for your contact",
+    # Corporate web-ticket intake acknowledgements (observed 2026-09-16:
+    # Danske Bank answers a web-form send from a ticket mailbox).
+    "thank you for contacting us",
+    "tak for din henvendelse",
     "we do not process any startup applications",
     "رد تلقائي",
     "رسالة تلقائية",

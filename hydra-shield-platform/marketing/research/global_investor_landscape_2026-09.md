@@ -35,7 +35,7 @@ Earth Observation + AI + environmental modelling → climate-risk compliance evi
 | 13 | **Propeller** | JO, Amman (+Riyadh/Boston) | ~$250K–$2M | Jordanian-founder bridge; AI/deep-tech Fund III; cross-border model fits |
 | 14 | **Israel Cleantech Ventures (MoreVC)** | IL, Ra'anana | $500K–$3.5M | Pure cleantech mandate; strongest thematic overlap in MENA |
 | 15 | **Diffusion Capital Partners** | TR, Istanbul | <€500K | Deep-tech, EU co-financed, comfortable with EU structures |
-| 16 | **Savia Ventures** | MX, Mexico City | $100K–$500K | Climate pure-play; has a satellite-wildfire portfolio company |
+| 16 | **Savia Ventures** | MX, Mexico City | $100K–$500K | Climate pure-play; has a satellite-wildfire portfolio company — **declined 2026-09-18** ("not the right fit at this time"); LatAm-nexus screen, revisit only with a LatAm presence |
 | 17 | **GRIDX** | AR, Buenos Aires | ~$250K–$1.5M | Deep-science builder; satellite nature-monitoring in portfolio |
 | 18 | **IDB Lab** | Multilateral (LAC) | $250K–$2M | Strategic co-investor; EUDR-exporter mandate; grants + equity |
 | 19 | **Dalus Capital** | MX, Mexico City | $500K–$5M ✅verified | Impact tech, large ticket range, flexible stage |
@@ -163,7 +163,7 @@ Verified tickets: Dalus $500K–$5M ✅, SP Ventures Fund III $50M ✅, NXTP Fun
 GRIDX AUM $41M ✅. Brazilian funds typically require a local subsidiary (flagged).
 
 **Tier 1 (thematic + structural fit):**
-- **Savia Ventures** (MX) — pre-seed/seed, ~$100–500K; satellite-wildfire portfolio company; apply on site.
+- ~~**Savia Ventures**~~ (MX) — pre-seed/seed, ~$100–500K; satellite-wildfire portfolio company; apply on site. **Declined 2026-09-18** ("not the right fit at this time") — LatAm-nexus screen; revisit only with a LatAm presence.
 - **GRIDX** (AR) — deep-science builder, ~$250K–$1.5M; satellite nature-monitoring; apply on site.
 - **IDB Lab** (multilateral) — $250K–$2M equity + grants; EUDR-exporter mandate; regional offices.
 - **Dalus Capital** (MX) — $500K–$5M ✅; impact tech; can cover much of the round.

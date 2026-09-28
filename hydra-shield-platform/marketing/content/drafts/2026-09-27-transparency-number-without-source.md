@@ -4,7 +4,7 @@ pillar: technology_discoveries
 campaign: H
 cta: "See the evidence architecture"
 landing: https://talaix.com/technology.html?utm_source=linkedin&utm_campaign=H
-status: draft
+status: queued
 ---
 
 Transparency series #2: A number without a source is a liability, not a

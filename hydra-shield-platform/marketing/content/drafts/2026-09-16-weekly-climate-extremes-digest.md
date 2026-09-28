@@ -4,7 +4,7 @@ pillar: current_climate_extremes
 campaign: D
 cta: "Monitor your municipality"
 landing: https://talaix.com/account.html?utm_source=linkedin&utm_campaign=D#sms
-status: draft
+status: queued
 ---
 
 Every week, somewhere, the data changes before the news cycle notices.

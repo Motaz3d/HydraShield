@@ -4,7 +4,7 @@ pillar: climate_risk_for_business
 campaign: C
 cta: "Screen three portfolio locations"
 landing: https://talaix.com/intelligence.html?utm_source=linkedin&utm_campaign=C
-status: draft
+status: queued
 ---
 
 EBA's ESG risk guidelines and Pillar 3 disclosures share one practical

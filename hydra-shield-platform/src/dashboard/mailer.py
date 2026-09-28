@@ -73,6 +73,7 @@ _TEMPLATE_NAMES = {
     "outreach_sustainability_compliance",
     "outreach_eudr_exporters",
     "outreach_investor",
+    "outreach_china_tech",
     "followup_1",
     "followup_2",
 }

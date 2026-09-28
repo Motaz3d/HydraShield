@@ -4,7 +4,7 @@ pillar: map_discoveries
 campaign: F
 cta: "Screen an asset location"
 landing: https://talaix.com/map.html?utm_source=linkedin&utm_campaign=F
-status: draft
+status: queued
 ---
 
 A grid connection, a port, a data center, a logistics hub — every piece

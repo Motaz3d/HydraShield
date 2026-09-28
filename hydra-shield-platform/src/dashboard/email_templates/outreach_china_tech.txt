@@ -1,0 +1,27 @@
+Subject: Sourcing enquiry from Talaix (Luxembourg) — {{organization}}
+
+Hi {{contact_name}},
+
+{{opening}}
+
+About Talaix: we are a Luxembourg-based team building climate-extreme intelligence — Earth-observation and physical-risk analytics covering wildfire, flood, drought, heat, wind, coastal and seismic hazards. We are specifying our hardware and data stack for 2027 and sourcing part of it from China.
+
+What we would like to receive from {{organization}}:
+
+{{requested_items}}
+
+Technical questions:
+{{technical_questions}}
+
+With the quote, please also include:
+1. Unit price (FOB and CIF), currency, validity and minimum order quantity.
+2. Datasheets, plus API and protocol documentation (REST, MQTT, LoRaWAN, ONVIF, Modbus, and so on).
+3. Lead time, warranty, and whether an evaluation unit or sample dataset is available for a paid pilot.
+4. OEM/ODM or reseller terms for a European partner.
+
+This is a sourcing enquiry for a defined budget line — not a tender, and we are not asking for exclusivity. If this is not your area, a one-line pointer to the right colleague would be very welcome.
+
+Thank you — we answer every message.
+
+---
+Not relevant? One click and we will not write again: {{unsubscribe_url}}

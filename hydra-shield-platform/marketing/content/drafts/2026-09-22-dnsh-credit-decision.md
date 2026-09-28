@@ -4,7 +4,7 @@ pillar: investment_intelligence
 campaign: J
 cta: "Explore economic exposure"
 landing: https://talaix.com/green-finance.html?utm_source=linkedin&utm_campaign=J
-status: draft
+status: queued
 ---
 
 How does a DNSH screening report actually inform a credit decision?

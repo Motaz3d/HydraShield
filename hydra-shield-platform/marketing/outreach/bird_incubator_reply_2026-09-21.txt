@@ -1,0 +1,61 @@
+REPLY DRAFT — BIRD Incubator interview round (programme 26/27)
+Reply in the same Gmail thread (Nika Matičić <nika.maticic@bird-incubator.com>, Sven CC'd) so the thread stays together.
+Drafted 2026-09-21. Paste as-is (plain continuous text) — fill the two [BRACKETS] before sending.
+Book the interview slot FIRST via the link in her email, then send this so the slot in the text is true.
+
+BEFORE SENDING — two things to check:
+1. Keep the "rebrand" paragraph ONLY if the application went in under the old name (HydraShield Earth Systems).
+   If the application already said Talaix, delete that paragraph.
+2. The deck currently attached is marketing/outreach/talaix_preseed_deck.pdf. It still says "8 hazards" in five
+   places (slides: solution flow, metrics, TX Engine, metrics repeat, closing) — the live engine screens 10.
+   Either regenerate it first, or keep the honest one-line note below. Do not present a deck with a stale number.
+
+=== SHORT VERSION — use this one if sending BEFORE booking the slot (asks the format question first) ===
+
+Hi Nika,
+
+Thank you for the good news — I am glad the project made it through the first round, and thank you for answering my questions about the pre-incorporation stage and the pilot introductions. Both were exactly what I needed to hear.
+
+Before I book a slot, one practical question. Is the 30-minute interview online, or does it take place in person in Zagreb? I live in Luxembourg, so if it is in person I will need to arrange travel and would prefer a slot later in the week, on Thursday or Friday, rather than Tuesday. If it is online, any of the four days works for me and I will book as soon as you confirm.
+
+The pitch deck is ready and I will attach it with my booking.
+
+Thank you again.
+
+Kind regards,
+Motaz OMARIEN
+Founder & CEO, Talaix
+motaz3d@gmail.com · +352 661 811 680 · talaix.com · linkedin.com/in/motaz-omarien-8394359
+
+=== END OF SHORT VERSION ===
+
+=== START OF MESSAGE ===
+
+Hi Nika,
+
+Thank you for the good news, and thank you for answering my questions directly — both points matter to us. Pre-incorporation acceptance removes the biggest blocker on our side, and pilot introductions to Croatian universities, research institutions and public-sector organisations are exactly the kind of support we would use well.
+
+I have booked the interview for [DAY, DATE, TIME] and attached the pitch deck as requested (PDF, 12 slides). One honest note on the deck: it was last regenerated on 7 September and still says eight hazards, while the engine now screens up to ten. I am sending the corrected version separately so the numbers you see match the live platform — nothing else in the deck changed.
+
+A short orientation before we speak, so you can spend the thirty minutes on the parts that matter to you. Talaix turns satellite and open Earth-observation data into physical climate-risk evidence that a third party can trace. You send site coordinates, and the platform returns an evidence pack in which every figure carries its source, its method, its reference period and its evidence class — observed, estimated, framework or unknown. We do not fill gaps: when a hazard cannot be evidenced at a location, the report says so. The market-facing focus is climate-risk compliance evidence for EU disclosure (CSRD/ESRS E1, EU Taxonomy DNSH, EUDR), with insurance, banking and municipal users on the same engine. The analytical engine is open source under EUPL-1.2, so technical due diligence can read the code rather than take our word for it.
+
+On the programme, I want to be straightforward about the one point that decides whether I can accept a place, and about a few practical questions:
+
+1. Attendance. I am based in Luxembourg. Before committing, could you confirm how strict the in-person requirement is — sessions in Zagreb every Tuesday and Thursday from 18:00 to 20:00 until Christmas? Is there any flexibility (participation remotely for part of the first phase, or a lighter schedule for a founder travelling in), or is physical presence in Zagreb a condition of admission? I would rather establish this now than discover it after selection.
+
+2. Company registration. You mentioned we can register the company anywhere in the world. We plan a Luxembourg entity, since that is where I live and where our banking and accounting would sit. Is that compatible with the programme, or does BIRD expect or prefer a Croatian entity?
+
+3. Programme terms. The invitation does not state whether there is a participation fee, an equity component, or both. Could you tell me the terms, or point me to where they are published?
+
+4. What the programme provides in practice. Beyond mentoring, which is what the invitation highlights: are there pilot introductions, workspace, compute or cloud credits, and is there any funding or follow-on investment attached to the programme?
+
+On our side, what I would ask of BIRD is specific: introductions to Croatian universities and research institutions for technical validation, and to public-sector or utility and forestry organisations that could host a real pilot on the Adriatic coast, where wildfire and coastal exposure are live problems rather than hypothetical ones.
+
+I look forward to the conversation.
+
+Kind regards,
+Motaz OMARIEN
+Founder & CEO, Talaix
+motaz3d@gmail.com · +352 661 811 680 · talaix.com · linkedin.com/in/motaz-omarien-8394359
+
+=== END OF MESSAGE ===
