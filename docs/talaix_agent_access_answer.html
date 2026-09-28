@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الجواب: نبقي التصميم ونضيف زراً واحداً — Talaix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#0EA5E9; --sky-strong:#0284C7; --sky-soft:#E0F2FE;
+    --ink:#0B1220; --ink-2:#1E293B; --body:#334155; --muted:#64748B;
+    --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF;
+    --green:#10B981; --green-soft:#D1FAE5;
+    --amber:#F59E0B; --amber-soft:#FEF3C7;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'IBM Plex Sans Arabic',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--body);background:var(--bg);line-height:1.85;-webkit-font-smoothing:antialiased}
+  .latin{font-family:'Space Grotesk','Inter',sans-serif;direction:ltr;unicode-bidi:isolate}
+  code{font-family:'Inter',ui-monospace,monospace;direction:ltr;unicode-bidi:isolate;background:#0F172A;color:#7DD3FC;padding:.1rem .45rem;border-radius:6px;font-size:.85em;white-space:nowrap}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  h1,h2,h3,h4{font-family:'IBM Plex Sans Arabic',sans-serif;color:var(--ink)}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.93);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;text-decoration:none;font-family:'Space Grotesk',sans-serif}
+  .brand .dot{width:10px;height:10px;border-radius:3px;background:linear-gradient(135deg,var(--sky),#38BDF8)}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap}
+  .nav-links a{color:#CBD5E1;text-decoration:none;font-size:.85rem;padding:.45rem .7rem;border-radius:8px;transition:.15s}
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+  .nav-tag{font-size:.72rem;color:#FDE68A;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.35);padding:.2rem .6rem;border-radius:999px;font-weight:600;white-space:nowrap}
+
+  .hero{background:radial-gradient(1100px 500px at 15% -10%,rgba(14,165,233,.35),transparent 60%),radial-gradient(800px 420px at 90% 110%,rgba(139,92,246,.28),transparent 55%),linear-gradient(180deg,#0B1220 0%,#0F172A 100%);
+    color:#E2E8F0;padding:64px 0 76px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:#7DD3FC;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.35);padding:.35rem .8rem;border-radius:999px;letter-spacing:.02em}
+  h1{font-weight:700;font-size:clamp(1.7rem,3.8vw,2.7rem);line-height:1.35;margin:20px 0 16px;color:#fff}
+  h1 .accent{background:linear-gradient(120deg,#38BDF8,#8B5CF6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:1.1rem;color:#CBD5E1;max-width:760px;margin:0}
+  .answer{margin-top:30px;background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(14,165,233,.16));border:1px solid rgba(52,211,153,.35);border-radius:var(--radius);padding:20px 22px}
+  .answer .lbl{font-size:.78rem;font-weight:700;color:#34D399;letter-spacing:.03em;margin-bottom:6px}
+  .answer p{margin:0;font-size:1.08rem;color:#F1F5F9;font-weight:600}
+
+  section{padding:56px 0}
+  section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{margin-bottom:30px}
+  .sec-num{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--sky-strong);letter-spacing:.12em}
+  h2{font-weight:700;font-size:clamp(1.35rem,2.4vw,1.8rem);margin:8px 0 10px;line-height:1.4}
+  .sec-sub{color:var(--muted);max-width:780px;margin:0}
+
+  .grid{display:grid;gap:18px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 6px;font-size:1.08rem}
+  .card p{margin:0 0 10px;font-size:.94rem}
+  .card ul{margin:0;padding-right:1.1rem;font-size:.92rem}
+  .card li{margin-bottom:6px}
+
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  th,td{text-align:right;padding:14px 16px;border-bottom:1px solid var(--line);font-size:.93rem}
+  th{background:#F1F5F9;color:var(--ink);font-weight:700}
+  tr:last-child td{border-bottom:none}
+  td .lat{font-family:'Space Grotesk','Inter',sans-serif;direction:ltr;unicode-bidi:isolate;color:var(--ink-2);font-weight:600}
+
+  .lvl{border-top:3px solid var(--line)}
+  .lvl.l0{border-top-color:var(--muted)}
+  .lvl.l1{border-top-color:var(--green)}
+  .lvl.l2{border-top-color:#EF4444}
+  .rec{display:inline-block;font-size:.72rem;font-weight:700;padding:.18rem .6rem;border-radius:999px;margin-bottom:8px}
+  .rec.now{background:var(--green-soft);color:#047857}
+  .rec.mid{background:#F1F5F9;color:#475569}
+  .rec.no{background:#FEE2E2;color:#B91C1C}
+
+  .verdict{background:linear-gradient(135deg,rgba(14,165,233,.1),rgba(139,92,246,.1));border:1px solid #BAE6FD;border-radius:var(--radius);padding:24px 26px}
+  .verdict h3{margin:0 0 10px;color:var(--ink);font-size:1.15rem}
+  .verdict ul{margin:0;padding-right:1.1rem;font-size:.98rem}
+  .verdict li{margin-bottom:8px}
+
+  /* English-only design mockup */
+  .design-note{display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--muted);margin-bottom:14px}
+  .design-note .flag{font-size:.72rem;font-weight:700;color:#1D4ED8;background:#DBEAFE;border:1px solid #BFDBFE;padding:.15rem .6rem;border-radius:999px}
+  .mock{direction:ltr;font-family:'Inter',sans-serif}
+  .app{border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(15,23,42,.16);background:#fff}
+  .app-bar{display:flex;align-items:center;gap:12px;background:#0B1220;padding:10px 14px}
+  .app-bar .dots{display:flex;gap:6px}
+  .app-bar .dots i{width:10px;height:10px;border-radius:50%;display:block}
+  .app-bar .dots i:nth-child(1){background:#FF5F57}
+  .app-bar .dots i:nth-child(2){background:#FEBC2E}
+  .app-bar .dots i:nth-child(3){background:#28C840}
+  .app-bar .url{flex:1;background:rgba(255,255,255,.08);border-radius:8px;padding:.28rem .8rem;font-size:.76rem;color:#94A3B8;font-family:'Inter',ui-monospace,monospace}
+  .app-body{display:grid;grid-template-columns:200px 1fr;min-height:330px}
+  .side{background:#0F172A;padding:14px 10px}
+  .side .side-item{color:#94A3B8;font-size:.82rem;padding:.5rem .7rem;border-radius:8px;margin-bottom:2px;display:flex;align-items:center;gap:8px}
+  .side .side-item .ico{opacity:.55;font-size:.9rem}
+  .side .side-item.active{background:linear-gradient(135deg,rgba(14,165,233,.25),rgba(139,92,246,.25));color:#fff;font-weight:600;border:1px solid rgba(125,211,252,.4)}
+  .side .side-item.active .ico{opacity:1}
+  .main{padding:18px 20px;background:#fff}
+  .main h5{margin:0 0 4px;font-family:'Space Grotesk',sans-serif;color:var(--ink);font-size:1.05rem}
+  .main .hint{margin:0 0 14px;font-size:.8rem;color:var(--muted)}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px}
+  .tabs .tab{font-size:.78rem;font-weight:600;color:var(--muted);padding:.28rem .7rem;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+  .tabs .tab.active{background:var(--sky);color:#fff;border-color:var(--sky)}
+  .mrow{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+  .mrow .l{font-size:.84rem;font-weight:600;color:var(--ink-2)}
+  .mrow .l small{display:block;font-weight:400;color:var(--muted);font-size:.74rem}
+  .status{font-size:.7rem;font-weight:700;padding:.15rem .55rem;border-radius:999px}
+  .status.on{background:var(--green-soft);color:#047857}
+  .status.wait{background:var(--amber-soft);color:#B45309}
+
+  footer{background:var(--ink);color:#94A3B8;padding:34px 0;font-size:.82rem}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+  footer b{color:#E2E8F0}
+
+  @media(max-width:820px){
+    .g3{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .app-body{grid-template-columns:1fr}
+    .side{display:flex;gap:6px;overflow-x:auto}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span><span>Talaix</span></a>
+    <div class="nav-links">
+      <a href="#answer">الجواب</a>
+      <a href="#layers">الطبقات</a>
+      <a href="#levels">المستويات</a>
+      <a href="#verdict">التوصية</a>
+      <a href="#design">النموذج</a>
+    </div>
+    <span class="nav-tag">وثيقة داخلية — للتقييم</span>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="kicker">جواب مباشر · التصميم · سبتمبر ٢٠٢٦</span>
+    <h1>لا نعيد التصميم.<br><span class="accent">نبقي تصميمك السابق ونضيف زراً واحداً.</span></h1>
+    <p class="lede">تصميم Talaix الحالي يبقى كما هو تماماً. الشيء الوحيد الجديد هو <b>عنصر واحد</b> في قائمة التنقّل يفتح نافذة الخدمة. النافذة نفسها تُعاد استخدامها من شاشات <span class="latin">talaiz</span> القائمة، بإعادة تلوين فقط.</p>
+    <div class="answer">
+      <div class="lbl">الخلاصة</div>
+      <p>نبقي التصميم السابق + نضيف زرّاً جديداً واحداً للخدمة الجديدة. لا إعادة تصميم.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ANSWER -->
+<section id="answer">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <h2>الجواب المباشر</h2>
+      <p class="sec-sub">ثلاث نقاط واضحة، بلا لبس.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card">
+        <h3>١. الموقع العام</h3>
+        <p><b>بلا تغيير.</b> لا إعادة تصميم للصفحات العامة. على الأكثر رابط واحد إضافي يشير إلى الخدمة.</p>
+      </div>
+      <div class="card">
+        <h3>٢. تطبيق Talaix</h3>
+        <p><b>بلا تغيير في الشكل.</b> نضيف <b>عنصر تنقّل واحد</b> جديد — <span class="latin">Agent Access</span> — بنفس شكل بقية العناصر الموجودة.</p>
+      </div>
+      <div class="card">
+        <h3>٣. نافذة الخدمة</h3>
+        <p>نُعيد استخدام <b>شاشات talaiz كما هي</b> (الاتصالات، الوكلاء، السياسات، الموافقات، التدقيق)، ونغيّر فقط الألوان والخطوط لهوية Talaix.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYERS -->
+<section class="alt" id="layers">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <h2>أيّ طبقة تتغيّر وأيّها تبقى</h2>
+      <p class="sec-sub">جدول صريح: لا شيء يُحذف، والتصميم الحالي يبقى.</p>
+    </div>
+    <table>
+      <thead>
+        <tr><th>الطبقة</th><th>ما يحدث</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>الموقع العام</td><td>يبقى كما هو — بلا إعادة تصميم</td></tr>
+        <tr><td>تطبيق Talaix</td><td>يبقى كما هو + <b>عنصر تنقّل واحد جديد</b></td></tr>
+        <tr><td>نافذة الخدمة</td><td>نفس شاشات talaiz، <b>إعادة تلوين فقط</b> (ألوان/خطوط/مسافات)</td></tr>
+        <tr><td>محرّك talaiz (Go)</td><td>يبقى <b>دون أي تغيير</b> — لا يُلمس</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- LEVELS -->
+<section id="levels">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <h2>ثلاثة مستويات لتنسيق النافذة</h2>
+      <p class="sec-sub">الخيار الوحيد الحقيقي هو: إلى أي مدى نُنسّق النافذة نفسها؟</p>
+    </div>
+    <div class="grid g3">
+      <div class="card lvl l0">
+        <span class="rec mid">الأبسط</span>
+        <h3>المستوى ٠ — نتركها كما هي</h3>
+        <p>ندمج واجهة talaiz بدون أي تنسيق. شكل مختلف، لكن بلا أي جهد.</p>
+        <ul><li>مناسب للعرض الداخلي فقط.</li></ul>
+      </div>
+      <div class="card lvl l1">
+        <span class="rec now">موصى به</span>
+        <h3>المستوى ١ — إعادة تلوين</h3>
+        <p>نفس الشاشات ونفس البنية تماماً؛ نغيّر فقط الألوان والخطوط والمسافات لتصبح بهوية Talaix.</p>
+        <ul><li>لا تغيير في البنية ولا في المنطق.</li><li>تبدو أصليّة دون إعادة تصميم.</li></ul>
+      </div>
+      <div class="card lvl l2">
+        <span class="rec no">مؤجَّل</span>
+        <h3>المستوى ٢ — إعادة بناء الواجهة</h3>
+        <p>إعادة رسم شاشات النافذة كصفحات Talaix أصلية.</p>
+        <ul><li>هذا هو «إعادة التصميم» الوحيد — نؤجّله.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section class="alt" id="verdict">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <h2>التوصية</h2>
+    </div>
+    <div class="verdict">
+      <h3>نبقي تصميمك + زر واحد + المستوى ١ (إعادة تلوين فقط)</h3>
+      <ul>
+        <li><b>لا إعادة تصميم</b> لأي شيء موجود — تصميم Talaix الحالي يبقى مرجعاً بصرياً.</li>
+        <li><b>زرّ واحد جديد</b> في التنقّل: <span class="latin">Agent Access</span>.</li>
+        <li><b>النافذة</b> تُبنى بإعادة تلوين شاشات talaiz القائمة — بلا لمس المحرّك.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN MOCKUP -->
+<section id="design">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <h2>النموذج التصميمي</h2>
+      <div class="design-note">
+        <span class="flag">ENGLISH ONLY</span>
+        <span>التصميم النهائي للمنتج يبقى بالإنكليزية فقط — كما هو معروض أدناه.</span>
+      </div>
+    </div>
+
+    <div class="mock">
+      <div class="app">
+        <div class="app-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url">https://talaix.com/app/agent-access</span>
+        </div>
+        <div class="app-body">
+          <aside class="side">
+            <div class="side-item"><span class="ico">▦</span> Dashboard</div>
+            <div class="side-item"><span class="ico">▤</span> Reports</div>
+            <div class="side-item"><span class="ico">◈</span> Maps</div>
+            <div class="side-item"><span class="ico">◔</span> Intelligence</div>
+            <div class="side-item active"><span class="ico">⛓</span> Agent Access</div>
+            <div class="side-item"><span class="ico">◍</span> Account</div>
+          </aside>
+          <main class="main">
+            <h5>Agent Access</h5>
+            <p class="hint">Give your AI agents governed, audited access to Talaix evidence.</p>
+            <div class="tabs">
+              <span class="tab active">Connectors</span>
+              <span class="tab">Agents</span>
+              <span class="tab">Policies</span>
+              <span class="tab">Approvals</span>
+              <span class="tab">Audit</span>
+            </div>
+            <div class="mrow">
+              <span class="l">Office network connector<small>Outbound-only · fail-closed · last seen 2 min ago</small></span>
+              <span class="status on">Connected</span>
+            </div>
+            <div class="mrow">
+              <span class="l">Talaix Evidence Engine (MCP)<small>9 tools · reports, hazards, verification</small></span>
+              <span class="status on">Enabled</span>
+            </div>
+            <div class="mrow">
+              <span class="l">Agent "ESG analyst"<small>Allowed: analyze · hazards · verify_asset</small></span>
+              <span class="status on">Active</span>
+            </div>
+            <div class="mrow">
+              <span class="l">Export full evidence pack<small>Policy: require human approval</small></span>
+              <span class="status wait">Awaiting approval</span>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <p class="sec-sub" style="margin-top:14px;font-size:.85rem">العنصر الجديد الوحيد في التنقّل هو <span class="latin">Agent Access</span> (مُبرَز). بقية التصميم كما هو؛ والنافذة هي شاشات talaiz القائمة بعد إعادة التلوين.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b>وثيقة داخلية</b> — لا تُنشر · أُعدّت للتقييم · سبتمبر ٢٠٢٦</span>
+    <span class="latin">Talaix — keep design · one new button · Level 1</span>
+  </div>
+</footer>
+
+</body>
+</html>

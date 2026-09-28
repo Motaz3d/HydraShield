@@ -216,6 +216,25 @@ def test_sitemap_lists_the_new_pages():
         assert url in xml, url
 
 
+def test_agent_access_window_is_in_the_nav_and_reachable():
+    """Operator decision 2026-09-28: the talaiz governance service is offered
+    under the Talaix brand as a window inside the platform — one new nav item
+    and one page. No second product, no redesign, no second login."""
+    js = _read("website/js/chrome.js")
+    assert "label: 'Agent Access'" in js
+    assert "href: 'agent-access.html'" in js
+    # The footer reaches it too, so it is never a dead end.
+    assert "'agent-access'" in js
+    html = _read("website/agent-access.html")
+    assert 'data-page="agent-access"' in html
+    assert "Agent Access" in html
+    assert "window inside" in html
+    # Reachable from the capability map, the sitemap and the assistant index.
+    assert "agent-access.html" in _read("website/capabilities.html")
+    assert "https://talaix.com/agent-access.html" in _read("website/sitemap.xml")
+    assert "agent-access.html" in _read("website/llms.txt")
+
+
 def test_llms_txt_points_assistants_at_the_start_here_pages():
     txt = _read("website/llms.txt")
     assert "## Start here" in txt

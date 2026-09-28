@@ -56,6 +56,7 @@
                 { id: 'sources', href: 'sources.html', label: 'Data sources', nav: false }
             ]
         },
+        { id: 'agent-access', href: 'agent-access.html', label: 'Agent Access' },
         { id: 'pricing', href: 'pricing.html', label: 'Pricing' }
     ];
 
@@ -94,7 +95,8 @@
                 'insurance',
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
-                'licensing'
+                'licensing',
+                'agent-access'
             ]
         },
         {
