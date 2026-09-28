@@ -235,6 +235,21 @@ def test_agent_access_window_is_in_the_nav_and_reachable():
     assert "agent-access.html" in _read("website/llms.txt")
 
 
+def test_agent_access_is_self_serve_not_email_gated():
+    """Operator feedback 2026-09-28: the service must be properly explained and
+    tryable, not condensed into one window and not gated behind an email."""
+    html = _read("website/agent-access.html")
+    assert "mailto:" not in html
+    assert "https://talaix.com/api/mcp" in html
+    assert "Try the tools now" in html
+    # Session-aware CTAs: a signed-in user never sees "Sign in".
+    assert "guest-only" in html and "user-only" in html
+    # Properly explained, not one condensed window.
+    for token in ("How it works", "Features", "Security by design",
+                  "Connector", "Gateway", "Audit trail"):
+        assert token in html, token
+
+
 def test_llms_txt_points_assistants_at_the_start_here_pages():
     txt = _read("website/llms.txt")
     assert "## Start here" in txt
