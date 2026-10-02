@@ -289,25 +289,6 @@
       "mx_host": "mxa-00551801.gslb.pphosted.com."
     },
     {
-      "organization": "[removed]",
-      "country": "AT",
-      "segment": "eudr_operators",
-      "website": "https://www.[removed]",
-      "email": "office@[removed]",
-      "person": null,
-      "role": "General enquiries",
-      "email_type": "general",
-      "source_url": "https://www.[removed]/en/imprint",
-      "source_type": "official",
-      "verification": "OBSERVED",
-      "priority": "high",
-      "recommended_product": "climate_risk_intelligence",
-      "identified_problem": "Rubber operator/trader exposed to drought, fire and deforestation-linked due-diligence obligations under the EU Deforestation Regulation.",
-      "relevant_capability": "Site-level multi-hazard evidence with source, date and evidence status for EUDR due-diligence and CSRD/ESRS E1.",
-      "date_checked": "2026-09-12",
-      "mx_host": "[removed]."
-    },
-    {
       "organization": "Moelven",
       "country": "NO",
       "segment": "eudr_operators",
