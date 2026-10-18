@@ -43,11 +43,18 @@
     }
 
     function renderUnavailable(message) {
+        // Cold-state copy (not an error): the ranking is rebuilt offline every
+        // 30 minutes — never on the request path, because an on-demand rebuild
+        // once OOM-killed the 4 GB production host. Keep the note calm and point
+        // at a live analysis instead of an alarming outage banner.
+        var detail = (message && message.indexOf('warming') === -1)
+            ? ' ' + esc(message)
+            : '';
         el('riskIntelList').innerHTML =
             '<div class="risk-intel-unavailable">' +
-            '<strong>Risk snapshot temporarily unavailable.</strong><br>' +
-            esc(message || 'Current monitored-area data could not be retrieved. ') +
-            ' You can still run a live analysis for any location below.' +
+            '<strong>Live monitor refreshes every 30 minutes.</strong><br>' +
+            'The current ranking is being rebuilt — run a live analysis for any ' +
+            'location instead.' + detail +
             '</div>';
         el('riskIntelSources').textContent = '';
     }

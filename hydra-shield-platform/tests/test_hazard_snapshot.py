@@ -210,3 +210,16 @@ def test_homepage_carries_all_six_audience_services():
     assert "industries.html?sector=investors" in html
     # The rest reachable via the consolidated industries hub.
     assert "industries.html" in html
+
+
+def test_risk_snapshot_cold_state_is_neutral_not_alarming():
+    """Operator decision 2026-10-18: the live monitor is core to the insurance
+    identity, so its cold/warming state must read as a calm refresh note — not
+    an outage banner — and still point at a live analysis."""
+    js_path = os.path.join(os.path.dirname(__file__), "..", "website", "js",
+                           "risk-snapshot.js")
+    with open(js_path, encoding="utf-8") as fh:
+        js = fh.read()
+    assert "Risk snapshot temporarily unavailable." not in js
+    assert "Live monitor refreshes every 30 minutes" in js
+    assert "run a live analysis" in js
