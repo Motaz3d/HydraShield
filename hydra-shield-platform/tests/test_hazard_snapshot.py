@@ -198,9 +198,15 @@ def test_homepage_carries_multi_hazard_mount_and_renderer():
 
 
 def test_homepage_carries_all_six_audience_services():
+    """Operator decision 2026-10-18: insurance is the primary door, financing
+    (banks, investors) second; the remaining sectors stay reachable via the
+    consolidated industries hub (nothing lost)."""
     path = os.path.join(os.path.dirname(__file__), "..", "website", "index.html")
     with open(path, encoding="utf-8") as fh:
         html = fh.read()
-    for sector in ("government", "insurance", "real-estate",
-                   "consulting", "investors", "banks"):
-        assert f"industries.html?sector={sector}" in html, sector
+    # Insurance first (top-level product page), financing second.
+    assert "insurance.html" in html
+    assert "industries.html?sector=banks" in html
+    assert "industries.html?sector=investors" in html
+    # The rest reachable via the consolidated industries hub.
+    assert "industries.html" in html

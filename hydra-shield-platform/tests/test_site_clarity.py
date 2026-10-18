@@ -1,16 +1,18 @@
-"""Site clarity contract (operator-approved 2026-09-14).
+"""Site clarity contract (operator-approved 2026-09-14, repositioned 2026-10-18).
 
 Locks the fixes for the external review that scored product clarity 6.5/10 and
-message clarity for a new visitor 6/10:
+message clarity for a new visitor 6/10 — and, since 2026-10-18, the
+insurance-first repositioning (operator decision):
 
-* the homepage must state what Talaix is and what you get before asking the
-  visitor to diagnose themselves;
+* the homepage states what Talaix is — financial risk for insurance — and what
+  you get before asking the visitor to diagnose themselves;
 * the whole product map lives on one page (`capabilities.html`) instead of
   ~30 cards competing on the homepage;
 * the site never contradicts itself on the hazard count;
 * the deliverable (a PDF evidence pack) is readable without an account;
 * a plain-language "who is behind this" page exists and is reachable;
-* the nav labels are plain words, not abstract ones.
+* the nav labels are plain words, insurance-first;
+* periodic monitoring is a first-class, honestly-framed promise.
 """
 
 import glob
@@ -44,10 +46,11 @@ def _cards(html):
 
 def test_homepage_states_the_product_in_plain_words():
     html = _read("website/index.html")
-    assert "your auditor can trace" in html
-    # The positioning sentence names the input, the output and the frameworks.
+    assert "for insurance" in html
+    # The positioning sentence names the input, the output and the audience.
     assert "Talaix turns satellite and open Earth-observation data" in html
-    assert "evidence packs for EU disclosure" in html
+    assert "financial-risk intelligence" in html
+    assert "periodic reports on the companies, markets" in html
     # The hero is no longer only a question the visitor must answer first.
     assert "What do you need to<br>" not in html
 
@@ -55,7 +58,7 @@ def test_homepage_states_the_product_in_plain_words():
 def test_homepage_shows_the_deliverable_and_the_entry_price():
     html = _read("website/index.html")
     assert "€19" in html, "entry price must be visible on the homepage"
-    assert "Check your CSRD scope — free" in html
+    assert "Screen an insured asset — free" in html
     assert "assets/samples/talaix-sample-evidence-pack.pdf" in html
     assert 'id="how-it-works"' in html
 
@@ -66,9 +69,9 @@ def test_homepage_is_not_a_catalogue_of_everything():
     html = _read("website/index.html")
     assert _cards(html) <= 18, f"homepage still overloaded: {_cards(html)} cards"
     assert 'href="capabilities.html"' in html
-    # The three primary entry points stay on the homepage.
-    for page in ("sustainability.html", "green-finance.html", "supplychain.html"):
-        assert f'href="{page}"' in html, page
+    # The three primary entry points stay on the homepage (insurance first).
+    for page in ("insurance.html", "intelligence.html", "monitoring.html"):
+        assert page in html, page
 
 
 def test_homepage_keeps_the_live_monitor_and_audience_links():
@@ -76,9 +79,11 @@ def test_homepage_keeps_the_live_monitor_and_audience_links():
     html = _read("website/index.html")
     assert 'id="hazardBoard"' in html
     assert "wildfire, flood, heat, drought" in html
-    for sector in ("government", "insurance", "real-estate",
-                   "consulting", "investors", "banks"):
-        assert f"industries.html?sector={sector}" in html, sector
+    # Insurance first, financing second; the rest reachable via the industries hub.
+    assert "insurance.html" in html
+    assert "industries.html?sector=banks" in html
+    assert "industries.html?sector=investors" in html
+    assert "industries.html" in html
 
 
 # ---------------------------------------------------------------------------
@@ -90,7 +95,8 @@ def test_capabilities_page_carries_the_full_product_map():
     for page in ("sustainability.html", "green-finance.html", "supplychain.html",
                  "forensics.html", "insurance.html", "licensing.html",
                  "reports.html", "map.html", "sources.html", "academy.html",
-                 "intelligence.html?mode=siting", "intelligence.html?mode=funding"):
+                 "intelligence.html?mode=siting", "intelligence.html?mode=funding",
+                 "monitoring.html"):
         assert page in html, page
     assert 'data-page="capabilities"' in html
 
@@ -105,7 +111,8 @@ def test_every_product_page_is_reachable_from_the_capabilities_map():
                           "green-finance.html", "supplychain.html", "forensics.html",
                           "insurance.html", "intelligence.html", "map.html",
                           "reports.html", "licensing.html", "academy.html",
-                          "pricing.html", "sources.html", "sample.html")
+                          "pricing.html", "sources.html", "sample.html",
+                          "monitoring.html")
         if page in pages and page not in html
     ]
     assert not buried, f"not linked from capabilities.html: {buried}"
@@ -197,28 +204,52 @@ def test_nav_labels_are_plain_and_the_company_page_is_reachable():
 
 
 def test_capabilities_dropdown_is_trimmed_to_the_core_doors():
-    """Operator decision 2026-09-15: the Capabilities dropdown exposes only the
-    core doors; specialist tools are demoted out of the menu (marked nav:false)
-    but remain declared so the footer and the capability map still reach them."""
+    """Operator decision 2026-10-18: the Capabilities dropdown exposes only the
+    core doors — insurance risk profile, portfolio & market screening, periodic
+    monitoring, EU compliance and maps; specialist tools (incl. the demoted EU
+    compliance pages and Agent Access) are marked nav:false but remain declared
+    so the footer and the capability map still reach them."""
     js = _read("website/js/chrome.js")
-    assert js.count("nav: false") == 7
-    for label in ("Forensics", "Investment & Siting", "Reports",
-                  "Environmental Licensing", "Academy",
-                  "Verify a document", "Data sources"):
+    assert js.count("nav: false") == 10
+    for label in ("Forensics", "Green Finance", "Sustainability & CSRD",
+                  "Supply Chain & EUDR", "Reports", "Environmental Licensing",
+                  "Academy", "Verify a document", "Data sources", "Agent Access"):
         assert f"label: '{label}', nav: false" in js, label
+    # The insurance-first doors stay visible in the dropdown (not nav:false).
+    for label in ("Insurance risk profile", "Portfolio & market screening",
+                  "Periodic monitoring", "EU compliance"):
+        assert f"label: '{label}'" in js, label
 
 
 def test_sitemap_lists_the_new_pages():
     xml = _read("website/sitemap.xml")
     for url in ("https://talaix.com/capabilities.html",
                 "https://talaix.com/sample.html",
-                "https://talaix.com/about.html"):
+                "https://talaix.com/about.html",
+                "https://talaix.com/monitoring.html"):
         assert url in xml, url
+
+
+def test_monitoring_page_is_honest_and_reachable():
+    """Operator decision 2026-10-18: periodic monitoring is the primary promise,
+    honestly framed on a dedicated page — what is live today vs the roadmap."""
+    html = _read("website/monitoring.html")
+    assert 'data-page="monitoring"' in html
+    assert "Periodic" in html and "companies" in html
+    # Honest about what is shipped vs planned.
+    assert "Live today" in html and "On the roadmap" in html
+    assert "claim to have shipped today" in html
+    # Reachable from the nav, the capability map, the sitemap and llms.txt.
+    js = _read("website/js/chrome.js")
+    assert "href: 'monitoring.html'" in js
+    assert "monitoring.html" in _read("website/capabilities.html")
+    assert "https://talaix.com/monitoring.html" in _read("website/sitemap.xml")
+    assert "monitoring.html" in _read("website/llms.txt")
 
 
 def test_agent_access_window_is_in_the_nav_and_reachable():
     """Operator decision 2026-09-28: the talaiz governance service is offered
-    under the Talaix brand as a window inside the platform — one new nav item
+    under the Talaix brand as a window inside the platform — one nav item
     and one page. No second product, no redesign, no second login."""
     js = _read("website/js/chrome.js")
     assert "label: 'Agent Access'" in js

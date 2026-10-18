@@ -1,33 +1,34 @@
 # Talaix
 
-> Talaix is a climate-risk compliance-evidence platform: it turns Earth
-> observation, environmental data and historical events into documented,
-> traceable physical climate-risk evidence for EU disclosure — CSRD/ESRS E1,
-> EU Taxonomy DNSH adaptation, EUDR geolocation screening — and for every
-> decision with lives and capital at stake (governments, municipalities,
-> investors, banks, insurers and reinsurers).
-> Honesty contract: unavailable data is declared, never invented; every
-> claim carries an evidence status (OBSERVED / DOCUMENTED / REPORTED /
-> MODELLED / INFERRED / UNKNOWN).
+> Talaix is climate-risk intelligence for insurance: it turns Earth observation,
+> environmental data and historical events into documented, traceable financial-risk
+> evidence — per-asset screening, portfolio checks and periodic reports on the
+> companies, markets and countries insurers underwrite. EU compliance (CSRD/ESRS E1,
+> EU Taxonomy DNSH, EUDR, Solvency II/EIOPA) is a specialist tool, not the front door.
+> Honesty contract: unavailable data is declared, never invented; every claim carries
+> an evidence status (OBSERVED / DOCUMENTED / REPORTED / MODELLED / INFERRED / UNKNOWN).
 
 ## Start here
 
-- [Capabilities (one page)](https://talaix.com/capabilities.html): the whole product on a single page — compliance, insurance, investment & siting, maps & monitoring, report families, licensing, academy
-- [Sample evidence pack](https://talaix.com/sample.html): a real evidence pack you can read without signing up — real engine output for Clervaux, Luxembourg (2026-08-25), PDF
+- [Insurance risk profiles](https://talaix.com/insurance.html): per-peril hazard levels and event history for insured assets — the primary product
+- [Periodic monitoring](https://talaix.com/monitoring.html): threshold alerts, a current risk snapshot and a roadmap to scheduled reports on companies, markets and countries
+- [Capabilities (one page)](https://talaix.com/capabilities.html): the whole product on a single page — insurance, portfolio & market screening, monitoring, compliance, maps, report families, licensing, academy
+- [Sample risk profile](https://talaix.com/sample.html): a real evidence pack you can read without signing up — real engine output for Clervaux, Luxembourg (2026-08-25), PDF
 - [About Talaix](https://talaix.com/about.html): who is behind the evidence — Luxembourg-based, founder-led, analytical engine open-source under EUPL-1.2
 
 ## Product pages
 
-- [Compliance & Sustainable Finance](https://talaix.com/compliance.html): the hub — EU Taxonomy DNSH, EBA Pillar 3, CSRD/ESRS E1, EIOPA/Solvency II, EUDR, plus the regulatory wave calendar
+- [Insurance & risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters and reinsurers (no loss quantification)
+- [Portfolio & market screening](https://talaix.com/intelligence.html): multi-hazard screening, exposure and evidence for financial decisions, plus site-fitted resilience solutions (`?mode=siting`) and matched public funding programmes (`?mode=funding`) — one window
+- [Periodic monitoring](https://talaix.com/monitoring.html): companies, markets and countries under continuous watch
+- [Compliance overview](https://talaix.com/compliance.html): EU Taxonomy DNSH, EBA Pillar 3, CSRD/ESRS E1, EIOPA/Solvency II, EUDR, plus the regulatory wave calendar — kept as a specialist tool
 - [Sustainability & CSRD](https://talaix.com/sustainability.html): CSRD applicability screening, double-materiality scoring, ESRS-oriented evidence packs with an explicit coverage map, machine-readable XBRL output
 - [Green Finance Verification](https://talaix.com/green-finance.html): per-asset DNSH/EU Taxonomy physical-risk verification + evidence PDFs
 - [Supply Chain & EUDR](https://talaix.com/supplychain.html): origin-claim geographic evidence screening (EUDR in force since 30 Dec 2025 for large operators)
-- [Environmental Forensics](https://talaix.com/forensics.html): satellite × claims consistency packs for investigators
-- [Insurance & Environmental Risk](https://talaix.com/insurance.html): per-peril levels + long-term event history for underwriters and reinsurers (no loss quantification)
-- [Investment & Siting Intelligence](https://talaix.com/intelligence.html): multi-hazard screening, exposure and evidence for financial decisions, plus site-fitted resilience solutions (`?mode=siting`) and matched public funding programmes (`?mode=funding`) — one window
+- [Environmental Forensics](https://talaix.com/forensics.html): satellite × claims consistency packs for investigators and loss adjusters
 - [Maps](https://talaix.com/map.html): interactive risk layers with source and confidence shown for every layer
-- [Agent Access](https://talaix.com/agent-access.html): a governed window inside the platform — connect AI agents to Talaix evidence with agent identity, per-tool permissions, human approval and a tamper-proof audit trail (a window in your account, not a separate product)
-- [Agent setup (MCP)](https://talaix.com/agent-access-setup.html): how a normal user connects any MCP-capable assistant (Claude, Cursor, VS Code, Claude Code, Windsurf) to the live Talaix evidence engine — one URL, nothing to install from Talaix
+- [Agent Access](https://talaix.com/agent-access.html): a governed window inside the platform — connect AI agents to Talaix evidence with agent identity, per-tool permissions, human approval and a tamper-proof audit trail
+- [Agent setup (MCP)](https://talaix.com/agent-access-setup.html): how a normal user connects any MCP-capable assistant (Claude, Cursor, VS Code, Claude Code, Windsurf) to the live Talaix evidence engine
 - [Reports & Evidence Packs](https://talaix.com/reports.html): Insurance, Green Finance, Sustainability/CSRD, Sector Exposure, Forensics, Supply Chain, Press and Report Builder
 - [Pricing](https://talaix.com/pricing.html): free tier, pay-per-use reports (Decision €19, Scientific €39), Professional (€49/mo or €490/yr), Business (€249/mo or €2,490/yr), Government and Enterprise contracts
 - [Environmental Licensing](https://talaix.com/licensing.html): pre-draft licence dossiers backed by satellite evidence
@@ -36,7 +37,7 @@
 ## Public APIs (read-only, JSON)
 
 - [Data-source registry](https://talaix.com/api/sources): every data source evaluated — integrated / candidate / rejected
-- [Data Observatory](https://talaix.com/api/v2/registry): the full global open-data catalogue (167 datasets — portals, hazard archives, earth observation, climate, environment, energy, evidence), grouped by catalog_group; `?status=` `?hazard=` `?provider_class=` filters
+- [Data Observatory](https://talaix.com/api/v2/registry): the full global open-data catalogue (167 datasets), grouped by catalog_group; `?status=` `?hazard=` `?provider_class=` filters
 - [Hazard registry](https://talaix.com/api/v2/hazards): registered hazard modules with temporal coverage and sources
 - [Frameworks reference](https://talaix.com/api/v2/sustainability/frameworks): CSRD/ESRS, EU Taxonomy, SB 253/261, CSDS coverage map
 - [CSRD engine](https://talaix.com/api/v2/csrd/regulations): public regulatory reference; applicability screening, double-materiality assessment and XBRL output for registered users

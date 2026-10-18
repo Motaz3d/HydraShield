@@ -275,7 +275,7 @@
         }
     };
 
-    var SECTOR_ORDER = ['banks', 'government', 'insurance', 'investors', 'real-estate', 'consulting'];
+    var SECTOR_ORDER = ['insurance', 'banks', 'investors', 'real-estate', 'government', 'consulting'];
 
     /* ---------------- interactive hub (ported from audience.js) -------- */
 
@@ -453,7 +453,7 @@
 
     function currentSector() {
         var q = new URLSearchParams(location.search).get('sector');
-        return SECTORS[q] ? q : 'banks';
+        return SECTORS[q] ? q : 'insurance';
     }
 
     function init() {

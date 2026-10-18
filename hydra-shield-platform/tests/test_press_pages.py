@@ -58,7 +58,7 @@ def test_siting_funding_merged_into_intelligence_hub():
     assert "intelligence.html" in stub
     chrome = _read("website/js/chrome.js")
     assert "href: 'solutions.html'" not in chrome
-    assert "Investment & Siting" in chrome
+    assert "Portfolio & market screening" in chrome
     hub = _read("website/intelligence.html")
     assert 'id="sitingPanel"' in hub and 'id="fundingPanel"' in hub
     js = _read("website/js/intelligence.js")

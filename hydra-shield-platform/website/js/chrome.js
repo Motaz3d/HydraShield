@@ -29,34 +29,35 @@
         ? 'http://localhost:8051/api'
         : '/api';
 
-    /* Top level: clarity-first. The homepage explains what Talaix is, what you
-     * get and what it costs; the core doors live under "Capabilities" (first
-     * entry = the single capabilities.html map). Specialist tools are demoted
-     * out of the dropdown (nav:false) but stay reachable from the footer and
+    /* Top level: insurance-first. Insurance is the primary door; portfolio &
+     * market screening (financing) is second, and EU compliance is demoted to a
+     * single secondary door. Specialist tools (forensics, licensing, reports,
+     * academy, verify, sources, agent access) stay reachable from the footer and
      * the capability map — nothing is lost, only de-prioritised in the menu.
-     * (operator decision 2026-09-15) */
+     * (operator decision 2026-10-18 — insurance-first repositioning) */
     var PRIMARY = [
         { id: 'home', href: 'index.html#how-it-works', label: 'How it works' },
-        { id: 'industries', href: 'industries.html', label: "Who it's for" },
+        { id: 'insurance', href: 'insurance.html', label: 'Insurance' },
         {
             id: 'capabilities', label: 'Capabilities', children: [
                 { id: 'capabilities', href: 'capabilities.html', label: 'All capabilities (one page)' },
-                { id: 'compliance-hub', href: 'compliance.html', label: 'Compliance overview' },
-                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD' },
-                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance' },
-                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR' },
-                { id: 'insurance', href: 'insurance.html', label: 'Insurance & Reinsurance' },
+                { id: 'insurance-profile', href: 'insurance.html', label: 'Insurance risk profile' },
+                { id: 'intelligence', href: 'intelligence.html', label: 'Portfolio & market screening' },
+                { id: 'monitoring', href: 'monitoring.html', label: 'Periodic monitoring' },
+                { id: 'compliance-hub', href: 'compliance.html', label: 'EU compliance' },
                 { id: 'map', href: 'map.html', label: 'Maps' },
                 { id: 'forensics', href: 'forensics.html', label: 'Forensics', nav: false },
-                { id: 'intelligence', href: 'intelligence.html', label: 'Investment & Siting', nav: false },
+                { id: 'greenfinance', href: 'green-finance.html', label: 'Green Finance', nav: false },
+                { id: 'sustainability', href: 'sustainability.html', label: 'Sustainability & CSRD', nav: false },
+                { id: 'supplychain', href: 'supplychain.html', label: 'Supply Chain & EUDR', nav: false },
                 { id: 'reports', href: 'reports.html', label: 'Reports', nav: false },
                 { id: 'licensing', href: 'licensing.html', label: 'Environmental Licensing', nav: false },
                 { id: 'academy', href: 'academy.html', label: 'Academy', nav: false },
                 { id: 'verify', href: 'verify.html', label: 'Verify a document', nav: false },
-                { id: 'sources', href: 'sources.html', label: 'Data sources', nav: false }
+                { id: 'sources', href: 'sources.html', label: 'Data sources', nav: false },
+                { id: 'agent-access', href: 'agent-access.html', label: 'Agent Access', nav: false }
             ]
         },
-        { id: 'agent-access', href: 'agent-access.html', label: 'Agent Access' },
         { id: 'pricing', href: 'pricing.html', label: 'Pricing' }
     ];
 
@@ -81,23 +82,24 @@
         return null;
     }
 
-    /* Footer IA: grouped under four headed columns. */
+    /* Footer IA: insurance-led. */
     var FOOTER_GROUPS = [
         {
-            heading: 'Analyze', items: [
-                'intelligence', 'map',
-                { id: 'siting', href: 'intelligence.html?mode=siting', label: 'Opportunities' },
-                { id: 'sector-exposure', href: 'intelligence.html#sector', label: 'Sector Exposure' }
-            ]
-        },
-        {
-            heading: 'Products', items: [
+            heading: 'For insurance', items: [
                 'insurance',
+                { id: 'monitoring', href: 'monitoring.html', label: 'Periodic monitoring' },
                 'reports',
                 { id: 'reportbuilder', href: 'reports.html#builder', label: 'Report Builder' },
                 'licensing',
                 'agent-access',
                 { id: 'agent-access-setup', href: 'agent-access-setup.html', label: 'Agent setup (MCP)' }
+            ]
+        },
+        {
+            heading: 'Analyze', items: [
+                'intelligence', 'map',
+                { id: 'siting', href: 'intelligence.html?mode=siting', label: 'Opportunities' },
+                { id: 'sector-exposure', href: 'intelligence.html#sector', label: 'Sector Exposure' }
             ]
         },
         {
@@ -234,10 +236,10 @@
             '<div class="footer-grid">' +
             '<div class="footer-brand">' +
             '<a href="index.html" class="logo">' + LOGO_SVG + LOGO_LOCKUP + '</a>' +
-            '<p>Climate-risk compliance evidence and natural-hazard intelligence: documented, ' +
-            'traceable physical-risk proof for EU disclosure — CSRD/ESRS E1, EU Taxonomy DNSH, ' +
-            'EUDR — and for every decision with lives and capital at stake, from governments ' +
-            'and municipalities to investors, banks, insurers and reinsurers. ' +
+            '<p>Financial-risk intelligence for insurance: Talaix turns environmental hazards ' +
+            'into per-asset screening, portfolio checks and periodic reports on the companies, ' +
+            'markets and countries you underwrite — for insurers, reinsurers, brokers and MGAs, ' +
+            'with banks, lenders and investors a close second. ' +
             'Real data only — unavailable is stated, never filled in.</p>' +
             '</div>' +
             FOOTER_GROUPS.map(footerGroupHtml).join('') +
